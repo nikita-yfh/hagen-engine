@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<level w="40" h="20">
+	<background img="default.png"/>
+	<start x="-1.5" y="1.5"/>
+	<end x="4" y="-2"/>
+	<bodies count="3">
+		<body x="12.1556" y="3.76746" id="ground" type="static" shapes="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1"/>
+			<shape id="NewPolygon1" type="Polygon" pos="physic" texture="ground.png">
+				<position point_count="24">
+					<point x="-11.6556" y="-2.26746"/>
+					<point x="-11.6556" y="4.23254"/>
+					<point x="9.84437" y="4.23254"/>
+					<point x="9.84437" y="-1.26746"/>
+					<point x="9.21938" y="-0.439458"/>
+					<point x="8.82837" y="-0.0174572"/>
+					<point x="8.20337" y="0.419543"/>
+					<point x="7.56337" y="0.638542"/>
+					<point x="6.57837" y="0.873543"/>
+					<point x="5.31337" y="0.966542"/>
+					<point x="3.81338" y="0.888542"/>
+					<point x="2.48538" y="0.404541"/>
+					<point x="1.29738" y="-0.439458"/>
+					<point x="0.219375" y="-1.08046"/>
+					<point x="-0.389626" y="-1.22046"/>
+					<point x="-0.952626" y="-1.11146"/>
+					<point x="-1.98362" y="-0.673458"/>
+					<point x="-2.95262" y="-0.283458"/>
+					<point x="-4.03062" y="0.091542"/>
+					<point x="-5.26462" y="0.154542"/>
+					<point x="-6.78062" y="-0.158458"/>
+					<point x="-8.03062" y="-0.751458"/>
+					<point x="-9.07762" y="-1.28346"/>
+					<point x="-10.4366" y="-1.90846"/>
+				</position>
+				<physic density="1000" friction="0.3" restitution="0"/>
+			</shape>
+		</body>
+		<body x="4" y="2" id="NewBody5" type="dynamic" shapes="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1"/>
+			<shape id="NewCircle1" type="Circle" pos="physic" texture="valun.png">
+				<position x="0" y="0" r="0.5"/>
+				<physic density="1000" friction="0.3" restitution="0"/>
+			</shape>
+		</body>
+		<body x="6" y="2" id="NewBody1" type="dynamic" shapes="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1"/>
+			<shape id="NewSquare1" type="Square" pos="physic" texture="wooden_box.png">
+				<position x="0" y="0" r="0.25"/>
+				<physic density="1000" friction="0.3" restitution="0"/>
+			</shape>
+		</body>
+	</bodies>
+	<joints count="0"/>
+</level>

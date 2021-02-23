@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<body type="dynamic" shapes="1">
+	<shape id="NewSquare1" type="Square" pos="physic" texture="wooden_box.png">
+		<position x="0" y="0" r="0.25"/>
+		<physic density="1000" friction="0.3" restitution="0"/>
+	</shape>
+</body>
