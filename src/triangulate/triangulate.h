@@ -35,33 +35,11 @@
 
 
 #include <vector>  // Include STL vector class.
-
-class Vector2d {
-public:
-	Vector2d() {}
-	Vector2d(float x,float y) {
-		Set(x,y);
-	};
-
-	float GetX(void) const {
-		return mX;
-	};
-
-	float GetY(void) const {
-		return mY;
-	};
-
-	void  Set(float x,float y) {
-		mX = x;
-		mY = y;
-	};
-	float mX;
-	float mY;
-};
+#include "box2d.h"
 
 // Typedef an STL vector of vertices which are used to represent
 // a polygon/contour and a series of triangles.
-typedef std::vector< Vector2d > Vector2dVector;
+typedef std::vector<b2Vec2> Vector2dVector;
 
 
 class Triangulate {

@@ -109,10 +109,8 @@ b2Body* read_body(XMLNode bd) {
 
                 for(int e=0; e<count; e++) {
                     XMLNode point=pos.getChildNode("point",e);
-                    vec[e].mX=stof(point.getAttribute("x"));
-                    vec[e].mY=stof(point.getAttribute("y"));
-                    big[e].x=vec[e].mX;
-                    big[e].y=vec[e].mY;
+                    big[e].x=vec[e].x=stof(point.getAttribute("x"));
+                    big[e].y=vec[e].y=stof(point.getAttribute("y"));
                 }
 
                 Triangulate::Process(vec,result);
@@ -122,10 +120,8 @@ b2Body* read_body(XMLNode bd) {
                     shape.big_polygon=big;
                     shape.b_count=count;
                     b2Vec2 v[3];
-                    for(int e=0; e<3; e++) {
-                        v[e].x=result[q+e].mX;
-                        v[e].y=result[q+e].mY;
-                    }
+                    for(int e=0; e<3; e++)
+                        v[e]=result[q+e];
                     shape.Set(v,3);
                     fix2.shape=&shape;
                     body->CreateFixture(&fix2);

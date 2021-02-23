@@ -6,10 +6,16 @@
 #include "utility.h"
 using namespace luabridge;
 using namespace std;
-
 bool mainscript_enabled=1;
 string level_script_name;
 lua_State *level_script;
+//НАЧАЛО КОСТЫЛЕЙ И ОСНОВНЫХ ПРИЧИН БАГОВ
+void set_mask(Color &c){
+    scene_mask=c;
+}
+Color &get_mask(){
+    return scene_mask;
+}
 
 void lua_gameloop() {
 	try {
@@ -34,7 +40,6 @@ void lua_fill_bodies(lua_State *L) {
             .endNamespace();
 	}
 }
-
 void lua_fill_joints(lua_State *L) {
 	for(int q=0; q<joints.size(); q++) {
 		string id=joints[q]->GetID();
@@ -58,7 +63,17 @@ void lua_init_game_functions(lua_State *L) {
                 .addFunction("center",&center)
                 .addFunction("center_body",&center_body)
             .endNamespace()
-            .addFunction("timer",&SDL_GetTicks)
+            .addProperty("timer",&SDL_GetTicks)
+            .beginClass<Color>("Color")
+                .addConstructor<void(*)(uint8_t,uint8_t,uint8_t,uint8_t)>()
+                .addConstructor<void(*)(uint8_t,uint8_t,uint8_t)>()
+                .addProperty("r",&Color::r)
+                .addProperty("g",&Color::g)
+                .addProperty("b",&Color::b)
+                .addProperty("a",&Color::a)
+                .addFunction("set",&Color::set)
+            .endClass()
+            .addProperty("mask",&get_mask,&set_mask)
         .endNamespace();
 }
 
@@ -88,9 +103,7 @@ void lua_init_joints(lua_State *L){
 			.addProperty("length_b",&b2Joint::GetCurrentLengthB)
 			.addProperty("min_length",&b2Joint::GetMinLength,&b2Joint::SetMinLength)
 			.addProperty("max_length",&b2Joint::GetMaxLength,&b2Joint::SetMaxLength)
-			
         .endClass();
-
 }
 void lua_init_bodies(lua_State *L) {
 	getGlobalNamespace(L)

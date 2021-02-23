@@ -2,6 +2,29 @@
 #include "camera.h"
 #include "sdl.h"
 using namespace std;
+Color scene_mask(0,0,0,100);
+void Color::set(int r,int g,int b,int a){
+    this->r=r;
+    this->g=g;
+    this->b=b;
+    this->a=a;
+}
+Color::Color(int r,int g,int b,int a){
+    set(r,g,b,a);
+}
+Color::Color(int r,int g,int b){
+    set(r,g,b,255);
+}
+SDL_Color Color::color(){
+    return SDL_Color({r,g,b,a});
+}
+void draw_mask(){
+    SDL_SetRenderDrawBlendMode(ren,SDL_BLENDMODE_BLEND);
+    SDL_SetRenderDrawColor(ren, scene_mask.r,scene_mask.g,
+                                scene_mask.b,scene_mask.a);
+    SDL_RenderFillRect(ren,0);
+    SDL_SetRenderDrawBlendMode(ren,SDL_BLENDMODE_NONE);
+}
 void draw_bgr() {
 	if(!background)return;
 	int w,h,ww,hw;
@@ -133,5 +156,6 @@ void draw() {
 	for(unsigned q=0; q<bodies.size(); q++) {
 		body_draw(bodies[q]);
 	}
+	draw_mask();
 	SDL_RenderPresent(ren);
 }
