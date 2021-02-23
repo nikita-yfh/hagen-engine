@@ -1,7 +1,7 @@
-#include "utils.h"
-#include "editor.h"
-#include "string.h"
-#include "object.h"
+#include "utils.hpp"
+#include "editor.hpp"
+//#include "string.h"
+#include "object.hpp"
 #include <cmath>
 using namespace std;
 extern uint8_t key_state;

@@ -1,9 +1,9 @@
-#include "body.h"
-#include "level.h"
-#include "utils.h"
-#include "events.h"
-#include "editor.h"
-#include "tree_view.h"
+#include "body.hpp"
+#include "level.hpp"
+#include "utils.hpp"
+#include "events.hpp"
+#include "editor.hpp"
+#include "tree_view.hpp"
 #include <cmath>
 using namespace std;
 void Body::show() {

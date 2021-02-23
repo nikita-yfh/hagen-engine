@@ -1,12 +1,12 @@
-#include "sdl.h"
+#include "sdl.hpp"
 #include "SDL.h"
-#include "level.h"
+#include "level.hpp"
 #include "SDL_image.h"
 #include "SDL_FontCache.h"
 #include "SDL2_gfxPrimitives.h"
-#include "utility.h"
-#include "physic.h"
-#include "camera.h"
+#include "utility.hpp"
+#include "physic.hpp"
+#include "camera.hpp"
 #include <string>
 FC_Font *font;
 SDL_Event e;

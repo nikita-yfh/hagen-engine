@@ -1,4 +1,4 @@
-#include "physic.h"
+#include "physic.hpp"
 void contactListener::BeginContact(b2Contact* contact) {
 	// if(contact->GetFixtureA()->GetID()==0xFFFE){
 	//player->SetLinearVelocity({player->GetLinearVelocity().x,0});

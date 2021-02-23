@@ -1,9 +1,9 @@
-#include "object.h"
-#include "level.h"
-#include "utils.h"
-#include "events.h"
-#include "editor.h"
-#include "tree_view.h"
+#include "object.hpp"
+#include "level.hpp"
+#include "utils.hpp"
+#include "events.hpp"
+#include "editor.hpp"
+#include "tree_view.hpp"
 #include <cmath>
 using namespace std;
 int cur_table_string=0;
@@ -240,11 +240,13 @@ float Object::mean_y() {
 	return sum/y.size();
 }
 void draw_drag_rect(cairo_t *cr, float x,float y,bool tc) {
+	if(zoom<20)return;
 	cairo_set_source_rgb(cr, 1.0,  0.0,(double)tc);
 	cairo_rectangle(cr, drawx(x)-POINT_SIZE,drawy(y)-POINT_SIZE,POINT_SIZE*2,POINT_SIZE*2);
 	cairo_stroke(cr);
 }
 void draw_drag_joint_rect(cairo_t *cr, float x,float y,bool tc) {
+	if(zoom<20)return;
 	cairo_set_source_rgb(cr, 0.0,  0.5,(double)tc);
 	cairo_rectangle(cr, drawx(x)-POINT_SIZE,drawy(y)-POINT_SIZE,POINT_SIZE*2,POINT_SIZE*2);
 	cairo_stroke(cr);

@@ -1,6 +1,6 @@
-#include "render.h"
-#include "camera.h"
-#include "sdl.h"
+#include "render.hpp"
+#include "camera.hpp"
+#include "sdl.hpp"
 using namespace std;
 Color scene_mask(0,0,0,100);
 void Color::set(int r,int g,int b,int a){
@@ -47,14 +47,14 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 		b2PolygonShape *shape=(b2PolygonShape*)fix->GetShape();
 		if(find_texture(F_DATA(fix,texture))){
 		    SDL_Rect r={
-		        drawx(body->GetPosition().x+shape->m_vertices[0].x),
-		        drawy(body->GetPosition().y+shape->m_vertices[0].y),
-		        zoom*float(shape->m_vertices[2].x-shape->m_vertices[0].x),
-		        zoom*float(shape->m_vertices[2].y-shape->m_vertices[0].y)
+		        drawix(body->GetPosition().x+shape->m_vertices[0].x),
+		        drawiy(body->GetPosition().y+shape->m_vertices[0].y),
+		        int(zoom*(shape->m_vertices[2].x-shape->m_vertices[0].x)),
+		        int(zoom*(shape->m_vertices[2].y-shape->m_vertices[0].y))
 		    };
 		    SDL_Point p={
-		        -zoom*(shape->m_vertices[0].x),
-		        -zoom*(shape->m_vertices[0].y)
+		        -int(zoom*(shape->m_vertices[0].x)),
+		        -int(zoom*(shape->m_vertices[0].y))
 		    };
 		    SDL_RenderCopyEx(ren,find_texture(F_DATA(fix,texture)),0,&r,a*(180.0f/M_PI),&p,SDL_RendererFlip::SDL_FLIP_NONE);
 		}else{
@@ -63,8 +63,8 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
             for(int q=0; q<4; q++) {
                 float xp=shape->m_vertices[q].x;
                 float yp=shape->m_vertices[q].y;
-                x[q]=drawx(body->GetPosition().x+xp*cos(a)-yp*sin(a));
-                y[q]=drawy(body->GetPosition().y+yp*cos(a)+xp*sin(a));
+                x[q]=drawix(body->GetPosition().x+xp*cos(a)-yp*sin(a));
+                y[q]=drawiy(body->GetPosition().y+yp*cos(a)+xp*sin(a));
             }
             polygonColor(ren,x,y,4,0xFFFFFFFF);
             delete[]x;
@@ -80,14 +80,14 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 		short yp=y+(zoom*shape->m_radius)*sin(a);
 		if(find_texture(F_DATA(fix,texture))){
             SDL_Rect r={
-                drawx(body->GetPosition().x+shape->m_p.x-shape->m_radius),
-                drawy(body->GetPosition().y+shape->m_p.y-shape->m_radius),
-                zoom*float(shape->m_radius*2),
-                zoom*float(shape->m_radius*2)
+                drawix(body->GetPosition().x+shape->m_p.x-shape->m_radius),
+                drawiy(body->GetPosition().y+shape->m_p.y-shape->m_radius),
+                int(zoom*shape->m_radius),
+                int(zoom*shape->m_radius)
             };
             SDL_Point p={
-                -zoom*(shape->m_p.x-shape->m_radius),
-                -zoom*(shape->m_p.y-shape->m_radius)
+                -int(zoom*(shape->m_p.x-shape->m_radius)),
+                -int(zoom*(shape->m_p.y-shape->m_radius))
             };
             SDL_RenderCopyEx(ren,find_texture(F_DATA(fix,texture)),0,&r,a*(180.0f/M_PI),&p,SDL_RendererFlip::SDL_FLIP_NONE);
         }else{
@@ -98,10 +98,10 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 	break;
 	case LINE: {
 		b2EdgeShape *shape=(b2EdgeShape*)fix->GetShape();
-		short x1=drawx(body->GetPosition().x+shape->m_vertex1.x*cos(a)-shape->m_vertex1.y*sin(a));
-		short y1=drawy(body->GetPosition().y+shape->m_vertex1.y*cos(a)+shape->m_vertex1.x*sin(a));
-		short x2=drawx(body->GetPosition().x+shape->m_vertex2.x*cos(a)-shape->m_vertex2.y*sin(a));
-		short y2=drawy(body->GetPosition().y+shape->m_vertex2.y*cos(a)+shape->m_vertex2.x*sin(a));
+		short x1=drawix(body->GetPosition().x+shape->m_vertex1.x*cos(a)-shape->m_vertex1.y*sin(a));
+		short y1=drawiy(body->GetPosition().y+shape->m_vertex1.y*cos(a)+shape->m_vertex1.x*sin(a));
+		short x2=drawix(body->GetPosition().x+shape->m_vertex2.x*cos(a)-shape->m_vertex2.y*sin(a));
+		short y2=drawiy(body->GetPosition().y+shape->m_vertex2.y*cos(a)+shape->m_vertex2.x*sin(a));
 		lineColor(ren,x1,y1,x2,y2,0xFFFFFFFF);
 	}
 	break;
@@ -116,14 +116,14 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 		        maxy=std::max(maxy,shape->big_polygon[q].y);
 		    }
 		    SDL_Rect r={
-		        drawx(body->GetPosition().x+minx),
-		        drawy(body->GetPosition().y+miny),
-		        zoom*float(maxx-minx),
-		        zoom*float(maxy-miny)
+		        drawix(body->GetPosition().x+minx),
+		        drawiy(body->GetPosition().y+miny),
+		        int(zoom*maxx-minx),
+		        int(zoom*maxy-miny)
 		    };
 		    SDL_Point p={
-		        -zoom*(minx),
-		        -zoom*(miny)
+		        -int(zoom*minx),
+		        -int(zoom*miny)
 		    };
 		    SDL_RenderCopyEx(ren,shape->cache,0,&r,a*(180.0f/M_PI),&p,SDL_RendererFlip::SDL_FLIP_NONE);
 		}else{
@@ -132,8 +132,8 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
             for(int q=0; q<shape->m_count; q++) {
                 float x=shape->m_vertices[q].x;
                 float y=shape->m_vertices[q].y;
-                xp[q]=drawx(body->GetPosition().x+x*cos(a)-y*sin(a));
-                yp[q]=drawy(body->GetPosition().y+y*cos(a)+x*sin(a));
+                xp[q]=drawix(body->GetPosition().x+x*cos(a)-y*sin(a));
+                yp[q]=drawiy(body->GetPosition().y+y*cos(a)+x*sin(a));
             }
             texturedPolygonTex(ren,xp,yp,shape->m_count,textures[0].texture,cx,-cy);
             polygonColor(ren,xp,yp,shape->m_count,0xFFFFFFFF);

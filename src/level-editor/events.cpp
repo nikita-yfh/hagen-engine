@@ -1,8 +1,8 @@
-#include "events.h"
-#include "level.h"
-#include "editor.h"
-#include "utils.h"
-#include "tree_view.h"
+#include "events.hpp"
+#include "level.hpp"
+#include "editor.hpp"
+#include "utils.hpp"
+#include "tree_view.hpp"
 #include <fstream>
 #include <assert.h>
 #include <cmath>

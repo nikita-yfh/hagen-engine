@@ -20,16 +20,16 @@ set(LEVEL_EDITOR_SOURCES
 	${LEVEL_EDITOR_INCLUDE_DIR}/body.cpp
 )
 set(LEVEL_EDIROR_HEADERS
-	${LEVEL_EDITOR_INCLUDE_DIR}/defines.h
-	${LEVEL_EDITOR_INCLUDE_DIR}/object.h
-	${LEVEL_EDITOR_INCLUDE_DIR}/editor.h
-	${LEVEL_EDITOR_INCLUDE_DIR}/events.h
-	${LEVEL_EDITOR_INCLUDE_DIR}/level.h
-	${LEVEL_EDITOR_INCLUDE_DIR}/utils.h
-	${LEVEL_EDITOR_INCLUDE_DIR}/tree_view.h
-	${LEVEL_EDITOR_INCLUDE_DIR}/shape.h
-	${LEVEL_EDITOR_INCLUDE_DIR}/joint.h
-	${LEVEL_EDITOR_INCLUDE_DIR}/body.h
+	${LEVEL_EDITOR_INCLUDE_DIR}/defines.hpp
+	${LEVEL_EDITOR_INCLUDE_DIR}/object.hpp
+	${LEVEL_EDITOR_INCLUDE_DIR}/editor.hpp
+	${LEVEL_EDITOR_INCLUDE_DIR}/events.hpp
+	${LEVEL_EDITOR_INCLUDE_DIR}/level.hpp
+	${LEVEL_EDITOR_INCLUDE_DIR}/utils.hpp
+	${LEVEL_EDITOR_INCLUDE_DIR}/tree_view.hpp
+	${LEVEL_EDITOR_INCLUDE_DIR}/shape.hpp
+	${LEVEL_EDITOR_INCLUDE_DIR}/joint.hpp
+	${LEVEL_EDITOR_INCLUDE_DIR}/body.hpp
 )
 
 set(ENGINE_SOURCES
@@ -47,21 +47,20 @@ set(ENGINE_SOURCES
 	${ENGINE_INCLUDE_DIR}/camera.cpp
 )
 set(ENGINE_HEADERS
-	${ENGINE_INCLUDE_DIR}/level.h
-	${ENGINE_INCLUDE_DIR}/render.h
-	${ENGINE_INCLUDE_DIR}/game.h 
-	${ENGINE_INCLUDE_DIR}/player.h
-	${ENGINE_INCLUDE_DIR}/utility.h
-	${ENGINE_INCLUDE_DIR}/entity.h
+	${ENGINE_INCLUDE_DIR}/level.hpp
+	${ENGINE_INCLUDE_DIR}/render.hpp
+	${ENGINE_INCLUDE_DIR}/game.hpp 
+	${ENGINE_INCLUDE_DIR}/player.hpp
+	${ENGINE_INCLUDE_DIR}/utility.hpp
+	${ENGINE_INCLUDE_DIR}/entity.hpp
 	${ENGINE_INCLUDE_DIR}/lua.hpp
-	${ENGINE_INCLUDE_DIR}/physic.h
-	${ENGINE_INCLUDE_DIR}/sdl.h
-	${ENGINE_INCLUDE_DIR}/camera.h
+	${ENGINE_INCLUDE_DIR}/physic.hpp
+	${ENGINE_INCLUDE_DIR}/sdl.hpp
+	${ENGINE_INCLUDE_DIR}/camera.hpp
 )
 find_package(PkgConfig)
 pkg_check_modules(SDL2 REQUIRED sdl2 SDL2_image SDL2_ttf SDL2_mixer)
 pkg_check_modules(LUA REQUIRED lua53)
-pkg_check_modules(GL REQUIRED opengl glu)
 pkg_check_modules(GTK REQUIRED gtk+-2.0)
 add_definitions(${GTK_CFLAGS} ${GTK_CFLAGS_OTHER})
 
@@ -73,7 +72,6 @@ include_directories(
 	${ENGINE_INCLUDE_DIR}
 	${GTK2_INCLUDE_DIRS}
 	${LUA_INCLUDE_DIRS}
-	${GL_INCLUDE_DIRS}
 	"src/SDL_GFX"
 	"src/box2d"
 	"src/LuaBridge"
@@ -98,7 +96,6 @@ target_link_libraries (${ENGINE}
 	${SDL2TTF_LIBRARIES}
 	${SDL2MIXER_LIBRARIES}
 	${LUA_LIBRARIES}
-	${GL_LIBRARIES}
 	box2d
 	triangulate
 	gfx

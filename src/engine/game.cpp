@@ -1,11 +1,11 @@
-#include "game.h"
+#include "game.hpp"
 #include "box2d.h"
 #include "SDL.h"
-#include "level.h"
-#include "physic.h"
-#include "render.h"
+#include "level.hpp"
+#include "physic.hpp"
+#include "render.hpp"
 #include "lua.hpp"
-#include "sdl.h"
+#include "sdl.hpp"
 bool game() {
 	bool run=1;
     int fps=SDL_GetTicks();

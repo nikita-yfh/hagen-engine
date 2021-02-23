@@ -1,9 +1,9 @@
-#include "joint.h"
-#include "level.h"
-#include "utils.h"
-#include "events.h"
-#include "editor.h"
-#include "tree_view.h"
+#include "joint.hpp"
+#include "level.hpp"
+#include "utils.hpp"
+#include "events.hpp"
+#include "editor.hpp"
+#include "tree_view.hpp"
 using namespace std;
 void Joint::init(GtkWidget* table) {
 	t1=gtk_label_new("ID1");

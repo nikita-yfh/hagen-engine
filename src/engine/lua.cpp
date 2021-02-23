@@ -1,9 +1,9 @@
 #include "lua.hpp"
-#include "physic.h"
-#include "render.h"
-#include "camera.h"
-#include "sdl.h"
-#include "utility.h"
+#include "physic.hpp"
+#include "render.hpp"
+#include "camera.hpp"
+#include "sdl.hpp"
+#include "utility.hpp"
 using namespace luabridge;
 using namespace std;
 bool mainscript_enabled=1;

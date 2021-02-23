@@ -1,11 +1,11 @@
 #include <gtk/gtk.h>
-#include "utils.h"
-#include "editor.h"
-#include "events.h"
-#include "level.h"
-#include "body.h"
-#include "tree_view.h"
-#include "object.h"
+#include "utils.hpp"
+#include "editor.hpp"
+#include "events.hpp"
+#include "level.hpp"
+#include "body.hpp"
+#include "tree_view.hpp"
+#include "object.hpp"
 #include <vector>
 using namespace std;
 void fill_shapes() {

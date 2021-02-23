@@ -1,9 +1,9 @@
-#include "shape.h"
-#include "level.h"
-#include "utils.h"
-#include "events.h"
-#include "editor.h"
-#include "tree_view.h"
+#include "shape.hpp"
+#include "level.hpp"
+#include "utils.hpp"
+#include "events.hpp"
+#include "editor.hpp"
+#include "tree_view.hpp"
 #include <cmath>
 using namespace std;
 string find_shape_1(float x, float y) {

@@ -1,12 +1,12 @@
-#include "level.h"
+#include "level.hpp"
 #include <stdio.h>
 #include <fstream>
 #include <sstream>
-#include "physic.h"
-#include "utility.h"
+#include "physic.hpp"
+#include "utility.hpp"
 #include "lua.hpp"
-#include "sdl.h"
-#include "triangulate.h"
+#include "sdl.hpp"
+#include "triangulate.hpp"
 using namespace std;
 
 unsigned short int levelw=20;

@@ -1,5 +1,5 @@
-#include "camera.h"
-#include "sdl.h"
+#include "camera.hpp"
+#include "sdl.hpp"
 float cx=0,cy=0;
 float zoom=100;
 void center_body(b2Body *body){
@@ -19,5 +19,11 @@ float drawx(float wx){
     return wx*zoom+cx;
 }
 float drawy(float wy){
+    return wy*zoom+cy;
+}
+int drawix(float wx){
+    return wx*zoom+cx;
+}
+int drawiy(float wy){
     return wy*zoom+cy;
 }

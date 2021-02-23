@@ -3,7 +3,7 @@
 #include <string.h>
 #include <assert.h>
 
-#include "triangulate.h"
+#include "triangulate.hpp"
 
 static const float EPSILON=0.0000000001f;
 

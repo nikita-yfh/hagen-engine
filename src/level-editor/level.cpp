@@ -1,5 +1,5 @@
-#include "level.h"
-#include "utils.h"
+#include "level.hpp"
+#include "utils.hpp"
 using namespace std;
 Level level;
 bool Level::save_file(std::string path) {

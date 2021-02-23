@@ -1,9 +1,9 @@
-#include "editor.h"
-#include "level.h"
-#include "events.h"
-#include "defines.h"
-#include "utils.h"
-#include "tree_view.h"
+#include "editor.hpp"
+#include "level.hpp"
+#include "events.hpp"
+#include "defines.hpp"
+#include "utils.hpp"
+#include "tree_view.hpp"
 #include <cmath>
 #include <cairo.h>
 using namespace std;
@@ -401,9 +401,7 @@ void init() {
 	gtk_widget_show_all(window);
 	hide_all();
 
-	block=1;
 	change_tool(1);
-	block=0;
 
 	gtk_window_resize(GTK_WINDOW(window),800,600);
 }

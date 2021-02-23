@@ -1,10 +1,10 @@
 #include "lua.hpp"
-#include "utility.h"
-#include "physic.h"
+#include "utility.hpp"
+#include "physic.hpp"
 #include "box2d.h"
-#include "sdl.h"
+#include "sdl.hpp"
 #include <cstring>
-#include "game.h"
+#include "game.hpp"
 using namespace std;
 using namespace luabridge;
 

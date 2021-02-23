@@ -1,10 +1,10 @@
-#include "utility.h"
-#include "physic.h"
-#include "level.h"
-#include "render.h"
+#include "utility.hpp"
+#include "physic.hpp"
+#include "level.hpp"
+#include "render.hpp"
 #include "SDL.h"
 #include "SDL_image.h"
-#include "sdl.h"
+#include "sdl.hpp"
 #include <stdlib.h>
 #include <fstream>
 using namespace std;
