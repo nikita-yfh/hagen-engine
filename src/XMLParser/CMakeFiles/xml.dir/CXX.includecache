@@ -1,0 +1,42 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/data/data/com.termux/files/home/hagen-engine/src/XMLParser/xmlParser.cpp
+xmlParser.h
+/data/data/com.termux/files/home/hagen-engine/src/XMLParser/xmlParser.h
+Windows.h
+-
+memory.h
+-
+assert.h
+-
+stdio.h
+-
+string.h
+-
+stdlib.h
+-
+widec.h
+-
+wctype.h
+-
+widec.h
+-
+
+/data/data/com.termux/files/home/hagen-engine/src/XMLParser/xmlParser.h
+stdlib.h
+-
+tchar.h
+-
+wchar.h
+-
+string
+-
+sstream
+-
+
