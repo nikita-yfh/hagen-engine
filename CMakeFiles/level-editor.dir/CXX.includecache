@@ -6,7 +6,33 @@
 
 #IncludeRegexTransform: 
 
+/data/data/com.termux/files/home/hagen-engine/src/level-editor/body.hpp
+object.hpp
+/data/data/com.termux/files/home/hagen-engine/src/level-editor/object.hpp
+shape.hpp
+/data/data/com.termux/files/home/hagen-engine/src/level-editor/shape.hpp
+string
+-
+
 /data/data/com.termux/files/home/hagen-engine/src/level-editor/defines.hpp
+
+/data/data/com.termux/files/home/hagen-engine/src/level-editor/editor.cpp
+editor.hpp
+/data/data/com.termux/files/home/hagen-engine/src/level-editor/editor.hpp
+level.hpp
+/data/data/com.termux/files/home/hagen-engine/src/level-editor/level.hpp
+events.hpp
+/data/data/com.termux/files/home/hagen-engine/src/level-editor/events.hpp
+defines.hpp
+/data/data/com.termux/files/home/hagen-engine/src/level-editor/defines.hpp
+utils.hpp
+/data/data/com.termux/files/home/hagen-engine/src/level-editor/utils.hpp
+tree_view.hpp
+/data/data/com.termux/files/home/hagen-engine/src/level-editor/tree_view.hpp
+cmath
+-
+cairo.h
+-
 
 /data/data/com.termux/files/home/hagen-engine/src/level-editor/editor.hpp
 gtk/gtk.h
@@ -15,6 +41,44 @@ string
 -
 defines.hpp
 /data/data/com.termux/files/home/hagen-engine/src/level-editor/defines.hpp
+
+/data/data/com.termux/files/home/hagen-engine/src/level-editor/events.hpp
+gtk/gtk.h
+-
+stdint.h
+-
+algorithm
+-
+string
+-
+
+/data/data/com.termux/files/home/hagen-engine/src/level-editor/joint.hpp
+object.hpp
+/data/data/com.termux/files/home/hagen-engine/src/level-editor/object.hpp
+string
+-
+vector
+-
+cmath
+-
+xmlParser.h
+/data/data/com.termux/files/home/hagen-engine/src/level-editor/xmlParser.h
+
+/data/data/com.termux/files/home/hagen-engine/src/level-editor/level.hpp
+level.hpp
+/data/data/com.termux/files/home/hagen-engine/src/level-editor/level.hpp
+string
+-
+vector
+-
+object.hpp
+/data/data/com.termux/files/home/hagen-engine/src/level-editor/object.hpp
+body.hpp
+/data/data/com.termux/files/home/hagen-engine/src/level-editor/body.hpp
+joint.hpp
+/data/data/com.termux/files/home/hagen-engine/src/level-editor/joint.hpp
+xmlParser.h
+/data/data/com.termux/files/home/hagen-engine/src/level-editor/xmlParser.h
 
 /data/data/com.termux/files/home/hagen-engine/src/level-editor/object.hpp
 vector
@@ -32,14 +96,12 @@ defines.hpp
 xmlParser.h
 /data/data/com.termux/files/home/hagen-engine/src/level-editor/xmlParser.h
 
-/data/data/com.termux/files/home/hagen-engine/src/level-editor/utils.cpp
-utils.hpp
-/data/data/com.termux/files/home/hagen-engine/src/level-editor/utils.hpp
-editor.hpp
-/data/data/com.termux/files/home/hagen-engine/src/level-editor/editor.hpp
+/data/data/com.termux/files/home/hagen-engine/src/level-editor/shape.hpp
 object.hpp
 /data/data/com.termux/files/home/hagen-engine/src/level-editor/object.hpp
-cmath
+
+/data/data/com.termux/files/home/hagen-engine/src/level-editor/tree_view.hpp
+string
 -
 
 /data/data/com.termux/files/home/hagen-engine/src/level-editor/utils.hpp

@@ -6,9 +6,39 @@
 
 #IncludeRegexTransform: 
 
-/data/data/com.termux/files/home/hagen-engine/src/engine/camera.hpp
+/data/data/com.termux/files/home/hagen-engine/src/engine/entity.cpp
+entity.hpp
+/data/data/com.termux/files/home/hagen-engine/src/engine/entity.hpp
+
+/data/data/com.termux/files/home/hagen-engine/src/engine/entity.hpp
 box2d.h
 /data/data/com.termux/files/home/hagen-engine/src/engine/box2d.h
+LuaBridge.h
+/data/data/com.termux/files/home/hagen-engine/src/engine/LuaBridge.h
+vector
+-
+string
+-
+
+/data/data/com.termux/files/home/hagen-engine/src/engine/level.cpp
+level.hpp
+/data/data/com.termux/files/home/hagen-engine/src/engine/level.hpp
+stdio.h
+-
+fstream
+-
+sstream
+-
+physic.hpp
+/data/data/com.termux/files/home/hagen-engine/src/engine/physic.hpp
+utility.hpp
+/data/data/com.termux/files/home/hagen-engine/src/engine/utility.hpp
+lua.hpp
+/data/data/com.termux/files/home/hagen-engine/src/engine/lua.hpp
+sdl.hpp
+/data/data/com.termux/files/home/hagen-engine/src/engine/sdl.hpp
+triangulate.hpp
+/data/data/com.termux/files/home/hagen-engine/src/engine/triangulate.hpp
 
 /data/data/com.termux/files/home/hagen-engine/src/engine/level.hpp
 box2d.h
@@ -19,20 +49,6 @@ string
 -
 vector
 -
-
-/data/data/com.termux/files/home/hagen-engine/src/engine/lua.cpp
-lua.hpp
-/data/data/com.termux/files/home/hagen-engine/src/engine/lua.hpp
-physic.hpp
-/data/data/com.termux/files/home/hagen-engine/src/engine/physic.hpp
-render.hpp
-/data/data/com.termux/files/home/hagen-engine/src/engine/render.hpp
-camera.hpp
-/data/data/com.termux/files/home/hagen-engine/src/engine/camera.hpp
-sdl.hpp
-/data/data/com.termux/files/home/hagen-engine/src/engine/sdl.hpp
-utility.hpp
-/data/data/com.termux/files/home/hagen-engine/src/engine/utility.hpp
 
 /data/data/com.termux/files/home/hagen-engine/src/engine/lua.hpp
 LuaBridge.h
@@ -58,23 +74,17 @@ string
 box2d.h
 /data/data/com.termux/files/home/hagen-engine/src/engine/box2d.h
 
-/data/data/com.termux/files/home/hagen-engine/src/engine/render.hpp
-SDL.h
-/data/data/com.termux/files/home/hagen-engine/src/engine/SDL.h
-SDL2_gfxPrimitives.h
-/data/data/com.termux/files/home/hagen-engine/src/engine/SDL2_gfxPrimitives.h
+/data/data/com.termux/files/home/hagen-engine/src/engine/player.cpp
+player.hpp
+/data/data/com.termux/files/home/hagen-engine/src/engine/player.hpp
+
+/data/data/com.termux/files/home/hagen-engine/src/engine/player.hpp
 box2d.h
 /data/data/com.termux/files/home/hagen-engine/src/engine/box2d.h
-cstring
+entity.hpp
+/data/data/com.termux/files/home/hagen-engine/src/engine/entity.hpp
+stdint.h
 -
-stdlib.h
--
-vector
--
-physic.hpp
-/data/data/com.termux/files/home/hagen-engine/src/engine/physic.hpp
-level.hpp
-/data/data/com.termux/files/home/hagen-engine/src/engine/level.hpp
 
 /data/data/com.termux/files/home/hagen-engine/src/engine/sdl.hpp
 SDL.h
@@ -870,12 +880,6 @@ cassert
 stdexcept
 -
 
-src/SDL_GFX/SDL2_gfxPrimitives.h
-math.h
--
-SDL2/SDL.h
-src/SDL_GFX/SDL2/SDL.h
-
 src/XMLParser/xmlParser.h
 stdlib.h
 -
@@ -1117,4 +1121,10 @@ b2_weld_joint.h
 src/box2d/b2_weld_joint.h
 b2_wheel_joint.h
 src/box2d/b2_wheel_joint.h
+
+src/triangulate/triangulate.hpp
+vector
+-
+box2d.h
+src/triangulate/box2d.h
 

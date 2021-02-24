@@ -101,6 +101,23 @@ string get_open_path(string path) {
 	key_state=0;
 	return str;
 }
+void save_entity(){
+	GtkWidget *dialog = gtk_dialog_new_with_buttons ("Resize",
+							GTK_WINDOW (window),
+							GDF(GTK_DIALOG_MODAL| GTK_DIALOG_DESTROY_WITH_PARENT),
+							GTK_STOCK_CANCEL,
+							NULL,
+							GTK_STOCK_OK,
+							GTK_RESPONSE_OK,
+							NULL);
+	GtkWidget *hl_box=gtk_hbox_new(0,0);
+	
+	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (dialog))), hl_box, FALSE, FALSE, 6);
+	gtk_widget_show_all(dialog);
+	if(gtk_dialog_run(GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
+	}
+	gtk_widget_destroy(dialog);
+}
 void save_as() {
 	string str=get_save_path("levels");
 	if(str.size()) {
@@ -220,6 +237,7 @@ void create_menu() {
 		{"/File/Save",						"<control>S",			save,				0,	"<StockItem>",	"gtk-save"},
 		{"/File/Save as",					"<control><shift>S",	save_as,			0,	"<StockItem>",	"gtk-save-as"},
 		{"/File/Save as template",			"",						template_save,		0,	"<StockItem>",	"gtk-save-as"},
+		{"/File/Save as entity",			"",						save_entity,		0,	"<StockItem>",	"gtk-save-as"},
 		{"/File/Quit",						"<control>Q",			quit,				0,	"<StockItem>",	"gtk-quit"},
 		{"/Edit/Copy",						"<control>C",			copy,				0,	"<StockItem>",	"gtk-copy"},
 		{"/Edit/Paste",						"<control>V",			paste,				0,	"<StockItem>",	"gtk-paste"},
@@ -254,7 +272,7 @@ void create_menu() {
 	GtkAccelGroup *accel_group;
 	accel_group = gtk_accel_group_new();
 	menu = gtk_item_factory_new(GTK_TYPE_MENU_BAR, "<menu>", accel_group);
-	gtk_item_factory_create_items(menu, 35, menu_items, NULL);
+	gtk_item_factory_create_items(menu, 36, menu_items, NULL);
 	gtk_window_add_accel_group(GTK_WINDOW(window),accel_group);
 	gtk_box_pack_start(GTK_BOX(box_v), gtk_item_factory_get_widget(menu, "<menu>"), FALSE, FALSE, 0);
 	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(menu, "/View/Background layer")),1);
