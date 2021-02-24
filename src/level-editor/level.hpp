@@ -8,7 +8,7 @@
 #include "xmlParser.h"
 struct Level {
 	unsigned short int w=20,h=20;
-	std::string background="";
+	std::string background="default.png";
 	std::vector<Body*>bodies;
 	std::vector<Joint*>joints;
 	Point start= {3,3,"_start"};

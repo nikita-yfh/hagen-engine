@@ -2,7 +2,7 @@
 #include "camera.hpp"
 #include "sdl.hpp"
 using namespace std;
-Color scene_mask(0,0,0,100);
+Color scene_mask(0,0,0,0);
 void Color::set(int r,int g,int b,int a){
     this->r=r;
     this->g=g;
@@ -82,8 +82,8 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
             SDL_Rect r={
                 drawix(body->GetPosition().x+shape->m_p.x-shape->m_radius),
                 drawiy(body->GetPosition().y+shape->m_p.y-shape->m_radius),
-                int(zoom*shape->m_radius),
-                int(zoom*shape->m_radius)
+                int(zoom*shape->m_radius*2),
+                int(zoom*shape->m_radius*2)
             };
             SDL_Point p={
                 -int(zoom*(shape->m_p.x-shape->m_radius)),
@@ -107,7 +107,7 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 	break;
 	case POLYGON: {
 		b2PolygonShape *shape=(b2PolygonShape*)fix->GetShape();
-		if(F_DATA(fix,texture).size()){
+		if(shape->cache && F_DATA(fix,texture)!=""){
 		    float minx=1000000000,miny=1000000000,maxx=0,maxy=0;
 		    for(int q=0;q<shape->b_count;q++){
 		        minx=std::min(minx,shape->big_polygon[q].x);
@@ -118,8 +118,8 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 		    SDL_Rect r={
 		        drawix(body->GetPosition().x+minx),
 		        drawiy(body->GetPosition().y+miny),
-		        int(zoom*maxx-minx),
-		        int(zoom*maxy-miny)
+		        int(zoom*(maxx-minx)),
+		        int(zoom*(maxy-miny))
 		    };
 		    SDL_Point p={
 		        -int(zoom*minx),
@@ -135,7 +135,6 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
                 xp[q]=drawix(body->GetPosition().x+x*cos(a)-y*sin(a));
                 yp[q]=drawiy(body->GetPosition().y+y*cos(a)+x*sin(a));
             }
-            texturedPolygonTex(ren,xp,yp,shape->m_count,textures[0].texture,cx,-cy);
             polygonColor(ren,xp,yp,shape->m_count,0xFFFFFFFF);
             delete[]xp;
             delete[]yp;

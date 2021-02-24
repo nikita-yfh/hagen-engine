@@ -54,6 +54,7 @@ void run_callback(void*){
 }
 void run(){
 	save();
+	if(save_path=="")return;
 	g_thread_new("run",GThreadFunc(run_callback),0);
 }
 string get_save_path(string path) {
@@ -111,7 +112,7 @@ void save_entity(){
 							GTK_RESPONSE_OK,
 							NULL);
 	GtkWidget *hl_box=gtk_hbox_new(0,0);
-	
+
 	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (dialog))), hl_box, FALSE, FALSE, 6);
 	gtk_widget_show_all(dialog);
 	if(gtk_dialog_run(GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {

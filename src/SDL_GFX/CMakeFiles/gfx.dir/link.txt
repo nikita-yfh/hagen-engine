@@ -1,1 +1,1 @@
-/data/data/com.termux/files/usr/bin/cc -fPIC -g -shared -Wl,-soname,libgfx.so -o ../../bin/libgfx.so CMakeFiles/gfx.dir/SDL2_gfxPrimitives.c.o CMakeFiles/gfx.dir/SDL2_imageFilter.c.o CMakeFiles/gfx.dir/SDL2_rotozoom.c.o 
+/usr/bin/cc -fPIC -g -shared -Wl,-soname,libgfx.so -o ../../bin/libgfx.so CMakeFiles/gfx.dir/SDL2_gfxPrimitives.c.o CMakeFiles/gfx.dir/SDL2_imageFilter.c.o CMakeFiles/gfx.dir/SDL2_rotozoom.c.o 

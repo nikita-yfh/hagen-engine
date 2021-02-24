@@ -1,1 +1,1 @@
-/data/data/com.termux/files/usr/bin/c++ -fPIC -g -shared -Wl,-soname,libtriangulate.so -o ../../bin/libtriangulate.so CMakeFiles/triangulate.dir/triangulate.cpp.o 
+/usr/bin/c++ -fPIC -g -shared -Wl,-soname,libtriangulate.so -o ../../bin/libtriangulate.so CMakeFiles/triangulate.dir/triangulate.cpp.o 

@@ -4,9 +4,9 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "/data/data/com.termux/files/home/hagen-engine/src/SDL_FontCache/SDL_FontCache.c" "/data/data/com.termux/files/home/hagen-engine/src/SDL_FontCache/CMakeFiles/fontcache.dir/SDL_FontCache.c.o"
+  "/home/nikita/c++/hagen/src/SDL_FontCache/SDL_FontCache.c" "/home/nikita/c++/hagen/src/SDL_FontCache/CMakeFiles/fontcache.dir/SDL_FontCache.c.o"
   )
-set(CMAKE_C_COMPILER_ID "Clang")
+set(CMAKE_C_COMPILER_ID "GNU")
 
 # Preprocessor definitions for this target.
 set(CMAKE_TARGET_DEFINITIONS_C
@@ -15,9 +15,9 @@ set(CMAKE_TARGET_DEFINITIONS_C
 
 # The include file search paths:
 set(CMAKE_C_TARGET_INCLUDE_PATH
-  "/data/data/com.termux/files/usr/include/SDL2"
+  "/usr/include/SDL2"
   "src/engine"
-  "/data/data/com.termux/files/usr/include/lua5.3"
+  "/usr/include/lua5.3"
   "src/SDL_GFX"
   "src/box2d"
   "src/LuaBridge"

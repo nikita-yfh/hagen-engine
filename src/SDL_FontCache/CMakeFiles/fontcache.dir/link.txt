@@ -1,1 +1,1 @@
-/data/data/com.termux/files/usr/bin/cc -fPIC -g -shared -Wl,-soname,libfontcache.so -o ../../bin/libfontcache.so CMakeFiles/fontcache.dir/SDL_FontCache.c.o 
+/usr/bin/cc -fPIC -g -shared -Wl,-soname,libfontcache.so -o ../../bin/libfontcache.so CMakeFiles/fontcache.dir/SDL_FontCache.c.o 

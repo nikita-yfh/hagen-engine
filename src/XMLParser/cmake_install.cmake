@@ -1,4 +1,4 @@
-# Install script for directory: /data/data/com.termux/files/home/hagen-engine/src/XMLParser
+# Install script for directory: /home/nikita/c++/hagen/src/XMLParser
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -39,6 +39,6 @@ endif()
 
 # Set default install directory permissions.
 if(NOT DEFINED CMAKE_OBJDUMP)
-  set(CMAKE_OBJDUMP "/data/data/com.termux/files/usr/bin/objdump")
+  set(CMAKE_OBJDUMP "/usr/bin/objdump")
 endif()
 

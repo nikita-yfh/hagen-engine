@@ -4,9 +4,9 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/data/data/com.termux/files/home/hagen-engine/src/triangulate/triangulate.cpp" "/data/data/com.termux/files/home/hagen-engine/src/triangulate/CMakeFiles/triangulate.dir/triangulate.cpp.o"
+  "/home/nikita/c++/hagen/src/triangulate/triangulate.cpp" "/home/nikita/c++/hagen/src/triangulate/CMakeFiles/triangulate.dir/triangulate.cpp.o"
   )
-set(CMAKE_CXX_COMPILER_ID "Clang")
+set(CMAKE_CXX_COMPILER_ID "GNU")
 
 # Preprocessor definitions for this target.
 set(CMAKE_TARGET_DEFINITIONS_CXX
@@ -15,9 +15,9 @@ set(CMAKE_TARGET_DEFINITIONS_CXX
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
-  "/data/data/com.termux/files/usr/include/SDL2"
+  "/usr/include/SDL2"
   "src/engine"
-  "/data/data/com.termux/files/usr/include/lua5.3"
+  "/usr/include/lua5.3"
   "src/SDL_GFX"
   "src/box2d"
   "src/LuaBridge"

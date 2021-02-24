@@ -50,22 +50,22 @@ cmake_force:
 # Set environment variables for the build.
 
 # The shell in which to execute make rules.
-SHELL = /data/data/com.termux/files/usr/bin/sh
+SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /data/data/com.termux/files/usr/bin/cmake
+CMAKE_COMMAND = /usr/bin/cmake
 
 # The command to remove a file.
-RM = /data/data/com.termux/files/usr/bin/cmake -E rm -f
+RM = /usr/bin/cmake -E rm -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /data/data/com.termux/files/home/hagen-engine
+CMAKE_SOURCE_DIR = /home/nikita/c++/hagen
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /data/data/com.termux/files/home/hagen-engine
+CMAKE_BINARY_DIR = /home/nikita/c++/hagen
 
 # Include any dependencies generated for this target.
 include src/SDL_GFX/CMakeFiles/gfx.dir/depend.make
@@ -78,42 +78,42 @@ include src/SDL_GFX/CMakeFiles/gfx.dir/flags.make
 
 src/SDL_GFX/CMakeFiles/gfx.dir/SDL2_gfxPrimitives.c.o: src/SDL_GFX/CMakeFiles/gfx.dir/flags.make
 src/SDL_GFX/CMakeFiles/gfx.dir/SDL2_gfxPrimitives.c.o: src/SDL_GFX/SDL2_gfxPrimitives.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/data/data/com.termux/files/home/hagen-engine/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object src/SDL_GFX/CMakeFiles/gfx.dir/SDL2_gfxPrimitives.c.o"
-	cd /data/data/com.termux/files/home/hagen-engine/src/SDL_GFX && /data/data/com.termux/files/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/gfx.dir/SDL2_gfxPrimitives.c.o -c /data/data/com.termux/files/home/hagen-engine/src/SDL_GFX/SDL2_gfxPrimitives.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikita/c++/hagen/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object src/SDL_GFX/CMakeFiles/gfx.dir/SDL2_gfxPrimitives.c.o"
+	cd /home/nikita/c++/hagen/src/SDL_GFX && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/gfx.dir/SDL2_gfxPrimitives.c.o -c /home/nikita/c++/hagen/src/SDL_GFX/SDL2_gfxPrimitives.c
 
 src/SDL_GFX/CMakeFiles/gfx.dir/SDL2_gfxPrimitives.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/gfx.dir/SDL2_gfxPrimitives.c.i"
-	cd /data/data/com.termux/files/home/hagen-engine/src/SDL_GFX && /data/data/com.termux/files/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /data/data/com.termux/files/home/hagen-engine/src/SDL_GFX/SDL2_gfxPrimitives.c > CMakeFiles/gfx.dir/SDL2_gfxPrimitives.c.i
+	cd /home/nikita/c++/hagen/src/SDL_GFX && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/nikita/c++/hagen/src/SDL_GFX/SDL2_gfxPrimitives.c > CMakeFiles/gfx.dir/SDL2_gfxPrimitives.c.i
 
 src/SDL_GFX/CMakeFiles/gfx.dir/SDL2_gfxPrimitives.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/gfx.dir/SDL2_gfxPrimitives.c.s"
-	cd /data/data/com.termux/files/home/hagen-engine/src/SDL_GFX && /data/data/com.termux/files/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /data/data/com.termux/files/home/hagen-engine/src/SDL_GFX/SDL2_gfxPrimitives.c -o CMakeFiles/gfx.dir/SDL2_gfxPrimitives.c.s
+	cd /home/nikita/c++/hagen/src/SDL_GFX && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/nikita/c++/hagen/src/SDL_GFX/SDL2_gfxPrimitives.c -o CMakeFiles/gfx.dir/SDL2_gfxPrimitives.c.s
 
 src/SDL_GFX/CMakeFiles/gfx.dir/SDL2_imageFilter.c.o: src/SDL_GFX/CMakeFiles/gfx.dir/flags.make
 src/SDL_GFX/CMakeFiles/gfx.dir/SDL2_imageFilter.c.o: src/SDL_GFX/SDL2_imageFilter.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/data/data/com.termux/files/home/hagen-engine/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object src/SDL_GFX/CMakeFiles/gfx.dir/SDL2_imageFilter.c.o"
-	cd /data/data/com.termux/files/home/hagen-engine/src/SDL_GFX && /data/data/com.termux/files/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/gfx.dir/SDL2_imageFilter.c.o -c /data/data/com.termux/files/home/hagen-engine/src/SDL_GFX/SDL2_imageFilter.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikita/c++/hagen/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object src/SDL_GFX/CMakeFiles/gfx.dir/SDL2_imageFilter.c.o"
+	cd /home/nikita/c++/hagen/src/SDL_GFX && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/gfx.dir/SDL2_imageFilter.c.o -c /home/nikita/c++/hagen/src/SDL_GFX/SDL2_imageFilter.c
 
 src/SDL_GFX/CMakeFiles/gfx.dir/SDL2_imageFilter.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/gfx.dir/SDL2_imageFilter.c.i"
-	cd /data/data/com.termux/files/home/hagen-engine/src/SDL_GFX && /data/data/com.termux/files/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /data/data/com.termux/files/home/hagen-engine/src/SDL_GFX/SDL2_imageFilter.c > CMakeFiles/gfx.dir/SDL2_imageFilter.c.i
+	cd /home/nikita/c++/hagen/src/SDL_GFX && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/nikita/c++/hagen/src/SDL_GFX/SDL2_imageFilter.c > CMakeFiles/gfx.dir/SDL2_imageFilter.c.i
 
 src/SDL_GFX/CMakeFiles/gfx.dir/SDL2_imageFilter.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/gfx.dir/SDL2_imageFilter.c.s"
-	cd /data/data/com.termux/files/home/hagen-engine/src/SDL_GFX && /data/data/com.termux/files/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /data/data/com.termux/files/home/hagen-engine/src/SDL_GFX/SDL2_imageFilter.c -o CMakeFiles/gfx.dir/SDL2_imageFilter.c.s
+	cd /home/nikita/c++/hagen/src/SDL_GFX && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/nikita/c++/hagen/src/SDL_GFX/SDL2_imageFilter.c -o CMakeFiles/gfx.dir/SDL2_imageFilter.c.s
 
 src/SDL_GFX/CMakeFiles/gfx.dir/SDL2_rotozoom.c.o: src/SDL_GFX/CMakeFiles/gfx.dir/flags.make
 src/SDL_GFX/CMakeFiles/gfx.dir/SDL2_rotozoom.c.o: src/SDL_GFX/SDL2_rotozoom.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/data/data/com.termux/files/home/hagen-engine/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object src/SDL_GFX/CMakeFiles/gfx.dir/SDL2_rotozoom.c.o"
-	cd /data/data/com.termux/files/home/hagen-engine/src/SDL_GFX && /data/data/com.termux/files/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/gfx.dir/SDL2_rotozoom.c.o -c /data/data/com.termux/files/home/hagen-engine/src/SDL_GFX/SDL2_rotozoom.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikita/c++/hagen/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object src/SDL_GFX/CMakeFiles/gfx.dir/SDL2_rotozoom.c.o"
+	cd /home/nikita/c++/hagen/src/SDL_GFX && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/gfx.dir/SDL2_rotozoom.c.o -c /home/nikita/c++/hagen/src/SDL_GFX/SDL2_rotozoom.c
 
 src/SDL_GFX/CMakeFiles/gfx.dir/SDL2_rotozoom.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/gfx.dir/SDL2_rotozoom.c.i"
-	cd /data/data/com.termux/files/home/hagen-engine/src/SDL_GFX && /data/data/com.termux/files/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /data/data/com.termux/files/home/hagen-engine/src/SDL_GFX/SDL2_rotozoom.c > CMakeFiles/gfx.dir/SDL2_rotozoom.c.i
+	cd /home/nikita/c++/hagen/src/SDL_GFX && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/nikita/c++/hagen/src/SDL_GFX/SDL2_rotozoom.c > CMakeFiles/gfx.dir/SDL2_rotozoom.c.i
 
 src/SDL_GFX/CMakeFiles/gfx.dir/SDL2_rotozoom.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/gfx.dir/SDL2_rotozoom.c.s"
-	cd /data/data/com.termux/files/home/hagen-engine/src/SDL_GFX && /data/data/com.termux/files/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /data/data/com.termux/files/home/hagen-engine/src/SDL_GFX/SDL2_rotozoom.c -o CMakeFiles/gfx.dir/SDL2_rotozoom.c.s
+	cd /home/nikita/c++/hagen/src/SDL_GFX && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/nikita/c++/hagen/src/SDL_GFX/SDL2_rotozoom.c -o CMakeFiles/gfx.dir/SDL2_rotozoom.c.s
 
 # Object files for target gfx
 gfx_OBJECTS = \
@@ -129,8 +129,8 @@ bin/libgfx.so: src/SDL_GFX/CMakeFiles/gfx.dir/SDL2_imageFilter.c.o
 bin/libgfx.so: src/SDL_GFX/CMakeFiles/gfx.dir/SDL2_rotozoom.c.o
 bin/libgfx.so: src/SDL_GFX/CMakeFiles/gfx.dir/build.make
 bin/libgfx.so: src/SDL_GFX/CMakeFiles/gfx.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/data/data/com.termux/files/home/hagen-engine/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking C shared library ../../bin/libgfx.so"
-	cd /data/data/com.termux/files/home/hagen-engine/src/SDL_GFX && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/gfx.dir/link.txt --verbose=$(VERBOSE)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/nikita/c++/hagen/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking C shared library ../../bin/libgfx.so"
+	cd /home/nikita/c++/hagen/src/SDL_GFX && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/gfx.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
 src/SDL_GFX/CMakeFiles/gfx.dir/build: bin/libgfx.so
@@ -138,10 +138,10 @@ src/SDL_GFX/CMakeFiles/gfx.dir/build: bin/libgfx.so
 .PHONY : src/SDL_GFX/CMakeFiles/gfx.dir/build
 
 src/SDL_GFX/CMakeFiles/gfx.dir/clean:
-	cd /data/data/com.termux/files/home/hagen-engine/src/SDL_GFX && $(CMAKE_COMMAND) -P CMakeFiles/gfx.dir/cmake_clean.cmake
+	cd /home/nikita/c++/hagen/src/SDL_GFX && $(CMAKE_COMMAND) -P CMakeFiles/gfx.dir/cmake_clean.cmake
 .PHONY : src/SDL_GFX/CMakeFiles/gfx.dir/clean
 
 src/SDL_GFX/CMakeFiles/gfx.dir/depend:
-	cd /data/data/com.termux/files/home/hagen-engine && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /data/data/com.termux/files/home/hagen-engine /data/data/com.termux/files/home/hagen-engine/src/SDL_GFX /data/data/com.termux/files/home/hagen-engine /data/data/com.termux/files/home/hagen-engine/src/SDL_GFX /data/data/com.termux/files/home/hagen-engine/src/SDL_GFX/CMakeFiles/gfx.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/nikita/c++/hagen && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/nikita/c++/hagen /home/nikita/c++/hagen/src/SDL_GFX /home/nikita/c++/hagen /home/nikita/c++/hagen/src/SDL_GFX /home/nikita/c++/hagen/src/SDL_GFX/CMakeFiles/gfx.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : src/SDL_GFX/CMakeFiles/gfx.dir/depend
 

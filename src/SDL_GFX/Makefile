@@ -55,22 +55,22 @@ cmake_force:
 # Set environment variables for the build.
 
 # The shell in which to execute make rules.
-SHELL = /data/data/com.termux/files/usr/bin/sh
+SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /data/data/com.termux/files/usr/bin/cmake
+CMAKE_COMMAND = /usr/bin/cmake
 
 # The command to remove a file.
-RM = /data/data/com.termux/files/usr/bin/cmake -E rm -f
+RM = /usr/bin/cmake -E rm -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /data/data/com.termux/files/home/hagen-engine
+CMAKE_SOURCE_DIR = /home/nikita/c++/hagen
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /data/data/com.termux/files/home/hagen-engine
+CMAKE_BINARY_DIR = /home/nikita/c++/hagen
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -78,7 +78,7 @@ CMAKE_BINARY_DIR = /data/data/com.termux/files/home/hagen-engine
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/data/data/com.termux/files/usr/bin/cmake --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/usr/bin/cmake --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
@@ -88,8 +88,8 @@ rebuild_cache/fast: rebuild_cache
 
 # Special rule for the target edit_cache
 edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/data/data/com.termux/files/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
+	/usr/bin/cmake-gui -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -99,14 +99,14 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	cd /data/data/com.termux/files/home/hagen-engine && $(CMAKE_COMMAND) -E cmake_progress_start /data/data/com.termux/files/home/hagen-engine/CMakeFiles /data/data/com.termux/files/home/hagen-engine/src/SDL_GFX//CMakeFiles/progress.marks
-	cd /data/data/com.termux/files/home/hagen-engine && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/SDL_GFX/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /data/data/com.termux/files/home/hagen-engine/CMakeFiles 0
+	cd /home/nikita/c++/hagen && $(CMAKE_COMMAND) -E cmake_progress_start /home/nikita/c++/hagen/CMakeFiles /home/nikita/c++/hagen/src/SDL_GFX//CMakeFiles/progress.marks
+	cd /home/nikita/c++/hagen && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/SDL_GFX/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nikita/c++/hagen/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /data/data/com.termux/files/home/hagen-engine && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/SDL_GFX/clean
+	cd /home/nikita/c++/hagen && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/SDL_GFX/clean
 .PHONY : clean
 
 # The main clean target
@@ -116,22 +116,22 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /data/data/com.termux/files/home/hagen-engine && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/SDL_GFX/preinstall
+	cd /home/nikita/c++/hagen && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/SDL_GFX/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /data/data/com.termux/files/home/hagen-engine && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/SDL_GFX/preinstall
+	cd /home/nikita/c++/hagen && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/SDL_GFX/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /data/data/com.termux/files/home/hagen-engine && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/nikita/c++/hagen && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
 src/SDL_GFX/CMakeFiles/gfx.dir/rule:
-	cd /data/data/com.termux/files/home/hagen-engine && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/SDL_GFX/CMakeFiles/gfx.dir/rule
+	cd /home/nikita/c++/hagen && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/SDL_GFX/CMakeFiles/gfx.dir/rule
 .PHONY : src/SDL_GFX/CMakeFiles/gfx.dir/rule
 
 # Convenience name for target.
@@ -141,7 +141,7 @@ gfx: src/SDL_GFX/CMakeFiles/gfx.dir/rule
 
 # fast build rule for target.
 gfx/fast:
-	cd /data/data/com.termux/files/home/hagen-engine && $(MAKE) $(MAKESILENT) -f src/SDL_GFX/CMakeFiles/gfx.dir/build.make src/SDL_GFX/CMakeFiles/gfx.dir/build
+	cd /home/nikita/c++/hagen && $(MAKE) $(MAKESILENT) -f src/SDL_GFX/CMakeFiles/gfx.dir/build.make src/SDL_GFX/CMakeFiles/gfx.dir/build
 .PHONY : gfx/fast
 
 SDL2_gfxPrimitives.o: SDL2_gfxPrimitives.c.o
@@ -150,7 +150,7 @@ SDL2_gfxPrimitives.o: SDL2_gfxPrimitives.c.o
 
 # target to build an object file
 SDL2_gfxPrimitives.c.o:
-	cd /data/data/com.termux/files/home/hagen-engine && $(MAKE) $(MAKESILENT) -f src/SDL_GFX/CMakeFiles/gfx.dir/build.make src/SDL_GFX/CMakeFiles/gfx.dir/SDL2_gfxPrimitives.c.o
+	cd /home/nikita/c++/hagen && $(MAKE) $(MAKESILENT) -f src/SDL_GFX/CMakeFiles/gfx.dir/build.make src/SDL_GFX/CMakeFiles/gfx.dir/SDL2_gfxPrimitives.c.o
 .PHONY : SDL2_gfxPrimitives.c.o
 
 SDL2_gfxPrimitives.i: SDL2_gfxPrimitives.c.i
@@ -159,7 +159,7 @@ SDL2_gfxPrimitives.i: SDL2_gfxPrimitives.c.i
 
 # target to preprocess a source file
 SDL2_gfxPrimitives.c.i:
-	cd /data/data/com.termux/files/home/hagen-engine && $(MAKE) $(MAKESILENT) -f src/SDL_GFX/CMakeFiles/gfx.dir/build.make src/SDL_GFX/CMakeFiles/gfx.dir/SDL2_gfxPrimitives.c.i
+	cd /home/nikita/c++/hagen && $(MAKE) $(MAKESILENT) -f src/SDL_GFX/CMakeFiles/gfx.dir/build.make src/SDL_GFX/CMakeFiles/gfx.dir/SDL2_gfxPrimitives.c.i
 .PHONY : SDL2_gfxPrimitives.c.i
 
 SDL2_gfxPrimitives.s: SDL2_gfxPrimitives.c.s
@@ -168,7 +168,7 @@ SDL2_gfxPrimitives.s: SDL2_gfxPrimitives.c.s
 
 # target to generate assembly for a file
 SDL2_gfxPrimitives.c.s:
-	cd /data/data/com.termux/files/home/hagen-engine && $(MAKE) $(MAKESILENT) -f src/SDL_GFX/CMakeFiles/gfx.dir/build.make src/SDL_GFX/CMakeFiles/gfx.dir/SDL2_gfxPrimitives.c.s
+	cd /home/nikita/c++/hagen && $(MAKE) $(MAKESILENT) -f src/SDL_GFX/CMakeFiles/gfx.dir/build.make src/SDL_GFX/CMakeFiles/gfx.dir/SDL2_gfxPrimitives.c.s
 .PHONY : SDL2_gfxPrimitives.c.s
 
 SDL2_imageFilter.o: SDL2_imageFilter.c.o
@@ -177,7 +177,7 @@ SDL2_imageFilter.o: SDL2_imageFilter.c.o
 
 # target to build an object file
 SDL2_imageFilter.c.o:
-	cd /data/data/com.termux/files/home/hagen-engine && $(MAKE) $(MAKESILENT) -f src/SDL_GFX/CMakeFiles/gfx.dir/build.make src/SDL_GFX/CMakeFiles/gfx.dir/SDL2_imageFilter.c.o
+	cd /home/nikita/c++/hagen && $(MAKE) $(MAKESILENT) -f src/SDL_GFX/CMakeFiles/gfx.dir/build.make src/SDL_GFX/CMakeFiles/gfx.dir/SDL2_imageFilter.c.o
 .PHONY : SDL2_imageFilter.c.o
 
 SDL2_imageFilter.i: SDL2_imageFilter.c.i
@@ -186,7 +186,7 @@ SDL2_imageFilter.i: SDL2_imageFilter.c.i
 
 # target to preprocess a source file
 SDL2_imageFilter.c.i:
-	cd /data/data/com.termux/files/home/hagen-engine && $(MAKE) $(MAKESILENT) -f src/SDL_GFX/CMakeFiles/gfx.dir/build.make src/SDL_GFX/CMakeFiles/gfx.dir/SDL2_imageFilter.c.i
+	cd /home/nikita/c++/hagen && $(MAKE) $(MAKESILENT) -f src/SDL_GFX/CMakeFiles/gfx.dir/build.make src/SDL_GFX/CMakeFiles/gfx.dir/SDL2_imageFilter.c.i
 .PHONY : SDL2_imageFilter.c.i
 
 SDL2_imageFilter.s: SDL2_imageFilter.c.s
@@ -195,7 +195,7 @@ SDL2_imageFilter.s: SDL2_imageFilter.c.s
 
 # target to generate assembly for a file
 SDL2_imageFilter.c.s:
-	cd /data/data/com.termux/files/home/hagen-engine && $(MAKE) $(MAKESILENT) -f src/SDL_GFX/CMakeFiles/gfx.dir/build.make src/SDL_GFX/CMakeFiles/gfx.dir/SDL2_imageFilter.c.s
+	cd /home/nikita/c++/hagen && $(MAKE) $(MAKESILENT) -f src/SDL_GFX/CMakeFiles/gfx.dir/build.make src/SDL_GFX/CMakeFiles/gfx.dir/SDL2_imageFilter.c.s
 .PHONY : SDL2_imageFilter.c.s
 
 SDL2_rotozoom.o: SDL2_rotozoom.c.o
@@ -204,7 +204,7 @@ SDL2_rotozoom.o: SDL2_rotozoom.c.o
 
 # target to build an object file
 SDL2_rotozoom.c.o:
-	cd /data/data/com.termux/files/home/hagen-engine && $(MAKE) $(MAKESILENT) -f src/SDL_GFX/CMakeFiles/gfx.dir/build.make src/SDL_GFX/CMakeFiles/gfx.dir/SDL2_rotozoom.c.o
+	cd /home/nikita/c++/hagen && $(MAKE) $(MAKESILENT) -f src/SDL_GFX/CMakeFiles/gfx.dir/build.make src/SDL_GFX/CMakeFiles/gfx.dir/SDL2_rotozoom.c.o
 .PHONY : SDL2_rotozoom.c.o
 
 SDL2_rotozoom.i: SDL2_rotozoom.c.i
@@ -213,7 +213,7 @@ SDL2_rotozoom.i: SDL2_rotozoom.c.i
 
 # target to preprocess a source file
 SDL2_rotozoom.c.i:
-	cd /data/data/com.termux/files/home/hagen-engine && $(MAKE) $(MAKESILENT) -f src/SDL_GFX/CMakeFiles/gfx.dir/build.make src/SDL_GFX/CMakeFiles/gfx.dir/SDL2_rotozoom.c.i
+	cd /home/nikita/c++/hagen && $(MAKE) $(MAKESILENT) -f src/SDL_GFX/CMakeFiles/gfx.dir/build.make src/SDL_GFX/CMakeFiles/gfx.dir/SDL2_rotozoom.c.i
 .PHONY : SDL2_rotozoom.c.i
 
 SDL2_rotozoom.s: SDL2_rotozoom.c.s
@@ -222,7 +222,7 @@ SDL2_rotozoom.s: SDL2_rotozoom.c.s
 
 # target to generate assembly for a file
 SDL2_rotozoom.c.s:
-	cd /data/data/com.termux/files/home/hagen-engine && $(MAKE) $(MAKESILENT) -f src/SDL_GFX/CMakeFiles/gfx.dir/build.make src/SDL_GFX/CMakeFiles/gfx.dir/SDL2_rotozoom.c.s
+	cd /home/nikita/c++/hagen && $(MAKE) $(MAKESILENT) -f src/SDL_GFX/CMakeFiles/gfx.dir/build.make src/SDL_GFX/CMakeFiles/gfx.dir/SDL2_rotozoom.c.s
 .PHONY : SDL2_rotozoom.c.s
 
 # Help Target
@@ -254,6 +254,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /data/data/com.termux/files/home/hagen-engine && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/nikita/c++/hagen && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

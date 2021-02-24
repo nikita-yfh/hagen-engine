@@ -4,11 +4,11 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "/data/data/com.termux/files/home/hagen-engine/src/SDL_GFX/SDL2_gfxPrimitives.c" "/data/data/com.termux/files/home/hagen-engine/src/SDL_GFX/CMakeFiles/gfx.dir/SDL2_gfxPrimitives.c.o"
-  "/data/data/com.termux/files/home/hagen-engine/src/SDL_GFX/SDL2_imageFilter.c" "/data/data/com.termux/files/home/hagen-engine/src/SDL_GFX/CMakeFiles/gfx.dir/SDL2_imageFilter.c.o"
-  "/data/data/com.termux/files/home/hagen-engine/src/SDL_GFX/SDL2_rotozoom.c" "/data/data/com.termux/files/home/hagen-engine/src/SDL_GFX/CMakeFiles/gfx.dir/SDL2_rotozoom.c.o"
+  "/home/nikita/c++/hagen/src/SDL_GFX/SDL2_gfxPrimitives.c" "/home/nikita/c++/hagen/src/SDL_GFX/CMakeFiles/gfx.dir/SDL2_gfxPrimitives.c.o"
+  "/home/nikita/c++/hagen/src/SDL_GFX/SDL2_imageFilter.c" "/home/nikita/c++/hagen/src/SDL_GFX/CMakeFiles/gfx.dir/SDL2_imageFilter.c.o"
+  "/home/nikita/c++/hagen/src/SDL_GFX/SDL2_rotozoom.c" "/home/nikita/c++/hagen/src/SDL_GFX/CMakeFiles/gfx.dir/SDL2_rotozoom.c.o"
   )
-set(CMAKE_C_COMPILER_ID "Clang")
+set(CMAKE_C_COMPILER_ID "GNU")
 
 # Preprocessor definitions for this target.
 set(CMAKE_TARGET_DEFINITIONS_C
@@ -17,9 +17,9 @@ set(CMAKE_TARGET_DEFINITIONS_C
 
 # The include file search paths:
 set(CMAKE_C_TARGET_INCLUDE_PATH
-  "/data/data/com.termux/files/usr/include/SDL2"
+  "/usr/include/SDL2"
   "src/engine"
-  "/data/data/com.termux/files/usr/include/lua5.3"
+  "/usr/include/lua5.3"
   "src/SDL_GFX"
   "src/box2d"
   "src/LuaBridge"

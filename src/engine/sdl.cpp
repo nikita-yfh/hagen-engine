@@ -80,7 +80,7 @@ void create_cache() {
     b2Vec2 *prev_vec=0;
 	for(int q=0; q<bodies.size(); q++) {
 		for(b2Fixture *fix=bodies[q]->GetFixtureList(); fix; fix=fix->GetNext()) {
-			if(F_DATA(fix,type)==POLYGON) {
+			if(F_DATA(fix,type)==POLYGON && F_DATA(fix,texture).size()) {
 				b2PolygonShape *shape=((b2PolygonShape*)(fix->GetShape()));
 				if(F_DATA(fix,texture).size()){
                     if(shape->cache) SDL_DestroyTexture(shape->cache);
@@ -126,7 +126,7 @@ void create_cache() {
                         delete[]yp;
                     }
 				}
-			}
+			}else prev_tex=0;
 		}
 	}
 }

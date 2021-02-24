@@ -50,22 +50,22 @@ cmake_force:
 # Set environment variables for the build.
 
 # The shell in which to execute make rules.
-SHELL = /data/data/com.termux/files/usr/bin/sh
+SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /data/data/com.termux/files/usr/bin/cmake
+CMAKE_COMMAND = /usr/bin/cmake
 
 # The command to remove a file.
-RM = /data/data/com.termux/files/usr/bin/cmake -E rm -f
+RM = /usr/bin/cmake -E rm -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /data/data/com.termux/files/home/hagen-engine
+CMAKE_SOURCE_DIR = /home/nikita/c++/hagen
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /data/data/com.termux/files/home/hagen-engine
+CMAKE_BINARY_DIR = /home/nikita/c++/hagen
 
 # Include any dependencies generated for this target.
 include CMakeFiles/engine.dir/depend.make
@@ -78,159 +78,159 @@ include CMakeFiles/engine.dir/flags.make
 
 CMakeFiles/engine.dir/src/engine/game.cpp.o: CMakeFiles/engine.dir/flags.make
 CMakeFiles/engine.dir/src/engine/game.cpp.o: src/engine/game.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/data/data/com.termux/files/home/hagen-engine/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/engine.dir/src/engine/game.cpp.o"
-	/data/data/com.termux/files/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/engine.dir/src/engine/game.cpp.o -c /data/data/com.termux/files/home/hagen-engine/src/engine/game.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikita/c++/hagen/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/engine.dir/src/engine/game.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/engine.dir/src/engine/game.cpp.o -c /home/nikita/c++/hagen/src/engine/game.cpp
 
 CMakeFiles/engine.dir/src/engine/game.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/engine.dir/src/engine/game.cpp.i"
-	/data/data/com.termux/files/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /data/data/com.termux/files/home/hagen-engine/src/engine/game.cpp > CMakeFiles/engine.dir/src/engine/game.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/nikita/c++/hagen/src/engine/game.cpp > CMakeFiles/engine.dir/src/engine/game.cpp.i
 
 CMakeFiles/engine.dir/src/engine/game.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/engine.dir/src/engine/game.cpp.s"
-	/data/data/com.termux/files/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /data/data/com.termux/files/home/hagen-engine/src/engine/game.cpp -o CMakeFiles/engine.dir/src/engine/game.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/nikita/c++/hagen/src/engine/game.cpp -o CMakeFiles/engine.dir/src/engine/game.cpp.s
 
 CMakeFiles/engine.dir/src/engine/main.cpp.o: CMakeFiles/engine.dir/flags.make
 CMakeFiles/engine.dir/src/engine/main.cpp.o: src/engine/main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/data/data/com.termux/files/home/hagen-engine/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/engine.dir/src/engine/main.cpp.o"
-	/data/data/com.termux/files/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/engine.dir/src/engine/main.cpp.o -c /data/data/com.termux/files/home/hagen-engine/src/engine/main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikita/c++/hagen/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/engine.dir/src/engine/main.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/engine.dir/src/engine/main.cpp.o -c /home/nikita/c++/hagen/src/engine/main.cpp
 
 CMakeFiles/engine.dir/src/engine/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/engine.dir/src/engine/main.cpp.i"
-	/data/data/com.termux/files/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /data/data/com.termux/files/home/hagen-engine/src/engine/main.cpp > CMakeFiles/engine.dir/src/engine/main.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/nikita/c++/hagen/src/engine/main.cpp > CMakeFiles/engine.dir/src/engine/main.cpp.i
 
 CMakeFiles/engine.dir/src/engine/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/engine.dir/src/engine/main.cpp.s"
-	/data/data/com.termux/files/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /data/data/com.termux/files/home/hagen-engine/src/engine/main.cpp -o CMakeFiles/engine.dir/src/engine/main.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/nikita/c++/hagen/src/engine/main.cpp -o CMakeFiles/engine.dir/src/engine/main.cpp.s
 
 CMakeFiles/engine.dir/src/engine/player.cpp.o: CMakeFiles/engine.dir/flags.make
 CMakeFiles/engine.dir/src/engine/player.cpp.o: src/engine/player.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/data/data/com.termux/files/home/hagen-engine/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/engine.dir/src/engine/player.cpp.o"
-	/data/data/com.termux/files/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/engine.dir/src/engine/player.cpp.o -c /data/data/com.termux/files/home/hagen-engine/src/engine/player.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikita/c++/hagen/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/engine.dir/src/engine/player.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/engine.dir/src/engine/player.cpp.o -c /home/nikita/c++/hagen/src/engine/player.cpp
 
 CMakeFiles/engine.dir/src/engine/player.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/engine.dir/src/engine/player.cpp.i"
-	/data/data/com.termux/files/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /data/data/com.termux/files/home/hagen-engine/src/engine/player.cpp > CMakeFiles/engine.dir/src/engine/player.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/nikita/c++/hagen/src/engine/player.cpp > CMakeFiles/engine.dir/src/engine/player.cpp.i
 
 CMakeFiles/engine.dir/src/engine/player.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/engine.dir/src/engine/player.cpp.s"
-	/data/data/com.termux/files/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /data/data/com.termux/files/home/hagen-engine/src/engine/player.cpp -o CMakeFiles/engine.dir/src/engine/player.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/nikita/c++/hagen/src/engine/player.cpp -o CMakeFiles/engine.dir/src/engine/player.cpp.s
 
 CMakeFiles/engine.dir/src/engine/utility.cpp.o: CMakeFiles/engine.dir/flags.make
 CMakeFiles/engine.dir/src/engine/utility.cpp.o: src/engine/utility.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/data/data/com.termux/files/home/hagen-engine/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/engine.dir/src/engine/utility.cpp.o"
-	/data/data/com.termux/files/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/engine.dir/src/engine/utility.cpp.o -c /data/data/com.termux/files/home/hagen-engine/src/engine/utility.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikita/c++/hagen/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/engine.dir/src/engine/utility.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/engine.dir/src/engine/utility.cpp.o -c /home/nikita/c++/hagen/src/engine/utility.cpp
 
 CMakeFiles/engine.dir/src/engine/utility.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/engine.dir/src/engine/utility.cpp.i"
-	/data/data/com.termux/files/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /data/data/com.termux/files/home/hagen-engine/src/engine/utility.cpp > CMakeFiles/engine.dir/src/engine/utility.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/nikita/c++/hagen/src/engine/utility.cpp > CMakeFiles/engine.dir/src/engine/utility.cpp.i
 
 CMakeFiles/engine.dir/src/engine/utility.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/engine.dir/src/engine/utility.cpp.s"
-	/data/data/com.termux/files/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /data/data/com.termux/files/home/hagen-engine/src/engine/utility.cpp -o CMakeFiles/engine.dir/src/engine/utility.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/nikita/c++/hagen/src/engine/utility.cpp -o CMakeFiles/engine.dir/src/engine/utility.cpp.s
 
 CMakeFiles/engine.dir/src/engine/entity.cpp.o: CMakeFiles/engine.dir/flags.make
 CMakeFiles/engine.dir/src/engine/entity.cpp.o: src/engine/entity.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/data/data/com.termux/files/home/hagen-engine/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/engine.dir/src/engine/entity.cpp.o"
-	/data/data/com.termux/files/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/engine.dir/src/engine/entity.cpp.o -c /data/data/com.termux/files/home/hagen-engine/src/engine/entity.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikita/c++/hagen/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/engine.dir/src/engine/entity.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/engine.dir/src/engine/entity.cpp.o -c /home/nikita/c++/hagen/src/engine/entity.cpp
 
 CMakeFiles/engine.dir/src/engine/entity.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/engine.dir/src/engine/entity.cpp.i"
-	/data/data/com.termux/files/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /data/data/com.termux/files/home/hagen-engine/src/engine/entity.cpp > CMakeFiles/engine.dir/src/engine/entity.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/nikita/c++/hagen/src/engine/entity.cpp > CMakeFiles/engine.dir/src/engine/entity.cpp.i
 
 CMakeFiles/engine.dir/src/engine/entity.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/engine.dir/src/engine/entity.cpp.s"
-	/data/data/com.termux/files/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /data/data/com.termux/files/home/hagen-engine/src/engine/entity.cpp -o CMakeFiles/engine.dir/src/engine/entity.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/nikita/c++/hagen/src/engine/entity.cpp -o CMakeFiles/engine.dir/src/engine/entity.cpp.s
 
 CMakeFiles/engine.dir/src/engine/lua.cpp.o: CMakeFiles/engine.dir/flags.make
 CMakeFiles/engine.dir/src/engine/lua.cpp.o: src/engine/lua.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/data/data/com.termux/files/home/hagen-engine/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/engine.dir/src/engine/lua.cpp.o"
-	/data/data/com.termux/files/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/engine.dir/src/engine/lua.cpp.o -c /data/data/com.termux/files/home/hagen-engine/src/engine/lua.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikita/c++/hagen/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/engine.dir/src/engine/lua.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/engine.dir/src/engine/lua.cpp.o -c /home/nikita/c++/hagen/src/engine/lua.cpp
 
 CMakeFiles/engine.dir/src/engine/lua.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/engine.dir/src/engine/lua.cpp.i"
-	/data/data/com.termux/files/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /data/data/com.termux/files/home/hagen-engine/src/engine/lua.cpp > CMakeFiles/engine.dir/src/engine/lua.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/nikita/c++/hagen/src/engine/lua.cpp > CMakeFiles/engine.dir/src/engine/lua.cpp.i
 
 CMakeFiles/engine.dir/src/engine/lua.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/engine.dir/src/engine/lua.cpp.s"
-	/data/data/com.termux/files/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /data/data/com.termux/files/home/hagen-engine/src/engine/lua.cpp -o CMakeFiles/engine.dir/src/engine/lua.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/nikita/c++/hagen/src/engine/lua.cpp -o CMakeFiles/engine.dir/src/engine/lua.cpp.s
 
 CMakeFiles/engine.dir/src/engine/physic.cpp.o: CMakeFiles/engine.dir/flags.make
 CMakeFiles/engine.dir/src/engine/physic.cpp.o: src/engine/physic.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/data/data/com.termux/files/home/hagen-engine/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/engine.dir/src/engine/physic.cpp.o"
-	/data/data/com.termux/files/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/engine.dir/src/engine/physic.cpp.o -c /data/data/com.termux/files/home/hagen-engine/src/engine/physic.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikita/c++/hagen/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/engine.dir/src/engine/physic.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/engine.dir/src/engine/physic.cpp.o -c /home/nikita/c++/hagen/src/engine/physic.cpp
 
 CMakeFiles/engine.dir/src/engine/physic.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/engine.dir/src/engine/physic.cpp.i"
-	/data/data/com.termux/files/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /data/data/com.termux/files/home/hagen-engine/src/engine/physic.cpp > CMakeFiles/engine.dir/src/engine/physic.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/nikita/c++/hagen/src/engine/physic.cpp > CMakeFiles/engine.dir/src/engine/physic.cpp.i
 
 CMakeFiles/engine.dir/src/engine/physic.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/engine.dir/src/engine/physic.cpp.s"
-	/data/data/com.termux/files/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /data/data/com.termux/files/home/hagen-engine/src/engine/physic.cpp -o CMakeFiles/engine.dir/src/engine/physic.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/nikita/c++/hagen/src/engine/physic.cpp -o CMakeFiles/engine.dir/src/engine/physic.cpp.s
 
 CMakeFiles/engine.dir/src/engine/level.cpp.o: CMakeFiles/engine.dir/flags.make
 CMakeFiles/engine.dir/src/engine/level.cpp.o: src/engine/level.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/data/data/com.termux/files/home/hagen-engine/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/engine.dir/src/engine/level.cpp.o"
-	/data/data/com.termux/files/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/engine.dir/src/engine/level.cpp.o -c /data/data/com.termux/files/home/hagen-engine/src/engine/level.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikita/c++/hagen/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/engine.dir/src/engine/level.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/engine.dir/src/engine/level.cpp.o -c /home/nikita/c++/hagen/src/engine/level.cpp
 
 CMakeFiles/engine.dir/src/engine/level.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/engine.dir/src/engine/level.cpp.i"
-	/data/data/com.termux/files/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /data/data/com.termux/files/home/hagen-engine/src/engine/level.cpp > CMakeFiles/engine.dir/src/engine/level.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/nikita/c++/hagen/src/engine/level.cpp > CMakeFiles/engine.dir/src/engine/level.cpp.i
 
 CMakeFiles/engine.dir/src/engine/level.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/engine.dir/src/engine/level.cpp.s"
-	/data/data/com.termux/files/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /data/data/com.termux/files/home/hagen-engine/src/engine/level.cpp -o CMakeFiles/engine.dir/src/engine/level.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/nikita/c++/hagen/src/engine/level.cpp -o CMakeFiles/engine.dir/src/engine/level.cpp.s
 
 CMakeFiles/engine.dir/src/engine/render.cpp.o: CMakeFiles/engine.dir/flags.make
 CMakeFiles/engine.dir/src/engine/render.cpp.o: src/engine/render.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/data/data/com.termux/files/home/hagen-engine/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/engine.dir/src/engine/render.cpp.o"
-	/data/data/com.termux/files/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/engine.dir/src/engine/render.cpp.o -c /data/data/com.termux/files/home/hagen-engine/src/engine/render.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikita/c++/hagen/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/engine.dir/src/engine/render.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/engine.dir/src/engine/render.cpp.o -c /home/nikita/c++/hagen/src/engine/render.cpp
 
 CMakeFiles/engine.dir/src/engine/render.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/engine.dir/src/engine/render.cpp.i"
-	/data/data/com.termux/files/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /data/data/com.termux/files/home/hagen-engine/src/engine/render.cpp > CMakeFiles/engine.dir/src/engine/render.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/nikita/c++/hagen/src/engine/render.cpp > CMakeFiles/engine.dir/src/engine/render.cpp.i
 
 CMakeFiles/engine.dir/src/engine/render.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/engine.dir/src/engine/render.cpp.s"
-	/data/data/com.termux/files/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /data/data/com.termux/files/home/hagen-engine/src/engine/render.cpp -o CMakeFiles/engine.dir/src/engine/render.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/nikita/c++/hagen/src/engine/render.cpp -o CMakeFiles/engine.dir/src/engine/render.cpp.s
 
 CMakeFiles/engine.dir/src/engine/shapes.cpp.o: CMakeFiles/engine.dir/flags.make
 CMakeFiles/engine.dir/src/engine/shapes.cpp.o: src/engine/shapes.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/data/data/com.termux/files/home/hagen-engine/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/engine.dir/src/engine/shapes.cpp.o"
-	/data/data/com.termux/files/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/engine.dir/src/engine/shapes.cpp.o -c /data/data/com.termux/files/home/hagen-engine/src/engine/shapes.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikita/c++/hagen/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/engine.dir/src/engine/shapes.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/engine.dir/src/engine/shapes.cpp.o -c /home/nikita/c++/hagen/src/engine/shapes.cpp
 
 CMakeFiles/engine.dir/src/engine/shapes.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/engine.dir/src/engine/shapes.cpp.i"
-	/data/data/com.termux/files/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /data/data/com.termux/files/home/hagen-engine/src/engine/shapes.cpp > CMakeFiles/engine.dir/src/engine/shapes.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/nikita/c++/hagen/src/engine/shapes.cpp > CMakeFiles/engine.dir/src/engine/shapes.cpp.i
 
 CMakeFiles/engine.dir/src/engine/shapes.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/engine.dir/src/engine/shapes.cpp.s"
-	/data/data/com.termux/files/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /data/data/com.termux/files/home/hagen-engine/src/engine/shapes.cpp -o CMakeFiles/engine.dir/src/engine/shapes.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/nikita/c++/hagen/src/engine/shapes.cpp -o CMakeFiles/engine.dir/src/engine/shapes.cpp.s
 
 CMakeFiles/engine.dir/src/engine/sdl.cpp.o: CMakeFiles/engine.dir/flags.make
 CMakeFiles/engine.dir/src/engine/sdl.cpp.o: src/engine/sdl.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/data/data/com.termux/files/home/hagen-engine/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/engine.dir/src/engine/sdl.cpp.o"
-	/data/data/com.termux/files/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/engine.dir/src/engine/sdl.cpp.o -c /data/data/com.termux/files/home/hagen-engine/src/engine/sdl.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikita/c++/hagen/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/engine.dir/src/engine/sdl.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/engine.dir/src/engine/sdl.cpp.o -c /home/nikita/c++/hagen/src/engine/sdl.cpp
 
 CMakeFiles/engine.dir/src/engine/sdl.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/engine.dir/src/engine/sdl.cpp.i"
-	/data/data/com.termux/files/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /data/data/com.termux/files/home/hagen-engine/src/engine/sdl.cpp > CMakeFiles/engine.dir/src/engine/sdl.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/nikita/c++/hagen/src/engine/sdl.cpp > CMakeFiles/engine.dir/src/engine/sdl.cpp.i
 
 CMakeFiles/engine.dir/src/engine/sdl.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/engine.dir/src/engine/sdl.cpp.s"
-	/data/data/com.termux/files/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /data/data/com.termux/files/home/hagen-engine/src/engine/sdl.cpp -o CMakeFiles/engine.dir/src/engine/sdl.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/nikita/c++/hagen/src/engine/sdl.cpp -o CMakeFiles/engine.dir/src/engine/sdl.cpp.s
 
 CMakeFiles/engine.dir/src/engine/camera.cpp.o: CMakeFiles/engine.dir/flags.make
 CMakeFiles/engine.dir/src/engine/camera.cpp.o: src/engine/camera.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/data/data/com.termux/files/home/hagen-engine/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/engine.dir/src/engine/camera.cpp.o"
-	/data/data/com.termux/files/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/engine.dir/src/engine/camera.cpp.o -c /data/data/com.termux/files/home/hagen-engine/src/engine/camera.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nikita/c++/hagen/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/engine.dir/src/engine/camera.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/engine.dir/src/engine/camera.cpp.o -c /home/nikita/c++/hagen/src/engine/camera.cpp
 
 CMakeFiles/engine.dir/src/engine/camera.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/engine.dir/src/engine/camera.cpp.i"
-	/data/data/com.termux/files/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /data/data/com.termux/files/home/hagen-engine/src/engine/camera.cpp > CMakeFiles/engine.dir/src/engine/camera.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/nikita/c++/hagen/src/engine/camera.cpp > CMakeFiles/engine.dir/src/engine/camera.cpp.i
 
 CMakeFiles/engine.dir/src/engine/camera.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/engine.dir/src/engine/camera.cpp.s"
-	/data/data/com.termux/files/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /data/data/com.termux/files/home/hagen-engine/src/engine/camera.cpp -o CMakeFiles/engine.dir/src/engine/camera.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/nikita/c++/hagen/src/engine/camera.cpp -o CMakeFiles/engine.dir/src/engine/camera.cpp.s
 
 # Object files for target engine
 engine_OBJECTS = \
@@ -269,7 +269,7 @@ bin/engine: bin/libgfx.so
 bin/engine: bin/libxml.so
 bin/engine: bin/libfontcache.so
 bin/engine: CMakeFiles/engine.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/data/data/com.termux/files/home/hagen-engine/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Linking CXX executable bin/engine"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/nikita/c++/hagen/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Linking CXX executable bin/engine"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/engine.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -282,6 +282,6 @@ CMakeFiles/engine.dir/clean:
 .PHONY : CMakeFiles/engine.dir/clean
 
 CMakeFiles/engine.dir/depend:
-	cd /data/data/com.termux/files/home/hagen-engine && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /data/data/com.termux/files/home/hagen-engine /data/data/com.termux/files/home/hagen-engine /data/data/com.termux/files/home/hagen-engine /data/data/com.termux/files/home/hagen-engine /data/data/com.termux/files/home/hagen-engine/CMakeFiles/engine.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/nikita/c++/hagen && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/nikita/c++/hagen /home/nikita/c++/hagen /home/nikita/c++/hagen /home/nikita/c++/hagen /home/nikita/c++/hagen/CMakeFiles/engine.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/engine.dir/depend
 
