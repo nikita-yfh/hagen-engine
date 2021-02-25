@@ -227,7 +227,7 @@ int SDL_imageFilterAdd(unsigned char *Src1, unsigned char *Src2, unsigned char *
 \return Returns 0 for success or -1 for error.
 */
 static int SDL_imageFilterMeanMMX(unsigned char *Src1, unsigned char *Src2, unsigned char *Dest, unsigned int SrcLength,
-                                  unsigned char *Mask) {
+					    unsigned char *Mask) {
 #ifdef USE_MMX
 #if !defined(GCC__)
 	__asm {
@@ -269,7 +269,7 @@ static int SDL_imageFilterMeanMMX(unsigned char *Src1, unsigned char *Src2, unsi
 	int i;
 	for (i = 0; i < SrcLength/8; i++) {
 		__m64 mm1 = *mSrc1,
-		      mm2 = *mSrc2;
+			mm2 = *mSrc2;
 		mm1 = _m_psrlwi(mm1, 1);	/* shift 4 WORDS of mm1 1 bit to the right */
 		mm2 = _m_psrlwi(mm2, 1);	/* shift 4 WORDS of mm2 1 bit to the right */
 		mm1 = _m_pand(mm1, *mMask);	/* apply Mask to 8 BYTES of mm1 */
@@ -796,31 +796,31 @@ int SDL_imageFilterMultNorASM(unsigned char *Src1, unsigned char *Src2, unsigned
 	/* Note: ~5% gain on i386, less efficient than C on x86_64 */
 	/* Also depends on whether this function is static (?!) */
 	asm volatile (
-	    ".align 16       \n\t"	/* 16 byte alignment of the loop entry */
+		".align 16       \n\t"	/* 16 byte alignment of the loop entry */
 #  if defined(i386)
-	    "1:mov  (%%edx), %%al \n\t"      /* load a byte from Src1 */
-	    "mulb (%%esi)       \n\t"	/* mul with a byte from Src2 */
-	    "mov %%al, (%%edi)  \n\t"       /* move a byte result to Dest */
-	    "inc %%edx \n\t"		/* increment Src1, Src2, Dest */
-	    "inc %%esi \n\t"		/* pointer registers by one */
-	    "inc %%edi \n\t"
-	    "dec %%ecx      \n\t"	/* decrease loop counter */
+		"1:mov  (%%edx), %%al \n\t"      /* load a byte from Src1 */
+		"mulb (%%esi)       \n\t"	/* mul with a byte from Src2 */
+		"mov %%al, (%%edi)  \n\t"       /* move a byte result to Dest */
+		"inc %%edx \n\t"		/* increment Src1, Src2, Dest */
+		"inc %%esi \n\t"		/* pointer registers by one */
+		"inc %%edi \n\t"
+		"dec %%ecx      \n\t"	/* decrease loop counter */
 #  elif defined(__x86_64__)
-	    "1:mov  (%%rdx), %%al \n\t"      /* load a byte from Src1 */
-	    "mulb (%%rsi)       \n\t"	/* mul with a byte from Src2 */
-	    "mov %%al, (%%rdi)  \n\t"       /* move a byte result to Dest */
-	    "inc %%rdx \n\t"		/* increment Src1, Src2, Dest */
-	    "inc %%rsi \n\t"		/* pointer registers by one */
-	    "inc %%rdi \n\t"
-	    "dec %%rcx      \n\t"	/* decrease loop counter */
+		"1:mov  (%%rdx), %%al \n\t"      /* load a byte from Src1 */
+		"mulb (%%rsi)       \n\t"	/* mul with a byte from Src2 */
+		"mov %%al, (%%rdi)  \n\t"       /* move a byte result to Dest */
+		"inc %%rdx \n\t"		/* increment Src1, Src2, Dest */
+		"inc %%rsi \n\t"		/* pointer registers by one */
+		"inc %%rdi \n\t"
+		"dec %%rcx      \n\t"	/* decrease loop counter */
 #  endif
-	    "jnz 1b         \n\t"	/* check loop termination, proceed if required */
-	    : "+d" (Src1),		/* load Src1 address into edx */
-	    "+S" (Src2),		/* load Src2 address into esi */
-	    "+c" (SrcLength),	/* load loop counter (SIZE) into ecx */
-	    "+D" (Dest)		/* load Dest address into edi */
-	    :
-	    : "memory", "rax"
+		"jnz 1b         \n\t"	/* check loop termination, proceed if required */
+		: "+d" (Src1),		/* load Src1 address into edx */
+		"+S" (Src2),		/* load Src2 address into esi */
+		"+c" (SrcLength),	/* load loop counter (SIZE) into ecx */
+		"+D" (Dest)		/* load Dest address into edi */
+		:
+		: "memory", "rax"
 	);
 #endif
 	return (0);
@@ -1447,51 +1447,51 @@ static int SDL_imageFilterDivASM(unsigned char *Src1, unsigned char *Src2, unsig
 	/* Also depends on whether we work on malloc() or static char[] */
 	asm volatile (
 #  if defined(i386)
-	    "pushl %%ebx \n\t"		/* %ebx may be the PIC register.  */
-	    ".align 16     \n\t"		/* 16 byte alignment of the loop entry */
-	    "1: mov (%%esi), %%bl  \n\t"	/* load a byte from Src2 */
-	    "cmp       $0, %%bl    \n\t"	/* check if it zero */
-	    "jnz 2f                \n\t"
-	    "movb  $255, (%%edi)   \n\t"	/* division by zero = 255 !!! */
-	    "jmp 3f                \n\t"
-	    "2: xor %%ah, %%ah     \n\t"	/* prepare AX, zero AH register */
-	    "mov   (%%edx), %%al   \n\t"	/* load a byte from Src1 into AL */
-	    "div   %%bl            \n\t"	/* divide AL by BL */
-	    "mov   %%al, (%%edi)   \n\t"	/* move a byte result to Dest */
-	    "3: inc %%edx          \n\t"	/* increment Src1, Src2, Dest */
-	    "inc %%esi \n\t"		/* pointer registers by one */
-	    "inc %%edi \n\t"
-	    "dec %%ecx \n\t"		/* decrease loop counter */
-	    "jnz 1b    \n\t"		/* check loop termination, proceed if required */
-	    "popl %%ebx \n\t"		/* restore %ebx */
-	    : "+d" (Src1),		/* load Src1 address into edx */
-	    "+S" (Src2),		/* load Src2 address into esi */
-	    "+c" (SrcLength),	/* load loop counter (SIZE) into ecx */
-	    "+D" (Dest)		/* load Dest address into edi */
-	    :
-	    : "memory", "rax"
+		"pushl %%ebx \n\t"		/* %ebx may be the PIC register.  */
+		".align 16     \n\t"		/* 16 byte alignment of the loop entry */
+		"1: mov (%%esi), %%bl  \n\t"	/* load a byte from Src2 */
+		"cmp       $0, %%bl    \n\t"	/* check if it zero */
+		"jnz 2f                \n\t"
+		"movb  $255, (%%edi)   \n\t"	/* division by zero = 255 !!! */
+		"jmp 3f                \n\t"
+		"2: xor %%ah, %%ah     \n\t"	/* prepare AX, zero AH register */
+		"mov   (%%edx), %%al   \n\t"	/* load a byte from Src1 into AL */
+		"div   %%bl            \n\t"	/* divide AL by BL */
+		"mov   %%al, (%%edi)   \n\t"	/* move a byte result to Dest */
+		"3: inc %%edx          \n\t"	/* increment Src1, Src2, Dest */
+		"inc %%esi \n\t"		/* pointer registers by one */
+		"inc %%edi \n\t"
+		"dec %%ecx \n\t"		/* decrease loop counter */
+		"jnz 1b    \n\t"		/* check loop termination, proceed if required */
+		"popl %%ebx \n\t"		/* restore %ebx */
+		: "+d" (Src1),		/* load Src1 address into edx */
+		"+S" (Src2),		/* load Src2 address into esi */
+		"+c" (SrcLength),	/* load loop counter (SIZE) into ecx */
+		"+D" (Dest)		/* load Dest address into edi */
+		:
+		: "memory", "rax"
 #  elif defined(__x86_64__)
-	    ".align 16     \n\t"		/* 16 byte alignment of the loop entry */
-	    "1: mov (%%rsi), %%bl  \n\t"	/* load a byte from Src2 */
-	    "cmp       $0, %%bl    \n\t"	/* check if it zero */
-	    "jnz 2f                \n\t"
-	    "movb  $255, (%%rdi)   \n\t"	/* division by zero = 255 !!! */
-	    "jmp 3f                \n\t"
-	    "2: xor %%ah, %%ah     \n\t"	/* prepare AX, zero AH register */
-	    "mov   (%%rdx), %%al   \n\t"	/* load a byte from Src1 into AL */
-	    "div   %%bl            \n\t"	/* divide AL by BL */
-	    "mov   %%al, (%%rdi)   \n\t"	/* move a byte result to Dest */
-	    "3: inc %%rdx          \n\t"	/* increment Src1, Src2, Dest */
-	    "inc %%rsi \n\t"		/* pointer registers by one */
-	    "inc %%rdi \n\t"
-	    "dec %%rcx \n\t"		/* decrease loop counter */
-	    "jnz 1b    \n\t"		/* check loop termination, proceed if required */
-	    : "+d" (Src1),		/* load Src1 address into edx */
-	    "+S" (Src2),		/* load Src2 address into esi */
-	    "+c" (SrcLength),	/* load loop counter (SIZE) into ecx */
-	    "+D" (Dest)		/* load Dest address into edi */
-	    :
-	    : "memory", "rax", "rbx"
+		".align 16     \n\t"		/* 16 byte alignment of the loop entry */
+		"1: mov (%%rsi), %%bl  \n\t"	/* load a byte from Src2 */
+		"cmp       $0, %%bl    \n\t"	/* check if it zero */
+		"jnz 2f                \n\t"
+		"movb  $255, (%%rdi)   \n\t"	/* division by zero = 255 !!! */
+		"jmp 3f                \n\t"
+		"2: xor %%ah, %%ah     \n\t"	/* prepare AX, zero AH register */
+		"mov   (%%rdx), %%al   \n\t"	/* load a byte from Src1 into AL */
+		"div   %%bl            \n\t"	/* divide AL by BL */
+		"mov   %%al, (%%rdi)   \n\t"	/* move a byte result to Dest */
+		"3: inc %%rdx          \n\t"	/* increment Src1, Src2, Dest */
+		"inc %%rsi \n\t"		/* pointer registers by one */
+		"inc %%rdi \n\t"
+		"dec %%rcx \n\t"		/* decrease loop counter */
+		"jnz 1b    \n\t"		/* check loop termination, proceed if required */
+		: "+d" (Src1),		/* load Src1 address into edx */
+		"+S" (Src2),		/* load Src2 address into esi */
+		"+c" (SrcLength),	/* load loop counter (SIZE) into ecx */
+		"+D" (Dest)		/* load Dest address into edi */
+		:
+		: "memory", "rax", "rbx"
 #  endif
 	);
 #endif
@@ -1946,7 +1946,7 @@ int SDL_imageFilterAddUint(unsigned char *Src1, unsigned char *Dest, unsigned in
 \return Returns 0 for success or -1 for error.
 */
 static int SDL_imageFilterAddByteToHalfMMX(unsigned char *Src1, unsigned char *Dest, unsigned int SrcLength, unsigned char C,
-        unsigned char *Mask) {
+		unsigned char *Mask) {
 #ifdef USE_MMX
 #if !defined(GCC__)
 	__asm {
@@ -2343,7 +2343,7 @@ int SDL_imageFilterSubUint(unsigned char *Src1, unsigned char *Dest, unsigned in
 \return Returns 0 for success or -1 for error.
 */
 static int SDL_imageFilterShiftRightMMX(unsigned char *Src1, unsigned char *Dest, unsigned int SrcLength, unsigned char N,
-                                        unsigned char *Mask) {
+						    unsigned char *Mask) {
 #ifdef USE_MMX
 #if !defined(GCC__)
 	__asm {
@@ -2792,7 +2792,7 @@ int SDL_imageFilterMultByByte(unsigned char *Src1, unsigned char *Dest, unsigned
 \return Returns 0 for success or -1 for error.
 */
 static int SDL_imageFilterShiftRightAndMultByByteMMX(unsigned char *Src1, unsigned char *Dest, unsigned int SrcLength, unsigned char N,
-        unsigned char C) {
+		unsigned char C) {
 #ifdef USE_MMX
 #if !defined(GCC__)
 	__asm {
@@ -2876,7 +2876,7 @@ static int SDL_imageFilterShiftRightAndMultByByteMMX(unsigned char *Src1, unsign
 \return Returns 0 for success or -1 for error.
 */
 int SDL_imageFilterShiftRightAndMultByByte(unsigned char *Src1, unsigned char *Dest, unsigned int length, unsigned char N,
-        unsigned char C) {
+		unsigned char C) {
 	unsigned int i, istart;
 	int iC;
 	unsigned char *cursrc1;
@@ -2948,7 +2948,7 @@ int SDL_imageFilterShiftRightAndMultByByte(unsigned char *Src1, unsigned char *D
 \return Returns 0 for success or -1 for error.
 */
 static int SDL_imageFilterShiftLeftByteMMX(unsigned char *Src1, unsigned char *Dest, unsigned int SrcLength, unsigned char N,
-        unsigned char *Mask) {
+		unsigned char *Mask) {
 #ifdef USE_MMX
 #if !defined(GCC__)
 	__asm {
@@ -3515,7 +3515,7 @@ int SDL_imageFilterBinarizeUsingThreshold(unsigned char *Src1, unsigned char *De
 \return Returns 0 for success or -1 for error.
 */
 static int SDL_imageFilterClipToRangeMMX(unsigned char *Src1, unsigned char *Dest, unsigned int SrcLength, unsigned char Tmin,
-        unsigned char Tmax) {
+		unsigned char Tmax) {
 #ifdef USE_MMX
 #if !defined(GCC__)
 	__asm {
@@ -3609,7 +3609,7 @@ static int SDL_imageFilterClipToRangeMMX(unsigned char *Src1, unsigned char *Des
 \return Returns 0 for success or -1 for error.
 */
 int SDL_imageFilterClipToRange(unsigned char *Src1, unsigned char *Dest, unsigned int length, unsigned char Tmin,
-                               unsigned char Tmax) {
+					 unsigned char Tmax) {
 	unsigned int i, istart;
 	unsigned char *cursrc1;
 	unsigned char *curdest;
@@ -3678,7 +3678,7 @@ int SDL_imageFilterClipToRange(unsigned char *Src1, unsigned char *Dest, unsigne
 \return Returns 0 for success or -1 for error.
 */
 static int SDL_imageFilterNormalizeLinearMMX(unsigned char *Src1, unsigned char *Dest, unsigned int SrcLength, int Cmin, int Cmax,
-        int Nmin, int Nmax) {
+		int Nmin, int Nmax) {
 #ifdef USE_MMX
 #if !defined(GCC__)
 	__asm {
@@ -3824,7 +3824,7 @@ static int SDL_imageFilterNormalizeLinearMMX(unsigned char *Src1, unsigned char 
 \return Returns 0 for success or -1 for error.
 */
 int SDL_imageFilterNormalizeLinear(unsigned char *Src, unsigned char *Dest, unsigned int length, int Cmin, int Cmax, int Nmin,
-                                   int Nmax) {
+					     int Nmax) {
 	unsigned int i, istart;
 	unsigned char *cursrc;
 	unsigned char *curdest;
@@ -3894,7 +3894,7 @@ Note: Non-MMX implementation not available for this function.
 \return Returns 1 if filter was applied, 0 otherwise.
 */
 int SDL_imageFilterConvolveKernel3x3Divide(unsigned char *Src, unsigned char *Dest, int rows, int columns,
-        signed short *Kernel, unsigned char Divisor) {
+		signed short *Kernel, unsigned char Divisor) {
 	/* Validate input parameters */
 	if ((Src == NULL) || (Dest == NULL) || (Kernel == NULL))
 		return(-1);
@@ -4082,7 +4082,7 @@ Note: Non-MMX implementation not available for this function.
 \return Returns 1 if filter was applied, 0 otherwise.
 */
 int SDL_imageFilterConvolveKernel5x5Divide(unsigned char *Src, unsigned char *Dest, int rows, int columns,
-        signed short *Kernel, unsigned char Divisor) {
+		signed short *Kernel, unsigned char Divisor) {
 	/* Validate input parameters */
 	if ((Src == NULL) || (Dest == NULL) || (Kernel == NULL))
 		return(-1);
@@ -4383,7 +4383,7 @@ Note: Non-MMX implementation not available for this function.
 \return Returns 1 if filter was applied, 0 otherwise.
 */
 int SDL_imageFilterConvolveKernel7x7Divide(unsigned char *Src, unsigned char *Dest, int rows, int columns,
-        signed short *Kernel, unsigned char Divisor) {
+		signed short *Kernel, unsigned char Divisor) {
 	/* Validate input parameters */
 	if ((Src == NULL) || (Dest == NULL) || (Kernel == NULL))
 		return(-1);
@@ -4738,7 +4738,7 @@ Note: Non-MMX implementation not available for this function.
 \return Returns 1 if filter was applied, 0 otherwise.
 */
 int SDL_imageFilterConvolveKernel9x9Divide(unsigned char *Src, unsigned char *Dest, int rows, int columns,
-        signed short *Kernel, unsigned char Divisor) {
+		signed short *Kernel, unsigned char Divisor) {
 	/* Validate input parameters */
 	if ((Src == NULL) || (Dest == NULL) || (Kernel == NULL))
 		return(-1);
@@ -5284,7 +5284,7 @@ Note: Non-MMX implementation not available for this function.
 \return Returns 1 if filter was applied, 0 otherwise.
 */
 int SDL_imageFilterConvolveKernel3x3ShiftRight(unsigned char *Src, unsigned char *Dest, int rows, int columns,
-        signed short *Kernel, unsigned char NRightShift) {
+		signed short *Kernel, unsigned char NRightShift) {
 	/* Validate input parameters */
 	if ((Src == NULL) || (Dest == NULL) || (Kernel == NULL))
 		return(-1);
@@ -5459,7 +5459,7 @@ Note: Non-MMX implementation not available for this function.
 \return Returns 1 if filter was applied, 0 otherwise.
 */
 int SDL_imageFilterConvolveKernel5x5ShiftRight(unsigned char *Src, unsigned char *Dest, int rows, int columns,
-        signed short *Kernel, unsigned char NRightShift) {
+		signed short *Kernel, unsigned char NRightShift) {
 	/* Validate input parameters */
 	if ((Src == NULL) || (Dest == NULL) || (Kernel == NULL))
 		return(-1);
@@ -5758,7 +5758,7 @@ Note: Non-MMX implementation not available for this function.
 \return Returns 1 if filter was applied, 0 otherwise.
 */
 int SDL_imageFilterConvolveKernel7x7ShiftRight(unsigned char *Src, unsigned char *Dest, int rows, int columns,
-        signed short *Kernel, unsigned char NRightShift) {
+		signed short *Kernel, unsigned char NRightShift) {
 	/* Validate input parameters */
 	if ((Src == NULL) || (Dest == NULL) || (Kernel == NULL))
 		return(-1);
@@ -6119,7 +6119,7 @@ Note: Non-MMX implementation not available for this function.
 \return Returns 1 if filter was applied, 0 otherwise.
 */
 int SDL_imageFilterConvolveKernel9x9ShiftRight(unsigned char *Src, unsigned char *Dest, int rows, int columns,
-        signed short *Kernel, unsigned char NRightShift) {
+		signed short *Kernel, unsigned char NRightShift) {
 	/* Validate input parameters */
 	if ((Src == NULL) || (Dest == NULL) || (Kernel == NULL))
 		return(-1);
@@ -6948,7 +6948,7 @@ Note: Non-MMX implementation not available for this function.
 \return Returns 1 if filter was applied, 0 otherwise.
 */
 int SDL_imageFilterSobelXShiftRight(unsigned char *Src, unsigned char *Dest, int rows, int columns,
-                                    unsigned char NRightShift) {
+						unsigned char NRightShift) {
 	/* Validate input parameters */
 	if ((Src == NULL) || (Dest == NULL))
 		return(-1);
@@ -7233,12 +7233,12 @@ void SDL_imageFilterAlignStack(void) {
 #else
 	asm volatile
 	(				/* --- stack alignment --- */
-	    "mov       %%esp, %%ebx \n\t"	/* load ESP into EBX */
-	    "sub          $4, %%ebx \n\t"	/* reserve space on stack for old value of ESP */
-	    "and        $-32, %%ebx \n\t"	/* align EBX along a 32 byte boundary */
-	    "mov     %%esp, (%%ebx) \n\t"	/* save old value of ESP in stack, behind the bndry */
-	    "mov       %%ebx, %%esp \n\t"	/* align ESP along a 32 byte boundary */
-	    ::);
+		"mov       %%esp, %%ebx \n\t"	/* load ESP into EBX */
+		"sub          $4, %%ebx \n\t"	/* reserve space on stack for old value of ESP */
+		"and        $-32, %%ebx \n\t"	/* align EBX along a 32 byte boundary */
+		"mov     %%esp, (%%ebx) \n\t"	/* save old value of ESP in stack, behind the bndry */
+		"mov       %%ebx, %%esp \n\t"	/* align ESP along a 32 byte boundary */
+		::);
 #endif
 #endif
 }
@@ -7257,9 +7257,9 @@ void SDL_imageFilterRestoreStack(void) {
 #else
 	asm volatile
 	(				/* --- restoring old stack --- */
-	    "mov     (%%esp), %%ebx \n\t"	/* load old value of ESP */
-	    "mov       %%ebx, %%esp \n\t"	/* restore old value of ESP */
-	    ::);
+		"mov     (%%esp), %%ebx \n\t"	/* load old value of ESP */
+		"mov       %%ebx, %%esp \n\t"	/* restore old value of ESP */
+		::);
 #endif
 #endif
 }

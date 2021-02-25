@@ -6,9 +6,9 @@
 
 #IncludeRegexTransform: 
 
-/home/nikita/c++/hagen/src/SDL_FontCache/SDL_FontCache.c
+/home/nikita/cpp/hagen-engine/src/SDL_FontCache/SDL_FontCache.c
 SDL_FontCache.h
-/home/nikita/c++/hagen/src/SDL_FontCache/SDL_FontCache.h
+/home/nikita/cpp/hagen-engine/src/SDL_FontCache/SDL_FontCache.h
 stdio.h
 -
 stdlib.h
@@ -16,13 +16,13 @@ stdlib.h
 string.h
 -
 
-/home/nikita/c++/hagen/src/SDL_FontCache/SDL_FontCache.h
+/home/nikita/cpp/hagen-engine/src/SDL_FontCache/SDL_FontCache.h
 SDL.h
-/home/nikita/c++/hagen/src/SDL_FontCache/SDL.h
+/home/nikita/cpp/hagen-engine/src/SDL_FontCache/SDL.h
 SDL_ttf.h
-/home/nikita/c++/hagen/src/SDL_FontCache/SDL_ttf.h
+/home/nikita/cpp/hagen-engine/src/SDL_FontCache/SDL_ttf.h
 SDL_gpu.h
-/home/nikita/c++/hagen/src/SDL_FontCache/SDL_gpu.h
+/home/nikita/cpp/hagen-engine/src/SDL_FontCache/SDL_gpu.h
 stdarg.h
 -
 

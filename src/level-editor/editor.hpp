@@ -40,7 +40,7 @@ void init();
 void save();
 void open();
 void save_as();
-void save_entity();
+void save_only_physic();
 std::string get_save_path(std::string path);
 std::string get_open_path(std::string path);
 std::string get_folder_path(std::string path);

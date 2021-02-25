@@ -13,7 +13,7 @@ struct Level {
 	std::vector<Joint*>joints;
 	Point start= {3,3,"_start"};
 	Point end{5,3,"_end"};
-	bool save_file(std::string path);
+	bool save_file(std::string path,bool all);
 	bool open_file(std::string path);
 	void save_joints(XMLNode&);
 	void load_joints(XMLNode&);

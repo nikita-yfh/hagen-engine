@@ -45,6 +45,6 @@ b2EdgeAndPolygonContact::b2EdgeAndPolygonContact(b2Fixture* fixtureA, b2Fixture*
 
 void b2EdgeAndPolygonContact::Evaluate(b2Manifold* manifold, const b2Transform& xfA, const b2Transform& xfB) {
 	b2CollideEdgeAndPolygon(	manifold,
-	                            (b2EdgeShape*)m_fixtureA->GetShape(), xfA,
-	                            (b2PolygonShape*)m_fixtureB->GetShape(), xfB);
+						(b2EdgeShape*)m_fixtureA->GetShape(), xfA,
+						(b2PolygonShape*)m_fixtureB->GetShape(), xfB);
 }

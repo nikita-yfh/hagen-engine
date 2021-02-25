@@ -151,11 +151,11 @@ However, we can compute sin+cos of the same angle fast.
 */
 
 b2Island::b2Island(
-    int32 bodyCapacity,
-    int32 contactCapacity,
-    int32 jointCapacity,
-    b2StackAllocator* allocator,
-    b2ContactListener* listener) {
+	int32 bodyCapacity,
+	int32 contactCapacity,
+	int32 jointCapacity,
+	b2StackAllocator* allocator,
+	b2ContactListener* listener) {
 	m_bodyCapacity = bodyCapacity;
 	m_contactCapacity = contactCapacity;
 	m_jointCapacity	 = jointCapacity;
@@ -343,8 +343,8 @@ void b2Island::Solve(b2Profile* profile, const b2TimeStep& step, const b2Vec2& g
 			}
 
 			if ((b->m_flags & b2Body::e_autoSleepFlag) == 0 ||
-			        b->m_angularVelocity * b->m_angularVelocity > angTolSqr ||
-			        b2Dot(b->m_linearVelocity, b->m_linearVelocity) > linTolSqr) {
+					b->m_angularVelocity * b->m_angularVelocity > angTolSqr ||
+					b2Dot(b->m_linearVelocity, b->m_linearVelocity) > linTolSqr) {
 				b->m_sleepTime = 0.0f;
 				minSleepTime = 0.0f;
 			} else {

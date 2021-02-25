@@ -353,10 +353,10 @@ void b2World::Solve(const b2TimeStep& step) {
 
 	// Size the island for the worst case.
 	b2Island island(m_bodyCount,
-	                m_contactManager.m_contactCount,
-	                m_jointCount,
-	                &m_stackAllocator,
-	                m_contactManager.m_contactListener);
+			    m_contactManager.m_contactCount,
+			    m_jointCount,
+			    &m_stackAllocator,
+			    m_contactManager.m_contactListener);
 
 	// Clear all the island flags.
 	for (b2Body* b = m_bodyList; b; b = b->m_next) {
@@ -419,7 +419,7 @@ void b2World::Solve(const b2TimeStep& step) {
 
 				// Is this contact solid and touching?
 				if (contact->IsEnabled() == false ||
-				        contact->IsTouching() == false) {
+						contact->IsTouching() == false) {
 					continue;
 				}
 
@@ -701,7 +701,7 @@ void b2World::SolveTOI(const b2TimeStep& step) {
 					// Only add static, kinematic, or bullet bodies.
 					b2Body* other = ce->other;
 					if (other->m_type == b2_dynamicBody &&
-					        body->IsBullet() == false && other->IsBullet() == false) {
+							body->IsBullet() == false && other->IsBullet() == false) {
 						continue;
 					}
 

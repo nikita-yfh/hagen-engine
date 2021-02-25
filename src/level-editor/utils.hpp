@@ -20,7 +20,7 @@ void ins_text(GtkWidget *table,GtkWidget *child, int pos);
 void ins_widget(GtkWidget *table,GtkWidget *child, int pos);
 void ins_widget2(GtkWidget *table,GtkWidget *child, int pos);
 std::string lower(std::string);
-void set_status(int context,char* text);
+void set_status(int context,const char* text);
 void remove_status(int context);
 float vec_angle1(float x,float y);
 float vec_angle2(float x,float y);

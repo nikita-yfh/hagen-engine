@@ -38,8 +38,8 @@
 #include <new>
 
 void b2LinearStiffness(float& stiffness, float& damping,
-                       float frequencyHertz, float dampingRatio,
-                       const b2Body* bodyA, const b2Body* bodyB) {
+			     float frequencyHertz, float dampingRatio,
+			     const b2Body* bodyA, const b2Body* bodyB) {
 	float massA = bodyA->GetMass();
 	float massB = bodyB->GetMass();
 	float mass;
@@ -57,8 +57,8 @@ void b2LinearStiffness(float& stiffness, float& damping,
 }
 
 void b2AngularStiffness(float& stiffness, float& damping,
-                        float frequencyHertz, float dampingRatio,
-                        const b2Body* bodyA, const b2Body* bodyB) {
+				float frequencyHertz, float dampingRatio,
+				const b2Body* bodyA, const b2Body* bodyB) {
 	float IA = bodyA->GetInertia();
 	float IB = bodyB->GetInertia();
 	float I;

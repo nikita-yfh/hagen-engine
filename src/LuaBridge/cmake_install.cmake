@@ -1,4 +1,4 @@
-# Install script for directory: /home/nikita/c++/hagen/src/LuaBridge
+# Install script for directory: /home/nikita/cpp/hagen-engine/src/LuaBridge
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

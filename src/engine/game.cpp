@@ -8,7 +8,7 @@
 #include "sdl.hpp"
 bool game() {
 	bool run=1;
-    int fps=SDL_GetTicks();
+	int fps=SDL_GetTicks();
 	while(run) {
 		SDL_PollEvent(&e);
 		switch(e.type) {
@@ -16,8 +16,8 @@ bool game() {
 			run=0;
 			break;
 		case SDL_WINDOWEVENT:
-            SDL_GetWindowSize(window,&SW,&SH);
-            break;
+			SDL_GetWindowSize(window,&SW,&SH);
+			break;
 		}
 		draw();
 		SDL_Delay(1);

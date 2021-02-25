@@ -6,9 +6,9 @@
 
 #IncludeRegexTransform: 
 
-/home/nikita/c++/hagen/src/XMLParser/xmlParser.cpp
+/home/nikita/cpp/hagen-engine/src/XMLParser/xmlParser.cpp
 xmlParser.h
-/home/nikita/c++/hagen/src/XMLParser/xmlParser.h
+/home/nikita/cpp/hagen-engine/src/XMLParser/xmlParser.h
 Windows.h
 -
 memory.h
@@ -28,7 +28,7 @@ wctype.h
 widec.h
 -
 
-/home/nikita/c++/hagen/src/XMLParser/xmlParser.h
+/home/nikita/cpp/hagen-engine/src/XMLParser/xmlParser.h
 stdlib.h
 -
 tchar.h

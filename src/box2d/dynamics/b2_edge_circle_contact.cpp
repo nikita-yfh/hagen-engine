@@ -45,6 +45,6 @@ b2EdgeAndCircleContact::b2EdgeAndCircleContact(b2Fixture* fixtureA, b2Fixture* f
 
 void b2EdgeAndCircleContact::Evaluate(b2Manifold* manifold, const b2Transform& xfA, const b2Transform& xfB) {
 	b2CollideEdgeAndCircle(	manifold,
-	                        (b2EdgeShape*)m_fixtureA->GetShape(), xfA,
-	                        (b2CircleShape*)m_fixtureB->GetShape(), xfB);
+					(b2EdgeShape*)m_fixtureA->GetShape(), xfA,
+					(b2CircleShape*)m_fixtureB->GetShape(), xfB);
 }

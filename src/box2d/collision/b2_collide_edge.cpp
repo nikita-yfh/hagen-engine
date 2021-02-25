@@ -29,8 +29,8 @@
 // Compute contact points for edge versus circle.
 // This accounts for edge connectivity.
 void b2CollideEdgeAndCircle(b2Manifold* manifold,
-                            const b2EdgeShape* edgeA, const b2Transform& xfA,
-                            const b2CircleShape* circleB, const b2Transform& xfB) {
+				    const b2EdgeShape* edgeA, const b2Transform& xfA,
+				    const b2CircleShape* circleB, const b2Transform& xfB) {
 	manifold->pointCount = 0;
 
 	// Compute circle in frame of edge
@@ -243,8 +243,8 @@ static b2EPAxis b2ComputePolygonSeparation(const b2TempPolygon& polygonB, const 
 }
 
 void b2CollideEdgeAndPolygon(b2Manifold* manifold,
-                             const b2EdgeShape* edgeA, const b2Transform& xfA,
-                             const b2PolygonShape* polygonB, const b2Transform& xfB) {
+				     const b2EdgeShape* edgeA, const b2Transform& xfA,
+				     const b2PolygonShape* polygonB, const b2Transform& xfB) {
 	manifold->pointCount = 0;
 
 	b2Transform xf = b2MulT(xfA, xfB);

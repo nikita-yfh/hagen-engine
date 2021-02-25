@@ -1,4 +1,4 @@
-# Install script for directory: /home/nikita/c++/hagen/src/box2d
+# Install script for directory: /home/nikita/cpp/hagen-engine/src/box2d
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

@@ -269,25 +269,25 @@ char *myWideCharToMultiByte(const wchar_t *s) {
 	UINT codePage=CP_ACP;
 	if (characterEncoding==XMLNode::char_encoding_UTF8) codePage=CP_UTF8;
 	int i=(int)WideCharToMultiByte(codePage,  // code page
-	                               0,                       // performance and mapping flags
-	                               s,                       // wide-character string
-	                               -1,                       // number of chars in string
-	                               NULL,                       // buffer for new string
-	                               0,                       // size of buffer
-	                               NULL,                    // default for unmappable chars
-	                               NULL                     // set when default char used
-	                              );
+						 0,                       // performance and mapping flags
+						 s,                       // wide-character string
+						 -1,                       // number of chars in string
+						 NULL,                       // buffer for new string
+						 0,                       // size of buffer
+						 NULL,                    // default for unmappable chars
+						 NULL                     // set when default char used
+						);
 	if (i<0) return NULL;
 	char *d=(char*)malloc(i+1);
 	WideCharToMultiByte(codePage,  // code page
-	                    0,                       // performance and mapping flags
-	                    s,                       // wide-character string
-	                    -1,                       // number of chars in string
-	                    d,                       // buffer for new string
-	                    i,                       // size of buffer
-	                    NULL,                    // default for unmappable chars
-	                    NULL                     // set when default char used
-	                   );
+				  0,                       // performance and mapping flags
+				  s,                       // wide-character string
+				  -1,                       // number of chars in string
+				  d,                       // buffer for new string
+				  i,                       // size of buffer
+				  NULL,                    // default for unmappable chars
+				  NULL                     // set when default char used
+				 );
 	d[i]=0;
 	return d;
 }
@@ -540,7 +540,7 @@ XMLCHAR xmltoc(XMLCSTR t,const XMLCHAR v) {
 
 // Since each application has its own way to report and deal with errors, you should modify & rewrite
 // the following "openFileHelper" function to get an "error reporting mechanism" tailored to your needs.
-XMLNode XMLNode::openFileHelper(XMLCSTR filename, XMLCSTR tag) {
+XMLNode XMLNode::openFileHelper(XMLCSTR filename, XMLCSTR tag,bool th) {
 	// guess the value of the global parameter "characterEncoding"
 	// (the guess is based on the first 200 bytes of the file).
 	FILE *f=xfopen(filename,_CXML("rb"));
@@ -571,12 +571,12 @@ XMLNode XMLNode::openFileHelper(XMLCSTR filename, XMLCSTR tag) {
 		snprintf(message,2000,
 #endif
 #ifdef _XMLWIDECHAR
-		          "XML Parsing error inside file '%S'.\n%S\nAt line %i, column %i.\n%s%S%s"
+			    "XML Parsing error inside file '%S'.\n%S\nAt line %i, column %i.\n%s%S%s"
 #else
-		          "XML Parsing error inside file '%s'.\n%s\nAt line %i, column %i.\n%s%s%s"
+			    "XML Parsing error inside file '%s'.\n%s\nAt line %i, column %i.\n%s%s%s"
 #endif
-		          ,filename,XMLNode::getError(pResults.error),pResults.nLine,pResults.nColumn,s1,s2,s3);
-        throw (std::string)message;
+			    ,filename,XMLNode::getError(pResults.error),pResults.nLine,pResults.nColumn,s1,s2,s3);
+		if(th)throw (std::string)message;
 	}
 	return xnode;
 }
@@ -745,7 +745,7 @@ XMLError XMLNode::writeToFile(XMLCSTR filename, const char *encoding, char nForm
 	if ((!isDeclaration())&&((d->lpszName)||(!getChildNode().isDeclaration()))) {
 		if (!fwrite(L"<?xml version=\"1.0\" encoding=\"utf-16\"?>\n",sizeof(wchar_t)*40,1,f)) {
 			fclose(f);
-            throw eXMLErrorCannotWriteFile;
+			throw eXMLErrorCannotWriteFile;
 		}
 	}
 #else
@@ -755,7 +755,7 @@ XMLError XMLNode::writeToFile(XMLCSTR filename, const char *encoding, char nForm
 			unsigned char h[3]= {0xEF,0xBB,0xBF};
 			if (!fwrite(h,3,1,f)) {
 				fclose(f);
-                throw eXMLErrorCannotWriteFile;
+				throw eXMLErrorCannotWriteFile;
 			}
 			encoding="utf-8";
 		} else if (characterEncoding==char_encoding_ShiftJIS) encoding="SHIFT-JIS";
@@ -763,14 +763,14 @@ XMLError XMLNode::writeToFile(XMLCSTR filename, const char *encoding, char nForm
 		if (!encoding) encoding="ISO-8859-1";
 		if (fprintf(f,"<?xml version=\"1.0\" encoding=\"%s\"?>\n",encoding)<0) {
 			fclose(f);
-            throw eXMLErrorCannotWriteFile;
+			throw eXMLErrorCannotWriteFile;
 		}
 	} else {
 		if (characterEncoding==char_encoding_UTF8) {
 			unsigned char h[3]= {0xEF,0xBB,0xBF};
 			if (!fwrite(h,3,1,f)) {
 				fclose(f);
-            throw eXMLErrorCannotWriteFile;
+				throw eXMLErrorCannotWriteFile;
 			}
 		}
 	}
@@ -1073,10 +1073,10 @@ char myTagCompare(XMLCSTR cclose, XMLCSTR copen)
 	if (xstrnicmp(cclose, copen, l)!=0) return 1;
 	const XMLCHAR c=copen[l];
 	if (XML_isSPACECHAR(c)||
-	        (c==_CXML('/' ))||
-	        (c==_CXML('<' ))||
-	        (c==_CXML('>' ))||
-	        (c==_CXML('=' ))) return 0;
+			(c==_CXML('/' ))||
+			(c==_CXML('<' ))||
+			(c==_CXML('>' ))||
+			(c==_CXML('=' ))) return 0;
 	return 1;
 }
 
@@ -1601,7 +1601,7 @@ int XMLNode::ParseXMLElement(void *pa) {
 
 #ifdef APPROXIMATE_PARSING
 					if (d->lpszName &&
-					        myTagCompare(d->lpszName, token.pStr) == 0) {
+							myTagCompare(d->lpszName, token.pStr) == 0) {
 						// Indicate to the caller that it needs to create a
 						// new element.
 						pXML->lpNewElement = token.pStr;
@@ -1805,7 +1805,7 @@ int XMLNode::ParseXMLElement(void *pa) {
 						pXML->lpszText=pXML->lpXML+pXML->nIndex;
 
 						if (d->isDeclaration &&
-						        (lpszTemp[cbTemp-1]) == _CXML('?')) {
+								(lpszTemp[cbTemp-1]) == _CXML('?')) {
 							cbTemp--;
 							if (d->pParent && d->pParent->pParent) xtype = eTokenShortHandClose;
 						}
@@ -1858,7 +1858,7 @@ int XMLNode::ParseXMLElement(void *pa) {
 						// If we are a declaration element '<?' then we need
 						// to remove extra closing '?' if it exists
 						if (d->isDeclaration &&
-						        (token.pStr[cbToken-1]) == _CXML('?')) {
+								(token.pStr[cbToken-1]) == _CXML('?')) {
 							cbToken--;
 						}
 
@@ -2651,6 +2651,21 @@ int XMLNode::nChildNode(XMLCSTR name) const {
 	return j;
 }
 
+bool XMLNode::existChildNode(XMLCSTR name, int *j) const {
+	if (!d) return 0;
+	int i=0,n=d->nChild;
+	if (j) i=*j;
+	XMLNode *pc=d->pChild+i;
+	for (; i<n; i++) {
+		if (!xstricmp(pc->d->lpszName, name)) {
+			if (j) *j=i+1;
+			return 1;
+		}
+		pc++;
+	}
+	return 0;
+}
+
 XMLNode XMLNode::getChildNode(XMLCSTR name, int *j) const {
 	if (!d) throw eXMLErrorNoXMLTagFound;
 	int i=0,n=d->nChild;
@@ -2963,7 +2978,7 @@ XMLClear     *XMLNode::updateClear(XMLClear *newP,XMLClear *oldP) {
 }
 
 char XMLNode::setGlobalOptions(XMLCharEncoding _characterEncoding, char _guessWideCharChars,
-                               char _dropWhiteSpace, char _removeCommentsInMiddleOfText) {
+					 char _dropWhiteSpace, char _removeCommentsInMiddleOfText) {
 	guessWideCharChars=_guessWideCharChars;
 	dropWhiteSpace=_dropWhiteSpace;
 	removeCommentsInMiddleOfText=_removeCommentsInMiddleOfText;
@@ -3056,14 +3071,14 @@ XMLNode::XMLCharEncoding XMLNode::guessCharEncoding(void *buf,int l, char useXML
 	while XML_isSPACECHAR(*b) b++;
 
 	if ((xstrnicmp((char*)b,"utf-8",5)==0)||
-	        (xstrnicmp((char*)b,"utf8",4)==0)) {
+			(xstrnicmp((char*)b,"utf8",4)==0)) {
 		if (bestGuess==char_encoding_legacy) return char_encoding_error;
 		return char_encoding_UTF8;
 	}
 
 	if ((xstrnicmp((char*)b,"shiftjis",8)==0)||
-	        (xstrnicmp((char*)b,"shift-jis",9)==0)||
-	        (xstrnicmp((char*)b,"sjis",4)==0)) return char_encoding_ShiftJIS;
+			(xstrnicmp((char*)b,"shift-jis",9)==0)||
+			(xstrnicmp((char*)b,"sjis",4)==0)) return char_encoding_ShiftJIS;
 
 	if (xstrnicmp((char*)b,"GB2312",6)==0) return char_encoding_GB2312;
 	if (xstrnicmp((char*)b,"Big5",4)==0) return char_encoding_Big5;

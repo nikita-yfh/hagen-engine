@@ -71,7 +71,7 @@ string lower(string source) {
 	}
 	return source;
 }
-void set_status(int context,char*text) {
+void set_status(int context,const char*text) {
 	gtk_statusbar_pop(GTK_STATUSBAR(status),context);
 	gtk_statusbar_push(GTK_STATUSBAR(status),context,text);
 }

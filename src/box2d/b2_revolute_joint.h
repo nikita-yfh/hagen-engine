@@ -129,12 +129,12 @@ public:
 	/// Set the joint limits in radians.
 	void SetLimits(float lower, float upper);
 
-	void SetUpperLimit(float val){
-        SetLimits(GetLowerLimit(),val);
+	void SetUpperLimit(float val) {
+		SetLimits(GetLowerLimit(),val);
 	}
 
-	void SetLowerLimit(float val){
-        SetLimits(val,GetUpperLimit());
+	void SetLowerLimit(float val) {
+		SetLimits(val,GetUpperLimit());
 	}
 
 	/// Is the joint motor enabled?

@@ -43,7 +43,7 @@ public:
 	/// @note because the circle is solid, rays that start inside do not hit because the normal is
 	/// not defined.
 	bool RayCast(b2RayCastOutput* output, const b2RayCastInput& input,
-	             const b2Transform& transform, int32 childIndex) const override;
+			 const b2Transform& transform, int32 childIndex) const override;
 
 	/// @see b2Shape::ComputeAABB
 	void ComputeAABB(b2AABB* aabb, const b2Transform& transform, int32 childIndex) const override;

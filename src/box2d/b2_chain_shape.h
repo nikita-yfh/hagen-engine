@@ -53,7 +53,7 @@ public:
 	/// @param prevVertex previous vertex from chain that connects to the start
 	/// @param nextVertex next vertex from chain that connects to the end
 	void CreateChain(const b2Vec2* vertices, int32 count,
-	                 const b2Vec2& prevVertex, const b2Vec2& nextVertex);
+			     const b2Vec2& prevVertex, const b2Vec2& nextVertex);
 
 	/// Implement b2Shape. Vertices are cloned using b2Alloc.
 	b2Shape* Clone(b2BlockAllocator* allocator) const override;
@@ -70,7 +70,7 @@ public:
 
 	/// Implement b2Shape.
 	bool RayCast(b2RayCastOutput* output, const b2RayCastInput& input,
-	             const b2Transform& transform, int32 childIndex) const override;
+			 const b2Transform& transform, int32 childIndex) const override;
 
 	/// @see b2Shape::ComputeAABB
 	void ComputeAABB(b2AABB* aabb, const b2Transform& transform, int32 childIndex) const override;

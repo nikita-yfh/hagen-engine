@@ -2,31 +2,36 @@
 #include "utils.hpp"
 using namespace std;
 Level level;
-bool Level::save_file(std::string path) {
+bool Level::save_file(std::string path,bool all) {
 	XMLNode Main=XMLNode::createXMLTopNode("xml",1);
 	Main.addAttribute("version","1.0");
 	Main.addAttribute("encoding","UTF-8");
 	{
 		//level
-		XMLNode lvl=Main.addChild("level");
-		lvl.addAttribute("w",w);
-		lvl.addAttribute("h",h);
-		{
-			//background
-			XMLNode bgr=lvl.addChild("background");
-			bgr.addAttribute("img",background.c_str());
-		}
-		{
-			//start
-			XMLNode st=lvl.addChild("start");
-			st.addAttribute("x",start.x);
-			st.addAttribute("y",start.y);
-		}
-		{
-			//end
-			XMLNode en=lvl.addChild("end");
-			en.addAttribute("x",end.x);
-			en.addAttribute("y",end.y);
+		XMLNode lvl;
+		if(all){
+			lvl=Main.addChild("level");
+			lvl.addAttribute("w",w);
+			lvl.addAttribute("h",h);
+			{
+				//background
+				XMLNode bgr=lvl.addChild("background");
+				bgr.addAttribute("img",background.c_str());
+			}
+			{
+				//start
+				XMLNode st=lvl.addChild("start");
+				st.addAttribute("x",start.x);
+				st.addAttribute("y",start.y);
+			}
+			{
+				//end
+				XMLNode en=lvl.addChild("end");
+				en.addAttribute("x",end.x);
+				en.addAttribute("y",end.y);
+			}
+		}else{
+			lvl=Main.addChild("physics");
 		}
 		{
 			//bodies
@@ -42,25 +47,32 @@ bool Level::save_file(std::string path) {
 	return 0;
 }
 bool Level::open_file(string path) {
-	XMLNode lvl=XMLNode::openFileHelper(path.c_str(),"level");
+	bool all=1;
+	XMLNode lvl=XMLNode::openFileHelper(path.c_str(),"level",0);
+	if(lvl.isEmpty()){
+		lvl=XMLNode::openFileHelper(path.c_str(),"physics");
+		all=0;
+	}
 	w=stoi(lvl.getAttribute("w"));
 	h=stoi(lvl.getAttribute("h"));
-	{
-		//backgroung
-		XMLNode bgr=lvl.getChildNode("background");
-		background=bgr.getAttribute("img");
-	}
-	{
-		//start
-		XMLNode bgr=lvl.getChildNode("start");
-		start.x=to_fl(bgr.getAttribute("x"));
-		start.y=to_fl(bgr.getAttribute("y"));
-	}
-	{
-		//end
-		XMLNode bgr=lvl.getChildNode("end");
-		end.x=to_fl(bgr.getAttribute("x"));
-		end.y=to_fl(bgr.getAttribute("y"));
+	if(all){
+		{
+			//backgroung
+			XMLNode bgr=lvl.getChildNode("background");
+			background=bgr.getAttribute("img");
+		}
+		{
+			//start
+			XMLNode bgr=lvl.getChildNode("start");
+			start.x=to_fl(bgr.getAttribute("x"));
+			start.y=to_fl(bgr.getAttribute("y"));
+		}
+		{
+			//end
+			XMLNode bgr=lvl.getChildNode("end");
+			end.x=to_fl(bgr.getAttribute("x"));
+			end.y=to_fl(bgr.getAttribute("y"));
+		}
 	}
 	{
 		//bodies
@@ -78,10 +90,10 @@ bool Level::open_file(string path) {
 	load_joints(lvl);
 	return 0;
 }
-void Level::save_joints(XMLNode &lvl){
+void Level::save_joints(XMLNode &lvl) {
 	XMLNode jall=lvl.addChild("joints");
 	jall.addAttribute("count",joints.size());
-	for(Joint *j : joints){
+	for(Joint *j : joints) {
 		XMLNode jnode=jall.addChild("joint");
 		jnode.addAttribute("type",j->name());
 		jnode.addAttribute("id",j->id);
@@ -93,27 +105,27 @@ void Level::save_joints(XMLNode &lvl){
 		}
 		XMLNode pos=jnode.addChild("position");
 		XMLNode phs=jnode.addChild("physic");
-		if(j->name()=="WeldJoint"){
+		if(j->name()=="WeldJoint") {
 			WeldJoint *joint=TYPE(WeldJoint*,j);
 			pos.addAttribute("x",joint->x);
 			pos.addAttribute("y",joint->y);
 			phs.addAttribute("stiffness",joint->stiffness);
 			phs.addAttribute("damping",joint->damping);
-		}else if(j->name()=="RevoluteJoint"){
+		} else if(j->name()=="RevoluteJoint") {
 			RevoluteJoint *joint=TYPE(RevoluteJoint*,j);
 			pos.addAttribute("x",joint->x);
 			pos.addAttribute("y",joint->y);
 			phs.addAttribute("limit",joint->limit);
-			if(joint->limit){
+			if(joint->limit) {
 				phs.addAttribute("lower",joint->lower);
 				phs.addAttribute("upper",joint->upper);
 			}
 			phs.addAttribute("motor",joint->motor);
-			if(joint->motor){
+			if(joint->motor) {
 				phs.addAttribute("speed",joint->speed);
 				phs.addAttribute("max_torque",joint->torque);
 			}
-		}else if(j->name()=="DistanceJoint"){
+		} else if(j->name()=="DistanceJoint") {
 			DistanceJoint *joint=TYPE(DistanceJoint*,j);
 			pos.addAttribute("x1",joint->x1);
 			pos.addAttribute("y1",joint->y1);
@@ -123,7 +135,7 @@ void Level::save_joints(XMLNode &lvl){
 			pos.addAttribute("max",joint->max);
 			phs.addAttribute("stiffness",joint->stiffness);
 			phs.addAttribute("damping",joint->damping);
-		}else if(j->name()=="PulleyJoint"){
+		} else if(j->name()=="PulleyJoint") {
 			PulleyJoint *joint=TYPE(PulleyJoint*,j);
 			pos.addAttribute("x1",joint->x1);
 			pos.addAttribute("y1",joint->y1);
@@ -134,82 +146,82 @@ void Level::save_joints(XMLNode &lvl){
 			pos.addAttribute("x4",joint->x4);
 			pos.addAttribute("y4",joint->y4);
 			phs.addAttribute("ratio",joint->ratio);
-		}else if(j->name()=="PrismaticJoint"){
+		} else if(j->name()=="PrismaticJoint") {
 			PrismaticJoint *joint=TYPE(PrismaticJoint*,j);
 			pos.addAttribute("x",joint->x);
 			pos.addAttribute("y",joint->y);
 			pos.addAttribute("angle",joint->angle);
 			phs.addAttribute("limit",joint->limit);
-			if(joint->limit){
+			if(joint->limit) {
 				phs.addAttribute("lower",joint->lower);
 				phs.addAttribute("upper",joint->upper);
 			}
 			phs.addAttribute("motor",joint->motor);
-			if(joint->motor){
+			if(joint->motor) {
 				phs.addAttribute("speed",joint->speed);
 				phs.addAttribute("max_force",joint->force);
 			}
-		}else if(j->name()=="GearJoint"){
+		} else if(j->name()=="GearJoint") {
 			GearJoint *joint=TYPE(GearJoint*,j);
 			phs.addAttribute("ratio",joint->ratio);
 		}
 	}
 }
-void Level::load_joints(XMLNode &lvl){
+void Level::load_joints(XMLNode &lvl) {
 	XMLNode jall=lvl.getChildNode("joints");
 	int joints_count=stoi(jall.getAttribute("count"));
-	for(int q=0;q<joints.size();q++)
+	for(int q=0; q<joints.size(); q++)
 		delete joints[q];
 	joints.resize(joints_count);
-	for(int q=0;q<joints_count;q++){
+	for(int q=0; q<joints_count; q++) {
 		XMLNode node=jall.getChildNode("joint",q);
 		XMLNode pos=node.getChildNode("position");
 		XMLNode phs=node.getChildNode("physic");
 		XMLNode con=node.getChildNode("connected");
 		string type=node.getAttribute("type");
-		if(type=="WeldJoint"){
+		if(type=="WeldJoint") {
 			WeldJoint *j=new WeldJoint;
 			j->x=to_fl(pos.getAttribute("x"));
 			j->y=to_fl(pos.getAttribute("y"));
 			j->stiffness=to_fl(phs.getAttribute("stiffness"));
 			j->damping=to_fl(phs.getAttribute("damping"));
 			joints[q]=j;
-		}else if(type=="RevoluteJoint"){
+		} else if(type=="RevoluteJoint") {
 			RevoluteJoint *j=new RevoluteJoint;
 			j->x=to_fl(pos.getAttribute("x"));
 			j->y=to_fl(pos.getAttribute("y"));
 			j->limit=stoi(phs.getAttribute("limit"));
 			j->motor=stoi(phs.getAttribute("motor"));
-			if(j->limit){
+			if(j->limit) {
 				j->lower=to_fl(phs.getAttribute("lower"));
 				j->upper=to_fl(phs.getAttribute("upper"));
 			}
-			if(j->motor){
+			if(j->motor) {
 				j->speed=to_fl(phs.getAttribute("speed"));
 				j->torque=to_fl(phs.getAttribute("max_torque"));
 			}
 			joints[q]=j;
-		}else if(type=="GearJoint"){
+		} else if(type=="GearJoint") {
 			GearJoint *j=new GearJoint;
 			j->ratio=to_fl(phs.getAttribute("ratio"));
 			joints[q]=j;
-		}else if(type=="PrismaticJoint"){
+		} else if(type=="PrismaticJoint") {
 			PrismaticJoint *j=new PrismaticJoint;
 			j->x=to_fl(pos.getAttribute("x"));
 			j->y=to_fl(pos.getAttribute("y"));
 			j->angle=to_fl(pos.getAttribute("angle"));
 			j->limit=stoi(phs.getAttribute("limit"));
 			j->motor=stoi(phs.getAttribute("motor"));
-			if(j->limit){
+			if(j->limit) {
 				j->lower=to_fl(phs.getAttribute("lower"));
 				j->upper=to_fl(phs.getAttribute("upper"));
 			}
-			if(j->motor){
+			if(j->motor) {
 				j->speed=to_fl(phs.getAttribute("speed"));
 				j->force=to_fl(phs.getAttribute("max_force"));
 			}
 			joints[q]=j;
-		}else if(type=="DistanceJoint"){
+		} else if(type=="DistanceJoint") {
 			DistanceJoint *j=new DistanceJoint;
 			j->x1=to_fl(pos.getAttribute("x1"));
 			j->y1=to_fl(pos.getAttribute("y1"));
@@ -220,7 +232,7 @@ void Level::load_joints(XMLNode &lvl){
 			j->stiffness=to_fl(phs.getAttribute("stiffness"));
 			j->damping=to_fl(phs.getAttribute("damping"));
 			joints[q]=j;
-		}else if(type=="PulleyJoint"){
+		} else if(type=="PulleyJoint") {
 			PulleyJoint *j=new PulleyJoint;
 			j->x1=to_fl(pos.getAttribute("x1"));
 			j->y1=to_fl(pos.getAttribute("y1"));

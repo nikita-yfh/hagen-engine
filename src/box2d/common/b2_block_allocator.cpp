@@ -171,7 +171,7 @@ void b2BlockAllocator::Free(void* p, int32 size) {
 		b2Chunk* chunk = m_chunks + i;
 		if (chunk->blockSize != blockSize) {
 			b2Assert(	(int8*)p + blockSize <= (int8*)chunk->blocks ||
-			            (int8*)chunk->blocks + b2_chunkSize <= (int8*)p);
+					(int8*)chunk->blocks + b2_chunkSize <= (int8*)p);
 		} else {
 			if ((int8*)chunk->blocks <= (int8*)p && (int8*)p + blockSize <= (int8*)chunk->blocks + b2_chunkSize) {
 				found = true;

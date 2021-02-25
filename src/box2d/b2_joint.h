@@ -97,13 +97,13 @@ struct b2JointDef {
 
 /// Utility to compute linear stiffness values from frequency and damping ratio
 void b2LinearStiffness(float& stiffness, float& damping,
-                       float frequencyHertz, float dampingRatio,
-                       const b2Body* bodyA, const b2Body* bodyB);
+			     float frequencyHertz, float dampingRatio,
+			     const b2Body* bodyA, const b2Body* bodyB);
 
 /// Utility to compute rotational stiffness values frequency and damping ratio
 void b2AngularStiffness(float& stiffness, float& damping,
-                        float frequencyHertz, float dampingRatio,
-                        const b2Body* bodyA, const b2Body* bodyB);
+				float frequencyHertz, float dampingRatio,
+				const b2Body* bodyA, const b2Body* bodyB);
 
 /// The base joint class. Joints are used to constraint two bodies together in
 /// various fashions. Some joints also feature limits and motors.
@@ -128,10 +128,10 @@ public:
 	/// Get the reaction torque on bodyB in N*m.
 	virtual float GetReactionTorque(float inv_dt) const = 0;
 
-	inline float GetReactionForceX(float inv_dt){
+	inline float GetReactionForceX(float inv_dt) {
 		return GetReactionForce(inv_dt).x;
 	}
-	inline float GetReactionForceY(float inv_dt){
+	inline float GetReactionForceY(float inv_dt) {
 		return GetReactionForce(inv_dt).y;
 	}
 
@@ -172,13 +172,13 @@ public:
 	virtual int IsMotorEnabled() const NOTSUPPORT;
 	virtual void EnableLimit(int flag) NOTSUPPORT;
 	virtual int IsLimitEnabled() const NOTSUPPORT;
-    virtual float GetLowerLimit() const NOTSUPPORT;
+	virtual float GetLowerLimit() const NOTSUPPORT;
 	virtual float GetUpperLimit() const NOTSUPPORT;
 	virtual void SetUpperLimit(float val) NOTSUPPORT;
 	virtual void SetLowerLimit(float val) NOTSUPPORT;
 	virtual float GetJointAngle() const NOTSUPPORT;
 	virtual float GetJointSpeed() const NOTSUPPORT;
-    virtual void SetMaxMotorTorque(float torque) NOTSUPPORT;
+	virtual void SetMaxMotorTorque(float torque) NOTSUPPORT;
 	virtual float GetMaxMotorTorque() const NOTSUPPORT;
 	virtual float GetReferenceAngle() const NOTSUPPORT;
 	virtual void SetStiffness(float hz) NOTSUPPORT;

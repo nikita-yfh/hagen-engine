@@ -129,7 +129,7 @@ bool PointJoint::create(float xp,float yp,int dr) {
 		y=to_grid(yp);
 		id1=find_shape_1(x,y);
 		id2=find_shape_2(x,y);
-	}else if(dr==1) {
+	} else if(dr==1) {
 		id2=find_shape_2(xp,yp);
 	}
 	return 0;
@@ -621,12 +621,12 @@ void DistanceJoint::draw(cairo_t *cr) {
 	cairo_set_source_rgb(cr,RED);
 	cairo_move_to(cr,drawx(x2),drawy(y2));
 	cairo_line_to(cr,drawx(x2+cos(vec_angle2(x2-x1,y2-y1))*max),
-				  drawy(y2+sin(vec_angle2(x2-x1,y2-y1))*max));
+			  drawy(y2+sin(vec_angle2(x2-x1,y2-y1))*max));
 	cairo_stroke(cr);
 	cairo_set_source_rgb(cr,GREEN);
 	cairo_move_to(cr,drawx(x2),drawy(y2));
 	cairo_line_to(cr,drawx(x2+cos(vec_angle2(x2-x1,y2-y1))*min),
-				  drawy(y2+sin(vec_angle2(x2-x1,y2-y1))*min));
+			  drawy(y2+sin(vec_angle2(x2-x1,y2-y1))*min));
 	cairo_stroke(cr);
 	draw_lines(cr);
 }
@@ -802,27 +802,27 @@ void PulleyJoint::init(GtkWidget *table) {
 }
 bool PulleyJoint::create(float xp,float yp,int dr) {
 	if(dr==0) {
-		if(x1==-1000){
+		if(x1==-1000) {
 			x1=x3=to_grid(xp);
 			y1=y3=to_grid(yp);
-		}else{
+		} else {
 			x2=x4=to_grid(xp);
 			y2=y4=to_grid(yp);
 		}
 		return 1;
 	} else if(dr==1) {
-		if(x2==-1000){
+		if(x2==-1000) {
 			x1=to_grid(xp);
 			y1=to_grid(yp);
 			id1=find_shape_1(x1,y1);
-		}else{
+		} else {
 			x2=to_grid(xp);
 			y2=to_grid(yp);
 			id2=find_shape_1(x2,y2);
 			DEBUG;
 		}
 	} else if(dr==2) {
-		if(x2==-1000){
+		if(x2==-1000) {
 			x2=-1001;
 			return 1;
 		}
@@ -833,14 +833,14 @@ void PulleyJoint::draw(cairo_t *cr) {
 	if(!shows[6])return;
 	draw_drag_joint_rect(cr,x1,y1,selected&&point_ch==1);
 	draw_drag_joint_rect(cr,x3,y3,selected&&point_ch==3);
-	if(x4>-1000){
+	if(x4>-1000) {
 		draw_drag_joint_rect(cr,x2,y2,selected&&point_ch==2);
 		draw_drag_joint_rect(cr,x4,y4,selected&&point_ch==3);
 	}
 	cairo_set_source_rgb(cr,BLACK);
 	cairo_move_to(cr,drawx(x1),drawy(y1));
 	cairo_line_to(cr,drawx(x3),drawy(y3));
-	if(x4>-1000){
+	if(x4>-1000) {
 		cairo_line_to(cr,drawx(x4),drawy(y4));
 		cairo_line_to(cr,drawx(x2),drawy(y2));
 	}
@@ -865,7 +865,7 @@ bool PulleyJoint::drag(float xp,float yp,int dr) {
 		} else if(point_ch==2) {
 			x2=to_grid(xp);
 			y2=to_grid(yp);
-		}else if(point_ch==3) {
+		} else if(point_ch==3) {
 			x3=to_grid(xp);
 			y3=to_grid(yp);
 		} else if(point_ch==4) {

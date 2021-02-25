@@ -47,7 +47,7 @@ bool b2CircleShape::TestPoint(const b2Transform& transform, const b2Vec2& p) con
 // x = s + a * r
 // norm(x) = radius
 bool b2CircleShape::RayCast(b2RayCastOutput* output, const b2RayCastInput& input,
-                            const b2Transform& transform, int32 childIndex) const {
+				    const b2Transform& transform, int32 childIndex) const {
 	B2_NOT_USED(childIndex);
 
 	b2Vec2 position = transform.p + b2Mul(transform.q, m_p);

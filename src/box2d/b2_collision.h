@@ -111,8 +111,8 @@ struct b2WorldManifold {
 	/// point count, impulses, etc. The radii must come from the shapes
 	/// that generated the manifold.
 	void Initialize(const b2Manifold* manifold,
-	                const b2Transform& xfA, float radiusA,
-	                const b2Transform& xfB, float radiusB);
+			    const b2Transform& xfA, float radiusA,
+			    const b2Transform& xfB, float radiusB);
 
 	b2Vec2 normal;								///< world vector pointing from A to B
 	b2Vec2 points[b2_maxManifoldPoints];		///< world contact point (point of intersection)
@@ -130,7 +130,7 @@ enum b2PointState {
 /// Compute the point states given two manifolds. The states pertain to the transition from manifold1
 /// to manifold2. So state1 is either persist or remove while state2 is either add or persist.
 void b2GetPointStates(b2PointState state1[b2_maxManifoldPoints], b2PointState state2[b2_maxManifoldPoints],
-                      const b2Manifold* manifold1, const b2Manifold* manifold2);
+			    const b2Manifold* manifold1, const b2Manifold* manifold2);
 
 /// Used for computing contact manifolds.
 struct b2ClipVertex {
@@ -203,37 +203,37 @@ struct b2AABB {
 
 /// Compute the collision manifold between two circles.
 void b2CollideCircles(b2Manifold* manifold,
-                      const b2CircleShape* circleA, const b2Transform& xfA,
-                      const b2CircleShape* circleB, const b2Transform& xfB);
+			    const b2CircleShape* circleA, const b2Transform& xfA,
+			    const b2CircleShape* circleB, const b2Transform& xfB);
 
 /// Compute the collision manifold between a polygon and a circle.
 void b2CollidePolygonAndCircle(b2Manifold* manifold,
-                               const b2PolygonShape* polygonA, const b2Transform& xfA,
-                               const b2CircleShape* circleB, const b2Transform& xfB);
+					 const b2PolygonShape* polygonA, const b2Transform& xfA,
+					 const b2CircleShape* circleB, const b2Transform& xfB);
 
 /// Compute the collision manifold between two polygons.
 void b2CollidePolygons(b2Manifold* manifold,
-                       const b2PolygonShape* polygonA, const b2Transform& xfA,
-                       const b2PolygonShape* polygonB, const b2Transform& xfB);
+			     const b2PolygonShape* polygonA, const b2Transform& xfA,
+			     const b2PolygonShape* polygonB, const b2Transform& xfB);
 
 /// Compute the collision manifold between an edge and a circle.
 void b2CollideEdgeAndCircle(b2Manifold* manifold,
-                            const b2EdgeShape* polygonA, const b2Transform& xfA,
-                            const b2CircleShape* circleB, const b2Transform& xfB);
+				    const b2EdgeShape* polygonA, const b2Transform& xfA,
+				    const b2CircleShape* circleB, const b2Transform& xfB);
 
 /// Compute the collision manifold between an edge and a polygon.
 void b2CollideEdgeAndPolygon(b2Manifold* manifold,
-                             const b2EdgeShape* edgeA, const b2Transform& xfA,
-                             const b2PolygonShape* circleB, const b2Transform& xfB);
+				     const b2EdgeShape* edgeA, const b2Transform& xfA,
+				     const b2PolygonShape* circleB, const b2Transform& xfB);
 
 /// Clipping for contact manifolds.
 int32 b2ClipSegmentToLine(b2ClipVertex vOut[2], const b2ClipVertex vIn[2],
-                          const b2Vec2& normal, float offset, int32 vertexIndexA);
+				  const b2Vec2& normal, float offset, int32 vertexIndexA);
 
 /// Determine if two generic shapes overlap.
 bool b2TestOverlap(	const b2Shape* shapeA, int32 indexA,
-                    const b2Shape* shapeB, int32 indexB,
-                    const b2Transform& xfA, const b2Transform& xfB);
+				const b2Shape* shapeB, int32 indexB,
+				const b2Transform& xfA, const b2Transform& xfB);
 
 // ---------------- Inline Functions ------------------------------------------
 

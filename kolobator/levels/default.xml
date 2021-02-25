@@ -3,6 +3,63 @@
 	<background img="default.png"/>
 	<start x="8" y="3"/>
 	<end x="3" y="5.5"/>
-	<bodies count="0"/>
+	<bodies count="3">
+		<body x="10.683" y="4.913" id="ground" type="static" shapes="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1"/>
+			<shape id="NewPolygon1" type="Polygon" pos="physic" texture="">
+				<position point_count="30">
+					<point x="-10.183" y="-3.913"/>
+					<point x="-10.183" y="7.087"/>
+					<point x="8.31703" y="7.087"/>
+					<point x="8.31703" y="-3.913"/>
+					<point x="7.80704" y="-3.668"/>
+					<point x="7.37803" y="-3.137"/>
+					<point x="7.23503" y="-2.607"/>
+					<point x="7.09303" y="-2.097"/>
+					<point x="6.84803" y="-1.342"/>
+					<point x="6.60303" y="-0.729002"/>
+					<point x="6.37803" y="-0.260001"/>
+					<point x="6.11304" y="0.209"/>
+					<point x="5.58204" y="0.658"/>
+					<point x="4.56203" y="0.822"/>
+					<point x="3.64403" y="0.577"/>
+					<point x="2.23503" y="-0.280001"/>
+					<point x="1.33703" y="-0.586"/>
+					<point x="0.480038" y="-0.484001"/>
+					<point x="-0.335962" y="-0.0760007"/>
+					<point x="-1.49897" y="0.902999"/>
+					<point x="-2.41797" y="1.618"/>
+					<point x="-3.21397" y="1.965"/>
+					<point x="-4.33597" y="2.25"/>
+					<point x="-5.56097" y="2.373"/>
+					<point x="-6.94797" y="2.169"/>
+					<point x="-8.00997" y="1.414"/>
+					<point x="-8.62197" y="0.106999"/>
+					<point x="-9.13197" y="-1.015"/>
+					<point x="-9.58097" y="-2.158"/>
+					<point x="-9.90697" y="-2.974"/>
+				</position>
+				<physic density="1000" friction="0.3" restitution="0"/>
+			</shape>
+		</body>
+		<body x="2.875" y="1.125" id="NewBody1" type="dynamic" shapes="2">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1"/>
+			<shape id="NewRect1" type="Rect" pos="physic" texture="">
+				<position x1="-0.875" y1="-0.625" x2="-0.375" y2="0.375"/>
+				<physic density="1000" friction="0.3" restitution="0"/>
+			</shape>
+			<shape id="NewRect2" type="Rect" pos="physic" texture="">
+				<position x1="-0.875" y1="-0.125" x2="2.125" y2="0.375"/>
+				<physic density="1000" friction="0.3" restitution="0"/>
+			</shape>
+		</body>
+		<body x="2.5" y="3" id="ewraezers" type="dynamic" shapes="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1"/>
+			<shape id="NewCircle1" type="Circle" pos="physic" texture="">
+				<position x="0" y="0" r="1"/>
+				<physic density="1000" friction="0.3" restitution="0"/>
+			</shape>
+		</body>
+	</bodies>
 	<joints count="0"/>
 </level>

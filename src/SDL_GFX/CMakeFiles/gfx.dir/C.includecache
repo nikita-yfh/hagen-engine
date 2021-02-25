@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/nikita/c++/hagen/src/SDL_GFX/SDL2_gfxPrimitives.c
+/home/nikita/cpp/hagen-engine/src/SDL_GFX/SDL2_gfxPrimitives.c
 stdio.h
 -
 stdlib.h
@@ -16,21 +16,21 @@ math.h
 string.h
 -
 SDL2_gfxPrimitives.h
-/home/nikita/c++/hagen/src/SDL_GFX/SDL2_gfxPrimitives.h
+/home/nikita/cpp/hagen-engine/src/SDL_GFX/SDL2_gfxPrimitives.h
 SDL2_rotozoom.h
-/home/nikita/c++/hagen/src/SDL_GFX/SDL2_rotozoom.h
+/home/nikita/cpp/hagen-engine/src/SDL_GFX/SDL2_rotozoom.h
 emmintrin.h
 -
 armintr.h
 -
 
-/home/nikita/c++/hagen/src/SDL_GFX/SDL2_gfxPrimitives.h
+/home/nikita/cpp/hagen-engine/src/SDL_GFX/SDL2_gfxPrimitives.h
 math.h
 -
 SDL2/SDL.h
-/home/nikita/c++/hagen/src/SDL_GFX/SDL2/SDL.h
+/home/nikita/cpp/hagen-engine/src/SDL_GFX/SDL2/SDL.h
 
-/home/nikita/c++/hagen/src/SDL_GFX/SDL2_imageFilter.c
+/home/nikita/cpp/hagen-engine/src/SDL_GFX/SDL2_imageFilter.c
 stdio.h
 -
 stdlib.h
@@ -44,11 +44,11 @@ mmintrin.h
 SDL2/SDL_cpuinfo.h
 -
 SDL2_imageFilter.h
-/home/nikita/c++/hagen/src/SDL_GFX/SDL2_imageFilter.h
+/home/nikita/cpp/hagen-engine/src/SDL_GFX/SDL2_imageFilter.h
 
-/home/nikita/c++/hagen/src/SDL_GFX/SDL2_imageFilter.h
+/home/nikita/cpp/hagen-engine/src/SDL_GFX/SDL2_imageFilter.h
 
-/home/nikita/c++/hagen/src/SDL_GFX/SDL2_rotozoom.c
+/home/nikita/cpp/hagen-engine/src/SDL_GFX/SDL2_rotozoom.c
 windows.h
 -
 stdlib.h
@@ -56,9 +56,9 @@ stdlib.h
 string.h
 -
 SDL2_rotozoom.h
-/home/nikita/c++/hagen/src/SDL_GFX/SDL2_rotozoom.h
+/home/nikita/cpp/hagen-engine/src/SDL_GFX/SDL2_rotozoom.h
 
-/home/nikita/c++/hagen/src/SDL_GFX/SDL2_rotozoom.h
+/home/nikita/cpp/hagen-engine/src/SDL_GFX/SDL2_rotozoom.h
 math.h
 -
 SDL2/SDL.h

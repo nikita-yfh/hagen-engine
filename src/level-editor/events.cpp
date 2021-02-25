@@ -105,9 +105,9 @@ bool create_shapes(int x,int y,int mouse) {
 		Object *obj=get_selected_object();
 		if(!obj)return 0;
 
-        block=1;
-        obj->vupdate();
-        block=0;
+		block=1;
+		obj->vupdate();
+		block=0;
 		if(!obj->create(dragx(x),dragy(y),0)) {
 			create_status=0;
 			if(obj->create(dragx(x),dragy(y),3))
@@ -117,18 +117,18 @@ bool create_shapes(int x,int y,int mouse) {
 		Object *obj=get_selected_object();
 		if(!obj)return 0;
 		obj->create(dragx(x),dragy(y),1);
-        block=1;
-        obj->vupdate();
-        block=0;
+		block=1;
+		obj->vupdate();
+		block=0;
 	} else if(mouse==2 && create_status) {
 		Object *obj=get_selected_object();
 		if(!obj)return 0;
-        block=1;
-        obj->vupdate();
-        block=0;
+		block=1;
+		obj->vupdate();
+		block=0;
 		if(!obj->create(dragx(x),dragy(y),2)) {
 			create_status=0;
-			if(obj->create(dragx(x),dragy(y),3)){
+			if(obj->create(dragx(x),dragy(y),3)) {
 				hide_all();
 				rem_but();
 			}
@@ -190,7 +190,7 @@ int motion(GtkWidget*, GdkEventMotion *event, gpointer data) {
 		create_shapes(event->x,event->y,1);
 	if(create_status==3) {
 		get_selected_body()->setpos(to_grid(dragx(event->x)),
-									to_grid(dragy(event->y)));
+						    to_grid(dragy(event->y)));
 	}
 	gtk_widget_queue_draw(drawable);
 	if(mouse_button!=2 && (tool_ch!=0||mouse_button!=1))return 0;
@@ -293,13 +293,13 @@ void select_template(GtkWidget*,GdkEventButton*,string* str) {
 void add_but() {
 	string tmp="";
 	GtkWidget *dialog = gtk_dialog_new_with_buttons ("Create new body",
-						GTK_WINDOW (window),
-						GDF(GTK_DIALOG_MODAL| GTK_DIALOG_DESTROY_WITH_PARENT),
-						GTK_STOCK_CANCEL,
-						NULL,
-						GTK_STOCK_OK,
-						GTK_RESPONSE_OK,
-						NULL);
+				  GTK_WINDOW (window),
+				  GDF(GTK_DIALOG_MODAL| GTK_DIALOG_DESTROY_WITH_PARENT),
+				  GTK_STOCK_CANCEL,
+				  NULL,
+				  GTK_STOCK_OK,
+				  GTK_RESPONSE_OK,
+				  NULL);
 	GtkWidget *text=gtk_label_new("ID");
 	GtkWidget *entry=gtk_entry_new();
 	GtkWidget *box=gtk_vbox_new(0,10);

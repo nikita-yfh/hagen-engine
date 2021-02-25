@@ -49,5 +49,5 @@ void b2ChainAndCircleContact::Evaluate(b2Manifold* manifold, const b2Transform& 
 	b2EdgeShape edge;
 	chain->GetChildEdge(&edge, m_indexA);
 	b2CollideEdgeAndCircle(	manifold, &edge, xfA,
-	                        (b2CircleShape*)m_fixtureB->GetShape(), xfB);
+					(b2CircleShape*)m_fixtureB->GetShape(), xfB);
 }

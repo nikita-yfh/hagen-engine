@@ -49,8 +49,8 @@ inline float b2MixRestitution(float restitution1, float restitution2) {
 }
 
 typedef b2Contact* b2ContactCreateFcn(	b2Fixture* fixtureA, int32 indexA,
-                                        b2Fixture* fixtureB, int32 indexB,
-                                        b2BlockAllocator* allocator);
+		b2Fixture* fixtureB, int32 indexB,
+		b2BlockAllocator* allocator);
 typedef void b2ContactDestroyFcn(b2Contact* contact, b2BlockAllocator* allocator);
 
 struct b2ContactRegister {
@@ -175,7 +175,7 @@ public:
 	void FlagForFiltering();
 
 	static void AddType(b2ContactCreateFcn* createFcn, b2ContactDestroyFcn* destroyFcn,
-	                    b2Shape::Type typeA, b2Shape::Type typeB);
+				  b2Shape::Type typeA, b2Shape::Type typeB);
 	static void InitializeRegisters();
 	static b2Contact* Create(b2Fixture* fixtureA, int32 indexA, b2Fixture* fixtureB, int32 indexB, b2BlockAllocator* allocator);
 	static void Destroy(b2Contact* contact, b2Shape::Type typeA, b2Shape::Type typeB, b2BlockAllocator* allocator);

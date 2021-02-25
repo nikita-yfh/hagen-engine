@@ -11,9 +11,9 @@ void init(const char* title,int w,int h);
 void quit();
 void panic(std::string name,std::string message);
 SDL_Texture *find_texture(std::string id);
-struct Texture{
-    SDL_Texture *texture;
-    std::string id;
+struct Texture {
+	SDL_Texture *texture;
+	std::string id;
 };
 extern std::vector<Texture>textures;
 extern SDL_Texture *background;

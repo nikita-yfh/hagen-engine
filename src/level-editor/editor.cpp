@@ -9,23 +9,23 @@
 using namespace std;
 unsigned int tool_ch=1, point_ch=0;
 GtkWidget	*window,
-			*box_v, *box_h,
-			*main_area,
-			*scroll_h, *scroll_v,
-			*drawable,
-			*ruler_h, *ruler_v,
-			*panel,
-			*buttons,
-			*tools,
-			*tool[TOOL_COUNT],
-			*zoomer,
-			*prop_table, *prop_scroll,
-			*shapes_scroll,
-			*eventbox, *status,
-			*zoom_b, *zoom_text,
-			*down_panel, *view_a,
-			*shape_view,
-			*p1;
+		*box_v, *box_h,
+		*main_area,
+		*scroll_h, *scroll_v,
+		*drawable,
+		*ruler_h, *ruler_v,
+		*panel,
+		*buttons,
+		*tools,
+		*tool[TOOL_COUNT],
+		*zoomer,
+		*prop_table, *prop_scroll,
+		*shapes_scroll,
+		*eventbox, *status,
+		*zoom_b, *zoom_text,
+		*down_panel, *view_a,
+		*shape_view,
+		*p1;
 GtkObject	*adj_h, *adj_v, *zoom_a;
 GtkItemFactory
 *menu;
@@ -36,14 +36,14 @@ GtkCellRenderer
 string save_path="";
 bool shows[7]= {1,1,1,1,1,1,1};
 void newl() {
-	for(int q=0;q<level.joints.size();q++)
+	for(int q=0; q<level.joints.size(); q++)
 		delete level.joints[q];
-	for(int q=0;q<level.bodies.size();q++)
+	for(int q=0; q<level.bodies.size(); q++)
 		delete level.bodies[q];
 	level.joints.resize(0);
 	level.bodies.resize(0);
 }
-void run_callback(void*){
+void run_callback(void*) {
 	string name=save_path;
 	int pos=name.rfind("/");
 	name.erase(name.begin(),name.begin()+pos);
@@ -52,16 +52,16 @@ void run_callback(void*){
 	name="./engine "+name;
 	system(name.c_str());
 }
-void run(){
+void run() {
 	save();
 	if(save_path=="")return;
 	g_thread_new("run",GThreadFunc(run_callback),0);
 }
 string get_save_path(string path) {
 	GtkWidget *dialog = gtk_file_chooser_dialog_new ("Save file",
-						GTK_WINDOW(window),GTK_FILE_CHOOSER_ACTION_SAVE,
-						"_Cancel",GTK_RESPONSE_CANCEL,
-						"_Save",GTK_RESPONSE_ACCEPT, NULL);
+				  GTK_WINDOW(window),GTK_FILE_CHOOSER_ACTION_SAVE,
+				  "_Cancel",GTK_RESPONSE_CANCEL,
+				  "_Save",GTK_RESPONSE_ACCEPT, NULL);
 	GtkFileChooser *chooser = GTK_FILE_CHOOSER (dialog);
 	gtk_file_chooser_set_current_folder(chooser, path.c_str());
 	string str;
@@ -74,9 +74,9 @@ string get_save_path(string path) {
 }
 string get_folder_path(string path) {
 	GtkWidget *dialog = gtk_file_chooser_dialog_new ("Save in folder",
-						GTK_WINDOW(window),GTK_FILE_CHOOSER_ACTION_CREATE_FOLDER,
-						"_Cancel",GTK_RESPONSE_CANCEL,
-						"_Save",GTK_RESPONSE_ACCEPT, NULL);
+				  GTK_WINDOW(window),GTK_FILE_CHOOSER_ACTION_CREATE_FOLDER,
+				  "_Cancel",GTK_RESPONSE_CANCEL,
+				  "_Save",GTK_RESPONSE_ACCEPT, NULL);
 	GtkFileChooser *chooser = GTK_FILE_CHOOSER (dialog);
 	gtk_file_chooser_set_current_folder(chooser, path.c_str());
 	string str;
@@ -89,9 +89,9 @@ string get_folder_path(string path) {
 }
 string get_open_path(string path) {
 	GtkWidget *dialog = gtk_file_chooser_dialog_new ("Open file",
-						GTK_WINDOW(window),GTK_FILE_CHOOSER_ACTION_OPEN,
-						"_Cancel",GTK_RESPONSE_CANCEL,
-						"_Open",GTK_RESPONSE_ACCEPT, NULL);
+				  GTK_WINDOW(window),GTK_FILE_CHOOSER_ACTION_OPEN,
+				  "_Cancel",GTK_RESPONSE_CANCEL,
+				  "_Open",GTK_RESPONSE_ACCEPT, NULL);
 	GtkFileChooser *chooser = GTK_FILE_CHOOSER (dialog);
 	gtk_file_chooser_set_current_folder(chooser, path.c_str());
 	string str;
@@ -102,28 +102,21 @@ string get_open_path(string path) {
 	key_state=0;
 	return str;
 }
-void save_entity(){
-	GtkWidget *dialog = gtk_dialog_new_with_buttons ("Resize",
-							GTK_WINDOW (window),
-							GDF(GTK_DIALOG_MODAL| GTK_DIALOG_DESTROY_WITH_PARENT),
-							GTK_STOCK_CANCEL,
-							NULL,
-							GTK_STOCK_OK,
-							GTK_RESPONSE_OK,
-							NULL);
-	GtkWidget *hl_box=gtk_hbox_new(0,0);
-
-	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (dialog))), hl_box, FALSE, FALSE, 6);
-	gtk_widget_show_all(dialog);
-	if(gtk_dialog_run(GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
+void save_only_physic() {
+	string str=get_save_path("levels");
+	if(str.size()) {
+		save_path=str;
+		if(level.save_file(save_path,0))
+			set_status(CONTEXT_FILE_STATUS, "Save error");
+		else
+			set_status(CONTEXT_FILE_STATUS, "Saved successfully");
 	}
-	gtk_widget_destroy(dialog);
 }
 void save_as() {
 	string str=get_save_path("levels");
 	if(str.size()) {
 		save_path=str;
-		if(level.save_file(save_path))
+		if(level.save_file(save_path,1))
 			set_status(CONTEXT_FILE_STATUS, "Save error");
 		else
 			set_status(CONTEXT_FILE_STATUS, "Saved successfully");
@@ -132,10 +125,10 @@ void save_as() {
 void save() {
 	if(save_path=="")
 		save_as();
-	else if(level.save_file(save_path))
-        set_status(CONTEXT_FILE_STATUS, "Save error");
-    else
-        set_status(CONTEXT_FILE_STATUS, "Saved successfully");
+	else if(level.save_file(save_path,1))
+		set_status(CONTEXT_FILE_STATUS, "Save error");
+	else
+		set_status(CONTEXT_FILE_STATUS, "Saved successfully");
 }
 void open() {
 	string str=get_save_path("levels");
@@ -185,13 +178,13 @@ int draw_callback (GtkWidget *da, GdkEventExpose *event, void*) {
 }
 void resize() {
 	GtkWidget *dialog = gtk_dialog_new_with_buttons ("Resize",
-						GTK_WINDOW (window),
-						GDF(GTK_DIALOG_MODAL| GTK_DIALOG_DESTROY_WITH_PARENT),
-						GTK_STOCK_CANCEL,
-						NULL,
-						GTK_STOCK_OK,
-						GTK_RESPONSE_OK,
-						NULL);
+				  GTK_WINDOW (window),
+				  GDF(GTK_DIALOG_MODAL| GTK_DIALOG_DESTROY_WITH_PARENT),
+				  GTK_STOCK_CANCEL,
+				  NULL,
+				  GTK_STOCK_OK,
+				  GTK_RESPONSE_OK,
+				  NULL);
 	GtkWidget *table=gtk_table_new(2,2,0);
 	GtkObject *adj_w=gtk_adjustment_new(level.w,1,500,1,10,0);
 	GtkObject *adj_h=gtk_adjustment_new(level.h,1,500,1,10,0);
@@ -238,7 +231,7 @@ void create_menu() {
 		{"/File/Save",						"<control>S",			save,				0,	"<StockItem>",	"gtk-save"},
 		{"/File/Save as",					"<control><shift>S",	save_as,			0,	"<StockItem>",	"gtk-save-as"},
 		{"/File/Save as template",			"",						template_save,		0,	"<StockItem>",	"gtk-save-as"},
-		{"/File/Save as entity",			"",						save_entity,		0,	"<StockItem>",	"gtk-save-as"},
+		{"/File/Save only physics",			"",						save_only_physic,		0,	"<StockItem>",	"gtk-save-as"},
 		{"/File/Quit",						"<control>Q",			quit,				0,	"<StockItem>",	"gtk-quit"},
 		{"/Edit/Copy",						"<control>C",			copy,				0,	"<StockItem>",	"gtk-copy"},
 		{"/Edit/Paste",						"<control>V",			paste,				0,	"<StockItem>",	"gtk-paste"},
@@ -333,9 +326,9 @@ void create_buttons() {
 	GtkAccelGroup *accels = gtk_accel_group_new();
 	gtk_window_add_accel_group(GTK_WINDOW(window), accels);
 	gtk_widget_add_accelerator(d, "clicked", accels,
-							   65535,GdkModifierType(0), GTK_ACCEL_VISIBLE);
+					   65535,GdkModifierType(0), GTK_ACCEL_VISIBLE);
 	gtk_widget_add_accelerator(c, "clicked", accels,
-							   'd',GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
+					   'd',GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
 }
 
 void init() {

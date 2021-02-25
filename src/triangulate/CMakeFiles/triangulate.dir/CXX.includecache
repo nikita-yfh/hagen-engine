@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/nikita/c++/hagen/src/triangulate/triangulate.cpp
+/home/nikita/cpp/hagen-engine/src/triangulate/triangulate.cpp
 stdio.h
 -
 stdlib.h
@@ -16,13 +16,13 @@ string.h
 assert.h
 -
 triangulate.hpp
-/home/nikita/c++/hagen/src/triangulate/triangulate.hpp
+/home/nikita/cpp/hagen-engine/src/triangulate/triangulate.hpp
 
-/home/nikita/c++/hagen/src/triangulate/triangulate.hpp
+/home/nikita/cpp/hagen-engine/src/triangulate/triangulate.hpp
 vector
 -
 box2d.h
-/home/nikita/c++/hagen/src/triangulate/box2d.h
+/home/nikita/cpp/hagen-engine/src/triangulate/box2d.h
 
 /usr/include/SDL2/SDL.h
 SDL_main.h

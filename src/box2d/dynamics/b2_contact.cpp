@@ -52,7 +52,7 @@ void b2Contact::InitializeRegisters() {
 }
 
 void b2Contact::AddType(b2ContactCreateFcn* createFcn, b2ContactDestroyFcn* destoryFcn,
-                        b2Shape::Type type1, b2Shape::Type type2) {
+				b2Shape::Type type1, b2Shape::Type type2) {
 	b2Assert(0 <= type1 && type1 < b2Shape::e_typeCount);
 	b2Assert(0 <= type2 && type2 < b2Shape::e_typeCount);
 
@@ -98,8 +98,8 @@ void b2Contact::Destroy(b2Contact* contact, b2BlockAllocator* allocator) {
 	b2Fixture* fixtureB = contact->m_fixtureB;
 
 	if (contact->m_manifold.pointCount > 0 &&
-	        fixtureA->IsSensor() == false &&
-	        fixtureB->IsSensor() == false) {
+			fixtureA->IsSensor() == false &&
+			fixtureB->IsSensor() == false) {
 		fixtureA->GetBody()->SetAwake(true);
 		fixtureB->GetBody()->SetAwake(true);
 	}

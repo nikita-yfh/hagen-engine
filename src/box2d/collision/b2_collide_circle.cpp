@@ -25,9 +25,9 @@
 #include "b2_polygon_shape.h"
 
 void b2CollideCircles(
-    b2Manifold* manifold,
-    const b2CircleShape* circleA, const b2Transform& xfA,
-    const b2CircleShape* circleB, const b2Transform& xfB) {
+	b2Manifold* manifold,
+	const b2CircleShape* circleA, const b2Transform& xfA,
+	const b2CircleShape* circleB, const b2Transform& xfB) {
 	manifold->pointCount = 0;
 
 	b2Vec2 pA = b2Mul(xfA, circleA->m_p);
@@ -51,9 +51,9 @@ void b2CollideCircles(
 }
 
 void b2CollidePolygonAndCircle(
-    b2Manifold* manifold,
-    const b2PolygonShape* polygonA, const b2Transform& xfA,
-    const b2CircleShape* circleB, const b2Transform& xfB) {
+	b2Manifold* manifold,
+	const b2PolygonShape* polygonA, const b2Transform& xfA,
+	const b2CircleShape* circleB, const b2Transform& xfB) {
 	manifold->pointCount = 0;
 
 	// Compute circle position in the frame of the polygon.

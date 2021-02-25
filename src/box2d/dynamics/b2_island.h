@@ -38,7 +38,7 @@ struct b2Profile;
 class b2Island {
 public:
 	b2Island(int32 bodyCapacity, int32 contactCapacity, int32 jointCapacity,
-	         b2StackAllocator* allocator, b2ContactListener* listener);
+		   b2StackAllocator* allocator, b2ContactListener* listener);
 	~b2Island();
 
 	void Clear() {
