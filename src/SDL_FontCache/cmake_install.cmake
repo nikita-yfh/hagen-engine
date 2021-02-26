@@ -1,4 +1,4 @@
-# Install script for directory: /home/nikita/cpp/hagen-engine/src/SDL_FontCache
+# Install script for directory: /home/nikita/c++/hagen/src/SDL_FontCache
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

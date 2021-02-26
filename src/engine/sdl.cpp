@@ -53,7 +53,7 @@ void load_cursor() {
 	SDL_SetCursor(cur);
 }
 void load_textures() {
-	/*for(int q=0;q<bodies.size();q++){
+	for(int q=0;q<bodies.size();q++){
 		for(b2Fixture *fix=bodies[q]->GetFixtureList(); fix; fix=fix->GetNext()) {
 	        string str=F_DATA(fix,texture);
 	        if(str.size() && !find_texture(str)){
@@ -62,18 +62,18 @@ void load_textures() {
 	            textures.push_back({texture,str});
 	        }
 	    }
-	}*/
+	}
 }
 void configure_textures() {
 }
 void destroy_textures() {
 }
 void load_background(std::string name) {
-	/*string path="backgrounds/"+name;
+	string path="backgrounds/"+name;
 	if(!exist_file(path))throw string("Loading \""+name+"\" background failed: file not found");
 	if(background)SDL_DestroyTexture(background);
 	background=IMG_LoadTexture(ren,path.c_str());
-	if(!background)throw string("Loading \""+name+"\" background failed: "+SDL_GetError());*/
+	if(!background)throw string("Loading \""+name+"\" background failed: "+SDL_GetError());
 }
 void create_cache() {
 	SDL_Texture *prev_tex=0;

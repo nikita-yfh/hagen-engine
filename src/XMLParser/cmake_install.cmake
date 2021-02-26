@@ -1,4 +1,4 @@
-# Install script for directory: /home/nikita/cpp/hagen-engine/src/XMLParser
+# Install script for directory: /home/nikita/c++/hagen/src/XMLParser
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

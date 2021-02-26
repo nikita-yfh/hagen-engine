@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/nikita/cpp/hagen-engine/src/triangulate/triangulate.cpp" "/home/nikita/cpp/hagen-engine/src/triangulate/CMakeFiles/triangulate.dir/triangulate.cpp.o"
+  "/home/nikita/c++/hagen/src/triangulate/triangulate.cpp" "/home/nikita/c++/hagen/src/triangulate/CMakeFiles/triangulate.dir/triangulate.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

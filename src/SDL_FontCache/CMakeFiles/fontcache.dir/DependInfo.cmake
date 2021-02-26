@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "/home/nikita/cpp/hagen-engine/src/SDL_FontCache/SDL_FontCache.c" "/home/nikita/cpp/hagen-engine/src/SDL_FontCache/CMakeFiles/fontcache.dir/SDL_FontCache.c.o"
+  "/home/nikita/c++/hagen/src/SDL_FontCache/SDL_FontCache.c" "/home/nikita/c++/hagen/src/SDL_FontCache/CMakeFiles/fontcache.dir/SDL_FontCache.c.o"
   )
 set(CMAKE_C_COMPILER_ID "GNU")
 

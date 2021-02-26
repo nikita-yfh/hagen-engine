@@ -6,19 +6,19 @@
 
 #IncludeRegexTransform: 
 
-/home/nikita/cpp/hagen-engine/src/level-editor/body.hpp
+/home/nikita/c++/hagen/src/level-editor/body.hpp
 object.hpp
-/home/nikita/cpp/hagen-engine/src/level-editor/object.hpp
+/home/nikita/c++/hagen/src/level-editor/object.hpp
 shape.hpp
-/home/nikita/cpp/hagen-engine/src/level-editor/shape.hpp
+/home/nikita/c++/hagen/src/level-editor/shape.hpp
 string
 -
 
-/home/nikita/cpp/hagen-engine/src/level-editor/defines.hpp
+/home/nikita/c++/hagen/src/level-editor/defines.hpp
 
-/home/nikita/cpp/hagen-engine/src/level-editor/joint.hpp
+/home/nikita/c++/hagen/src/level-editor/joint.hpp
 object.hpp
-/home/nikita/cpp/hagen-engine/src/level-editor/object.hpp
+/home/nikita/c++/hagen/src/level-editor/object.hpp
 string
 -
 vector
@@ -26,31 +26,31 @@ vector
 cmath
 -
 xmlParser.h
-/home/nikita/cpp/hagen-engine/src/level-editor/xmlParser.h
+/home/nikita/c++/hagen/src/level-editor/xmlParser.h
 
-/home/nikita/cpp/hagen-engine/src/level-editor/level.cpp
+/home/nikita/c++/hagen/src/level-editor/level.cpp
 level.hpp
-/home/nikita/cpp/hagen-engine/src/level-editor/level.hpp
+/home/nikita/c++/hagen/src/level-editor/level.hpp
 utils.hpp
-/home/nikita/cpp/hagen-engine/src/level-editor/utils.hpp
+/home/nikita/c++/hagen/src/level-editor/utils.hpp
 
-/home/nikita/cpp/hagen-engine/src/level-editor/level.hpp
+/home/nikita/c++/hagen/src/level-editor/level.hpp
 level.hpp
-/home/nikita/cpp/hagen-engine/src/level-editor/level.hpp
+/home/nikita/c++/hagen/src/level-editor/level.hpp
 string
 -
 vector
 -
 object.hpp
-/home/nikita/cpp/hagen-engine/src/level-editor/object.hpp
+/home/nikita/c++/hagen/src/level-editor/object.hpp
 body.hpp
-/home/nikita/cpp/hagen-engine/src/level-editor/body.hpp
+/home/nikita/c++/hagen/src/level-editor/body.hpp
 joint.hpp
-/home/nikita/cpp/hagen-engine/src/level-editor/joint.hpp
+/home/nikita/c++/hagen/src/level-editor/joint.hpp
 xmlParser.h
-/home/nikita/cpp/hagen-engine/src/level-editor/xmlParser.h
+/home/nikita/c++/hagen/src/level-editor/xmlParser.h
 
-/home/nikita/cpp/hagen-engine/src/level-editor/object.hpp
+/home/nikita/c++/hagen/src/level-editor/object.hpp
 vector
 -
 stdint.h
@@ -62,15 +62,15 @@ string
 gtk/gtk.h
 -
 defines.hpp
-/home/nikita/cpp/hagen-engine/src/level-editor/defines.hpp
+/home/nikita/c++/hagen/src/level-editor/defines.hpp
 xmlParser.h
-/home/nikita/cpp/hagen-engine/src/level-editor/xmlParser.h
+/home/nikita/c++/hagen/src/level-editor/xmlParser.h
 
-/home/nikita/cpp/hagen-engine/src/level-editor/shape.hpp
+/home/nikita/c++/hagen/src/level-editor/shape.hpp
 object.hpp
-/home/nikita/cpp/hagen-engine/src/level-editor/object.hpp
+/home/nikita/c++/hagen/src/level-editor/object.hpp
 
-/home/nikita/cpp/hagen-engine/src/level-editor/utils.hpp
+/home/nikita/c++/hagen/src/level-editor/utils.hpp
 memory
 -
 string

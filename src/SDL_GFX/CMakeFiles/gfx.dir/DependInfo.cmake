@@ -4,9 +4,9 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "/home/nikita/cpp/hagen-engine/src/SDL_GFX/SDL2_gfxPrimitives.c" "/home/nikita/cpp/hagen-engine/src/SDL_GFX/CMakeFiles/gfx.dir/SDL2_gfxPrimitives.c.o"
-  "/home/nikita/cpp/hagen-engine/src/SDL_GFX/SDL2_imageFilter.c" "/home/nikita/cpp/hagen-engine/src/SDL_GFX/CMakeFiles/gfx.dir/SDL2_imageFilter.c.o"
-  "/home/nikita/cpp/hagen-engine/src/SDL_GFX/SDL2_rotozoom.c" "/home/nikita/cpp/hagen-engine/src/SDL_GFX/CMakeFiles/gfx.dir/SDL2_rotozoom.c.o"
+  "/home/nikita/c++/hagen/src/SDL_GFX/SDL2_gfxPrimitives.c" "/home/nikita/c++/hagen/src/SDL_GFX/CMakeFiles/gfx.dir/SDL2_gfxPrimitives.c.o"
+  "/home/nikita/c++/hagen/src/SDL_GFX/SDL2_imageFilter.c" "/home/nikita/c++/hagen/src/SDL_GFX/CMakeFiles/gfx.dir/SDL2_imageFilter.c.o"
+  "/home/nikita/c++/hagen/src/SDL_GFX/SDL2_rotozoom.c" "/home/nikita/c++/hagen/src/SDL_GFX/CMakeFiles/gfx.dir/SDL2_rotozoom.c.o"
   )
 set(CMAKE_C_COMPILER_ID "GNU")
 

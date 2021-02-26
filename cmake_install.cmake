@@ -1,4 +1,4 @@
-# Install script for directory: /home/nikita/cpp/hagen-engine
+# Install script for directory: /home/nikita/c++/hagen
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -44,12 +44,13 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/home/nikita/cpp/hagen-engine/src/box2d/cmake_install.cmake")
-  include("/home/nikita/cpp/hagen-engine/src/LuaBridge/cmake_install.cmake")
-  include("/home/nikita/cpp/hagen-engine/src/SDL_FontCache/cmake_install.cmake")
-  include("/home/nikita/cpp/hagen-engine/src/XMLParser/cmake_install.cmake")
-  include("/home/nikita/cpp/hagen-engine/src/SDL_GFX/cmake_install.cmake")
-  include("/home/nikita/cpp/hagen-engine/src/triangulate/cmake_install.cmake")
+  include("/home/nikita/c++/hagen/src/box2d/cmake_install.cmake")
+  include("/home/nikita/c++/hagen/src/LuaBridge/cmake_install.cmake")
+  include("/home/nikita/c++/hagen/src/SDL_FontCache/cmake_install.cmake")
+  include("/home/nikita/c++/hagen/src/XMLParser/cmake_install.cmake")
+  include("/home/nikita/c++/hagen/src/SDL_GFX/cmake_install.cmake")
+  include("/home/nikita/c++/hagen/src/triangulate/cmake_install.cmake")
+  include("/home/nikita/c++/hagen/src/sdl-gpu/cmake_install.cmake")
 
 endif()
 
@@ -61,5 +62,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/nikita/cpp/hagen-engine/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/nikita/c++/hagen/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

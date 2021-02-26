@@ -3,6 +3,7 @@ set(ENGINE engine)
 set(LEVEL_EDITOR level-editor)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 set(ENGINE_INCLUDE_DIR src/engine)
 set(LEVEL_EDITOR_INCLUDE_DIR src/level-editor)
@@ -88,6 +89,7 @@ add_subdirectory("src/SDL_FontCache")
 add_subdirectory("src/XMLParser")
 add_subdirectory("src/SDL_GFX")
 add_subdirectory("src/triangulate")
+add_subdirectory("src/sdl-gpu")
 
 
 target_link_libraries (${ENGINE}
