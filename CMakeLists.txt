@@ -79,6 +79,7 @@ include_directories(
 	"src/SDL_FontCache"
 	"src/XMLParser"
 	"src/triangulate"
+	"src/sdl-gpu/include"
 )
 
 add_executable(${ENGINE} ${ENGINE_SOURCES} ${ENGINE_HEADERS})

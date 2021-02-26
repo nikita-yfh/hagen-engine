@@ -12,23 +12,21 @@ FC_Font *font;
 SDL_Event e;
 int SW=0;
 int SH=0;
-SDL_Renderer *ren;
-SDL_Window *window;
+GPU_Target *ren;
 const uint8_t* key=SDL_GetKeyboardState(0);
 using namespace std;
 std::vector<Texture>textures;
-SDL_Texture *background=0;
+GPU_Image *background=0;
 void init(const char* title,int w,int h) {
 	SDL_Init(SDL_INIT_EVERYTHING);
 	TTF_Init();
 	IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG);
-	window=SDL_CreateWindow(title,100,100,w,h,SDL_WINDOW_SHOWN|SDL_WINDOW_RESIZABLE|SDL_WINDOW_OPENGL);
-	SDL_GLContext glcontext = SDL_GL_CreateContext(window);
-	ren=SDL_CreateRenderer(window,-1,SDL_RENDERER_ACCELERATED);
+	//window=SDL_CreateWindow(title,100,100,w,h,SDL_WINDOW_SHOWN|SDL_WINDOW_RESIZABLE|SDL_WINDOW_OPENGL);
+	ren=GPU_Init(w,h,0);
 	SW=w;
 	SH=h;
 }
-SDL_Texture *find_texture(std::string id) {
+GPU_Image *find_texture(std::string id) {
 	for(int q=0; q<textures.size(); q++)
 		if(textures[q].id==id)return textures[q].texture;
 	return 0;
@@ -57,7 +55,7 @@ void load_textures() {
 		for(b2Fixture *fix=bodies[q]->GetFixtureList(); fix; fix=fix->GetNext()) {
 	        string str=F_DATA(fix,texture);
 	        if(str.size() && !find_texture(str)){
-	            SDL_Texture *texture=IMG_LoadTexture(ren,("textures/"+str).c_str());
+	            GPU_Image *texture=IMG_LoadTexture(ren,("textures/"+str).c_str());
 	            if(!texture)throw string(SDL_GetError());
 	            textures.push_back({texture,str});
 	        }
@@ -76,7 +74,7 @@ void load_background(std::string name) {
 	if(!background)throw string("Loading \""+name+"\" background failed: "+SDL_GetError());
 }
 void create_cache() {
-	SDL_Texture *prev_tex=0;
+	/*GPU_Image *prev_tex=0;
 	b2Vec2 *prev_vec=0;
 	for(int q=0; q<bodies.size(); q++) {
 		for(b2Fixture *fix=bodies[q]->GetFixtureList(); fix; fix=fix->GetNext()) {
@@ -107,13 +105,13 @@ void create_cache() {
 						wt=wt*zoom/100.0f;
 						ht=ht*zoom/100.0f;
 
-						SDL_Texture *zoomed=SDL_CreateTexture(ren,SDL_PIXELFORMAT_RGBA8888,SDL_TEXTUREACCESS_TARGET,wt,ht);
+						GPU_Image *zoomed=SDL_CreateTexture(ren,SDL_PIXELFORMAT_RGBA8888,GPU_ImageACCESS_TARGET,wt,ht);
 						SDL_SetTextureBlendMode(zoomed,SDL_BLENDMODE_BLEND);
 						SDL_SetRenderTarget(ren,zoomed);
 						SDL_RenderCopy(ren,find_texture(F_DATA(fix,texture)),0,0);
 						SDL_SetRenderTarget(ren,0);
 
-						prev_tex=shape->cache=SDL_CreateTexture(ren,SDL_PIXELFORMAT_RGBA8888,SDL_TEXTUREACCESS_TARGET,w,h);
+						prev_tex=shape->cache=SDL_CreateTexture(ren,SDL_PIXELFORMAT_RGBA8888,GPU_ImageACCESS_TARGET,w,h);
 						prev_vec=shape->big_polygon;
 						SDL_SetTextureBlendMode(shape->cache,SDL_BLENDMODE_BLEND);
 						SDL_SetRenderTarget(ren,shape->cache);
@@ -128,5 +126,5 @@ void create_cache() {
 				}
 			} else prev_tex=0;
 		}
-	}
+	}*/
 }

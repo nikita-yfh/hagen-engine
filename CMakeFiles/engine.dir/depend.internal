@@ -87,6 +87,8 @@ CMakeFiles/engine.dir/src/engine/camera.cpp.o
  src/box2d/b2_world.h
  src/box2d/b2_world_callbacks.h
  src/box2d/box2d.h
+ src/sdl-gpu/include/SDL_gpu.h
+ src/sdl-gpu/include/SDL_gpu_version.h
 CMakeFiles/engine.dir/src/engine/entity.cpp.o
  /home/nikita/c++/hagen/src/engine/entity.cpp
  /home/nikita/c++/hagen/src/engine/entity.hpp
@@ -269,7 +271,6 @@ CMakeFiles/engine.dir/src/engine/game.cpp.o
  src/LuaBridge/detail/TypeList.h
  src/LuaBridge/detail/TypeTraits.h
  src/LuaBridge/detail/Userdata.h
- src/SDL_GFX/SDL2_gfxPrimitives.h
  src/XMLParser/xmlParser.h
  src/box2d/b2_block_allocator.h
  src/box2d/b2_body.h
@@ -305,6 +306,8 @@ CMakeFiles/engine.dir/src/engine/game.cpp.o
  src/box2d/b2_world.h
  src/box2d/b2_world_callbacks.h
  src/box2d/box2d.h
+ src/sdl-gpu/include/SDL_gpu.h
+ src/sdl-gpu/include/SDL_gpu_version.h
 CMakeFiles/engine.dir/src/engine/level.cpp.o
  /home/nikita/c++/hagen/src/engine/level.cpp
  /home/nikita/c++/hagen/src/engine/level.hpp
@@ -416,6 +419,8 @@ CMakeFiles/engine.dir/src/engine/level.cpp.o
  src/box2d/b2_world.h
  src/box2d/b2_world_callbacks.h
  src/box2d/box2d.h
+ src/sdl-gpu/include/SDL_gpu.h
+ src/sdl-gpu/include/SDL_gpu_version.h
  src/triangulate/triangulate.hpp
 CMakeFiles/engine.dir/src/engine/lua.cpp.o
  /home/nikita/c++/hagen/src/engine/camera.hpp
@@ -495,7 +500,6 @@ CMakeFiles/engine.dir/src/engine/lua.cpp.o
  src/LuaBridge/detail/TypeList.h
  src/LuaBridge/detail/TypeTraits.h
  src/LuaBridge/detail/Userdata.h
- src/SDL_GFX/SDL2_gfxPrimitives.h
  src/XMLParser/xmlParser.h
  src/box2d/b2_block_allocator.h
  src/box2d/b2_body.h
@@ -531,6 +535,8 @@ CMakeFiles/engine.dir/src/engine/lua.cpp.o
  src/box2d/b2_world.h
  src/box2d/b2_world_callbacks.h
  src/box2d/box2d.h
+ src/sdl-gpu/include/SDL_gpu.h
+ src/sdl-gpu/include/SDL_gpu_version.h
 CMakeFiles/engine.dir/src/engine/main.cpp.o
  /home/nikita/c++/hagen/src/engine/game.hpp
  /home/nikita/c++/hagen/src/engine/level.hpp
@@ -643,6 +649,8 @@ CMakeFiles/engine.dir/src/engine/main.cpp.o
  src/box2d/b2_world.h
  src/box2d/b2_world_callbacks.h
  src/box2d/box2d.h
+ src/sdl-gpu/include/SDL_gpu.h
+ src/sdl-gpu/include/SDL_gpu_version.h
 CMakeFiles/engine.dir/src/engine/physic.cpp.o
  /home/nikita/c++/hagen/src/engine/physic.cpp
  /home/nikita/c++/hagen/src/engine/physic.hpp
@@ -925,6 +933,8 @@ CMakeFiles/engine.dir/src/engine/render.cpp.o
  src/box2d/b2_world.h
  src/box2d/b2_world_callbacks.h
  src/box2d/box2d.h
+ src/sdl-gpu/include/SDL_gpu.h
+ src/sdl-gpu/include/SDL_gpu_version.h
 CMakeFiles/engine.dir/src/engine/sdl.cpp.o
  /home/nikita/c++/hagen/src/engine/camera.hpp
  /home/nikita/c++/hagen/src/engine/level.hpp
@@ -1019,6 +1029,8 @@ CMakeFiles/engine.dir/src/engine/sdl.cpp.o
  src/box2d/b2_world.h
  src/box2d/b2_world_callbacks.h
  src/box2d/box2d.h
+ src/sdl-gpu/include/SDL_gpu.h
+ src/sdl-gpu/include/SDL_gpu_version.h
 CMakeFiles/engine.dir/src/engine/shapes.cpp.o
  /home/nikita/c++/hagen/src/engine/shapes.cpp
 CMakeFiles/engine.dir/src/engine/utility.cpp.o
@@ -1077,7 +1089,6 @@ CMakeFiles/engine.dir/src/engine/utility.cpp.o
  /usr/include/SDL2/SDL_video.h
  /usr/include/SDL2/begin_code.h
  /usr/include/SDL2/close_code.h
- src/SDL_GFX/SDL2_gfxPrimitives.h
  src/XMLParser/xmlParser.h
  src/box2d/b2_block_allocator.h
  src/box2d/b2_body.h
@@ -1113,3 +1124,5 @@ CMakeFiles/engine.dir/src/engine/utility.cpp.o
  src/box2d/b2_world.h
  src/box2d/b2_world_callbacks.h
  src/box2d/box2d.h
+ src/sdl-gpu/include/SDL_gpu.h
+ src/sdl-gpu/include/SDL_gpu_version.h

@@ -16,7 +16,7 @@ bool game() {
 			run=0;
 			break;
 		case SDL_WINDOWEVENT:
-			SDL_GetWindowSize(window,&SW,&SH);
+			//SDL_GetWindowSize(window,&SW,&SH);
 			break;
 		}
 		draw();

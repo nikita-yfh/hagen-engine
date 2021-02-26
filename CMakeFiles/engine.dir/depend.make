@@ -86,6 +86,8 @@ CMakeFiles/engine.dir/src/engine/camera.cpp.o: src/box2d/b2_wheel_joint.h
 CMakeFiles/engine.dir/src/engine/camera.cpp.o: src/box2d/b2_world.h
 CMakeFiles/engine.dir/src/engine/camera.cpp.o: src/box2d/b2_world_callbacks.h
 CMakeFiles/engine.dir/src/engine/camera.cpp.o: src/box2d/box2d.h
+CMakeFiles/engine.dir/src/engine/camera.cpp.o: src/sdl-gpu/include/SDL_gpu.h
+CMakeFiles/engine.dir/src/engine/camera.cpp.o: src/sdl-gpu/include/SDL_gpu_version.h
 
 CMakeFiles/engine.dir/src/engine/entity.cpp.o: src/engine/entity.cpp
 CMakeFiles/engine.dir/src/engine/entity.cpp.o: src/engine/entity.hpp
@@ -268,7 +270,6 @@ CMakeFiles/engine.dir/src/engine/game.cpp.o: src/LuaBridge/detail/Stack.h
 CMakeFiles/engine.dir/src/engine/game.cpp.o: src/LuaBridge/detail/TypeList.h
 CMakeFiles/engine.dir/src/engine/game.cpp.o: src/LuaBridge/detail/TypeTraits.h
 CMakeFiles/engine.dir/src/engine/game.cpp.o: src/LuaBridge/detail/Userdata.h
-CMakeFiles/engine.dir/src/engine/game.cpp.o: src/SDL_GFX/SDL2_gfxPrimitives.h
 CMakeFiles/engine.dir/src/engine/game.cpp.o: src/XMLParser/xmlParser.h
 CMakeFiles/engine.dir/src/engine/game.cpp.o: src/box2d/b2_block_allocator.h
 CMakeFiles/engine.dir/src/engine/game.cpp.o: src/box2d/b2_body.h
@@ -304,6 +305,8 @@ CMakeFiles/engine.dir/src/engine/game.cpp.o: src/box2d/b2_wheel_joint.h
 CMakeFiles/engine.dir/src/engine/game.cpp.o: src/box2d/b2_world.h
 CMakeFiles/engine.dir/src/engine/game.cpp.o: src/box2d/b2_world_callbacks.h
 CMakeFiles/engine.dir/src/engine/game.cpp.o: src/box2d/box2d.h
+CMakeFiles/engine.dir/src/engine/game.cpp.o: src/sdl-gpu/include/SDL_gpu.h
+CMakeFiles/engine.dir/src/engine/game.cpp.o: src/sdl-gpu/include/SDL_gpu_version.h
 
 CMakeFiles/engine.dir/src/engine/level.cpp.o: src/engine/level.cpp
 CMakeFiles/engine.dir/src/engine/level.cpp.o: src/engine/level.hpp
@@ -415,6 +418,8 @@ CMakeFiles/engine.dir/src/engine/level.cpp.o: src/box2d/b2_wheel_joint.h
 CMakeFiles/engine.dir/src/engine/level.cpp.o: src/box2d/b2_world.h
 CMakeFiles/engine.dir/src/engine/level.cpp.o: src/box2d/b2_world_callbacks.h
 CMakeFiles/engine.dir/src/engine/level.cpp.o: src/box2d/box2d.h
+CMakeFiles/engine.dir/src/engine/level.cpp.o: src/sdl-gpu/include/SDL_gpu.h
+CMakeFiles/engine.dir/src/engine/level.cpp.o: src/sdl-gpu/include/SDL_gpu_version.h
 CMakeFiles/engine.dir/src/engine/level.cpp.o: src/triangulate/triangulate.hpp
 
 CMakeFiles/engine.dir/src/engine/lua.cpp.o: src/engine/camera.hpp
@@ -494,7 +499,6 @@ CMakeFiles/engine.dir/src/engine/lua.cpp.o: src/LuaBridge/detail/Stack.h
 CMakeFiles/engine.dir/src/engine/lua.cpp.o: src/LuaBridge/detail/TypeList.h
 CMakeFiles/engine.dir/src/engine/lua.cpp.o: src/LuaBridge/detail/TypeTraits.h
 CMakeFiles/engine.dir/src/engine/lua.cpp.o: src/LuaBridge/detail/Userdata.h
-CMakeFiles/engine.dir/src/engine/lua.cpp.o: src/SDL_GFX/SDL2_gfxPrimitives.h
 CMakeFiles/engine.dir/src/engine/lua.cpp.o: src/XMLParser/xmlParser.h
 CMakeFiles/engine.dir/src/engine/lua.cpp.o: src/box2d/b2_block_allocator.h
 CMakeFiles/engine.dir/src/engine/lua.cpp.o: src/box2d/b2_body.h
@@ -530,6 +534,8 @@ CMakeFiles/engine.dir/src/engine/lua.cpp.o: src/box2d/b2_wheel_joint.h
 CMakeFiles/engine.dir/src/engine/lua.cpp.o: src/box2d/b2_world.h
 CMakeFiles/engine.dir/src/engine/lua.cpp.o: src/box2d/b2_world_callbacks.h
 CMakeFiles/engine.dir/src/engine/lua.cpp.o: src/box2d/box2d.h
+CMakeFiles/engine.dir/src/engine/lua.cpp.o: src/sdl-gpu/include/SDL_gpu.h
+CMakeFiles/engine.dir/src/engine/lua.cpp.o: src/sdl-gpu/include/SDL_gpu_version.h
 
 CMakeFiles/engine.dir/src/engine/main.cpp.o: src/engine/game.hpp
 CMakeFiles/engine.dir/src/engine/main.cpp.o: src/engine/level.hpp
@@ -642,6 +648,8 @@ CMakeFiles/engine.dir/src/engine/main.cpp.o: src/box2d/b2_wheel_joint.h
 CMakeFiles/engine.dir/src/engine/main.cpp.o: src/box2d/b2_world.h
 CMakeFiles/engine.dir/src/engine/main.cpp.o: src/box2d/b2_world_callbacks.h
 CMakeFiles/engine.dir/src/engine/main.cpp.o: src/box2d/box2d.h
+CMakeFiles/engine.dir/src/engine/main.cpp.o: src/sdl-gpu/include/SDL_gpu.h
+CMakeFiles/engine.dir/src/engine/main.cpp.o: src/sdl-gpu/include/SDL_gpu_version.h
 
 CMakeFiles/engine.dir/src/engine/physic.cpp.o: src/engine/physic.cpp
 CMakeFiles/engine.dir/src/engine/physic.cpp.o: src/engine/physic.hpp
@@ -924,6 +932,8 @@ CMakeFiles/engine.dir/src/engine/render.cpp.o: src/box2d/b2_wheel_joint.h
 CMakeFiles/engine.dir/src/engine/render.cpp.o: src/box2d/b2_world.h
 CMakeFiles/engine.dir/src/engine/render.cpp.o: src/box2d/b2_world_callbacks.h
 CMakeFiles/engine.dir/src/engine/render.cpp.o: src/box2d/box2d.h
+CMakeFiles/engine.dir/src/engine/render.cpp.o: src/sdl-gpu/include/SDL_gpu.h
+CMakeFiles/engine.dir/src/engine/render.cpp.o: src/sdl-gpu/include/SDL_gpu_version.h
 
 CMakeFiles/engine.dir/src/engine/sdl.cpp.o: src/engine/camera.hpp
 CMakeFiles/engine.dir/src/engine/sdl.cpp.o: src/engine/level.hpp
@@ -1018,6 +1028,8 @@ CMakeFiles/engine.dir/src/engine/sdl.cpp.o: src/box2d/b2_wheel_joint.h
 CMakeFiles/engine.dir/src/engine/sdl.cpp.o: src/box2d/b2_world.h
 CMakeFiles/engine.dir/src/engine/sdl.cpp.o: src/box2d/b2_world_callbacks.h
 CMakeFiles/engine.dir/src/engine/sdl.cpp.o: src/box2d/box2d.h
+CMakeFiles/engine.dir/src/engine/sdl.cpp.o: src/sdl-gpu/include/SDL_gpu.h
+CMakeFiles/engine.dir/src/engine/sdl.cpp.o: src/sdl-gpu/include/SDL_gpu_version.h
 
 CMakeFiles/engine.dir/src/engine/shapes.cpp.o: src/engine/shapes.cpp
 
@@ -1076,7 +1088,6 @@ CMakeFiles/engine.dir/src/engine/utility.cpp.o: /usr/include/SDL2/SDL_version.h
 CMakeFiles/engine.dir/src/engine/utility.cpp.o: /usr/include/SDL2/SDL_video.h
 CMakeFiles/engine.dir/src/engine/utility.cpp.o: /usr/include/SDL2/begin_code.h
 CMakeFiles/engine.dir/src/engine/utility.cpp.o: /usr/include/SDL2/close_code.h
-CMakeFiles/engine.dir/src/engine/utility.cpp.o: src/SDL_GFX/SDL2_gfxPrimitives.h
 CMakeFiles/engine.dir/src/engine/utility.cpp.o: src/XMLParser/xmlParser.h
 CMakeFiles/engine.dir/src/engine/utility.cpp.o: src/box2d/b2_block_allocator.h
 CMakeFiles/engine.dir/src/engine/utility.cpp.o: src/box2d/b2_body.h
@@ -1112,4 +1123,6 @@ CMakeFiles/engine.dir/src/engine/utility.cpp.o: src/box2d/b2_wheel_joint.h
 CMakeFiles/engine.dir/src/engine/utility.cpp.o: src/box2d/b2_world.h
 CMakeFiles/engine.dir/src/engine/utility.cpp.o: src/box2d/b2_world_callbacks.h
 CMakeFiles/engine.dir/src/engine/utility.cpp.o: src/box2d/box2d.h
+CMakeFiles/engine.dir/src/engine/utility.cpp.o: src/sdl-gpu/include/SDL_gpu.h
+CMakeFiles/engine.dir/src/engine/utility.cpp.o: src/sdl-gpu/include/SDL_gpu_version.h
 

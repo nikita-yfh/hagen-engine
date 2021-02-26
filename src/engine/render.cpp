@@ -1,6 +1,12 @@
 #include "render.hpp"
+#include "SDL2_gfxPrimitives.h"
 #include "camera.hpp"
 #include "sdl.hpp"
+#include <cstring>
+#include <stdlib.h>
+#include <vector>
+#include "physic.hpp"
+#include "level.hpp"
 using namespace std;
 Color scene_mask(0,0,0,0);
 void Color::set(int r,int g,int b,int a) {

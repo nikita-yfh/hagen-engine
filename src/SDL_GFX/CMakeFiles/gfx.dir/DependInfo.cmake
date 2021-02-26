@@ -26,6 +26,7 @@ set(CMAKE_C_TARGET_INCLUDE_PATH
   "src/SDL_FontCache"
   "src/XMLParser"
   "src/triangulate"
+  "src/sdl-gpu/include"
   )
 
 # Targets to which this target links.

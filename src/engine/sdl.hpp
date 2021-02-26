@@ -1,22 +1,22 @@
 #include "SDL.h"
 #include <string>
 #include <vector>
+#include "SDL_gpu.h"
 extern SDL_Event e;
-extern SDL_Renderer *ren;
-extern SDL_Window *window;
+extern GPU_Target *ren;
 extern const uint8_t* key;
 extern int SW;
 extern int SH;
 void init(const char* title,int w,int h);
 void quit();
 void panic(std::string name,std::string message);
-SDL_Texture *find_texture(std::string id);
+GPU_Image *find_texture(std::string id);
 struct Texture {
-	SDL_Texture *texture;
+	GPU_Image *texture;
 	std::string id;
 };
 extern std::vector<Texture>textures;
-extern SDL_Texture *background;
+extern GPU_Image *background;
 void load_cursor();
 void load_textures();
 void configure_textures();
