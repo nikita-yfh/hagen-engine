@@ -104,6 +104,7 @@ target_link_libraries (${ENGINE}
 	gfx
 	xml
 	fontcache
+	SDL_gpu_shared
 )
 target_link_libraries (${LEVEL_EDITOR}
 	${GTK_LIBRARIES}

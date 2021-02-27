@@ -301,7 +301,6 @@ void open_file(string path) {
 		}
 	}
 	load_textures();
-	create_cache();
 }
 
 void close_level() {

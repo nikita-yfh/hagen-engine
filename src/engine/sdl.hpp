@@ -22,4 +22,3 @@ void load_textures();
 void configure_textures();
 void destroy_textures();
 void load_background(std::string path);
-void create_cache();

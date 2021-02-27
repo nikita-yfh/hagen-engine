@@ -25,44 +25,49 @@ SDL_Color Color::color() {
 	return SDL_Color({r,g,b,a});
 }
 void draw_mask() {
-	SDL_SetRenderDrawBlendMode(ren,SDL_BLENDMODE_BLEND);
-	SDL_SetRenderDrawColor(ren, scene_mask.r,scene_mask.g,
-				     scene_mask.b,scene_mask.a);
-	SDL_RenderFillRect(ren,0);
-	SDL_SetRenderDrawBlendMode(ren,SDL_BLENDMODE_NONE);
+	GPU_RectangleFilled(ren,0,0,SW,SH,{scene_mask.r,scene_mask.g,
+				     scene_mask.b,scene_mask.a});
 }
 void draw_bgr() {
 	if(!background)return;
-	int w,h,ww,hw;
-	SDL_GetWindowSize(window,&ww,&hw);
-	SDL_QueryTexture(background,0,0,&w,&h);
-	if((float)w/h>(float)ww/hw) {
-		SDL_Rect r= {int(ww-(float)w/(float)h*hw)/2,0,int((float)w/(float)h*hw),hw};
-		SDL_RenderCopy(ren,background,0,&r);
+	float w=background->w;
+	float h=background->h;
+	if(w/h>(float)SW/SH) {
+		GPU_BlitScale(background,0,ren,int(SW-w/h*SH)/2,0,int(w/h),1);
 	} else {
-		SDL_Rect r= {0,int(hw-(float)h/(float)w*ww)/2,ww,int((float)h/(float)w*ww)};
-		SDL_RenderCopy(ren,background,0,&r);
+		GPU_BlitScale(background,0,ren,0,int(SH-h/w*SW)/2,1,int(h/w));
 	}
 }
 void fixture_draw(b2Body *body,b2Fixture *fix) {
-	float a=body->GetAngle();
+	float a=body->GetAngle()* (180/3.14);
 	std::string h=F_DATA(fix,id);
 	switch(F_DATA(fix,type)) {
 	case RECT:
 	case SQUARE: {
 		b2PolygonShape *shape=(b2PolygonShape*)fix->GetShape();
 		if(find_texture(F_DATA(fix,texture))) {
-			SDL_Rect r= {
-				drawix(body->GetPosition().x+shape->m_vertices[0].x),
-				drawiy(body->GetPosition().y+shape->m_vertices[0].y),
+			/*SDL_Rect r= {
+				,
+
 				int(zoom*(shape->m_vertices[2].x-shape->m_vertices[0].x)),
 				int(zoom*(shape->m_vertices[2].y-shape->m_vertices[0].y))
 			};
 			SDL_Point p= {
-				-int(zoom*(shape->m_vertices[0].x)),
-					-int(zoom*(shape->m_vertices[0].y))
-				};
-			SDL_RenderCopyEx(ren,find_texture(F_DATA(fix,texture)),0,&r,a*(180.0f/M_PI),&p,SDL_RendererFlip::SDL_FLIP_NONE);
+				-int(),
+					-int(
+				};*/
+			//SDL_RenderCopyEx(ren,,0,&r,a*(180.0f/M_PI),&p,SDL_RendererFlip::SDL_FLIP_NONE);
+			GPU_Image *tex=find_texture(F_DATA(fix,texture));
+			//int x=(shape->m_vertices[2].x+shape->m_vertices[0].x)/2;
+			//int y=(shape->m_vertices[2].y+shape->m_vertices[0].y)/2;
+			GPU_BlitTransformX(tex,0,ren,
+                zoom*(body->GetPosition().x+shape->m_centroid.x),
+                zoom*(body->GetPosition().y+shape->m_centroid.y),
+                zoom*(1),
+                zoom*(1),
+                a,
+                zoom*(shape->m_vertices[2].x-shape->m_vertices[0].x)/tex->w,
+                zoom*(shape->m_vertices[2].y-shape->m_vertices[0].y)/tex->h);
 		} else {
 			short *x=new short[4];
 			short *y=new short[4];
@@ -72,13 +77,14 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 				x[q]=drawix(body->GetPosition().x+xp*cos(a)-yp*sin(a));
 				y[q]=drawiy(body->GetPosition().y+yp*cos(a)+xp*sin(a));
 			}
-			polygonColor(ren,x,y,4,0xFFFFFFFF);
+			//polygonColor(ren,x,y,4,0xFFFFFFFF);
+			//GPU_
 			delete[]x;
 			delete[]y;
 		}
 	}
 	break;
-	case CIRCLE: {
+	/*case CIRCLE: {
 		b2CircleShape *shape=(b2CircleShape*)fix->GetShape();
 		short x=drawx(body->GetPosition().x+shape->m_p.x*cos(a)-shape->m_p.y*sin(a));
 		short y=drawy(body->GetPosition().y+shape->m_p.y*cos(a)+shape->m_p.x*sin(a));
@@ -146,7 +152,7 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 			delete[]yp;
 		}
 	}
-	break;
+	break;*/
 	}
 }
 void body_draw(b2Body *body) {
@@ -155,12 +161,11 @@ void body_draw(b2Body *body) {
 	}
 }
 void draw() {
-	SDL_SetRenderDrawColor(ren,0,0,0,0);
-	SDL_RenderClear(ren);
+    GPU_Clear(ren);
 	draw_bgr();
 	for(unsigned q=0; q<bodies.size(); q++) {
 		body_draw(bodies[q]);
 	}
 	draw_mask();
-	SDL_RenderPresent(ren);
+	GPU_Flip(ren);
 }

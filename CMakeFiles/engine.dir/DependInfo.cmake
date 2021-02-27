@@ -40,6 +40,7 @@ set(CMAKE_TARGET_LINKED_INFO_FILES
   "/home/nikita/c++/hagen/src/SDL_GFX/CMakeFiles/gfx.dir/DependInfo.cmake"
   "/home/nikita/c++/hagen/src/XMLParser/CMakeFiles/xml.dir/DependInfo.cmake"
   "/home/nikita/c++/hagen/src/SDL_FontCache/CMakeFiles/fontcache.dir/DependInfo.cmake"
+  "/home/nikita/c++/hagen/src/sdl-gpu/src/CMakeFiles/SDL_gpu_shared.dir/DependInfo.cmake"
   )
 
 # Fortran module output directory.

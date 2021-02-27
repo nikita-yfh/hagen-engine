@@ -268,6 +268,11 @@ bin/engine: bin/libtriangulate.so
 bin/engine: bin/libgfx.so
 bin/engine: bin/libxml.so
 bin/engine: bin/libfontcache.so
+bin/engine: bin/libSDL2_gpu.so
+bin/engine: /usr/lib/libSDL2.so
+bin/engine: /usr/lib/libm.so
+bin/engine: /usr/lib/libGL.so
+bin/engine: /usr/lib/libGLU.so
 bin/engine: CMakeFiles/engine.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/nikita/c++/hagen/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Linking CXX executable bin/engine"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/engine.dir/link.txt --verbose=$(VERBOSE)
