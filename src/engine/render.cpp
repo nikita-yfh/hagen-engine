@@ -39,71 +39,55 @@ void draw_bgr() {
 	}
 }
 void fixture_draw(b2Body *body,b2Fixture *fix) {
-	float a=body->GetAngle()* (180/3.14);
+	float a_rad=body->GetAngle();
+	float a_deg=a_rad*(180/3.14);
 	std::string h=F_DATA(fix,id);
+    GPU_Image *tex=find_texture(F_DATA(fix,texture));
 	switch(F_DATA(fix,type)) {
 	case RECT:
 	case SQUARE: {
 		b2PolygonShape *shape=(b2PolygonShape*)fix->GetShape();
-		if(find_texture(F_DATA(fix,texture))) {
-			GPU_Image *tex=find_texture(F_DATA(fix,texture));
-			float &x=shape->m_centroid.x;
-			float &y=shape->m_centroid.y;
-
-			static int b=0,c=0;
-			if(e.type==SDL_KEYDOWN&&key[SDL_SCANCODE_A])b++;
-			if(e.type==SDL_KEYDOWN&&key[SDL_SCANCODE_D])b--;
-			if(e.type==SDL_KEYDOWN&&key[SDL_SCANCODE_W])c++;
-			if(e.type==SDL_KEYDOWN&&key[SDL_SCANCODE_S])c--;
-			float w=shape->m_vertices[0].x-shape->m_vertices[2].x;
-			float h=shape->m_vertices[0].y-shape->m_vertices[2].y;
+		if(tex) {
 			GPU_BlitTransformX(tex,0,ren,
-                drawx(body->GetPosition().x),
-                drawy(body->GetPosition().y),
-                (shape->m_centroid.x+0.5)*tex->w,//b,//(shape->m_vertices[0].x-x)/(shape->m_vertices[0].x-shape->m_vertices[2].x)*tex->w,
-                (shape->m_centroid.y+0.5)*tex->h,//c,//(shape->m_vertices[0].y-y)/(shape->m_vertices[0].y-shape->m_vertices[2].y)*tex->h,
-                a,
-                zoom*w/tex->w,
-                zoom*h/tex->h);
+                drawx(body->GetPosition().x),drawy(body->GetPosition().y),
+                (shape->m_centroid.x+0.5)*tex->w,
+                (shape->m_centroid.y+0.5)*tex->h,a_deg,
+                zoom*(shape->m_vertices[0].x-shape->m_vertices[2].x)/tex->w,
+                zoom*(shape->m_vertices[0].y-shape->m_vertices[2].y)/tex->h);
 		} else {
-			/*short *x=new short[4];
-			short *y=new short[4];
+			float x[4];
+			float y[4];
 			for(int q=0; q<4; q++) {
 				float xp=shape->m_vertices[q].x;
 				float yp=shape->m_vertices[q].y;
-				x[q]=drawix(body->GetPosition().x+xp*cos(a)-yp*sin(a));
-				y[q]=drawiy(body->GetPosition().y+yp*cos(a)+xp*sin(a));
+				x[q]=drawx(body->GetPosition().x+xp*cos(a_rad)-yp*sin(a_rad));
+				y[q]=drawy(body->GetPosition().y+yp*cos(a_rad)+xp*sin(a_rad));
 			}
-			delete[]x;
-			delete[]y;*/
+			for(int q=0;q<4;q++)
+                GPU_Line(ren,x[q],y[q],x[(q+1)%4],y[(q+1)%4],{255,255,255,255});
 		}
 	}
 	break;
-	/*case CIRCLE: {
+	case CIRCLE: {
 		b2CircleShape *shape=(b2CircleShape*)fix->GetShape();
-		short x=drawx(body->GetPosition().x+shape->m_p.x*cos(a)-shape->m_p.y*sin(a));
-		short y=drawy(body->GetPosition().y+shape->m_p.y*cos(a)+shape->m_p.x*sin(a));
-		short xp=x+(zoom*shape->m_radius)*cos(a);
-		short yp=y+(zoom*shape->m_radius)*sin(a);
-		if(find_texture(F_DATA(fix,texture))) {
-			SDL_Rect r= {
-				drawix(body->GetPosition().x+shape->m_p.x-shape->m_radius),
-				drawiy(body->GetPosition().y+shape->m_p.y-shape->m_radius),
-				int(zoom*shape->m_radius*2),
-				int(zoom*shape->m_radius*2)
-			};
-			SDL_Point p= {
-				-int(zoom*(shape->m_p.x-shape->m_radius)),
-					-int(zoom*(shape->m_p.y-shape->m_radius))
-				};
-			SDL_RenderCopyEx(ren,find_texture(F_DATA(fix,texture)),0,&r,a*(180.0f/M_PI),&p,SDL_RendererFlip::SDL_FLIP_NONE);
+		if(tex) {
+			GPU_BlitTransformX(tex,0,ren,
+                drawx(body->GetPosition().x),drawy(body->GetPosition().y),
+                (-shape->m_p.x+0.5)*tex->w,
+                (-shape->m_p.y+0.5)*tex->h,a_deg,
+                zoom*shape->m_radius*2/tex->w,
+                zoom*shape->m_radius*2/tex->h);
 		} else {
-			circleColor(ren,x,y,zoom*shape->m_radius,0xFFFFFFFF);
-			lineColor(ren,x,y,xp,yp,0xFFFFFFFF);
+            float x=drawx(body->GetPosition().x+shape->m_p.x*cos(a_rad)-shape->m_p.y*sin(a_rad));
+            float y=drawy(body->GetPosition().y+shape->m_p.y*cos(a_rad)+shape->m_p.x*sin(a_rad));
+            float xp=x+(zoom*shape->m_radius)*cos(a_rad);
+            float yp=y+(zoom*shape->m_radius)*sin(a_rad);
+            GPU_Circle(ren,x,y,shape->m_radius*zoom,{255,255,255,255});
+            GPU_Line(ren,x,y,xp,yp,{255,255,255,255});
 		}
 	}
 	break;
-	case LINE: {
+	/*case LINE: {
 		b2EdgeShape *shape=(b2EdgeShape*)fix->GetShape();
 		short x1=drawix(body->GetPosition().x+shape->m_vertex1.x*cos(a)-shape->m_vertex1.y*sin(a));
 		short y1=drawiy(body->GetPosition().y+shape->m_vertex1.y*cos(a)+shape->m_vertex1.x*sin(a));

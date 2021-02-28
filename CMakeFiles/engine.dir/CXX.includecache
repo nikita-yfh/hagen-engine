@@ -6,15 +6,51 @@
 
 #IncludeRegexTransform: 
 
-/home/nikita/c++/hagen/src/engine/camera.cpp
+/home/nikita/c++/hagen/src/engine/camera.hpp
+box2d.h
+/home/nikita/c++/hagen/src/engine/box2d.h
+
+/home/nikita/c++/hagen/src/engine/level.hpp
+box2d.h
+/home/nikita/c++/hagen/src/engine/box2d.h
+xmlParser.h
+/home/nikita/c++/hagen/src/engine/xmlParser.h
+string
+-
+vector
+-
+
+/home/nikita/c++/hagen/src/engine/physic.hpp
+string
+-
+box2d.h
+/home/nikita/c++/hagen/src/engine/box2d.h
+
+/home/nikita/c++/hagen/src/engine/render.cpp
+render.hpp
+/home/nikita/c++/hagen/src/engine/render.hpp
+SDL2_gfxPrimitives.h
+/home/nikita/c++/hagen/src/engine/SDL2_gfxPrimitives.h
 camera.hpp
 /home/nikita/c++/hagen/src/engine/camera.hpp
 sdl.hpp
 /home/nikita/c++/hagen/src/engine/sdl.hpp
+cstring
+-
+stdlib.h
+-
+vector
+-
+physic.hpp
+/home/nikita/c++/hagen/src/engine/physic.hpp
+level.hpp
+/home/nikita/c++/hagen/src/engine/level.hpp
 
-/home/nikita/c++/hagen/src/engine/camera.hpp
+/home/nikita/c++/hagen/src/engine/render.hpp
 box2d.h
 /home/nikita/c++/hagen/src/engine/box2d.h
+SDL.h
+/home/nikita/c++/hagen/src/engine/SDL.h
 
 /home/nikita/c++/hagen/src/engine/sdl.hpp
 SDL.h
@@ -667,6 +703,24 @@ close_code.h
 /usr/include/SDL2/begin_code.h
 
 /usr/include/SDL2/close_code.h
+
+src/SDL_GFX/SDL2_gfxPrimitives.h
+math.h
+-
+SDL2/SDL.h
+src/SDL_GFX/SDL2/SDL.h
+
+src/XMLParser/xmlParser.h
+stdlib.h
+-
+tchar.h
+-
+wchar.h
+-
+string
+-
+sstream
+-
 
 src/box2d/b2_block_allocator.h
 b2_settings.h

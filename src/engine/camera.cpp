@@ -1,7 +1,7 @@
 #include "camera.hpp"
 #include "sdl.hpp"
 float cx=0,cy=0;
-float zoom=50;
+float zoom=100;
 void center_body(b2Body *body) {
 	center(body->GetX(),body->GetY());
 }

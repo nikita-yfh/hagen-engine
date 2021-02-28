@@ -313,7 +313,6 @@ void create_tools() {
 	tool[10]=	NEW_TOOLRB(tools,tool[9],	0,0,0,"pulley.png",		L(block=1; change_tool(10); block=0;));
 	tool[11]=	NEW_TOOLRB(tools,tool[10],	0,0,0,"gear.png",		L(block=1; change_tool(11); block=0;));
 	tool[12]=	NEW_TOOLRB(tools,tool[11],	0,0,0,"distance.png",	L(block=1; change_tool(12); block=0;));
-	gtk_toolbar_set_style(GTK_TOOLBAR(tools),GTK_TOOLBAR_ICONS);
 	gtk_box_pack_start(GTK_BOX(box_v),tools,0,1,0);
 }
 void create_buttons() {
@@ -390,7 +389,7 @@ void init() {
 	gtk_container_add(GTK_CONTAINER(eventbox),	drawable);
 
 	gtk_box_pack_start(GTK_BOX(panel),		prop_scroll,	1,1,0);
-	gtk_box_pack_start(GTK_BOX(box_h),p1,1,1,0);
+	gtk_box_pack_start(GTK_BOX(box_h),      p1,             1,1,0);
 
 	gtk_paned_pack2(GTK_PANED(p1),main_area,1,0);
 	gtk_paned_pack1(GTK_PANED(p1),panel,	0,0);

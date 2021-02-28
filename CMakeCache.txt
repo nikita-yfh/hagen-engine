@@ -307,6 +307,9 @@ Project_BINARY_DIR:STATIC=/home/nikita/c++/hagen
 //Value Computed by CMake
 Project_SOURCE_DIR:STATIC=/home/nikita/c++/hagen
 
+//The directory containing a CMake configuration file for SDL2.
+SDL2_DIR:PATH=/usr/lib64/cmake/SDL2
+
 //The SDL include directory
 SDL2_INCLUDE_DIR:PATH=/usr/include/SDL2
 
@@ -325,6 +328,9 @@ SDL_gpu_SOURCE_DIR:STATIC=/home/nikita/c++/hagen/src/sdl-gpu
 //Dependencies for the target
 SDL_gpu_shared_LIB_DEPENDS:STATIC=general;/usr/lib/libSDL2.so;general;/usr/lib/libm.so;general;/usr/lib/libGL.so;general;/usr/lib/libGLU.so;
 
+//The directory containing a CMake configuration file for STBI.
+STBI_DIR:PATH=STBI_DIR-NOTFOUND
+
 //Path to a file.
 STBI_INCLUDE_DIR:PATH=STBI_INCLUDE_DIR-NOTFOUND
 
@@ -336,6 +342,9 @@ STBI_WRITE_INCLUDE_DIR:PATH=STBI_WRITE_INCLUDE_DIR-NOTFOUND
 
 //Path to a library.
 STBI_WRITE_LIBRARY:FILEPATH=STBI_WRITE_LIBRARY-NOTFOUND
+
+//The directory containing a CMake configuration file for STBI_write.
+STBI_write_DIR:PATH=STBI_write_DIR-NOTFOUND
 
 //Upload VBOs by mapping to client memory
 USE_BUFFER_MAPPING:BOOL=OFF
