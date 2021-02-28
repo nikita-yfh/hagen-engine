@@ -20,7 +20,7 @@ bool game() {
 			break;
 		}
 		draw();
-		SDL_Delay(1);
+		//SDL_Delay(1);
 		lua_gameloop();
 		int step=SDL_GetTicks()-fps;
 		fps=SDL_GetTicks();

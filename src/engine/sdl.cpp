@@ -21,8 +21,7 @@ void init(const char* title,int w,int h) {
 	SDL_Init(SDL_INIT_EVERYTHING);
 	TTF_Init();
 	IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG);
-	//window=SDL_CreateWindow(title,100,100,w,h,SDL_WINDOW_SHOWN|SDL_WINDOW_RESIZABLE|SDL_WINDOW_OPENGL);
-	ren=GPU_Init(w,h,0);
+	ren=GPU_Init(w,h,GPU_DEFAULT_INIT_FLAGS);
 	SW=w;
 	SH=h;
 }
@@ -32,8 +31,6 @@ GPU_Image *find_texture(std::string id) {
 	return 0;
 }
 void quit() {
-	//SDL_DestroyRenderer(ren);
-	//SDL_DestroyWindow(window);
 	GPU_Quit();
 	IMG_Quit();
 	TTF_Quit();

@@ -46,30 +46,27 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 	case SQUARE: {
 		b2PolygonShape *shape=(b2PolygonShape*)fix->GetShape();
 		if(find_texture(F_DATA(fix,texture))) {
-			/*SDL_Rect r= {
-				,
-
-				int(zoom*(shape->m_vertices[2].x-shape->m_vertices[0].x)),
-				int(zoom*(shape->m_vertices[2].y-shape->m_vertices[0].y))
-			};
-			SDL_Point p= {
-				-int(),
-					-int(
-				};*/
-			//SDL_RenderCopyEx(ren,,0,&r,a*(180.0f/M_PI),&p,SDL_RendererFlip::SDL_FLIP_NONE);
 			GPU_Image *tex=find_texture(F_DATA(fix,texture));
-			//int x=(shape->m_vertices[2].x+shape->m_vertices[0].x)/2;
-			//int y=(shape->m_vertices[2].y+shape->m_vertices[0].y)/2;
+			float &x=shape->m_centroid.x;
+			float &y=shape->m_centroid.y;
+
+			static int b=0,c=0;
+			if(e.type==SDL_KEYDOWN&&key[SDL_SCANCODE_A])b++;
+			if(e.type==SDL_KEYDOWN&&key[SDL_SCANCODE_D])b--;
+			if(e.type==SDL_KEYDOWN&&key[SDL_SCANCODE_W])c++;
+			if(e.type==SDL_KEYDOWN&&key[SDL_SCANCODE_S])c--;
+			float w=shape->m_vertices[0].x-shape->m_vertices[2].x;
+			float h=shape->m_vertices[0].y-shape->m_vertices[2].y;
 			GPU_BlitTransformX(tex,0,ren,
-                zoom*(body->GetPosition().x+shape->m_centroid.x),
-                zoom*(body->GetPosition().y+shape->m_centroid.y),
-                zoom*(1),
-                zoom*(1),
+                drawx(body->GetPosition().x),
+                drawy(body->GetPosition().y),
+                (shape->m_centroid.x+0.5)*tex->w,//b,//(shape->m_vertices[0].x-x)/(shape->m_vertices[0].x-shape->m_vertices[2].x)*tex->w,
+                (shape->m_centroid.y+0.5)*tex->h,//c,//(shape->m_vertices[0].y-y)/(shape->m_vertices[0].y-shape->m_vertices[2].y)*tex->h,
                 a,
-                zoom*(shape->m_vertices[2].x-shape->m_vertices[0].x)/tex->w,
-                zoom*(shape->m_vertices[2].y-shape->m_vertices[0].y)/tex->h);
+                zoom*w/tex->w,
+                zoom*h/tex->h);
 		} else {
-			short *x=new short[4];
+			/*short *x=new short[4];
 			short *y=new short[4];
 			for(int q=0; q<4; q++) {
 				float xp=shape->m_vertices[q].x;
@@ -77,10 +74,8 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 				x[q]=drawix(body->GetPosition().x+xp*cos(a)-yp*sin(a));
 				y[q]=drawiy(body->GetPosition().y+yp*cos(a)+xp*sin(a));
 			}
-			//polygonColor(ren,x,y,4,0xFFFFFFFF);
-			//GPU_
 			delete[]x;
-			delete[]y;
+			delete[]y;*/
 		}
 	}
 	break;

@@ -4,24 +4,38 @@
 	<start x="8" y="3"/>
 	<end x="3" y="5.5"/>
 	<bodies count="2">
-		<body x="3.25" y="2.25" id="ground" type="static" shapes="1">
+		<body x="3" y="3.5" id="ground" type="static" shapes="1">
 			<physic bullet="0" fixed_rotation="0" gravity_scale="1"/>
 			<shape id="NewRect3" type="Rect" pos="physic" texture="wooden_box.png">
-				<position x1="-2.75" y1="-0.25" x2="2.75" y2="0.25"/>
+				<position x1="-2.5" y1="0.5" x2="2.5" y2="-0.5"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 			</shape>
 		</body>
-		<body x="2.875" y="1.25" id="NewBody1" type="dynamic" shapes="2">
+		<body x="3.25" y="1.5" id="NewBody1" type="dynamic" shapes="4">
 			<physic bullet="0" fixed_rotation="0" gravity_scale="1"/>
-			<shape id="NewRect1" type="Rect" pos="physic" texture="wooden_box.png">
-				<position x1="-0.375" y1="0.75" x2="-0.875" y2="-0.75"/>
+			<shape id="NewSquare1" type="Square" pos="physic" texture="wooden_box.png">
+				<position x="-0.25" y="1" r="0.5"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 			</shape>
-			<shape id="NewRect2" type="Rect" pos="physic" texture="wooden_box.png">
-				<position x1="-0.875" y1="-0.25" x2="2.125" y2="0.25"/>
+			<shape id="NewSquare2" type="Square" pos="physic" texture="wooden_box.png">
+				<position x="-0.25" y="-1" r="0.5"/>
+				<physic density="1000" friction="0.3" restitution="0"/>
+			</shape>
+			<shape id="NewSquare3" type="Square" pos="physic" texture="wooden_box.png">
+				<position x="-1.25" y="0" r="0.5"/>
+				<physic density="1000" friction="0.3" restitution="0"/>
+			</shape>
+			<shape id="NewSquare4" type="Square" pos="physic" texture="barrel1.png">
+				<position x="1.75" y="0" r="1"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 			</shape>
 		</body>
 	</bodies>
-	<joints count="0"/>
+	<joints count="1">
+		<joint type="RevoluteJoint" id="NewRevoluteJoint1">
+			<connected collide="0" id1="NewBody1" id2="ground"/>
+			<position x="3" y="1.5"/>
+			<physic limit="0" motor="1" speed="10.1" max_torque="1e+07"/>
+		</joint>
+	</joints>
 </level>
