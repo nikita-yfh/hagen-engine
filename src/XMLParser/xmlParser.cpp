@@ -269,25 +269,25 @@ char *myWideCharToMultiByte(const wchar_t *s) {
 	UINT codePage=CP_ACP;
 	if (characterEncoding==XMLNode::char_encoding_UTF8) codePage=CP_UTF8;
 	int i=(int)WideCharToMultiByte(codePage,  // code page
-						 0,                       // performance and mapping flags
-						 s,                       // wide-character string
-						 -1,                       // number of chars in string
-						 NULL,                       // buffer for new string
-						 0,                       // size of buffer
-						 NULL,                    // default for unmappable chars
-						 NULL                     // set when default char used
-						);
+								   0,                       // performance and mapping flags
+								   s,                       // wide-character string
+								   -1,                       // number of chars in string
+								   NULL,                       // buffer for new string
+								   0,                       // size of buffer
+								   NULL,                    // default for unmappable chars
+								   NULL                     // set when default char used
+								  );
 	if (i<0) return NULL;
 	char *d=(char*)malloc(i+1);
 	WideCharToMultiByte(codePage,  // code page
-				  0,                       // performance and mapping flags
-				  s,                       // wide-character string
-				  -1,                       // number of chars in string
-				  d,                       // buffer for new string
-				  i,                       // size of buffer
-				  NULL,                    // default for unmappable chars
-				  NULL                     // set when default char used
-				 );
+						0,                       // performance and mapping flags
+						s,                       // wide-character string
+						-1,                       // number of chars in string
+						d,                       // buffer for new string
+						i,                       // size of buffer
+						NULL,                    // default for unmappable chars
+						NULL                     // set when default char used
+					   );
 	d[i]=0;
 	return d;
 }
@@ -571,11 +571,11 @@ XMLNode XMLNode::openFileHelper(XMLCSTR filename, XMLCSTR tag,bool th) {
 		snprintf(message,2000,
 #endif
 #ifdef _XMLWIDECHAR
-			    "XML Parsing error inside file '%S'.\n%S\nAt line %i, column %i.\n%s%S%s"
+				  "XML Parsing error inside file '%S'.\n%S\nAt line %i, column %i.\n%s%S%s"
 #else
-			    "XML Parsing error inside file '%s'.\n%s\nAt line %i, column %i.\n%s%s%s"
+				  "XML Parsing error inside file '%s'.\n%s\nAt line %i, column %i.\n%s%s%s"
 #endif
-			    ,filename,XMLNode::getError(pResults.error),pResults.nLine,pResults.nColumn,s1,s2,s3);
+				  ,filename,XMLNode::getError(pResults.error),pResults.nLine,pResults.nColumn,s1,s2,s3);
 		if(th)throw (std::string)message;
 	}
 	return xnode;
@@ -2978,7 +2978,7 @@ XMLClear     *XMLNode::updateClear(XMLClear *newP,XMLClear *oldP) {
 }
 
 char XMLNode::setGlobalOptions(XMLCharEncoding _characterEncoding, char _guessWideCharChars,
-					 char _dropWhiteSpace, char _removeCommentsInMiddleOfText) {
+							   char _dropWhiteSpace, char _removeCommentsInMiddleOfText) {
 	guessWideCharChars=_guessWideCharChars;
 	dropWhiteSpace=_dropWhiteSpace;
 	removeCommentsInMiddleOfText=_removeCommentsInMiddleOfText;

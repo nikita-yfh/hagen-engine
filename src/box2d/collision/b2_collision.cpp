@@ -24,8 +24,8 @@
 #include "b2_distance.h"
 
 void b2WorldManifold::Initialize(const b2Manifold* manifold,
-					   const b2Transform& xfA, float radiusA,
-					   const b2Transform& xfB, float radiusB) {
+								 const b2Transform& xfA, float radiusA,
+								 const b2Transform& xfB, float radiusB) {
 	if (manifold->pointCount == 0) {
 		return;
 	}
@@ -81,7 +81,7 @@ void b2WorldManifold::Initialize(const b2Manifold* manifold,
 }
 
 void b2GetPointStates(b2PointState state1[b2_maxManifoldPoints], b2PointState state2[b2_maxManifoldPoints],
-			    const b2Manifold* manifold1, const b2Manifold* manifold2) {
+					  const b2Manifold* manifold1, const b2Manifold* manifold2) {
 	for (int32 i = 0; i < b2_maxManifoldPoints; ++i) {
 		state1[i] = b2_nullState;
 		state2[i] = b2_nullState;
@@ -176,7 +176,7 @@ bool b2AABB::RayCast(b2RayCastOutput* output, const b2RayCastInput& input) const
 
 // Sutherland-Hodgman clipping.
 int32 b2ClipSegmentToLine(b2ClipVertex vOut[2], const b2ClipVertex vIn[2],
-				  const b2Vec2& normal, float offset, int32 vertexIndexA) {
+						  const b2Vec2& normal, float offset, int32 vertexIndexA) {
 	// Start with no output points
 	int32 count = 0;
 
@@ -208,8 +208,8 @@ int32 b2ClipSegmentToLine(b2ClipVertex vOut[2], const b2ClipVertex vIn[2],
 }
 
 bool b2TestOverlap(	const b2Shape* shapeA, int32 indexA,
-				const b2Shape* shapeB, int32 indexB,
-				const b2Transform& xfA, const b2Transform& xfB) {
+					const b2Shape* shapeB, int32 indexB,
+					const b2Transform& xfA, const b2Transform& xfB) {
 	b2DistanceInput input;
 	input.proxyA.Set(shapeA, indexA);
 	input.proxyB.Set(shapeB, indexB);

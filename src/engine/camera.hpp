@@ -12,3 +12,6 @@ float drawx(float wx);
 float drawy(float dy);
 int drawix(float wx);
 int drawiy(float dy);
+float rotatex(b2Vec2 vec,float a);
+float rotatey(b2Vec2 vec,float a);
+b2Vec2 rotate(b2Vec2 vec,float a);

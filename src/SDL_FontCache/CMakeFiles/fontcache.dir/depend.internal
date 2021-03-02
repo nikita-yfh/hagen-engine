@@ -53,3 +53,5 @@ src/SDL_FontCache/CMakeFiles/fontcache.dir/SDL_FontCache.c.o
  /usr/include/SDL2/SDL_video.h
  /usr/include/SDL2/begin_code.h
  /usr/include/SDL2/close_code.h
+ src/sdl-gpu/include/SDL_gpu.h
+ src/sdl-gpu/include/SDL_gpu_version.h

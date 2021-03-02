@@ -47,6 +47,6 @@ b2CircleContact::b2CircleContact(b2Fixture* fixtureA, b2Fixture* fixtureB)
 
 void b2CircleContact::Evaluate(b2Manifold* manifold, const b2Transform& xfA, const b2Transform& xfB) {
 	b2CollideCircles(manifold,
-			     (b2CircleShape*)m_fixtureA->GetShape(), xfA,
-			     (b2CircleShape*)m_fixtureB->GetShape(), xfB);
+					 (b2CircleShape*)m_fixtureA->GetShape(), xfA,
+					 (b2CircleShape*)m_fixtureB->GetShape(), xfB);
 }

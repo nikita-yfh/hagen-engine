@@ -112,8 +112,8 @@ struct PulleyJoint : Joint {
 	float	x1=-1000,y1=-1000,x2=-1000,y2=-1000,x3=-1000,y3=-1000,x4=-1000,y4=-1000;
 	float ratio=1.0f;
 	static GtkWidget	*px1, *px2, *py1, *py2, *tx1, *tx2, *ty1, *ty2,
-		  *px3, *px4, *py3, *py4, *tx3, *tx4, *ty3, *ty4,
-		  *pr, *tr, *info;
+			  *px3, *px4, *py3, *py4, *tx3, *tx4, *ty3, *ty4,
+			  *pr, *tr, *info;
 	static GtkObject *ax1, *ax2, *ax3, *ax4, *ay1, *ay2, *ay3, *ay4, *ar;
 	void draw(cairo_t *cr);
 	bool drag(float xp,float yp,int dr);

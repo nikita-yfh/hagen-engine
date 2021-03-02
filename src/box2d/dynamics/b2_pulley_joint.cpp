@@ -37,9 +37,9 @@
 //   = invMass1 + invI1 * cross(r1, u1)^2 + ratio^2 * (invMass2 + invI2 * cross(r2, u2)^2)
 
 void b2PulleyJointDef::Initialize(b2Body* bA, b2Body* bB,
-					    const b2Vec2& groundA, const b2Vec2& groundB,
-					    const b2Vec2& anchorA, const b2Vec2& anchorB,
-					    float r) {
+								  const b2Vec2& groundA, const b2Vec2& groundB,
+								  const b2Vec2& anchorA, const b2Vec2& anchorB,
+								  float r) {
 	bodyA = bA;
 	bodyB = bB;
 	groundAnchorA = groundA;

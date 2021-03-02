@@ -77,7 +77,7 @@ public:
 	}
 
 	/// The local anchor point relative to bodyB's origin.
-	const b2Vec2& GetLocalAnchorB() const  {
+	const b2Vec2& GetLocalAnchorB() const {
 		return m_localAnchorB;
 	}
 

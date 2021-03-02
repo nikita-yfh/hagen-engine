@@ -99,7 +99,7 @@ void Body::update1() {
 	if(!p || point_ch)return;
 	p->type=gtk_combo_box_get_active(GTK_COMBO_BOX(combo));
 	p->setpos(gtk_adjustment_get_value(GTK_ADJUSTMENT(ax)),
-		    gtk_adjustment_get_value(GTK_ADJUSTMENT(ay)));
+			  gtk_adjustment_get_value(GTK_ADJUSTMENT(ay)));
 	p->bullet=gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(cb));
 	p->fixed_rot=gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(cr));
 	p->gravity_scale=gtk_adjustment_get_value(GTK_ADJUSTMENT(as));
@@ -166,7 +166,7 @@ void Body::save(XMLNode &parent,bool p) {
 				pos.addAttribute("y",c->y-yb);
 				pos.addAttribute("r",c->r);
 			} else if(shape->name()=="Rect" ||
-					shape->name()=="Line") {
+					  shape->name()=="Line") {
 				BiPoints *rect=TYPE(BiPoints*,shape);
 				pos.addAttribute("x1",rect->x1-xb);
 				pos.addAttribute("y1",rect->y1-yb);
@@ -219,22 +219,22 @@ void Body::load(XMLNode &node,bool p) {
 			string str=sh.getAttribute("type");
 			if(str=="Square") {
 				shp=new Square(to_fl(pos.getAttribute("x"))+x,
-						   to_fl(pos.getAttribute("y"))+y,
-						   to_fl(pos.getAttribute("r")));
+							   to_fl(pos.getAttribute("y"))+y,
+							   to_fl(pos.getAttribute("r")));
 			} else if(str=="Circle") {
 				shp=new Circle(to_fl(pos.getAttribute("x"))+x,
-						   to_fl(pos.getAttribute("y"))+y,
-						   to_fl(pos.getAttribute("r")));
+							   to_fl(pos.getAttribute("y"))+y,
+							   to_fl(pos.getAttribute("r")));
 			} else if(str=="Rect") {
 				shp=new Rect(to_fl(pos.getAttribute("x1"))+x,
-						 to_fl(pos.getAttribute("y1"))+y,
-						 to_fl(pos.getAttribute("x2"))+x,
-						 to_fl(pos.getAttribute("y2"))+y);
+							 to_fl(pos.getAttribute("y1"))+y,
+							 to_fl(pos.getAttribute("x2"))+x,
+							 to_fl(pos.getAttribute("y2"))+y);
 			} else if(str=="Line") {
 				shp=new Line(to_fl(pos.getAttribute("x1"))+x,
-						 to_fl(pos.getAttribute("y1"))+y,
-						 to_fl(pos.getAttribute("x2"))+x,
-						 to_fl(pos.getAttribute("y2"))+y);
+							 to_fl(pos.getAttribute("y1"))+y,
+							 to_fl(pos.getAttribute("x2"))+x,
+							 to_fl(pos.getAttribute("y2"))+y);
 			} else if(str=="Polygon") {
 				int c=stoi(pos.getAttribute("point_count"));
 				vector<float>xp(c);
@@ -281,7 +281,7 @@ bool Body::template_save(string str) {
 void template_save() {
 	string str=get_save_path("templates");
 	if(str.size()) {
-		if([&]()->bool{
+		if([&]()->bool {
 		Body *b=get_selected_body();
 			if(!b)return 1;
 			if(b->template_save(str))return 1;

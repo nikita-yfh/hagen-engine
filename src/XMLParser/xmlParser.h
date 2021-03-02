@@ -300,8 +300,8 @@ public:
 
 	/// Save the content of an xmlNode inside a file
 	XMLError writeToFile(XMLCSTR filename,
-				   const char *encoding=NULL,
-				   char nFormat=1) const;
+						 const char *encoding=NULL,
+						 char nFormat=1) const;
 	/**< If nFormat==0, no formatting is required otherwise this returns an user friendly XML string from a given element with appropriate white spaces and carriage returns.
 	 * If the global parameter "characterEncoding==encoding_UTF8", then the "encoding" parameter is ignored and always set to "utf-8".
 	 * If the global parameter "characterEncoding==encoding_ShiftJIS", then the "encoding" parameter is ignored and always set to "SHIFT-JIS".
@@ -321,9 +321,9 @@ public:
 	XMLNode getChildNode(XMLCSTR name, int *i=NULL) const;         ///< return next child node with specific name (return an empty node if failing)
 	bool existChildNode(XMLCSTR name, int *j) const;
 	XMLNode getChildNodeWithAttribute(XMLCSTR tagName,
-						    XMLCSTR attributeName,
-						    XMLCSTR attributeValue=NULL,
-						    int *i=NULL)  const;         ///< return child node with specific name/attribute (return an empty node if failing)
+									  XMLCSTR attributeName,
+									  XMLCSTR attributeValue=NULL,
+									  int *i=NULL)  const;         ///< return child node with specific name/attribute (return an empty node if failing)
 	XMLNode getChildNodeByPath(XMLCSTR path, char createNodeIfMissing=0, XMLCHAR sep='/');
 	///< return the first child node with specific path
 	XMLNode getChildNodeByPathNonConst(XMLSTR  path, char createNodeIfMissing=0, XMLCHAR sep='/');
@@ -516,7 +516,7 @@ public:
 
 	/// Sets the global options for the conversions
 	static char setGlobalOptions(XMLCharEncoding characterEncoding=XMLNode::char_encoding_UTF8, char guessWideCharChars=1,
-					     char dropWhiteSpace=1, char removeCommentsInMiddleOfText=1);
+								 char dropWhiteSpace=1, char removeCommentsInMiddleOfText=1);
 	/**< The "setGlobalOptions" function allows you to change four global parameters that affect string & file
 	 * parsing. First of all, you most-probably will never have to change these 3 global parameters.
 	 *
@@ -587,9 +587,9 @@ public:
 	typedef struct XMLNodeDataTag { // to allow shallow copy and "intelligent/smart" pointers (automatic delete):
 		XMLCSTR                lpszName;        // Element name (=NULL if root)
 		int                    nChild,          // Number of child nodes
-					     nText,           // Number of text fields
-					     nClear,          // Number of Clear fields (comments)
-					     nAttribute;      // Number of attributes
+							   nText,           // Number of text fields
+							   nClear,          // Number of Clear fields (comments)
+							   nAttribute;      // Number of attributes
 		char                   isDeclaration;   // Whether node is an XML declaration - '<?xml ?>'
 		struct XMLNodeDataTag  *pParent;        // Pointer to parent element (=NULL if root)
 		XMLNode                *pChild;         // Array of child nodes

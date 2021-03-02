@@ -849,6 +849,7 @@ CMakeFiles/engine.dir/src/engine/render.cpp.o
  /home/nikita/c++/hagen/src/engine/render.cpp
  /home/nikita/c++/hagen/src/engine/render.hpp
  /home/nikita/c++/hagen/src/engine/sdl.hpp
+ /home/nikita/c++/hagen/src/engine/utility.hpp
  /usr/include/SDL2/SDL.h
  /usr/include/SDL2/SDL_assert.h
  /usr/include/SDL2/SDL_atomic.h
@@ -897,7 +898,6 @@ CMakeFiles/engine.dir/src/engine/render.cpp.o
  /usr/include/SDL2/SDL_video.h
  /usr/include/SDL2/begin_code.h
  /usr/include/SDL2/close_code.h
- src/SDL_GFX/SDL2_gfxPrimitives.h
  src/XMLParser/xmlParser.h
  src/box2d/b2_block_allocator.h
  src/box2d/b2_body.h

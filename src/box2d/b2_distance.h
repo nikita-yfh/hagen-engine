@@ -90,8 +90,8 @@ struct b2DistanceOutput {
 /// b2CircleShape, b2PolygonShape, b2EdgeShape. The simplex cache is input/output.
 /// On the first call set b2SimplexCache.count to zero.
 void b2Distance(b2DistanceOutput* output,
-		    b2SimplexCache* cache,
-		    const b2DistanceInput* input);
+				b2SimplexCache* cache,
+				const b2DistanceInput* input);
 
 /// Input parameters for b2ShapeCast
 struct b2ShapeCastInput {

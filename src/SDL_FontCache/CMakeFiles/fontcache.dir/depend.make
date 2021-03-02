@@ -52,4 +52,6 @@ src/SDL_FontCache/CMakeFiles/fontcache.dir/SDL_FontCache.c.o: /usr/include/SDL2/
 src/SDL_FontCache/CMakeFiles/fontcache.dir/SDL_FontCache.c.o: /usr/include/SDL2/SDL_video.h
 src/SDL_FontCache/CMakeFiles/fontcache.dir/SDL_FontCache.c.o: /usr/include/SDL2/begin_code.h
 src/SDL_FontCache/CMakeFiles/fontcache.dir/SDL_FontCache.c.o: /usr/include/SDL2/close_code.h
+src/SDL_FontCache/CMakeFiles/fontcache.dir/SDL_FontCache.c.o: src/sdl-gpu/include/SDL_gpu.h
+src/SDL_FontCache/CMakeFiles/fontcache.dir/SDL_FontCache.c.o: src/sdl-gpu/include/SDL_gpu_version.h
 

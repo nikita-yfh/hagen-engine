@@ -284,11 +284,11 @@ CMakeFiles/level-editor.dir/clean:
 
 # All Build rule for target.
 CMakeFiles/engine.dir/all: src/box2d/CMakeFiles/box2d.dir/all
-CMakeFiles/engine.dir/all: src/SDL_FontCache/CMakeFiles/fontcache.dir/all
-CMakeFiles/engine.dir/all: src/XMLParser/CMakeFiles/xml.dir/all
-CMakeFiles/engine.dir/all: src/SDL_GFX/CMakeFiles/gfx.dir/all
-CMakeFiles/engine.dir/all: src/triangulate/CMakeFiles/triangulate.dir/all
 CMakeFiles/engine.dir/all: src/sdl-gpu/src/CMakeFiles/SDL_gpu_shared.dir/all
+CMakeFiles/engine.dir/all: src/SDL_GFX/CMakeFiles/gfx.dir/all
+CMakeFiles/engine.dir/all: src/XMLParser/CMakeFiles/xml.dir/all
+CMakeFiles/engine.dir/all: src/triangulate/CMakeFiles/triangulate.dir/all
+CMakeFiles/engine.dir/all: src/SDL_FontCache/CMakeFiles/fontcache.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/engine.dir/build.make CMakeFiles/engine.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/engine.dir/build.make CMakeFiles/engine.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nikita/c++/hagen/CMakeFiles --progress-num=63,64,65,66,67,68,69,70,71,72,73,74,75 "Built target engine"

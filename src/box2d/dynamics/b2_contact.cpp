@@ -52,7 +52,7 @@ void b2Contact::InitializeRegisters() {
 }
 
 void b2Contact::AddType(b2ContactCreateFcn* createFcn, b2ContactDestroyFcn* destoryFcn,
-				b2Shape::Type type1, b2Shape::Type type2) {
+						b2Shape::Type type1, b2Shape::Type type2) {
 	b2Assert(0 <= type1 && type1 < b2Shape::e_typeCount);
 	b2Assert(0 <= type2 && type2 < b2Shape::e_typeCount);
 

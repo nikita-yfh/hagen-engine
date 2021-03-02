@@ -21,7 +21,7 @@ void init(const char* title,int w,int h) {
 	SDL_Init(SDL_INIT_EVERYTHING);
 	TTF_Init();
 	IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG);
-	ren=GPU_Init(w,h,GPU_DEFAULT_INIT_FLAGS);
+	ren=GPU_Init(w,h,0);
 	SW=w;
 	SH=h;
 }
@@ -49,16 +49,16 @@ void load_cursor() {
 	SDL_SetCursor(cur);
 }
 void load_textures() {
-	for(int q=0;q<bodies.size();q++){
+	for(int q=0; q<bodies.size(); q++) {
 		for(b2Fixture *fix=bodies[q]->GetFixtureList(); fix; fix=fix->GetNext()) {
-	        string str=F_DATA(fix,texture);
-	        if(str.size() && !find_texture(str)){
-	            GPU_Image *texture=GPU_LoadImage(("textures/"+str).c_str());
-	            if(!texture)
-                    throw string(SDL_GetError());
-	            textures.push_back({texture,str});
-	        }
-	    }
+			string str=F_DATA(fix,texture);
+			if(str.size() && !find_texture(str)) {
+				GPU_Image *texture=GPU_LoadImage(("textures/"+str).c_str());
+				if(!texture)
+					throw string(SDL_GetError());
+				textures.push_back({texture,str});
+			}
+		}
 	}
 }
 void configure_textures() {
@@ -68,10 +68,10 @@ void destroy_textures() {
 void load_background(std::string name) {
 	string path="backgrounds/"+name;
 	if(!exist_file(path))
-        throw string("Loading \""+name+"\" background failed: file not found");
+		throw string("Loading \""+name+"\" background failed: file not found");
 	if(background)
-        GPU_FreeImage(background);
+		GPU_FreeImage(background);
 	background=GPU_LoadImage(path.c_str());
 	if(!background)
-        throw string("Loading \""+name+"\" background failed: "+SDL_GetError());
+		throw string("Loading \""+name+"\" background failed: "+SDL_GetError());
 }

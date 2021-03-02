@@ -9,23 +9,23 @@
 using namespace std;
 unsigned int tool_ch=1, point_ch=0;
 GtkWidget	*window,
-		*box_v, *box_h,
-		*main_area,
-		*scroll_h, *scroll_v,
-		*drawable,
-		*ruler_h, *ruler_v,
-		*panel,
-		*buttons,
-		*tools,
-		*tool[TOOL_COUNT],
-		*zoomer,
-		*prop_table, *prop_scroll,
-		*shapes_scroll,
-		*eventbox, *status,
-		*zoom_b, *zoom_text,
-		*down_panel, *view_a,
-		*shape_view,
-		*p1;
+			*box_v, *box_h,
+			*main_area,
+			*scroll_h, *scroll_v,
+			*drawable,
+			*ruler_h, *ruler_v,
+			*panel,
+			*buttons,
+			*tools,
+			*tool[TOOL_COUNT],
+			*zoomer,
+			*prop_table, *prop_scroll,
+			*shapes_scroll,
+			*eventbox, *status,
+			*zoom_b, *zoom_text,
+			*down_panel, *view_a,
+			*shape_view,
+			*p1;
 GtkObject	*adj_h, *adj_v, *zoom_a;
 GtkItemFactory
 *menu;
@@ -59,9 +59,9 @@ void run() {
 }
 string get_save_path(string path) {
 	GtkWidget *dialog = gtk_file_chooser_dialog_new ("Save file",
-				  GTK_WINDOW(window),GTK_FILE_CHOOSER_ACTION_SAVE,
-				  "_Cancel",GTK_RESPONSE_CANCEL,
-				  "_Save",GTK_RESPONSE_ACCEPT, NULL);
+						GTK_WINDOW(window),GTK_FILE_CHOOSER_ACTION_SAVE,
+						"_Cancel",GTK_RESPONSE_CANCEL,
+						"_Save",GTK_RESPONSE_ACCEPT, NULL);
 	GtkFileChooser *chooser = GTK_FILE_CHOOSER (dialog);
 	gtk_file_chooser_set_current_folder(chooser, path.c_str());
 	string str;
@@ -74,9 +74,9 @@ string get_save_path(string path) {
 }
 string get_folder_path(string path) {
 	GtkWidget *dialog = gtk_file_chooser_dialog_new ("Save in folder",
-				  GTK_WINDOW(window),GTK_FILE_CHOOSER_ACTION_CREATE_FOLDER,
-				  "_Cancel",GTK_RESPONSE_CANCEL,
-				  "_Save",GTK_RESPONSE_ACCEPT, NULL);
+						GTK_WINDOW(window),GTK_FILE_CHOOSER_ACTION_CREATE_FOLDER,
+						"_Cancel",GTK_RESPONSE_CANCEL,
+						"_Save",GTK_RESPONSE_ACCEPT, NULL);
 	GtkFileChooser *chooser = GTK_FILE_CHOOSER (dialog);
 	gtk_file_chooser_set_current_folder(chooser, path.c_str());
 	string str;
@@ -89,9 +89,9 @@ string get_folder_path(string path) {
 }
 string get_open_path(string path) {
 	GtkWidget *dialog = gtk_file_chooser_dialog_new ("Open file",
-				  GTK_WINDOW(window),GTK_FILE_CHOOSER_ACTION_OPEN,
-				  "_Cancel",GTK_RESPONSE_CANCEL,
-				  "_Open",GTK_RESPONSE_ACCEPT, NULL);
+						GTK_WINDOW(window),GTK_FILE_CHOOSER_ACTION_OPEN,
+						"_Cancel",GTK_RESPONSE_CANCEL,
+						"_Open",GTK_RESPONSE_ACCEPT, NULL);
 	GtkFileChooser *chooser = GTK_FILE_CHOOSER (dialog);
 	gtk_file_chooser_set_current_folder(chooser, path.c_str());
 	string str;
@@ -178,13 +178,13 @@ int draw_callback (GtkWidget *da, GdkEventExpose *event, void*) {
 }
 void resize() {
 	GtkWidget *dialog = gtk_dialog_new_with_buttons ("Resize",
-				  GTK_WINDOW (window),
-				  GDF(GTK_DIALOG_MODAL| GTK_DIALOG_DESTROY_WITH_PARENT),
-				  GTK_STOCK_CANCEL,
-				  NULL,
-				  GTK_STOCK_OK,
-				  GTK_RESPONSE_OK,
-				  NULL);
+						GTK_WINDOW (window),
+						GDF(GTK_DIALOG_MODAL| GTK_DIALOG_DESTROY_WITH_PARENT),
+						GTK_STOCK_CANCEL,
+						NULL,
+						GTK_STOCK_OK,
+						GTK_RESPONSE_OK,
+						NULL);
 	GtkWidget *table=gtk_table_new(2,2,0);
 	GtkObject *adj_w=gtk_adjustment_new(level.w,1,500,1,10,0);
 	GtkObject *adj_h=gtk_adjustment_new(level.h,1,500,1,10,0);
@@ -325,9 +325,9 @@ void create_buttons() {
 	GtkAccelGroup *accels = gtk_accel_group_new();
 	gtk_window_add_accel_group(GTK_WINDOW(window), accels);
 	gtk_widget_add_accelerator(d, "clicked", accels,
-					   65535,GdkModifierType(0), GTK_ACCEL_VISIBLE);
+							   65535,GdkModifierType(0), GTK_ACCEL_VISIBLE);
 	gtk_widget_add_accelerator(c, "clicked", accels,
-					   'd',GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
+							   'd',GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
 }
 
 void init() {

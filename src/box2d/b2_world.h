@@ -95,8 +95,8 @@ public:
 	/// @param velocityIterations for the velocity constraint solver.
 	/// @param positionIterations for the position constraint solver.
 	void Step(	float timeStep,
-			int32 velocityIterations,
-			int32 positionIterations);
+				int32 velocityIterations,
+				int32 positionIterations);
 
 	/// Manually clear the force buffer on all bodies. By default, forces are cleared automatically
 	/// after each call to Step. The default behavior is modified by calling SetAutoClearForces.

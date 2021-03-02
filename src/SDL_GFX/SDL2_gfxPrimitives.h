@@ -100,7 +100,7 @@ SDL2_GFXPRIMITIVES_SCOPE int roundedRectangleRGBA(SDL_Renderer * renderer, Sint1
 
 SDL2_GFXPRIMITIVES_SCOPE int boxColor(SDL_Renderer * renderer, Sint16 x1, Sint16 y1, Sint16 x2, Sint16 y2, Uint32 color);
 SDL2_GFXPRIMITIVES_SCOPE int boxRGBA(SDL_Renderer * renderer, Sint16 x1, Sint16 y1, Sint16 x2,
-						 Sint16 y2, Uint8 r, Uint8 g, Uint8 b, Uint8 a);
+									 Sint16 y2, Uint8 r, Uint8 g, Uint8 b, Uint8 a);
 
 /* Rounded-Corner Filled rectangle (Box) */
 
@@ -112,13 +112,13 @@ SDL2_GFXPRIMITIVES_SCOPE int roundedBoxRGBA(SDL_Renderer * renderer, Sint16 x1, 
 
 SDL2_GFXPRIMITIVES_SCOPE int lineColor(SDL_Renderer * renderer, Sint16 x1, Sint16 y1, Sint16 x2, Sint16 y2, Uint32 color);
 SDL2_GFXPRIMITIVES_SCOPE int lineRGBA(SDL_Renderer * renderer, Sint16 x1, Sint16 y1,
-						  Sint16 x2, Sint16 y2, Uint8 r, Uint8 g, Uint8 b, Uint8 a);
+									  Sint16 x2, Sint16 y2, Uint8 r, Uint8 g, Uint8 b, Uint8 a);
 
 /* AA Line */
 
 SDL2_GFXPRIMITIVES_SCOPE int aalineColor(SDL_Renderer * renderer, Sint16 x1, Sint16 y1, Sint16 x2, Sint16 y2, Uint32 color);
 SDL2_GFXPRIMITIVES_SCOPE int aalineRGBA(SDL_Renderer * renderer, Sint16 x1, Sint16 y1,
-						    Sint16 x2, Sint16 y2, Uint8 r, Uint8 g, Uint8 b, Uint8 a);
+										Sint16 x2, Sint16 y2, Uint8 r, Uint8 g, Uint8 b, Uint8 a);
 
 /* Thick Line */
 SDL2_GFXPRIMITIVES_SCOPE int thickLineColor(SDL_Renderer * renderer, Sint16 x1, Sint16 y1, Sint16 x2, Sint16 y2,
@@ -135,7 +135,7 @@ SDL2_GFXPRIMITIVES_SCOPE int circleRGBA(SDL_Renderer * renderer, Sint16 x, Sint1
 
 SDL2_GFXPRIMITIVES_SCOPE int arcColor(SDL_Renderer * renderer, Sint16 x, Sint16 y, Sint16 rad, Sint16 start, Sint16 end, Uint32 color);
 SDL2_GFXPRIMITIVES_SCOPE int arcRGBA(SDL_Renderer * renderer, Sint16 x, Sint16 y, Sint16 rad, Sint16 start, Sint16 end,
-						 Uint8 r, Uint8 g, Uint8 b, Uint8 a);
+									 Uint8 r, Uint8 g, Uint8 b, Uint8 a);
 
 /* AA Circle */
 
@@ -172,9 +172,9 @@ SDL2_GFXPRIMITIVES_SCOPE int filledEllipseRGBA(SDL_Renderer * renderer, Sint16 x
 /* Pie */
 
 SDL2_GFXPRIMITIVES_SCOPE int pieColor(SDL_Renderer * renderer, Sint16 x, Sint16 y, Sint16 rad,
-						  Sint16 start, Sint16 end, Uint32 color);
+									  Sint16 start, Sint16 end, Uint32 color);
 SDL2_GFXPRIMITIVES_SCOPE int pieRGBA(SDL_Renderer * renderer, Sint16 x, Sint16 y, Sint16 rad,
-						 Sint16 start, Sint16 end, Uint8 r, Uint8 g, Uint8 b, Uint8 a);
+									 Sint16 start, Sint16 end, Uint8 r, Uint8 g, Uint8 b, Uint8 a);
 
 /* Filled Pie */
 
@@ -187,7 +187,7 @@ SDL2_GFXPRIMITIVES_SCOPE int filledPieRGBA(SDL_Renderer * renderer, Sint16 x, Si
 
 SDL2_GFXPRIMITIVES_SCOPE int trigonColor(SDL_Renderer * renderer, Sint16 x1, Sint16 y1, Sint16 x2, Sint16 y2, Sint16 x3, Sint16 y3, Uint32 color);
 SDL2_GFXPRIMITIVES_SCOPE int trigonRGBA(SDL_Renderer * renderer, Sint16 x1, Sint16 y1, Sint16 x2, Sint16 y2, Sint16 x3, Sint16 y3,
-						    Uint8 r, Uint8 g, Uint8 b, Uint8 a);
+										Uint8 r, Uint8 g, Uint8 b, Uint8 a);
 
 /* AA-Trigon */
 
@@ -229,7 +229,7 @@ SDL2_GFXPRIMITIVES_SCOPE int texturedPolygonTex(SDL_Renderer * dst, const Sint16
 
 SDL2_GFXPRIMITIVES_SCOPE int bezierColor(SDL_Renderer * renderer, const Sint16 * vx, const Sint16 * vy, int n, int s, Uint32 color);
 SDL2_GFXPRIMITIVES_SCOPE int bezierRGBA(SDL_Renderer * renderer, const Sint16 * vx, const Sint16 * vy,
-						    int n, int s, Uint8 r, Uint8 g, Uint8 b, Uint8 a);
+										int n, int s, Uint8 r, Uint8 g, Uint8 b, Uint8 a);
 
 
 /* Ends C function definitions when using C++ */

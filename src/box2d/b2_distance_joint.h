@@ -44,7 +44,7 @@ struct b2DistanceJointDef : public b2JointDef {
 	/// Initialize the bodies, anchors, and rest length using world space anchors.
 	/// The minimum and maximum lengths are set to the rest length.
 	void Initialize(b2Body* bodyA, b2Body* bodyB,
-			    const b2Vec2& anchorA, const b2Vec2& anchorB);
+					const b2Vec2& anchorA, const b2Vec2& anchorB);
 
 	/// The local anchor point relative to bodyA's origin.
 	b2Vec2 localAnchorA;
@@ -90,7 +90,7 @@ public:
 	}
 
 	/// The local anchor point relative to bodyB's origin.
-	const b2Vec2& GetLocalAnchorB() const  {
+	const b2Vec2& GetLocalAnchorB() const {
 		return m_localAnchorB;
 	}
 

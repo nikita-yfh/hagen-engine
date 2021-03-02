@@ -44,9 +44,9 @@ struct b2PulleyJointDef : public b2JointDef {
 
 	/// Initialize the bodies, anchors, lengths, max lengths, and ratio using the world anchors.
 	void Initialize(b2Body* bodyA, b2Body* bodyB,
-			    const b2Vec2& groundAnchorA, const b2Vec2& groundAnchorB,
-			    const b2Vec2& anchorA, const b2Vec2& anchorB,
-			    float ratio);
+					const b2Vec2& groundAnchorA, const b2Vec2& groundAnchorB,
+					const b2Vec2& anchorA, const b2Vec2& anchorB,
+					float ratio);
 
 	/// The first ground anchor in world coordinates. This point never moves.
 	b2Vec2 groundAnchorA;

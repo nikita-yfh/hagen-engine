@@ -29,8 +29,6 @@ box2d.h
 /home/nikita/c++/hagen/src/engine/render.cpp
 render.hpp
 /home/nikita/c++/hagen/src/engine/render.hpp
-SDL2_gfxPrimitives.h
-/home/nikita/c++/hagen/src/engine/SDL2_gfxPrimitives.h
 camera.hpp
 /home/nikita/c++/hagen/src/engine/camera.hpp
 sdl.hpp
@@ -45,6 +43,8 @@ physic.hpp
 /home/nikita/c++/hagen/src/engine/physic.hpp
 level.hpp
 /home/nikita/c++/hagen/src/engine/level.hpp
+utility.hpp
+/home/nikita/c++/hagen/src/engine/utility.hpp
 
 /home/nikita/c++/hagen/src/engine/render.hpp
 box2d.h
@@ -61,6 +61,14 @@ vector
 -
 SDL_gpu.h
 /home/nikita/c++/hagen/src/engine/SDL_gpu.h
+
+/home/nikita/c++/hagen/src/engine/utility.hpp
+box2d.h
+/home/nikita/c++/hagen/src/engine/box2d.h
+SDL_gpu.h
+/home/nikita/c++/hagen/src/engine/SDL_gpu.h
+string
+-
 
 /usr/include/SDL2/SDL.h
 SDL_main.h
@@ -703,12 +711,6 @@ close_code.h
 /usr/include/SDL2/begin_code.h
 
 /usr/include/SDL2/close_code.h
-
-src/SDL_GFX/SDL2_gfxPrimitives.h
-math.h
--
-SDL2/SDL.h
-src/SDL_GFX/SDL2/SDL.h
 
 src/XMLParser/xmlParser.h
 stdlib.h

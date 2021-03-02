@@ -45,6 +45,6 @@ b2PolygonAndCircleContact::b2PolygonAndCircleContact(b2Fixture* fixtureA, b2Fixt
 
 void b2PolygonAndCircleContact::Evaluate(b2Manifold* manifold, const b2Transform& xfA, const b2Transform& xfB) {
 	b2CollidePolygonAndCircle(	manifold,
-						(b2PolygonShape*)m_fixtureA->GetShape(), xfA,
-						(b2CircleShape*)m_fixtureB->GetShape(), xfB);
+								(b2PolygonShape*)m_fixtureA->GetShape(), xfA,
+								(b2CircleShape*)m_fixtureB->GetShape(), xfB);
 }

@@ -1,5 +1,6 @@
 #pragma once
 #include "box2d.h"
+#include "SDL_gpu.h"
 #include <string>
 void close_level();
 void load_level(std::string name);

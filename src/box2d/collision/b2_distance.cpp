@@ -94,8 +94,8 @@ struct b2SimplexVertex {
 
 struct b2Simplex {
 	void ReadCache(	const b2SimplexCache* cache,
-				const b2DistanceProxy* proxyA, const b2Transform& transformA,
-				const b2DistanceProxy* proxyB, const b2Transform& transformB) {
+					const b2DistanceProxy* proxyA, const b2Transform& transformA,
+					const b2DistanceProxy* proxyB, const b2Transform& transformB) {
 		b2Assert(cache->count <= 3);
 
 		// Copy data from cache.
@@ -411,8 +411,8 @@ void b2Simplex::Solve3() {
 }
 
 void b2Distance(b2DistanceOutput* output,
-		    b2SimplexCache* cache,
-		    const b2DistanceInput* input) {
+				b2SimplexCache* cache,
+				const b2DistanceInput* input) {
 	++b2_gjkCalls;
 
 	const b2DistanceProxy* proxyA = &input->proxyA;

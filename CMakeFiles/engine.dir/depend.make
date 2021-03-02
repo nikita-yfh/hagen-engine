@@ -848,6 +848,7 @@ CMakeFiles/engine.dir/src/engine/render.cpp.o: src/engine/physic.hpp
 CMakeFiles/engine.dir/src/engine/render.cpp.o: src/engine/render.cpp
 CMakeFiles/engine.dir/src/engine/render.cpp.o: src/engine/render.hpp
 CMakeFiles/engine.dir/src/engine/render.cpp.o: src/engine/sdl.hpp
+CMakeFiles/engine.dir/src/engine/render.cpp.o: src/engine/utility.hpp
 CMakeFiles/engine.dir/src/engine/render.cpp.o: /usr/include/SDL2/SDL.h
 CMakeFiles/engine.dir/src/engine/render.cpp.o: /usr/include/SDL2/SDL_assert.h
 CMakeFiles/engine.dir/src/engine/render.cpp.o: /usr/include/SDL2/SDL_atomic.h
@@ -896,7 +897,6 @@ CMakeFiles/engine.dir/src/engine/render.cpp.o: /usr/include/SDL2/SDL_version.h
 CMakeFiles/engine.dir/src/engine/render.cpp.o: /usr/include/SDL2/SDL_video.h
 CMakeFiles/engine.dir/src/engine/render.cpp.o: /usr/include/SDL2/begin_code.h
 CMakeFiles/engine.dir/src/engine/render.cpp.o: /usr/include/SDL2/close_code.h
-CMakeFiles/engine.dir/src/engine/render.cpp.o: src/SDL_GFX/SDL2_gfxPrimitives.h
 CMakeFiles/engine.dir/src/engine/render.cpp.o: src/XMLParser/xmlParser.h
 CMakeFiles/engine.dir/src/engine/render.cpp.o: src/box2d/b2_block_allocator.h
 CMakeFiles/engine.dir/src/engine/render.cpp.o: src/box2d/b2_body.h

@@ -27,3 +27,12 @@ int drawix(float wx) {
 int drawiy(float wy) {
 	return wy*zoom+cy;
 }
+float rotatex(b2Vec2 vec,float a) {
+	return vec.x*cos(a)-vec.y*sin(a);
+}
+float rotatey(b2Vec2 vec,float a) {
+	return vec.y*cos(a)+vec.x*sin(a);
+}
+b2Vec2 rotate(b2Vec2 vec,float a) {
+	return {rotatex(vec,a),rotatey(vec,a)};
+}

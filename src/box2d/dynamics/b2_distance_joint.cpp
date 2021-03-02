@@ -42,7 +42,7 @@
 
 
 void b2DistanceJointDef::Initialize(b2Body* b1, b2Body* b2,
-						const b2Vec2& anchor1, const b2Vec2& anchor2) {
+									const b2Vec2& anchor1, const b2Vec2& anchor2) {
 	bodyA = b1;
 	bodyB = b2;
 	localAnchorA = bodyA->GetLocalPoint(anchor1);

@@ -117,7 +117,7 @@ bool b2ChainShape::TestPoint(const b2Transform& xf, const b2Vec2& p) const {
 }
 
 bool b2ChainShape::RayCast(b2RayCastOutput* output, const b2RayCastInput& input,
-				   const b2Transform& xf, int32 childIndex) const {
+						   const b2Transform& xf, int32 childIndex) const {
 	b2Assert(childIndex < m_count);
 
 	b2EdgeShape edgeShape;

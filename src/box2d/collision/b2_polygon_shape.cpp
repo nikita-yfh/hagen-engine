@@ -236,7 +236,7 @@ bool b2PolygonShape::TestPoint(const b2Transform& xf, const b2Vec2& p) const {
 }
 
 bool b2PolygonShape::RayCast(b2RayCastOutput* output, const b2RayCastInput& input,
-				     const b2Transform& xf, int32 childIndex) const {
+							 const b2Transform& xf, int32 childIndex) const {
 	B2_NOT_USED(childIndex);
 
 	// Put the ray into the polygon's frame of reference.

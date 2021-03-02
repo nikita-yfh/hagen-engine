@@ -44,9 +44,9 @@ struct b2SeparationFunction {
 	// TODO_ERIN might not need to return the separation
 
 	float Initialize(const b2SimplexCache* cache,
-			     const b2DistanceProxy* proxyA, const b2Sweep& sweepA,
-			     const b2DistanceProxy* proxyB, const b2Sweep& sweepB,
-			     float t1) {
+					 const b2DistanceProxy* proxyA, const b2Sweep& sweepA,
+					 const b2DistanceProxy* proxyB, const b2Sweep& sweepB,
+					 float t1) {
 		m_proxyA = proxyA;
 		m_proxyB = proxyB;
 		int32 count = cache->count;

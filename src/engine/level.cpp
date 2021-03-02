@@ -25,7 +25,7 @@ b2Body* read_body(XMLNode bd) {
 	def.userData=new b2BodyData;
 	BD_DATA(def,id)=bd.getAttribute("id");
 	def.position.Set(stof(bd.getAttribute("x")),
-			     stof(bd.getAttribute("y")));
+					 stof(bd.getAttribute("y")));
 	{
 		XMLNode phs=bd.getChildNode("physic");
 		def.fixedRotation=stoi(phs.getAttribute("fixed_rotation"));
@@ -68,8 +68,8 @@ b2Body* read_body(XMLNode bd) {
 				b2PolygonShape shape;
 				float r=stof(pos.getAttribute("r"));
 				shape.SetAsBox(r,r,b2Vec2(
-							   stof(pos.getAttribute("x")),
-							   stof(pos.getAttribute("y"))),0);
+								   stof(pos.getAttribute("x")),
+								   stof(pos.getAttribute("y"))),0);
 				fix.shape=&shape;
 				FD_DATA(fix,type)=SQUARE;
 				body->CreateFixture(&fix);
@@ -77,7 +77,7 @@ b2Body* read_body(XMLNode bd) {
 				b2CircleShape shape;
 				shape.m_radius=stof(pos.getAttribute("r"));
 				shape.m_p.Set( stof(pos.getAttribute("x")),
-						   stof(pos.getAttribute("y")));
+							   stof(pos.getAttribute("y")));
 				fix.shape=&shape;
 				FD_DATA(fix,type)=CIRCLE;
 				body->CreateFixture(&fix);
@@ -148,7 +148,7 @@ b2Joint *read_joint(XMLNode jn) {
 	if(type=="WeldJoint") {
 		b2WeldJointDef joint;
 		joint.Initialize(get_body(id1),get_body(id2),
-				     b2Vec2(stof(pos.getAttribute("x")),stof(pos.getAttribute("y"))));
+						 b2Vec2(stof(pos.getAttribute("x")),stof(pos.getAttribute("y"))));
 		set_bds(&joint,con,id1,id2);
 		joint.stiffness=stof(phs.getAttribute("stiffness"));
 		joint.damping=stof(phs.getAttribute("damping"));
@@ -158,7 +158,7 @@ b2Joint *read_joint(XMLNode jn) {
 		b2RevoluteJointDef joint;
 		set_bds(&joint,con,id1,id2);
 		joint.Initialize(get_body(id1),get_body(id2),
-				     b2Vec2(stof(pos.getAttribute("x")),stof(pos.getAttribute("y"))));
+						 b2Vec2(stof(pos.getAttribute("x")),stof(pos.getAttribute("y"))));
 		joint.enableLimit=stoi(phs.getAttribute("limit"));
 		joint.enableMotor=stoi(phs.getAttribute("motor"));
 		if(joint.enableLimit) {
@@ -210,8 +210,8 @@ b2Joint *read_joint(XMLNode jn) {
 		set_bds(&joint,con,id1,id2);
 		float angle=stof(pos.getAttribute("angle"));
 		joint.Initialize(get_body(id1),get_body(id2),
-				     b2Vec2(stof(pos.getAttribute("x")),stof(pos.getAttribute("y"))),
-				     b2Vec2(cos(angle),sin(angle)));
+						 b2Vec2(stof(pos.getAttribute("x")),stof(pos.getAttribute("y"))),
+						 b2Vec2(cos(angle),sin(angle)));
 		joint.enableLimit=stoi(phs.getAttribute("limit"));
 		joint.enableMotor=stoi(phs.getAttribute("motor"));
 		if(joint.enableLimit) {

@@ -227,7 +227,7 @@ int SDL_imageFilterAdd(unsigned char *Src1, unsigned char *Src2, unsigned char *
 \return Returns 0 for success or -1 for error.
 */
 static int SDL_imageFilterMeanMMX(unsigned char *Src1, unsigned char *Src2, unsigned char *Dest, unsigned int SrcLength,
-					    unsigned char *Mask) {
+								  unsigned char *Mask) {
 #ifdef USE_MMX
 #if !defined(GCC__)
 	__asm {
@@ -269,7 +269,7 @@ static int SDL_imageFilterMeanMMX(unsigned char *Src1, unsigned char *Src2, unsi
 	int i;
 	for (i = 0; i < SrcLength/8; i++) {
 		__m64 mm1 = *mSrc1,
-			mm2 = *mSrc2;
+			  mm2 = *mSrc2;
 		mm1 = _m_psrlwi(mm1, 1);	/* shift 4 WORDS of mm1 1 bit to the right */
 		mm2 = _m_psrlwi(mm2, 1);	/* shift 4 WORDS of mm2 1 bit to the right */
 		mm1 = _m_pand(mm1, *mMask);	/* apply Mask to 8 BYTES of mm1 */
@@ -2343,7 +2343,7 @@ int SDL_imageFilterSubUint(unsigned char *Src1, unsigned char *Dest, unsigned in
 \return Returns 0 for success or -1 for error.
 */
 static int SDL_imageFilterShiftRightMMX(unsigned char *Src1, unsigned char *Dest, unsigned int SrcLength, unsigned char N,
-						    unsigned char *Mask) {
+										unsigned char *Mask) {
 #ifdef USE_MMX
 #if !defined(GCC__)
 	__asm {
@@ -3609,7 +3609,7 @@ static int SDL_imageFilterClipToRangeMMX(unsigned char *Src1, unsigned char *Des
 \return Returns 0 for success or -1 for error.
 */
 int SDL_imageFilterClipToRange(unsigned char *Src1, unsigned char *Dest, unsigned int length, unsigned char Tmin,
-					 unsigned char Tmax) {
+							   unsigned char Tmax) {
 	unsigned int i, istart;
 	unsigned char *cursrc1;
 	unsigned char *curdest;
@@ -3824,7 +3824,7 @@ static int SDL_imageFilterNormalizeLinearMMX(unsigned char *Src1, unsigned char 
 \return Returns 0 for success or -1 for error.
 */
 int SDL_imageFilterNormalizeLinear(unsigned char *Src, unsigned char *Dest, unsigned int length, int Cmin, int Cmax, int Nmin,
-					     int Nmax) {
+								   int Nmax) {
 	unsigned int i, istart;
 	unsigned char *cursrc;
 	unsigned char *curdest;
@@ -6948,7 +6948,7 @@ Note: Non-MMX implementation not available for this function.
 \return Returns 1 if filter was applied, 0 otherwise.
 */
 int SDL_imageFilterSobelXShiftRight(unsigned char *Src, unsigned char *Dest, int rows, int columns,
-						unsigned char NRightShift) {
+									unsigned char NRightShift) {
 	/* Validate input parameters */
 	if ((Src == NULL) || (Dest == NULL))
 		return(-1);

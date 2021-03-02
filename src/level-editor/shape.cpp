@@ -202,7 +202,7 @@ bool BiPoints::drag(float xp,float yp,int dr) {
 	else if(dr==4) {
 		if(name()=="Rect")
 			return abs((x1+x2)/2-xp)<=abs(x1-x2)/2
-				 && abs((y1+y2)/2-yp)<=abs(y1-y2)/2;
+				   && abs((y1+y2)/2-yp)<=abs(y1-y2)/2;
 		else
 			return 0;
 	}
@@ -343,7 +343,7 @@ bool Polygon::drag(float xp,float yp,int dr) {
 	else if(dr==3)show();
 	else if(dr==4) {
 		cairo_surface_t *surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, *max_element(x.begin(), x.end())-*min_element(x.begin(), x.end()),
-						   *max_element(y.begin(), y.end())-*min_element(y.begin(), y.end()));
+								   *max_element(y.begin(), y.end())-*min_element(y.begin(), y.end()));
 		cairo_t *cr = cairo_create (surface);
 		cairo_move_to(cr,x[x.size()-1],y[y.size()-1]);
 		for(int q=0; q<x.size(); q++)

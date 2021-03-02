@@ -621,12 +621,12 @@ void DistanceJoint::draw(cairo_t *cr) {
 	cairo_set_source_rgb(cr,RED);
 	cairo_move_to(cr,drawx(x2),drawy(y2));
 	cairo_line_to(cr,drawx(x2+cos(vec_angle2(x2-x1,y2-y1))*max),
-			  drawy(y2+sin(vec_angle2(x2-x1,y2-y1))*max));
+				  drawy(y2+sin(vec_angle2(x2-x1,y2-y1))*max));
 	cairo_stroke(cr);
 	cairo_set_source_rgb(cr,GREEN);
 	cairo_move_to(cr,drawx(x2),drawy(y2));
 	cairo_line_to(cr,drawx(x2+cos(vec_angle2(x2-x1,y2-y1))*min),
-			  drawy(y2+sin(vec_angle2(x2-x1,y2-y1))*min));
+				  drawy(y2+sin(vec_angle2(x2-x1,y2-y1))*min));
 	cairo_stroke(cr);
 	draw_lines(cr);
 }

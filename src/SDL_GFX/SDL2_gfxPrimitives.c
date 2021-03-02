@@ -367,7 +367,7 @@ int roundedBoxColor(SDL_Renderer * renderer, Sint16 x1, Sint16 y1, Sint16 x2, Si
 	return roundedBoxRGBA(renderer, x1, y1, x2, y2, rad, c[0], c[1], c[2], c[3]);
 }
 int roundedBoxRGBA(SDL_Renderer * renderer, Sint16 x1, Sint16 y1, Sint16 x2,
-			 Sint16 y2, Sint16 rad, Uint8 r, Uint8 g, Uint8 b, Uint8 a) {
+				   Sint16 y2, Sint16 rad, Uint8 r, Uint8 g, Uint8 b, Uint8 a) {
 	int result;
 	Sint16 w, h, r2, tmp;
 	Sint16 cx = 0;
@@ -1560,12 +1560,12 @@ int _pieRGBA(SDL_Renderer * renderer, Sint16 x, Sint16 y, Sint16 rad, Sint16 sta
 	return (result);
 }
 int pieColor(SDL_Renderer * renderer, Sint16 x, Sint16 y, Sint16 rad,
-		 Sint16 start, Sint16 end, Uint32 color) {
+			 Sint16 start, Sint16 end, Uint32 color) {
 	Uint8 *c = (Uint8 *)&color;
 	return _pieRGBA(renderer, x, y, rad, start, end, c[0], c[1], c[2], c[3], 0);
 }
 int pieRGBA(SDL_Renderer * renderer, Sint16 x, Sint16 y, Sint16 rad,
-		Sint16 start, Sint16 end, Uint8 r, Uint8 g, Uint8 b, Uint8 a) {
+			Sint16 start, Sint16 end, Uint8 r, Uint8 g, Uint8 b, Uint8 a) {
 	return _pieRGBA(renderer, x, y, rad, start, end, r, g, b, a, 0);
 }
 int filledPieColor(SDL_Renderer * renderer, Sint16 x, Sint16 y, Sint16 rad, Sint16 start, Sint16 end, Uint32 color) {
@@ -1573,7 +1573,7 @@ int filledPieColor(SDL_Renderer * renderer, Sint16 x, Sint16 y, Sint16 rad, Sint
 	return _pieRGBA(renderer, x, y, rad, start, end, c[0], c[1], c[2], c[3], 1);
 }
 int filledPieRGBA(SDL_Renderer * renderer, Sint16 x, Sint16 y, Sint16 rad,
-			Sint16 start, Sint16 end, Uint8 r, Uint8 g, Uint8 b, Uint8 a) {
+				  Sint16 start, Sint16 end, Uint8 r, Uint8 g, Uint8 b, Uint8 a) {
 	return _pieRGBA(renderer, x, y, rad, start, end, r, g, b, a, 1);
 }
 int trigonColor(SDL_Renderer * renderer, Sint16 x1, Sint16 y1, Sint16 x2, Sint16 y2, Sint16 x3, Sint16 y3, Uint32 color) {
@@ -1590,7 +1590,7 @@ int trigonColor(SDL_Renderer * renderer, Sint16 x1, Sint16 y1, Sint16 x2, Sint16
 	return(polygonColor(renderer,vx,vy,3,color));
 }
 int trigonRGBA(SDL_Renderer * renderer, Sint16 x1, Sint16 y1, Sint16 x2, Sint16 y2, Sint16 x3, Sint16 y3,
-		   Uint8 r, Uint8 g, Uint8 b, Uint8 a) {
+			   Uint8 r, Uint8 g, Uint8 b, Uint8 a) {
 	Sint16 vx[3];
 	Sint16 vy[3];
 
@@ -1617,7 +1617,7 @@ int aatrigonColor(SDL_Renderer * renderer, Sint16 x1, Sint16 y1, Sint16 x2, Sint
 	return(aapolygonColor(renderer,vx,vy,3,color));
 }
 int aatrigonRGBA(SDL_Renderer * renderer,  Sint16 x1, Sint16 y1, Sint16 x2, Sint16 y2, Sint16 x3, Sint16 y3,
-		     Uint8 r, Uint8 g, Uint8 b, Uint8 a) {
+				 Uint8 r, Uint8 g, Uint8 b, Uint8 a) {
 	Sint16 vx[3];
 	Sint16 vy[3];
 
@@ -1644,7 +1644,7 @@ int filledTrigonColor(SDL_Renderer * renderer, Sint16 x1, Sint16 y1, Sint16 x2, 
 	return(filledPolygonColor(renderer,vx,vy,3,color));
 }
 int filledTrigonRGBA(SDL_Renderer * renderer, Sint16 x1, Sint16 y1, Sint16 x2, Sint16 y2, Sint16 x3, Sint16 y3,
-			   Uint8 r, Uint8 g, Uint8 b, Uint8 a) {
+					 Uint8 r, Uint8 g, Uint8 b, Uint8 a) {
 	Sint16 vx[3];
 	Sint16 vy[3];
 
@@ -2141,7 +2141,7 @@ int _HLineTexturedSur(SDL_Surface *dst, Sint16 x1, Sint16 x2, Sint16 y, SDL_Surf
 	return result;
 }
 int texturedPolygonMT(SDL_Renderer *renderer, const Sint16 * vx, const Sint16 * vy, int n,
-			    SDL_Surface * texture, int texture_dx, int texture_dy, int **polyInts, int *polyAllocated) {
+					  SDL_Surface * texture, int texture_dx, int texture_dy, int **polyInts, int *polyAllocated) {
 	int result;
 	int i;
 	int y, xa, xb;
@@ -2288,7 +2288,7 @@ int texturedPolygonMT(SDL_Renderer *renderer, const Sint16 * vx, const Sint16 * 
 	return (result);
 }
 int texturedPolygonMTSur(SDL_Surface *dst, const Sint16 * vx, const Sint16 * vy, int n,
-				 SDL_Surface * texture, int texture_dx, int texture_dy, int **polyInts, int *polyAllocated) {
+						 SDL_Surface * texture, int texture_dx, int texture_dy, int **polyInts, int *polyAllocated) {
 	int result;
 	int i;
 	int y, xa, xb;
@@ -2433,7 +2433,7 @@ int texturedPolygonMTSur(SDL_Surface *dst, const Sint16 * vx, const Sint16 * vy,
 	return (result);
 }
 int texturedPolygonMTTex(SDL_Renderer *renderer, const Sint16 * vx, const Sint16 * vy, int n,
-				 SDL_Texture * texture, int texture_dx, int texture_dy, int **polyInts, int *polyAllocated) {
+						 SDL_Texture * texture, int texture_dx, int texture_dy, int **polyInts, int *polyAllocated) {
 	int result;
 	int i;
 	int y, xa, xb;
