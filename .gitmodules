@@ -1,0 +1,15 @@
+[submodule "src/triangulate"]
+	path = src/triangulate
+	url = https://github.com/nikita-yfh/triangulate
+[submodule "src/LuaBridge"]
+	path = src/LuaBridge
+	url = https://github.com/vinniefalco/LuaBridge
+[submodule "src/SDL_FontCache"]
+	path = src/SDL_FontCache
+	url = https://github.com/nikita-yfh/SDL_FontCache
+[submodule "src/box2d"]
+	path = src/box2d
+	url = https://github.com/nikita-yfh/box2d
+[submodule "src/XMLParser"]
+	path = src/XMLParser
+	url = https://github.com/nikita-yfh/XMLParser

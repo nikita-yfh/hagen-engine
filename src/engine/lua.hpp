@@ -1,9 +1,11 @@
 #pragma once
-#include "LuaBridge.h"
-#include "Vector.h"
+extern "C" {
 #include "lua.h"
 #include "lauxlib.h"
 #include "lualib.h"
+}
+#include "LuaBridge.h"
+#include "Vector.h"
 #include "level.hpp"
 #include <vector>
 #include <string>

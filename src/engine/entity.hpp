@@ -1,5 +1,10 @@
 #pragma once
 #include "box2d.h"
+extern "C" {
+#include "lua.h"
+#include "lauxlib.h"
+#include "lualib.h"
+}
 #include "LuaBridge.h"
 #include <vector>
 #include <string>

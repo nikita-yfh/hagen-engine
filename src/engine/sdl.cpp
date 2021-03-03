@@ -3,7 +3,6 @@
 #include "level.hpp"
 #include "SDL_image.h"
 #include "SDL_FontCache.h"
-#include "SDL2_gfxPrimitives.h"
 #include "utility.hpp"
 #include "physic.hpp"
 #include "camera.hpp"
