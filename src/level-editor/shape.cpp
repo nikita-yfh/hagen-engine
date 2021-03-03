@@ -365,7 +365,7 @@ bool Polygon::create(float xp,float yp,int dr) {
 	} else if(dr==3) {
 		x.pop_back();
 		y.pop_back();
-		if(x.size()<=3)return 1;
+		if(x.size()<3)return 1;
 	}
 	return 0;
 }

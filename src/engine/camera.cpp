@@ -21,6 +21,9 @@ float drawx(float wx) {
 float drawy(float wy) {
 	return wy*zoom+cy;
 }
+b2Vec2 drawv(b2Vec2 v) {
+	return zoom*v+b2Vec2(cx,cy);
+}
 int drawix(float wx) {
 	return wx*zoom+cx;
 }

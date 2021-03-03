@@ -10,6 +10,7 @@ float worldx(float dx);
 float worldy(float dy);
 float drawx(float wx);
 float drawy(float dy);
+b2Vec2 drawv(b2Vec2 v);
 int drawix(float wx);
 int drawiy(float dy);
 float rotatex(b2Vec2 vec,float a);

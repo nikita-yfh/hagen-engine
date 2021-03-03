@@ -98,6 +98,22 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 	break;
 	case POLYGON: {
 		b2PolygonShape *shape=(b2PolygonShape*)fix->GetShape();
+		float f[shape->m_count*4];
+		b2Vec2 maxv(0,0),minv(100000,100000);
+		for(int q=0;q<shape->m_count;q++){
+			b2Vec2 v(shape->m_vertices[q].x,shape->m_vertices[q].y);
+			f[q*4]=drawx(body->GetPosition().x+rotatex(v,a_rad));
+			f[q*4+1]=drawy(body->GetPosition().y+rotatey(v,a_rad));
+			maxv.x=max(v.x,maxv.x);
+			maxv.y=max(v.y,maxv.x);
+			minv.x=min(v.x,minv.x);
+			minv.y=min(v.y,minv.x);
+		}
+		for(int q=0;q<shape->m_count;q++){
+			f[q*4+2]=(maxv-minv).x/(shape->m_vertices[q]-minv).x;
+			f[q*4+3]=(maxv-minv).y/(shape->m_vertices[q]-minv).y;
+		}
+		GPU_TriangleBatch(tex,ren,shape->m_count,f,shape->m_count,0,GPU_BATCH_XY_ST);
 		/*if(shape->cache && F_DATA(fix,texture)!="") {
 			float minx=1000000000,miny=1000000000,maxx=0,maxy=0;
 			for(int q=0; q<shape->b_count; q++) {

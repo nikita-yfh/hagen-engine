@@ -9,7 +9,7 @@ using namespace std;
 using namespace luabridge;
 
 int main( int argc, char * argv[] ) {
-	init("Engine",800,600);
+	init("Engine",1024,768);
 	world.SetContactListener(new contactListener());
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2");
 	configure_textures();

@@ -79,17 +79,16 @@ void remove_status(int context) {
 	gtk_statusbar_pop(GTK_STATUSBAR(status),context);
 }
 string get_free_name(string name) {
-	string n=ssprintf("New%s",name.c_str());
 	vector<Object*> vec=get_all();
 	for(int q=1;; q++) {
 		bool ok=1;
 		for(Object *obj : vec) {
-			if(obj->id==ssprintf("%s%d",n.c_str(),q)) {
+			if(obj->id==ssprintf("_%s%d",name.c_str(),q)) {
 				ok=0;
 				break;
 			}
 		}
-		if(ok)return ssprintf("%s%d",n.c_str(),q);
+		if(ok)return ssprintf("_%s%d",name.c_str(),q);
 	}
 }
 float to_fl(const char* str) {
