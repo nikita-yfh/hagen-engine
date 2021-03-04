@@ -314,6 +314,7 @@ void create_tools() {
 	tool[11]=	NEW_TOOLRB(tools,tool[10],	0,0,0,"gear.png",		L(block=1; change_tool(11); block=0;));
 	tool[12]=	NEW_TOOLRB(tools,tool[11],	0,0,0,"distance.png",	L(block=1; change_tool(12); block=0;));
 	gtk_box_pack_start(GTK_BOX(box_v),tools,0,1,0);
+	gtk_toolbar_set_style(GTK_TOOLBAR(tools),GTK_TOOLBAR_ICONS);
 }
 void create_buttons() {
 	buttons=gtk_toolbar_new();
