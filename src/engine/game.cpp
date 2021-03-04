@@ -26,8 +26,8 @@ bool game() {
 			case SDL_MOUSEMOTION:
 				if(press){
 					if(abs(e.motion.xrel)<100){
-						cx+=(e.motion.xrel)*3;
-						cy+=(e.motion.yrel)*3;
+						cx+=e.motion.xrel*3;
+						cy+=e.motion.yrel*3;
 					}
 				}
 				break;

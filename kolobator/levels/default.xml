@@ -3,27 +3,19 @@
 	<background img="default.png"/>
 	<start x="8" y="3"/>
 	<end x="3" y="5.5"/>
-	<bodies count="2">
-		<body x="4.5" y="2" id="A" type="static" shapes="1">
+	<bodies count="1">
+		<body x="4.625" y="4.75" id="A" type="static" shapes="1">
 			<physic bullet="0" fixed_rotation="0" gravity_scale="1"/>
-			<shape id="_Rect1" type="Rect" pos="physic" texture="wooden_box.png">
-				<position x1="-1" y1="-1" x2="1" y2="1"/>
-				<physic density="1000" friction="0.3" restitution="0"/>
-			</shape>
-		</body>
-		<body x="7.5" y="1.5" id="B" type="dynamic" shapes="1">
-			<physic bullet="0" fixed_rotation="0" gravity_scale="1"/>
-			<shape id="_Circle1" type="Circle" pos="physic" texture="barrel1.png">
-				<position x="0" y="0" r="1"/>
+			<shape id="_Polygon1" type="Polygon" pos="physic" texture="">
+				<position point_count="4">
+					<point x="-3.125" y="-3.75"/>
+					<point x="-3.125" y="-0.25"/>
+					<point x="5.875" y="7.75"/>
+					<point x="0.375" y="-3.75"/>
+				</position>
 				<physic density="1000" friction="0.3" restitution="0"/>
 			</shape>
 		</body>
 	</bodies>
-	<joints count="1">
-		<joint type="RevoluteJoint" id="_RevoluteJoint1">
-			<connected collide="0" id1="A" id2="B"/>
-			<position x="4.5" y="2"/>
-			<physic limit="0" motor="0"/>
-		</joint>
-	</joints>
+	<joints count="0"/>
 </level>

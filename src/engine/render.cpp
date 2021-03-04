@@ -98,54 +98,36 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 	break;
 	case POLYGON: {
 		b2PolygonShape *shape=(b2PolygonShape*)fix->GetShape();
-		float f[shape->m_count*4];
-		b2Vec2 maxv(0,0),minv(100000,100000);
-		for(int q=0;q<shape->m_count;q++){
-			b2Vec2 v(shape->m_vertices[q].x,shape->m_vertices[q].y);
-			f[q*4]=drawx(body->GetPosition().x+rotatex(v,a_rad));
-			f[q*4+1]=drawy(body->GetPosition().y+rotatey(v,a_rad));
-			maxv.x=max(v.x,maxv.x);
-			maxv.y=max(v.y,maxv.x);
-			minv.x=min(v.x,minv.x);
-			minv.y=min(v.y,minv.x);
-		}
-		for(int q=0;q<shape->m_count;q++){
-			f[q*4+2]=(maxv-minv).x/(shape->m_vertices[q]-minv).x;
-			f[q*4+3]=(maxv-minv).y/(shape->m_vertices[q]-minv).y;
-		}
-		GPU_TriangleBatch(tex,ren,shape->m_count,f,shape->m_count,0,GPU_BATCH_XY_ST);
-		/*if(shape->cache && F_DATA(fix,texture)!="") {
-			float minx=1000000000,miny=1000000000,maxx=0,maxy=0;
-			for(int q=0; q<shape->b_count; q++) {
-				minx=std::min(minx,shape->big_polygon[q].x);
-				miny=std::min(miny,shape->big_polygon[q].y);
-				maxx=std::max(maxx,shape->big_polygon[q].x);
-				maxy=std::max(maxy,shape->big_polygon[q].y);
+		if(tex){
+			float f[shape->m_count*4];
+			b2Vec2 maxv(0,0),minv(100000,100000);
+			for(int q=0;q<shape->m_count;q++){
+				b2Vec2 v(shape->m_vertices[q].x,shape->m_vertices[q].y);
+				f[q*4]=drawx(body->GetPosition().x+rotatex(v,a_rad));
+				f[q*4+1]=drawy(body->GetPosition().y+rotatey(v,a_rad));
 			}
-			SDL_Rect r= {
-				drawix(body->GetPosition().x+minx),
-				drawiy(body->GetPosition().y+miny),
-				int(zoom*(maxx-minx)),
-				int(zoom*(maxy-miny))
-			};
-			SDL_Point p= {
-				-int(zoom*minx),
-					-int(zoom*miny)
-				};
-			SDL_RenderCopyEx(ren,shape->cache,0,&r,a*(180.0f/M_PI),&p,SDL_RendererFlip::SDL_FLIP_NONE);
-		} else {
-			short *xp=new short[shape->m_count];
-			short *yp=new short[shape->m_count];
-			for(int q=0; q<shape->m_count; q++) {
-				float x=shape->m_vertices[q].x;
-				float y=shape->m_vertices[q].y;
-				xp[q]=drawix(body->GetPosition().x+x*cos(a)-y*sin(a));
-				yp[q]=drawiy(body->GetPosition().y+y*cos(a)+x*sin(a));
+			for(int q=0;q<shape->b_count;q++){
+				b2Vec2 v(shape->big_polygon[q]);
+				maxv.x=max(v.x,maxv.x);
+				maxv.y=max(v.y,maxv.x);
+				minv.x=min(v.x,minv.x);
+				minv.y=min(v.y,minv.x);
 			}
-			polygonColor(ren,xp,yp,shape->m_count,0xFFFFFFFF);
-			delete[]xp;
-			delete[]yp;
-		}*/
+			for(int q=0;q<shape->m_count;q++){
+				f[q*4+2]=(shape->m_vertices[q]-minv).x*(zoom/tex->w);
+				f[q*4+3]=(shape->m_vertices[q]-minv).y*(zoom/tex->h);
+			}
+			GPU_SetWrapMode(tex, GPU_WRAP_REPEAT, GPU_WRAP_REPEAT);
+			GPU_TriangleBatch(tex,ren,shape->m_count,f,shape->m_count,0,GPU_BATCH_XY_ST);
+		}else{
+			float f[shape->m_count*2];
+			for(int q=0;q<shape->m_count;q++){
+				b2Vec2 v(shape->m_vertices[q].x,shape->m_vertices[q].y);
+				f[q*2]=drawx(body->GetPosition().x+rotatex(v,a_rad));
+				f[q*2+1]=drawy(body->GetPosition().y+rotatey(v,a_rad));
+			}
+			GPU_Polygon(ren,shape->m_count,f,{255,255,255,255});
+		}
 	}
 	break;
 	}
