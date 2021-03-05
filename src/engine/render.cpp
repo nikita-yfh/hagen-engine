@@ -45,6 +45,10 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 	float a_deg=a_rad*(180/3.14);
 	std::string h=F_DATA(fix,id);
 	GPU_Image *tex=find_texture(F_DATA(fix,texture));
+	static float f=1;
+	if(key[SDL_SCANCODE_1])f+=0.01;
+	if(key[SDL_SCANCODE_2])f-=0.01;
+	printf("%g\n",f);
 	switch(F_DATA(fix,type)) {
 	case RECT:
 	case SQUARE: {
@@ -52,11 +56,11 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 		if(tex) {
 			GPU_BlitTransformX(tex,0,ren,
 							   drawx(body->GetPosition().x),drawy(body->GetPosition().y),
-							   (shape->m_centroid.x+0.5)*tex->w,
-							   (shape->m_centroid.y+0.5)*tex->h,a_deg,
-							   zoom*(shape->m_vertices[0].x-shape->m_vertices[2].x)/tex->w,
-							   zoom*(shape->m_vertices[0].y-shape->m_vertices[2].y)/tex->h);
-		} else {
+							   (-shape->m_centroid.x+0.5)*tex->w/f,
+							   (-shape->m_centroid.y+0.5)*tex->h/f,a_deg,
+							   zoom*(shape->m_vertices[2].x-shape->m_vertices[0].x)/tex->w,
+							   zoom*(shape->m_vertices[2].y-shape->m_vertices[0].y)/tex->h);
+		//} else {
 			float x[4];
 			float y[4];
 			for(int q=0; q<4; q++) {
@@ -74,10 +78,10 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 			GPU_BlitTransformX(tex,0,ren,
 							   drawx(body->GetPosition().x),drawy(body->GetPosition().y),
 							   (-shape->m_p.x+0.5)*tex->w,
-							   (-shape->m_p.y+0.5)*tex->h,a_deg,
+							   (-shape->m_p.x+0.5)*tex->h,a_deg+180,
 							   zoom*shape->m_radius*2/tex->w,
 							   zoom*shape->m_radius*2/tex->h);
-		} else {
+		} /*else*/ {
 			float x=drawx(body->GetPosition().x+rotatex(shape->m_p,a_rad));
 			float y=drawy(body->GetPosition().y+rotatey(shape->m_p,a_rad));
 			float xp=x+(zoom*shape->m_radius)*cos(a_rad);

@@ -4,15 +4,14 @@
 	<start x="8" y="3"/>
 	<end x="3" y="5.5"/>
 	<bodies count="1">
-		<body x="4.625" y="4.75" id="A" type="static" shapes="1">
+		<body x="2.75" y="1" id="ball" type="static" shapes="2">
 			<physic bullet="0" fixed_rotation="0" gravity_scale="1"/>
-			<shape id="_Polygon1" type="Polygon" pos="physic" texture="">
-				<position point_count="4">
-					<point x="-3.125" y="-3.75"/>
-					<point x="-3.125" y="-0.25"/>
-					<point x="5.875" y="7.75"/>
-					<point x="0.375" y="-3.75"/>
-				</position>
+			<shape id="_Rect1" type="Rect" pos="foreground" texture="wooden_box.png">
+				<position x1="-2.75" y1="-0.5" x2="3.25" y2="0.5"/>
+				<physic density="1000" friction="0.3" restitution="0"/>
+			</shape>
+			<shape id="_Circle1" type="Circle" pos="physic" texture="">
+				<position x="-0.25" y="0" r="0.5"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 			</shape>
 		</body>
