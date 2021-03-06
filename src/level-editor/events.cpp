@@ -83,6 +83,9 @@ bool create_shapes(int x,int y,int mouse) {
 			case 12:
 				obj=new DistanceJoint;
 				break;
+			case 13:
+				obj=new Entity;
+				break;
 			}
 			if(!obj)return 0;
 			obj->id=get_free_name(obj->name());
@@ -93,8 +96,10 @@ bool create_shapes(int x,int y,int mouse) {
 			} else create_status=1;
 			if(tool_ch<7)
 				cr->shapes.push_back((Physic*)obj);
-			else
+			else if(tool_ch<13)
 				level.joints.push_back((Joint*)obj);
+			else
+				level.entities.push_back((Entity*)obj);
 			fill_shapes();
 			select_tree_view(obj->id);
 			block=1;

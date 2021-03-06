@@ -50,6 +50,7 @@ void Joint::show() {
 	gtk_widget_show(c_collide);
 }
 void Joint::vupdate() {
+	show();
 	update(this);
 	Object::update(this);
 }
@@ -100,6 +101,7 @@ void PointJoint::update1() {
 	gtk_widget_queue_draw(drawable);
 }
 void PointJoint::vupdate() {
+	show();
 	update(this);
 	Joint::update(TYPE(Joint*,this));
 	Object::update(TYPE(Object*,this));
@@ -183,6 +185,7 @@ void WeldJoint::update1() {
 	gtk_widget_queue_draw(drawable);
 }
 void WeldJoint::vupdate() {
+	show();
 	update(this);
 	PointJoint::update(this);
 	Joint::update(this);
@@ -195,7 +198,7 @@ bool WeldJoint::drag(float xp,float yp,int dr) {
 	if(!shows[6])return 0;
 	if(dr==0 && touch(x,y,xp,yp)) {
 		hide_all();
-		show();
+		vupdate();
 		point_ch=1;
 		return 1;
 	} else if(dr==1&&point_ch==1) {
@@ -203,7 +206,7 @@ bool WeldJoint::drag(float xp,float yp,int dr) {
 		y=to_grid(yp);
 		return 1;
 	} else if(dr==2)point_ch=0;
-	else if(dr==3)show();
+	else if(dr==3)vupdate();
 	return 0;
 }
 void GearJoint::init(GtkWidget *table) {
@@ -236,7 +239,7 @@ bool GearJoint::drag(float xp,float yp,int dr) {
 		return 0;
 	else if(dr==1)
 		return 1;
-	else if(dr==3)show();
+	else if(dr==3)vupdate();
 	return 0;
 }
 bool GearJoint::create(float xp,float yp,int dr) {
@@ -267,6 +270,7 @@ void GearJoint::update1() {
 	gtk_widget_queue_draw(drawable);
 }
 void GearJoint::vupdate() {
+	show();
 	update(this);
 	Joint::update(this);
 	Object::update(this);
@@ -332,7 +336,7 @@ bool RevoluteJoint::drag(float xp,float yp,int dr) {
 	if(!shows[6])return 0;
 	if(dr==0 && touch(x,y,xp,yp)) {
 		hide_all();
-		show();
+		vupdate();
 		point_ch=1;
 		return 1;
 	} else if(dr==1&&point_ch==1) {
@@ -340,7 +344,7 @@ bool RevoluteJoint::drag(float xp,float yp,int dr) {
 		y=to_grid(yp);
 		return 1;
 	} else if(dr==2)point_ch=0;
-	else if(dr==3)show();
+	else if(dr==3)vupdate();
 	return 0;
 }
 void RevoluteJoint::show() {
@@ -389,6 +393,7 @@ void RevoluteJoint::update1() {
 	gtk_widget_queue_draw(drawable);
 }
 void RevoluteJoint::vupdate() {
+	show();
 	update(this);
 	PointJoint::update(this);
 	Joint::update(this);
@@ -467,7 +472,7 @@ bool PrismaticJoint::drag(float xp,float yp,int dr) {
 			point_ch=3;
 		else return 0;
 		hide_all();
-		show();
+		vupdate();
 		return 1;
 	} else if(dr==1) {
 		if(point_ch==1) {
@@ -482,7 +487,7 @@ bool PrismaticJoint::drag(float xp,float yp,int dr) {
 		}
 		return 1;
 	} else if(dr==2)point_ch=0;
-	else if(dr==3)show();
+	else if(dr==3)vupdate();
 	return 0;
 }
 void PrismaticJoint::show() {
@@ -537,6 +542,7 @@ void PrismaticJoint::update1() {
 	gtk_widget_queue_draw(drawable);
 }
 void PrismaticJoint::vupdate() {
+	show();
 	update(this);
 	PointJoint::update(this);
 	Joint::update(this);
@@ -637,7 +643,7 @@ bool DistanceJoint::drag(float xp,float yp,int dr) {
 		else	if(touch(x2,y2,xp,yp))	point_ch=2;
 		else return 0;
 		hide_all();
-		show();
+		vupdate();
 		return 1;
 	} else if(dr==1&&point_ch) {
 		if(point_ch==1) {
@@ -649,7 +655,7 @@ bool DistanceJoint::drag(float xp,float yp,int dr) {
 		}
 		return 1;
 	} else if(dr==2)point_ch=0;
-	else if(dr==3)show();
+	else if(dr==3)vupdate();
 	return 0;
 }
 void DistanceJoint::show() {
@@ -714,6 +720,7 @@ void DistanceJoint::update1() {
 	gtk_widget_queue_draw(drawable);
 }
 void DistanceJoint::vupdate() {
+	show();
 	update(this);
 	Joint::update(this);
 	Object::update(this);
@@ -856,7 +863,7 @@ bool PulleyJoint::drag(float xp,float yp,int dr) {
 		else	if(touch(x4,y4,xp,yp))	point_ch=4;
 		else return 0;
 		hide_all();
-		show();
+		vupdate();
 		return 1;
 	} else if(dr==1&&point_ch) {
 		if(point_ch==1) {
@@ -874,7 +881,7 @@ bool PulleyJoint::drag(float xp,float yp,int dr) {
 		}
 		return 1;
 	} else if(dr==2)point_ch=0;
-	else if(dr==3)show();
+	else if(dr==3)vupdate();
 	return 0;
 }
 void PulleyJoint::show() {
@@ -949,6 +956,7 @@ void PulleyJoint::update1() {
 	gtk_widget_queue_draw(drawable);
 }
 void PulleyJoint::vupdate() {
+	show();
 	update(this);
 	Joint::update(this);
 	Object::update(this);

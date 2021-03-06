@@ -44,7 +44,7 @@ bool BiSymmetrical::drag(float xp,float yp,int dr) {
 		else	if(touch(x,y,xp,yp))	point_ch=1;
 		else return 0;
 		hide_all();
-		show();
+		vupdate();
 		return 1;
 	} else if(dr==1&&point_ch) {
 		if(point_ch==1) {
@@ -55,7 +55,7 @@ bool BiSymmetrical::drag(float xp,float yp,int dr) {
 		}
 		return 1;
 	} else if(dr==2)point_ch=0;
-	else if(dr==3)show();
+	else if(dr==3)vupdate();
 	else if(dr==4) {
 		if(name()=="Circle")
 			return hypot(xp-x,yp-y)<=r;
@@ -136,6 +136,7 @@ vector<float*> BiSymmetrical::get_ypoints() {
 	return {&y};
 }
 void BiSymmetrical::vupdate() {
+	show();
 	update(this);
 	Physic::update(this);
 	Layer::update(this);
@@ -186,7 +187,7 @@ bool BiPoints::drag(float xp,float yp,int dr) {
 		else	if(touch(x2,y2,xp,yp))	point_ch=2;
 		else return 0;
 		hide_all();
-		show();
+		vupdate();
 		return 1;
 	} else if(dr==1&&point_ch) {
 		if(point_ch==1) {
@@ -198,7 +199,7 @@ bool BiPoints::drag(float xp,float yp,int dr) {
 		}
 		return 1;
 	} else if(dr==2)point_ch=0;
-	else if(dr==3)show();
+	else if(dr==3)vupdate();
 	else if(dr==4) {
 		if(name()=="Rect")
 			return abs((x1+x2)/2-xp)<=abs(x1-x2)/2
@@ -294,6 +295,7 @@ void BiPoints::update1() {
 	gtk_widget_queue_draw(drawable);
 }
 void BiPoints::vupdate() {
+	show();
 	update(this);
 	Physic::update(this);
 	Layer::update(this);
@@ -330,7 +332,7 @@ bool Polygon::drag(float xp,float yp,int dr) {
 			if(touch(x[q],y[q],xp,yp)) {
 				point_ch=q+1;
 				hide_all();
-				show();
+				vupdate();
 				return 1;
 			}
 		}
@@ -340,7 +342,7 @@ bool Polygon::drag(float xp,float yp,int dr) {
 		y[point_ch-1]=to_grid(yp);
 		return 1;
 	} else if(dr==2)point_ch=0;
-	else if(dr==3)show();
+	else if(dr==3)vupdate();
 	else if(dr==4) {
 		cairo_surface_t *surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, *max_element(x.begin(), x.end())-*min_element(x.begin(), x.end()),
 								   *max_element(y.begin(), y.end())-*min_element(y.begin(), y.end()));
@@ -447,6 +449,7 @@ void Polygon::update1() {
 	gtk_widget_queue_draw(drawable);
 }
 void Polygon::vupdate() {
+	show();
 	update(this);
 	Physic::update(this);
 	Layer::update(this);
@@ -530,6 +533,7 @@ void Physic::hide() {
 	gtk_widget_hide(t3);
 }
 void Physic::vupdate() {
+	show();
 	update(this);
 	Layer::update(this);
 	Object::update(this);
@@ -588,6 +592,7 @@ void Layer::hide() {
 	gtk_widget_hide(expand);
 }
 void Layer::vupdate() {
+	show();
 	update(this);
 	Object::update(this);
 }

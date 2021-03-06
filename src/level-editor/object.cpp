@@ -168,6 +168,12 @@ bool delete_id(string id) {
 			return 1;
 		}
 	}
+	for(int q=0; q<level.entities.size(); q++) {
+		if(level.entities[q]->id==id) {
+			level.entities.erase(level.entities.begin()+q);
+			return 1;
+		}
+	}
 	return 0;
 }
 void Object::init(GtkWidget* table) {
@@ -229,6 +235,7 @@ string Object::name() {
 
 void Object::draw(cairo_t *cr) {}
 void Object::vupdate() {
+	show();
 	update(this);
 };
 float Object::mean_x() {
@@ -275,7 +282,7 @@ void Point::draw(cairo_t *cr) {
 bool Point::drag(float xp,float yp,int dr) {
 	if(dr==0 && touch(x,y,xp,yp)) {
 		hide_all();
-		show();
+		vupdate();
 		point_ch=1;
 		return 1;
 	} else if(dr==1&&point_ch==1) {
@@ -283,13 +290,13 @@ bool Point::drag(float xp,float yp,int dr) {
 		y=to_grid(yp);
 		return 1;
 	} else if(dr==2)point_ch=0;
-	else if(dr==3)show();
+	else if(dr==3)vupdate();
 	return 0;
 }
 bool Point::create(float xp,float yp,int dr) {
 	if(dr==0) {
-		x=dragx(xp);
-		y=dragy(yp);
+		x=to_grid(xp);
+		y=to_grid(yp);
 		return 1;
 	}
 	return 0;
@@ -341,6 +348,7 @@ vector<float*> Point::get_ypoints() {
 	return {&y};
 }
 void Point::vupdate() {
+	show();
 	update(this);
 	Object::update(this);
 }
@@ -373,6 +381,7 @@ void Entity::update1() {
 	p->type=gtk_entry_get_text(GTK_ENTRY(entry));
 }
 void Entity::vupdate() {
+	show();
 	update(this);
 	Point::update(this);
 	Object::update(this);

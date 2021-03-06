@@ -18,7 +18,7 @@ bool Level::save_file(std::string path,bool all) {
 				XMLNode bgr=lvl.addChild("background");
 				bgr.addAttribute("img",background.c_str());
 			}
-			{
+			/*{
 				//start
 				XMLNode st=lvl.addChild("start");
 				st.addAttribute("x",start.x);
@@ -29,7 +29,7 @@ bool Level::save_file(std::string path,bool all) {
 				XMLNode en=lvl.addChild("end");
 				en.addAttribute("x",end.x);
 				en.addAttribute("y",end.y);
-			}
+			}*/
 		} else {
 			lvl=Main.addChild("physics");
 		}
@@ -60,18 +60,6 @@ bool Level::open_file(string path) {
 			//backgroung
 			XMLNode bgr=lvl.getChildNode("background");
 			background=bgr.getAttribute("img");
-		}
-		{
-			//start
-			XMLNode bgr=lvl.getChildNode("start");
-			start.x=to_fl(bgr.getAttribute("x"));
-			start.y=to_fl(bgr.getAttribute("y"));
-		}
-		{
-			//end
-			XMLNode bgr=lvl.getChildNode("end");
-			end.x=to_fl(bgr.getAttribute("x"));
-			end.y=to_fl(bgr.getAttribute("y"));
 		}
 	}
 	{

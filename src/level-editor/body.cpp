@@ -38,7 +38,7 @@ Body::~Body() {
 bool Body::drag(float xp,float yp,int dr) {
 	if(dr==3) {
 		hide_all();
-		show();
+		vupdate();
 	}
 	return 0;
 }
@@ -46,6 +46,7 @@ string Body::name() {
 	return "Body";
 }
 void Body::vupdate() {
+	show();
 	update(this);
 	Object::update(this);
 }
