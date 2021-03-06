@@ -155,6 +155,7 @@ void Body::save(XMLNode &parent,bool p) {
 			}
 			sh.addAttribute("pos",type.c_str());
 			sh.addAttribute("texture",shape->texture.c_str());
+			sh.addAttribute("expand",shape->ex);
 		}
 		{
 			//position
@@ -249,6 +250,7 @@ void Body::load(XMLNode &node,bool p) {
 		}
 		shp->id     =sh.getAttribute("id");
 		shp->texture=sh.getAttribute("texture");
+		shp->ex		=stoi(sh.getAttribute("expand"));
 		{
 			string str=sh.getAttribute("pos");
 			if(str=="background")		shp->layer=TBGR;

@@ -1,4 +1,4 @@
-function prepare()
+function Level:prepare()
 end
-function loop()
+function Level:loop()
 end

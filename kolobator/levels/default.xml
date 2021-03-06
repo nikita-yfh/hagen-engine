@@ -1,17 +1,17 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <level w="40" h="20">
 	<background img="default.png"/>
-	<start x="8" y="3"/>
-	<end x="3" y="5.5"/>
+	<start x="7.5" y="9.5"/>
+	<end x="4.5" y="10"/>
 	<bodies count="1">
-		<body x="2.75" y="1" id="ball" type="static" shapes="2">
+		<body x="8.5" y="7" id="ground" type="static" shapes="2">
 			<physic bullet="0" fixed_rotation="0" gravity_scale="1"/>
-			<shape id="_Rect1" type="Rect" pos="foreground" texture="wooden_box.png">
-				<position x1="-2.75" y1="-0.5" x2="3.25" y2="0.5"/>
+			<shape id="_Rect2" type="Rect" pos="physic" texture="wooden_box.png" expand="0">
+				<position x1="-8" y1="-2.5" x2="3" y2="-1.5"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 			</shape>
-			<shape id="_Circle1" type="Circle" pos="physic" texture="">
-				<position x="-0.25" y="0" r="0.5"/>
+			<shape id="_Rect1" type="Rect" pos="physic" texture="wooden_box.png" expand="0">
+				<position x1="2" y1="-1.5" x2="3" y2="5.5"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 			</shape>
 		</body>

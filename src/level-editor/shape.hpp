@@ -4,8 +4,9 @@ std::string find_shape_1(float x,float y);
 std::string find_shape_2(float x,float y);
 struct Layer : Object {
 	uint8_t layer=1;
+	bool ex=1;
 	std::string texture="";
-	static GtkWidget *combo, *entry, *text;
+	static GtkWidget *combo, *entry, *text, *expand;
 	static void init(GtkWidget*);
 	static void show();
 	static void hide();
@@ -85,7 +86,7 @@ struct Rect : BiPoints {
 	std::string name();
 };
 struct Polygon : Physic {
-	Polygon() {}
+	Polygon() {ex=0;}
 	Polygon(std::vector<float>,std::vector<float>);
 	static GtkWidget *px, *py, *tx, *ty;
 	static GtkObject *ax, *ay;

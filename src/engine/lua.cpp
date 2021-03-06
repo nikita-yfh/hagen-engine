@@ -7,8 +7,8 @@
 using namespace luabridge;
 using namespace std;
 bool mainscript_enabled=1;
-string level_script_name;
-lua_State *level_script;
+string L_name;
+lua_State *L;
 //НАЧАЛО КОСТЫЛЕЙ И ОСНОВНЫХ ПРИЧИН БАГОВ
 void set_mask(Color &c) {
 	scene_mask=c;
@@ -20,11 +20,10 @@ Color &get_mask() {
 void lua_gameloop() {
 	try {
 		if(mainscript_enabled) {
-			auto func=luabridge::getGlobal(level_script,"loop");
-			func();
+			getGlobal(L,"Level")["loop"]();
 		}
 	} catch(exception &e) {
-		panic("Lua error in \""+level_script_name+"\"",e.what());
+		panic("Lua error in \""+L_name+"\"",e.what());
 	}
 }
 
@@ -133,25 +132,26 @@ void lua_init_bodies(lua_State *L) {
 
 void lua_init(string name) {
 	try {
-		level_script_name="levels/"+name+".lua";
-		if(!exist_file(level_script_name))
+		L_name="levels/"+name+".lua";
+		if(!exist_file(L_name))
 			mainscript_enabled=0;
 		else {
-			level_script = luaL_newstate();
-			luaL_openlibs(level_script);
-			lua_init_game_functions(level_script);
-			lua_init_bodies(level_script);
-			lua_init_joints(level_script);
-			lua_fill_bodies(level_script);
-			lua_fill_joints(level_script);
-			luaL_dofile(level_script, level_script_name.c_str());
-			luabridge::getGlobal(level_script,"prepare")();
+			L = luaL_newstate();
+			luaL_openlibs(L);
+			lua_init_game_functions(L);
+			lua_init_bodies(L);
+			lua_init_joints(L);
+			lua_fill_bodies(L);
+			lua_fill_joints(L);
+			luaL_dostring(L,"Level={}");
+			luaL_dofile(L, L_name.c_str());
+			getGlobal(L,"Level")["prepare"]();
 		}
 	} catch(exception &e) {
-		panic("Lua error in \""+level_script_name+"\"",e.what());
+		panic("Lua error in \""+L_name+"\"",e.what());
 	}
 }
 void lua_quit() {
 	if(mainscript_enabled)
-		lua_close(level_script);
+		lua_close(L);
 }

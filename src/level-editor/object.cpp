@@ -27,7 +27,7 @@ GtkObject	*Point::ax, *Point::ay,
 
 GtkWidget	*BiPoints::px1, *BiPoints::px2, *BiPoints::py1, *BiPoints::py2,
 			*BiPoints::tx1, *BiPoints::tx2, *BiPoints::ty1, *BiPoints::ty2,
-			*Layer::combo, *Layer::text, *Layer::entry,
+			*Layer::combo, *Layer::text, *Layer::entry, *Layer::expand,
 			*BiSymmetrical::pr, *BiSymmetrical::tr,
 			*BiSymmetrical::py, *BiSymmetrical::px, *BiSymmetrical::tx, *BiSymmetrical::ty,
 			*Point::py, *Point::px, *Point::tx, *Point::ty,
@@ -53,7 +53,8 @@ GtkWidget	*BiPoints::px1, *BiPoints::px2, *BiPoints::py1, *BiPoints::py2,
 			*PulleyJoint::tx1, *PulleyJoint::tx2, *PulleyJoint::ty1, *PulleyJoint::ty2,
 			*PulleyJoint::px3, *PulleyJoint::px4, *PulleyJoint::py3, *PulleyJoint::py4,
 			*PulleyJoint::tx3, *PulleyJoint::tx4, *PulleyJoint::ty3, *PulleyJoint::ty4,
-			*PulleyJoint::pr, *PulleyJoint::tr, *PulleyJoint::info;
+			*PulleyJoint::pr, *PulleyJoint::tr, *PulleyJoint::info,
+			*Entity::text, *Entity::entry;
 
 void hide_all() {
 	Object::hide();
@@ -72,6 +73,7 @@ void hide_all() {
 	PrismaticJoint::hide();
 	DistanceJoint::hide();
 	PulleyJoint::hide();
+	Entity::hide();
 }
 void create_all(GtkWidget *prop_table) {
 	Object::init(prop_table);
@@ -90,6 +92,7 @@ void create_all(GtkWidget *prop_table) {
 	PrismaticJoint::init(prop_table);
 	DistanceJoint::init(prop_table);
 	PulleyJoint::init(prop_table);
+	Entity::init(prop_table);
 }
 
 vector <Object*> get_all() {
@@ -104,8 +107,11 @@ vector <Object*> get_all() {
 	for(int q=0; q<level.joints.size(); q++) {
 		all.push_back(level.joints[q]);
 	}
-	all.push_back(&level.start);
-	all.push_back(&level.end);
+	for(int q=0; q<level.entities.size(); q++) {
+		all.push_back(level.entities[q]);
+	}
+	//all.push_back(&level.start);
+	//all.push_back(&level.end);
 	return all;
 }
 
@@ -341,4 +347,36 @@ void Point::vupdate() {
 string Point::name() {
 	return "Point";
 }
-
+void Entity::init(GtkWidget *table) {
+	text=gtk_label_new("Type");
+	entry=gtk_entry_new();
+	ins_text	(table,text,cur_table_string);
+	ins_widget	(table,entry,cur_table_string++);
+	g_signal_connect(G_OBJECT(entry),"notify::text",update1,0);
+}
+void Entity::show() {
+	Point::show();
+	gtk_widget_show(text);
+	gtk_widget_show(entry);
+}
+void Entity::hide() {
+	Point::hide();
+	gtk_widget_hide(text);
+	gtk_widget_hide(entry);
+}
+void Entity::update(Entity *p) {
+	gtk_entry_set_text(GTK_ENTRY(entry),p->type.c_str());
+}
+void Entity::update1() {
+	Entity *p=TYPE(Entity*,get_selected_object());
+	if(!p || point_ch)return;
+	p->type=gtk_entry_get_text(GTK_ENTRY(entry));
+}
+void Entity::vupdate() {
+	update(this);
+	Point::update(this);
+	Object::update(this);
+}
+string Entity::name() {
+	return "Entity";
+}

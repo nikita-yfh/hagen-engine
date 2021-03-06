@@ -59,3 +59,15 @@ struct Point:Object {
 	std::string name();
 };
 
+struct Entity : Point {
+	std::string type;
+	bool player_on;
+	static GtkWidget *entry,*text;
+	static void init(GtkWidget*);
+	static void show();
+	static void hide();
+	static void update (Entity *p);
+	static void update1();
+	void vupdate();
+	std::string name();
+};

@@ -12,7 +12,7 @@
 #define RB_N(t) gtk_radio_button_new_with_label(0,t)
 #define RB(b,t) gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(b),t)
 #define MENU_APPEND(a,b) gtk_menu_shell_append (GTK_MENU_SHELL (a), b);
-#define TOOL_COUNT 12
+#define TOOL_COUNT 13
 #define L(a) [](){a}
 #define LIGHT_GRAY 0.8,0.8,0.8
 #define GREEN 0,1,0

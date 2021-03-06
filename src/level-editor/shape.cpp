@@ -537,6 +537,7 @@ void Physic::vupdate() {
 void Layer::init(GtkWidget *table) {
 	combo=gtk_combo_box_new_text();
 	text=gtk_label_new("Texture");
+	expand=gtk_check_button_new_with_label("Expand texture");
 	entry=gtk_entry_new();
 	gtk_combo_box_append_text(GTK_COMBO_BOX(combo),"Background");
 	gtk_combo_box_append_text(GTK_COMBO_BOX(combo),"Physic layer");
@@ -544,19 +545,23 @@ void Layer::init(GtkWidget *table) {
 	gtk_combo_box_set_active(GTK_COMBO_BOX(combo),1);
 	g_signal_connect(G_OBJECT(combo),"changed",update1,0);
 	g_signal_connect(G_OBJECT(entry),"notify::text",update1,0);
+	g_signal_connect(G_OBJECT(expand),"toggled",update1,0);
 	ins_text(table,text,cur_table_string);
 	ins_widget(table,entry,cur_table_string++);
+	ins_widget2(table,expand,cur_table_string++);
 	ins_widget2(table,combo,cur_table_string++);
 }
 void Layer::update(Layer *l) {
 	gtk_combo_box_set_active(GTK_COMBO_BOX(combo),l->layer);
 	gtk_entry_set_text(GTK_ENTRY(entry),l->texture.c_str());
+	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(expand),l->ex);
 }
 void Layer::update1() {
 	Layer *p=TYPE(Layer*,get_selected_object());
 	if(!p || point_ch)return;
 	p->layer=gtk_combo_box_get_active(GTK_COMBO_BOX(combo));
 	string str=gtk_entry_get_text(GTK_ENTRY(entry));
+	p->ex=gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(expand));
 	bool ok=0;
 	for(int q=0; q<str.size(); q++)
 		if(str[q]=='.')ok=1;
@@ -573,12 +578,14 @@ void Layer::show() {
 	gtk_widget_show(combo);
 	gtk_widget_show(text);
 	gtk_widget_show(entry);
+	gtk_widget_show(expand);
 }
 void Layer::hide() {
 	Object::hide();
 	gtk_widget_hide(combo);
 	gtk_widget_hide(text);
 	gtk_widget_hide(entry);
+	gtk_widget_hide(expand);
 }
 void Layer::vupdate() {
 	update(this);

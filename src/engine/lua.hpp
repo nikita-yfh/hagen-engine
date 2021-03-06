@@ -10,8 +10,8 @@ extern "C" {
 #include <vector>
 #include <string>
 
-extern lua_State *level_script;
-extern std::string level_script_name;
+extern lua_State *L;
+extern std::string L_name;
 
 b2Body *GetBody(int id);
 void lua_gameloop();

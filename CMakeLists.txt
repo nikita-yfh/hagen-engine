@@ -45,7 +45,6 @@ set(ENGINE_SOURCES
 	${ENGINE_INCLUDE_DIR}/physic.cpp
 	${ENGINE_INCLUDE_DIR}/level.cpp
 	${ENGINE_INCLUDE_DIR}/render.cpp
-	${ENGINE_INCLUDE_DIR}/shapes.cpp
 	${ENGINE_INCLUDE_DIR}/sdl.cpp
 	${ENGINE_INCLUDE_DIR}/camera.cpp
 )
