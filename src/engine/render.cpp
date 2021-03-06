@@ -26,9 +26,7 @@ SDL_Color Color::color() {
 	return SDL_Color({r,g,b,a});
 }
 void draw_mask() {
-	GPU_RectangleFilled(ren,0,0,SW,SH, {scene_mask.r,scene_mask.g,
-										scene_mask.b,scene_mask.a
-									   });
+	GPU_RectangleFilled(ren,0,0,SW,SH,scene_mask.color());
 }
 void draw_bgr() {
 	if(!background)return;
@@ -46,21 +44,23 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 	std::string h=F_DATA(fix,id);
 	GPU_Image *tex=find_texture(F_DATA(fix,texture));
 	static float f=1;
-	if(key[SDL_SCANCODE_1])f+=0.01;
-	if(key[SDL_SCANCODE_2])f-=0.01;
+	if(key[SDL_SCANCODE_1])f+=0.05;
+	if(key[SDL_SCANCODE_2])f-=0.05;
 	printf("%g\n",f);
 	switch(F_DATA(fix,type)) {
 	case RECT:
 	case SQUARE: {
 		b2PolygonShape *shape=(b2PolygonShape*)fix->GetShape();
 		if(tex) {
+			float w=shape->m_vertices[2].x-shape->m_vertices[0].x;
+			float h=shape->m_vertices[2].y-shape->m_vertices[0].y;
 			GPU_BlitTransformX(tex,0,ren,
 							   drawx(body->GetPosition().x),drawy(body->GetPosition().y),
-							   (-shape->m_centroid.x+0.5)*tex->w/f,
-							   (-shape->m_centroid.y+0.5)*tex->h/f,a_deg,
-							   zoom*(shape->m_vertices[2].x-shape->m_vertices[0].x)/tex->w,
-							   zoom*(shape->m_vertices[2].y-shape->m_vertices[0].y)/tex->h);
-		//} else {
+							   (0.5-shape->m_centroid.x/w)*tex->w,
+							   (0.5-shape->m_centroid.y/h)*tex->h,a_deg,
+							   zoom*w/tex->w,
+							   zoom*h/tex->h);
+		} else {
 			float x[4];
 			float y[4];
 			for(int q=0; q<4; q++) {
@@ -77,8 +77,8 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 		if(tex) {
 			GPU_BlitTransformX(tex,0,ren,
 							   drawx(body->GetPosition().x),drawy(body->GetPosition().y),
-							   (-shape->m_p.x+0.5)*tex->w,
-							   (-shape->m_p.x+0.5)*tex->h,a_deg+180,
+							   (0.5+shape->m_p.x/shape->m_radius/2.0)*tex->w,
+							   (0.5+shape->m_p.y/shape->m_radius/2.0)*tex->h,a_deg+180,
 							   zoom*shape->m_radius*2/tex->w,
 							   zoom*shape->m_radius*2/tex->h);
 		} /*else*/ {

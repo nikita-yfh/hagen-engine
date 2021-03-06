@@ -43,8 +43,9 @@ b2Body* read_body(XMLNode bd) {
 		XMLNode sh=bd.getChildNode("shape",j);
 		b2FixtureDef fix;
 		fix.userData=new b2FixtureData;
-		FD_DATA(fix,id)      =sh.getAttribute("id");
-		FD_DATA(fix,texture) =sh.getAttribute("texture");
+		FD_DATA(fix,id)			=sh.getAttribute("id");
+		FD_DATA(fix,texture)	=sh.getAttribute("texture");
+		FD_DATA(fix,expand)		=sh.getAttribute("expand");
 		{
 			//pos
 			string str=sh.getAttribute("pos");

@@ -20,6 +20,7 @@ void init(const char* title,int w,int h) {
 	SDL_Init(SDL_INIT_EVERYTHING);
 	TTF_Init();
 	IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG);
+	GPU_SetPreInitFlags(GPU_INIT_DISABLE_VSYNC);
 	ren=GPU_Init(w,h,0);
 	SW=w;
 	SH=h;
