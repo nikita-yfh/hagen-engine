@@ -18,18 +18,6 @@ bool Level::save_file(std::string path,bool all) {
 				XMLNode bgr=lvl.addChild("background");
 				bgr.addAttribute("img",background.c_str());
 			}
-			/*{
-				//start
-				XMLNode st=lvl.addChild("start");
-				st.addAttribute("x",start.x);
-				st.addAttribute("y",start.y);
-			}
-			{
-				//end
-				XMLNode en=lvl.addChild("end");
-				en.addAttribute("x",end.x);
-				en.addAttribute("y",end.y);
-			}*/
 		} else {
 			lvl=Main.addChild("physics");
 		}
@@ -39,6 +27,19 @@ bool Level::save_file(std::string path,bool all) {
 			bds.addAttribute("count",bodies.size());
 			for(int q=0; q<bodies.size(); q++) { //body
 				bodies[q]->save(bds,1);
+			}
+		}
+		{
+			//entities
+			XMLNode ens=lvl.addChild("entities");
+			ens.addAttribute("count",entities.size());
+			for(int q=0; q<entities.size(); q++) { //body
+				XMLNode en=ens.addChild("entity");
+				XMLNode pos=en.addChild("position");
+				pos.addAttribute("x",entities[q]->x);
+				pos.addAttribute("y",entities[q]->y);
+				en.addAttribute("id",entities[q]->id);
+				en.addAttribute("type",entities[q]->type);
 			}
 		}
 		save_joints(lvl);

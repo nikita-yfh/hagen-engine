@@ -17,5 +17,10 @@
 			</shape>
 		</body>
 	</bodies>
+	<entities count="1">
+		<entity id="entity" type="">
+			<position x="5.5" y="3.5"/>
+		</entity>
+	</entities>
 	<joints count="0"/>
 </level>
