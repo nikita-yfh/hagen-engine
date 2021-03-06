@@ -18,7 +18,7 @@
 		</body>
 	</bodies>
 	<entities count="1">
-		<entity id="entity" type="">
+		<entity id="entity" type="1">
 			<position x="5.5" y="3.5"/>
 		</entity>
 	</entities>

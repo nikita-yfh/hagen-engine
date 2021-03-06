@@ -76,6 +76,23 @@ bool Level::open_file(string path) {
 			bodies[q]->load(bd,1);
 		}
 	}
+	{
+		//entities
+		XMLNode ens=lvl.getChildNode("entities");
+		for(int q=0; q<entities.size(); q++) {
+			delete entities[q];
+		}
+		entities.resize(stoi(ens.getAttribute("count")));
+		for(int q=0; q<entities.size(); q++) {
+			XMLNode en=ens.getChildNode("entity",q);
+			XMLNode pos=en.getChildNode("position");
+			entities[q]=new Entity;
+			entities[q]->x=stof(pos.getAttribute("x"));
+			entities[q]->y=stof(pos.getAttribute("y"));
+			entities[q]->id=en.getAttribute("id");
+			entities[q]->type=en.getAttribute("type");
+		}
+	}
 	load_joints(lvl);
 	return 0;
 }
