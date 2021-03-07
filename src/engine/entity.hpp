@@ -18,4 +18,6 @@ struct Entity {
 	std::string type;
 	std::vector<b2Body*>bodies;
 	std::vector<b2Joint*>joints;
+	b2Body *get_body(std::string id);
+	b2Joint *get_joint(std::string id);
 };

@@ -8,7 +8,7 @@ void close_level();
 void load_level(std::string name);
 void open_file(std::string path);
 extern b2Body *read_body(XMLNode bd,b2Vec2 delta={0,0});
-extern b2Joint *read_joint(XMLNode jn);
+extern b2Joint *read_joint(XMLNode jn,b2Vec2 delta={0,0},Entity *ent=0);
 extern unsigned short int levelw;
 extern unsigned short int levelh;
 extern std::vector<b2Body*>bodies;

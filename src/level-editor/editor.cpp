@@ -36,6 +36,7 @@ GtkCellRenderer
 string save_path="";
 bool shows[7]= {1,1,1,1,1,1,1};
 bool lock=1;
+bool save_ph=0;
 void newl() {
 	for(int q=0; q<level.joints.size(); q++)
 		delete level.joints[q];
@@ -104,9 +105,11 @@ string get_open_path(string path) {
 	return str;
 }
 void save_only_physic() {
-	string str=get_save_path("levels");
-	if(str.size()) {
-		save_path=str;
+	if(!save_path.size()||!save_ph){
+		save_path=get_save_path("levels");
+		save_ph=1;
+	}
+	if(save_path.size() && save_ph) {
 		if(level.save_file(save_path,0))
 			set_status(CONTEXT_FILE_STATUS, "Save error");
 		else
@@ -116,6 +119,7 @@ void save_only_physic() {
 void save_as() {
 	string str=get_save_path("levels");
 	if(str.size()) {
+		save_ph=0;
 		save_path=str;
 		if(level.save_file(save_path,1))
 			set_status(CONTEXT_FILE_STATUS, "Save error");
@@ -124,8 +128,10 @@ void save_as() {
 	}
 }
 void save() {
-	if(save_path=="")
+	if(save_path=="" && !save_ph)
 		save_as();
+	if(save_ph)
+		save_only_physic();
 	else if(level.save_file(save_path,1))
 		set_status(CONTEXT_FILE_STATUS, "Save error");
 	else
@@ -168,8 +174,8 @@ int draw_callback (GtkWidget *da, GdkEventExpose *event, void*) {
 	cairo_set_source_rgb (cr,BLACK);//границы сетки темные
 	if(cx>=0)cairo_rectangle(cr,cx,0,1,draw_h);
 	if(cy>=0)cairo_rectangle(cr,0,cy,draw_w,1);
-	if(-cx<=level.w*zoom)cairo_rectangle(cr,level.w*zoom+cx,0,1,draw_h);
-	if(-cy<=level.h*zoom)cairo_rectangle(cr,0,level.h*zoom+cy,draw_w,1);
+	if(-cx<=level.w*zoom && lock)cairo_rectangle(cr,level.w*zoom+cx,0,1,draw_h);
+	if(-cy<=level.h*zoom && lock)cairo_rectangle(cr,0,level.h*zoom+cy,draw_w,1);
 	cairo_fill (cr);
 	vector<Object*>vec=get_all();
 	for(auto *shape : vec)
@@ -182,7 +188,7 @@ void resize() {
 						GTK_WINDOW (window),
 						GDF(GTK_DIALOG_MODAL| GTK_DIALOG_DESTROY_WITH_PARENT),
 						GTK_STOCK_CANCEL,
-						NULL,
+						GTK_RESPONSE_CANCEL,
 						GTK_STOCK_OK,
 						GTK_RESPONSE_OK,
 						NULL);
@@ -199,6 +205,7 @@ void resize() {
 	gtk_table_attach(GTK_TABLE(table),w,1,2,0,1,GTK_EFS,GTK_EFS,0,0);
 	gtk_table_attach(GTK_TABLE(table),h,1,2,1,2,GTK_EFS,GTK_EFS,0,0);
 
+	gtk_dialog_set_default_response(GTK_DIALOG(dialog),GTK_RESPONSE_OK);
 	gtk_widget_show_all(dialog);
 	if(gtk_dialog_run(GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
 		level.w=gtk_adjustment_get_value(GTK_ADJUSTMENT(adj_w));

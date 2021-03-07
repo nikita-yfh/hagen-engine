@@ -1,40 +1,30 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <level w="20" h="20">
 	<background img="default.png"/>
-	<bodies count="2">
-		<body x="9.75" y="9.5" id="ground" type="static" shapes="1">
+	<bodies count="1">
+		<body x="9.5" y="4.75" id="ground" type="static" shapes="4">
 			<physic bullet="0" fixed_rotation="0" gravity_scale="1"/>
-			<shape id="_Rect1" type="Rect" pos="physic" texture="" expand="1">
-				<position x1="-9.25" y1="-1" x2="9.25" y2="1"/>
+			<shape id="_Rect1" type="Rect" pos="physic" texture="wooden_box.png" expand="0">
+				<position x1="-9" y1="3.75" x2="9.49996" y2="5.75"/>
+				<physic density="1000" friction="1" restitution="0"/>
+			</shape>
+			<shape id="_Rect2" type="Rect" pos="physic" texture="" expand="1">
+				<position x1="-2.5" y1="0.75" x2="0.500005" y2="1.75"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 			</shape>
-		</body>
-		<body x="5.5" y="6.5" id="a" type="dynamic" shapes="1">
-			<physic bullet="0" fixed_rotation="0" gravity_scale="1"/>
-			<shape id="_Circle1" type="Circle" pos="physic" texture="" expand="1">
-				<position x="0" y="0" r="1"/>
+			<shape id="_Rect3" type="Rect" pos="physic" texture="" expand="1">
+				<position x1="1.5" y1="-2.75" x2="4.5" y2="-1.75"/>
+				<physic density="1000" friction="0.3" restitution="0"/>
+			</shape>
+			<shape id="_Rect4" type="Rect" pos="physic" texture="" expand="1">
+				<position x1="-3.5" y1="-4.25" x2="-0.999995" y2="-3.25"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 			</shape>
 		</body>
 	</bodies>
-	<entities count="6">
-		<entity id="_Entity1" type="1">
-			<position x="10" y="3"/>
-		</entity>
-		<entity id="_Entity2" type="1">
-			<position x="15" y="2"/>
-		</entity>
-		<entity id="_Entity3" type="1">
-			<position x="6" y="2"/>
-		</entity>
-		<entity id="_Entity4" type="1">
-			<position x="18" y="4"/>
-		</entity>
-		<entity id="_Entity5" type="1">
-			<position x="3" y="4"/>
-		</entity>
-		<entity id="_Entity6" type="1">
-			<position x="13" y="5"/>
+	<entities count="1">
+		<entity id="player" type="kolobator">
+			<position x="9" y="4"/>
 		</entity>
 	</entities>
 	<joints count="0"/>

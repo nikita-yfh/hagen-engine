@@ -13,7 +13,6 @@ extern "C" {
 extern lua_State *L;
 extern std::string L_name;
 
-b2Body *GetBody(int id);
 void lua_gameloop();
 void lua_init(std::string);
 void lua_quit();

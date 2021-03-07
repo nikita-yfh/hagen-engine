@@ -309,7 +309,7 @@ void add_but() {
 						GTK_WINDOW (window),
 						GDF(GTK_DIALOG_MODAL| GTK_DIALOG_DESTROY_WITH_PARENT),
 						GTK_STOCK_CANCEL,
-						NULL,
+						GTK_RESPONSE_CANCEL,
 						GTK_STOCK_OK,
 						GTK_RESPONSE_OK,
 						NULL);
@@ -329,6 +329,9 @@ void add_but() {
 	gtk_container_add (GTK_CONTAINER(box),but);
 	gtk_container_add (GTK_CONTAINER(idbox),text);
 	gtk_container_add (GTK_CONTAINER(idbox),entry);
+	gtk_entry_set_text(GTK_ENTRY(entry),get_free_name("Body").c_str());
+
+	gtk_dialog_set_default_response(GTK_DIALOG(dialog),GTK_RESPONSE_OK);
 
 	g_signal_connect(G_OBJECT(but), "button_press_event", G_CALLBACK(select_template),&tmp);
 

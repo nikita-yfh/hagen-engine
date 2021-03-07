@@ -2,6 +2,7 @@
 #include "physic.hpp"
 #include "render.hpp"
 #include "camera.hpp"
+#include "entity.hpp"
 #include "sdl.hpp"
 #include "utility.hpp"
 using namespace luabridge;
@@ -27,7 +28,11 @@ void lua_gameloop() {
 	}
 }
 
-void lua_fill_bodies(lua_State *L) {
+void lua_load_entity_script(std::string type){
+	luaL_dofile(L,("entities/"+type+".lua").c_str());
+}
+
+void lua_fill_bodies() {
 	for(int q=0; q<bodies.size(); q++) {
 		string id=bodies[q]->GetID();
 		if(id.size()==0)throw string("Empty body ID");
@@ -39,7 +44,7 @@ void lua_fill_bodies(lua_State *L) {
 		.endNamespace();
 	}
 }
-void lua_fill_joints(lua_State *L) {
+void lua_fill_joints() {
 	for(int q=0; q<joints.size(); q++) {
 		string id=joints[q]->GetID();
 		if(id.size()==0)throw string("Empty joint ID");
@@ -52,7 +57,7 @@ void lua_fill_joints(lua_State *L) {
 	}
 }
 
-void lua_bind(lua_State *L) {
+void lua_bind() {
 	getGlobalNamespace(L)
 	.beginNamespace("game")
 	.beginNamespace("camera")
@@ -131,9 +136,9 @@ void lua_init(string name) {
 		else {
 			L = luaL_newstate();
 			luaL_openlibs(L);
-			lua_bind(L);
-			lua_fill_bodies(L);
-			lua_fill_joints(L);
+			lua_bind();
+			lua_fill_bodies();
+			lua_fill_joints();
 			luaL_dostring(L,
 				"Level={}\n"
 				"function extend(parent)\n"

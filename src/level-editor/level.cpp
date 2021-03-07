@@ -1,6 +1,7 @@
 #include "level.hpp"
 #include "utils.hpp"
 using namespace std;
+extern bool save_ph;
 Level level;
 bool Level::save_file(std::string path,bool all) {
 	XMLNode Main=XMLNode::createXMLTopNode("xml",1);
@@ -93,6 +94,7 @@ bool Level::open_file(string path) {
 			entities[q]->type=en.getAttribute("type");
 		}
 	}
+	save_ph=!all;
 	load_joints(lvl);
 	return 0;
 }

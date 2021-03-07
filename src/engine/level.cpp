@@ -132,14 +132,19 @@ b2Body* read_body(XMLNode bd,b2Vec2 delta) {
 	}
 	return body;
 }
-void set_bds(b2JointDef *j,XMLNode &node,string id1,string id2) {
+void set_bds(b2JointDef *j,XMLNode &node,string id1,string id2,Entity *ent=0) {
 	if(id1==id2)throw string("body \"" + id1 + "\"cannot be declared twice");
-	j->bodyA=get_body(id1);
-	j->bodyB=get_body(id2);
+	if(ent){
+		j->bodyA=ent->get_body(id1);
+		j->bodyB=ent->get_body(id2);
+	}else{
+		j->bodyA=get_body(id1);
+		j->bodyB=get_body(id2);
+	}
 	j->collideConnected=stoi(node.getAttribute("collide"));
 	j->userData=new b2JointData;
 }
-b2Joint *read_joint(XMLNode jn) {
+b2Joint *read_joint(XMLNode jn,b2Vec2 delta,Entity *ent) {
 	string type=jn.getAttribute("type");
 	XMLNode pos=jn.getChildNode("position");
 	XMLNode phs=jn.getChildNode("physic");
@@ -149,18 +154,18 @@ b2Joint *read_joint(XMLNode jn) {
 	b2Joint *j;
 	if(type=="WeldJoint") {
 		b2WeldJointDef joint;
-		joint.Initialize(get_body(id1),get_body(id2),
-						 b2Vec2(stof(pos.getAttribute("x")),stof(pos.getAttribute("y"))));
-		set_bds(&joint,con,id1,id2);
+		joint.Initialize(joint.bodyA,joint.bodyB,
+						 b2Vec2(stof(pos.getAttribute("x")),stof(pos.getAttribute("y")))+delta);
+		set_bds(&joint,con,id1,id2,ent);
 		joint.stiffness=stof(phs.getAttribute("stiffness"));
 		joint.damping=stof(phs.getAttribute("damping"));
 		JD_DATA(joint,id)=jn.getAttribute("id");
 		j=world.CreateJoint(&joint);
 	} else if(type=="RevoluteJoint") {
 		b2RevoluteJointDef joint;
-		set_bds(&joint,con,id1,id2);
-		joint.Initialize(get_body(id1),get_body(id2),
-						 b2Vec2(stof(pos.getAttribute("x")),stof(pos.getAttribute("y"))));
+		set_bds(&joint,con,id1,id2,ent);
+		joint.Initialize(joint.bodyA,joint.bodyB,
+						 b2Vec2(stof(pos.getAttribute("x")),stof(pos.getAttribute("y")))+delta);
 		joint.enableLimit=stoi(phs.getAttribute("limit"));
 		joint.enableMotor=stoi(phs.getAttribute("motor"));
 		if(joint.enableLimit) {
@@ -209,10 +214,10 @@ b2Joint *read_joint(XMLNode jn) {
 		j=(b2GearJoint*)world.CreateJoint(&joint);
 	} else if(type=="PrismaticJoint") {
 		b2PrismaticJointDef joint;
-		set_bds(&joint,con,id1,id2);
+		set_bds(&joint,con,id1,id2,ent);
 		float angle=stof(pos.getAttribute("angle"))+M_PI;
-		joint.Initialize(get_body(id1),get_body(id2),
-						 b2Vec2(stof(pos.getAttribute("x")),stof(pos.getAttribute("y"))),
+		joint.Initialize(joint.bodyA,joint.bodyB,
+						 b2Vec2(stof(pos.getAttribute("x")),stof(pos.getAttribute("y")))+delta,
 						 b2Vec2(cos(angle),sin(angle)));
 		joint.enableLimit=stoi(phs.getAttribute("limit"));
 		joint.enableMotor=stoi(phs.getAttribute("motor"));
@@ -228,12 +233,12 @@ b2Joint *read_joint(XMLNode jn) {
 		j=world.CreateJoint(&joint);
 	} else if(type=="DistanceJoint") {
 		b2DistanceJointDef joint;
-		set_bds(&joint,con,id1,id2);
+		set_bds(&joint,con,id1,id2,ent);
 		float x1=stof(pos.getAttribute("x1"));
 		float x2=stof(pos.getAttribute("x2"));
 		float y1=stof(pos.getAttribute("y1"));
 		float y2=stof(pos.getAttribute("y2"));
-		joint.Initialize(joint.bodyA,joint.bodyB, {x1,y1}, {x2,y2});
+		joint.Initialize(joint.bodyA,joint.bodyB, delta+b2Vec2(x1,y1), delta+b2Vec2(x2,y2));
 		joint.length=hypot(x2-x1,y2-y1);
 		joint.maxLength=joint.length+stof(pos.getAttribute("max"));
 		joint.minLength=joint.length+stof(pos.getAttribute("min"));
@@ -243,12 +248,12 @@ b2Joint *read_joint(XMLNode jn) {
 		j=world.CreateJoint(&joint);
 	} else if(type=="PulleyJoint") {
 		b2PulleyJointDef joint;
-		set_bds(&joint,con,id1,id2);
+		set_bds(&joint,con,id1,id2,ent);
 		joint.Initialize(joint.bodyA,joint.bodyB,
-		{stof(pos.getAttribute("x3")),stof(pos.getAttribute("y3"))},
-		{stof(pos.getAttribute("x4")),stof(pos.getAttribute("y4"))},
-		{stof(pos.getAttribute("x1")),stof(pos.getAttribute("y2"))},
-		{stof(pos.getAttribute("x2")),stof(pos.getAttribute("y2"))},
+		b2Vec2(stof(pos.getAttribute("x3")),stof(pos.getAttribute("y3")))+delta,
+		b2Vec2(stof(pos.getAttribute("x4")),stof(pos.getAttribute("y4")))+delta,
+		b2Vec2(stof(pos.getAttribute("x1")),stof(pos.getAttribute("y2")))+delta,
+		b2Vec2(stof(pos.getAttribute("x2")),stof(pos.getAttribute("y2")))+delta,
 		stof(phs.getAttribute("ratio")));
 		JD_DATA(joint,id)=jn.getAttribute("id");
 		j=world.CreateJoint(&joint);
