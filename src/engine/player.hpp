@@ -5,5 +5,4 @@
 struct Player: public Entity {
 	Player();
 	uint8_t lives;
-	uint8_t hp;
 };

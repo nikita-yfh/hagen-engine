@@ -176,7 +176,7 @@ void zoom_upd() {
 }
 void zoom1_upd() {
 	zoom=sqr(gtk_adjustment_get_value(GTK_ADJUSTMENT(zoom_a))/5);
-	scroll1_upd();
+	if(lock)scroll1_upd();
 	rulers_update();
 	gtk_widget_queue_draw(drawable);
 	gtk_label_set_text(GTK_LABEL(zoom_text),ssprintf("%d px/m",(int)zoom).c_str());
@@ -202,7 +202,7 @@ int motion(GtkWidget*, GdkEventMotion *event, gpointer data) {
 	cx=xd+(event->x-xp);
 	cy=yd+(event->y-yp);
 	scroll_upd();
-	scroll1_upd();
+	if(lock)scroll1_upd();
 	rulers_update();
 	return 0;
 }
@@ -239,8 +239,14 @@ int mousebutton_press(GtkWidget *area,  GdkEventButton  *event, gpointer data) {
 void getsize(GtkWidget*, GtkAllocation *allocation, void*) {
 	draw_w=allocation->width;
 	draw_h=allocation->height;
-	scroll1_upd();
+	if(lock)scroll1_upd();
 	scroll_upd();
+}
+float conv1(float v){
+	return v;
+}
+float conv2(float v){
+	return std::max(0.0f,std::min(1.0f,v));
 }
 float get_ph() {
 	return std::max(0.0f,std::min(1.0f,draw_w/((level.w+2)*zoom)));
@@ -250,11 +256,13 @@ float get_pv() {
 }
 void scroll_upd() {
 	float ph=get_ph(),pv=get_pv();
+	auto func=conv1;
+	if(lock)func=conv2;
 	block=1;
 	gtk_adjustment_set_page_size(GTK_ADJUSTMENT(adj_h),ph);
 	gtk_adjustment_set_page_size(GTK_ADJUSTMENT(adj_v),pv);
-	gtk_adjustment_set_value(GTK_ADJUSTMENT(adj_h),std::max(0.0f,std::min(1.0f,-(cx-zoom)/(zoom*(level.w+2)-draw_w)))*(1.00001f-ph));
-	gtk_adjustment_set_value(GTK_ADJUSTMENT(adj_v),std::max(0.0f,std::min(1.0f,-(cy-zoom)/(zoom*(level.h+2)-draw_h)))*(1.00001f-pv));
+	gtk_adjustment_set_value(GTK_ADJUSTMENT(adj_h),func(-(cx-zoom)/(zoom*(level.w+2)-draw_w))*(1.00001f-ph));
+	gtk_adjustment_set_value(GTK_ADJUSTMENT(adj_v),func(-(cy-zoom)/(zoom*(level.h+2)-draw_h))*(1.00001f-pv));
 	block=0;
 }
 int key(GtkWidget*, GdkEvent *event, void*) {
@@ -287,7 +295,7 @@ int mouse_scroll(GtkWidget*, GdkEventScroll *event, void*) {
 	cx=event->x-(float(event->x-cx)/zoom_old*zoom);
 	cy=event->y-(float(event->y-cy)/zoom_old*zoom);
 	scroll_upd();
-	scroll1_upd();
+	if(lock)scroll1_upd();
 	rulers_update();
 	gtk_widget_queue_draw(drawable);
 	return 0;
@@ -376,6 +384,9 @@ void fullscreen_invert() {
 	if(GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(menu, "/View/Fullscreen"))->active)
 		gtk_window_fullscreen(GTK_WINDOW(window));
 	else	gtk_window_unfullscreen(GTK_WINDOW(window));
+}
+void lock_invert() {
+	lock=(GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(menu, "/Editor/Lock level"))->active);
 }
 void copy() {
 	Body *s=get_selected_body();

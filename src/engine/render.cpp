@@ -165,16 +165,25 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 	break;
 	}
 }
-void body_draw(b2Body *body) {
-	for(b2Fixture *fix=body->GetFixtureList(); fix; fix=fix->GetNext()) {
-		fixture_draw(body,fix);
+void draw_bodies(uint8_t pos){
+	for(b2Body *body : bodies) {
+		for(b2Fixture *fix=body->GetFixtureList(); fix; fix=fix->GetNext()) {
+			if(F_DATA(fix,pos)==pos)fixture_draw(body,fix);
+		}
 	}
 }
 void draw() {
 	GPU_Clear(ren);
 	draw_bgr();
-	for(unsigned q=0; q<bodies.size(); q++) {
-		body_draw(bodies[q]);
+	draw_bodies(0);
+	draw_bodies(1);
+	draw_bodies(2);
+	for(Entity &en : entities){
+		for(b2Body *body : en.bodies){
+			for(b2Fixture *fix=body->GetFixtureList(); fix; fix=fix->GetNext()) {
+				fixture_draw(body,fix);
+			}
+		}
 	}
 	draw_mask();
 	GPU_Flip(ren);

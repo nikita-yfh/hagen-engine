@@ -2,24 +2,39 @@
 <level w="20" h="20">
 	<background img="default.png"/>
 	<bodies count="2">
-		<body x="11" y="10.5" id="a" type="static" shapes="1">
+		<body x="9.75" y="9.5" id="ground" type="static" shapes="1">
 			<physic bullet="0" fixed_rotation="0" gravity_scale="1"/>
-			<shape id="_Circle1" type="Circle" pos="physic" texture="" expand="1">
-				<position x="0" y="0" r="2"/>
+			<shape id="_Rect1" type="Rect" pos="physic" texture="" expand="1">
+				<position x1="-9.25" y1="-1" x2="9.25" y2="1"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 			</shape>
 		</body>
-		<body x="13" y="5.5" id="b" type="dynamic" shapes="1">
+		<body x="5.5" y="6.5" id="a" type="dynamic" shapes="1">
 			<physic bullet="0" fixed_rotation="0" gravity_scale="1"/>
-			<shape id="_Square1" type="Square" pos="physic" texture="" expand="1">
-				<position x="0" y="0" r="2"/>
+			<shape id="_Circle1" type="Circle" pos="physic" texture="" expand="1">
+				<position x="0" y="0" r="1"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 			</shape>
 		</body>
 	</bodies>
-	<entities count="1">
-		<entity id="entity" type="1">
-			<position x="5.5" y="3.5"/>
+	<entities count="6">
+		<entity id="_Entity1" type="1">
+			<position x="10" y="3"/>
+		</entity>
+		<entity id="_Entity2" type="1">
+			<position x="15" y="2"/>
+		</entity>
+		<entity id="_Entity3" type="1">
+			<position x="6" y="2"/>
+		</entity>
+		<entity id="_Entity4" type="1">
+			<position x="18" y="4"/>
+		</entity>
+		<entity id="_Entity5" type="1">
+			<position x="3" y="4"/>
+		</entity>
+		<entity id="_Entity6" type="1">
+			<position x="13" y="5"/>
 		</entity>
 	</entities>
 	<joints count="0"/>

@@ -1,4 +1,5 @@
-function Level:prepare()
+function Level:init()
+print("Loading 'default' level...")
 end
-function Level:loop()
+function Level:update()
 end

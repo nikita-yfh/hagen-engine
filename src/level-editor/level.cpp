@@ -29,7 +29,7 @@ bool Level::save_file(std::string path,bool all) {
 				bodies[q]->save(bds,1);
 			}
 		}
-		{
+		if(all){
 			//entities
 			XMLNode ens=lvl.addChild("entities");
 			ens.addAttribute("count",entities.size());
@@ -54,9 +54,9 @@ bool Level::open_file(string path) {
 		lvl=XMLNode::openFileHelper(path.c_str(),"physics");
 		all=0;
 	}
-	w=stoi(lvl.getAttribute("w"));
-	h=stoi(lvl.getAttribute("h"));
 	if(all) {
+		w=stoi(lvl.getAttribute("w"));
+		h=stoi(lvl.getAttribute("h"));
 		{
 			//backgroung
 			XMLNode bgr=lvl.getChildNode("background");
@@ -76,7 +76,7 @@ bool Level::open_file(string path) {
 			bodies[q]->load(bd,1);
 		}
 	}
-	{
+	if(all){
 		//entities
 		XMLNode ens=lvl.getChildNode("entities");
 		for(int q=0; q<entities.size(); q++) {

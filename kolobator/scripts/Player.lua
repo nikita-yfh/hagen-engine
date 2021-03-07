@@ -1,0 +1,3 @@
+Player={
+	health=100;
+}

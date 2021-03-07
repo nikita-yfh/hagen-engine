@@ -33,5 +33,6 @@ extern bool block;
 extern uint8_t key_state;
 void views_set();
 void fullscreen_invert();
+void lock_invert();
 
 extern uint8_t create_status;

@@ -10,10 +10,12 @@ extern "C" {
 #include <string>
 struct Entity {
 	Entity();
-	Entity(std::string xml,std::string lua);
+	Entity(std::string type,std::string id,float x,float y);
 	~Entity();
-	int health;
+	float health;
+	b2Vec2 p;
+	std::string id;
+	std::string type;
 	std::vector<b2Body*>bodies;
 	std::vector<b2Joint*>joints;
-	lua_State *script;
 };

@@ -20,7 +20,7 @@ Color &get_mask() {
 void lua_gameloop() {
 	try {
 		if(mainscript_enabled) {
-			getGlobal(L,"Level")["loop"]();
+			getGlobal(L,"Level")["update"]();
 		}
 	} catch(exception &e) {
 		panic("Lua error in \""+L_name+"\"",e.what());
@@ -52,7 +52,7 @@ void lua_fill_joints(lua_State *L) {
 	}
 }
 
-void lua_init_game_functions(lua_State *L) {
+void lua_bind(lua_State *L) {
 	getGlobalNamespace(L)
 	.beginNamespace("game")
 	.beginNamespace("camera")
@@ -73,11 +73,7 @@ void lua_init_game_functions(lua_State *L) {
 	.addFunction("set",&Color::set)
 	.endClass()
 	.addProperty("mask",&get_mask,&set_mask)
-	.endNamespace();
-}
-
-void lua_init_joints(lua_State *L) {
-	getGlobalNamespace(L)
+	.endNamespace()
 	.beginClass<b2Joint>("Joint")
 	.addProperty("a",&b2Joint::m_bodyA,0)
 	.addProperty("b",&b2Joint::m_bodyB,0)
@@ -102,10 +98,7 @@ void lua_init_joints(lua_State *L) {
 	.addProperty("length_b",&b2Joint::GetCurrentLengthB)
 	.addProperty("min_length",&b2Joint::GetMinLength,&b2Joint::SetMinLength)
 	.addProperty("max_length",&b2Joint::GetMaxLength,&b2Joint::SetMaxLength)
-	.endClass();
-}
-void lua_init_bodies(lua_State *L) {
-	getGlobalNamespace(L)
+	.endClass()
 	.beginClass<b2Body>("Body")
 	.addProperty("x",&b2Body::GetX)
 	.addProperty("y",&b2Body::GetY)
@@ -138,14 +131,26 @@ void lua_init(string name) {
 		else {
 			L = luaL_newstate();
 			luaL_openlibs(L);
-			lua_init_game_functions(L);
-			lua_init_bodies(L);
-			lua_init_joints(L);
+			lua_bind(L);
 			lua_fill_bodies(L);
 			lua_fill_joints(L);
-			luaL_dostring(L,"Level={}");
+			luaL_dostring(L,
+				"Level={}\n"
+				"function extend(parent)\n"
+					"local child = {}\n"
+					"setmetatable(child,{__index = parent})\n"
+					"return child\n"
+				"end\n"
+				"Entity={\n"
+					"health=-1;\n"
+					"name={\n"
+						"en='Unknown';\n"
+						"ru='Неизвестно';\n"
+					"};\n"
+				"};\n"
+			);
 			luaL_dofile(L, L_name.c_str());
-			getGlobal(L,"Level")["prepare"]();
+			getGlobal(L,"Level")["init"]();
 		}
 	} catch(exception &e) {
 		panic("Lua error in \""+L_name+"\"",e.what());

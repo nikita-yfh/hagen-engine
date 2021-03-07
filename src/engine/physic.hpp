@@ -9,7 +9,6 @@
 #define TMGR           1
 #define TFGR           2
 
-#define MOVE           0
 #define POLYGON        1
 #define RECT           2
 #define SQUARE         3

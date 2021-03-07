@@ -13,10 +13,10 @@ unsigned short int levelw=20;
 unsigned short int levelh=20;
 vector<b2Body*>bodies;
 vector<b2Joint*>joints;
+vector<Entity>entities;
 b2World world(b2Vec2(0,9.8f));
-float startx,starty,endx,endy;
 
-b2Body* read_body(XMLNode bd) {
+b2Body* read_body(XMLNode bd,b2Vec2 delta) {
 	int shapes_count=stoi(bd.getAttribute("shapes"));
 	if(shapes_count==0)
 		throw string("Body \""+(string)bd.getAttribute("id")+"\" is empty");
@@ -24,8 +24,8 @@ b2Body* read_body(XMLNode bd) {
 	b2Body *body;
 	def.userData=new b2BodyData;
 	BD_DATA(def,id)=bd.getAttribute("id");
-	def.position.Set(stof(bd.getAttribute("x")),
-					 stof(bd.getAttribute("y")));
+	def.position=b2Vec2(stof(bd.getAttribute("x")),
+			stof(bd.getAttribute("y")))+delta;
 	{
 		XMLNode phs=bd.getChildNode("physic");
 		def.fixedRotation=stoi(phs.getAttribute("fixed_rotation"));
@@ -133,6 +133,7 @@ b2Body* read_body(XMLNode bd) {
 	return body;
 }
 void set_bds(b2JointDef *j,XMLNode &node,string id1,string id2) {
+	if(id1==id2)throw string("body \"" + id1 + "\"cannot be declared twice");
 	j->bodyA=get_body(id1);
 	j->bodyB=get_body(id2);
 	j->collideConnected=stoi(node.getAttribute("collide"));
@@ -209,7 +210,7 @@ b2Joint *read_joint(XMLNode jn) {
 	} else if(type=="PrismaticJoint") {
 		b2PrismaticJointDef joint;
 		set_bds(&joint,con,id1,id2);
-		float angle=stof(pos.getAttribute("angle"));
+		float angle=stof(pos.getAttribute("angle"))+M_PI;
 		joint.Initialize(get_body(id1),get_body(id2),
 						 b2Vec2(stof(pos.getAttribute("x")),stof(pos.getAttribute("y"))),
 						 b2Vec2(cos(angle),sin(angle)));
@@ -264,18 +265,6 @@ void open_file(string path) {
 		load_background(bgr.getAttribute("img"));
 	}
 	{
-		//start
-		XMLNode bgr=lvl.getChildNode("start");
-		startx=stof(bgr.getAttribute("x"));
-		starty=stof(bgr.getAttribute("y"));
-	}
-	{
-		//end
-		XMLNode bgr=lvl.getChildNode("end");
-		endx=stof(bgr.getAttribute("x"));
-		endy=stof(bgr.getAttribute("y"));
-	}
-	{
 		//bodies
 		XMLNode bds=lvl.getChildNode("bodies");
 		int bodies_count=stoi(bds.getAttribute("count"));
@@ -301,9 +290,22 @@ void open_file(string path) {
 				joints[q]=read_joint(ch);
 		}
 	}
+	{ //entities
+		XMLNode ens=lvl.getChildNode("entities");
+		int count=stoi(ens.getAttribute("count"));
+		entities.resize(count);
+		for(int q=0; q<count; q++) {
+			XMLNode en=ens.getChildNode("entity",q);
+			XMLNode pos=en.getChildNode("position");
+			float x=stof(pos.getAttribute("x"));
+			float y=stof(pos.getAttribute("y"));
+			string id=en.getAttribute("id");
+			string type=en.getAttribute("type");
+			entities.emplace_back(type,id,x,y);
+		}
+	}
 	load_textures();
 }
-
 void close_level() {
 	destroy_textures();
 	if(!mainscript_enabled)return;
@@ -314,8 +316,10 @@ void load_level(string name) {
 		open_file("levels/"+name+".xml");
 		lua_init(name);
 	} catch(XMLError er) {
-		panic("Error loading \""+name+"\" level",XMLNode::getError(er));
+		panic("Error","Error loading \""+name+"\" level: \n"+XMLNode::getError(er));
 	} catch(string er) {
-		panic("Error loading \""+name+"\" level",er);
+		panic("Error","Error loading \""+name+"\" level: \n"+er);
+	}catch(logic_error er) {
+		panic("Error","Error loading \""+name+"\" level: \n"+er.what());
 	}
 }

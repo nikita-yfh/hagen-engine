@@ -35,6 +35,7 @@ GtkCellRenderer
 *text_ren;
 string save_path="";
 bool shows[7]= {1,1,1,1,1,1,1};
+bool lock=1;
 void newl() {
 	for(int q=0; q<level.joints.size(); q++)
 		delete level.joints[q];
@@ -208,6 +209,27 @@ void resize() {
 	scroll1_upd();
 	key_state=0;
 }
+void set_grid() {
+	GtkWidget *dialog = gtk_dialog_new_with_buttons ("Set grid",
+						GTK_WINDOW (window),
+						GDF(GTK_DIALOG_MODAL| GTK_DIALOG_DESTROY_WITH_PARENT),
+						GTK_STOCK_CANCEL,
+						NULL,
+						GTK_STOCK_OK,
+						GTK_RESPONSE_OK,
+						NULL);
+	GtkObject *a=gtk_adjustment_new(grid,0.01,100,0.125,0.125,0);
+	GtkWidget *widget=gtk_spin_button_new(GTK_ADJUSTMENT(a),0,3);
+	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (dialog))), widget, FALSE, FALSE, 6);
+	gtk_widget_show_all(dialog);
+	if(gtk_dialog_run(GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
+		grid=gtk_adjustment_get_value(GTK_ADJUSTMENT(a));
+	}
+	gtk_widget_destroy(dialog);
+	scroll_upd();
+	scroll1_upd();
+	key_state=0;
+}
 void set_bgr() {
 	const char *bgr_path="backgrounds/";
 	string str=get_open_path(bgr_path);
@@ -261,12 +283,14 @@ void create_menu() {
 		{"/Tools/Joints/Gear joint",		"<control><shift>5",	L(change_tool(11);)},
 		{"/Tools/Joints/Distance joint",	"<control><shift>6",	L(change_tool(12);)},
 		{"/Properties/Level size", 			"<control>R",           resize},
-		{"/Properties/Level background",	"<control>I",           set_bgr}
+		{"/Properties/Level background",	"<control>I",           set_bgr},
+		{"/Editor/Grid size",				"<control>G",			set_grid},
+		{"/Editor/Lock level",				"<control>L",			lock_invert,		0,	"<ToggleItem>"}
 	};
 	GtkAccelGroup *accel_group;
 	accel_group = gtk_accel_group_new();
 	menu = gtk_item_factory_new(GTK_TYPE_MENU_BAR, "<menu>", accel_group);
-	gtk_item_factory_create_items(menu, 36, menu_items, NULL);
+	gtk_item_factory_create_items(menu, 38, menu_items, NULL);
 	gtk_window_add_accel_group(GTK_WINDOW(window),accel_group);
 	gtk_box_pack_start(GTK_BOX(box_v), gtk_item_factory_get_widget(menu, "<menu>"), FALSE, FALSE, 0);
 	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(menu, "/View/Background layer")),1);
@@ -276,6 +300,7 @@ void create_menu() {
 	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(menu, "/View/Dynamic bodies")),1);
 	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(menu, "/View/Kinematic bodies")),1);
 	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(menu, "/View/Joints")),1);
+	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(menu, "/Editor/Lock level")),1);
 }
 void create_tree_view() {
 	store = gtk_tree_store_new(2, G_TYPE_STRING, G_TYPE_STRING);
