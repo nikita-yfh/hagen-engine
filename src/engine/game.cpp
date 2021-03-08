@@ -16,20 +16,10 @@ bool game() {
 	bool jump=0;
 	while(run) {
 		bool connected=0;
-		for(b2Contact *contact=world.GetContactList();contact;contact=contact->GetNext()){
-			b2Body *b1=contact->GetFixtureA()->GetBody();
-			b2Body *b2=contact->GetFixtureB()->GetBody();
-			Entity *en1=0,*en2=0;
-			for(Entity &en : entities){
-				for(b2Body *b : en.bodies){
-					if(b==b1)en1=&en;
-					else if(b==b2)en2=&en;
-				}
-			}
-			if(en1!=en2&&(en1||en2)){
-				connected=1;
-				break;
-			}
+		for(b2ContactEdge *e=get_entity("player").get_body("wheel")->GetContactList();e;e=e->next){
+			b2Body *b1=e->contact->GetFixtureA()->GetBody();
+			b2Body *b2=e->contact->GetFixtureB()->GetBody();
+			if(B_DATA(b1,id)!="body"&&B_DATA(b2,id)!="body")connected=1;
 		}
 		while(SDL_PollEvent(&e)){
 			switch(e.type) {
@@ -55,15 +45,16 @@ bool game() {
 				break;
 #endif
 			case SDL_KEYDOWN:
-				if(e.key.keysym.sym==SDLK_SPACE)jump=1;
-				break;
-			case SDL_KEYUP:
 				if(e.key.keysym.sym==SDLK_SPACE)jump=0;
 				break;
+			case SDL_KEYUP:
+				if(e.key.keysym.sym==SDLK_SPACE)jump=1;
+				break;
 			}
-			if(e.type==SDL_KEYDOWN && jump && connected){
+			if(e.type==SDL_KEYUP && jump && connected){
 				jump=0;
 				get_entity("player").get_body("wheel")->CenterImpulse(0,-2000);
+				printf("jump\n");
 			}
 		}
 		b2Joint *j=get_entity("player").get_joint("joint");

@@ -2,29 +2,29 @@
 <level w="20" h="20">
 	<background img="default.png"/>
 	<bodies count="1">
-		<body x="9.5" y="4.75" id="ground" type="static" shapes="4">
+		<body x="9.0625" y="7.59375" id="ground" type="static" shapes="4">
 			<physic bullet="0" fixed_rotation="0" gravity_scale="1"/>
 			<shape id="_Rect1" type="Rect" pos="physic" texture="wooden_box.png" expand="0">
-				<position x1="-9" y1="3.75" x2="9.49996" y2="5.75"/>
+				<position x1="-8.5625" y1="0.90625" x2="9.93746" y2="2.90625"/>
 				<physic density="1000" friction="1" restitution="0"/>
 			</shape>
 			<shape id="_Rect2" type="Rect" pos="physic" texture="" expand="1">
-				<position x1="-2.5" y1="0.75" x2="0.500005" y2="1.75"/>
+				<position x1="-2.0625" y1="0.15625" x2="0.937505" y2="-0.09375"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 			</shape>
 			<shape id="_Rect3" type="Rect" pos="physic" texture="" expand="1">
-				<position x1="1.5" y1="-2.75" x2="4.5" y2="-1.75"/>
+				<position x1="0.687505" y1="-0.59375" x2="2.1875" y2="-0.84375"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 			</shape>
 			<shape id="_Rect4" type="Rect" pos="physic" texture="" expand="1">
-				<position x1="-3.5" y1="-4.25" x2="-0.999995" y2="-3.25"/>
+				<position x1="-2.3125" y1="-1.34375" x2="-0.812495" y2="-1.09375"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 			</shape>
 		</body>
 	</bodies>
 	<entities count="1">
 		<entity id="player" type="kolobator">
-			<position x="9" y="4"/>
+			<position x="11" y="3"/>
 		</entity>
 	</entities>
 	<joints count="0"/>

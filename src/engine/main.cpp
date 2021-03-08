@@ -1,6 +1,7 @@
 #include "lua.hpp"
 #include "utility.hpp"
 #include "physic.hpp"
+#include "level.hpp"
 #include "box2d.h"
 #include "sdl.hpp"
 #include <cstring>

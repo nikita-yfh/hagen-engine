@@ -6,7 +6,6 @@ extern "C" {
 }
 #include "LuaBridge.h"
 #include "Vector.h"
-#include "level.hpp"
 #include <vector>
 #include <string>
 
