@@ -62,7 +62,7 @@ set(ENGINE_HEADERS
 )
 find_package(PkgConfig)
 pkg_check_modules(SDL2 REQUIRED sdl2 SDL2_image SDL2_ttf SDL2_mixer)
-pkg_check_modules(LUA REQUIRED lua52)
+pkg_check_modules(LUA REQUIRED lua53)
 pkg_check_modules(GTK REQUIRED gtk+-2.0)
 add_definitions(${GTK_CFLAGS} ${GTK_CFLAGS_OTHER})
 
@@ -75,13 +75,12 @@ include_directories(
 	${GTK2_INCLUDE_DIRS}
 	${LUA_INCLUDE_DIRS}
 	"src/box2d"
-	"src/LuaBridge"
+	"src/LuaBridge/Source"
+	"src/LuaBridge/Source/LuaBridge"
 	"src/SDL_FontCache"
 	"src/XMLParser"
 	"src/triangulate"
 	"src/sdl-gpu/include"
-	"src/LuaBridge/Source/LuaBridge/"
-	"src/LuaBridge/Source/"
 )
 
 add_executable(${ENGINE} ${ENGINE_SOURCES} ${ENGINE_HEADERS})

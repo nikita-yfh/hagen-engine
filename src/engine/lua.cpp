@@ -58,7 +58,6 @@ void lua_fill_joints() {
 		.endNamespace();
 	}
 }
-
 void lua_bind() {
 	getGlobalNamespace(L)
 		.beginNamespace("game")
@@ -79,7 +78,6 @@ void lua_bind() {
 				.addProperty("a",&Color::a)
 			.addFunction("set",&Color::set)
 			.endClass()
-			.addProperty("mask",&get_mask,&set_mask)
 		.endNamespace()
 		.beginClass<b2Joint>("Joint")
 			.addProperty("a",&b2Joint::m_bodyA,0)
@@ -127,12 +125,12 @@ void lua_bind() {
 			.addFunction("apply_impulse",&b2Body::Impulse)
 			.addFunction("apply_center_impulse",&b2Body::CenterImpulse)
 			.addFunction("apply_angular_impulse",&b2Body::AngularImpulse)
-		.endClass();
-		/*.beginClass<Entity>("Entity")
+		.endClass()
+		.beginClass<Entity>("Entity")
 			.addProperty("x",&Entity::x)
 			.addProperty("y",&Entity::y)
 			.addProperty("health",&Entity::health)
-		.endClass();*/
+		.endClass();
 }
 
 void lua_init(string name) {
@@ -159,7 +157,6 @@ void lua_init(string name) {
 					"health=100;\n"
 				"};\n"
 			);
-			get_entity("player").l["z"].append<int>(6);
 			luaL_dofile(L, L_name.c_str());
 			getGlobal(L,"Level")["init"]();
 		}
