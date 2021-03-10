@@ -14,8 +14,8 @@ struct Entity {
 	Entity(std::string type,float x,float y);
 	~Entity();
 	float health;
-	float x;
-	float y;
+	float dx;
+	float dy;
 	std::string type;
 	std::map<std::string,b2Body*>bodies;
 	std::map<std::string,b2Joint*>joints;
