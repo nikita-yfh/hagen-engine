@@ -11,19 +11,19 @@ using namespace std;
 
 unsigned short int levelw=20;
 unsigned short int levelh=20;
-vector<b2Body*>bodies;
-vector<b2Joint*>joints;
-vector<Entity>entities;
+map<string,b2Body*>bodies;
+map<string,b2Joint*>joints;
+map<string,Entity*>entities;
 b2World world(b2Vec2(0,9.8f));
 
-b2Body* read_body(XMLNode bd,b2Vec2 delta) {
+b2Body* read_body(XMLNode bd,string &id,b2Vec2 delta) {
 	int shapes_count=stoi(bd.getAttribute("shapes"));
 	if(shapes_count==0)
 		throw string("Body \""+(string)bd.getAttribute("id")+"\" is empty");
 	b2BodyDef def;
 	b2Body *body;
 	def.userData=new b2BodyData;
-	BD_DATA(def,id)=bd.getAttribute("id");
+	id=bd.getAttribute("id");
 	def.position=b2Vec2(stof(bd.getAttribute("x")),
 			stof(bd.getAttribute("y")))+delta;
 	{
@@ -43,7 +43,6 @@ b2Body* read_body(XMLNode bd,b2Vec2 delta) {
 		XMLNode sh=bd.getChildNode("shape",j);
 		b2FixtureDef fix;
 		fix.userData=new b2FixtureData;
-		FD_DATA(fix,id)			=sh.getAttribute("id");
 		FD_DATA(fix,texture)	=sh.getAttribute("texture");
 		FD_DATA(fix,expand)		=stoi(sh.getAttribute("expand"));
 		{
@@ -144,13 +143,14 @@ void set_bds(b2JointDef *j,XMLNode &node,string id1,string id2,Entity *ent=0) {
 	j->collideConnected=stoi(node.getAttribute("collide"));
 	j->userData=new b2JointData;
 }
-b2Joint *read_joint(XMLNode jn,b2Vec2 delta,Entity *ent) {
+b2Joint *read_joint(XMLNode jn,string &id,b2Vec2 delta,Entity *ent) {
 	string type=jn.getAttribute("type");
 	XMLNode pos=jn.getChildNode("position");
 	XMLNode phs=jn.getChildNode("physic");
 	XMLNode con=jn.getChildNode("connected");
 	string id1=con.getAttribute("id1");
 	string id2=con.getAttribute("id2");
+	id=jn.getAttribute("id");
 	b2Joint *j;
 	if(type=="WeldJoint") {
 		b2WeldJointDef joint;
@@ -159,7 +159,6 @@ b2Joint *read_joint(XMLNode jn,b2Vec2 delta,Entity *ent) {
 		set_bds(&joint,con,id1,id2,ent);
 		joint.stiffness=stof(phs.getAttribute("stiffness"));
 		joint.damping=stof(phs.getAttribute("damping"));
-		JD_DATA(joint,id)=jn.getAttribute("id");
 		j=world.CreateJoint(&joint);
 	} else if(type=="RevoluteJoint") {
 		b2RevoluteJointDef joint;
@@ -176,23 +175,14 @@ b2Joint *read_joint(XMLNode jn,b2Vec2 delta,Entity *ent) {
 			joint.maxMotorTorque=stof(phs.getAttribute("max_torque"));
 			joint.motorSpeed=stof(phs.getAttribute("speed"));
 		}
-		JD_DATA(joint,id)=jn.getAttribute("id");
 		j=world.CreateJoint(&joint);
 	} else if(type=="GearJoint") {
 		b2GearJointDef joint;
 		joint.userData=new b2JointData;
 		joint.collideConnected=stoi(con.getAttribute("collide"));
 		joint.ratio=stof(phs.getAttribute("ratio"));
-		b2Joint *j1=0,*j2=0;
-		for(int q=0; q<joints.size(); q++) {
-			if(joints[q]) {
-				string str=J_DATA(joints[q],id);
-				if(J_DATA(joints[q],id)==id1)
-					j1=joints[q];
-				if(J_DATA(joints[q],id)==id2)
-					j2=joints[q];
-			}
-		}
+		b2Joint *j1=joints[id1];
+		b2Joint *j2=joints[id2];
 		if(!j1)throw string("\""+id1="\"is not a joint");
 		if(!j2)throw string("\""+id2="\"is not a joint");
 		joint.joint1=j1;
@@ -210,7 +200,6 @@ b2Joint *read_joint(XMLNode jn,b2Vec2 delta,Entity *ent) {
 			joint.bodyA=j1->GetBodyB();
 			joint.bodyB=j1->GetBodyA();
 		}
-		JD_DATA(joint,id)=jn.getAttribute("id");
 		j=(b2GearJoint*)world.CreateJoint(&joint);
 	} else if(type=="PrismaticJoint") {
 		b2PrismaticJointDef joint;
@@ -229,7 +218,6 @@ b2Joint *read_joint(XMLNode jn,b2Vec2 delta,Entity *ent) {
 			joint.maxMotorForce=stof(phs.getAttribute("max_force"));
 			joint.motorSpeed=stof(phs.getAttribute("speed"));
 		}
-		JD_DATA(joint,id)=jn.getAttribute("id");
 		j=world.CreateJoint(&joint);
 	} else if(type=="DistanceJoint") {
 		b2DistanceJointDef joint;
@@ -244,7 +232,6 @@ b2Joint *read_joint(XMLNode jn,b2Vec2 delta,Entity *ent) {
 		joint.minLength=joint.length+stof(pos.getAttribute("min"));
 		joint.stiffness=stof(phs.getAttribute("stiffness"));
 		joint.damping=stof(phs.getAttribute("damping"));
-		JD_DATA(joint,id)=jn.getAttribute("id");
 		j=world.CreateJoint(&joint);
 	} else if(type=="PulleyJoint") {
 		b2PulleyJointDef joint;
@@ -255,7 +242,6 @@ b2Joint *read_joint(XMLNode jn,b2Vec2 delta,Entity *ent) {
 		b2Vec2(stof(pos.getAttribute("x1")),stof(pos.getAttribute("y2")))+delta,
 		b2Vec2(stof(pos.getAttribute("x2")),stof(pos.getAttribute("y2")))+delta,
 		stof(phs.getAttribute("ratio")));
-		JD_DATA(joint,id)=jn.getAttribute("id");
 		j=world.CreateJoint(&joint);
 	}
 	return j;
@@ -273,32 +259,39 @@ void open_file(string path) {
 		//bodies
 		XMLNode bds=lvl.getChildNode("bodies");
 		int bodies_count=stoi(bds.getAttribute("count"));
-		bodies.resize(bodies_count);
+		bodies.clear();
 		for(int q=0; q<bodies_count; q++) {
-			bodies[q]=read_body(bds.getChildNode("body",q));
+			string str;
+			b2Body *b=read_body(bds.getChildNode("body",q),str);
+			bodies[str]=b;
 		}
 	}
 	{
 		//joints
 		XMLNode js=lvl.getChildNode("joints");
 		int joints_count=stoi(js.getAttribute("count"));
-		joints.resize(joints_count);
+		joints.clear();
 		for(int q=0; q<joints_count; q++) {
-			joints[q]=0;
 			XMLNode ch=js.getChildNode("joint",q);
-			if((string)ch.getAttribute("type")!="GearJoint")
-				joints[q]=read_joint(ch);
+			if((string)ch.getAttribute("type")!="GearJoint"){
+				string str;
+				b2Joint *j=read_joint(ch,str);
+				joints[str]=j;
+			}
 		}
 		for(int q=0; q<joints_count; q++) {
 			XMLNode ch=js.getChildNode("joint",q);
-			if((string)ch.getAttribute("type")=="GearJoint")
-				joints[q]=read_joint(ch);
+			if((string)ch.getAttribute("type")=="GearJoint"){
+				string str;
+				b2Joint *j=read_joint(ch,str);
+				joints[str]=j;
+			}
 		}
 	}
 	{ //entities
 		XMLNode ens=lvl.getChildNode("entities");
 		int count=stoi(ens.getAttribute("count"));
-		entities.resize(count);
+		entities.clear();
 		for(int q=0; q<count; q++) {
 			XMLNode en=ens.getChildNode("entity",q);
 			XMLNode pos=en.getChildNode("position");
@@ -306,7 +299,7 @@ void open_file(string path) {
 			float y=stof(pos.getAttribute("y"));
 			string id=en.getAttribute("id");
 			string type=en.getAttribute("type");
-			entities.emplace_back(type,id,x,y);
+			entities[id]=new Entity(type,x,y);
 		}
 	}
 	load_textures();

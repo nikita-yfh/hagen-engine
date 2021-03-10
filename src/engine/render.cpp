@@ -41,7 +41,6 @@ void draw_bgr() {
 void fixture_draw(b2Body *body,b2Fixture *fix) {
 	float a_rad=body->GetAngle();
 	float a_deg=a_rad*(180/3.14);
-	std::string h=F_DATA(fix,id);
 	GPU_Image *tex=find_texture(F_DATA(fix,texture));
 	switch(F_DATA(fix,type)) {
 	case RECT:
@@ -166,9 +165,9 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 	}
 }
 void draw_bodies(uint8_t pos){
-	for(b2Body *body : bodies) {
-		for(b2Fixture *fix=body->GetFixtureList(); fix; fix=fix->GetNext()) {
-			if(F_DATA(fix,pos)==pos)fixture_draw(body,fix);
+	for(auto &body : bodies) {
+		for(b2Fixture *fix=body.second->GetFixtureList(); fix; fix=fix->GetNext()) {
+			if(F_DATA(fix,pos)==pos)fixture_draw(body.second,fix);
 		}
 	}
 }
@@ -178,10 +177,10 @@ void draw() {
 	draw_bodies(0);
 	draw_bodies(1);
 	draw_bodies(2);
-	for(Entity &en : entities){
-		for(b2Body *body : en.bodies){
-			for(b2Fixture *fix=body->GetFixtureList(); fix; fix=fix->GetNext()) {
-				fixture_draw(body,fix);
+	for(auto &en : entities){
+		for(auto &body : en.second->bodies){
+			for(b2Fixture *fix=body.second->GetFixtureList(); fix; fix=fix->GetNext()) {
+				fixture_draw(body.second,fix);
 			}
 		}
 	}

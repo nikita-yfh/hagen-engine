@@ -49,8 +49,8 @@ void load_cursor() {
 	SDL_SetCursor(cur);
 }
 void load_textures() {
-	for(int q=0; q<bodies.size(); q++) {
-		for(b2Fixture *fix=bodies[q]->GetFixtureList(); fix; fix=fix->GetNext()) {
+	for(auto body : bodies) {
+		for(b2Fixture *fix=body.second->GetFixtureList(); fix; fix=fix->GetNext()) {
 			string str=F_DATA(fix,texture);
 			if(str.size() && !find_texture(str)) {
 				GPU_Image *texture=GPU_LoadImage(("textures/"+str).c_str());

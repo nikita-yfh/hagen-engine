@@ -34,29 +34,8 @@ void lua_load_entity_script(std::string type){
 	luaL_dofile(L,("entities/"+type+".lua").c_str());
 }
 
-void lua_fill_bodies() {
-	for(int q=0; q<bodies.size(); q++) {
-		string id=bodies[q]->GetID();
-		if(id.size()==0)throw string("Empty body ID");
-		if(id.find(" ")!=string::npos)throw string("Spaces in body ID \""+id+"\"");
-		if(isdigit(id[0]))throw string("First character of body ID \""+id+"\" is digit");
-		getGlobalNamespace(L)
-		.beginNamespace("bodies")
-		.addProperty<b2Body*>(id.c_str(),&bodies[q])
-		.endNamespace();
-	}
-}
-void lua_fill_joints() {
-	for(int q=0; q<joints.size(); q++) {
-		string id=joints[q]->GetID();
-		if(id.size()==0)throw string("Empty joint ID");
-		if(id.find(" ")!=string::npos)throw string("Spaces in joint ID \""+id+"\"");
-		if(isdigit(id[0]))throw string("First character of joint ID \""+id+"\" is digit");
-		getGlobalNamespace(L)
-		.beginNamespace("joints")
-		.addProperty(id.c_str(),&joints[q])
-		.endNamespace();
-	}
+Entity *eget(){
+	return entities[0];
 }
 void lua_bind() {
 	getGlobalNamespace(L)
@@ -78,11 +57,11 @@ void lua_bind() {
 				.addProperty("a",&Color::a)
 			.addFunction("set",&Color::set)
 			.endClass()
+			.addFunction("get",&eget)
 		.endNamespace()
 		.beginClass<b2Joint>("Joint")
 			.addProperty("a",&b2Joint::m_bodyA,0)
 			.addProperty("b",&b2Joint::m_bodyB,0)
-			.addProperty("id",&b2Joint::GetID,&b2Joint::SetID)
 			.addProperty("motor",&b2Joint::IsMotorEnabled,&b2Joint::EnableMotor)
 			.addProperty("motor_speed",&b2Joint::GetMotorSpeed,&b2Joint::SetMotorSpeed)
 			.addProperty("max_torque",&b2Joint::GetMaxMotorTorque,&b2Joint::SetMaxMotorTorque)
@@ -114,7 +93,6 @@ void lua_bind() {
 			.addProperty("gravity_scale",&b2Body::GetGravityScale, &b2Body::SetGravityScale)
 			.addProperty("mass",&b2Body::GetMass)
 			.addProperty("inertia",&b2Body::GetInertia)
-			.addProperty("id",&b2Body::GetID, &b2Body::SetID)
 			.addProperty("enabled",&b2Body::IsEnabled,&b2Body::SetEnabled)
 			.addProperty("fixed_angle",&b2Body::IsFixedRotation,&b2Body::SetFixedRotation)
 			.addProperty("awake",&b2Body::IsAwake,&b2Body::SetAwake)
@@ -142,8 +120,6 @@ void lua_init(string name) {
 			L = luaL_newstate();
 			luaL_openlibs(L);
 			lua_bind();
-			lua_fill_bodies();
-			lua_fill_joints();
 			luaL_dostring(L,
 				"Level={}\n"
 				"function extend(parent)\n"
@@ -151,12 +127,9 @@ void lua_init(string name) {
 					"setmetatable(child,{__index = parent})\n"
 					"return child\n"
 				"end\n"
-				"Entity={\n"
-					"x=10;\n"
-					"y=10;\n"
-					"health=100;\n"
-				"};\n"
+				"game.get().health=100\n"
 			);
+
 			luaL_dofile(L, L_name.c_str());
 			getGlobal(L,"Level")["init"]();
 		}
