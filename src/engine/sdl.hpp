@@ -1,6 +1,6 @@
 #include "SDL.h"
 #include <string>
-#include <vector>
+#include <map>
 #include "SDL_gpu.h"
 extern SDL_Event e;
 extern GPU_Target *ren;
@@ -11,11 +11,7 @@ void init(const char* title,int w,int h);
 void quit();
 void panic(std::string name,std::string message);
 GPU_Image *find_texture(std::string id);
-struct Texture {
-	GPU_Image *texture;
-	std::string id;
-};
-extern std::vector<Texture>textures;
+extern std::map<std::string,GPU_Image*>textures;
 extern GPU_Image *background;
 void load_cursor();
 void load_textures();

@@ -34,11 +34,11 @@ void lua_load_entity_script(std::string type){
 	luaL_dofile(L,("entities/"+type+".lua").c_str());
 }
 
-Entity *eget(){
-	return entities[0];
-}
 void lua_bind() {
 	getGlobalNamespace(L)
+		.addFunction("body",&get_body)
+		.addFunction("joint",&get_joint)
+		.addFunction("entity",&get_entity)
 		.beginNamespace("game")
 			.beginNamespace("camera")
 				.addProperty("x",&cx)
@@ -57,7 +57,6 @@ void lua_bind() {
 				.addProperty("a",&Color::a)
 			.addFunction("set",&Color::set)
 			.endClass()
-			.addFunction("get",&eget)
 		.endNamespace()
 		.beginClass<b2Joint>("Joint")
 			.addProperty("a",&b2Joint::m_bodyA,0)
@@ -108,6 +107,8 @@ void lua_bind() {
 			.addProperty("x",&Entity::x)
 			.addProperty("y",&Entity::y)
 			.addProperty("health",&Entity::health)
+			.addFunction("body",&Entity::get_body)
+			.addFunction("joint",&Entity::get_joint)
 		.endClass();
 }
 

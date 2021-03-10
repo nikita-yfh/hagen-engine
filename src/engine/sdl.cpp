@@ -14,7 +14,7 @@ int SH=0;
 GPU_Target *ren;
 const uint8_t* key=SDL_GetKeyboardState(0);
 using namespace std;
-std::vector<Texture>textures;
+map<string,GPU_Image*>textures;
 GPU_Image *background=0;
 void init(const char* title,int w,int h) {
 	SDL_Init(SDL_INIT_EVERYTHING);
@@ -25,10 +25,8 @@ void init(const char* title,int w,int h) {
 	SW=w;
 	SH=h;
 }
-GPU_Image *find_texture(std::string id) {
-	for(int q=0; q<textures.size(); q++)
-		if(textures[q].id==id)return textures[q].texture;
-	return 0;
+GPU_Image *find_texture(string id) {
+	return textures[id];
 }
 void quit() {
 	GPU_Quit();
@@ -53,10 +51,9 @@ void load_textures() {
 		for(b2Fixture *fix=body.second->GetFixtureList(); fix; fix=fix->GetNext()) {
 			string str=F_DATA(fix,texture);
 			if(str.size() && !find_texture(str)) {
-				GPU_Image *texture=GPU_LoadImage(("textures/"+str).c_str());
-				if(!texture)
+				textures[str]=GPU_LoadImage(("textures/"+str).c_str());
+				if(!textures[str])
 					throw string(SDL_GetError());
-				textures.push_back({texture,str});
 			}
 		}
 	}
