@@ -104,8 +104,8 @@ void lua_bind() {
 			.addFunction("apply_angular_impulse",&b2Body::AngularImpulse)
 		.endClass()
 		.beginClass<Entity>("Entity")
-//			.addProperty("x",&Entity::GetX,&Entity::SetX)
-//			.addProperty("y",&Entity::GetY,&Entity::SetY)
+			.addProperty("x",&Entity::getx,&Entity::setx)
+			.addProperty("y",&Entity::gety,&Entity::sety)
 			.addProperty("health",&Entity::health)
 			.addFunction("body",&Entity::get_body)
 			.addFunction("joint",&Entity::get_joint)
@@ -128,12 +128,18 @@ void lua_init(string name) {
 					"setmetatable(child,{__index = parent})\n"
 					"return child\n"
 				"end\n"
-				"game.get().health=100\n"
 			);
 
 			luaL_dofile(L, L_name.c_str());
 			getGlobal(L,"Level")["init"]();
+			for(auto entity : entities){
+				luaL_dostring(L,(entity.second->type+"={}\n").c_str());
+				luaL_dofile(L, ("scripts/"+entity.second->type+".lua").c_str());
+				LuaRef a=getGlobal(L,entity.second->type.c_str());//["init"]();
+			}
 		}
+	} catch(LuaException const &e) {
+		panic("Lua error in \""+L_name+"\"",e.what());
 	} catch(exception &e) {
 		panic("Lua error in \""+L_name+"\"",e.what());
 	}

@@ -2,5 +2,5 @@ function Level:init()
 print("Loading 'default' level...")
 end
 function Level:update()
-body("ground").x=100;
+print("Player:	x=" .. entity("player").x .. ";	y=" .. entity("player").y)
 end

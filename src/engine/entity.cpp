@@ -14,6 +14,7 @@ Entity::Entity(string _type,float xp,float yp) {
 		for(int q=0; q<bodies_count; q++) {
 			string str;
 			b2Body *b=read_body(bds.getChildNode("body",q),str,{xp,yp});
+			if(q==0)id1=str;
 			bodies[str]=b;
 		}
 	}
@@ -39,8 +40,14 @@ Entity::Entity(string _type,float xp,float yp) {
 			}
 		}
 	}
+	dx=xp-get_first()->GetPosition().x;
+	dy=yp-get_first()->GetPosition().y;
 }
 Entity::~Entity(){}
+
+b2Body *Entity::get_first() const{
+	return bodies.begin()->second;
+}
 
 b2Body *Entity::get_body(string id) {
 	return bodies[id];
@@ -49,3 +56,22 @@ b2Body *Entity::get_body(string id) {
 b2Joint *Entity::get_joint(string id) {
 	return joints[id];
 }
+float Entity::getx() const{
+	return get_first()->GetX()+dx;
+}
+float Entity::gety() const{
+	return get_first()->GetY()+dy;
+}
+void Entity::setx(float x){
+	b2Vec2 pos(x-getx(),0);
+	for(auto b : bodies){
+		b.second->SetTransform(b.second->GetPosition()+pos,b.second->GetAngle());
+	}
+}
+void Entity::sety(float y){
+	b2Vec2 pos(0,y-gety());
+	for(auto b : bodies){
+		b.second->SetTransform(b.second->GetPosition()+pos,b.second->GetAngle());
+	}
+}
+
