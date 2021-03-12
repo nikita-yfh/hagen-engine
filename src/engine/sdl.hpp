@@ -2,9 +2,10 @@
 #include <string>
 #include <map>
 #include "SDL_gpu.h"
+#define GAME_KEY_COUNT 21
 extern SDL_Event e;
 extern GPU_Target *ren;
-extern const uint8_t* key;
+extern const uint8_t *key;
 extern int SW;
 extern int SH;
 void init(const char* title,int w,int h);

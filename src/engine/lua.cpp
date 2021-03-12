@@ -9,7 +9,6 @@
 #include <detail/Userdata.h>
 using namespace luabridge;
 using namespace std;
-bool mainscript_enabled=1;
 string L_name;
 lua_State *L;
 //НАЧАЛО КОСТЫЛЕЙ И ОСНОВНЫХ ПРИЧИН БАГОВ
@@ -20,21 +19,45 @@ Color &get_mask() {
 	return scene_mask;
 }
 
+void lua_init_entities(){
+	for(auto entity : entities){
+		luaL_dostring(L,(entity.second->type+"=extend(Entity)\n").c_str());
+		luaL_dofile(L, ("scripts/"+entity.second->type+".lua").c_str());
+		getGlobal(L,entity.second->type.c_str())["init"](entity.second);
+	}
+}
+void lua_update_entities(){
+	for(auto entity : entities){
+		getGlobal(L,entity.second->type.c_str())["update"](entity.second);
+	}
+}
+
 void lua_gameloop() {
 	try {
-		if(mainscript_enabled) {
-			getGlobal(L,"Level")["update"]();
-		}
+		getGlobal(L,"Level")["update"]();
+		lua_update_entities();
 	} catch(exception &e) {
 		panic("Lua error in \""+L_name+"\"",e.what());
-	}
+	} /*catch(LuaException &e) {
+		panic("Lua error in \""+L_name+"\"",e.what());
+	}*/
 }
 
 void lua_load_entity_script(std::string type){
 	luaL_dofile(L,("entities/"+type+".lua").c_str());
 }
 
+bool get_key(string k){
+	if(k=="up")		return key[SDL_SCANCODE_W];
+	if(k=="down")	return key[SDL_SCANCODE_S];
+	if(k=="left")	return key[SDL_SCANCODE_A];
+	if(k=="right")	return key[SDL_SCANCODE_D];
+	if(k=="jump")	return key[SDL_SCANCODE_SPACE];
+	throw runtime_error("\""+k+"\" is not a key");
+}
+
 void lua_bind() {
+	#define KEY(key) SDL_GetKeyboardState(key)
 	getGlobalNamespace(L)
 		.addFunction("body",&get_body)
 		.addFunction("joint",&get_joint)
@@ -47,7 +70,8 @@ void lua_bind() {
 				.addFunction("center",&center)
 				.addFunction("center_body",&center_body)
 			.endNamespace()
-		.addProperty("timer",&SDL_GetTicks)
+			.addProperty("timer",&SDL_GetTicks)
+			.addFunction("key",&get_key)
 			.beginClass<Color>("Color")
 				.addConstructor<void(*)(uint8_t,uint8_t,uint8_t,uint8_t)>()
 				.addConstructor<void(*)(uint8_t,uint8_t,uint8_t)>()
@@ -111,40 +135,32 @@ void lua_bind() {
 			.addFunction("joint",&Entity::get_joint)
 		.endClass();
 }
-
 void lua_init(string name) {
 	try {
 		L_name="levels/"+name+".lua";
-		if(!exist_file(L_name))
-			mainscript_enabled=0;
-		else {
-			L = luaL_newstate();
-			luaL_openlibs(L);
-			lua_bind();
-			luaL_dostring(L,
-				"Level={}\n"
-				"function extend(parent)\n"
-					"local child = {}\n"
-					"setmetatable(child,{__index = parent})\n"
-					"return child\n"
-				"end\n"
-			);
-
-			luaL_dofile(L, L_name.c_str());
-			getGlobal(L,"Level")["init"]();
-			for(auto entity : entities){
-				luaL_dostring(L,(entity.second->type+"={}\n").c_str());
-				luaL_dofile(L, ("scripts/"+entity.second->type+".lua").c_str());
-				LuaRef a=getGlobal(L,entity.second->type.c_str());//["init"]();
-			}
-		}
-	} catch(LuaException const &e) {
+		L = luaL_newstate();
+		luaL_openlibs(L);
+		lua_bind();
+		luaL_dostring(L,
+			"Level={}\n"
+			"function extend(parent)\n"
+				"local child = {}\n"
+				"setmetatable(child,{__index = parent})\n"
+				"return child\n"
+			"end\n"
+			"Entity={}\n"
+		);
+		//if(!luaL_dofile(L, L_name.c_str()))
+		throw logic_error("a");
+		/*auto l_init=getGlobal(L,"Level")["init"];
+		l_init();
+		lua_init_entities();*/
+	}catch(LuaException &e) {
 		panic("Lua error in \""+L_name+"\"",e.what());
-	} catch(exception &e) {
+	} catch(logic_error& e) {
 		panic("Lua error in \""+L_name+"\"",e.what());
 	}
 }
 void lua_quit() {
-	if(mainscript_enabled)
-		lua_close(L);
+	lua_close(L);
 }

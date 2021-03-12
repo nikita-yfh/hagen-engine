@@ -306,7 +306,6 @@ void open_file(string path) {
 }
 void close_level() {
 	destroy_textures();
-	if(!mainscript_enabled)return;
 	lua_quit();
 }
 void load_level(string name) {

@@ -5,7 +5,6 @@
 #include <string>
 #include <gtk/gtk.h>
 #include "defines.hpp"
-#include "xmlParser.h"
 
 struct Object {
 	Object() {}

@@ -1,5 +1,6 @@
 #pragma once
 #include "object.hpp"
+#include "xmlParser.h"
 std::string find_shape_1(float x,float y);
 std::string find_shape_2(float x,float y);
 struct Layer : Object {

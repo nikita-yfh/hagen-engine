@@ -15,5 +15,3 @@ extern std::string L_name;
 void lua_gameloop();
 void lua_init(std::string);
 void lua_quit();
-
-extern bool mainscript_enabled;

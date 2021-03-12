@@ -2,17 +2,17 @@
 <level w="20" h="20">
 	<background img="default.png"/>
 	<bodies count="1">
-		<body x="6.95832" y="7.75" id="ground" type="static" shapes="2">
+		<body x="6.95831" y="8.66667" id="ground" type="static" shapes="2">
 			<physic bullet="0" fixed_rotation="0" gravity_scale="1"/>
 			<shape id="_Rect1" type="Rect" pos="physic" texture="wooden_box.png" expand="0">
-				<position x1="-6.45832" y1="0.75" x2="12.0416" y2="2.75"/>
+				<position x1="-6.45831" y1="-0.166667" x2="12.0416" y2="1.83333"/>
 				<physic density="1000" friction="1" restitution="0"/>
 			</shape>
 			<shape id="_Polygon1" type="Polygon" pos="physic" texture="wooden_box.png" expand="0">
 				<position point_count="3">
-					<point x="-6.45832" y="-6.75"/>
-					<point x="-6.45832" y="0.75"/>
-					<point x="4.54168" y="0.75"/>
+					<point x="-6.45831" y="-2.16667"/>
+					<point x="-6.45831" y="-0.166667"/>
+					<point x="4.54169" y="-0.166667"/>
 				</position>
 				<physic density="1000" friction="0.3" restitution="0"/>
 			</shape>

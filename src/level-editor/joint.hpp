@@ -3,7 +3,6 @@
 #include <string>
 #include <vector>
 #include <cmath>
-#include "xmlParser.h"
 struct Joint : Object {
 	Joint() {}
 	std::string id1;

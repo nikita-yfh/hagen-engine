@@ -6,6 +6,7 @@
 #include "sdl.hpp"
 #include <cstring>
 #include "game.hpp"
+#include <assert.h>
 using namespace std;
 using namespace luabridge;
 
