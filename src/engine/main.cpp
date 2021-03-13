@@ -12,7 +12,6 @@ using namespace luabridge;
 
 int main( int argc, char * argv[] ) {
 	init("Engine",1024,768);
-	world.SetContactListener(new contactListener());
 	configure_textures();
 	load_cursor();
 	if(argc>1) load_level(argv[1]);

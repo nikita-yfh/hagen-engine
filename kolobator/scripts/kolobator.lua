@@ -6,7 +6,6 @@ function kolobator.update(a)
 		j.motor=1
 		j.motor_speed=-20
 		j.max_torque=100000000
-		print("left")
 	elseif(game.key("right")) then
 		j.motor=1
 		j.motor_speed=20
@@ -14,4 +13,8 @@ function kolobator.update(a)
 	else
 		j.motor=0
 	end
+	if(game.camera.locked) then
+		game.camera.center_body(a:body("body"))
+	end
+	
 end

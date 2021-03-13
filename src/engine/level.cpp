@@ -314,9 +314,9 @@ void load_level(string name) {
 		lua_init(name);
 	} catch(XMLError er) {
 		panic("Error","Error loading \""+name+"\" level: \n"+XMLNode::getError(er));
-	} catch(string er) {
+	} catch(string &er) {
 		panic("Error","Error loading \""+name+"\" level: \n"+er);
-	}catch(logic_error er) {
+	}catch(logic_error &er) {
 		panic("Error","Error loading \""+name+"\" level: \n"+er.what());
 	}
 }

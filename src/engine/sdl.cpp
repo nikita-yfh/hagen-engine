@@ -1,7 +1,6 @@
 #include "sdl.hpp"
 #include "SDL.h"
 #include "level.hpp"
-#include "SDL_image.h"
 #include "SDL_FontCache.h"
 #include "utility.hpp"
 #include "physic.hpp"
@@ -18,8 +17,6 @@ map<string,GPU_Image*>textures;
 GPU_Image *background=0;
 void init(const char* title,int w,int h) {
 	SDL_Init(SDL_INIT_EVERYTHING);
-	TTF_Init();
-	IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG);
 	GPU_SetPreInitFlags(GPU_INIT_DISABLE_VSYNC);
 	ren=GPU_Init(w,h,0);
 	SW=w;
@@ -30,21 +27,20 @@ GPU_Image *find_texture(string id) {
 }
 void quit() {
 	GPU_Quit();
-	IMG_Quit();
 	TTF_Quit();
 	SDL_Quit();
 }
 void panic(string name,string message) {
-	SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR,name.c_str(),message.c_str(),0);
+	printf("%s\n",message.c_str());
 	quit();
 	exit(1);
 }
 
 void load_cursor() {
-	SDL_Surface *sur=IMG_Load("cursors/default.png");
+	/*SDL_Surface *sur=IMG_Load("cursors/default.png");
 	SDL_Cursor *cur=SDL_CreateColorCursor(sur,0,0);
 	SDL_FreeSurface(sur);
-	SDL_SetCursor(cur);
+	SDL_SetCursor(cur);*/
 }
 void load_textures() {
 	for(auto body : bodies) {

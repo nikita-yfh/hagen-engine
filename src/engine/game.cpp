@@ -40,9 +40,9 @@ bool game() {
 #endif
 			}
 		}
+		lua_gameloop();
 		draw();
 		SDL_Delay(1);
-		//lua_gameloop();
 		int step=SDL_GetTicks()-fps;
 		fps=SDL_GetTicks();
 		world.Step(step/1000.0f,10,10);

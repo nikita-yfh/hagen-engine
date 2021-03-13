@@ -69,6 +69,7 @@ void lua_bind() {
 				.addProperty("zoom",&zoom)
 				.addFunction("center",&center)
 				.addFunction("center_body",&center_body)
+				.addProperty("locked",&camera_locked)
 			.endNamespace()
 			.addProperty("timer",&SDL_GetTicks)
 			.addFunction("key",&get_key)
@@ -150,12 +151,11 @@ void lua_init(string name) {
 			"end\n"
 			"Entity={}\n"
 		);
-		//if(!luaL_dofile(L, L_name.c_str()))
-		throw logic_error("a");
-		/*auto l_init=getGlobal(L,"Level")["init"];
+		luaL_dofile(L, L_name.c_str());
+		auto l_init=getGlobal(L,"Level")["init"];
 		l_init();
-		lua_init_entities();*/
-	}catch(LuaException &e) {
+		lua_init_entities();
+	} catch(LuaException &e) {
 		panic("Lua error in \""+L_name+"\"",e.what());
 	} catch(logic_error& e) {
 		panic("Lua error in \""+L_name+"\"",e.what());
