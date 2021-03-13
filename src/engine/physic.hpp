@@ -25,4 +25,4 @@
 #define JD_DATA(a,n) (a.userData->n)
 #define F_DATA(a,n) (a->GetUserData()->n)
 #define FD_DATA(a,n) (a.userData->n)
-//b2Body *create_body(string type,string id,float x,float y);
+b2Body *create_body(std::string type,std::string id,float x,float y);

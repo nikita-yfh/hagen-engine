@@ -28,3 +28,13 @@ bool exist_file(std::string path) {
 	fin.close();
 	return isExist;
 }
+string free_id(){
+	for(int q=0;;q++){
+		string id="_Body"+to_string(q);
+		bool ok=1;
+		for(auto bd : bodies){	
+			if(bd.first==id)ok=0;
+		}
+		if(ok)return id;
+	}
+}

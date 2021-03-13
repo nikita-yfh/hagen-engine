@@ -16,14 +16,13 @@ map<string,b2Joint*>joints;
 map<string,Entity*>entities;
 b2World world(b2Vec2(0,9.8f));
 
-b2Body* read_body(XMLNode bd,string &id,b2Vec2 delta) {
+b2Body* read_body(XMLNode bd,b2Vec2 delta) {
 	int shapes_count=stoi(bd.getAttribute("shapes"));
 	if(shapes_count==0)
 		throw string("Body \""+(string)bd.getAttribute("id")+"\" is empty");
 	b2BodyDef def;
 	b2Body *body;
 	def.userData=new b2BodyData;
-	id=bd.getAttribute("id");
 	def.position=b2Vec2(stof(bd.getAttribute("x")),
 			stof(bd.getAttribute("y")))+delta;
 	{
@@ -261,9 +260,9 @@ void open_file(string path) {
 		int bodies_count=stoi(bds.getAttribute("count"));
 		bodies.clear();
 		for(int q=0; q<bodies_count; q++) {
-			string str;
-			b2Body *b=read_body(bds.getChildNode("body",q),str);
-			bodies[str]=b;
+			XMLNode bd=bds.getChildNode("body",q);
+			b2Body *b=read_body(bd);
+			bodies[bd.getAttribute("id")]=b;
 		}
 	}
 	{

@@ -12,8 +12,9 @@ Entity::Entity(string _type,float xp,float yp) {
 		int bodies_count=stoi(bds.getAttribute("count"));
 		bodies.clear();
 		for(int q=0; q<bodies_count; q++) {
-			string str;
-			b2Body *b=read_body(bds.getChildNode("body",q),str,{xp,yp});
+			XMLNode bd=bds.getChildNode("body",q);
+			string str=bd.getAttribute("id");
+			b2Body *b=read_body(bd,{xp,yp});
 			if(q==0)id1=str;
 			bodies[str]=b;
 		}

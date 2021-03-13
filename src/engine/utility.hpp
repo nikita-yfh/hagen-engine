@@ -9,3 +9,4 @@ b2Body *get_body(std::string id);
 b2Joint *get_joint(std::string id);
 Entity *get_entity(std::string id);
 bool exist_file(std::string path);
+std::string free_id();
