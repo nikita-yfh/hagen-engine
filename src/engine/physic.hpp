@@ -25,7 +25,4 @@
 #define JD_DATA(a,n) (a.userData->n)
 #define F_DATA(a,n) (a->GetUserData()->n)
 #define FD_DATA(a,n) (a.userData->n)
-
-struct contactListener : b2ContactListener {
-	void BeginContact(b2Contact* contact);
-};
+//b2Body *create_body(string type,string id,float x,float y);

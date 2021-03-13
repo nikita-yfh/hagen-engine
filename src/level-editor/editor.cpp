@@ -130,7 +130,7 @@ void save_as() {
 void save() {
 	if(save_path=="" && !save_ph)
 		save_as();
-	if(save_ph)
+	else if(save_ph)
 		save_only_physic();
 	else if(level.save_file(save_path,1))
 		set_status(CONTEXT_FILE_STATUS, "Save error");
@@ -138,7 +138,7 @@ void save() {
 		set_status(CONTEXT_FILE_STATUS, "Saved successfully");
 }
 void open() {
-	string str=get_save_path("levels");
+	string str=get_open_path("levels");
 	if(str.size()) {
 		save_path=str;
 		if(level.open_file(str))

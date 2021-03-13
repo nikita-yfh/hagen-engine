@@ -53,6 +53,18 @@ void load_textures() {
 			}
 		}
 	}
+	for(auto ent : entities) {
+		for(auto body : ent.second->bodies) {
+			for(b2Fixture *fix=body.second->GetFixtureList(); fix; fix=fix->GetNext()) {
+				string str=F_DATA(fix,texture);
+				if(str.size() && !find_texture(str)) {
+					textures[str]=GPU_LoadImage(("textures/"+str).c_str());
+					if(!textures[str])
+						throw string(SDL_GetError());
+				}
+			}
+		}
+	}
 }
 void configure_textures() {
 }

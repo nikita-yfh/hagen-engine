@@ -1,18 +1,18 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <physics>
 	<bodies count="2">
-		<body x="-3.76254e-07" y="2.56706e-07" id="body" type="dynamic" shapes="1">
+		<body x="-1.66114e-06" y="8.4598e-07" id="body" type="dynamic" shapes="1">
 			<physic bullet="0" fixed_rotation="1" gravity_scale="1"/>
-			<shape id="_Polygon1" type="Polygon" pos="physic" texture="" expand="0">
+			<shape id="_Polygon1" type="Polygon" pos="physic" texture="kolobator1.png" expand="1">
 				<position point_count="22">
-					<point x="0.00854583" y="-0.207636"/>
-					<point x="-0.0524541" y="-0.200636"/>
+					<point x="0.00854711" y="-0.207636"/>
+					<point x="-0.0524528" y="-0.200636"/>
 					<point x="-0.113455" y="-0.175636"/>
 					<point x="-0.157455" y="-0.145636"/>
 					<point x="-0.188455" y="-0.110636"/>
-					<point x="-0.216455" y="-0.0686366"/>
-					<point x="-0.233455" y="-0.0196367"/>
-					<point x="-0.241455" y="0.0433634"/>
+					<point x="-0.216455" y="-0.0686372"/>
+					<point x="-0.233455" y="-0.0196373"/>
+					<point x="-0.241455" y="0.0433628"/>
 					<point x="-0.233455" y="0.105364"/>
 					<point x="-0.208455" y="0.168364"/>
 					<point x="-0.177455" y="0.208364"/>
@@ -21,19 +21,19 @@
 					<point x="0.195545" y="0.207364"/>
 					<point x="0.225545" y="0.166364"/>
 					<point x="0.251545" y="0.104364"/>
-					<point x="0.258545" y="0.0453634"/>
-					<point x="0.250545" y="-0.0206367"/>
-					<point x="0.225545" y="-0.0826366"/>
+					<point x="0.258545" y="0.0453628"/>
+					<point x="0.250545" y="-0.0206373"/>
+					<point x="0.225545" y="-0.0826372"/>
 					<point x="0.182545" y="-0.137636"/>
 					<point x="0.131545" y="-0.175636"/>
-					<point x="0.0715459" y="-0.199636"/>
+					<point x="0.0715472" y="-0.199636"/>
 				</position>
 				<physic density="1000" friction="0.3" restitution="0"/>
 			</shape>
 		</body>
-		<body x="0" y="0.1875" id="wheel" type="dynamic" shapes="1">
+		<body x="0" y="0.25" id="wheel" type="dynamic" shapes="1">
 			<physic bullet="0" fixed_rotation="0" gravity_scale="1"/>
-			<shape id="_Circle2" type="Circle" pos="physic" texture="" expand="1">
+			<shape id="_Circle2" type="Circle" pos="physic" texture="wheel.png" expand="1">
 				<position x="0" y="0" r="0.125"/>
 				<physic density="5000" friction="1" restitution="0"/>
 			</shape>
@@ -42,7 +42,7 @@
 	<joints count="1">
 		<joint type="RevoluteJoint" id="joint">
 			<connected collide="0" id1="body" id2="wheel"/>
-			<position x="0" y="0.1875"/>
+			<position x="-0" y="0.25"/>
 			<physic limit="0" motor="1" speed="10" max_torque="1e+09"/>
 		</joint>
 	</joints>

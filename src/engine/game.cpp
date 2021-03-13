@@ -20,24 +20,6 @@ bool game() {
 			case SDL_QUIT:
 				run=0;
 				break;
-#ifdef DEBUG
-			static bool press=0;
-			case SDL_MOUSEBUTTONDOWN:
-				if(e.button.button==SDL_BUTTON_RIGHT){
-					press=1;
-				}
-			case SDL_MOUSEMOTION:
-				if(press){
-					if(abs(e.motion.xrel)<100){
-						cx+=e.motion.xrel*3;
-						cy+=e.motion.yrel*3;
-					}
-				}
-				break;
-			case SDL_MOUSEBUTTONUP:
-				press=0;
-				break;
-#endif
 			}
 		}
 		lua_gameloop();

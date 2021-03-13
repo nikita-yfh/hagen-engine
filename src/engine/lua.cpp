@@ -53,6 +53,8 @@ bool get_key(string k){
 	if(k=="left")	return key[SDL_SCANCODE_A];
 	if(k=="right")	return key[SDL_SCANCODE_D];
 	if(k=="jump")	return key[SDL_SCANCODE_SPACE];
+	if(k=="1")	return key[SDL_SCANCODE_1];
+	if(k=="2")	return key[SDL_SCANCODE_2];
 	throw runtime_error("\""+k+"\" is not a key");
 }
 

@@ -267,11 +267,12 @@ void scroll_upd() {
 }
 int key(GtkWidget*, GdkEvent *event, void*) {
 	if(event->key.keyval==65505 || event->key.keyval==65506) {
-		if(event->key.state==0||event->key.state==256)key_state=1;
-		else key_state=0;
+		if(event->key.state==16||event->key.state==18)key_state=1;
+		else if(event->key.state==17||event->key.state==19)key_state=0;
 	} else if(event->key.keyval==65507 || event->key.keyval==65508) {
-		if(event->key.state==0||event->key.state==256)key_state=2;
-		else key_state=0;
+		printf("da: %d\n",event->key.state);
+		if(event->key.state==16||event->key.state==18)key_state=2;
+		else if(event->key.state==20||event->key.state==22)key_state=0;
 	} else return 0;
 	gtk_widget_queue_draw(drawable);
 	return 0;

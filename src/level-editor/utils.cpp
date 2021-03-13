@@ -1,6 +1,5 @@
 #include "utils.hpp"
 #include "editor.hpp"
-//#include "string.h"
 #include "object.hpp"
 #include <cmath>
 using namespace std;

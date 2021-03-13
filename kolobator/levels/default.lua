@@ -1,7 +1,13 @@
 function Level:init()
-print("Loading 'default' level...")
+	print("Loading 'default' level...")
 end
 --e
 function Level:update()
-print("Player:	x=" .. entity("player").x .. ";	y=" .. entity("player").y)
+	if(game.key("1")) then
+		game.camera.zoom=game.camera.zoom+1
+	end
+	if(game.key("2")) then
+		game.camera.zoom=game.camera.zoom-1
+	end
+	print("Player:	x=" .. entity("player").x .. ";	y=" .. entity("player").y)
 end
