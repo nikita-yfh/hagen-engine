@@ -9,5 +9,4 @@ function Level:update()
 	if(game.key("2")) then
 		game.camera.zoom=game.camera.zoom-1
 	end
-	print("Player:	x=" .. entity("player").x .. ";	y=" .. entity("player").y)
 end

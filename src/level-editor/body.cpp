@@ -110,10 +110,12 @@ void Body::save(XMLNode &parent,bool p) {
 	float xb=mean_x(),yb=mean_y();
 	XMLNode bd=parent.addChild("body");
 	if(p) {
-		XMLNode phs=bd.addChild("physic");
 		bd.addAttribute("x",xb);
 		bd.addAttribute("y",yb);
 		bd.addAttribute("id",id);
+	}
+	{
+		XMLNode phs=bd.addChild("physic");
 		phs.addAttribute("bullet",bullet);
 		phs.addAttribute("fixed_rotation",fixed_rot);
 		phs.addAttribute("gravity_scale",gravity_scale);
@@ -147,11 +149,20 @@ void Body::save(XMLNode &parent,bool p) {
 			case TBGR:
 				type="background";
 				break;
-			case TMGR:
+			case TPHS1:
+				type="b_physic";
+				break;
+			case TPHS2:
 				type="physic";
+				break;
+			case TPHS3:
+				type="f_physic";
 				break;
 			case TFGR:
 				type="foreground";
+				break;
+			case TNONE:
+				type="none";
 				break;
 			}
 			sh.addAttribute("pos",type.c_str());
@@ -255,8 +266,11 @@ void Body::load(XMLNode &node,bool p) {
 		{
 			string str=sh.getAttribute("pos");
 			if(str=="background")		shp->layer=TBGR;
-			else if(str=="physic")		shp->layer=TMGR;
+			else if(str=="b_physic")	shp->layer=TPHS1;
+			else if(str=="physic")		shp->layer=TPHS2;
+			else if(str=="f_physic")	shp->layer=TPHS3;
 			else if(str=="foreground")	shp->layer=TFGR;
+			else if(str=="none")		shp->layer=TNONE;
 		}
 		{
 			//physic

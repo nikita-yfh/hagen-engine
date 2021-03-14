@@ -8,12 +8,12 @@
 #include "camera.hpp"
 #include "sdl.hpp"
 #include "utility.hpp"
+#include <chrono>
 #define TYPE(a,b) (static_cast<a>(b))
 #define DEBUG
 bool game() {
 	bool run=1;
-	int fps=SDL_GetTicks();
-	bool jump=0;
+	auto fps=std::chrono::high_resolution_clock::now();
 	while(run) {
 		while(SDL_PollEvent(&e)){
 			switch(e.type) {
@@ -21,13 +21,13 @@ bool game() {
 				run=0;
 				break;
 			}
+			mouse.update();
 		}
 		lua_gameloop();
 		draw();
-		SDL_Delay(1);
-		int step=SDL_GetTicks()-fps;
-		fps=SDL_GetTicks();
-		world.Step(step/1000.0f,10,10);
+		auto step=std::chrono::high_resolution_clock::now()-fps;
+		fps = std::chrono::high_resolution_clock::now();
+		world.Step(std::chrono::duration_cast<std::chrono::microseconds>(step).count()/1000000.0f,10,10);
 	}
 	return 0;
 }

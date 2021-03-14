@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<body type="dynamic" shapes="1">
+	<physic bullet="1" fixed_rotation="0" gravity_scale="1"/>
+	<shape id="_Rect1" type="Rect" pos="physic" texture="bullet.png" expand="1">
+		<position x1="-0.0249996" y1="-0.0100002" x2="0.0249996" y2="0.0100002"/>
+		<physic density="600" friction="0.3" restitution="0.1"/>
+	</shape>
+</body>

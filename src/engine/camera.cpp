@@ -3,6 +3,7 @@
 float cx=0,cy=0;
 float zoom=100;
 bool camera_locked=1;
+Mouse mouse;
 void center_body(b2Body *body) {
 	center(body->GetX(),body->GetY());
 }
@@ -39,4 +40,34 @@ float rotatey(b2Vec2 vec,float a) {
 }
 b2Vec2 rotate(b2Vec2 vec,float a) {
 	return {rotatex(vec,a),rotatey(vec,a)};
+}
+float mouse_angle(){
+	float x=SW/2-mouse.x;
+	float y=SH/2-mouse.y;
+	float a;
+	if(x>=0)
+		a= M_PI+atan(y/x);
+	else if(y>0)
+		a= 2*M_PI+atan(y/x);
+	else
+		a= atan(y/x);
+	printf("%g %d %d\n",a,mouse.x,mouse.y);
+	return a;
+}
+bool Mouse::update() {
+	int mx=e.button.x;
+	int my=e.button.y;
+	if(mx<0||mx>=SW||my<0||my>=SH){
+		mx=x;
+		my=y;
+	}
+	if(e.type==SDL_MOUSEBUTTONDOWN) {
+		state=1;
+		b=e.button.button;
+	}
+	else if(e.type==SDL_MOUSEBUTTONUP)
+		state=0;
+	x=mx;
+	y=my;
+	return 0;
 }

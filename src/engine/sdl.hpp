@@ -1,7 +1,10 @@
+#pragma once
 #include "SDL.h"
+#include "entity.hpp"
 #include <string>
 #include <map>
 #include "SDL_gpu.h"
+#include "box2d.h"
 #define GAME_KEY_COUNT 21
 extern SDL_Event e;
 extern GPU_Target *ren;
@@ -19,3 +22,6 @@ void load_textures();
 void configure_textures();
 void destroy_textures();
 void load_background(std::string path);
+void load_texture(std::string str);
+void load_body_textures(b2Body *body);
+void load_entity_textures(Entity *ent);

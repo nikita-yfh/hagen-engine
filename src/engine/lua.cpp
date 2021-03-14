@@ -55,6 +55,13 @@ bool get_key(string k){
 	if(k=="jump")	return key[SDL_SCANCODE_SPACE];
 	if(k=="1")	return key[SDL_SCANCODE_1];
 	if(k=="2")	return key[SDL_SCANCODE_2];
+	if(k=="3")	return key[SDL_SCANCODE_3];
+	if(k=="4")	return key[SDL_SCANCODE_4];
+	if(k=="5")	return key[SDL_SCANCODE_5];
+	if(k=="6")	return key[SDL_SCANCODE_6];
+	if(k=="7")	return key[SDL_SCANCODE_7];
+	if(k=="8")	return key[SDL_SCANCODE_8];
+	if(k=="9")	return key[SDL_SCANCODE_9];
 	throw runtime_error("\""+k+"\" is not a key");
 }
 
@@ -64,6 +71,11 @@ void lua_bind() {
 		.addFunction("body",&get_body)
 		.addFunction("joint",&get_joint)
 		.addFunction("entity",&get_entity)
+		.beginNamespace("world")
+			.addFunction("set_gravity",&set_gravity)
+			.addFunction("create_body",&create_body)
+			.addFunction("create_entity",&create_entity)
+		.endNamespace()
 		.beginNamespace("game")
 			.beginNamespace("camera")
 				.addProperty("x",&cx)
@@ -72,6 +84,7 @@ void lua_bind() {
 				.addFunction("center",&center)
 				.addFunction("center_body",&center_body)
 				.addProperty("locked",&camera_locked)
+				.addProperty("angle",&mouse_angle)
 			.endNamespace()
 			.addProperty("timer",&SDL_GetTicks)
 			.addFunction("key",&get_key)

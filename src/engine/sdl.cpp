@@ -42,28 +42,29 @@ void load_cursor() {
 	SDL_FreeSurface(sur);
 	SDL_SetCursor(cur);*/
 }
+void load_texture(string str){
+	if(str.size() && !find_texture(str)) {
+		textures[str]=GPU_LoadImage(("textures/"+str).c_str());
+		if(!textures[str])
+			throw string(SDL_GetError());
+	}
+}
+void load_body_textures(b2Body *body){
+	for(b2Fixture *fix=body->GetFixtureList(); fix; fix=fix->GetNext()) {
+		load_texture(F_DATA(fix,texture));
+	}
+}
+void load_entity_textures(Entity *ent){
+	for(auto body : ent->bodies) {
+		load_body_textures(body.second);
+	}
+}
 void load_textures() {
 	for(auto body : bodies) {
-		for(b2Fixture *fix=body.second->GetFixtureList(); fix; fix=fix->GetNext()) {
-			string str=F_DATA(fix,texture);
-			if(str.size() && !find_texture(str)) {
-				textures[str]=GPU_LoadImage(("textures/"+str).c_str());
-				if(!textures[str])
-					throw string(SDL_GetError());
-			}
-		}
+		load_body_textures(body.second);
 	}
 	for(auto ent : entities) {
-		for(auto body : ent.second->bodies) {
-			for(b2Fixture *fix=body.second->GetFixtureList(); fix; fix=fix->GetNext()) {
-				string str=F_DATA(fix,texture);
-				if(str.size() && !find_texture(str)) {
-					textures[str]=GPU_LoadImage(("textures/"+str).c_str());
-					if(!textures[str])
-						throw string(SDL_GetError());
-				}
-			}
-		}
+		load_entity_textures(ent.second);
 	}
 }
 void configure_textures() {

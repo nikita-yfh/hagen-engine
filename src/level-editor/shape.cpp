@@ -544,9 +544,12 @@ void Layer::init(GtkWidget *table) {
 	expand=gtk_check_button_new_with_label("Expand texture");
 	entry=gtk_entry_new();
 	gtk_combo_box_append_text(GTK_COMBO_BOX(combo),"Background");
-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo),"Physic layer");
+	gtk_combo_box_append_text(GTK_COMBO_BOX(combo),"Background physic");
+	gtk_combo_box_append_text(GTK_COMBO_BOX(combo),"Physic");
+	gtk_combo_box_append_text(GTK_COMBO_BOX(combo),"Foreground physic");
 	gtk_combo_box_append_text(GTK_COMBO_BOX(combo),"Foreground");
-	gtk_combo_box_set_active(GTK_COMBO_BOX(combo),1);
+	gtk_combo_box_append_text(GTK_COMBO_BOX(combo),"None");
+	gtk_combo_box_set_active(GTK_COMBO_BOX(combo),2);
 	g_signal_connect(G_OBJECT(combo),"changed",update1,0);
 	g_signal_connect(G_OBJECT(entry),"notify::text",update1,0);
 	g_signal_connect(G_OBJECT(expand),"toggled",update1,0);

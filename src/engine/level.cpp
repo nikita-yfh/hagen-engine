@@ -16,15 +16,17 @@ map<string,b2Joint*>joints;
 map<string,Entity*>entities;
 b2World world(b2Vec2(0,9.8f));
 
-b2Body* read_body(XMLNode bd,b2Vec2 delta) {
+b2Body* read_body(XMLNode bd,b2Vec2 delta,bool temp) {
 	int shapes_count=stoi(bd.getAttribute("shapes"));
 	if(shapes_count==0)
 		throw string("Body \""+(string)bd.getAttribute("id")+"\" is empty");
 	b2BodyDef def;
 	b2Body *body;
 	def.userData=new b2BodyData;
-	def.position=b2Vec2(stof(bd.getAttribute("x")),
-			stof(bd.getAttribute("y")))+delta;
+	if(!temp){
+		def.position=b2Vec2(stof(bd.getAttribute("x")),
+							stof(bd.getAttribute("y")))+delta;
+	}else def.position=delta;
 	{
 		XMLNode phs=bd.getChildNode("physic");
 		def.fixedRotation=stoi(phs.getAttribute("fixed_rotation"));
@@ -47,10 +49,13 @@ b2Body* read_body(XMLNode bd,b2Vec2 delta) {
 		{
 			//pos
 			string str=sh.getAttribute("pos");
-			if(str=="background")        FD_DATA(fix,pos)=TBGR;
-			else if(str=="physic")       FD_DATA(fix,pos)=TMGR;
-			else if(str=="foreground")   FD_DATA(fix,pos)=TFGR;
-			fix.isSensor=(str!="physic");
+			if(str=="background")			FD_DATA(fix,pos)=TBGR;
+			else if(str=="b_physic")		FD_DATA(fix,pos)=TPHS1;
+			else if(str=="physic")			FD_DATA(fix,pos)=TPHS2;
+			else if(str=="f_physic")		FD_DATA(fix,pos)=TPHS3;
+			else if(str=="foreground")		FD_DATA(fix,pos)=TFGR;
+			else if(str=="none")			FD_DATA(fix,pos)=TNONE;
+			fix.isSensor=(FD_DATA(fix,pos)==TBGR||FD_DATA(fix,pos)>=TFGR);
 		}
 		{
 			//physic
@@ -132,10 +137,10 @@ b2Body* read_body(XMLNode bd,b2Vec2 delta) {
 }
 void set_bds(b2JointDef *j,XMLNode &node,string id1,string id2,Entity *ent=0) {
 	if(id1==id2)throw string("body \"" + id1 + "\"cannot be declared twice");
-	if(ent){
+	if(ent) {
 		j->bodyA=ent->get_body(id1);
 		j->bodyB=ent->get_body(id2);
-	}else{
+	} else {
 		j->bodyA=get_body(id1);
 		j->bodyB=get_body(id2);
 	}
@@ -236,11 +241,11 @@ b2Joint *read_joint(XMLNode jn,string &id,b2Vec2 delta,Entity *ent) {
 		b2PulleyJointDef joint;
 		set_bds(&joint,con,id1,id2,ent);
 		joint.Initialize(joint.bodyA,joint.bodyB,
-		b2Vec2(stof(pos.getAttribute("x3")),stof(pos.getAttribute("y3")))+delta,
-		b2Vec2(stof(pos.getAttribute("x4")),stof(pos.getAttribute("y4")))+delta,
-		b2Vec2(stof(pos.getAttribute("x1")),stof(pos.getAttribute("y2")))+delta,
-		b2Vec2(stof(pos.getAttribute("x2")),stof(pos.getAttribute("y2")))+delta,
-		stof(phs.getAttribute("ratio")));
+						 b2Vec2(stof(pos.getAttribute("x3")),stof(pos.getAttribute("y3")))+delta,
+						 b2Vec2(stof(pos.getAttribute("x4")),stof(pos.getAttribute("y4")))+delta,
+						 b2Vec2(stof(pos.getAttribute("x1")),stof(pos.getAttribute("y2")))+delta,
+						 b2Vec2(stof(pos.getAttribute("x2")),stof(pos.getAttribute("y2")))+delta,
+						 stof(phs.getAttribute("ratio")));
 		j=world.CreateJoint(&joint);
 	}
 	return j;
@@ -272,7 +277,7 @@ void open_file(string path) {
 		joints.clear();
 		for(int q=0; q<joints_count; q++) {
 			XMLNode ch=js.getChildNode("joint",q);
-			if((string)ch.getAttribute("type")!="GearJoint"){
+			if((string)ch.getAttribute("type")!="GearJoint") {
 				string str;
 				b2Joint *j=read_joint(ch,str);
 				joints[str]=j;
@@ -280,14 +285,15 @@ void open_file(string path) {
 		}
 		for(int q=0; q<joints_count; q++) {
 			XMLNode ch=js.getChildNode("joint",q);
-			if((string)ch.getAttribute("type")=="GearJoint"){
+			if((string)ch.getAttribute("type")=="GearJoint") {
 				string str;
 				b2Joint *j=read_joint(ch,str);
 				joints[str]=j;
 			}
 		}
 	}
-	{ //entities
+	{
+		//entities
 		XMLNode ens=lvl.getChildNode("entities");
 		int count=stoi(ens.getAttribute("count"));
 		entities.clear();
@@ -315,7 +321,7 @@ void load_level(string name) {
 		panic("Error","Error loading \""+name+"\" level: \n"+XMLNode::getError(er));
 	} catch(string &er) {
 		panic("Error","Error loading \""+name+"\" level: \n"+er);
-	}catch(logic_error &er) {
+	} catch(logic_error &er) {
 		panic("Error","Error loading \""+name+"\" level: \n"+er.what());
 	}
 }

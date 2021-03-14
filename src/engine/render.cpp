@@ -146,8 +146,8 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 				b2Vec2 v(shape->m_vertices[q].x,shape->m_vertices[q].y);
 				f[q*4]=drawx(body->GetPosition().x+rotatex(v,a_rad));
 				f[q*4+1]=drawy(body->GetPosition().y+rotatey(v,a_rad));
-				f[q*4+2]=(v-minv).x/(F_DATA(fix,expand)?(maxv-minv).x:(tex->w/zoom));
-				f[q*4+3]=(v-minv).y/(F_DATA(fix,expand)?(maxv-minv).y:(tex->h/zoom));
+				f[q*4+2]=(v-minv).x/(F_DATA(fix,expand)?(maxv-minv).x:(tex->w/100));
+				f[q*4+3]=(v-minv).y/(F_DATA(fix,expand)?(maxv-minv).y:(tex->h/100));
 			}
 			GPU_SetWrapMode(tex, GPU_WRAP_REPEAT, GPU_WRAP_REPEAT);
 			GPU_TriangleBatch(tex,ren,shape->m_count,f,shape->m_count,0,GPU_BATCH_XY_ST);
@@ -170,20 +170,19 @@ void draw_bodies(uint8_t pos){
 			if(F_DATA(fix,pos)==pos)fixture_draw(body.second,fix);
 		}
 	}
+	for(auto &en : entities){
+		for(auto &body : en.second->bodies){
+			for(b2Fixture *fix=body.second->GetFixtureList(); fix; fix=fix->GetNext()) {
+				if(F_DATA(fix,pos)==pos)fixture_draw(body.second,fix);
+			}
+		}
+	}
 }
 void draw() {
 	GPU_Clear(ren);
 	draw_bgr();
-	draw_bodies(0);
-	draw_bodies(1);
-	draw_bodies(2);
-	for(auto &en : entities){
-		for(auto &body : en.second->bodies){
-			for(b2Fixture *fix=body.second->GetFixtureList(); fix; fix=fix->GetNext()) {
-				fixture_draw(body.second,fix);
-			}
-		}
-	}
+	for(int q=0;q<5;q++)
+		draw_bodies(q);
 	draw_mask();
 	GPU_Flip(ren);
 }

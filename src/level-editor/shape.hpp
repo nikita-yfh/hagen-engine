@@ -4,7 +4,7 @@
 std::string find_shape_1(float x,float y);
 std::string find_shape_2(float x,float y);
 struct Layer : Object {
-	uint8_t layer=1;
+	uint8_t layer=2;
 	bool ex=1;
 	std::string texture="";
 	static GtkWidget *combo, *entry, *text, *expand;
