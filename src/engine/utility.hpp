@@ -4,10 +4,10 @@
 #include "entity.hpp"
 #include <string>
 void close_level();
-void load_level(std::string name);
-b2Body *get_body(std::string id);
-b2Joint *get_joint(std::string id);
-Entity *get_entity(std::string id);
-bool exist_file(std::string path);
-std::string free_id();
-std::string free_entity_id();
+void load_level(string name);
+b2Body *get_body(string id);
+b2Joint *get_joint(string id);
+Entity *get_entity(string id);
+bool exist_file(string path);
+string free_id();
+string free_entity_id();

@@ -22,4 +22,13 @@ void set_gravity(float x,float y){
 	world.SetGravity({x,y});
 }
 void destroy_body(string id){
+	bodies.erase(id);
+}
+
+void destroy_joint(string id){
+	joints.erase(id);
+}
+
+void destroy_entity(string id){
+	entities.erase(id);
 }

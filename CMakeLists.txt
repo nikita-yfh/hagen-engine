@@ -47,6 +47,7 @@ set(ENGINE_SOURCES
 	${ENGINE_INCLUDE_DIR}/render.cpp
 	${ENGINE_INCLUDE_DIR}/sdl.cpp
 	${ENGINE_INCLUDE_DIR}/camera.cpp
+	${ENGINE_INCLUDE_DIR}/text.cpp
 )
 set(ENGINE_HEADERS
 	${ENGINE_INCLUDE_DIR}/level.hpp
@@ -59,6 +60,7 @@ set(ENGINE_HEADERS
 	${ENGINE_INCLUDE_DIR}/physic.hpp
 	${ENGINE_INCLUDE_DIR}/sdl.hpp
 	${ENGINE_INCLUDE_DIR}/camera.hpp
+	${ENGINE_INCLUDE_DIR}/text.hpp
 )
 find_package(PkgConfig)
 pkg_check_modules(SDL2 REQUIRED sdl2 SDL2_image SDL2_ttf SDL2_mixer)

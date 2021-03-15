@@ -316,7 +316,6 @@ void close_level() {
 void load_level(string name) {
 	try {
 		open_file("levels/"+name+".xml");
-		lua_init(name);
 	} catch(XMLError er) {
 		panic("Error","Error loading \""+name+"\" level: \n"+XMLNode::getError(er));
 	} catch(string &er) {
@@ -324,4 +323,5 @@ void load_level(string name) {
 	} catch(logic_error &er) {
 		panic("Error","Error loading \""+name+"\" level: \n"+er.what());
 	}
+	lua_init(name);
 }

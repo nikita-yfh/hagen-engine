@@ -28,5 +28,4 @@ function kolobator.update(a)
 	if(game.camera.locked) then
 		game.camera.center_body(a:body("body"))
 	end
-	world.set_gravity(math.cos(game.camera.angle)*10,math.sin(game.camera.angle)*10)
 end

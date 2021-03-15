@@ -29,9 +29,9 @@
 #define JD_DATA(a,n) (a.userData->n)
 #define F_DATA(a,n) (a->GetUserData()->n)
 #define FD_DATA(a,n) (a.userData->n)
-b2Body *create_body(std::string type,std::string id,float x,float y);
-Entity *create_entity(std::string type,std::string id,float x,float y);
+b2Body *create_body(string type,string id,float x,float y);
+Entity *create_entity(string type,string id,float x,float y);
 void set_gravity(float x,float y);
-void destroy_body(std::string id);
-void destroy_joint(std::string id);
-void destroy_entity(std::string id);
+void destroy_body(string id);
+void destroy_joint(string id);
+void destroy_entity(string id);

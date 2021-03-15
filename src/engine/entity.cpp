@@ -76,3 +76,12 @@ void Entity::sety(float y){
 	}
 }
 
+void Entity::destroy_body(string id){
+	bodies.erase(id);
+}
+
+void Entity::destroy_joint(string id){
+	joints.erase(id);
+}
+
+

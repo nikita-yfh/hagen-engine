@@ -6,6 +6,7 @@
 #include "level.hpp"
 #include "sdl.hpp"
 #include "utility.hpp"
+#include "text.hpp"
 #include <detail/Userdata.h>
 using namespace luabridge;
 using namespace std;
@@ -38,12 +39,10 @@ void lua_gameloop() {
 		lua_update_entities();
 	} catch(exception &e) {
 		panic("Lua error in \""+L_name+"\"",e.what());
-	} /*catch(LuaException &e) {
-		panic("Lua error in \""+L_name+"\"",e.what());
-	}*/
+	}
 }
 
-void lua_load_entity_script(std::string type){
+void lua_load_entity_script(string type){
 	luaL_dofile(L,("entities/"+type+".lua").c_str());
 }
 
@@ -71,10 +70,14 @@ void lua_bind() {
 		.addFunction("body",&get_body)
 		.addFunction("joint",&get_joint)
 		.addFunction("entity",&get_entity)
+		.addFunction("gettext",&get_text)
 		.beginNamespace("world")
 			.addFunction("set_gravity",&set_gravity)
 			.addFunction("create_body",&create_body)
 			.addFunction("create_entity",&create_entity)
+			.addFunction("destroy_body",&destroy_body)
+			.addFunction("destroy_entity",&destroy_entity)
+			.addFunction("destroy_joint",&destroy_joint)
 		.endNamespace()
 		.beginNamespace("game")
 			.beginNamespace("camera")
@@ -149,6 +152,8 @@ void lua_bind() {
 			.addProperty("health",&Entity::health)
 			.addFunction("body",&Entity::get_body)
 			.addFunction("joint",&Entity::get_joint)
+			.addFunction("destroy_body",&Entity::destroy_body)
+			.addFunction("destroy_joint",&Entity::destroy_joint)
 		.endClass();
 }
 void lua_init(string name) {

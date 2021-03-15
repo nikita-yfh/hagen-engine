@@ -71,7 +71,7 @@ void configure_textures() {
 }
 void destroy_textures() {
 }
-void load_background(std::string name) {
+void load_background(string name) {
 	string path="backgrounds/"+name;
 	if(!exist_file(path))
 		throw string("Loading \""+name+"\" background failed: file not found");

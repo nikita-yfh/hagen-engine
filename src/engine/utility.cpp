@@ -20,9 +20,9 @@ b2Joint *get_joint(string id) {
 Entity *get_entity(string id) {
 	return entities[id];
 }
-bool exist_file(std::string path) {
+bool exist_file(string path) {
 	bool isExist = false;
-	std::ifstream fin(path);
+	ifstream fin(path);
 	if(fin.is_open())
 		isExist = true;
 	fin.close();

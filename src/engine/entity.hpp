@@ -9,22 +9,25 @@ extern "C" {
 #include "lualib.h"
 }
 #include "LuaBridge.h"
+using namespace std;
 struct Entity {
 	Entity();
-	Entity(std::string type,float x,float y);
+	Entity(string type,float x,float y);
 	~Entity();
 	float health;
 	float dx;
 	float dy;
-	std::string type;
-	std::string id1;
-	std::map<std::string,b2Body*>bodies;
-	std::map<std::string,b2Joint*>joints;
-	b2Body *get_body(std::string id);
+	string type;
+	string id1;
+	map<string,b2Body*>bodies;
+	map<string,b2Joint*>joints;
+	b2Body *get_body(string id);
 	float getx() const;
 	float gety() const;
 	void setx(float x);
 	void sety(float y);
 	b2Body *get_first() const;
-	b2Joint *get_joint(std::string id);
+	b2Joint *get_joint(string id);
+	void destroy_body(string id);
+	void destroy_joint(string id);
 };
