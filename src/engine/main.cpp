@@ -1,3 +1,4 @@
+#include "main.hpp"
 #include "lua.hpp"
 #include "utility.hpp"
 #include "physic.hpp"
@@ -7,16 +8,18 @@
 #include <cstring>
 #include "game.hpp"
 #include "text.hpp"
-#include <assert.h>
-using namespace std;
+#include "weapon.hpp"
+string prefix="game/";
 using namespace luabridge;
 
-int main( int argc, char * argv[] ) {
+int main(int argc, char * argv[]) {
+	if(argc>1)prefix=argv[1];
 	init("Engine",1024,768);
 	configure_textures();
 	load_cursor();
 	if(argc>1) load_level(argv[1]);
 	else       load_level("default");
+	load_weapon();
 	game();
 	quit();
 	return 0;

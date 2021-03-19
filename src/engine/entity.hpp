@@ -2,7 +2,7 @@
 #include "box2d.h"
 #include "lua.hpp"
 #include <string>
-#include <map>
+#include <unordered_map>
 extern "C" {
 #include "lua.h"
 #include "lauxlib.h"
@@ -15,12 +15,10 @@ struct Entity {
 	Entity(string type,float x,float y);
 	~Entity();
 	float health;
-	float dx;
-	float dy;
 	string type;
 	string id1;
-	map<string,b2Body*>bodies;
-	map<string,b2Joint*>joints;
+	unordered_map<string,b2Body*>bodies;
+	unordered_map<string,b2Joint*>joints;
 	b2Body *get_body(string id);
 	float getx() const;
 	float gety() const;
@@ -30,4 +28,10 @@ struct Entity {
 	b2Joint *get_joint(string id);
 	void destroy_body(string id);
 	void destroy_joint(string id);
+};
+struct EntityAll{
+	float veapon_x;
+	float veapon_y;
+	float dx;
+	float dy;
 };

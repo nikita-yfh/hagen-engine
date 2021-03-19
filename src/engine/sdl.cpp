@@ -5,20 +5,23 @@
 #include "utility.hpp"
 #include "physic.hpp"
 #include "camera.hpp"
+#include "main.hpp"
 #include <string>
 FC_Font *font;
 SDL_Event e;
 int SW=0;
 int SH=0;
 GPU_Target *ren;
+GPU_Image *ak47;
 const uint8_t* key=SDL_GetKeyboardState(0);
 using namespace std;
-map<string,GPU_Image*>textures;
+unordered_map<string,GPU_Image*>textures;
 GPU_Image *background=0;
 void init(const char* title,int w,int h) {
 	SDL_Init(SDL_INIT_EVERYTHING);
 	GPU_SetPreInitFlags(GPU_INIT_DISABLE_VSYNC);
 	ren=GPU_Init(w,h,0);
+	ak47=GPU_LoadImage(string(prefix+"textures/ak47.png").c_str());
 	SW=w;
 	SH=h;
 }
@@ -37,14 +40,14 @@ void panic(string name,string message) {
 }
 
 void load_cursor() {
-	/*SDL_Surface *sur=IMG_Load("cursors/default.png");
+	SDL_Surface *sur=GPU_LoadSurface(string(prefix+"cursors/default.png").c_str());
 	SDL_Cursor *cur=SDL_CreateColorCursor(sur,0,0);
 	SDL_FreeSurface(sur);
-	SDL_SetCursor(cur);*/
+	SDL_SetCursor(cur);
 }
 void load_texture(string str){
 	if(str.size() && !find_texture(str)) {
-		textures[str]=GPU_LoadImage(("textures/"+str).c_str());
+		textures[str]=GPU_LoadImage((prefix+"textures/"+str).c_str());
 		if(!textures[str])
 			throw string(SDL_GetError());
 	}
@@ -72,7 +75,7 @@ void configure_textures() {
 void destroy_textures() {
 }
 void load_background(string name) {
-	string path="backgrounds/"+name;
+	string path=prefix+"backgrounds/"+name;
 	if(!exist_file(path))
 		throw string("Loading \""+name+"\" background failed: file not found");
 	if(background)

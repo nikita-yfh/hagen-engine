@@ -2,7 +2,7 @@
 #include "SDL.h"
 #include "entity.hpp"
 #include <string>
-#include <map>
+#include <unordered_map>
 #include "SDL_gpu.h"
 #include "box2d.h"
 #define GAME_KEY_COUNT 21
@@ -15,7 +15,7 @@ void init(const char* title,int w,int h);
 void quit();
 void panic(string name,string message);
 GPU_Image *find_texture(string id);
-extern map<string,GPU_Image*>textures;
+extern unordered_map<string,GPU_Image*>textures;
 extern GPU_Image *background;
 void load_cursor();
 void load_textures();

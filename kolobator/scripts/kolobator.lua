@@ -19,11 +19,12 @@ function kolobator.update(a)
 	else
 		j.motor=0
 	end
-	if(game.key("3") and game.timer-timer>100) then
+	if(game.key("fire") and game.timer-timer>100) then
 		timer=game.timer
-		bullet=world.create_entity("kolobator","",a.x,a.y-0.5)
-		--bullet:apply_center_impulse(math.cos(game.camera.angle)*50,math.sin(game.camera.angle)*50);
-		--b:apply_center_impulse(-math.cos(game.camera.angle)*50,-math.sin(game.camera.angle)*50);
+		bullet=world.create_body("bullet","",a.x,a.y-0.5)
+		bullet.angle=game.camera.angle
+		bullet:apply_center_impulse(math.cos(game.camera.angle)*50,math.sin(game.camera.angle)*50);
+		b:apply_center_impulse(-math.cos(game.camera.angle)*50,-math.sin(game.camera.angle)*50);
 	end
 	if(game.camera.locked) then
 		game.camera.center_body(a:body("body"))

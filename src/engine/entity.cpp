@@ -1,11 +1,12 @@
 #include "entity.hpp"
 #include "level.hpp"
 #include "physic.hpp"
+#include "main.hpp"
 using namespace std;
 Entity::Entity() {};
 Entity::Entity(string _type,float xp,float yp) {
 	type=_type;
-	XMLNode xml=XMLNode::openFileHelper(("entities/"+type+".xml").c_str(),"physics");
+	XMLNode xml=XMLNode::openFileHelper((prefix+"entities/"+type+".xml").c_str(),"physics");
 	{
 		//bodies
 		XMLNode bds=xml.getChildNode("bodies");
@@ -41,8 +42,8 @@ Entity::Entity(string _type,float xp,float yp) {
 			}
 		}
 	}
-	dx=xp-get_first()->GetPosition().x;
-	dy=yp-get_first()->GetPosition().y;
+	ent_all[type].dx=xp-get_first()->GetPosition().x;
+	ent_all[type].dy=yp-get_first()->GetPosition().y;
 }
 Entity::~Entity(){}
 
@@ -58,10 +59,10 @@ b2Joint *Entity::get_joint(string id) {
 	return joints[id];
 }
 float Entity::getx() const{
-	return get_first()->GetX()+dx;
+	return get_first()->GetX()+ent_all[type].dx;
 }
 float Entity::gety() const{
-	return get_first()->GetY()+dy;
+	return get_first()->GetY()+ent_all[type].dy;
 }
 void Entity::setx(float x){
 	b2Vec2 pos(x-getx(),0);
@@ -83,5 +84,3 @@ void Entity::destroy_body(string id){
 void Entity::destroy_joint(string id){
 	joints.erase(id);
 }
-
-

@@ -10,6 +10,7 @@
 #define CIRCLE_QUALITY 50
 using namespace std;
 Color scene_mask(0,0,0,0);
+bool show_textures=1;
 void Color::set(int r,int g,int b,int a) {
 	this->r=r;
 	this->g=g;
@@ -41,7 +42,9 @@ void draw_bgr() {
 void fixture_draw(b2Body *body,b2Fixture *fix) {
 	float a_rad=body->GetAngle();
 	float a_deg=a_rad*(180/3.14);
-	GPU_Image *tex=find_texture(F_DATA(fix,texture));
+	GPU_Image *tex=0;
+	if(show_textures)
+		tex=find_texture(F_DATA(fix,texture));
 	switch(F_DATA(fix,type)) {
 	case RECT:
 	case SQUARE: {
@@ -170,19 +173,30 @@ void draw_bodies(uint8_t pos){
 			if(F_DATA(fix,pos)==pos)fixture_draw(body.second,fix);
 		}
 	}
+}
+void draw_entities(uint8_t pos){
+	extern GPU_Image *ak47;
 	for(auto &en : entities){
 		for(auto &body : en.second->bodies){
 			for(b2Fixture *fix=body.second->GetFixtureList(); fix; fix=fix->GetNext()) {
 				if(F_DATA(fix,pos)==pos)fixture_draw(body.second,fix);
 			}
 		}
+		/*if(pos==3){
+			if(mouse_angle()>0.5*M_PI&&mouse_angle()<1.5*M_PI)
+				GPU_BlitTransform(ak47,0,ren,drawx(en.second->getx()),drawy(en.second->gety()),mouse_angle()/M_PI*180,1,-1);
+			else
+				GPU_BlitTransform(ak47,0,ren,drawx(en.second->getx()),drawy(en.second->gety()),mouse_angle()/M_PI*180,1,1);
+		}*/
 	}
 }
 void draw() {
 	GPU_Clear(ren);
 	draw_bgr();
-	for(int q=0;q<5;q++)
+	for(int q=0;q<5;q++){
 		draw_bodies(q);
+		draw_entities(q);
+	}
 	draw_mask();
 	GPU_Flip(ren);
 }
