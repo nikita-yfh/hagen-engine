@@ -140,9 +140,9 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 			for(int q=0;q<shape->b_count;q++){
 				b2Vec2 v(shape->big_polygon[q]);
 				maxv.x=max(v.x,maxv.x);
-				maxv.y=max(v.y,maxv.x);
+				maxv.y=max(v.y,maxv.y);
 				minv.x=min(v.x,minv.x);
-				minv.y=min(v.y,minv.x);
+				minv.y=min(v.y,minv.y);
 			}
 			float f[shape->m_count*4];
 			for(int q=0;q<shape->m_count;q++){

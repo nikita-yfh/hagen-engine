@@ -13,7 +13,7 @@ string prefix="game/";
 using namespace luabridge;
 
 int main(int argc, char * argv[]) {
-	if(argc>1)prefix=argv[1];
+	if(argc>2)prefix=argv[2];
 	init("Engine",1024,768);
 	configure_textures();
 	load_cursor();

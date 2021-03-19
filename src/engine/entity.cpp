@@ -84,3 +84,6 @@ void Entity::destroy_body(string id){
 void Entity::destroy_joint(string id){
 	joints.erase(id);
 }
+void Entity::set_weapon(string id){
+	weapon=&weapons[id];
+}

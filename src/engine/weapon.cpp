@@ -1,10 +1,7 @@
 #include "weapon.hpp"
 #include "main.hpp"
 
-unordered_map<string,Weapon*>weapons;
-Weapon::Weapon(string _name){
-	name=_name;
-}
+unordered_map<string,Weapon>weapons;
 
 void load_weapon(){
 	XMLNode l=XMLNode::openFileHelper(string(prefix+"weapons.xml").c_str());
@@ -13,8 +10,5 @@ void load_weapon(){
 		if(node.isEmpty())return;
 		string id=node.getAttribute("id");
 		string type=node.getAttribute("type");
-		if(type=="firearms"){
-
-		}
 	}
 }

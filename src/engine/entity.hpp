@@ -1,6 +1,7 @@
 #pragma once
 #include "box2d.h"
 #include "lua.hpp"
+#include "weapon.hpp"
 #include <string>
 #include <unordered_map>
 extern "C" {
@@ -14,6 +15,7 @@ struct Entity {
 	Entity();
 	Entity(string type,float x,float y);
 	~Entity();
+	Weapon *weapon;
 	float health;
 	string type;
 	string id1;
@@ -28,6 +30,7 @@ struct Entity {
 	b2Joint *get_joint(string id);
 	void destroy_body(string id);
 	void destroy_joint(string id);
+	void set_weapon(string id);
 };
 struct EntityAll{
 	float veapon_x;
