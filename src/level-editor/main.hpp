@@ -33,7 +33,7 @@
 #define FRICTION_STEP 0.05
 #define RESTITUTION_STEP 0.05
 #define POINT_SIZE 7
-#define ICON_PATH "icons"
+#define ICON_PATH "game/icons"
 #define NEW_TOOLRB(bar,prev,text,text1,text2,icon,callback) gtk_toolbar_append_element(GTK_TOOLBAR(bar),\
 																		GTK_TOOLBAR_CHILD_RADIOBUTTON,\
 																		prev,text,text1,text2,\
