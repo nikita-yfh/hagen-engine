@@ -4,7 +4,7 @@
 #include <cairo.h>
 #include <string>
 #include <gtk/gtk.h>
-#include "defines.hpp"
+#include "main.hpp"
 
 struct Object {
 	Object() {}

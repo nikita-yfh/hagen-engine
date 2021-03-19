@@ -23,7 +23,7 @@ set(LEVEL_EDITOR_SOURCES
 	${LEVEL_EDITOR_INCLUDE_DIR}/body.cpp
 )
 set(LEVEL_EDIROR_HEADERS
-	${LEVEL_EDITOR_INCLUDE_DIR}/defines.hpp
+	${LEVEL_EDITOR_INCLUDE_DIR}/main.hpp
 	${LEVEL_EDITOR_INCLUDE_DIR}/object.hpp
 	${LEVEL_EDITOR_INCLUDE_DIR}/editor.hpp
 	${LEVEL_EDITOR_INCLUDE_DIR}/events.hpp
@@ -48,8 +48,10 @@ set(ENGINE_SOURCES
 	${ENGINE_INCLUDE_DIR}/sdl.cpp
 	${ENGINE_INCLUDE_DIR}/camera.cpp
 	${ENGINE_INCLUDE_DIR}/text.cpp
+	${ENGINE_INCLUDE_DIR}/weapon.cpp
 )
 set(ENGINE_HEADERS
+	${ENGINE_INCLUDE_DIR}/main.hpp
 	${ENGINE_INCLUDE_DIR}/level.hpp
 	${ENGINE_INCLUDE_DIR}/render.hpp
 	${ENGINE_INCLUDE_DIR}/game.hpp 
@@ -61,6 +63,7 @@ set(ENGINE_HEADERS
 	${ENGINE_INCLUDE_DIR}/sdl.hpp
 	${ENGINE_INCLUDE_DIR}/camera.hpp
 	${ENGINE_INCLUDE_DIR}/text.hpp
+	${ENGINE_INCLUDE_DIR}/weapon.hpp
 )
 find_package(PkgConfig)
 pkg_check_modules(SDL2 REQUIRED sdl2 SDL2_image SDL2_ttf SDL2_mixer)

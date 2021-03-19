@@ -13,3 +13,4 @@ struct Color {
 	SDL_Color color();
 };
 extern Color scene_mask;
+extern bool show_textures;

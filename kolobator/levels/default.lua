@@ -1,6 +1,6 @@
 function Level:init()
 	print("Loading 'default' level...")
 end
---e
 function Level:update()
+	render.show_textures=false
 end

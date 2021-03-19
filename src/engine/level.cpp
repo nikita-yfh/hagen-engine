@@ -7,13 +7,15 @@
 #include "lua.hpp"
 #include "sdl.hpp"
 #include "triangulate.hpp"
+#include "main.hpp"
 using namespace std;
 
 unsigned short int levelw=20;
 unsigned short int levelh=20;
-map<string,b2Body*>bodies;
-map<string,b2Joint*>joints;
-map<string,Entity*>entities;
+unordered_map<string,b2Body*>bodies;
+unordered_map<string,b2Joint*>joints;
+unordered_map<string,Entity*>entities;
+unordered_map<string,EntityAll>ent_all;
 b2World world(b2Vec2(0,9.8f));
 
 b2Body* read_body(XMLNode bd,b2Vec2 delta,bool temp) {
@@ -315,7 +317,7 @@ void close_level() {
 }
 void load_level(string name) {
 	try {
-		open_file("levels/"+name+".xml");
+		open_file(prefix+"levels/"+name+".xml");
 	} catch(XMLError er) {
 		panic("Error","Error loading \""+name+"\" level: \n"+XMLNode::getError(er));
 	} catch(string &er) {

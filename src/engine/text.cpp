@@ -1,11 +1,12 @@
 #include "text.hpp"
+#include "main.hpp"
 #include "xmlParser.h"
 #include "SDL_FontCache.h"
 string language="ru";
-map <string,string>texts;
+unordered_map <string,string>texts;
 string get_text(string id){
 	if(texts.empty()){
-		XMLNode xml=XMLNode::openFileHelper(("locales/"+language+".xml").c_str(),"text");
+		XMLNode xml=XMLNode::openFileHelper((prefix+"locales/"+language+".xml").c_str(),"text");
 		xml=xml.getChildNode(id.c_str());
 		return xml.getText();
 	}else{
@@ -13,7 +14,7 @@ string get_text(string id){
 	}
 }
 void preload_locale(){
-	XMLNode xml=XMLNode::openFileHelper(("locales/"+language+".xml").c_str(),"text");
+	XMLNode xml=XMLNode::openFileHelper((prefix+"locales/"+language+".xml").c_str(),"text");
 	for(int q=0;;q++){
 		XMLNode node=xml.getChildNode(q);
 		if(node.isEmpty())return;

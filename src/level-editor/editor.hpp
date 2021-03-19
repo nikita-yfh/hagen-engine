@@ -1,7 +1,7 @@
 #pragma once
 #include <gtk/gtk.h>
 #include <string>
-#include "defines.hpp"
+#include "main.hpp"
 extern GtkWidget
 *window,
 *box_v,

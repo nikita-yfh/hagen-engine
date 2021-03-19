@@ -1,7 +1,7 @@
 #include "editor.hpp"
 #include "level.hpp"
 #include "events.hpp"
-#include "defines.hpp"
+#include "main.hpp"
 #include "utils.hpp"
 #include "tree_view.hpp"
 #include <cmath>
@@ -51,7 +51,11 @@ void run_callback(void*) {
 	name.erase(name.begin(),name.begin()+pos);
 	pos=name.rfind(".");
 	name.erase(name.begin()+pos,name.end());
-	name="./engine "+name;
+#ifndef WIN32
+	name="./engine "+name
+#else
+	name="engine.exe "+name
+#endif
 	system(name.c_str());
 }
 void run() {
@@ -106,7 +110,7 @@ string get_open_path(string path) {
 }
 void save_only_physic() {
 	if(!save_path.size()||!save_ph){
-		save_path=get_save_path("levels");
+		save_path=get_save_path("game/levels");
 		save_ph=1;
 	}
 	if(save_path.size() && save_ph) {
@@ -117,7 +121,7 @@ void save_only_physic() {
 	}
 }
 void save_as() {
-	string str=get_save_path("levels");
+	string str=get_save_path("game/levels");
 	if(str.size()) {
 		save_ph=0;
 		save_path=str;
@@ -138,7 +142,7 @@ void save() {
 		set_status(CONTEXT_FILE_STATUS, "Saved successfully");
 }
 void open() {
-	string str=get_open_path("levels");
+	string str=get_open_path("game/levels");
 	if(str.size()) {
 		save_path=str;
 		if(level.open_file(str))
@@ -238,7 +242,7 @@ void set_grid() {
 	key_state=0;
 }
 void set_bgr() {
-	const char *bgr_path="backgrounds/";
+	const char *bgr_path="game/backgrounds/";
 	string str=get_open_path(bgr_path);
 	if(str.size()) {
 		int n=str.find(bgr_path);  //find
@@ -260,7 +264,7 @@ void create_menu() {
 		{"/File/Save",						"<control>S",			save,				0,	"<StockItem>",	"gtk-save"},
 		{"/File/Save as",					"<control><shift>S",	save_as,			0,	"<StockItem>",	"gtk-save-as"},
 		{"/File/Save as template",			"",						template_save,		0,	"<StockItem>",	"gtk-save-as"},
-		{"/File/Save only physics",			"",						save_only_physic,		0,	"<StockItem>",	"gtk-save-as"},
+		{"/File/Save only physics",			"",						save_only_physic,	0,	"<StockItem>",	"gtk-save-as"},
 		{"/File/Quit",						"<control>Q",			quit,				0,	"<StockItem>",	"gtk-quit"},
 		{"/Edit/Copy",						"<control>C",			copy,				0,	"<StockItem>",	"gtk-copy"},
 		{"/Edit/Paste",						"<control>V",			paste,				0,	"<StockItem>",	"gtk-paste"},

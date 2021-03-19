@@ -7,6 +7,7 @@
 #include "sdl.hpp"
 #include "utility.hpp"
 #include "text.hpp"
+#include "main.hpp"
 #include <detail/Userdata.h>
 using namespace luabridge;
 using namespace std;
@@ -23,7 +24,7 @@ Color &get_mask() {
 void lua_init_entities(){
 	for(auto entity : entities){
 		luaL_dostring(L,(entity.second->type+"=extend(Entity)\n").c_str());
-		luaL_dofile(L, ("scripts/"+entity.second->type+".lua").c_str());
+		luaL_dofile(L, (prefix+"scripts/"+entity.second->type+".lua").c_str());
 		getGlobal(L,entity.second->type.c_str())["init"](entity.second);
 	}
 }
@@ -43,7 +44,7 @@ void lua_gameloop() {
 }
 
 void lua_load_entity_script(string type){
-	luaL_dofile(L,("entities/"+type+".lua").c_str());
+	luaL_dofile(L,(prefix+"entities/"+type+".lua").c_str());
 }
 
 bool get_key(string k){
@@ -52,15 +53,16 @@ bool get_key(string k){
 	if(k=="left")	return key[SDL_SCANCODE_A];
 	if(k=="right")	return key[SDL_SCANCODE_D];
 	if(k=="jump")	return key[SDL_SCANCODE_SPACE];
-	if(k=="1")	return key[SDL_SCANCODE_1];
-	if(k=="2")	return key[SDL_SCANCODE_2];
-	if(k=="3")	return key[SDL_SCANCODE_3];
-	if(k=="4")	return key[SDL_SCANCODE_4];
-	if(k=="5")	return key[SDL_SCANCODE_5];
-	if(k=="6")	return key[SDL_SCANCODE_6];
-	if(k=="7")	return key[SDL_SCANCODE_7];
-	if(k=="8")	return key[SDL_SCANCODE_8];
-	if(k=="9")	return key[SDL_SCANCODE_9];
+	if(k=="1")		return key[SDL_SCANCODE_1];
+	if(k=="2")		return key[SDL_SCANCODE_2];
+	if(k=="3")		return key[SDL_SCANCODE_3];
+	if(k=="4")		return key[SDL_SCANCODE_4];
+	if(k=="5")		return key[SDL_SCANCODE_5];
+	if(k=="6")		return key[SDL_SCANCODE_6];
+	if(k=="7")		return key[SDL_SCANCODE_7];
+	if(k=="8")		return key[SDL_SCANCODE_8];
+	if(k=="9")		return key[SDL_SCANCODE_9];
+	if(k=="fire")	return mouse.state&&mouse.b==SDL_BUTTON_LEFT;
 	throw runtime_error("\""+k+"\" is not a key");
 }
 
@@ -91,6 +93,8 @@ void lua_bind() {
 			.endNamespace()
 			.addProperty("timer",&SDL_GetTicks)
 			.addFunction("key",&get_key)
+		.endNamespace()
+		.beginNamespace("render")
 			.beginClass<Color>("Color")
 				.addConstructor<void(*)(uint8_t,uint8_t,uint8_t,uint8_t)>()
 				.addConstructor<void(*)(uint8_t,uint8_t,uint8_t)>()
@@ -98,8 +102,9 @@ void lua_bind() {
 				.addProperty("g",&Color::g)
 				.addProperty("b",&Color::b)
 				.addProperty("a",&Color::a)
-			.addFunction("set",&Color::set)
+				.addFunction("set",&Color::set)
 			.endClass()
+			.addProperty("show_textures",&show_textures)
 		.endNamespace()
 		.beginClass<b2Joint>("Joint")
 			.addProperty("a",&b2Joint::m_bodyA,0)
@@ -158,7 +163,7 @@ void lua_bind() {
 }
 void lua_init(string name) {
 	try {
-		L_name="levels/"+name+".lua";
+		L_name=prefix+"levels/"+name+".lua";
 		L = luaL_newstate();
 		luaL_openlibs(L);
 		lua_bind();
