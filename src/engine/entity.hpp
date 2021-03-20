@@ -15,7 +15,7 @@ struct Entity {
 	Entity();
 	Entity(string type,float x,float y);
 	~Entity();
-	Weapon *weapon;
+	Weapon *weapon=nullptr;
 	float health;
 	string type;
 	string id1;
@@ -24,6 +24,10 @@ struct Entity {
 	b2Body *get_body(string id);
 	float getx() const;
 	float gety() const;
+	float get_weapon_x() const;
+	float get_weapon_y() const;
+	float set_weapon_x() const;
+	float set_weapon_y() const;
 	void setx(float x);
 	void sety(float y);
 	b2Body *get_first() const;
@@ -31,10 +35,9 @@ struct Entity {
 	void destroy_body(string id);
 	void destroy_joint(string id);
 	void set_weapon(string id);
-};
-struct EntityAll{
-	float veapon_x;
-	float veapon_y;
+	bool has_weapon();
+	float weapon_x=0;
+	float weapon_y=0;
 	float dx;
 	float dy;
 };

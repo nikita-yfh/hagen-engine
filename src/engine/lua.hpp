@@ -10,7 +10,6 @@ extern "C" {
 #include <string>
 using namespace std;
 extern lua_State *L;
-extern string L_name;
 
 void lua_gameloop();
 void lua_init(string);

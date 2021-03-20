@@ -6,12 +6,19 @@
 #include <xmlParser.h>
 using namespace std;
 struct Weapon{
-	float rate;
-	string name;
-	virtual void reload(){};
-	GPU_Image *texture;
-	int dx;
-	int dy;
+	Weapon(){}
+	Weapon(XMLNode node);
+	string texture;
+	float damage;
+	string get_name();
 };
-void load_weapon();
+struct Firearms : Weapon{
+	Firearms(){}
+	Firearms(XMLNode node);
+	float max_spread;
+	unsigned short magazine;
+	string bullet;
+	unsigned short reload_time;
+};
+void load_weapon(string id);
 extern unordered_map<string,Weapon>weapons;

@@ -11,8 +11,15 @@
 #include <detail/Userdata.h>
 using namespace luabridge;
 using namespace std;
-string L_name;
 lua_State *L;
+map<unsigned int,unsigned int>timers;
+bool get_interval(unsigned int ms){
+	if(SDL_GetTicks()-timers[ms]>ms){
+		timers[ms]=SDL_GetTicks();
+		return 1;
+	}
+	return 0;
+}
 //НАЧАЛО КОСТЫЛЕЙ И ОСНОВНЫХ ПРИЧИН БАГОВ
 void set_mask(Color &c) {
 	scene_mask=c;
@@ -20,11 +27,18 @@ void set_mask(Color &c) {
 Color &get_mask() {
 	return scene_mask;
 }
-
+void dofile(string file){
+	if(luaL_dofile(L, file.c_str())){
+		throw string(lua_tostring(L, -1));
+	}
+}
+void doscript(string file){
+	dofile(prefix+"scripts/"+file+".lua");
+}
 void lua_init_entities(){
 	for(auto entity : entities){
 		luaL_dostring(L,(entity.second->type+"=extend(Entity)\n").c_str());
-		luaL_dofile(L, (prefix+"scripts/"+entity.second->type+".lua").c_str());
+		doscript(entity.second->type);
 		getGlobal(L,entity.second->type.c_str())["init"](entity.second);
 	}
 }
@@ -35,16 +49,8 @@ void lua_update_entities(){
 }
 
 void lua_gameloop() {
-	try {
-		getGlobal(L,"Level")["update"]();
-		lua_update_entities();
-	} catch(exception &e) {
-		panic("Lua error in \""+L_name+"\"",e.what());
-	}
-}
-
-void lua_load_entity_script(string type){
-	luaL_dofile(L,(prefix+"entities/"+type+".lua").c_str());
+	getGlobal(L,"Level")["update"]();
+	lua_update_entities();
 }
 
 bool get_key(string k){
@@ -62,8 +68,10 @@ bool get_key(string k){
 	if(k=="7")		return key[SDL_SCANCODE_7];
 	if(k=="8")		return key[SDL_SCANCODE_8];
 	if(k=="9")		return key[SDL_SCANCODE_9];
-	if(k=="fire")	return mouse.state&&mouse.b==SDL_BUTTON_LEFT;
-	throw runtime_error("\""+k+"\" is not a key");
+	if(k=="fire" || k=="fire1")
+					return mouse.state&&mouse.b==SDL_BUTTON_LEFT;
+	if(k=="fire2")	return mouse.state&&mouse.b==SDL_BUTTON_RIGHT;
+	throw logic_error("\""+k+"\" is not a key");
 }
 
 void lua_bind() {
@@ -93,8 +101,9 @@ void lua_bind() {
 			.endNamespace()
 			.addProperty("timer",&SDL_GetTicks)
 			.addFunction("key",&get_key)
+			.addFunction("interval",&get_interval)
 		.endNamespace()
-		.beginNamespace("render")
+		.beginNamespace("graphics")
 			.beginClass<Color>("Color")
 				.addConstructor<void(*)(uint8_t,uint8_t,uint8_t,uint8_t)>()
 				.addConstructor<void(*)(uint8_t,uint8_t,uint8_t)>()
@@ -104,6 +113,8 @@ void lua_bind() {
 				.addProperty("a",&Color::a)
 				.addFunction("set",&Color::set)
 			.endClass()
+			.addFunction("preload",&load_texture)
+			.addFunction("texture",&find_texture)
 			.addProperty("show_textures",&show_textures)
 		.endNamespace()
 		.beginClass<b2Joint>("Joint")
@@ -154,37 +165,44 @@ void lua_bind() {
 		.beginClass<Entity>("Entity")
 			.addProperty("x",&Entity::getx,&Entity::setx)
 			.addProperty("y",&Entity::gety,&Entity::sety)
+			.addProperty("weapon",&Entity::weapon,0)
 			.addProperty("health",&Entity::health)
 			.addFunction("body",&Entity::get_body)
 			.addFunction("joint",&Entity::get_joint)
 			.addFunction("destroy_body",&Entity::destroy_body)
 			.addFunction("destroy_joint",&Entity::destroy_joint)
+			.addFunction("has_weapon",&Entity::has_weapon)
+			.addFunction("set_weapon",&Entity::set_weapon)
+		.endClass()
+		.beginClass<GPU_Image>("Texture")
+			.addProperty("w",&GPU_Image::w,0)
+			.addProperty("h",&GPU_Image::h,0)
 		.endClass();
+		/*.beginClass<Weapon>("Weapon")
+			.addProperty("dx",&Weapon::dx)
+			.addProperty("dy",&Weapon::dy)
+			.addProperty("texture",&Weapon::texture)
+			.addProperty("rate",&Weapon::rate)
+			.addProperty("damage",&Weapon::damage)
+		.endClass();*/
 }
 void lua_init(string name) {
-	try {
-		L_name=prefix+"levels/"+name+".lua";
-		L = luaL_newstate();
-		luaL_openlibs(L);
-		lua_bind();
-		luaL_dostring(L,
-			"Level={}\n"
-			"function extend(parent)\n"
-				"local child = {}\n"
-				"setmetatable(child,{__index = parent})\n"
-				"return child\n"
-			"end\n"
-			"Entity={}\n"
-		);
-		luaL_dofile(L, L_name.c_str());
-		auto l_init=getGlobal(L,"Level")["init"];
-		l_init();
-		lua_init_entities();
-	} catch(LuaException &e) {
-		panic("Lua error in \""+L_name+"\"",e.what());
-	} catch(logic_error& e) {
-		panic("Lua error in \""+L_name+"\"",e.what());
-	}
+	L = luaL_newstate();
+	luaL_openlibs(L);
+	lua_bind();
+	luaL_dostring(L,
+		"Level={}\n"
+		"function extend(parent)\n"
+			"local child = {}\n"
+			"setmetatable(child,{__index = parent})\n"
+			"return child\n"
+		"end\n"
+		"Entity={}\n"
+	);
+	doscript(name);
+	auto l_init=getGlobal(L,"Level")["init"];
+	l_init();
+	lua_init_entities();
 }
 void lua_quit() {
 	lua_close(L);

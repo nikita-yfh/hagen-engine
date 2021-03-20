@@ -15,7 +15,6 @@ unsigned short int levelh=20;
 unordered_map<string,b2Body*>bodies;
 unordered_map<string,b2Joint*>joints;
 unordered_map<string,Entity*>entities;
-unordered_map<string,EntityAll>ent_all;
 b2World world(b2Vec2(0,9.8f));
 
 b2Body* read_body(XMLNode bd,b2Vec2 delta,bool temp) {

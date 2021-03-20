@@ -27,7 +27,7 @@
 #define ALL_PROPERTIES 40
 #define DEBUG printf("%d\n",rand())
 #define DENSITY_MAX 100000.0f
-#define FRICTION_MAX 1
+#define FRICTION_MAX 10
 #define RESTITUTION_MAX 1
 #define DENSITY_STEP 10
 #define FRICTION_STEP 0.05

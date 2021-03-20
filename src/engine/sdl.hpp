@@ -22,6 +22,6 @@ void load_textures();
 void configure_textures();
 void destroy_textures();
 void load_background(string path);
-void load_texture(string str);
+GPU_Image *load_texture(string str);
 void load_body_textures(b2Body *body);
 void load_entity_textures(Entity *ent);

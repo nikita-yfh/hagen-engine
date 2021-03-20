@@ -37,6 +37,7 @@ set(LEVEL_EDIROR_HEADERS
 
 set(ENGINE_SOURCES
 	${ENGINE_INCLUDE_DIR}/game.cpp
+	${ENGINE_INCLUDE_DIR}/dialog.cpp
 	${ENGINE_INCLUDE_DIR}/main.cpp
 	${ENGINE_INCLUDE_DIR}/player.cpp
 	${ENGINE_INCLUDE_DIR}/utility.cpp
@@ -52,6 +53,7 @@ set(ENGINE_SOURCES
 )
 set(ENGINE_HEADERS
 	${ENGINE_INCLUDE_DIR}/main.hpp
+	${ENGINE_INCLUDE_DIR}/dialog.hpp
 	${ENGINE_INCLUDE_DIR}/level.hpp
 	${ENGINE_INCLUDE_DIR}/render.hpp
 	${ENGINE_INCLUDE_DIR}/game.hpp 
@@ -110,6 +112,9 @@ target_link_libraries (${ENGINE}
 	fontcache
 	SDL_gpu_shared
 )
+if(UNIX)
+	target_link_libraries (${ENGINE} ${GTK_LIBRARIES})
+endif()
 target_link_libraries (${LEVEL_EDITOR}
 	${GTK_LIBRARIES}
 	xml

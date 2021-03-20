@@ -6,13 +6,13 @@
 #include "physic.hpp"
 #include "camera.hpp"
 #include "main.hpp"
+#include "dialog.hpp"
 #include <string>
 FC_Font *font;
 SDL_Event e;
 int SW=0;
 int SH=0;
 GPU_Target *ren;
-GPU_Image *ak47;
 const uint8_t* key=SDL_GetKeyboardState(0);
 using namespace std;
 unordered_map<string,GPU_Image*>textures;
@@ -21,7 +21,6 @@ void init(const char* title,int w,int h) {
 	SDL_Init(SDL_INIT_EVERYTHING);
 	GPU_SetPreInitFlags(GPU_INIT_DISABLE_VSYNC);
 	ren=GPU_Init(w,h,0);
-	ak47=GPU_LoadImage(string(prefix+"textures/ak47.png").c_str());
 	SW=w;
 	SH=h;
 }
@@ -34,7 +33,8 @@ void quit() {
 	SDL_Quit();
 }
 void panic(string name,string message) {
-	printf("%s\n",message.c_str());
+	//printf("%s\n",message.c_str());
+	dialog::show(name,message,dialog::Style::Error);
 	quit();
 	exit(1);
 }
@@ -45,12 +45,13 @@ void load_cursor() {
 	SDL_FreeSurface(sur);
 	SDL_SetCursor(cur);
 }
-void load_texture(string str){
+GPU_Image *load_texture(string str){
 	if(str.size() && !find_texture(str)) {
 		textures[str]=GPU_LoadImage((prefix+"textures/"+str).c_str());
 		if(!textures[str])
 			throw string(SDL_GetError());
 	}
+	return textures[str];
 }
 void load_body_textures(b2Body *body){
 	for(b2Fixture *fix=body->GetFixtureList(); fix; fix=fix->GetNext()) {
