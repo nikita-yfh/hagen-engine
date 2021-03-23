@@ -139,7 +139,6 @@ void BiSymmetrical::vupdate() {
 	show();
 	update(this);
 	Physic::update(this);
-	Layer::update(this);
 	Object::update(this);
 }
 Square::Square(float xp,float yp,float rp) {
@@ -298,7 +297,6 @@ void BiPoints::vupdate() {
 	show();
 	update(this);
 	Physic::update(this);
-	Layer::update(this);
 	Object::update(this);
 }
 Rect::Rect(float xp1,float yp1,float xp2, float yp2) {
@@ -452,7 +450,6 @@ void Polygon::vupdate() {
 	show();
 	update(this);
 	Physic::update(this);
-	Layer::update(this);
 	Object::update(this);
 }
 string Polygon::name() {
@@ -490,21 +487,52 @@ void Physic::init(GtkWidget *table) {
 	t1=gtk_label_new("Density");
 	t2=gtk_label_new("Friction");
 	t3=gtk_label_new("Restitution");
+	t4=gtk_label_new("Collision category");
+	text=gtk_label_new("Texture");
+	expand=gtk_check_button_new_with_label("Expand texture");
+	entry=gtk_entry_new();
+	combo=gtk_combo_box_new_text();
+	gtk_combo_box_append_text(GTK_COMBO_BOX(combo),"Background");
+	gtk_combo_box_append_text(GTK_COMBO_BOX(combo),"Background physic");
+	gtk_combo_box_append_text(GTK_COMBO_BOX(combo),"Physic");
+	gtk_combo_box_append_text(GTK_COMBO_BOX(combo),"Foreground physic");
+	gtk_combo_box_append_text(GTK_COMBO_BOX(combo),"Foreground");
+	gtk_combo_box_append_text(GTK_COMBO_BOX(combo),"None");
+	gtk_combo_box_set_active(GTK_COMBO_BOX(combo),2);
+	combo_mask=gtk_combo_box_new_text();
+	for(int q=0;q<16;q++){
+		gtk_combo_box_append_text(GTK_COMBO_BOX(combo_mask),to_str(q).c_str());
+	}
+	gtk_combo_box_set_active(GTK_COMBO_BOX(combo_mask),0);
+	set_but=gtk_button_new_with_label("Set collision mask");
 	ins_text(table,t1,cur_table_string);
 	ins_widget(table,p1,cur_table_string++);
 	ins_text(table,t2,cur_table_string);
 	ins_widget(table,p2,cur_table_string++);
 	ins_text(table,t3,cur_table_string);
 	ins_widget(table,p3,cur_table_string++);
+	ins_text(table,text,cur_table_string);
+	ins_widget(table,entry,cur_table_string++);
+	ins_widget2(table,expand,cur_table_string++);
+	ins_widget2(table,combo,cur_table_string++);
+	ins_text(table,t4,cur_table_string);
+	ins_widget(table,combo_mask,cur_table_string++);
+	ins_widget2(table,set_but,cur_table_string++);
 	g_signal_connect(G_OBJECT(p1),"value_changed",update1,0);
 	g_signal_connect(G_OBJECT(p2),"value_changed",update1,0);
 	g_signal_connect(G_OBJECT(p3),"value_changed",update1,0);
-
+	g_signal_connect(G_OBJECT(combo),"changed",update1,0);
+	g_signal_connect(G_OBJECT(entry),"notify::text",update1,0);
+	g_signal_connect(G_OBJECT(expand),"toggled",update1,0);
+	g_signal_connect(G_OBJECT(set_but),"clicked",change_mask,0);
 }
 void Physic::update(Physic *p) {
 	gtk_adjustment_set_value(GTK_ADJUSTMENT(a1),p->density);
 	gtk_adjustment_set_value(GTK_ADJUSTMENT(a2),p->friction);
 	gtk_adjustment_set_value(GTK_ADJUSTMENT(a3),p->restitution);
+	gtk_combo_box_set_active(GTK_COMBO_BOX(combo),p->layer);
+	gtk_entry_set_text(GTK_ENTRY(entry),p->texture.c_str());
+	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(expand),p->ex);
 }
 void Physic::update1() {
 	Physic *p=TYPE(Physic*,get_selected_object());
@@ -513,59 +541,6 @@ void Physic::update1() {
 	p->friction=gtk_adjustment_get_value(GTK_ADJUSTMENT(a2));
 	p->restitution=gtk_adjustment_get_value(GTK_ADJUSTMENT(a3));
 	gtk_widget_queue_draw(drawable);
-}
-void Physic::show() {
-	Layer::show();
-	gtk_widget_show(p1);
-	gtk_widget_show(p2);
-	gtk_widget_show(p3);
-	gtk_widget_show(t1);
-	gtk_widget_show(t2);
-	gtk_widget_show(t3);
-}
-void Physic::hide() {
-	Layer::hide();
-	gtk_widget_hide(p1);
-	gtk_widget_hide(p2);
-	gtk_widget_hide(p3);
-	gtk_widget_hide(t1);
-	gtk_widget_hide(t2);
-	gtk_widget_hide(t3);
-}
-void Physic::vupdate() {
-	show();
-	update(this);
-	Layer::update(this);
-	Object::update(this);
-}
-void Layer::init(GtkWidget *table) {
-	combo=gtk_combo_box_new_text();
-	text=gtk_label_new("Texture");
-	expand=gtk_check_button_new_with_label("Expand texture");
-	entry=gtk_entry_new();
-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo),"Background");
-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo),"Background physic");
-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo),"Physic");
-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo),"Foreground physic");
-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo),"Foreground");
-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo),"None");
-	gtk_combo_box_set_active(GTK_COMBO_BOX(combo),2);
-	g_signal_connect(G_OBJECT(combo),"changed",update1,0);
-	g_signal_connect(G_OBJECT(entry),"notify::text",update1,0);
-	g_signal_connect(G_OBJECT(expand),"toggled",update1,0);
-	ins_text(table,text,cur_table_string);
-	ins_widget(table,entry,cur_table_string++);
-	ins_widget2(table,expand,cur_table_string++);
-	ins_widget2(table,combo,cur_table_string++);
-}
-void Layer::update(Layer *l) {
-	gtk_combo_box_set_active(GTK_COMBO_BOX(combo),l->layer);
-	gtk_entry_set_text(GTK_ENTRY(entry),l->texture.c_str());
-	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(expand),l->ex);
-}
-void Layer::update1() {
-	Layer *p=TYPE(Layer*,get_selected_object());
-	if(!p || point_ch)return;
 	p->layer=gtk_combo_box_get_active(GTK_COMBO_BOX(combo));
 	string str=gtk_entry_get_text(GTK_ENTRY(entry));
 	p->ex=gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(expand));
@@ -580,22 +555,42 @@ void Layer::update1() {
 	}
 	gtk_widget_queue_draw(drawable);
 }
-void Layer::show() {
+void Physic::show() {
 	Object::show();
+	gtk_widget_show(p1);
+	gtk_widget_show(p2);
+	gtk_widget_show(p3);
+	gtk_widget_show(t1);
+	gtk_widget_show(t2);
+	gtk_widget_show(t3);
+	gtk_widget_show(t4);
 	gtk_widget_show(combo);
 	gtk_widget_show(text);
 	gtk_widget_show(entry);
 	gtk_widget_show(expand);
+	gtk_widget_show(combo_mask);
+	gtk_widget_show(set_but);
 }
-void Layer::hide() {
+void Physic::hide() {
 	Object::hide();
+	gtk_widget_hide(p1);
+	gtk_widget_hide(p2);
+	gtk_widget_hide(p3);
+	gtk_widget_hide(t1);
+	gtk_widget_hide(t2);
+	gtk_widget_hide(t3);
+	gtk_widget_hide(t4);
 	gtk_widget_hide(combo);
 	gtk_widget_hide(text);
 	gtk_widget_hide(entry);
 	gtk_widget_hide(expand);
+	gtk_widget_hide(combo_mask);
+	gtk_widget_hide(set_but);
 }
-void Layer::vupdate() {
+void Physic::vupdate() {
 	show();
 	update(this);
 	Object::update(this);
 }
+
+

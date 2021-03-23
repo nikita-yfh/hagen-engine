@@ -34,5 +34,6 @@ extern uint8_t key_state;
 void views_set();
 void fullscreen_invert();
 void lock_invert();
+void change_mask();
 
 extern uint8_t create_status;

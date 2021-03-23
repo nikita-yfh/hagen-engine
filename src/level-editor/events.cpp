@@ -428,3 +428,4 @@ void cut() {
 	rem_but();
 	gtk_widget_queue_draw(drawable);
 }
+void change_mask(){}

@@ -3,23 +3,17 @@
 #include "xmlParser.h"
 std::string find_shape_1(float x,float y);
 std::string find_shape_2(float x,float y);
-struct Layer : Object {
-	uint8_t layer=2;
-	bool ex=1;
-	std::string texture="";
-	static GtkWidget *combo, *entry, *text, *expand;
-	static void init(GtkWidget*);
-	static void show();
-	static void hide();
-	static void update (Layer *p);
-	static void update1();
-	void vupdate();
-};
-struct Physic : Layer {
+struct Physic : Object{
 	float density=1000.0f;
 	float restitution=0.0f;
 	float friction=0.3f;
-	static GtkWidget *p1, *p2, *p3, *t1, *t2, *t3;
+	uint8_t layer=2;
+	bool ex=1;
+	std::string texture="";
+	unsigned short category=0;
+	unsigned short mask=0xFFFF;
+	static GtkWidget	*p1, *p2, *p3, *t1, *t2, *t3, *t4, *combo, *entry,
+						*text, *expand, *set_but, *combo_mask;
 	static GtkObject *a1, *a2, *a3;
 	static void init(GtkWidget*);
 	static void show();

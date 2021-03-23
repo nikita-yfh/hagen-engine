@@ -27,12 +27,12 @@ GtkObject	*Point::ax, *Point::ay,
 
 GtkWidget	*BiPoints::px1, *BiPoints::px2, *BiPoints::py1, *BiPoints::py2,
 			*BiPoints::tx1, *BiPoints::tx2, *BiPoints::ty1, *BiPoints::ty2,
-			*Layer::combo, *Layer::text, *Layer::entry, *Layer::expand,
+			*Physic::combo, *Physic::text, *Physic::entry, *Physic::expand,
 			*BiSymmetrical::pr, *BiSymmetrical::tr,
 			*BiSymmetrical::py, *BiSymmetrical::px, *BiSymmetrical::tx, *BiSymmetrical::ty,
 			*Point::py, *Point::px, *Point::tx, *Point::ty,
 			*Physic::p1, *Physic::p2, *Physic::p3, *Physic::t1, *Physic::t2, *Physic::t3,
-			*Object::text, *Object::entry,
+			*Physic::set_but, *Physic::combo_mask, *Physic::t4, *Object::text, *Object::entry,
 			*Body::combo, *Body::px, *Body::py, *Body::tx, *Body::ty, *Body::ps, *Body::cb, *Body::cr, *Body::ts,
 			*Polygon::px, *Polygon::py, *Polygon::tx, *Polygon::ty,
 			*Joint::c_collide, *Joint::p1, *Joint::p2, *Joint::t1, *Joint::t2,
@@ -61,7 +61,6 @@ void hide_all() {
 	Point::hide();
 	BiPoints::hide();
 	Physic::hide();
-	Layer::hide();
 	BiSymmetrical::hide();
 	Polygon::hide();
 	Body::hide();
@@ -82,7 +81,6 @@ void create_all(GtkWidget *prop_table) {
 	BiSymmetrical::init(prop_table);
 	Polygon::init(prop_table);
 	Physic::init(prop_table);
-	Layer::init(prop_table);
 	Body::init(prop_table);
 	Joint::init(prop_table);
 	PointJoint::init(prop_table);

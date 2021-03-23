@@ -27,6 +27,8 @@ int main(int argc, char * argv[]) {
 		panic("Error",XMLNode::getError(er));
 	} catch(string &er) {
 		panic("Error",er);
+	} catch(LuaException &er) {
+		panic("Error",er.what());
 	} catch(logic_error &er) {
 		panic("Error",er.what());
 	}

@@ -11,6 +11,8 @@ struct Weapon{
 	string texture;
 	float damage;
 	string get_name();
+	float dx;
+	float dy;
 };
 struct Firearms : Weapon{
 	Firearms(){}
