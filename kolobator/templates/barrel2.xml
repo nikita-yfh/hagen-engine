@@ -12,6 +12,7 @@
 			<point x="-0.25025" y="0.321688"/>
 		</position>
 		<physic density="1000" friction="0.3" restitution="0"/>
+		<collision category="0" mask="65535"/>
 	</shape>
 	<shape id="NewPolygon2" type="Polygon" pos="physic" texture="">
 		<position point_count="4">
@@ -21,9 +22,11 @@
 			<point x="0.25175" y="0.319688"/>
 		</position>
 		<physic density="1000" friction="0.3" restitution="0"/>
+		<collision category="0" mask="65535"/>
 	</shape>
 	<shape id="NewRect2" type="Rect" pos="foreground" texture="barrel2.png">
 		<position x1="-0.39825" y1="-0.318312" x2="0.39775" y2="0.318688"/>
 		<physic density="1000" friction="0.3" restitution="0"/>
+		<collision category="0" mask="65535"/>
 	</shape>
 </body>

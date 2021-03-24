@@ -96,6 +96,7 @@ bool Level::open_file(string path) {
 	}
 	save_ph=!all;
 	load_joints(lvl);
+	hide_all();
 	return 0;
 }
 void Level::save_joints(XMLNode &lvl) {

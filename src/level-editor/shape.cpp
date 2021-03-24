@@ -499,11 +499,11 @@ void Physic::init(GtkWidget *table) {
 	gtk_combo_box_append_text(GTK_COMBO_BOX(combo),"Foreground");
 	gtk_combo_box_append_text(GTK_COMBO_BOX(combo),"None");
 	gtk_combo_box_set_active(GTK_COMBO_BOX(combo),2);
-	combo_mask=gtk_combo_box_new_text();
+	c_category=gtk_combo_box_new_text();
 	for(int q=0;q<16;q++){
-		gtk_combo_box_append_text(GTK_COMBO_BOX(combo_mask),to_str(q).c_str());
+		gtk_combo_box_append_text(GTK_COMBO_BOX(c_category),to_str(q).c_str());
 	}
-	gtk_combo_box_set_active(GTK_COMBO_BOX(combo_mask),0);
+	gtk_combo_box_set_active(GTK_COMBO_BOX(c_category),0);
 	set_but=gtk_button_new_with_label("Set collision mask");
 	ins_text(table,t1,cur_table_string);
 	ins_widget(table,p1,cur_table_string++);
@@ -515,8 +515,8 @@ void Physic::init(GtkWidget *table) {
 	ins_widget(table,entry,cur_table_string++);
 	ins_widget2(table,expand,cur_table_string++);
 	ins_widget2(table,combo,cur_table_string++);
-	ins_text(table,t4,cur_table_string);
-	ins_widget(table,combo_mask,cur_table_string++);
+	ins_widget2(table,t4,cur_table_string++);
+	ins_widget2(table,c_category,cur_table_string++);
 	ins_widget2(table,set_but,cur_table_string++);
 	g_signal_connect(G_OBJECT(p1),"value_changed",update1,0);
 	g_signal_connect(G_OBJECT(p2),"value_changed",update1,0);
@@ -531,6 +531,7 @@ void Physic::update(Physic *p) {
 	gtk_adjustment_set_value(GTK_ADJUSTMENT(a2),p->friction);
 	gtk_adjustment_set_value(GTK_ADJUSTMENT(a3),p->restitution);
 	gtk_combo_box_set_active(GTK_COMBO_BOX(combo),p->layer);
+	gtk_combo_box_set_active(GTK_COMBO_BOX(c_category),p->category);
 	gtk_entry_set_text(GTK_ENTRY(entry),p->texture.c_str());
 	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(expand),p->ex);
 }
@@ -542,6 +543,7 @@ void Physic::update1() {
 	p->restitution=gtk_adjustment_get_value(GTK_ADJUSTMENT(a3));
 	gtk_widget_queue_draw(drawable);
 	p->layer=gtk_combo_box_get_active(GTK_COMBO_BOX(combo));
+	p->category=gtk_combo_box_get_active(GTK_COMBO_BOX(c_category));
 	string str=gtk_entry_get_text(GTK_ENTRY(entry));
 	p->ex=gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(expand));
 	bool ok=0;
@@ -568,7 +570,7 @@ void Physic::show() {
 	gtk_widget_show(text);
 	gtk_widget_show(entry);
 	gtk_widget_show(expand);
-	gtk_widget_show(combo_mask);
+	gtk_widget_show(c_category);
 	gtk_widget_show(set_but);
 }
 void Physic::hide() {
@@ -584,7 +586,7 @@ void Physic::hide() {
 	gtk_widget_hide(text);
 	gtk_widget_hide(entry);
 	gtk_widget_hide(expand);
-	gtk_widget_hide(combo_mask);
+	gtk_widget_hide(c_category);
 	gtk_widget_hide(set_but);
 }
 void Physic::vupdate() {

@@ -13,7 +13,7 @@ struct Physic : Object{
 	unsigned short category=0;
 	unsigned short mask=0xFFFF;
 	static GtkWidget	*p1, *p2, *p3, *t1, *t2, *t3, *t4, *combo, *entry,
-						*text, *expand, *set_but, *combo_mask;
+						*text, *expand, *set_but, *c_category;
 	static GtkObject *a1, *a2, *a3;
 	static void init(GtkWidget*);
 	static void show();

@@ -202,6 +202,11 @@ void Body::save(XMLNode &parent,bool p) {
 			phs.addAttribute("friction",   shape->friction);
 			phs.addAttribute("restitution",shape->restitution);
 		}
+		{
+			XMLNode collision=sh.addChild("collision");
+			collision.addAttribute("category",shape->category);
+			collision.addAttribute("mask",shape->mask);
+		}
 	}
 }
 void Body::load(XMLNode &node,bool p) {
@@ -278,6 +283,11 @@ void Body::load(XMLNode &node,bool p) {
 			shp->density=    to_fl(phs.getAttribute("density"));
 			shp->friction=   to_fl(phs.getAttribute("friction"));
 			shp->restitution=to_fl(phs.getAttribute("restitution"));
+		}
+		{
+			XMLNode collision=sh.getChildNode("collision");
+			shp->category=stoi(collision.getAttribute("category"));
+			shp->mask=stoi(collision.getAttribute("mask"));
 		}
 		shapes.push_back(shp);
 	}

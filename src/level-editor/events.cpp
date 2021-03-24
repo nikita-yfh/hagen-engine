@@ -6,6 +6,7 @@
 #include <fstream>
 #include <assert.h>
 #include <cmath>
+#include <bitset>
 using namespace std;
 int draw_w=300,draw_h=300;
 uint8_t mouse_button=0;
@@ -428,4 +429,32 @@ void cut() {
 	rem_but();
 	gtk_widget_queue_draw(drawable);
 }
-void change_mask(){}
+void change_mask(){
+	Physic *p=(Physic*)get_selected_object();
+	GtkWidget *dialog = gtk_dialog_new_with_buttons ("Set grid",
+						GTK_WINDOW (window),
+						GDF(GTK_DIALOG_MODAL| GTK_DIALOG_DESTROY_WITH_PARENT),
+						GTK_STOCK_CANCEL,
+						NULL,
+						GTK_STOCK_OK,
+						GTK_RESPONSE_OK,
+						NULL);
+	GtkObject *a=gtk_adjustment_new(grid,0.01,100,0.125,0.125,0);
+	GtkWidget *table=gtk_table_new(4,4,1);
+	GtkWidget *button[16];
+	bitset<16>buf(p->mask);
+	for(int q=0;q<16;q++){
+		button[q]=gtk_check_button_new_with_label(to_str(q).c_str());
+		gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(button[q]),buf[q]);
+		gtk_table_attach(GTK_TABLE(table),button[q],q/4,q/4+1,q%4,q%4+1,GTK_F,GTK_F,0,0);
+	}
+	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (dialog))), table, FALSE, FALSE, 6);
+	gtk_widget_show_all(dialog);
+	if(gtk_dialog_run(GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
+		for(int q=0;q<16;q++){
+			buf[q]=gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(button[q]));
+		}
+		p->mask=static_cast<unsigned short>(buf.to_ulong());
+	}
+	gtk_widget_destroy(dialog);
+}

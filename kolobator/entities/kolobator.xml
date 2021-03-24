@@ -29,6 +29,7 @@
 					<point x="-0.0282725" y="-0.197864"/>
 				</position>
 				<physic density="1000" friction="0.3" restitution="0"/>
+				<collision category="0" mask="65535"/>
 			</shape>
 		</body>
 		<body x="0" y="0.1875" id="wheel" type="dynamic" shapes="1">
@@ -36,6 +37,7 @@
 			<shape id="_Circle2" type="Circle" pos="b_physic" texture="wheel.png" expand="1">
 				<position x="0" y="0" r="0.125"/>
 				<physic density="5000" friction="10" restitution="0"/>
+				<collision category="0" mask="65535"/>
 			</shape>
 		</body>
 	</bodies>

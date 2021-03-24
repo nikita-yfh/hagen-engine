@@ -4,5 +4,6 @@
 	<shape id="_Rect1" type="Rect" pos="physic" texture="bullet.png" expand="1">
 		<position x1="-0.0249996" y1="-0.0100002" x2="0.0249996" y2="0.0100002"/>
 		<physic density="600" friction="0.3" restitution="0"/>
+		<collision category="0" mask="65535"/>
 	</shape>
 </body>
