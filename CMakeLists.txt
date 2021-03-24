@@ -69,7 +69,7 @@ set(ENGINE_HEADERS
 )
 find_package(PkgConfig)
 pkg_check_modules(SDL2 REQUIRED sdl2 SDL2_image SDL2_ttf SDL2_mixer)
-pkg_check_modules(LUA REQUIRED lua53)
+pkg_check_modules(LUA REQUIRED lua)
 pkg_check_modules(GTK REQUIRED gtk+-2.0)
 add_definitions(${GTK_CFLAGS} ${GTK_CFLAGS_OTHER})
 
