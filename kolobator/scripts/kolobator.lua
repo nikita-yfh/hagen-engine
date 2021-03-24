@@ -21,7 +21,7 @@ function kolobator.update(a)
 	end
 	if(game.key("fire") and game.interval(100)) then
 		timer=game.timer
-		bullet=world.create_body("bullet","",a.x,a.y-0.5)
+		bullet=world.create_body("bullet","",a.x,a.y)
 		bullet.angle=game.camera.angle
 		bullet:apply_center_impulse(math.cos(game.camera.angle)*50,math.sin(game.camera.angle)*50);
 		b:apply_center_impulse(-math.cos(game.camera.angle)*50,-math.sin(game.camera.angle)*50);

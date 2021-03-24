@@ -90,11 +90,3 @@ void Entity::destroy_body(string id){
 void Entity::destroy_joint(string id){
 	joints.erase(id);
 }
-void Entity::set_weapon(string id){
-	if(weapons.find(id)==weapons.end())
-		load_weapon(id);
-	weapon=&weapons[id];
-}
-bool Entity::has_weapon(){
-	return weapon!=0;
-}

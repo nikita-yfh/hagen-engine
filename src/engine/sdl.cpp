@@ -32,9 +32,8 @@ void quit() {
 	TTF_Quit();
 	SDL_Quit();
 }
-void panic(string name,string message) {
-	//printf("%s\n",message.c_str());
-	dialog::show(name,message,dialog::Style::Error);
+void panic(string message) {
+	dialog::show("Fatal error",message,dialog::Style::Error);
 	quit();
 	exit(1);
 }

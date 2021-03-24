@@ -49,6 +49,7 @@ void lua_update_entities(){
 }
 
 void lua_gameloop() {
+	getGlobal(L,"Global")["update"]();
 	getGlobal(L,"Level")["update"]();
 	lua_update_entities();
 }
@@ -73,10 +74,13 @@ bool get_key(string k){
 	if(k=="fire2")	return mouse.state&&mouse.b==SDL_BUTTON_RIGHT;
 	throw logic_error("\""+k+"\" is not a key");
 }
-
+Weapon &get_weapon(){
+	return weapons["pistol"];
+}
 void lua_bind() {
 	#define KEY(key) SDL_GetKeyboardState(key)
 	getGlobalNamespace(L)
+		.addFunction("w",&get_weapon)
 		.addFunction("body",&get_body)
 		.addFunction("joint",&get_joint)
 		.addFunction("entity",&get_entity)
@@ -102,6 +106,7 @@ void lua_bind() {
 			.addProperty("timer",&SDL_GetTicks)
 			.addFunction("key",&get_key)
 			.addFunction("interval",&get_interval)
+			.addProperty("bodies",&bodies)
 		.endNamespace()
 		.beginNamespace("graphics")
 			.beginClass<Color>("Color")
@@ -171,12 +176,14 @@ void lua_bind() {
 			.addFunction("joint",&Entity::get_joint)
 			.addFunction("destroy_body",&Entity::destroy_body)
 			.addFunction("destroy_joint",&Entity::destroy_joint)
-			.addFunction("has_weapon",&Entity::has_weapon)
-			.addFunction("set_weapon",&Entity::set_weapon)
 		.endClass()
 		.beginClass<GPU_Image>("Texture")
 			.addProperty("w",&GPU_Image::w,0)
 			.addProperty("h",&GPU_Image::h,0)
+		.endClass()
+		.beginClass<Weapon>("Weapon")
+			.addProperty("dx",&Weapon::dx)
+			.addProperty("dy",&Weapon::dy)
 		.endClass();
 		/*.beginClass<Weapon>("Weapon")
 			.addProperty("dx",&Weapon::dx)
@@ -190,18 +197,15 @@ void lua_init(string name) {
 	L = luaL_newstate();
 	luaL_openlibs(L);
 	lua_bind();
-	luaL_dostring(L,
-		"Level={}\n"
-		"function extend(parent)\n"
-			"local child = {}\n"
-			"setmetatable(child,{__index = parent})\n"
-			"return child\n"
-		"end\n"
-		"Entity={}\n"
-	);
+	doscript("init");
+	doscript("global");
 	doscript(name);
-	auto l_init=getGlobal(L,"Level")["init"];
-	l_init();
+	getGlobal(L,"Global")["init"]();
+	getGlobal(L,"Level")["init"]();
+	//////////////////////////
+	doscript("pistol");
+	getGlobal(L,"pistol")["init"]();
+	//////////////////////////
 	lua_init_entities();
 }
 void lua_quit() {

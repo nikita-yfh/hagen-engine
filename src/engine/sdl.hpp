@@ -13,7 +13,7 @@ extern int SW;
 extern int SH;
 void init(const char* title,int w,int h);
 void quit();
-void panic(string name,string message);
+void panic(string message);
 GPU_Image *find_texture(string id);
 extern unordered_map<string,GPU_Image*>textures;
 extern GPU_Image *background;

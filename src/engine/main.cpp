@@ -24,12 +24,12 @@ int main(int argc, char * argv[]) {
 		quit();
 		return 0;
 	} catch(XMLError er) {
-		panic("Error",XMLNode::getError(er));
+		panic(XMLNode::getError(er));
 	} catch(string &er) {
-		panic("Error",er);
+		panic(er);
 	} catch(LuaException &er) {
-		panic("Error",er.what());
-	} catch(logic_error &er) {
-		panic("Error",er.what());
+		panic(er.what());
+	} catch(exception &er) {
+		panic(er.what());
 	}
 }
