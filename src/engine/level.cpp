@@ -66,6 +66,13 @@ b2Body* read_body(XMLNode bd,b2Vec2 delta,bool temp) {
 			fix.restitution=stof(phs.getAttribute("restitution"));
 		}
 		{
+			//collision
+			XMLNode collision=sh.getChildNode("collision");
+			fix.filter.categoryBits=    pow(2,stoi(collision.getAttribute("category")));
+			fix.filter.maskBits=    	stoi(collision.getAttribute("mask"));
+
+		}
+		{
 			//position
 			XMLNode pos=sh.getChildNode("position");
 			string str=sh.getAttribute("type");
