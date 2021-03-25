@@ -9,8 +9,10 @@ extern "C" {
 #include <vector>
 #include <string>
 using namespace std;
+namespace lua{
 extern lua_State *L;
 
-void lua_gameloop();
-void lua_init(string);
-void lua_quit();
+void gameloop();
+void init(string);
+void quit();
+};

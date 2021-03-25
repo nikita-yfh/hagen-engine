@@ -23,7 +23,7 @@ bool game() {
 			}
 			mouse.update();
 		}
-		lua_gameloop();
+		lua::gameloop();
 		draw();
 		auto step=chrono::high_resolution_clock::now()-fps;
 		fps = chrono::high_resolution_clock::now();

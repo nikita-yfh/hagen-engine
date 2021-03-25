@@ -319,9 +319,9 @@ void open_file(string path) {
 }
 void close_level() {
 	destroy_textures();
-	lua_quit();
+	lua::quit();
 }
 void load_level(string name) {
 	open_file(prefix+"levels/"+name+".xml");
-	lua_init(name);
+	lua::init(name);
 }

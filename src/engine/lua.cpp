@@ -11,6 +11,7 @@
 #include <detail/Userdata.h>
 using namespace luabridge;
 using namespace std;
+namespace lua{
 lua_State *L;
 map<unsigned int,unsigned int>timers;
 bool get_interval(unsigned int ms){
@@ -32,26 +33,31 @@ void dofile(string file){
 		throw string(lua_tostring(L, -1));
 	}
 }
+void dostring(string text){
+	if(luaL_dostring(L, text.c_str())){
+		throw string(lua_tostring(L, -1));
+	}
+}
 void doscript(string file){
 	dofile(prefix+"scripts/"+file+".lua");
 }
-void lua_init_entities(){
+void init_entities(){
 	for(auto entity : entities){
 		luaL_dostring(L,(entity.second->type+"=extend(Entity)\n").c_str());
 		doscript(entity.second->type);
 		getGlobal(L,entity.second->type.c_str())["init"](entity.second);
 	}
 }
-void lua_update_entities(){
+void update_entities(){
 	for(auto entity : entities){
 		getGlobal(L,entity.second->type.c_str())["update"](entity.second);
 	}
 }
 
-void lua_gameloop() {
+void gameloop() {
 	getGlobal(L,"Global")["update"]();
 	getGlobal(L,"Level")["update"]();
-	lua_update_entities();
+	update_entities();
 }
 
 bool get_key(string k){
@@ -74,7 +80,7 @@ bool get_key(string k){
 	if(k=="fire2")	return mouse.state&&mouse.b==SDL_BUTTON_RIGHT;
 	throw logic_error("\""+k+"\" is not a key");
 }
-void lua_bind() {
+void bind() {
 	#define KEY(key) SDL_GetKeyboardState(key)
 	getGlobalNamespace(L)
 		.addFunction("body",&get_body)
@@ -190,11 +196,19 @@ void lua_bind() {
 			.addProperty("damage",&Weapon::damage)
 		.endClass();*/
 }
-void lua_init(string name) {
+void init(string name) {
 	L = luaL_newstate();
 	luaL_openlibs(L);
-	lua_bind();
-	doscript("init");
+	bind();
+	dostring(
+		"Level={}\n"
+		"Global={}\n"
+		"function extend(parent)\n"
+			"local child = {}\n"
+			"setmetatable(child,{__index = parent})\n"
+			"return child\n"
+		"end\n"
+	);
 	doscript("global");
 	doscript(name);
 	getGlobal(L,"Global")["init"]();
@@ -203,8 +217,9 @@ void lua_init(string name) {
 	doscript("pistol");
 	getGlobal(L,"pistol")["init"]();
 	//////////////////////////
-	lua_init_entities();
+	init_entities();
 }
-void lua_quit() {
+void quit() {
 	lua_close(L);
 }
+};
