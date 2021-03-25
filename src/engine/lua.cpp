@@ -48,6 +48,11 @@ void init_entities(){
 		getGlobal(L,entity.second->type.c_str())["init"](entity.second);
 	}
 }
+void init_weapon(string weapon){
+	luaL_dostring(L,(weapon+"=extend(Entity)\n").c_str());
+	doscript(weapon);
+	getGlobal(L,weapon.c_str())["init"](weapons[weapon]);
+}
 void update_entities(){
 	for(auto entity : entities){
 		getGlobal(L,entity.second->type.c_str())["update"](entity.second);
@@ -214,8 +219,7 @@ void init(string name) {
 	getGlobal(L,"Global")["init"]();
 	getGlobal(L,"Level")["init"]();
 	//////////////////////////
-	doscript("pistol");
-	getGlobal(L,"pistol")["init"]();
+	init_weapon("pistol");
 	//////////////////////////
 	init_entities();
 }

@@ -1,5 +1,4 @@
 function kolobator.init(a)
-	a:set_weapon("pistol")
 end
 function kolobator.update(a)
 	local max_speed=5
