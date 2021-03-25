@@ -74,13 +74,9 @@ bool get_key(string k){
 	if(k=="fire2")	return mouse.state&&mouse.b==SDL_BUTTON_RIGHT;
 	throw logic_error("\""+k+"\" is not a key");
 }
-Weapon &get_weapon(){
-	return weapons["pistol"];
-}
 void lua_bind() {
 	#define KEY(key) SDL_GetKeyboardState(key)
 	getGlobalNamespace(L)
-		.addFunction("w",&get_weapon)
 		.addFunction("body",&get_body)
 		.addFunction("joint",&get_joint)
 		.addFunction("entity",&get_entity)
@@ -184,6 +180,7 @@ void lua_bind() {
 		.beginClass<Weapon>("Weapon")
 			.addProperty("dx",&Weapon::dx)
 			.addProperty("dy",&Weapon::dy)
+			.addProperty("texture",&Weapon::texture)
 		.endClass();
 		/*.beginClass<Weapon>("Weapon")
 			.addProperty("dx",&Weapon::dx)
