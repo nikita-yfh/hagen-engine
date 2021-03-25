@@ -107,7 +107,6 @@ target_link_libraries (${ENGINE}
 	${SDL2MIXER_LIBRARIES}
 	${LUA_LIBRARIES}
 	box2d
-	triangulate
 	xml
 	fontcache
 	SDL_gpu_shared
