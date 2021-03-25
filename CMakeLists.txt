@@ -50,6 +50,7 @@ set(ENGINE_SOURCES
 	${ENGINE_INCLUDE_DIR}/camera.cpp
 	${ENGINE_INCLUDE_DIR}/text.cpp
 	${ENGINE_INCLUDE_DIR}/weapon.cpp
+	${ENGINE_INCLUDE_DIR}/triangulate.cpp
 )
 set(ENGINE_HEADERS
 	${ENGINE_INCLUDE_DIR}/main.hpp
@@ -66,11 +67,12 @@ set(ENGINE_HEADERS
 	${ENGINE_INCLUDE_DIR}/camera.hpp
 	${ENGINE_INCLUDE_DIR}/text.hpp
 	${ENGINE_INCLUDE_DIR}/weapon.hpp
+	${ENGINE_INCLUDE_DIR}/triangulate.hpp
 )
-find_package(PkgConfig)
-pkg_check_modules(SDL2 REQUIRED sdl2 SDL2_image SDL2_ttf SDL2_mixer)
-pkg_check_modules(LUA REQUIRED lua)
-pkg_check_modules(GTK REQUIRED gtk+-2.0)
+find_package(Lua REQUIRED)
+find_package(GTK2 REQUIRED)
+find_package(SDL2 REQUIRED)
+find_package(SDL_ttf 2.0 REQUIRED)
 add_definitions(${GTK_CFLAGS} ${GTK_CFLAGS_OTHER})
 
 include_directories(
@@ -86,7 +88,6 @@ include_directories(
 	"src/LuaBridge/Source/LuaBridge"
 	"src/SDL_FontCache"
 	"src/XMLParser"
-	"src/triangulate"
 	"src/sdl-gpu/include"
 )
 
@@ -96,7 +97,6 @@ add_subdirectory("src/box2d")
 add_subdirectory("src/LuaBridge")
 add_subdirectory("src/SDL_FontCache")
 add_subdirectory("src/XMLParser")
-add_subdirectory("src/triangulate")
 add_subdirectory("src/sdl-gpu")
 
 
