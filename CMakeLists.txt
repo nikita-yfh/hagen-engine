@@ -7,6 +7,7 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 set(ENGINE_INCLUDE_DIR src/engine)
 set(LEVEL_EDITOR_INCLUDE_DIR src/level-editor)
+set(SDL_FONT_CACHE_INCLUDE_DIR src/SDL_FontCache)
 
 set(CMAKE_CXX_STANDART 11)
 
@@ -51,6 +52,7 @@ set(ENGINE_SOURCES
 	${ENGINE_INCLUDE_DIR}/text.cpp
 	${ENGINE_INCLUDE_DIR}/weapon.cpp
 	${ENGINE_INCLUDE_DIR}/triangulate.cpp
+	${SDL_FONT_CACHE_INCLUDE_DIR}/SDL_FontCache.c
 )
 set(ENGINE_HEADERS
 	${ENGINE_INCLUDE_DIR}/main.hpp
@@ -68,6 +70,7 @@ set(ENGINE_HEADERS
 	${ENGINE_INCLUDE_DIR}/text.hpp
 	${ENGINE_INCLUDE_DIR}/weapon.hpp
 	${ENGINE_INCLUDE_DIR}/triangulate.hpp
+	${SDL_FONT_CACHE_INCLUDE_DIR}/SDL_FontCache.h
 )
 find_package(Lua REQUIRED)
 find_package(GTK2 REQUIRED)
@@ -83,7 +86,7 @@ include_directories(
 	${ENGINE_INCLUDE_DIR}
 	${GTK2_INCLUDE_DIRS}
 	${LUA_INCLUDE_DIRS}
-	"src/box2d"
+	"src/box2d/"
 	"src/LuaBridge/Source"
 	"src/LuaBridge/Source/LuaBridge"
 	"src/SDL_FontCache"
@@ -95,20 +98,16 @@ add_executable(${ENGINE} ${ENGINE_SOURCES} ${ENGINE_HEADERS})
 add_executable(${LEVEL_EDITOR} ${LEVEL_EDITOR_SOURCES} ${LEVEL_EDITOR_HEADERS})
 add_subdirectory("src/box2d")
 add_subdirectory("src/LuaBridge")
-add_subdirectory("src/SDL_FontCache")
 add_subdirectory("src/XMLParser")
 add_subdirectory("src/sdl-gpu")
 
 
 target_link_libraries (${ENGINE}
 	${SDL2_LIBRARIES}
-	${SDL2IMAGE_LIBRARIES}
 	${SDL2TTF_LIBRARIES}
-	${SDL2MIXER_LIBRARIES}
 	${LUA_LIBRARIES}
 	box2d
 	xml
-	fontcache
 	SDL_gpu_shared
 )
 if(UNIX)

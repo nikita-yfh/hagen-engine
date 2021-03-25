@@ -1,6 +1,3 @@
-[submodule "src/box2d"]
-	path = src/box2d
-	url = https://github.com/nikita-yfh/box2d
 [submodule "src/XMLParser"]
 	path = src/XMLParser
 	url = https://github.com/nikita-yfh/XMLParser
@@ -13,3 +10,6 @@
 [submodule "src/sdl-gpu"]
 	path = src/sdl-gpu
 	url = https://github.com/grimfang4/sdl-gpu
+[submodule "src/box2d"]
+	path = src/box2d
+	url = https://github.com/nikita-yfh/box2d
