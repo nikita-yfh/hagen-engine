@@ -51,7 +51,6 @@ float mouse_angle(){
 		a= 2*M_PI+atan(y/x);
 	else
 		a= atan(y/x);
-	printf("%g %d %d\n",a,mouse.x,mouse.y);
 	return a;
 }
 bool Mouse::update() {

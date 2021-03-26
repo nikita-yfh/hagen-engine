@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <level w="100" h="20">
 	<background img="default.png"/>
-	<bodies count="3">
+	<bodies count="2">
 		<body x="44.1032" y="7.04072" id="ground" type="static" shapes="1">
 			<physic bullet="0" fixed_rotation="0" gravity_scale="1"/>
 			<shape id="_Polygon1" type="Polygon" pos="physic" texture="wooden_box.png" expand="0">
@@ -231,23 +231,15 @@
 				<collision category="0" mask="65535"/>
 			</shape>
 		</body>
-		<body x="9.875" y="2.75" id="pg" type="static" shapes="1">
+		<body x="10.25" y="4" id="pg" type="static" shapes="1">
 			<physic bullet="0" fixed_rotation="0" gravity_scale="1"/>
 			<shape id="_Polygon2" type="Polygon" pos="physic" texture="wooden_box.png" expand="1">
 				<position point_count="4">
-					<point x="-1.375" y="-2.25"/>
-					<point x="-3.875" y="0.25"/>
-					<point x="2.125" y="2.75"/>
-					<point x="3.125" y="-0.75"/>
+					<point x="-1.75" y="-2.5"/>
+					<point x="-1.75" y="-1"/>
+					<point x="1.75" y="2.5"/>
+					<point x="1.75" y="1"/>
 				</position>
-				<physic density="1000" friction="0.3" restitution="0"/>
-				<collision category="0" mask="65535"/>
-			</shape>
-		</body>
-		<body x="6" y="0" id="_Body1" type="dynamic" shapes="1">
-			<physic bullet="0" fixed_rotation="0" gravity_scale="1"/>
-			<shape id="_Square1" type="Square" pos="physic" texture="" expand="1">
-				<position x="0" y="0" r="0.25"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
 			</shape>

@@ -16,7 +16,6 @@ Entity::Entity(string _type,float xp,float yp) {
 			XMLNode bd=bds.getChildNode("body",q);
 			string str=bd.getAttribute("id");
 			b2Body *b=read_body(bd,{xp,yp});
-			if(q==0)id1=str;
 			bodies[str]=b;
 		}
 	}
@@ -64,12 +63,6 @@ float Entity::getx() const{
 float Entity::gety() const{
 	return get_first()->GetY()+dy;
 }
-float Entity::get_weapon_x() const{
-	return weapon_x;
-}
-float Entity::get_weapon_y() const{
-	return weapon_y;
-}
 void Entity::setx(float x){
 	b2Vec2 pos(x-getx(),0);
 	for(auto b : bodies){
@@ -89,4 +82,14 @@ void Entity::destroy_body(string id){
 
 void Entity::destroy_joint(string id){
 	joints.erase(id);
+}
+void Entity::set_weapon(string id){
+	if(weapons.find(id)==weapons.end()){
+		weapons[id]=Weapon();
+		lua::init_weapon(id);
+	}
+	weapon=id;
+}
+string Entity::get_weapon() const{
+	return weapon;
 }

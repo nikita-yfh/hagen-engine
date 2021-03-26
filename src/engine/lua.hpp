@@ -15,4 +15,5 @@ extern lua_State *L;
 void gameloop();
 void init(string);
 void quit();
+void init_weapon(string weapon);
 };

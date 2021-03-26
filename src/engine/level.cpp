@@ -258,9 +258,7 @@ b2Joint *read_joint(XMLNode jn,string &id,b2Vec2 delta,Entity *ent) {
 	}
 	return j;
 }
-static int status=0;
 void open_file(string path) {
-#define DEBUG {printf("Status: %d\n",status++);}
 	XMLNode lvl=XMLNode::openFileHelper(path.c_str(),"level");
 	{
 		//backgroung

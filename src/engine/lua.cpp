@@ -51,11 +51,13 @@ void init_entities(){
 void init_weapon(string weapon){
 	luaL_dostring(L,(weapon+"=extend(Entity)\n").c_str());
 	doscript(weapon);
-	getGlobal(L,weapon.c_str())["init"](weapons[weapon]);
+	getGlobal(L,weapon.c_str())["init"](&weapons[weapon]);
 }
 void update_entities(){
 	for(auto entity : entities){
 		getGlobal(L,entity.second->type.c_str())["update"](entity.second);
+		if(weapons.find(entity.second->weapon)!=weapons.end())
+		getGlobal(L,entity.second->weapon.c_str())["update"](&weapons[entity.second->weapon],entity.second);
 	}
 }
 
@@ -177,7 +179,9 @@ void bind() {
 		.beginClass<Entity>("Entity")
 			.addProperty("x",&Entity::getx,&Entity::setx)
 			.addProperty("y",&Entity::gety,&Entity::sety)
-			.addProperty("weapon",&Entity::weapon,0)
+			.addProperty("weapon",&Entity::get_weapon,&Entity::set_weapon)
+			.addProperty("weapon_x",&Entity::weapon_x,0)
+			.addProperty("weapon_y",&Entity::weapon_y,0)
 			.addProperty("health",&Entity::health)
 			.addFunction("body",&Entity::get_body)
 			.addFunction("joint",&Entity::get_joint)
@@ -191,15 +195,8 @@ void bind() {
 		.beginClass<Weapon>("Weapon")
 			.addProperty("dx",&Weapon::dx)
 			.addProperty("dy",&Weapon::dy)
-			.addProperty("texture",&Weapon::texture)
+			.addProperty("texture",&Weapon::get_texture,&Weapon::set_texture)
 		.endClass();
-		/*.beginClass<Weapon>("Weapon")
-			.addProperty("dx",&Weapon::dx)
-			.addProperty("dy",&Weapon::dy)
-			.addProperty("texture",&Weapon::texture)
-			.addProperty("rate",&Weapon::rate)
-			.addProperty("damage",&Weapon::damage)
-		.endClass();*/
 }
 void init(string name) {
 	L = luaL_newstate();
@@ -218,9 +215,6 @@ void init(string name) {
 	doscript(name);
 	getGlobal(L,"Global")["init"]();
 	getGlobal(L,"Level")["init"]();
-	//////////////////////////
-	init_weapon("pistol");
-	//////////////////////////
 	init_entities();
 }
 void quit() {

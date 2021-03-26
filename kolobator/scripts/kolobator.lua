@@ -1,4 +1,5 @@
 function kolobator.init(a)
+	a.weapon="pistol"
 end
 function kolobator.update(a)
 	local max_speed=5
@@ -17,13 +18,6 @@ function kolobator.update(a)
 		b:apply_center_impulse(24,0)
 	else
 		j.motor=0
-	end
-	if(game.key("fire") and game.interval(100)) then
-		timer=game.timer
-		bullet=world.create_body("bullet","",a.x,a.y)
-		bullet.angle=game.camera.angle
-		bullet:apply_center_impulse(math.cos(game.camera.angle)*50,math.sin(game.camera.angle)*50);
-		b:apply_center_impulse(-math.cos(game.camera.angle)*50,-math.sin(game.camera.angle)*50);
 	end
 	if(game.camera.locked) then
 		game.camera.center_body(a:body("body"))

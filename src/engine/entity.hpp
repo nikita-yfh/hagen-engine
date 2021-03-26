@@ -18,16 +18,13 @@ struct Entity {
 	string weapon;
 	float health;
 	string type;
-	string id1;
 	unordered_map<string,b2Body*>bodies;
 	unordered_map<string,b2Joint*>joints;
 	b2Body *get_body(string id);
+	void set_weapon(string id);
+	string get_weapon() const;
 	float getx() const;
 	float gety() const;
-	float get_weapon_x() const;
-	float get_weapon_y() const;
-	float set_weapon_x() const;
-	float set_weapon_y() const;
 	void setx(float x);
 	void sety(float y);
 	b2Body *get_first() const;
