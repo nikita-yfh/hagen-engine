@@ -1,10 +1,6 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.0)
 set(ENGINE engine)
 set(LEVEL_EDITOR level-editor)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-
 set(ENGINE_INCLUDE_DIR src/engine)
 set(LEVEL_EDITOR_INCLUDE_DIR src/level-editor)
 set(SDL_FONT_CACHE_INCLUDE_DIR src/SDL_FontCache)
@@ -72,20 +68,15 @@ set(ENGINE_HEADERS
 	${ENGINE_INCLUDE_DIR}/triangulate.hpp
 	${SDL_FONT_CACHE_INCLUDE_DIR}/SDL_FontCache.h
 )
-find_package(Lua REQUIRED)
-find_package(GTK2 REQUIRED)
-find_package(SDL2 REQUIRED)
-find_package(SDL_ttf 2.0 REQUIRED)
-add_definitions(${GTK_CFLAGS} ${GTK_CFLAGS_OTHER})
-
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(SDL2 REQUIRED sdl2 SDL2_ttf)
+pkg_check_modules(GTK REQUIRED gtk+-2.0)
+pkg_check_modules(LUA REQUIRED lua53)
 include_directories(
-	${SDL2_INCLUDE_DIRS}
-	${SDL2IMAGE_INCLUDE_DIRS}
-	${SDL2TTF_INCLUDE_DIRS}
-	${SDL2MIXER_INCLUDE_DIRS}
+	${SDL2_INCLUDE_DIR}
 	${ENGINE_INCLUDE_DIR}
-	${GTK2_INCLUDE_DIRS}
-	${LUA_INCLUDE_DIRS}
+	${GTK2_INCLUDE_DIR}
+	${LUA_INCLUDE_DIR}
 	"src/box2d/"
 	"src/LuaBridge/Source"
 	"src/LuaBridge/Source/LuaBridge"
@@ -104,7 +95,6 @@ add_subdirectory("src/sdl-gpu")
 
 target_link_libraries (${ENGINE}
 	${SDL2_LIBRARIES}
-	${SDL2TTF_LIBRARIES}
 	${LUA_LIBRARIES}
 	box2d
 	xml
