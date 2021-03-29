@@ -9,4 +9,9 @@ struct Weapon{
 	float dx;
 	float dy;
 };
+/*struct Bullet{
+	int count;
+	int max;
+	bool infinity;
+};*/
 extern unordered_map<string,Weapon>weapons;

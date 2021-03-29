@@ -1,88 +1,86 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.0)
 set(ENGINE engine)
 set(LEVEL_EDITOR level-editor)
-set(ENGINE_INCLUDE_DIR src/engine)
-set(LEVEL_EDITOR_INCLUDE_DIR src/level-editor)
-set(SDL_FONT_CACHE_INCLUDE_DIR src/SDL_FontCache)
 
 set(CMAKE_CXX_STANDART 11)
 
-set(LEVEL_EDITOR_SOURCES 
-	${LEVEL_EDITOR_INCLUDE_DIR}/main.cpp
-	${LEVEL_EDITOR_INCLUDE_DIR}/object.cpp
-	${LEVEL_EDITOR_INCLUDE_DIR}/editor.cpp
-	${LEVEL_EDITOR_INCLUDE_DIR}/events.cpp
-	${LEVEL_EDITOR_INCLUDE_DIR}/level.cpp
-	${LEVEL_EDITOR_INCLUDE_DIR}/utils.cpp
-	${LEVEL_EDITOR_INCLUDE_DIR}/tree_view.cpp
-	${LEVEL_EDITOR_INCLUDE_DIR}/shape.cpp
-	${LEVEL_EDITOR_INCLUDE_DIR}/joint.cpp
-	${LEVEL_EDITOR_INCLUDE_DIR}/body.cpp
+set(LEVEL_EDITOR_SOURCES
+        src/level-editor/main.cpp
+        src/level-editor/object.cpp
+        src/level-editor/editor.cpp
+        src/level-editor/events.cpp
+        src/level-editor/level.cpp
+        src/level-editor/utils.cpp
+        src/level-editor/tree_view.cpp
+        src/level-editor/shape.cpp
+        src/level-editor/joint.cpp
+        src/level-editor/body.cpp
 )
 set(LEVEL_EDIROR_HEADERS
-	${LEVEL_EDITOR_INCLUDE_DIR}/main.hpp
-	${LEVEL_EDITOR_INCLUDE_DIR}/object.hpp
-	${LEVEL_EDITOR_INCLUDE_DIR}/editor.hpp
-	${LEVEL_EDITOR_INCLUDE_DIR}/events.hpp
-	${LEVEL_EDITOR_INCLUDE_DIR}/level.hpp
-	${LEVEL_EDITOR_INCLUDE_DIR}/utils.hpp
-	${LEVEL_EDITOR_INCLUDE_DIR}/tree_view.hpp
-	${LEVEL_EDITOR_INCLUDE_DIR}/shape.hpp
-	${LEVEL_EDITOR_INCLUDE_DIR}/joint.hpp
-	${LEVEL_EDITOR_INCLUDE_DIR}/body.hpp
+        src/level-editor/main.hpp
+        src/level-editor/object.hpp
+        src/level-editor/editor.hpp
+        src/level-editor/events.hpp
+        src/level-editor/level.hpp
+        src/level-editor/utils.hpp
+        src/level-editor/tree_view.hpp
+        src/level-editor/shape.hpp
+        src/level-editor/joint.hpp
+        src/level-editor/body.hpp
 )
 
 set(ENGINE_SOURCES
-	${ENGINE_INCLUDE_DIR}/game.cpp
-	${ENGINE_INCLUDE_DIR}/dialog.cpp
-	${ENGINE_INCLUDE_DIR}/main.cpp
-	${ENGINE_INCLUDE_DIR}/player.cpp
-	${ENGINE_INCLUDE_DIR}/utility.cpp
-	${ENGINE_INCLUDE_DIR}/entity.cpp
-	${ENGINE_INCLUDE_DIR}/lua.cpp
-	${ENGINE_INCLUDE_DIR}/physic.cpp
-	${ENGINE_INCLUDE_DIR}/level.cpp
-	${ENGINE_INCLUDE_DIR}/render.cpp
-	${ENGINE_INCLUDE_DIR}/sdl.cpp
-	${ENGINE_INCLUDE_DIR}/camera.cpp
-	${ENGINE_INCLUDE_DIR}/text.cpp
-	${ENGINE_INCLUDE_DIR}/weapon.cpp
-	${ENGINE_INCLUDE_DIR}/triangulate.cpp
-	${SDL_FONT_CACHE_INCLUDE_DIR}/SDL_FontCache.c
+        src/engine/game.cpp
+        src/engine/dialog.cpp
+        src/engine/main.cpp
+        src/engine/player.cpp
+        src/engine/utility.cpp
+        src/engine/entity.cpp
+        src/engine/lua.cpp
+        src/engine/physic.cpp
+        src/engine/level.cpp
+        src/engine/render.cpp
+        src/engine/sdl.cpp
+        src/engine/camera.cpp
+        src/engine/text.cpp
+        src/engine/weapon.cpp
+        src/engine/triangulate.cpp
+        src/SDL_FontCache/SDL_FontCache.c
 )
 set(ENGINE_HEADERS
-	${ENGINE_INCLUDE_DIR}/main.hpp
-	${ENGINE_INCLUDE_DIR}/dialog.hpp
-	${ENGINE_INCLUDE_DIR}/level.hpp
-	${ENGINE_INCLUDE_DIR}/render.hpp
-	${ENGINE_INCLUDE_DIR}/game.hpp 
-	${ENGINE_INCLUDE_DIR}/player.hpp
-	${ENGINE_INCLUDE_DIR}/utility.hpp
-	${ENGINE_INCLUDE_DIR}/entity.hpp
-	${ENGINE_INCLUDE_DIR}/lua.hpp
-	${ENGINE_INCLUDE_DIR}/physic.hpp
-	${ENGINE_INCLUDE_DIR}/sdl.hpp
-	${ENGINE_INCLUDE_DIR}/camera.hpp
-	${ENGINE_INCLUDE_DIR}/text.hpp
-	${ENGINE_INCLUDE_DIR}/weapon.hpp
-	${ENGINE_INCLUDE_DIR}/triangulate.hpp
-	${SDL_FONT_CACHE_INCLUDE_DIR}/SDL_FontCache.h
+        src/engine/main.hpp
+        src/engine/dialog.hpp
+        src/engine/level.hpp
+        src/engine/render.hpp
+        src/engine/game.hpp
+        src/engine/player.hpp
+        src/engine/utility.hpp
+        src/engine/entity.hpp
+        src/engine/lua.hpp
+        src/engine/physic.hpp
+        src/engine/sdl.hpp
+        src/engine/camera.hpp
+        src/engine/text.hpp
+        src/engine/weapon.hpp
+        src/engine/triangulate.hpp
+        src/SDL_FontCache/SDL_FontCache.h
 )
 find_package(PkgConfig REQUIRED)
-pkg_check_modules(SDL2 REQUIRED sdl2 SDL2_ttf)
+pkg_check_modules(SDL REQUIRED sdl2 SDL2_ttf)
 pkg_check_modules(GTK REQUIRED gtk+-2.0)
 pkg_check_modules(LUA REQUIRED lua53)
 include_directories(
-	${SDL2_INCLUDE_DIR}
-	${ENGINE_INCLUDE_DIR}
-	${GTK2_INCLUDE_DIR}
-	${LUA_INCLUDE_DIR}
-	"src/box2d/"
-	"src/LuaBridge/Source"
-	"src/LuaBridge/Source/LuaBridge"
-	"src/SDL_FontCache"
-	"src/XMLParser"
-	"src/sdl-gpu/include"
+        ${SDL_INCLUDE_DIRS}
+        ${GTK_INCLUDE_DIRS}
+        ${LUA_INCLUDE_DIRS}
+        "src/engine"
+        "src/level-editor"
+        "src/box2d/"
+        "src/LuaBridge/Source"
+        "src/LuaBridge/Source/LuaBridge"
+        "src/SDL_FontCache"
+        "src/XMLParser"
+        "src/sdl-gpu/include"
 )
 
 add_executable(${ENGINE} ${ENGINE_SOURCES} ${ENGINE_HEADERS})
@@ -94,16 +92,16 @@ add_subdirectory("src/sdl-gpu")
 
 
 target_link_libraries (${ENGINE}
-	${SDL2_LIBRARIES}
-	${LUA_LIBRARIES}
-	box2d
-	xml
-	SDL_gpu_shared
+        ${SDL_LIBRARIES}
+        ${LUA_LIBRARIES}
+        box2d
+        xml
+        SDL_gpu_shared
 )
 if(UNIX)
-	target_link_libraries (${ENGINE} ${GTK_LIBRARIES})
+        target_link_libraries (${ENGINE} ${GTK_LIBRARIES})
 endif()
 target_link_libraries (${LEVEL_EDITOR}
-	${GTK_LIBRARIES}
-	xml
+        ${GTK_LIBRARIES}
+        xml
 )

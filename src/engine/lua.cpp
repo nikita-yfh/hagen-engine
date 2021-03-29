@@ -96,6 +96,8 @@ void bind() {
 		.addFunction("joint",&get_joint)
 		.addFunction("entity",&get_entity)
 		.addFunction("gettext",&get_text)
+	//	.beginClass("Player")
+	//		.addFunction("set_bullet")
 		.beginNamespace("world")
 			.addFunction("set_gravity",&set_gravity)
 			.addFunction("create_body",&create_body)
