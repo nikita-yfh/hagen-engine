@@ -1,6 +1,6 @@
 #pragma once
 #include "box2d.h"
-extern float cx,cy;
+extern float cx,cy,dcx,dcy;
 extern float zoom;
 void center(float x,float y);
 void center_body(b2Body *body);

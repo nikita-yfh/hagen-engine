@@ -4,6 +4,7 @@
 #include "weapon.hpp"
 #include <string>
 #include <unordered_map>
+#include <vector>
 extern "C" {
 #include "lua.h"
 #include "lauxlib.h"
@@ -20,6 +21,10 @@ struct Entity {
 	string type;
 	unordered_map<string,b2Body*>bodies;
 	unordered_map<string,b2Joint*>joints;
+	float weapon_x=0;
+	float weapon_y=0;
+	float dx;
+	float dy;
 	b2Body *get_body(string id);
 	void set_weapon(string id);
 	string get_weapon() const;
@@ -31,8 +36,4 @@ struct Entity {
 	b2Joint *get_joint(string id);
 	void destroy_body(string id);
 	void destroy_joint(string id);
-	float weapon_x=0;
-	float weapon_y=0;
-	float dx;
-	float dy;
 };

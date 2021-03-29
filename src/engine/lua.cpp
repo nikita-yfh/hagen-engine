@@ -29,10 +29,12 @@ Color &get_mask() {
 	return scene_mask;
 }
 void dofile(string file){
+	if(!exist_file(file))return;
 	if(luaL_dofile(L, file.c_str())){
 		throw string(lua_tostring(L, -1));
 	}
 }
+
 void dostring(string text){
 	if(luaL_dostring(L, text.c_str())){
 		throw string(lua_tostring(L, -1));
@@ -49,7 +51,7 @@ void init_entities(){
 	}
 }
 void init_weapon(string weapon){
-	luaL_dostring(L,(weapon+"=extend(Entity)\n").c_str());
+	luaL_dostring(L,(weapon+"=extend(Weapon)\n").c_str());
 	doscript(weapon);
 	getGlobal(L,weapon.c_str())["init"](&weapons[weapon]);
 }
@@ -106,6 +108,8 @@ void bind() {
 			.beginNamespace("camera")
 				.addProperty("x",&cx)
 				.addProperty("y",&cy)
+				.addProperty("dx",&dcx)
+				.addProperty("dy",&dcy)
 				.addProperty("zoom",&zoom)
 				.addFunction("center",&center)
 				.addFunction("center_body",&center_body)
@@ -195,7 +199,6 @@ void bind() {
 		.beginClass<Weapon>("Weapon")
 			.addProperty("dx",&Weapon::dx)
 			.addProperty("dy",&Weapon::dy)
-			.addProperty("texture",&Weapon::get_texture,&Weapon::set_texture)
 		.endClass();
 }
 void init(string name) {
@@ -204,7 +207,29 @@ void init(string name) {
 	bind();
 	dostring(
 		"Level={}\n"
+		"Level.init=function()\n"
+		"end\n"
+		"Level.update=function()\n"
+		"end\n"
+
 		"Global={}\n"
+		"Global.init=function()\n"
+		"end\n"
+		"Global.update=function()\n"
+		"end\n"
+
+		"Weapon={}\n"
+		"Weapon.init=function()\n"
+		"end\n"
+		"Weapon.update=function()\n"
+		"end\n"
+
+		"Entity={}\n"
+		"Entity.init=function()\n"
+		"end\n"
+		"Entity.update=function()\n"
+		"end\n"
+
 		"function extend(parent)\n"
 			"local child = {}\n"
 			"setmetatable(child,{__index = parent})\n"

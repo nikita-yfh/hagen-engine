@@ -185,7 +185,7 @@ void draw_entities(uint8_t pos){
 			float size_y=1.0f;
 			if(mouse_angle()>0.5*M_PI&&mouse_angle()<1.5*M_PI)
 				size_y=-1.0f;
-			GPU_BlitTransformX(textures[weapons[en.second->weapon].texture],0,ren,
+			GPU_BlitTransformX(textures[en.second->weapon+".png"],0,ren,
 				drawx(en.second->getx())+en.second->weapon_x,
 				drawy(en.second->gety())+en.second->weapon_y,
 				weapons[en.second->weapon].dx,weapons[en.second->weapon].dy,mouse_angle()/M_PI*180,1,size_y);

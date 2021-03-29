@@ -2,6 +2,7 @@
 #include "level.hpp"
 #include "physic.hpp"
 #include "main.hpp"
+#include "sdl.hpp"
 using namespace std;
 Entity::Entity() {};
 Entity::Entity(string _type,float xp,float yp) {
@@ -88,6 +89,7 @@ void Entity::set_weapon(string id){
 		weapons[id]=Weapon();
 		lua::init_weapon(id);
 	}
+	load_texture(id+".png");
 	weapon=id;
 }
 string Entity::get_weapon() const{

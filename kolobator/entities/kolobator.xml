@@ -1,17 +1,17 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <physics>
 	<bodies count="2">
-		<body x="-0.00095492" y="-0.050864" id="body" type="dynamic" shapes="1">
+		<body x="-0.000955257" y="-0.0508643" id="body" type="dynamic" shapes="1">
 			<physic bullet="0" fixed_rotation="1" gravity_scale="1"/>
 			<shape id="_Polygon1" type="Polygon" pos="physic" texture="kolobator1.png" expand="1">
 				<position point_count="22">
-					<point x="0.0109549" y="-0.199137"/>
-					<point x="0.0649549" y="-0.191137"/>
+					<point x="0.0109552" y="-0.199137"/>
+					<point x="0.0649552" y="-0.191137"/>
 					<point x="0.127954" y="-0.165137"/>
 					<point x="0.190954" y="-0.112137"/>
-					<point x="0.221954" y="-0.068136"/>
-					<point x="0.243954" y="-0.010136"/>
-					<point x="0.251954" y="0.049864"/>
+					<point x="0.221954" y="-0.0681357"/>
+					<point x="0.243954" y="-0.0101357"/>
+					<point x="0.251954" y="0.0498643"/>
 					<point x="0.241954" y="0.119863"/>
 					<point x="0.213954" y="0.181863"/>
 					<point x="0.184954" y="0.219863"/>
@@ -19,14 +19,14 @@
 					<point x="-0.151046" y="0.248863"/>
 					<point x="-0.194046" y="0.205863"/>
 					<point x="-0.228046" y="0.149863"/>
-					<point x="-0.246046" y="0.089864"/>
-					<point x="-0.248046" y="0.030864"/>
-					<point x="-0.238046" y="-0.030136"/>
-					<point x="-0.212046" y="-0.082136"/>
+					<point x="-0.246046" y="0.0898643"/>
+					<point x="-0.248046" y="0.0308643"/>
+					<point x="-0.238046" y="-0.0301357"/>
+					<point x="-0.212046" y="-0.0821357"/>
 					<point x="-0.170046" y="-0.131137"/>
 					<point x="-0.126045" y="-0.165136"/>
-					<point x="-0.0690451" y="-0.191137"/>
-					<point x="-0.0280451" y="-0.198137"/>
+					<point x="-0.0690448" y="-0.191137"/>
+					<point x="-0.0280448" y="-0.198137"/>
 				</position>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="1" mask="65535"/>
@@ -44,7 +44,7 @@
 	<joints count="1">
 		<joint type="RevoluteJoint" id="joint">
 			<connected collide="0" id1="body" id2="wheel"/>
-			<position x="-0" y="0.1875"/>
+			<position x="0" y="0.1875"/>
 			<physic limit="0" motor="1" speed="10" max_torque="1e+09"/>
 		</joint>
 	</joints>

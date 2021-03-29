@@ -1,9 +1,10 @@
 #include "camera.hpp"
 #include "sdl.hpp"
+Mouse mouse;
 float cx=0,cy=0;
+float dcx=0,dcy=0;
 float zoom=100;
 bool camera_locked=1;
-Mouse mouse;
 void center_body(b2Body *body) {
 	center(body->GetX(),body->GetY());
 }
@@ -12,25 +13,25 @@ void center(float x,float y) {
 	cy=-y*zoom+SH/2;
 }
 float worldx(float dx) {
-	return dx/zoom-cx;
+	return dx/zoom-cx-dcx;
 }
 float worldy(float dy) {
-	return dy/zoom-cy;
+	return dy/zoom-cy-dcy;
 }
 float drawx(float wx) {
-	return wx*zoom+cx;
+	return wx*zoom+cx+dcx;
 }
 float drawy(float wy) {
-	return wy*zoom+cy;
+	return wy*zoom+cy+dcy;
 }
 b2Vec2 drawv(b2Vec2 v) {
-	return zoom*v+b2Vec2(cx,cy);
+	return zoom*v+b2Vec2(cx+dcx,cy+dcy);
 }
 int drawix(float wx) {
-	return wx*zoom+cx;
+	return wx*zoom+cx+dcx;
 }
 int drawiy(float wy) {
-	return wy*zoom+cy;
+	return wy*zoom+cy+dcy;
 }
 float rotatex(b2Vec2 vec,float a) {
 	return vec.x*cos(a)-vec.y*sin(a);
