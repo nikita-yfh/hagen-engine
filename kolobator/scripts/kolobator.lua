@@ -2,8 +2,8 @@ function kolobator.init(a)
 	a.weapon="pistol"
 end
 function kolobator.update(a)
-	local max_speed=5
-	local motor_speed=20
+	local max_speed=10
+	local motor_speed=40
 	local j=a:joint("joint")
 	local b=a:body("body")
 	if(game.key("left") and b.vx>-max_speed and game.interval(20)) then
@@ -22,4 +22,5 @@ function kolobator.update(a)
 	if(game.camera.locked) then
 		game.camera.center_body(a:body("body"))
 	end
+	world.collide(a,body("sensor"))
 end

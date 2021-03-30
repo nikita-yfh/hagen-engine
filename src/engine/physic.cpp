@@ -33,3 +33,17 @@ void destroy_joint(string id){
 void destroy_entity(string id){
 	entities.erase(id);
 }
+bool collide(b2Body *b1,b2Body *b2){
+	for(b2ContactEdge *c=b1->GetContactList();c;c=c->next){
+		if(c->other==b2 && c->contact->IsTouching())
+			return 1;
+	}
+	return 0;
+}
+bool entity_collide(Entity *entity,b2Body *b){
+	for(auto &b2 : entity->bodies){
+		if(collide(b2.second,b))
+			return 1;
+	}
+	return 0;
+}

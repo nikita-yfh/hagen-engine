@@ -35,3 +35,5 @@ void set_gravity(float x,float y);
 void destroy_body(string id);
 void destroy_joint(string id);
 void destroy_entity(string id);
+bool collide(b2Body *b1,b2Body *b2);
+bool entity_collide(Entity *ent,b2Body *b);

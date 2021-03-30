@@ -16,10 +16,15 @@ lua_State *L;
 map<unsigned int,unsigned int>timers;
 bool get_interval(unsigned int ms){
 	if(SDL_GetTicks()-timers[ms]>ms){
-		timers[ms]=SDL_GetTicks();
 		return 1;
 	}
 	return 0;
+}
+void update_intervals(){
+	for(auto &t : timers){
+		if(SDL_GetTicks()-t.second>t.first)
+			t.second=SDL_GetTicks();
+	}
 }
 //НАЧАЛО КОСТЫЛЕЙ И ОСНОВНЫХ ПРИЧИН БАГОВ
 void set_mask(Color &c) {
@@ -67,6 +72,7 @@ void gameloop() {
 	getGlobal(L,"Global")["update"]();
 	getGlobal(L,"Level")["update"]();
 	update_entities();
+	update_intervals();
 }
 
 bool get_key(string k){
@@ -105,6 +111,8 @@ void bind() {
 			.addFunction("destroy_body",&destroy_body)
 			.addFunction("destroy_entity",&destroy_entity)
 			.addFunction("destroy_joint",&destroy_joint)
+			.addFunction("collide",&collide)
+			.addFunction("collide",&entity_collide)
 		.endNamespace()
 		.beginNamespace("game")
 			.beginNamespace("camera")
