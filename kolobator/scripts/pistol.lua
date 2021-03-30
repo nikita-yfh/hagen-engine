@@ -1,4 +1,6 @@
 function pistol.init(w)
+	w.dx=0.1
+	w.dy=0.1
 end
 function pistol.update(w,e)
 	if(game.key("fire") and game.interval(0)) then

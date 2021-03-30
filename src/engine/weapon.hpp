@@ -9,9 +9,8 @@ struct Weapon{
 	float dx;
 	float dy;
 };
-/*struct Bullet{
-	int count;
+struct Bullet{
+	int count; //if count=-1,bullets are infinity
 	int max;
-	bool infinity;
-};*/
+};
 extern unordered_map<string,Weapon>weapons;

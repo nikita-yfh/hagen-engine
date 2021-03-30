@@ -1,5 +1,6 @@
 #include "camera.hpp"
 #include "sdl.hpp"
+#include <iostream>
 Mouse mouse;
 float cx=0,cy=0;
 float dcx=0,dcy=0;
@@ -9,29 +10,29 @@ void center_body(b2Body *body) {
 	center(body->GetX(),body->GetY());
 }
 void center(float x,float y) {
-	cx=-x*zoom+SW/2;
-	cy=-y*zoom+SH/2;
+	cx=x-SW/2/zoom;
+	cy=y-SH/2/zoom;
 }
 float worldx(float dx) {
-	return dx/zoom-cx-dcx;
+	return dx/zoom+cx-dcx;
 }
 float worldy(float dy) {
-	return dy/zoom-cy-dcy;
+	return dy/zoom+cy-dcy;
 }
 float drawx(float wx) {
-	return wx*zoom+cx+dcx;
+	return (wx-cx+dcx)*zoom;
 }
 float drawy(float wy) {
-	return wy*zoom+cy+dcy;
+	return (wy-cy+dcy)*zoom;
 }
 b2Vec2 drawv(b2Vec2 v) {
-	return zoom*v+b2Vec2(cx+dcx,cy+dcy);
+	return zoom*(v+b2Vec2(dcx-cx,dcy-cy));
 }
 int drawix(float wx) {
-	return wx*zoom+cx+dcx;
+	return (wx-cx+dcx)*zoom;
 }
 int drawiy(float wy) {
-	return wy*zoom+cy+dcy;
+	return (wy-cy+dcy)*zoom;
 }
 float rotatex(b2Vec2 vec,float a) {
 	return vec.x*cos(a)-vec.y*sin(a);
