@@ -2,10 +2,6 @@
 #include "box2d.h"
 #include "entity.hpp"
 #include <stdint.h>
-struct Bullet{
-	int max;
-
-};
 struct Player{
 	Player();
 	uint8_t lives;
