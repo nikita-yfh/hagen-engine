@@ -37,3 +37,7 @@ void destroy_joint(string id);
 void destroy_entity(string id);
 bool collide(b2Body *b1,b2Body *b2);
 bool entity_collide(Entity *ent,b2Body *b);
+bool ee_collide(Entity *e1,Entity *e2);
+bool level_collide(b2Body *body);
+bool level_entity_collide(Entity *e);
+
