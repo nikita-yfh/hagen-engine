@@ -40,15 +40,15 @@
 					<point x="11.8216" y="2.2925"/>
 					<point x="11.3416" y="2.0925"/>
 					<point x="10.1816" y="1.5325"/>
-					<point x="8.86163" y="0.932502"/>
-					<point x="8.20162" y="0.562502"/>
-					<point x="7.39163" y="0.5425"/>
-					<point x="6.45162" y="0.612502"/>
-					<point x="5.84163" y="1.2325"/>
-					<point x="3.14163" y="1.8525"/>
-					<point x="-1.25838" y="2.8125"/>
-					<point x="-4.73838" y="1.0525"/>
-					<point x="-8.13837" y="-1.0675"/>
+					<point x="8.86164" y="0.932502"/>
+					<point x="8.20163" y="0.562502"/>
+					<point x="7.39164" y="0.5425"/>
+					<point x="6.45163" y="0.612502"/>
+					<point x="5.84164" y="1.2325"/>
+					<point x="3.14164" y="1.8525"/>
+					<point x="-1.25837" y="2.8125"/>
+					<point x="-4.73837" y="1.0525"/>
+					<point x="-8.13836" y="-1.0675"/>
 					<point x="-10.8184" y="-1.1075"/>
 					<point x="-12.5784" y="-0.547499"/>
 					<point x="-15.4984" y="0.0125017"/>
@@ -81,7 +81,7 @@
 		</body>
 		<body x="10.5" y="9" id="sensor" type="static" shapes="1">
 			<physic bullet="0" fixed_rotation="0" gravity_scale="1"/>
-			<shape id="_Rect1" type="Rect" pos="background" texture="wooden_box.png" expand="1">
+			<shape id="_Rect1" type="Rect" pos="foreground" texture="wooden_box.png" expand="1">
 				<position x1="-1" y1="-1" x2="1" y2="1"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
