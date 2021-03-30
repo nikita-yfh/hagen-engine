@@ -47,3 +47,24 @@ bool entity_collide(Entity *entity,b2Body *b){
 	}
 	return 0;
 }
+bool ee_collide(Entity *e1,Entity *e2){
+	for(auto &b1 : e1->bodies){
+		if(entity_collide(e2,b1.second))
+			return 1;
+	}
+	return 0;
+}
+bool level_collide(b2Body *body){
+	for(auto &b1 : bodies){
+		if(collide(b1.second,body))
+			return 1;
+	}
+	return 0;
+}
+bool level_entity_collide(Entity *e){
+	for(auto &body : e->bodies){
+		if(level_collide(body.second))
+			return 1;
+	}
+	return 0;
+}
