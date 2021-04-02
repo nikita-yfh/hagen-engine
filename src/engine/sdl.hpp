@@ -5,7 +5,23 @@
 #include <unordered_map>
 #include "SDL_gpu.h"
 #include "box2d.h"
+#include "xmlParser.h"
 #define GAME_KEY_COUNT 21
+struct Color {
+	Color();
+	Color(int,int,int);
+	Color(int,int,int,int);
+	void set(int,int,int,int);
+	uint8_t r,g,b,a;
+	SDL_Color color();
+	void load(XMLNode node);
+};
+struct Rect : GPU_Rect {
+	Rect();
+	Rect(float,float,float,float);
+	void set(float,float,float,float);
+	void load(XMLNode node);
+};
 extern SDL_Event e;
 extern GPU_Target *ren;
 extern const uint8_t *key;

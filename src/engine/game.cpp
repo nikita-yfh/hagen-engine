@@ -8,11 +8,14 @@
 #include "camera.hpp"
 #include "sdl.hpp"
 #include "utility.hpp"
+#include "console.hpp"
 #include <chrono>
 #define TYPE(a,b) (static_cast<a>(b))
 #define DEBUG
+Console console;
 bool game() {
 	bool run=1;
+	console.load_config();
 	auto fps=chrono::high_resolution_clock::now();
 	while(run) {
 		while(SDL_PollEvent(&e)){
@@ -22,8 +25,9 @@ bool game() {
 				break;
 			}
 			mouse.update();
+			console.update();
 		}
-		lua::gameloop();
+		//lua::gameloop();
 		draw();
 		auto step=chrono::high_resolution_clock::now()-fps;
 		fps = chrono::high_resolution_clock::now();

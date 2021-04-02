@@ -17,6 +17,44 @@ const uint8_t* key=SDL_GetKeyboardState(0);
 using namespace std;
 unordered_map<string,GPU_Image*>textures;
 GPU_Image *background=0;
+void Color::set(int _r,int _g,int _b,int _a) {
+	r=_r;
+	g=_g;
+	b=_b;
+	a=_a;
+}
+Color::Color() {}
+Color::Color(int _r,int _g,int _b,int _a) {
+	set(_r,_g,_b,_a);
+}
+Color::Color(int _r,int _g,int _b) {
+	set(_r,_g,_b,255);
+}
+SDL_Color Color::color() {
+	return SDL_Color({r,g,b,a});
+}
+void Color::load(XMLNode node){
+	r=stoi(node.getAttribute("r"));
+	g=stoi(node.getAttribute("g"));
+	b=stoi(node.getAttribute("b"));
+	a=stoi(node.getAttribute("a"));
+}
+void Rect::set(float _x,float _y,float _w,float _h) {
+	x=_x;
+	y=_y;
+	w=_w;
+	h=_h;
+}
+Rect::Rect() {}
+Rect::Rect(float _x,float _y,float _w,float _h) {
+	set(_x,_y,_w,_h);
+}
+void Rect::load(XMLNode node){
+	x=stoi(node.getAttribute("x"));
+	y=stoi(node.getAttribute("y"));
+	w=stoi(node.getAttribute("w"));
+	h=stoi(node.getAttribute("h"));
+}
 void init(const char* title,int w,int h) {
 	SDL_Init(SDL_INIT_EVERYTHING);
 	GPU_SetPreInitFlags(GPU_INIT_DISABLE_VSYNC);

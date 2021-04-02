@@ -49,7 +49,9 @@ set(ENGINE_SOURCES
         src/engine/text.cpp
         src/engine/weapon.cpp
         src/engine/triangulate.cpp
+        src/engine/console.cpp
         src/SDL_FontCache/SDL_FontCache.c
+        src/XMLParser/xmlParser.cpp
 )
 set(ENGINE_HEADERS
         src/engine/main.hpp
@@ -67,7 +69,9 @@ set(ENGINE_HEADERS
         src/engine/text.hpp
         src/engine/weapon.hpp
         src/engine/triangulate.hpp
+        src/engine/console.hpp
         src/SDL_FontCache/SDL_FontCache.h
+        src/XMLParser/xmlParser.h
 )
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(SDL REQUIRED sdl2 SDL2_ttf)

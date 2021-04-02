@@ -18,6 +18,9 @@ function kolobator.update(a)
 		b:apply_center_impulse(24,0)
 	else
 		j.motor=0
+		if(game.key("jump") and world.collide(a)) then
+			b:apply_center_impulse(0,-200)
+		end
 	end
 	if(game.camera.locked) then
 		game.camera.center_body(a:body("body"))

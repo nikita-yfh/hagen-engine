@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<console>
+	<background>
+		<color r="0" g="0" b="0" a="150"/>
+	</background>
+	<text name="PT-mono.ttf" size="16">
+		<input_color r="255" g="255" b="255" a="255"/>
+		<error_color r="255" g="0" b="0" a="255"/>
+		<output_color r="0" g="255" b="0" a="255"/>
+	</text>
+</console> 

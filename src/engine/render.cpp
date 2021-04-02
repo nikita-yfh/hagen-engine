@@ -7,25 +7,12 @@
 #include "physic.hpp"
 #include "level.hpp"
 #include "utility.hpp"
+#include "console.hpp"
 #define CIRCLE_QUALITY 50
 using namespace std;
 Color scene_mask(0,0,0,0);
 bool show_textures=1;
-void Color::set(int r,int g,int b,int a) {
-	this->r=r;
-	this->g=g;
-	this->b=b;
-	this->a=a;
-}
-Color::Color(int r,int g,int b,int a) {
-	set(r,g,b,a);
-}
-Color::Color(int r,int g,int b) {
-	set(r,g,b,255);
-}
-SDL_Color Color::color() {
-	return SDL_Color({r,g,b,a});
-}
+extern Console console;
 void draw_mask() {
 	GPU_RectangleFilled(ren,0,0,SW,SH,scene_mask.color());
 }
@@ -201,5 +188,6 @@ void draw() {
 		draw_entities(q);
 	}
 	draw_mask();
+	console.show();
 	GPU_Flip(ren);
 }
