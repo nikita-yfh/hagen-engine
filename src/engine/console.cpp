@@ -83,7 +83,7 @@ void Console::update(){
 			}
 		}
 	}else if(e.type==SDL_TEXTINPUT && shown){
-		if(e.text.text[0]<128 && e.text.text[0]!='`')
+		if(strlen(e.text.text)==1 && e.text.text[0]!='`')
 			strings[strings.size()-1].add(cursor++,e.text.text[0]);
 	}
 	if(cursor<2)cursor=2;

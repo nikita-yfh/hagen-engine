@@ -9,6 +9,7 @@
 #include "text.hpp"
 #include "main.hpp"
 #include "console.hpp"
+#include <player.hpp>
 #include <detail/Userdata.h>
 using namespace luabridge;
 using namespace std;
@@ -94,11 +95,13 @@ bool get_key(string k){
 	if(k=="7")		return key[SDL_SCANCODE_7];
 	if(k=="8")		return key[SDL_SCANCODE_8];
 	if(k=="9")		return key[SDL_SCANCODE_9];
+	if(k=="0")		return key[SDL_SCANCODE_0];
 	if(k=="fire" || k=="fire1")
 					return mouse.state&&mouse.b==SDL_BUTTON_LEFT;
 	if(k=="fire2")	return mouse.state&&mouse.b==SDL_BUTTON_RIGHT;
 	throw logic_error("\""+k+"\" is not a key");
 }
+Player *get_player(){return &player;}
 void bind() {
 	#define KEY(key) SDL_GetKeyboardState(key)
 	getGlobalNamespace(L)
@@ -107,6 +110,7 @@ void bind() {
 		.addFunction("entity",&get_entity)
 		.addFunction("gettext",&get_text)
 		.addFunction("print",&print)
+		.addFunction("get_player",&get_player)
 		.beginNamespace("world")
 			.addFunction("set_gravity",&set_gravity)
 			.addFunction("create_body",&create_body)
@@ -208,6 +212,9 @@ void bind() {
 			.addFunction("destroy_body",&Entity::destroy_body)
 			.addFunction("destroy_joint",&Entity::destroy_joint)
 		.endClass()
+		.beginClass<Player>("Player")
+			.addProperty("lives",&Player::lives)
+		.endClass()
 		.beginClass<GPU_Image>("Texture")
 			.addProperty("w",&GPU_Image::w,0)
 			.addProperty("h",&GPU_Image::h,0)
@@ -239,6 +246,10 @@ void init(string name) {
 		"end\n"
 		"Weapon.update=function()\n"
 		"end\n"
+		"Weapon.atack1=function()\n"
+		"end\n"
+		"Weapon.atack2=function()\n"
+		"end\n"
 
 		"Entity={}\n"
 		"Entity.init=function()\n"
@@ -251,6 +262,7 @@ void init(string name) {
 			"setmetatable(child,{__index = parent})\n"
 			"return child\n"
 		"end\n"
+		"player=get_player()\n"
 	);
 	doscript("global");
 	doscript(name);
