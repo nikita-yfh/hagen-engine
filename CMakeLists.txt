@@ -72,6 +72,7 @@ set(ENGINE_HEADERS
         src/engine/console.hpp
         src/SDL_FontCache/SDL_FontCache.h
         src/XMLParser/xmlParser.h
+        src/Nuklear/nuklear.h
 )
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(SDL REQUIRED sdl2 SDL2_ttf)
@@ -89,6 +90,7 @@ include_directories(
         "src/SDL_FontCache"
         "src/XMLParser"
         "src/sdl-gpu/include"
+        "src/Nuklear"
 )
 
 add_executable(${ENGINE} ${ENGINE_SOURCES} ${ENGINE_HEADERS})

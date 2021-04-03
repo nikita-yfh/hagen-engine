@@ -12,7 +12,6 @@
 #include <chrono>
 #define TYPE(a,b) (static_cast<a>(b))
 #define DEBUG
-Console console;
 bool game() {
 	bool run=1;
 	console.load_config();
@@ -27,7 +26,8 @@ bool game() {
 			mouse.update();
 			console.update();
 		}
-		//lua::gameloop();
+		if(!console.shown)
+			lua::gameloop();
 		draw();
 		auto step=chrono::high_resolution_clock::now()-fps;
 		fps = chrono::high_resolution_clock::now();

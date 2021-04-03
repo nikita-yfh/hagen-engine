@@ -8,6 +8,7 @@
 #include "utility.hpp"
 #include "text.hpp"
 #include "main.hpp"
+#include "console.hpp"
 #include <detail/Userdata.h>
 using namespace luabridge;
 using namespace std;
@@ -29,6 +30,9 @@ void update_intervals(){
 //НАЧАЛО КОСТЫЛЕЙ И ОСНОВНЫХ ПРИЧИН БАГОВ
 void set_mask(Color &c) {
 	scene_mask=c;
+}
+void print(LuaRef r){
+	console.out(r.tostring());
 }
 Color &get_mask() {
 	return scene_mask;
@@ -102,8 +106,7 @@ void bind() {
 		.addFunction("joint",&get_joint)
 		.addFunction("entity",&get_entity)
 		.addFunction("gettext",&get_text)
-	//	.beginClass("Player")
-	//		.addFunction("set_bullet")
+		.addFunction("print",&print)
 		.beginNamespace("world")
 			.addFunction("set_gravity",&set_gravity)
 			.addFunction("create_body",&create_body)

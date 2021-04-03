@@ -13,3 +13,9 @@
 [submodule "src/SDL_FontCache"]
 	path = src/SDL_FontCache
 	url = https://github.com/grimfang4/SDL_FontCache
+[submodule "src/Nuklear"]
+	path = src/Nuklear
+	url = https://github.com/Immediate-Mode-UI/Nuklear
+[submodule "src/nuklear_cross"]
+	path = src/nuklear_cross
+	url = https://github.com/DeXP/nuklear_cross

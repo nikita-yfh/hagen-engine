@@ -12,7 +12,6 @@
 using namespace std;
 Color scene_mask(0,0,0,0);
 bool show_textures=1;
-extern Console console;
 void draw_mask() {
 	GPU_RectangleFilled(ren,0,0,SW,SH,scene_mask.color());
 }

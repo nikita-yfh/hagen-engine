@@ -16,15 +16,18 @@ struct Console{
 	Color error_color;
 	Color output_color;
 	FC_Font *font=0;
+	short cursor=10;
 	struct String{
 		String();
-		String(short _position);
-		String(string _text,uint8_t _type,short _position);
+		String(string _text,uint8_t _type);
 		string text;
 		uint8_t type=0;
-		short position;
 		void add(short pos,char c);
 		void del(short pos);
 	};
 	vector<String>strings;
+	void out(string str);
+	void open();
+	void close();
 };
+extern Console console;
