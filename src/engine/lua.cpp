@@ -51,18 +51,18 @@ void dostring(string text){
 	}
 }
 void doscript(string file){
-	dofile(prefix+"scripts/"+file+".lua");
+	dofile(prefix+file+".lua");
 }
 void init_entities(){
 	for(auto entity : entities){
 		luaL_dostring(L,(entity.second->type+"=extend(Entity)\n").c_str());
-		doscript(entity.second->type);
+		doscript("entities/"+entity.second->type);
 		getGlobal(L,entity.second->type.c_str())["init"](entity.second);
 	}
 }
 void init_weapon(string weapon){
 	luaL_dostring(L,(weapon+"=extend(Weapon)\n").c_str());
-	doscript(weapon);
+	doscript("weapon/"+weapon);
 	getGlobal(L,weapon.c_str())["init"](&weapons[weapon]);
 }
 void update_entities(){
@@ -73,6 +73,12 @@ void update_entities(){
 	}
 }
 
+void fire1(Entity *ent){
+	getGlobal(L,ent->weapon.c_str())["fire1"](&weapons[ent->weapon],ent);
+}
+void fire2(Entity *ent){
+	getGlobal(L,ent->weapon.c_str())["fire2"](&weapons[ent->weapon],ent);
+}
 void gameloop() {
 	getGlobal(L,"Global")["update"]();
 	getGlobal(L,"Level")["update"]();
@@ -207,10 +213,13 @@ void bind() {
 			.addProperty("weapon_x",&Entity::weapon_x,0)
 			.addProperty("weapon_y",&Entity::weapon_y,0)
 			.addProperty("health",&Entity::health)
+			.addProperty("weapon_angle",&Entity::weapon_angle)
 			.addFunction("body",&Entity::get_body)
 			.addFunction("joint",&Entity::get_joint)
 			.addFunction("destroy_body",&Entity::destroy_body)
 			.addFunction("destroy_joint",&Entity::destroy_joint)
+			.addFunction("fire1",&Entity::fire1)
+			.addFunction("fire2",&Entity::fire2)
 		.endClass()
 		.beginClass<Player>("Player")
 			.addProperty("lives",&Player::lives)
@@ -246,9 +255,9 @@ void init(string name) {
 		"end\n"
 		"Weapon.update=function()\n"
 		"end\n"
-		"Weapon.atack1=function()\n"
+		"Weapon.fire1=function()\n"
 		"end\n"
-		"Weapon.atack2=function()\n"
+		"Weapon.fire2=function()\n"
 		"end\n"
 
 		"Entity={}\n"
@@ -264,8 +273,8 @@ void init(string name) {
 		"end\n"
 		"player=get_player()\n"
 	);
-	doscript("global");
-	doscript(name);
+	doscript("common/global");
+	doscript("levels/"+name);
 	getGlobal(L,"Global")["init"]();
 	getGlobal(L,"Level")["init"]();
 	init_entities();

@@ -22,8 +22,13 @@ function kolobator.update(a)
 			b:apply_center_impulse(0,-200)
 		end
 	end
+	if(game.key("fire1")) then
+		a:fire1()
+	elseif(game.key("fire2")) then
+		a:fire2()
+	end
+	a.weapon_angle=game.camera.angle
 	if(game.camera.locked) then
 		game.camera.center_body(a:body("body"))
 	end
-	world.collide(a,body("sensor"))
 end

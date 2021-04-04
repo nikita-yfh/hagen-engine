@@ -3,6 +3,7 @@
 #include "physic.hpp"
 #include "main.hpp"
 #include "sdl.hpp"
+#include "lua.hpp"
 using namespace std;
 Entity::Entity() {};
 Entity::Entity(string _type,float xp,float yp) {
@@ -95,3 +96,5 @@ void Entity::set_weapon(string id){
 string Entity::get_weapon() const{
 	return weapon;
 }
+void Entity::fire1(){lua::fire1(this);}
+void Entity::fire2(){lua::fire2(this);}

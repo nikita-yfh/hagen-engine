@@ -6,6 +6,7 @@ extern "C" {
 }
 #include "LuaBridge.h"
 #include "Vector.h"
+#include "entity.hpp"
 #include <vector>
 #include <string>
 using namespace std;
@@ -16,4 +17,6 @@ void gameloop();
 void init(string);
 void quit();
 void init_weapon(string weapon);
+void fire1(Entity *ent);
+void fire2(Entity *ent);
 };

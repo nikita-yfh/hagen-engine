@@ -169,13 +169,13 @@ void draw_entities(uint8_t pos){
 		}
 		if(pos==3 && en.second->weapon!="" && show_textures){
 			float size_y=1.0f;
-			if(mouse_angle()>0.5*M_PI&&mouse_angle()<1.5*M_PI)
+			if(en.second->weapon_angle>0.5*M_PI&&en.second->weapon_angle<1.5*M_PI)
 				size_y=-1.0f;
 			GPU_BlitTransformX(textures[en.second->weapon+".png"],0,ren,
 				drawx(en.second->getx()+en.second->weapon_x),
 				drawy(en.second->gety()+en.second->weapon_y),
 				weapons[en.second->weapon].dx*100,weapons[en.second->weapon].dy*100,
-				mouse_angle()/M_PI*180,zoom/100,size_y*zoom/100);
+				en.second->weapon_angle/M_PI*180,zoom/100,size_y*zoom/100);
 		}
 	}
 }
