@@ -223,6 +223,8 @@ void bind() {
 		.endClass()
 		.beginClass<Player>("Player")
 			.addProperty("lives",&Player::lives)
+			.addFunction("get_bullet",&Player::get_bullet)
+			.addFunction("set_bullet",&Player::set_bullet)
 		.endClass()
 		.beginClass<GPU_Image>("Texture")
 			.addProperty("w",&GPU_Image::w,0)
