@@ -30,6 +30,6 @@ struct Entity {
 	b2Joint *get_joint(string id);
 	void destroy_body(string id);
 	void destroy_joint(string id);
-	void fire1();
-	void fire2();
+	int fire1();
+	int fire2();
 };

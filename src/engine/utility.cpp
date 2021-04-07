@@ -20,6 +20,10 @@ b2Joint *get_joint(string id) {
 Entity *get_entity(string id) {
 	return entities[id];
 }
+
+Weapon *get_weapon(string id) {
+	return &weapons[id];
+}
 bool exist_file(string path) {
 	bool isExist = false;
 	ifstream fin(path);

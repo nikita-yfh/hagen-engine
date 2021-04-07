@@ -1,3 +1,5 @@
 #include "player.hpp"
-Player::Player() {};
 Player player;
+Bullet *Player::get_bullet(string id){
+	return &bullets[id];
+}

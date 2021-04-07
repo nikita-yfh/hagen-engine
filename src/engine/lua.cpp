@@ -73,12 +73,8 @@ void update_entities(){
 	}
 }
 
-void fire1(Entity *ent){
-	getGlobal(L,ent->weapon.c_str())["fire1"](&weapons[ent->weapon],ent);
-}
-void fire2(Entity *ent){
-	getGlobal(L,ent->weapon.c_str())["fire2"](&weapons[ent->weapon],ent);
-}
+int fire1(Entity *ent){return getGlobal(L,ent->weapon.c_str())["fire1"](&weapons[ent->weapon],ent);}
+int fire2(Entity *ent){return getGlobal(L,ent->weapon.c_str())["fire2"](&weapons[ent->weapon],ent);}
 void gameloop() {
 	getGlobal(L,"Global")["update"]();
 	getGlobal(L,"Level")["update"]();
@@ -114,6 +110,7 @@ void bind() {
 		.addFunction("body",&get_body)
 		.addFunction("joint",&get_joint)
 		.addFunction("entity",&get_entity)
+		.addFunction("weapon",&get_weapon)
 		.addFunction("gettext",&get_text)
 		.addFunction("print",&print)
 		.addFunction("get_player",&get_player)
@@ -223,8 +220,11 @@ void bind() {
 		.endClass()
 		.beginClass<Player>("Player")
 			.addProperty("lives",&Player::lives)
-			.addFunction("get_bullet",&Player::get_bullet)
-			.addFunction("set_bullet",&Player::set_bullet)
+			.addFunction("bullet",&Player::get_bullet)
+		.endClass()
+		.beginClass<Bullet>("Bullet")
+			.addProperty("count",&Bullet::count)
+			.addProperty("max",&Bullet::max)
 		.endClass()
 		.beginClass<GPU_Image>("Texture")
 			.addProperty("w",&GPU_Image::w,0)
@@ -233,6 +233,8 @@ void bind() {
 		.beginClass<Weapon>("Weapon")
 			.addProperty("dx",&Weapon::dx)
 			.addProperty("dy",&Weapon::dy)
+			.addProperty("bullet1",&Weapon::bullet1)
+			.addProperty("bullet2",&Weapon::bullet2)
 		.endClass();
 }
 void init(string name) {

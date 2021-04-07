@@ -5,9 +5,12 @@
 #include <stdint.h>
 #include <map>
 #include <string>
+struct Bullets{
+};
 struct Player{
-	Player();
 	uint8_t lives;
 	map<string,Bullet>bullets;
+	Bullet *get_bullet(string id);
 };
+
 extern Player player;

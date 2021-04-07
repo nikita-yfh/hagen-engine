@@ -96,5 +96,5 @@ void Entity::set_weapon(string id){
 string Entity::get_weapon() const{
 	return weapon;
 }
-void Entity::fire1(){lua::fire1(this);}
-void Entity::fire2(){lua::fire2(this);}
+int Entity::fire1(){return lua::fire1(this);}
+int Entity::fire2(){return lua::fire2(this);}

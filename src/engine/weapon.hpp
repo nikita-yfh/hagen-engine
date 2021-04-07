@@ -8,6 +8,8 @@ using namespace std;
 struct Weapon{
 	float dx;
 	float dy;
+	string bullet1;
+	string bullet2;
 };
 struct Bullet{
 	int count; //if count=-1,bullets are infinity

@@ -17,6 +17,6 @@ void gameloop();
 void init(string);
 void quit();
 void init_weapon(string weapon);
-void fire1(Entity *ent);
-void fire2(Entity *ent);
+int fire1(Entity *ent);
+int fire2(Entity *ent);
 };
