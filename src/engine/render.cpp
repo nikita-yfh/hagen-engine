@@ -8,6 +8,7 @@
 #include "level.hpp"
 #include "utility.hpp"
 #include "console.hpp"
+#include "player.hpp"
 #define CIRCLE_QUALITY 50
 using namespace std;
 Color scene_mask(0,0,0,0);
@@ -179,6 +180,13 @@ void draw_entities(uint8_t pos){
 		}
 	}
 }
+void draw_interface(){
+	for(uint8_t q=0;q<player.max_lives;q++){
+		GPU_Image *tex=textures[(player.lives>q)?"live2.png":"live1.png"];
+		GPU_Blit(tex,0,ren,40+tex->w*q,40);
+	}
+	FC_DrawAlign(font)
+}
 void draw() {
 	GPU_Clear(ren);
 	draw_bgr();
@@ -187,6 +195,7 @@ void draw() {
 		draw_entities(q);
 	}
 	draw_mask();
+	draw_interface();
 	console.show();
 	GPU_Flip(ren);
 }
