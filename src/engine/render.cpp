@@ -185,7 +185,6 @@ void draw_interface(){
 		GPU_Image *tex=textures[(player.lives>q)?"live2.png":"live1.png"];
 		GPU_Blit(tex,0,ren,40+tex->w*q,40);
 	}
-	FC_DrawAlign(font)
 }
 void draw() {
 	GPU_Clear(ren);
