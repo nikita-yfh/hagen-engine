@@ -1,1 +1,0 @@
-/usr/bin/c++ -fPIC -g -shared -Wl,-soname,libxml.so -o bin/libxml.so CMakeFiles/xml.dir/xmlParser.cpp.o 

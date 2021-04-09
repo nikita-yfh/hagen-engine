@@ -31,7 +31,8 @@ extern GtkCellRenderer
 *text_ren;
 
 extern unsigned int tool_ch, point_ch;
-extern bool shows[7],lock;
+extern bool shows[7];
+extern bool cam_lock;
 extern float zoom,grid;
 extern int cx,cy,xp,yp,xd,yd;
 void change_tool(unsigned int);

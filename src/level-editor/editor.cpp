@@ -35,7 +35,7 @@ GtkCellRenderer
 *text_ren;
 string save_path="";
 bool shows[7]= {1,1,1,1,1,1,1};
-bool lock=1;
+bool cam_lock=1;
 bool save_ph=0;
 void newl() {
 	for(int q=0; q<level.joints.size(); q++)
@@ -178,8 +178,8 @@ int draw_callback (GtkWidget *da, GdkEventExpose *event, void*) {
 	cairo_set_source_rgb (cr,BLACK);//границы сетки темные
 	if(cx>=0)cairo_rectangle(cr,cx,0,1,draw_h);
 	if(cy>=0)cairo_rectangle(cr,0,cy,draw_w,1);
-	if(-cx<=level.w*zoom && lock)cairo_rectangle(cr,level.w*zoom+cx,0,1,draw_h);
-	if(-cy<=level.h*zoom && lock)cairo_rectangle(cr,0,level.h*zoom+cy,draw_w,1);
+	if(-cx<=level.w*zoom && cam_lock)cairo_rectangle(cr,level.w*zoom+cx,0,1,draw_h);
+	if(-cy<=level.h*zoom && cam_lock)cairo_rectangle(cr,0,level.h*zoom+cy,draw_w,1);
 	cairo_fill (cr);
 	vector<Object*>vec=get_all();
 	for(auto *shape : vec)
