@@ -8,7 +8,8 @@
 struct Bullets{
 };
 struct Player{
-	uint8_t lives;
+	uint8_t lives=3;
+	uint8_t max_lives=5;
 	map<string,Bullet>bullets;
 	Bullet *get_bullet(string id);
 };

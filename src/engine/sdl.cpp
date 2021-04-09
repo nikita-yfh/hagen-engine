@@ -8,7 +8,6 @@
 #include "main.hpp"
 #include "dialog.hpp"
 #include <string>
-FC_Font *font;
 SDL_Event e;
 int SW=0;
 int SH=0;
