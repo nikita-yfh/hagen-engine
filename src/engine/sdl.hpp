@@ -4,6 +4,7 @@
 #include <string>
 #include <unordered_map>
 #include "SDL_gpu.h"
+#include "SDL_FontCache.h"
 #include "box2d.h"
 #include "xmlParser.h"
 #define GAME_KEY_COUNT 21
@@ -11,6 +12,7 @@ struct Color {
 	Color();
 	Color(int,int,int);
 	Color(int,int,int,int);
+	Color(XMLNode);
 	void set(int,int,int,int);
 	uint8_t r,g,b,a;
 	SDL_Color color();
@@ -41,3 +43,4 @@ void load_background(string path);
 GPU_Image *load_texture(string str);
 void load_body_textures(b2Body *body);
 void load_entity_textures(Entity *ent);
+void load_font(FC_Font *&font, XMLNode node,string color);

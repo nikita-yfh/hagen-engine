@@ -1,6 +1,6 @@
 #pragma once
 #include "box2d.h"
-#include "SDL_gpu.h"
+#include "sdl.hpp"
 #include "entity.hpp"
 #include <string>
 void close_level();

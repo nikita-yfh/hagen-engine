@@ -172,18 +172,12 @@ void draw_entities(uint8_t pos){
 			float size_y=1.0f;
 			if(en.second->weapon_angle>0.5*M_PI&&en.second->weapon_angle<1.5*M_PI)
 				size_y=-1.0f;
-			GPU_BlitTransformX(textures[en.second->weapon+".png"],0,ren,
+			GPU_BlitTransformX(textures["weapon/"+en.second->weapon+".png"],0,ren,
 				drawx(en.second->getx()+en.second->weapon_x),
 				drawy(en.second->gety()+en.second->weapon_y),
 				weapons[en.second->weapon].dx*100,weapons[en.second->weapon].dy*100,
 				en.second->weapon_angle/M_PI*180,zoom/100,size_y*zoom/100);
 		}
-	}
-}
-void draw_interface(){
-	for(uint8_t q=0;q<player.max_lives;q++){
-		GPU_Image *tex=textures[(player.lives>q)?"live2.png":"live1.png"];
-		GPU_Blit(tex,0,ren,40+tex->w*q,40);
 	}
 }
 void draw() {
@@ -194,7 +188,6 @@ void draw() {
 		draw_entities(q);
 	}
 	draw_mask();
-	draw_interface();
 	interface.show();
 	GPU_Flip(ren);
 }

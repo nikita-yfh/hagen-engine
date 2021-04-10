@@ -2,15 +2,20 @@
 #include "sdl.hpp"
 #include "xmlParser.h"
 #include "main.hpp"
+#include "player.hpp"
 #include "lua.hpp"
 void Interface::update(){
 	console.update();
+	game_interface.update();
 }
 void Interface::load_config(){
 	console.load_config();
+	game_interface.load_config();
 }
 void Interface::show(){
 	console.show();
+	if(!console.shown)
+		game_interface.show();
 }
 Interface::Console::String::String(){}
 Interface::Console::String::String(string _text,uint8_t _type){
@@ -51,13 +56,41 @@ void Interface::Console::load_config(){
 		input_color.load(text.getChildNode("input_color"));
 		error_color.load(text.getChildNode("error_color"));
 		output_color.load(text.getChildNode("output_color"));
-		string font_path=text.getAttribute("name");
-		int size=stoi(text.getAttribute("size"));
-		font_path=prefix+"fonts/"+font_path;
-		if(font!=0)
-			FC_ClearFont(font);
-		font=FC_CreateFont();
-		FC_LoadFont(font,font_path.c_str(),size,input_color.color(),TTF_STYLE_NORMAL);
+		load_font(font,text,"input_color");
+	}
+}
+void Interface::Game_interface::load_config(){
+	XMLNode node=XMLNode::openFileHelper((prefix+"config/interface.xml").c_str(),"interface");
+	{
+		XMLNode text=node.getChildNode("text");
+		load_font(font,text,"color");
+	}
+	{
+		XMLNode l=node.getChildNode("lives_counter");
+		{
+			XMLNode pos=l.getChildNode("position");
+			lives_counter.x=stof(pos.getAttribute("dx"));
+			lives_counter.y=stof(pos.getAttribute("dy"));
+			if(lives_counter.x<1)lives_counter.x*=SH;
+			if(lives_counter.y<1)lives_counter.y*=SH;
+		}
+		{
+			XMLNode size=l.getChildNode("size");
+			lives_counter.w=stof(size.getAttribute("x"));
+			lives_counter.h=stof(size.getAttribute("y"));
+			if(lives_counter.w<1)lives_counter.w*=SH;
+			if(lives_counter.h<1)lives_counter.h*=SH;
+		}
+	}
+	{
+		XMLNode l=node.getChildNode("health_counter");
+		{
+			XMLNode pos=l.getChildNode("position");
+			health_counter_dx=stof(pos.getAttribute("dx"));
+			health_counter_dy=stof(pos.getAttribute("dy"));
+			if(health_counter_dx<1)health_counter_dx*=SH;
+			if(health_counter_dy<1)health_counter_dy*=SH;
+		}
 	}
 }
 void Interface::Console::update(){
@@ -113,5 +146,17 @@ void Interface::Console::out(string str){
 		strings[strings.size()-1].type=2;
 	}else
 		strings.emplace_back(str,2);
+}
+void Interface::Game_interface::update(){
+	
+}
+void Interface::Game_interface::show(){
+	for(int q=0;q<player.max_lives;q++){
+		GPU_Image *image=textures[((player.lives>q)?"interface/live2.png":"interface/live1.png")];
+		GPU_BlitScale(image,0,ren,lives_counter.x+lives_counter.w*q+lives_counter.w/2,lives_counter.y+lives_counter.h/2,lives_counter.w/image->w,lives_counter.h/image->h);
+	}
+	string str=to_string(entity["player"].health);
+	short w=FC_GetWidth(font,str.c_str());
+	short h=FC_GetHeigth(font,str.c_str());
 }
 Interface interface;

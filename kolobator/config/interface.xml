@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+	<text name="DroidSansMono.ttf" size="0.05">
+		<color r="255" g="255" b="0" a="255"/>
+	</text>
+	<lives_counter>
+		<position dx="0" dy="0"/>
+		<size x="32" y="32"/>
+	</lives_counter>
+	<health_counter>
+		<position dx="0" dy="0"/>
+	</health_counter>
+</interface>

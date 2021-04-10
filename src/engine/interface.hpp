@@ -31,6 +31,16 @@ struct Interface{
 		void open();
 		void close();
 	}console;
+	struct Game_interface{
+		bool shown;
+		FC_Font *font=0;
+		void load_config();
+		void show();
+		void update();
+		GPU_Rect lives_counter;
+		float health_counter_dx;
+		float health_counter_dy;
+	}game_interface;
 	void show();
 	void update();
 	void load_config();

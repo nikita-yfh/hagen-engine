@@ -1,7 +1,6 @@
 #include "sdl.hpp"
 #include "SDL.h"
 #include "level.hpp"
-#include "SDL_FontCache.h"
 #include "utility.hpp"
 #include "physic.hpp"
 #include "camera.hpp"
@@ -25,6 +24,9 @@ void Color::set(int _r,int _g,int _b,int _a) {
 Color::Color() {}
 Color::Color(int _r,int _g,int _b,int _a) {
 	set(_r,_g,_b,_a);
+}
+Color::Color(XMLNode node) {
+	load(node);
 }
 Color::Color(int _r,int _g,int _b) {
 	set(_r,_g,_b,255);
@@ -120,4 +122,15 @@ void load_background(string name) {
 	background=GPU_LoadImage(path.c_str());
 	if(!background)
 		throw string("Loading \""+name+"\" background failed: "+SDL_GetError());
+}
+
+void load_font(FC_Font *&font, XMLNode node,string color){
+	string font_path=node.getAttribute("name");
+	float size=stof(node.getAttribute("size"));
+	if(size<1)size*=SH;
+	font_path=prefix+"fonts/"+font_path;
+	if(font!=0)
+		FC_ClearFont(font);
+	font=FC_CreateFont();
+	FC_LoadFont(font,font_path.c_str(),size,Color(node.getChildNode(color.c_str())).color(),TTF_STYLE_NORMAL);
 }

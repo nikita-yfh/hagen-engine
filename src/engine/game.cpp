@@ -16,8 +16,8 @@ bool game() {
 	bool run=1;
 	interface.load_config();
 	auto fps=chrono::high_resolution_clock::now();
-	load_texture("live1.png");
-	load_texture("live2.png");
+	load_texture("interface/live1.png");
+	load_texture("interface/live2.png");
 	while(run) {
 		while(SDL_PollEvent(&e)){
 			switch(e.type) {
