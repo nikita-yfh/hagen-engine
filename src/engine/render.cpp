@@ -7,7 +7,7 @@
 #include "physic.hpp"
 #include "level.hpp"
 #include "utility.hpp"
-#include "console.hpp"
+#include "interface.hpp"
 #include "player.hpp"
 #define CIRCLE_QUALITY 50
 using namespace std;
@@ -195,6 +195,6 @@ void draw() {
 	}
 	draw_mask();
 	draw_interface();
-	console.show();
+	interface.show();
 	GPU_Flip(ren);
 }

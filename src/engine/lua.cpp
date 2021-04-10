@@ -8,7 +8,7 @@
 #include "utility.hpp"
 #include "text.hpp"
 #include "main.hpp"
-#include "console.hpp"
+#include "interface.hpp"
 #include <player.hpp>
 #include <detail/Userdata.h>
 using namespace luabridge;
@@ -33,7 +33,7 @@ void set_mask(Color &c) {
 	scene_mask=c;
 }
 void print(LuaRef r){
-	console.out(r.tostring());
+	interface.console.out(r.tostring());
 }
 Color &get_mask() {
 	return scene_mask;

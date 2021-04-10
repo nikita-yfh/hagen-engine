@@ -8,13 +8,13 @@
 #include "camera.hpp"
 #include "sdl.hpp"
 #include "utility.hpp"
-#include "console.hpp"
+#include "interface.hpp"
 #include <chrono>
 #define TYPE(a,b) (static_cast<a>(b))
 #define DEBUG
 bool game() {
 	bool run=1;
-	console.load_config();
+	interface.load_config();
 	auto fps=chrono::high_resolution_clock::now();
 	load_texture("live1.png");
 	load_texture("live2.png");
@@ -26,9 +26,9 @@ bool game() {
 				break;
 			}
 			mouse.update();
-			console.update();
+			interface.update();
 		}
-		if(!console.shown)
+		if(!interface.console.shown)
 			lua::gameloop();
 		draw();
 		auto step=chrono::high_resolution_clock::now()-fps;

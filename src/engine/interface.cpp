@@ -1,25 +1,34 @@
-#include "console.hpp"
+#include "interface.hpp"
 #include "sdl.hpp"
 #include "xmlParser.h"
 #include "main.hpp"
 #include "lua.hpp"
-Console::String::String(){}
-Console::String::String(string _text,uint8_t _type){
+void Interface::update(){
+	console.update();
+}
+void Interface::load_config(){
+	console.load_config();
+}
+void Interface::show(){
+	console.show();
+}
+Interface::Console::String::String(){}
+Interface::Console::String::String(string _text,uint8_t _type){
 	text=_text;
 	type=_type;
 }
-void Console::String::add(short pos,char c){
+void Interface::Console::String::add(short pos,char c){
 	text.insert(text.begin()+pos,c);
 }
-void Console::String::del(short pos){
+void Interface::Console::String::del(short pos){
 	if(pos>2 && pos<=text.size() && text.size())
 		text.erase(text.begin()+pos-1);
 }
-Console::Console(){
+Interface::Console::Console(){
 	strings.emplace_back((string)LUA_VERSION+" Copyright (C) 1994-2015 Lua.org, PUC-Rio",2);
 	strings.emplace_back("> ",0);
 }
-void Console::show(){
+void Interface::Console::show(){
 	if(!shown)return;
 	GPU_RectangleFilled(ren,0,0,SW,SH,background.color());
 	int size=FC_GetLineHeight(font);
@@ -34,7 +43,7 @@ void Console::show(){
 	if(pos>SH)
 		strings.erase(strings.begin());
 }
-void Console::load_config(){
+void Interface::Console::load_config(){
 	XMLNode node=XMLNode::openFileHelper((prefix+"config/console.xml").c_str(),"console");
 	background.load(node.getChildNode("background").getChildNode("color"));
 	{
@@ -51,7 +60,7 @@ void Console::load_config(){
 		FC_LoadFont(font,font_path.c_str(),size,input_color.color(),TTF_STYLE_NORMAL);
 	}
 }
-void Console::update(){
+void Interface::Console::update(){
 	if(e.type==SDL_KEYDOWN){
 		if(e.key.keysym.sym==SDLK_BACKQUOTE)
 			if(shown)close();
@@ -90,19 +99,19 @@ void Console::update(){
 	else if(cursor>strings[strings.size()-1].text.size())
 		cursor=strings[strings.size()-1].text.size();
 }
-void Console::open(){
+void Interface::Console::open(){
 	if(strings[strings.size()-1].type!=0)
 		strings.emplace_back("> ",0);
 	shown=1;
 }
-void Console::close(){
+void Interface::Console::close(){
 	shown=0;
 }
-void Console::out(string str){
+void Interface::Console::out(string str){
 	if(strings[strings.size()-1].type==0 && strings[strings.size()-1].text=="> "){
 		strings[strings.size()-1].text=str;
 		strings[strings.size()-1].type=2;
 	}else
 		strings.emplace_back(str,2);
 }
-Console console;
+Interface interface;

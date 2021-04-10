@@ -52,7 +52,7 @@ set(ENGINE_SOURCES
         src/engine/text.cpp
         src/engine/weapon.cpp
         src/engine/triangulate.cpp
-        src/engine/console.cpp
+        src/engine/interface.cpp
         src/SDL_FontCache/SDL_FontCache.c
         src/XMLParser/xmlParser.cpp
         src/box2d/collision/b2_broad_phase.cpp
@@ -126,7 +126,7 @@ set(ENGINE_HEADERS
         src/engine/text.hpp
         src/engine/weapon.hpp
         src/engine/triangulate.hpp
-        src/engine/console.hpp
+        src/engine/interface.hpp
         src/SDL_FontCache/SDL_FontCache.h
         src/XMLParser/xmlParser.h
 		src/box2d/b2_api.h
