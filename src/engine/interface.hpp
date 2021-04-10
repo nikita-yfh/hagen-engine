@@ -38,8 +38,7 @@ struct Interface{
 		void show();
 		void update();
 		GPU_Rect lives_counter;
-		float health_counter_dx;
-		float health_counter_dy;
+		GPU_Rect health_counter;
 	}game_interface;
 	void show();
 	void update();

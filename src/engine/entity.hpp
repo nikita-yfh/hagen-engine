@@ -10,7 +10,7 @@ struct Entity {
 	Entity(string type,float x,float y);
 	~Entity();
 	string weapon;
-	float health;
+	float health=100;
 	string type;
 	unordered_map<string,b2Body*>bodies;
 	unordered_map<string,b2Joint*>joints;
