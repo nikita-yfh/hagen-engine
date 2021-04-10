@@ -185,6 +185,7 @@ include_directories(
         "src/SDL_FontCache"
         "src/XMLParser"
         "src/sdl-gpu/include"
+        "src"
 )
 
 add_executable(${ENGINE} ${ENGINE_SOURCES} ${ENGINE_HEADERS})
@@ -195,7 +196,6 @@ add_subdirectory("src/sdl-gpu")
 target_link_libraries (${ENGINE}
         ${SDL_LIBRARIES}
         ${LUA_LIBRARIES}
-        box2d
         SDL_gpu_shared
 )
 if(UNIX)
