@@ -4,6 +4,13 @@
 #include "sdl.hpp"
 #include "SDL_FontCache.h"
 using namespace std;
+struct Rect4{
+	float top;
+	float bottom;
+	float left;
+	float right;
+	void stabilize();
+};
 struct Interface{
 	struct Console{
 		Console();
@@ -37,9 +44,7 @@ struct Interface{
 		void load_config();
 		void show();
 		void update();
-		GPU_Rect lives_counter;
-		GPU_Rect health_counter;
-		GPU_Rect bullet_counter;
+		Rect4 borders;
 	}game_interface;
 	void show();
 	void update();

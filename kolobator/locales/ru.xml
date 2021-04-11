@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <text>
-	<pistol_name>Пистолет</pistol_name>
-	<knife_name>Нож</knife_name>
+	<__live1>&#xE003;</__live1>
+	<__live2>&#xE004;</__live2>
+	<__bullet1>&#xE001;</__bullet1>
+	<__bullet2>&#xE001;</__bullet2>
+	<__health>&#xE000;</__health>
 </text>

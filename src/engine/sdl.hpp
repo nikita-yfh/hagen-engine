@@ -38,7 +38,7 @@ extern GPU_Image *background;
 void load_cursor();
 void load_textures();
 void configure_textures();
-void destroy_textures();
+void destroy_all();
 void load_background(string path);
 GPU_Image *load_texture(string str);
 void load_body_textures(b2Body *body);

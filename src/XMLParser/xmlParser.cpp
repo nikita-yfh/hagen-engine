@@ -927,6 +927,17 @@ XMLSTR ToXMLStringTool::toXML(XMLCSTR source) {
 	return toXMLUnSafe(buf,source);
 }
 
+std::string utf8chr(int cp)
+{
+    char c[5]={ 0x00,0x00,0x00,0x00,0x00 };
+    if     (cp<=0x7F) { c[0] = cp;  }
+    else if(cp<=0x7FF) { c[0] = (cp>>6)+192; c[1] = (cp&63)+128; }
+    else if(0xd800<=cp && cp<=0xdfff) {} //invalid block of utf8
+    else if(cp<=0xFFFF) { c[0] = (cp>>12)+224; c[1]= ((cp>>6)&63)+128; c[2]=(cp&63)+128; }
+    else if(cp<=0x10FFFF) { c[0] = (cp>>18)+240; c[1] = ((cp>>12)&63)+128; c[2] = ((cp>>6)&63)+128; c[3]=(cp&63)+128; }
+    return std::string(c);
+}
+
 // private:
 XMLSTR fromXMLString(XMLCSTR s, int lo, XML *pXML) {
 	// This function is the opposite of the function "toXMLString". It decodes the escape
@@ -1004,6 +1015,7 @@ XMLSTR fromXMLString(XMLCSTR s, int lo, XML *pXML) {
 						}
 						ss++;
 					}
+					ss++;
 				} else {
 					while (*ss!=_CXML(';')) {
 						if ((*ss>=_CXML('0'))&&(*ss<=_CXML('9'))) j=(j*10)+*ss-_CXML('0');
@@ -1014,14 +1026,11 @@ XMLSTR fromXMLString(XMLCSTR s, int lo, XML *pXML) {
 						ss++;
 					}
 				}
-#ifndef _XMLWIDECHAR
-				if (j>255) {
-					free((void*)s);
-					throw eXMLErrorCharacterCodeAbove255;
+				std::string st=utf8chr(j);
+				for(int q=0;q<5;q++){
+					if(st[q]==0)break;
+					(*d++)=st[q];
 				}
-#endif
-				(*d++)=(XMLCHAR)j;
-				ss++;
 			} else {
 				entity=XMLEntities;
 				do {

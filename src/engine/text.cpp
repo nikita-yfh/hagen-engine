@@ -5,13 +5,13 @@
 string language="ru";
 unordered_map <string,string>texts;
 string get_text(string id){
-	if(texts.empty()){
+	if(texts.empty() || texts.find(id)!=texts.end()){
 		XMLNode xml=XMLNode::openFileHelper((prefix+"locales/"+language+".xml").c_str(),"text");
 		xml=xml.getChildNode(id.c_str());
-		return xml.getText();
-	}else{
-		return texts[id];
+		if(!(xml.isEmpty()))
+			texts[id]=xml.getText();
 	}
+	return texts[id];
 }
 void preload_locale(){
 	XMLNode xml=XMLNode::openFileHelper((prefix+"locales/"+language+".xml").c_str(),"text");

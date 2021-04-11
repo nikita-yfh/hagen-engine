@@ -5,6 +5,13 @@
 #include "player.hpp"
 #include "level.hpp"
 #include "lua.hpp"
+#include "text.hpp"
+void Rect4::stabilize(){
+	if(top<1)top*=SH;
+	if(left<1)left*=SH;
+	if(right<1)right*=SH;
+	if(bottom<1)bottom*=SH;
+}
 void Interface::update(){
 	console.update();
 	game_interface.update();
@@ -67,58 +74,12 @@ void Interface::Game_interface::load_config(){
 		load_font(font,text,"color");
 	}
 	{
-		XMLNode l=node.getChildNode("lives_counter");
-		{
-			XMLNode pos=l.getChildNode("position");
-			lives_counter.x=stof(pos.getAttribute("dx"));
-			lives_counter.y=stof(pos.getAttribute("dy"));
-			if(lives_counter.x<1)lives_counter.x*=SH;
-			if(lives_counter.y<1)lives_counter.y*=SH;
-		}
-		{
-			XMLNode size=l.getChildNode("size");
-			lives_counter.w=lives_counter.h=stof(size.getAttribute("value"));
-			if(lives_counter.w<1){
-				lives_counter.w*=SH;
-				lives_counter.h*=SH;
-			}
-		}
-	}
-	{
-		XMLNode l=node.getChildNode("health_counter");
-		{
-			XMLNode pos=l.getChildNode("position");
-			health_counter.x=stof(pos.getAttribute("dx"));
-			health_counter.y=stof(pos.getAttribute("dy"));
-			if(health_counter.x<1)health_counter.x*=SH;
-			if(health_counter.y<1)health_counter.y*=SH;
-		}
-		{
-			XMLNode size=l.getChildNode("image");
-			health_counter.w=health_counter.h=stof(size.getAttribute("size"));
-			if(health_counter.w<1){
-				health_counter.w*=SH;
-				health_counter.h*=SH;
-			}
-		}
-	}
-	{
-		XMLNode l=node.getChildNode("bullet_counter");
-		{
-			XMLNode pos=l.getChildNode("position");
-			bullet_counter.x=stof(pos.getAttribute("dx"));
-			bullet_counter.y=stof(pos.getAttribute("dy"));
-			if(bullet_counter.x<1)bullet_counter.x*=SH;
-			if(bullet_counter.y<1)bullet_counter.y*=SH;
-		}
-		{
-			XMLNode size=l.getChildNode("image");
-			bullet_counter.w=bullet_counter.h=stof(size.getAttribute("size"));
-			if(bullet_counter.w<1){
-				bullet_counter.w*=SH;
-				bullet_counter.h*=SH;
-			}
-		}
+		XMLNode l=node.getChildNode("border");
+		borders.top=stof(l.getAttribute("top"));
+		borders.left=stof(l.getAttribute("left"));
+		borders.right=stof(l.getAttribute("right"));
+		borders.bottom=stof(l.getAttribute("bottom"));
+		borders.stabilize();
 	}
 }
 void Interface::Console::update(){
@@ -180,17 +141,31 @@ void Interface::Game_interface::update(){
 }
 void Interface::Game_interface::show(){
 	short h=FC_GetLineHeight(font);
-	for(int q=0;q<player.max_lives;q++){
-		GPU_Image *image=textures[((player.lives>q)?"interface/live2.png":"interface/live1.png")];
-		GPU_BlitScale(image,0,ren,lives_counter.x+lives_counter.w*q+lives_counter.w/2,lives_counter.y+lives_counter.h/2,lives_counter.w/image->w,lives_counter.h/image->h);
+	{
+		string str;
+		for(int q=0;q<player.max_lives;q++){
+			/*GPU_Image *image=textures[((player.lives>q)?"interface/live2.png":"interface/live1.png")];
+			GPU_BlitScale(image,0,ren,borders.left+lives_counter_size*(q+0.5f),borders.top+lives_counter_size/2,lives_counter_size/image->h,lives_counter_size/image->h);*/
+			str+=(player.lives>q)?get_text("__live2"):get_text("__live1");
+		}
+		FC_Draw(font,ren,borders.left,borders.bottom,str.c_str());
 	}
 	{
 		string str=to_string(entities["player"]->health);
-		short w=FC_Draw(font,ren,health_counter.x,SH-health_counter.y-h,"%d",(int)entities["player"]->health).w;
+		short w=FC_Draw(font,ren,borders.left,SH-borders.bottom-h,"%s %d %s",get_text("__health_prev").c_str(),(int)entities["player"]->health,get_text("__health").c_str()).w;
 	}
 	{
-		FC_DrawAlign(font,ren,SW-bullet_counter.x,SH-bullet_counter.y-2*h,FC_ALIGN_RIGHT,"%d",player.bullets[weapons[entities["player"]->weapon].bullet1].count);
-		FC_DrawAlign(font,ren,SW-bullet_counter.x,SH-bullet_counter.y-h,FC_ALIGN_RIGHT,"%d",player.bullets[weapons[entities["player"]->weapon].bullet2].count);
+		auto draw_bullets=[=](string id,string str,uint8_t layer){
+			FC_DrawAlign(font,ren,SW-borders.left,SH-borders.top-layer*h,
+				FC_ALIGN_RIGHT,"%s %d/%d %s",get_text(str+"_prev").c_str(),
+				player.bullets[id].count,player.bullets[id].max,
+				get_text(str).c_str());
+		};
+		uint8_t layer=0;
+		if(player.bullets[weapons[entities["player"]->weapon].bullet2].max>0)
+			draw_bullets(weapons[entities["player"]->weapon].bullet2,"__bullet2",++layer);
+		if(player.bullets[weapons[entities["player"]->weapon].bullet2].max>0)
+			draw_bullets(weapons[entities["player"]->weapon].bullet1,"__bullet1",++layer);
 	}
 }
 Interface interface;

@@ -3,8 +3,5 @@
 	<text name="20051.ttf" size="0.05">
 		<color r="255" g="255" b="0" a="255"/>
 	</text>
-	<lives_counter size="32"/>
-	<health_counter size="32"/>
-	<bullet_counter size="32"/>
 	<border left="40" right="40" top="40" bottom="40"/>
 </interface>

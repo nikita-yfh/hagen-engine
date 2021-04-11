@@ -111,7 +111,8 @@ void load_textures() {
 }
 void configure_textures() {
 }
-void destroy_textures() {
+void destroy_all() {
+
 }
 void load_background(string name) {
 	string path=prefix+"backgrounds/"+name;

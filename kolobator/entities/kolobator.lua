@@ -1,7 +1,9 @@
 function kolobator.init(a)
 	a.weapon="pistol"
 	player:bullet("9mm").count=27
+	player:bullet("9mm").max=27
 	player:bullet("27mm").count=1000
+	player:bullet("27mm").max=1000
 end
 function kolobator.update(a)
 	local max_speed=10
@@ -23,6 +25,13 @@ function kolobator.update(a)
 		if(game.key("jump") and world.collide(a)) then
 			b:apply_center_impulse(0,-200)
 		end
+	end
+	if(game.key("1")) then 
+		entity("player").weapon="knife"
+	elseif(game.key("2")) then
+		entity("player").weapon="pistol"
+	elseif(game.key("3")) then
+		entity("player").weapon="ak47"
 	end
 	if(game.key("fire1") and player:bullet(weapon(a.weapon).bullet1).count > 0) then
 		player:bullet(weapon(a.weapon).bullet1).count = player:bullet(weapon(a.weapon).bullet1).count-a:fire1()

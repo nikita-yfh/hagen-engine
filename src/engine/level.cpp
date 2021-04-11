@@ -316,7 +316,7 @@ void open_file(string path) {
 	load_textures();
 }
 void close_level() {
-	destroy_textures();
+	destroy_all();
 	lua::quit();
 }
 void load_level(string name) {
