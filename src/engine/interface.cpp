@@ -113,7 +113,7 @@ void Interface::Game_interface::load_config(){
 		}
 		{
 			XMLNode size=l.getChildNode("image");
-			bullet_counter.w=health_counter.h=stof(size.getAttribute("size"));
+			bullet_counter.w=bullet_counter.h=stof(size.getAttribute("size"));
 			if(bullet_counter.w<1){
 				bullet_counter.w*=SH;
 				bullet_counter.h*=SH;
@@ -179,12 +179,18 @@ void Interface::Game_interface::update(){
 
 }
 void Interface::Game_interface::show(){
+	short h=FC_GetLineHeight(font);
 	for(int q=0;q<player.max_lives;q++){
 		GPU_Image *image=textures[((player.lives>q)?"interface/live2.png":"interface/live1.png")];
 		GPU_BlitScale(image,0,ren,lives_counter.x+lives_counter.w*q+lives_counter.w/2,lives_counter.y+lives_counter.h/2,lives_counter.w/image->w,lives_counter.h/image->h);
 	}
-	string str=to_string(entities["player"]->health);
-	short h=FC_GetHeight(font,str.c_str());
-	short w=FC_Draw(font,ren,health_counter.x,SH-health_counter.y-h,"%d",(int)entities["player"]->health).w;
+	{
+		string str=to_string(entities["player"]->health);
+		short w=FC_Draw(font,ren,health_counter.x,SH-health_counter.y-h,"%d",(int)entities["player"]->health).w;
+	}
+	{
+		FC_DrawAlign(font,ren,SW-bullet_counter.x,SH-bullet_counter.y-2*h,FC_ALIGN_RIGHT,"%d",player.bullets[weapons[entities["player"]->weapon].bullet1].count);
+		FC_DrawAlign(font,ren,SW-bullet_counter.x,SH-bullet_counter.y-h,FC_ALIGN_RIGHT,"%d",player.bullets[weapons[entities["player"]->weapon].bullet2].count);
+	}
 }
 Interface interface;
