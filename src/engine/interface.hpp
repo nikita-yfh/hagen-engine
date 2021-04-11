@@ -39,6 +39,7 @@ struct Interface{
 		void update();
 		GPU_Rect lives_counter;
 		GPU_Rect health_counter;
+		GPU_Rect bullet_counter;
 	}game_interface;
 	void show();
 	void update();

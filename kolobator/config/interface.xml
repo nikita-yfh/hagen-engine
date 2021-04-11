@@ -11,4 +11,8 @@
 		<position dx="0" dy="0"/>
 		<image size="32"/>
 	</health_counter>
+	<bullet_counter>
+		<position dx="0" dy="0"/>
+		<image size="32"/>
+	</bullet_counter>
 </interface>

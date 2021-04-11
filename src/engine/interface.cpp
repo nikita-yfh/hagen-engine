@@ -102,6 +102,24 @@ void Interface::Game_interface::load_config(){
 			}
 		}
 	}
+	{
+		XMLNode l=node.getChildNode("bullet_counter");
+		{
+			XMLNode pos=l.getChildNode("position");
+			bullet_counter.x=stof(pos.getAttribute("dx"));
+			bullet_counter.y=stof(pos.getAttribute("dy"));
+			if(bullet_counter.x<1)bullet_counter.x*=SH;
+			if(bullet_counter.y<1)bullet_counter.y*=SH;
+		}
+		{
+			XMLNode size=l.getChildNode("image");
+			bullet_counter.w=health_counter.h=stof(size.getAttribute("size"));
+			if(bullet_counter.w<1){
+				bullet_counter.w*=SH;
+				bullet_counter.h*=SH;
+			}
+		}
+	}
 }
 void Interface::Console::update(){
 	if(e.type==SDL_KEYDOWN){
