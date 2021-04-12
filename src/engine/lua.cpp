@@ -58,26 +58,31 @@ void init_entities(){
 		luaL_dostring(L,(entity.second->type+"=extend(Entity)\n").c_str());
 		doscript("entities/"+entity.second->type);
 		getGlobal(L,entity.second->type.c_str())["init"](entity.second);
+		getGlobal(L,"Entity")["init"](entity.second);
 	}
 }
 void init_weapon(string weapon){
 	luaL_dostring(L,(weapon+"=extend(Weapon)\n").c_str());
 	doscript("weapon/"+weapon);
+	getGlobal(L,"Weapon")["init"](&weapons[weapon]);
 	getGlobal(L,weapon.c_str())["init"](&weapons[weapon]);
 }
 void update_entities(){
 	for(auto entity : entities){
+		getGlobal(L,"Entity")["update"](entity.second);
 		getGlobal(L,entity.second->type.c_str())["update"](entity.second);
-		if(weapons.find(entity.second->weapon)!=weapons.end())
-		getGlobal(L,entity.second->weapon.c_str())["update"](&weapons[entity.second->weapon],entity.second);
+		if(weapons.find(entity.second->weapon)!=weapons.end()){
+			getGlobal(L,"Weapon")["update"](&weapons[entity.second->weapon],entity.second);
+			getGlobal(L,entity.second->weapon.c_str())["update"](&weapons[entity.second->weapon],entity.second);
+		}
 	}
 }
 
 int fire1(Entity *ent){return getGlobal(L,ent->weapon.c_str())["fire1"](&weapons[ent->weapon],ent);}
 int fire2(Entity *ent){return getGlobal(L,ent->weapon.c_str())["fire2"](&weapons[ent->weapon],ent);}
 void gameloop() {
-	getGlobal(L,"Global")["update"]();
 	getGlobal(L,"Level")["update"]();
+	getGlobal(L,"level")["update"]();
 	update_entities();
 	update_intervals();
 }
@@ -121,11 +126,11 @@ void bind() {
 			.addFunction("destroy_body",&destroy_body)
 			.addFunction("destroy_entity",&destroy_entity)
 			.addFunction("destroy_joint",&destroy_joint)
-			.addFunction("collide",&collide)
-			.addFunction("collide",&entity_collide)
-			.addFunction("collide",&ee_collide)
-			.addFunction("collide",&level_collide)
-			.addFunction("collide",&level_entity_collide)
+			.addFunction("bb_collide",&bb_collide)
+			.addFunction("eb_collide",&eb_collide)
+			.addFunction("ee_collide",&ee_collide)
+			.addFunction("lb_collide",&lb_collide)
+			.addFunction("le_collide",&le_collide)
 		.endNamespace()
 		.beginNamespace("game")
 			.beginNamespace("camera")
@@ -243,32 +248,22 @@ void init(string name) {
 	bind();
 	dostring(
 		"Level={}\n"
-		"Level.init=function()\n"
-		"end\n"
-		"Level.update=function()\n"
-		"end\n"
+		"Level.init=function() end\n"
+		"Level.update=function() end\n"
 
-		"Global={}\n"
-		"Global.init=function()\n"
-		"end\n"
-		"Global.update=function()\n"
-		"end\n"
+		"level={}\n"
+		"level.init=function() end\n"
+		"level.update=function() end\n"
 
 		"Weapon={}\n"
-		"Weapon.init=function()\n"
-		"end\n"
-		"Weapon.update=function()\n"
-		"end\n"
-		"Weapon.fire1=function()\n"
-		"end\n"
-		"Weapon.fire2=function()\n"
-		"end\n"
+		"Weapon.init=function() end\n"
+		"Weapon.update=function() end\n"
+		"Weapon.fire1=function() end\n"
+		"Weapon.fire2=function() end\n"
 
 		"Entity={}\n"
-		"Entity.init=function()\n"
-		"end\n"
-		"Entity.update=function()\n"
-		"end\n"
+		"Entity.init=function() end\n"
+		"Entity.update=function() end\n"
 
 		"function extend(parent)\n"
 			"local child = {}\n"
@@ -277,10 +272,12 @@ void init(string name) {
 		"end\n"
 		"player=get_player()\n"
 	);
-	doscript("common/global");
+	doscript("common/level");
+	doscript("common/entity");
+	doscript("common/weapon");
 	doscript("levels/"+name);
-	getGlobal(L,"Global")["init"]();
 	getGlobal(L,"Level")["init"]();
+	getGlobal(L,"level")["init"]();
 	init_entities();
 }
 void quit() {

@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <vector>
 #include "box2d.h"
 #include "entity.hpp"
 #define TSTAT          0
@@ -35,9 +36,16 @@ void set_gravity(float x,float y);
 void destroy_body(string id);
 void destroy_joint(string id);
 void destroy_entity(string id);
-bool collide(b2Body *b1,b2Body *b2);
-bool entity_collide(Entity *ent,b2Body *b);
+bool bb_collide(b2Body *b1,b2Body *b2);
+bool eb_collide(Entity *ent,b2Body *b);
 bool ee_collide(Entity *e1,Entity *e2);
-bool level_collide(b2Body *body);
-bool level_entity_collide(Entity *e);
+bool lb_collide(b2Body *body);
+bool le_collide(Entity *e);
+void copy_collides();
+struct ContactPair{
+	ContactPair(b2Contact *_c,const b2ContactImpulse *_i);
+	b2Contact *c;
+	b2ContactImpulse *i;
+};
 
+extern vector<ContactPair>cpairs;

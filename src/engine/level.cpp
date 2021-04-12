@@ -321,5 +321,6 @@ void close_level() {
 }
 void load_level(string name) {
 	open_file(prefix+"levels/"+name+".xml");
+	world.SetContactListener(ContactListener);
 	lua::init(name);
 }
