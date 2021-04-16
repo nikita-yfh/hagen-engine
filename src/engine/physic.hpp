@@ -41,11 +41,9 @@ bool eb_collide(Entity *ent,b2Body *b);
 bool ee_collide(Entity *e1,Entity *e2);
 bool lb_collide(b2Body *body);
 bool le_collide(Entity *e);
+bool bb_all_collide(b2Body *b1,b2Body *b2);
+bool eb_all_collide(Entity *ent,b2Body *b);
+bool ee_all_collide(Entity *e1,Entity *e2);
+bool lb_all_collide(b2Body *body);
+bool le_all_collide(Entity *e);
 void copy_collides();
-struct ContactPair{
-	ContactPair(b2Contact *_c,const b2ContactImpulse *_i);
-	b2Contact *c;
-	b2ContactImpulse *i;
-};
-
-extern vector<ContactPair>cpairs;
