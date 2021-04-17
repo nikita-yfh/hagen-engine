@@ -14,7 +14,7 @@ unsigned short int levelh=20;
 unordered_map<string,b2Body*>bodies;
 unordered_map<string,b2Joint*>joints;
 unordered_map<string,Entity*>entities;
-b2World world(b2Vec2(0,9.8f));
+b2World *world=0;
 
 b2Body* read_body(XMLNode bd,b2Vec2 delta,bool temp) {
 	int shapes_count=stoi(bd.getAttribute("shapes"));
@@ -39,7 +39,7 @@ b2Body* read_body(XMLNode bd,b2Vec2 delta,bool temp) {
 		else if(str=="dynamic")     def.type=b2BodyType::b2_dynamicBody;
 		else if(str=="kinematic")   def.type=b2BodyType::b2_kinematicBody;
 	}
-	body=world.CreateBody(&def);
+	body=world->CreateBody(&def);
 	for(int j=0; j<shapes_count; j++) {
 		XMLNode sh=bd.getChildNode("shape",j);
 		b2FixtureDef fix;
@@ -170,7 +170,7 @@ b2Joint *read_joint(XMLNode jn,string &id,b2Vec2 delta,Entity *ent) {
 		set_bds(&joint,con,id1,id2,ent);
 		joint.stiffness=stof(phs.getAttribute("stiffness"));
 		joint.damping=stof(phs.getAttribute("damping"));
-		j=world.CreateJoint(&joint);
+		j=world->CreateJoint(&joint);
 	} else if(type=="RevoluteJoint") {
 		b2RevoluteJointDef joint;
 		set_bds(&joint,con,id1,id2,ent);
@@ -186,7 +186,7 @@ b2Joint *read_joint(XMLNode jn,string &id,b2Vec2 delta,Entity *ent) {
 			joint.maxMotorTorque=stof(phs.getAttribute("max_torque"));
 			joint.motorSpeed=stof(phs.getAttribute("speed"));
 		}
-		j=world.CreateJoint(&joint);
+		j=world->CreateJoint(&joint);
 	} else if(type=="GearJoint") {
 		b2GearJointDef joint;
 		joint.userData=new b2JointData;
@@ -211,7 +211,7 @@ b2Joint *read_joint(XMLNode jn,string &id,b2Vec2 delta,Entity *ent) {
 			joint.bodyA=j1->GetBodyB();
 			joint.bodyB=j1->GetBodyA();
 		}
-		j=(b2GearJoint*)world.CreateJoint(&joint);
+		j=(b2GearJoint*)world->CreateJoint(&joint);
 	} else if(type=="PrismaticJoint") {
 		b2PrismaticJointDef joint;
 		set_bds(&joint,con,id1,id2,ent);
@@ -229,7 +229,7 @@ b2Joint *read_joint(XMLNode jn,string &id,b2Vec2 delta,Entity *ent) {
 			joint.maxMotorForce=stof(phs.getAttribute("max_force"));
 			joint.motorSpeed=stof(phs.getAttribute("speed"));
 		}
-		j=world.CreateJoint(&joint);
+		j=world->CreateJoint(&joint);
 	} else if(type=="DistanceJoint") {
 		b2DistanceJointDef joint;
 		set_bds(&joint,con,id1,id2,ent);
@@ -243,7 +243,7 @@ b2Joint *read_joint(XMLNode jn,string &id,b2Vec2 delta,Entity *ent) {
 		joint.minLength=joint.length+stof(pos.getAttribute("min"));
 		joint.stiffness=stof(phs.getAttribute("stiffness"));
 		joint.damping=stof(phs.getAttribute("damping"));
-		j=world.CreateJoint(&joint);
+		j=world->CreateJoint(&joint);
 	} else if(type=="PulleyJoint") {
 		b2PulleyJointDef joint;
 		set_bds(&joint,con,id1,id2,ent);
@@ -253,12 +253,13 @@ b2Joint *read_joint(XMLNode jn,string &id,b2Vec2 delta,Entity *ent) {
 						 b2Vec2(stof(pos.getAttribute("x1")),stof(pos.getAttribute("y2")))+delta,
 						 b2Vec2(stof(pos.getAttribute("x2")),stof(pos.getAttribute("y2")))+delta,
 						 stof(phs.getAttribute("ratio")));
-		j=world.CreateJoint(&joint);
+		j=world->CreateJoint(&joint);
 	}
 	return j;
 }
 void open_file(string path) {
 	XMLNode lvl=XMLNode::openFileHelper(path.c_str(),"level");
+	world=new b2World(b2Vec2(0,9.8));
 	{
 		//backgroung
 		XMLNode bgr=lvl.getChildNode("background");
@@ -320,6 +321,7 @@ void close_level() {
 	entities.clear();
 	joints.clear();
 	bodies.clear();
+	if(world)delete world;
 	lua::quit();
 }
 void load_level(string name) {

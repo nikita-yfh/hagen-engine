@@ -20,7 +20,7 @@ Entity *create_entity(string type,string id,float x,float y) {
 	return ent;
 }
 void set_gravity(float x,float y) {
-	world.SetGravity({x,y});
+	world->SetGravity({x,y});
 }
 void destroy_body(string id) {
 	bodies.erase(id);

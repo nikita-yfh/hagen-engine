@@ -14,4 +14,4 @@ extern unsigned short int levelh;
 extern unordered_map<string,b2Body*>bodies;
 extern unordered_map<string,b2Joint*>joints;
 extern unordered_map<string,Entity*>entities;
-extern b2World world;
+extern b2World *world;

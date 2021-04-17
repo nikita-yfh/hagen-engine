@@ -1,36 +1,63 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <level w="30" h="30">
 	<background img="default.png"/>
-	<bodies count="1">
-		<body x="16.0833" y="20.625" id="wall" type="static" shapes="6">
+	<bodies count="5">
+		<body x="14.05" y="19.65" id="wall" type="static" shapes="5">
 			<physic bullet="0" fixed_rotation="0" gravity_scale="1"/>
 			<shape id="_Rect1" type="Rect" pos="physic" texture="durka_wall.png" expand="0">
-				<position x1="-3.08334" y1="-2.125" x2="-16.0833" y2="9.375"/>
+				<position x1="-0.0499973" y1="-0.65" x2="-14.05" y2="1.35"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
 			</shape>
 			<shape id="_Rect2" type="Rect" pos="physic" texture="durka_wall.png" expand="0">
-				<position x1="-3.08334" y1="0.375" x2="1.41666" y2="9.375"/>
+				<position x1="-14.05" y1="1.35" x2="3.45" y2="10.35"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
 			</shape>
 			<shape id="_Rect3" type="Rect" pos="physic" texture="durka_wall.png" expand="0">
-				<position x1="13.9167" y1="9.375" x2="1.41666" y2="0.375"/>
+				<position x1="15.95" y1="10.35" x2="3.44998" y2="1.35"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
 			</shape>
 			<shape id="_Rect4" type="Rect" pos="physic" texture="durka_wall.png" expand="0">
-				<position x1="13.9167" y1="-20.625" x2="-16.0833" y2="-2.125"/>
+				<position x1="15.95" y1="-19.65" x2="-14.05" y2="-1.15"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
 			</shape>
+			<shape id="_Rect6" type="Rect" pos="f_physic" texture="durka.jpg" expand="1">
+				<position x1="0.950003" y1="-2.15" x2="2.45" y2="-1.15"/>
+				<physic density="1000" friction="0.3" restitution="0"/>
+				<collision category="0" mask="65535"/>
+			</shape>
+		</body>
+		<body x="17.25" y="16.5" id="door_sensor" type="static" shapes="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1"/>
+			<shape id="_Line1" type="Line" pos="background" texture="" expand="1">
+				<position x1="-0.75" y1="0" x2="0.75" y2="0"/>
+				<physic density="1000" friction="0.3" restitution="0"/>
+				<collision category="0" mask="65535"/>
+			</shape>
+		</body>
+		<body x="17.25" y="19.75" id="door" type="kinematic" shapes="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1"/>
 			<shape id="_Rect5" type="Rect" pos="physic" texture="wooden_box.png" expand="1">
-				<position x1="1.66666" y1="-1.125" x2="2.16666" y2="0.375"/>
+				<position x1="-0.25" y1="-1.25" x2="0.25" y2="1.25"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
 			</shape>
-			<shape id="_Rect6" type="Rect" pos="physic" texture="durka.jpg" expand="1">
-				<position x1="1.41666" y1="-2.125" x2="2.41666" y2="-1.125"/>
+		</body>
+		<body x="7" y="18.75" id="bullet_sensor" type="static" shapes="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1"/>
+			<shape id="_Rect7" type="Rect" pos="foreground" texture="def.png" expand="0">
+				<position x1="-7" y1="0.25" x2="7" y2="-0.25"/>
+				<physic density="1000" friction="0.3" restitution="0"/>
+				<collision category="0" mask="65535"/>
+			</shape>
+		</body>
+		<body x="33.75" y="21" id="_end" type="static" shapes="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1"/>
+			<shape id="_Line2" type="Line" pos="physic" texture="" expand="1">
+				<position x1="3.75" y1="0" x2="-3.75" y2="0"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
 			</shape>
@@ -38,7 +65,7 @@
 	</bodies>
 	<entities count="1">
 		<entity id="player" type="kolobator">
-			<position x="14" y="20"/>
+			<position x="15.5" y="19.5"/>
 		</entity>
 	</entities>
 	<joints count="0"/>
