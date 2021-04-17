@@ -34,7 +34,7 @@ Color::Color(int _r,int _g,int _b) {
 SDL_Color Color::color() {
 	return SDL_Color({r,g,b,a});
 }
-void Color::load(XMLNode node){
+void Color::load(XMLNode node) {
 	r=stoi(node.getAttribute("r"));
 	g=stoi(node.getAttribute("g"));
 	b=stoi(node.getAttribute("b"));
@@ -50,7 +50,7 @@ Rect::Rect() {}
 Rect::Rect(float _x,float _y,float _w,float _h) {
 	set(_x,_y,_w,_h);
 }
-void Rect::load(XMLNode node){
+void Rect::load(XMLNode node) {
 	x=stoi(node.getAttribute("x"));
 	y=stoi(node.getAttribute("y"));
 	w=stoi(node.getAttribute("w"));
@@ -83,7 +83,7 @@ void load_cursor() {
 	SDL_FreeSurface(sur);
 	SDL_SetCursor(cur);
 }
-GPU_Image *load_texture(string str){
+GPU_Image *load_texture(string str) {
 	if(str.size() && !find_texture(str)) {
 		textures[str]=GPU_LoadImage((prefix+"textures/"+str).c_str());
 		if(!textures[str])
@@ -91,12 +91,12 @@ GPU_Image *load_texture(string str){
 	}
 	return textures[str];
 }
-void load_body_textures(b2Body *body){
+void load_body_textures(b2Body *body) {
 	for(b2Fixture *fix=body->GetFixtureList(); fix; fix=fix->GetNext()) {
 		load_texture(F_DATA(fix,texture));
 	}
 }
-void load_entity_textures(Entity *ent){
+void load_entity_textures(Entity *ent) {
 	for(auto body : ent->bodies) {
 		load_body_textures(body.second);
 	}
@@ -112,7 +112,9 @@ void load_textures() {
 void configure_textures() {
 }
 void destroy_all() {
-
+	for(auto &t : textures)
+		GPU_FreeImage(t.second);
+	textures.clear();
 }
 void load_background(string name) {
 	string path=prefix+"backgrounds/"+name;
@@ -125,7 +127,7 @@ void load_background(string name) {
 		throw string("Loading \""+name+"\" background failed: "+SDL_GetError());
 }
 
-void load_font(FC_Font *&font, XMLNode node,string color){
+void load_font(FC_Font *&font, XMLNode node,string color) {
 	string font_path=node.getAttribute("name");
 	float size=stof(node.getAttribute("size"));
 	if(size<1)size*=SH;

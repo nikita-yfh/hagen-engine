@@ -577,9 +577,9 @@ XMLNode XMLNode::openFileHelper(XMLCSTR filename, XMLCSTR tag, XMLError *error, 
 				  "XML Parsing error inside file '%s'.\n%s\nAt line %i, column %i.\n%s%s%s"
 #endif
 				  ,filename,XMLNode::getError(pResults.error),pResults.nLine,pResults.nColumn,s1,s2,s3);
-        if(error!=0)*error=pResults.error;
-        if(error_str!=0)strcpy(*error_str,message);
-        //throw std::runtime_error(message);
+		if(error!=0)*error=pResults.error;
+		if(error_str!=0)strcpy(*error_str,message);
+		//throw std::runtime_error(message);
 	}
 	return xnode;
 }
@@ -927,15 +927,25 @@ XMLSTR ToXMLStringTool::toXML(XMLCSTR source) {
 	return toXMLUnSafe(buf,source);
 }
 
-std::string utf8chr(int cp)
-{
-    char c[5]={ 0x00,0x00,0x00,0x00,0x00 };
-    if     (cp<=0x7F) { c[0] = cp;  }
-    else if(cp<=0x7FF) { c[0] = (cp>>6)+192; c[1] = (cp&63)+128; }
-    else if(0xd800<=cp && cp<=0xdfff) {} //invalid block of utf8
-    else if(cp<=0xFFFF) { c[0] = (cp>>12)+224; c[1]= ((cp>>6)&63)+128; c[2]=(cp&63)+128; }
-    else if(cp<=0x10FFFF) { c[0] = (cp>>18)+240; c[1] = ((cp>>12)&63)+128; c[2] = ((cp>>6)&63)+128; c[3]=(cp&63)+128; }
-    return std::string(c);
+std::string utf8chr(int cp) {
+	char c[5]= { 0x00,0x00,0x00,0x00,0x00 };
+	if     (cp<=0x7F) {
+		c[0] = cp;
+	} else if(cp<=0x7FF) {
+		c[0] = (cp>>6)+192;
+		c[1] = (cp&63)+128;
+	} else if(0xd800<=cp && cp<=0xdfff) {} //invalid block of utf8
+	else if(cp<=0xFFFF) {
+		c[0] = (cp>>12)+224;
+		c[1]= ((cp>>6)&63)+128;
+		c[2]=(cp&63)+128;
+	} else if(cp<=0x10FFFF) {
+		c[0] = (cp>>18)+240;
+		c[1] = ((cp>>12)&63)+128;
+		c[2] = ((cp>>6)&63)+128;
+		c[3]=(cp&63)+128;
+	}
+	return std::string(c);
 }
 
 // private:
@@ -1027,7 +1037,7 @@ XMLSTR fromXMLString(XMLCSTR s, int lo, XML *pXML) {
 					}
 				}
 				std::string st=utf8chr(j);
-				for(int q=0;q<5;q++){
+				for(int q=0; q<5; q++) {
 					if(st[q]==0)break;
 					(*d++)=st[q];
 				}

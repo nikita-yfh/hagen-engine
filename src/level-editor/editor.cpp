@@ -109,7 +109,7 @@ string get_open_path(string path) {
 	return str;
 }
 void save_only_physic() {
-	if(!save_path.size()||!save_ph){
+	if(!save_path.size()||!save_ph) {
 		save_path=get_save_path("game/levels");
 		save_ph=1;
 	}

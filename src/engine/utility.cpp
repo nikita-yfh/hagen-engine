@@ -32,21 +32,21 @@ bool exist_file(string path) {
 	fin.close();
 	return isExist;
 }
-string free_id(){
-	for(int q=0;;q++){
+string free_id() {
+	for(int q=0;; q++) {
 		string id="_Body"+to_string(q);
 		bool ok=1;
-		for(auto bd : bodies){
+		for(auto bd : bodies) {
 			if(bd.first==id)ok=0;
 		}
 		if(ok)return id;
 	}
 }
-string free_entity_id(){
-	for(int q=0;;q++){
+string free_entity_id() {
+	for(int q=0;; q++) {
 		string id="_Entity"+to_string(q);
 		bool ok=1;
-		for(auto en : entities){
+		for(auto en : entities) {
 			if(en.first==id)ok=0;
 		}
 		if(ok)return id;

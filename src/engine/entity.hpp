@@ -32,4 +32,6 @@ struct Entity {
 	void destroy_joint(string id);
 	int fire1();
 	int fire2();
+	int fire3();
+	int fire4();
 };

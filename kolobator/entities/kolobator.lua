@@ -2,8 +2,8 @@ function kolobator.init(a)
 	a.weapon="pistol"
 	player:bullet("9mm").count=27
 	player:bullet("9mm").max=27
-	player:bullet("27mm").count=1000
-	player:bullet("27mm").max=1000
+	player:bullet("27mm").count=10
+	player:bullet("27mm").max=10
 end
 function kolobator.update(a)
 	local max_speed=10
@@ -22,8 +22,8 @@ function kolobator.update(a)
 		b:apply_center_impulse(24,0)
 	else
 		j.motor=0
-		if(game.key("jump") and world.collide(a)) then
-			b:apply_center_impulse(0,-200)
+		if(game.press_key("jump") and world.lb_collide(a:body("wheel"))) then
+			b:apply_center_impulse(0,-2000)
 		end
 	end
 	if(game.key("1")) then 
@@ -33,10 +33,19 @@ function kolobator.update(a)
 	elseif(game.key("3")) then
 		entity("player").weapon="ak47"
 	end
-	if(game.key("fire1") and player:bullet(weapon(a.weapon).bullet1).count > 0) then
-		player:bullet(weapon(a.weapon).bullet1).count = player:bullet(weapon(a.weapon).bullet1).count-a:fire1()
-	elseif(game.key("fire2") and player:bullet(weapon(a.weapon).bullet2).count > 0) then
-		player:bullet(weapon(a.weapon).bullet2).count = player:bullet(weapon(a.weapon).bullet2).count-a:fire2()
+	if(player:bullet(weapon(a.weapon).bullet1).count > 0) then
+		if(game.press_key("fire1")) then
+			player:bullet(weapon(a.weapon).bullet1).count = player:bullet(weapon(a.weapon).bullet1).count-a:fire1()
+		elseif(game.key("fire1")) then
+			player:bullet(weapon(a.weapon).bullet1).count = player:bullet(weapon(a.weapon).bullet1).count-a:fire2()
+		end
+	end
+	if(player:bullet(weapon(a.weapon).bullet2).count > 0) then
+		if(game.press_key("fire2")) then
+			player:bullet(weapon(a.weapon).bullet2).count = player:bullet(weapon(a.weapon).bullet2).count-a:fire3()
+		elseif(game.key("fire2")) then
+			player:bullet(weapon(a.weapon).bullet2).count = player:bullet(weapon(a.weapon).bullet2).count-a:fire4()
+		end
 	end
 	a.weapon_angle=game.camera.angle
 	if(game.camera.locked) then

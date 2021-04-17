@@ -16,8 +16,8 @@ float rotatex(b2Vec2 vec,float a);
 float rotatey(b2Vec2 vec,float a);
 b2Vec2 rotate(b2Vec2 vec,float a);
 float mouse_angle();
-struct Mouse{
-	bool state=0;
+struct Mouse {
+	uint8_t state=0;
 	uint8_t b=0;
 	int x,y;
 	bool update();

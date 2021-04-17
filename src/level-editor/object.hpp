@@ -40,7 +40,7 @@ extern int cur_table_string;
 
 struct Point:Object {
 	Point(float,float,std::string);
-	Point(){};
+	Point() {};
 	void draw(cairo_t *cr);
 	bool drag(float xp,float yp,int dr);
 	bool create(float xp,float yp,int dr);
@@ -60,7 +60,7 @@ struct Point:Object {
 };
 
 struct Entity : Point {
-	Entity(){};
+	Entity() {};
 	std::string type;
 	bool player_on;
 	static GtkWidget *entry,*text;

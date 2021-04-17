@@ -5,7 +5,6 @@ function pistol.init(w)
 	w.bullet2="27mm"
 end
 function pistol.fire1(w,e)
-	if(not game.interval(100)) then return 0 end
 	local body=e:body("body")
 	bullet=world.create_body("bullet","",e.x,e.y)
 	bullet.angle=e.weapon_angle
@@ -14,8 +13,7 @@ function pistol.fire1(w,e)
 	return 1
 end
 
-function pistol.fire2(w,e)
-	if(not game.interval(100)) then return 0 end
+function pistol.fire3(w,e)
 	local body=e:body("body")
 	bullet=world.create_body("big_bullet","",e.x,e.y)
 	bullet.angle=e.weapon_angle

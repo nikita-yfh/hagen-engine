@@ -4,15 +4,15 @@
 #include "sdl.hpp"
 #include "SDL_FontCache.h"
 using namespace std;
-struct Rect4{
+struct Rect4 {
 	float top;
 	float bottom;
 	float left;
 	float right;
 	void stabilize();
 };
-struct Interface{
-	struct Console{
+struct Interface {
+	struct Console {
 		Console();
 		bool shown;
 		int max_strings_count;
@@ -25,7 +25,7 @@ struct Interface{
 		Color output_color;
 		FC_Font *font=0;
 		short cursor=10;
-		struct String{
+		struct String {
 			String();
 			String(string _text,uint8_t _type);
 			string text;
@@ -37,15 +37,15 @@ struct Interface{
 		void out(string str);
 		void open();
 		void close();
-	}console;
-	struct Game_interface{
+	} console;
+	struct Game_interface {
 		bool shown;
 		FC_Font *font=0;
 		void load_config();
 		void show();
 		void update();
 		Rect4 borders;
-	}game_interface;
+	} game_interface;
 	void show();
 	void update();
 	void load_config();

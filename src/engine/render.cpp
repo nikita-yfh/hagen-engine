@@ -39,16 +39,16 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 		if(tex) {
 			float w=shape->m_vertices[2].x-shape->m_vertices[0].x;
 			float h=shape->m_vertices[2].y-shape->m_vertices[0].y;
-			if(F_DATA(fix,expand)){
+			if(F_DATA(fix,expand)) {
 				GPU_BlitTransformX(tex,0,ren,
-				   drawx(body->GetPosition().x),drawy(body->GetPosition().y),
-				   (0.5-shape->m_centroid.x/w)*tex->w,
-				   (0.5-shape->m_centroid.y/h)*tex->h,a_deg,
-				   zoom*w/tex->w,
-				   zoom*h/tex->h);
-			}else{
+								   drawx(body->GetPosition().x),drawy(body->GetPosition().y),
+								   (0.5-shape->m_centroid.x/w)*tex->w,
+								   (0.5-shape->m_centroid.y/h)*tex->h,a_deg,
+								   zoom*w/tex->w,
+								   zoom*h/tex->h);
+			} else {
 				float f[16];
-				for(int q=0;q<shape->m_count;q++){
+				for(int q=0; q<shape->m_count; q++) {
 					b2Vec2 v(shape->m_vertices[q].x,shape->m_vertices[q].y);
 					f[q*4]=drawx(body->GetPosition().x+rotatex(v,a_rad));
 					f[q*4+1]=drawy(body->GetPosition().y+rotatey(v,a_rad));
@@ -56,7 +56,7 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 					f[q*4+3]=(shape->m_vertices[q]-shape->m_vertices[0]).y*(zoom/tex->h);
 				}
 				GPU_SetWrapMode(tex, GPU_WRAP_REPEAT, GPU_WRAP_REPEAT);
-				short unsigned int index[]={0,1,3,2};
+				short unsigned int index[]= {0,1,3,2};
 				GPU_PrimitiveBatch(tex,ren,GPU_TRIANGLE_STRIP,shape->m_count,f,shape->m_count,index,GPU_BATCH_XY_ST);
 			}
 		} else {
@@ -74,21 +74,21 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 	case CIRCLE: {
 		b2CircleShape *shape=(b2CircleShape*)fix->GetShape();
 		if(tex) {
-			if(F_DATA(fix,expand)){
+			if(F_DATA(fix,expand)) {
 				GPU_BlitTransformX(tex,0,ren,
-				   drawx(body->GetPosition().x),drawy(body->GetPosition().y),
-				   (0.5+shape->m_p.x/shape->m_radius/2.0)*tex->w,
-				   (0.5+shape->m_p.y/shape->m_radius/2.0)*tex->h,a_deg+180,
-				   zoom*shape->m_radius*2/tex->w,
-				   zoom*shape->m_radius*2/tex->h);
-			}else{
+								   drawx(body->GetPosition().x),drawy(body->GetPosition().y),
+								   (0.5+shape->m_p.x/shape->m_radius/2.0)*tex->w,
+								   (0.5+shape->m_p.y/shape->m_radius/2.0)*tex->h,a_deg+180,
+								   zoom*shape->m_radius*2/tex->w,
+								   zoom*shape->m_radius*2/tex->h);
+			} else {
 				float f[(CIRCLE_QUALITY+2)*4];
 				int q;
-				for(q=0;q<CIRCLE_QUALITY+1;q++){
+				for(q=0; q<CIRCLE_QUALITY+1; q++) {
 					b2Vec2 v;
 					if(!q)v.Set(shape->m_p.x,shape->m_p.y);
 					else v.Set(shape->m_p.x+cos(2*M_PI/(CIRCLE_QUALITY)*q)*shape->m_radius,
-								shape->m_p.y+sin(2*M_PI/(CIRCLE_QUALITY)*q)*shape->m_radius);
+								   shape->m_p.y+sin(2*M_PI/(CIRCLE_QUALITY)*q)*shape->m_radius);
 					f[q*4+0]=drawx(body->GetPosition().x+rotatex(v,a_rad));
 					f[q*4+1]=drawy(body->GetPosition().y+rotatey(v,a_rad));
 					f[q*4+2]=(v.x-shape->m_p.x-shape->m_radius)*(zoom/tex->w);
@@ -122,9 +122,9 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 	break;
 	case POLYGON: {
 		b2PolygonShape *shape=(b2PolygonShape*)fix->GetShape();
-		if(tex){
+		if(tex) {
 			b2Vec2 maxv(0,0),minv(100000,100000);
-			for(int q=0;q<shape->b_count;q++){
+			for(int q=0; q<shape->b_count; q++) {
 				b2Vec2 v(shape->big_polygon[q]);
 				maxv.x=max(v.x,maxv.x);
 				maxv.y=max(v.y,maxv.y);
@@ -132,7 +132,7 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 				minv.y=min(v.y,minv.y);
 			}
 			float f[shape->m_count*4];
-			for(int q=0;q<shape->m_count;q++){
+			for(int q=0; q<shape->m_count; q++) {
 				b2Vec2 v(shape->m_vertices[q].x,shape->m_vertices[q].y);
 				f[q*4]=drawx(body->GetPosition().x+rotatex(v,a_rad));
 				f[q*4+1]=drawy(body->GetPosition().y+rotatey(v,a_rad));
@@ -141,49 +141,49 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 			}
 			GPU_SetWrapMode(tex, GPU_WRAP_REPEAT, GPU_WRAP_REPEAT);
 			GPU_TriangleBatch(tex,ren,shape->m_count,f,shape->m_count,0,GPU_BATCH_XY_ST);
-		}else{
+		} else {
 			float f[shape->m_count*2];
-			for(int q=0;q<shape->m_count;q++){
+			for(int q=0; q<shape->m_count; q++) {
 				b2Vec2 v(shape->m_vertices[q].x,shape->m_vertices[q].y);
 				f[q*2]=drawx(body->GetPosition().x+rotatex(v,a_rad));
 				f[q*2+1]=drawy(body->GetPosition().y+rotatey(v,a_rad));
 			}
-			GPU_Polygon(ren,shape->m_count,f,{255,255,255,255});
+			GPU_Polygon(ren,shape->m_count,f, {255,255,255,255});
 		}
 	}
 	break;
 	}
 }
-void draw_bodies(uint8_t pos){
+void draw_bodies(uint8_t pos) {
 	for(auto &body : bodies) {
 		for(b2Fixture *fix=body.second->GetFixtureList(); fix; fix=fix->GetNext()) {
 			if(F_DATA(fix,pos)==pos)fixture_draw(body.second,fix);
 		}
 	}
 }
-void draw_entities(uint8_t pos){
-	for(auto &en : entities){
-		for(auto &body : en.second->bodies){
+void draw_entities(uint8_t pos) {
+	for(auto &en : entities) {
+		for(auto &body : en.second->bodies) {
 			for(b2Fixture *fix=body.second->GetFixtureList(); fix; fix=fix->GetNext()) {
 				if(F_DATA(fix,pos)==pos)fixture_draw(body.second,fix);
 			}
 		}
-		if(pos==3 && en.second->weapon!="" && show_textures){
+		if(pos==3 && en.second->weapon!="" && show_textures) {
 			float size_y=1.0f;
 			if(en.second->weapon_angle>0.5*M_PI&&en.second->weapon_angle<1.5*M_PI)
 				size_y=-1.0f;
 			GPU_BlitTransformX(textures["weapon/"+en.second->weapon+".png"],0,ren,
-				drawx(en.second->getx()+en.second->weapon_x),
-				drawy(en.second->gety()+en.second->weapon_y),
-				weapons[en.second->weapon].dx*100,weapons[en.second->weapon].dy*100,
-				en.second->weapon_angle/M_PI*180,zoom/100,size_y*zoom/100);
+							   drawx(en.second->getx()+en.second->weapon_x),
+							   drawy(en.second->gety()+en.second->weapon_y),
+							   weapons[en.second->weapon].dx*100,weapons[en.second->weapon].dy*100,
+							   en.second->weapon_angle/M_PI*180,zoom/100,size_y*zoom/100);
 		}
 	}
 }
 void draw() {
 	GPU_Clear(ren);
 	draw_bgr();
-	for(int q=0;q<5;q++){
+	for(int q=0; q<5; q++) {
 		draw_bodies(q);
 		draw_entities(q);
 	}

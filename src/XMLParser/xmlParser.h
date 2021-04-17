@@ -287,13 +287,13 @@ public:
 	XMLAttribute  *addAttribute(XMLCSTR lpszName, XMLCSTR lpszValuev);                              ///< Add a new attribute
 	XMLCSTR        addText(XMLCSTR lpszValue, XMLElementPosition pos=-1);
 	template<typename T>
-	XMLNode        addChild(T lpszName, char isDeclaration=FALSE, XMLElementPosition pos=-1){
+	XMLNode        addChild(T lpszName, char isDeclaration=FALSE, XMLElementPosition pos=-1) {
 		std::stringstream str;
 		str<<lpszName;
 		return addChild(str.str().c_str(),isDeclaration,pos);
 	}
 	template<typename T1,typename T2>
-	XMLAttribute  *addAttribute(T1 lpszName, T2 lpszValuev){
+	XMLAttribute  *addAttribute(T1 lpszName, T2 lpszValuev) {
 		std::stringstream str1;
 		str1<<lpszName;
 		std::stringstream str2;
@@ -301,7 +301,7 @@ public:
 		return addAttribute(str1.str().c_str(),str2.str().c_str());
 	}
 	template<typename T>
-	XMLCSTR        addText(T lpszName, XMLElementPosition pos=-1){
+	XMLCSTR        addText(T lpszName, XMLElementPosition pos=-1) {
 		std::stringstream str;
 		str<<lpszName;
 		return addText(str.str().c_str(),pos);

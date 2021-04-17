@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<level w="30" h="30">
+	<background img="default.png"/>
+	<bodies count="1">
+		<body x="16.0833" y="20.625" id="wall" type="static" shapes="6">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1"/>
+			<shape id="_Rect1" type="Rect" pos="physic" texture="durka_wall.png" expand="0">
+				<position x1="-3.08334" y1="-2.125" x2="-16.0833" y2="9.375"/>
+				<physic density="1000" friction="0.3" restitution="0"/>
+				<collision category="0" mask="65535"/>
+			</shape>
+			<shape id="_Rect2" type="Rect" pos="physic" texture="durka_wall.png" expand="0">
+				<position x1="-3.08334" y1="0.375" x2="1.41666" y2="9.375"/>
+				<physic density="1000" friction="0.3" restitution="0"/>
+				<collision category="0" mask="65535"/>
+			</shape>
+			<shape id="_Rect3" type="Rect" pos="physic" texture="durka_wall.png" expand="0">
+				<position x1="13.9167" y1="9.375" x2="1.41666" y2="0.375"/>
+				<physic density="1000" friction="0.3" restitution="0"/>
+				<collision category="0" mask="65535"/>
+			</shape>
+			<shape id="_Rect4" type="Rect" pos="physic" texture="durka_wall.png" expand="0">
+				<position x1="13.9167" y1="-20.625" x2="-16.0833" y2="-2.125"/>
+				<physic density="1000" friction="0.3" restitution="0"/>
+				<collision category="0" mask="65535"/>
+			</shape>
+			<shape id="_Rect5" type="Rect" pos="physic" texture="wooden_box.png" expand="1">
+				<position x1="1.66666" y1="-1.125" x2="2.16666" y2="0.375"/>
+				<physic density="1000" friction="0.3" restitution="0"/>
+				<collision category="0" mask="65535"/>
+			</shape>
+			<shape id="_Rect6" type="Rect" pos="physic" texture="durka.jpg" expand="1">
+				<position x1="1.41666" y1="-2.125" x2="2.41666" y2="-1.125"/>
+				<physic density="1000" friction="0.3" restitution="0"/>
+				<collision category="0" mask="65535"/>
+			</shape>
+		</body>
+	</bodies>
+	<entities count="1">
+		<entity id="player" type="kolobator">
+			<position x="14" y="20"/>
+		</entity>
+	</entities>
+	<joints count="0"/>
+</level>

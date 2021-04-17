@@ -43,7 +43,7 @@ float rotatey(b2Vec2 vec,float a) {
 b2Vec2 rotate(b2Vec2 vec,float a) {
 	return {rotatex(vec,a),rotatey(vec,a)};
 }
-float mouse_angle(){
+float mouse_angle() {
 	float x=SW/2-mouse.x;
 	float y=SH/2-mouse.y;
 	float a;
@@ -58,16 +58,19 @@ float mouse_angle(){
 bool Mouse::update() {
 	int mx=e.button.x;
 	int my=e.button.y;
-	if(mx<0||mx>=SW||my<0||my>=SH){
+	if(mx<0||mx>=SW||my<0||my>=SH) {
 		mx=x;
 		my=y;
 	}
-	if(e.type==SDL_MOUSEBUTTONDOWN) {
+	if(state==1)
+		state=2;
+	else if(state==3)
+		state=0;
+	if(e.type==SDL_MOUSEBUTTONDOWN && state!=2) {
 		state=1;
 		b=e.button.button;
-	}
-	else if(e.type==SDL_MOUSEBUTTONUP)
-		state=0;
+	} else if(e.type==SDL_MOUSEBUTTONUP && state!=0)
+		state=3;
 	x=mx;
 	y=my;
 	return 0;

@@ -9,7 +9,6 @@
 #include "triangulate.hpp"
 #include "main.hpp"
 using namespace std;
-
 unsigned short int levelw=20;
 unsigned short int levelh=20;
 unordered_map<string,b2Body*>bodies;
@@ -24,10 +23,10 @@ b2Body* read_body(XMLNode bd,b2Vec2 delta,bool temp) {
 	b2BodyDef def;
 	b2Body *body;
 	def.userData=new b2BodyData;
-	if(!temp){
+	if(!temp) {
 		def.position=b2Vec2(stof(bd.getAttribute("x")),
 							stof(bd.getAttribute("y")))+delta;
-	}else def.position=delta;
+	} else def.position=delta;
 	{
 		XMLNode phs=bd.getChildNode("physic");
 		def.fixedRotation=stoi(phs.getAttribute("fixed_rotation"));
@@ -317,9 +316,14 @@ void open_file(string path) {
 }
 void close_level() {
 	destroy_all();
+	weapons.clear();
+	entities.clear();
+	joints.clear();
+	bodies.clear();
 	lua::quit();
 }
 void load_level(string name) {
+	close_level();
 	open_file(prefix+"levels/"+name+".xml");
 	lua::init(name);
 }

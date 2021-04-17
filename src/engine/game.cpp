@@ -11,23 +11,24 @@
 #include "interface.hpp"
 #include <chrono>
 #define TYPE(a,b) (static_cast<a>(b))
-#define DEBUG
 bool game() {
 	bool run=1;
 	interface.load_config();
 	auto fps=chrono::high_resolution_clock::now();
-	load_texture("interface/live1.png");
-	load_texture("interface/live2.png");
 	while(run) {
-		while(SDL_PollEvent(&e)){
+		if(lua::need_load.size()){
+			load_level(lua::need_load);
+			lua::need_load="";
+		}
+		while(SDL_PollEvent(&e)) {
 			switch(e.type) {
 			case SDL_QUIT:
 				run=0;
 				break;
 			}
-			mouse.update();
 			interface.update();
 		}
+		mouse.update();
 		if(!interface.console.shown)
 			lua::gameloop();
 		draw();

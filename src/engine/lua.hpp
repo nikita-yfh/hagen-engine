@@ -10,7 +10,8 @@ extern "C" {
 #include <vector>
 #include <string>
 using namespace std;
-namespace lua{
+namespace lua {
+extern string need_load;
 extern lua_State *L;
 
 void gameloop();
@@ -19,4 +20,6 @@ void quit();
 void init_weapon(string weapon);
 int fire1(Entity *ent);
 int fire2(Entity *ent);
+int fire3(Entity *ent);
+int fire4(Entity *ent);
 };

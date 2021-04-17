@@ -3,7 +3,7 @@
 #include "xmlParser.h"
 std::string find_shape_1(float x,float y);
 std::string find_shape_2(float x,float y);
-struct Physic : Object{
+struct Physic : Object {
 	float density=1000.0f;
 	float restitution=0.0f;
 	float friction=0.3f;
@@ -13,7 +13,7 @@ struct Physic : Object{
 	unsigned short category=0;
 	unsigned short mask=0xFFFF;
 	static GtkWidget	*p1, *p2, *p3, *t1, *t2, *t3, *t4, *combo, *entry,
-						*text, *expand, *set_but, *c_category;
+			  *text, *expand, *set_but, *c_category;
 	static GtkObject *a1, *a2, *a3;
 	static void init(GtkWidget*);
 	static void show();
@@ -81,7 +81,9 @@ struct Rect : BiPoints {
 	std::string name();
 };
 struct Polygon : Physic {
-	Polygon() {ex=0;}
+	Polygon() {
+		ex=0;
+	}
 	Polygon(std::vector<float>,std::vector<float>);
 	static GtkWidget *px, *py, *tx, *ty;
 	static GtkObject *ax, *ay;

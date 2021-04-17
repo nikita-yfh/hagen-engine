@@ -500,7 +500,7 @@ void Physic::init(GtkWidget *table) {
 	gtk_combo_box_append_text(GTK_COMBO_BOX(combo),"None");
 	gtk_combo_box_set_active(GTK_COMBO_BOX(combo),2);
 	c_category=gtk_combo_box_new_text();
-	for(int q=0;q<16;q++){
+	for(int q=0; q<16; q++) {
 		gtk_combo_box_append_text(GTK_COMBO_BOX(c_category),to_str(q).c_str());
 	}
 	gtk_combo_box_set_active(GTK_COMBO_BOX(c_category),0);
