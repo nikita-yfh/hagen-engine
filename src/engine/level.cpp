@@ -46,6 +46,7 @@ b2Body* read_body(XMLNode bd,b2Vec2 delta,bool temp) {
 		fix.userData=new b2FixtureData;
 		FD_DATA(fix,texture)	=sh.getAttribute("texture");
 		FD_DATA(fix,expand)		=stoi(sh.getAttribute("expand"));
+		FD_DATA(fix,id)			=sh.getAttribute("id");
 		{
 			//pos
 			string str=sh.getAttribute("pos");

@@ -1,9 +1,11 @@
 function kolobator.init(a)
+	graphics.preload("kolobator1.png")
+	graphics.preload("kolobator2.png")
 	a.weapon="pistol"
-	player:bullet("9mm").count=27
-	player:bullet("9mm").max=27
-	player:bullet("27mm").count=10
-	player:bullet("27mm").max=10
+	player:bullet("9mm").count=270000
+	player:bullet("9mm").max=270000
+	player:bullet("27mm").count=100000
+	player:bullet("27mm").max=100000
 end
 function kolobator.update(a)
 	local max_speed=10
@@ -50,5 +52,10 @@ function kolobator.update(a)
 	a.weapon_angle=game.camera.angle
 	if(game.camera.locked) then
 		game.camera.center_body(a:body("body"))
+	end
+	if(a.weapon_angle>math.pi*0.5 and a.weapon_angle<math.pi*1.5) then
+		b:set_texture("body_fixture","kolobator2.png")
+	else
+		b:set_texture("body_fixture","kolobator1.png")
 	end
 end

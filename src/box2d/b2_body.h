@@ -422,6 +422,7 @@ public:
 
 	/// Dump this body to a file
 	void Dump();
+	void SetTexture(std::string fix, std::string tex);
 
 	std::string &GetID() const;
 
@@ -907,5 +908,4 @@ inline b2World* b2Body::GetWorld() {
 inline const b2World* b2Body::GetWorld() const {
 	return m_world;
 }
-
 #endif

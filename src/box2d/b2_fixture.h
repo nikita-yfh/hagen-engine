@@ -26,6 +26,7 @@
 #include "b2_body.h"
 #include "b2_collision.h"
 #include "b2_shape.h"
+#include <string>
 
 class b2BlockAllocator;
 class b2Body;
@@ -34,6 +35,7 @@ class b2Fixture;
 
 struct b2FixtureData {
 	std::string texture;
+	std::string id;
 	uint8_t pos;
 	uint8_t type;
 	bool expand;

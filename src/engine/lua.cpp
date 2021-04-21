@@ -268,6 +268,7 @@ void bind() {
 	.addFunction("apply_impulse",&b2Body::Impulse)
 	.addFunction("apply_center_impulse",&b2Body::CenterImpulse)
 	.addFunction("apply_angular_impulse",&b2Body::AngularImpulse)
+	.addFunction("set_texture",&b2Body::SetTexture)
 	.endClass()
 	.beginClass<Entity>("Entity")
 	.addProperty("x",&Entity::getx,&Entity::setx)

@@ -326,9 +326,17 @@ bool Polygon::drag(float xp,float yp,int dr) {
 	if(!shows[layer])return 0;
 	if(!shows[3+parent(id)->type])return 0;
 	if(dr==0) {
-		for(int q=0; q<x.size(); q++) {
+		for(int q=0; q<size(); q++) {
 			if(touch(x[q],y[q],xp,yp)) {
 				point_ch=q+1;
+				hide_all();
+				vupdate();
+				return 1;
+			}
+			if(touch((x[(q+1)%size()]+x[q])/2,(y[(q+1)%size()]+y[q])/2,xp,yp)) {
+				x.insert(x.begin()+q+1,to_grid(xp));
+				y.insert(y.begin()+q+1,to_grid(xp));
+				point_ch=q+2;
 				hide_all();
 				vupdate();
 				return 1;
@@ -349,6 +357,14 @@ bool Polygon::drag(float xp,float yp,int dr) {
 		for(int q=0; q<x.size(); q++)
 			cairo_line_to(cr,x[q],y[q]);
 		return cairo_in_fill(cr,xp,yp);
+	}else if(dr==5) {
+		for(int q=0; q<size(); q++) {
+			if(touch(x[q],y[q],xp,yp)) {
+				x.erase(x.begin()+q);
+				y.erase(y.begin()+q);
+				return 1;
+			}
+		}
 	}
 	return 0;
 }
@@ -365,7 +381,7 @@ bool Polygon::create(float xp,float yp,int dr) {
 	} else if(dr==3) {
 		x.pop_back();
 		y.pop_back();
-		if(x.size()<3)return 1;
+		if(size()<3)return 1;
 	}
 	return 0;
 }
@@ -373,11 +389,13 @@ bool Polygon::create(float xp,float yp,int dr) {
 void Polygon::draw(cairo_t *cr) {
 	if(!shows[layer])return;
 	if(!shows[3+parent(id)->type])return;
-	for(int q=0; q<x.size(); q++)
+	for(int q=0; q<size(); q++){
 		draw_drag_rect(cr,x[q],y[q],selected&&point_ch==(q+1));
+		draw_drag_rect(cr,(x[(q+1)%size()]+x[q])/2,(y[(q+1)%size()]+y[q])/2,0);
+	}
 	set_shape_color(cr,parent(id)->type);
-	cairo_move_to(cr,drawx(x[x.size()-1]),drawy(y[y.size()-1]));
-	for(int q=0; q<x.size(); q++)
+	cairo_move_to(cr,drawx(x[x.size()-1]),drawy(y[size()-1]));
+	for(int q=0; q<size(); q++)
 		cairo_line_to(cr,drawx(x[q]),drawy(y[q]));
 	cairo_stroke_preserve(cr);
 	cairo_fill(cr);

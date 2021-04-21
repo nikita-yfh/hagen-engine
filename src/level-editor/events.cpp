@@ -229,8 +229,12 @@ int mousebutton_press(GtkWidget *area,  GdkEventButton  *event, gpointer data) {
 		xd=cx;
 		yd=cy;
 	} else if(mouse_button==1 || mouse_button==3) {
-		if(tool_ch==1)
-			drag_shapes(event->x,event->y,0);
+		if(tool_ch==1){
+			if(drag_shapes(event->x,event->y,(mouse_button==1)?0:5)) {
+				hide_all();
+				rem_but();
+			}
+		}
 		else if(tool_ch>1)
 			create_shapes(event->x,event->y,(mouse_button==1)?0:3);
 		gtk_widget_queue_draw(drawable);

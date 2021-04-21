@@ -2,54 +2,59 @@
 <level w="80" h="30">
 	<background img="default.png"/>
 	<bodies count="5">
-		<body x="24.5648" y="18.4629" id="wall" type="static" shapes="6">
+		<body x="31.2341" y="18.6825" id="wall" type="static" shapes="7">
 			<physic bullet="0" fixed_rotation="0" gravity_scale="1"/>
 			<shape id="_Rect1" type="Rect" pos="physic" texture="durka_wall.png" expand="0">
-				<position x1="-10.5648" y1="0.537016" x2="-24.5648" y2="2.53701"/>
+				<position x1="-17.2341" y1="0.317434" x2="-31.2341" y2="2.31743"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
 			</shape>
 			<shape id="_Rect2" type="Rect" pos="physic" texture="durka_wall.png" expand="0">
-				<position x1="-24.5648" y1="2.53706" x2="-7.06479" y2="11.537"/>
+				<position x1="-31.2341" y1="2.31748" x2="-13.7341" y2="11.3174"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
 			</shape>
 			<shape id="_Rect3" type="Rect" pos="physic" texture="durka_wall.png" expand="0">
-				<position x1="5.43521" y1="11.537" x2="-7.0648" y2="2.53701"/>
+				<position x1="-1.23412" y1="11.3174" x2="-13.7341" y2="2.31743"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
 			</shape>
 			<shape id="_Rect6" type="Rect" pos="foreground" texture="durka.jpg" expand="1">
-				<position x1="-9.56478" y1="-0.962984" x2="-8.06479" y2="0.0370159"/>
+				<position x1="-16.2341" y1="-1.18257" x2="-14.7341" y2="-0.182566"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
 			</shape>
 			<shape id="_Rect9" type="Rect" pos="physic" texture="def.png" expand="0">
-				<position x1="55.4352" y1="5.53702" x2="38.9352" y2="-18.4629"/>
+				<position x1="48.7659" y1="5.31744" x2="31.7659" y2="2.81752"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
 			</shape>
 			<shape id="_Polygon1" type="Polygon" pos="physic" texture="wooden_box.png" expand="0">
 				<position point_count="18">
-					<point x="-24.5648" y="-18.4629"/>
-					<point x="-24.5648" y="0.0370159"/>
-					<point x="-9.56478" y="0.0370159"/>
-					<point x="-9.56478" y="-4.46299"/>
-					<point x="-3.06484" y="-4.46294"/>
-					<point x="-3.06484" y="-8.46289"/>
-					<point x="-17.5648" y="-8.46289"/>
-					<point x="-17.5648" y="-17.4629"/>
-					<point x="15.4352" y="-17.4629"/>
-					<point x="15.4352" y="-15.4629"/>
-					<point x="-16.5648" y="-15.4629"/>
-					<point x="-16.5648" y="-9.46289"/>
-					<point x="-2.06484" y="-9.46289"/>
-					<point x="-2.06484" y="-3.46294"/>
-					<point x="-8.06484" y="-3.46294"/>
-					<point x="-8.06483" y="-0.962894"/>
-					<point x="28.4352" y="-0.962894"/>
-					<point x="28.4352" y="-18.4629"/>
+					<point x="-31.2341" y="-18.6825"/>
+					<point x="-31.2341" y="-0.182566"/>
+					<point x="-16.2341" y="-0.182566"/>
+					<point x="-16.2341" y="-4.68257"/>
+					<point x="-9.73417" y="-4.68252"/>
+					<point x="-9.73417" y="-8.68247"/>
+					<point x="-24.2341" y="-8.68247"/>
+					<point x="-24.2341" y="-17.6825"/>
+					<point x="8.76587" y="-17.6825"/>
+					<point x="8.76587" y="-15.6825"/>
+					<point x="-23.2341" y="-15.6825"/>
+					<point x="-23.2341" y="-9.68247"/>
+					<point x="-8.73417" y="-9.68247"/>
+					<point x="-8.73417" y="-3.68252"/>
+					<point x="-14.7342" y="-3.68252"/>
+					<point x="-14.7342" y="-1.18248"/>
+					<point x="21.7659" y="-1.18248"/>
+					<point x="21.7659" y="-18.6825"/>
 				</position>
+				<physic density="1000" friction="0.3" restitution="0"/>
+				<collision category="0" mask="65535"/>
+			</shape>
+			<shape id="_Rect4" type="Rect" pos="physic" texture="" expand="1">
+				<position x1="31.7659" y1="-18.6825" x2="48.7659" y2="-0.182482"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
 			</shape>
