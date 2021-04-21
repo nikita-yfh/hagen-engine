@@ -22,6 +22,10 @@ function kolobator.update(a)
 		j.motor_speed=motor_speed
 		j.max_torque=30000
 		b:apply_center_impulse(24,0)
+	elseif(game.key("down")) then
+		j.motor=1
+		j.motor_speed=0
+		j.max_torque=30000
 	else
 		j.motor=0
 		if(game.press_key("jump") and world.lb_collide(a:body("wheel"))) then
