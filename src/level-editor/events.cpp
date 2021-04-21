@@ -177,7 +177,6 @@ void zoom_upd() {
 }
 void zoom1_upd() {
 	zoom=sqr(gtk_adjustment_get_value(GTK_ADJUSTMENT(zoom_a))/5);
-	if(cam_lock)scroll1_upd();
 	rulers_update();
 	gtk_widget_queue_draw(drawable);
 	gtk_label_set_text(GTK_LABEL(zoom_text),ssprintf("%d px/m",(int)zoom).c_str());
@@ -203,7 +202,6 @@ int motion(GtkWidget*, GdkEventMotion *event, gpointer data) {
 	cx=xd+(event->x-xp);
 	cy=yd+(event->y-yp);
 	scroll_upd();
-	if(cam_lock)scroll1_upd();
 	rulers_update();
 	return 0;
 }
@@ -229,12 +227,8 @@ int mousebutton_press(GtkWidget *area,  GdkEventButton  *event, gpointer data) {
 		xd=cx;
 		yd=cy;
 	} else if(mouse_button==1 || mouse_button==3) {
-		if(tool_ch==1){
-			if(drag_shapes(event->x,event->y,(mouse_button==1)?0:5)) {
-				hide_all();
-				rem_but();
-			}
-		}
+		if(tool_ch==1)
+			if(drag_shapes(event->x,event->y,(mouse_button==1)?0:5));
 		else if(tool_ch>1)
 			create_shapes(event->x,event->y,(mouse_button==1)?0:3);
 		gtk_widget_queue_draw(drawable);
@@ -244,14 +238,7 @@ int mousebutton_press(GtkWidget *area,  GdkEventButton  *event, gpointer data) {
 void getsize(GtkWidget*, GtkAllocation *allocation, void*) {
 	draw_w=allocation->width;
 	draw_h=allocation->height;
-	if(cam_lock)scroll1_upd();
 	scroll_upd();
-}
-float conv1(float v) {
-	return v;
-}
-float conv2(float v) {
-	return std::max(0.0f,std::min(1.0f,v));
 }
 float get_ph() {
 	return std::max(0.0f,std::min(1.0f,draw_w/((level.w+2)*zoom)));
@@ -261,13 +248,11 @@ float get_pv() {
 }
 void scroll_upd() {
 	float ph=get_ph(),pv=get_pv();
-	auto func=conv1;
-	if(cam_lock)func=conv2;
 	block=1;
 	gtk_adjustment_set_page_size(GTK_ADJUSTMENT(adj_h),ph);
 	gtk_adjustment_set_page_size(GTK_ADJUSTMENT(adj_v),pv);
-	gtk_adjustment_set_value(GTK_ADJUSTMENT(adj_h),func(-(cx-zoom)/(zoom*(level.w+2)-draw_w))*(1.00001f-ph));
-	gtk_adjustment_set_value(GTK_ADJUSTMENT(adj_v),func(-(cy-zoom)/(zoom*(level.h+2)-draw_h))*(1.00001f-pv));
+	gtk_adjustment_set_value(GTK_ADJUSTMENT(adj_h),(-(cx-zoom)/(zoom*(level.w+2)-draw_w))*(1.00001f-ph));
+	gtk_adjustment_set_value(GTK_ADJUSTMENT(adj_v),(-(cy-zoom)/(zoom*(level.h+2)-draw_h))*(1.00001f-pv));
 	block=0;
 }
 int key(GtkWidget*, GdkEvent *event, void*) {
@@ -300,7 +285,6 @@ int mouse_scroll(GtkWidget*, GdkEventScroll *event, void*) {
 	cx=event->x-(float(event->x-cx)/zoom_old*zoom);
 	cy=event->y-(float(event->y-cy)/zoom_old*zoom);
 	scroll_upd();
-	if(cam_lock)scroll1_upd();
 	rulers_update();
 	gtk_widget_queue_draw(drawable);
 	return 0;
