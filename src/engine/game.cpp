@@ -16,7 +16,7 @@ bool game() {
 	interface.load_config();
 	auto fps=chrono::high_resolution_clock::now();
 	while(run) {
-		if(lua::need_load.size()){
+		if(lua::need_load.size()) {
 			load_level(lua::need_load);
 			lua::need_load="";
 		}
@@ -29,12 +29,13 @@ bool game() {
 			interface.update();
 		}
 		mouse.update();
-		if(!interface.console.shown)
+		if(!interface.console.shown && !interface.pause.shown)
 			lua::gameloop();
 		draw();
 		auto step=chrono::high_resolution_clock::now()-fps;
 		fps = chrono::high_resolution_clock::now();
-		world->Step(chrono::duration_cast<chrono::microseconds>(step).count()/1000000.0f,10,10);
+		if(!interface.pause.shown)
+			world->Step(chrono::duration_cast<chrono::microseconds>(step).count()/1000000.0f,10,10);
 	}
 	return 0;
 }

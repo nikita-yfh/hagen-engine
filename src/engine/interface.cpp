@@ -12,15 +12,20 @@ void Rect4::stabilize() {
 	if(right<1)right*=SH;
 	if(bottom<1)bottom*=SH;
 }
-void Interface::update() {
+void Interface::update(){
+	if(!console.shown)
+		pause.update();
 	console.update();
 	game_interface.update();
 }
 void Interface::load_config() {
+	pause.load_config();
 	console.load_config();
 	game_interface.load_config();
 }
 void Interface::show() {
+	if(pause.shown)
+		pause.show();
 	console.show();
 	if(!console.shown)
 		game_interface.show();
@@ -145,15 +150,15 @@ void Interface::Game_interface::show() {
 	{
 		string str;
 		for(int q=0; q<player.max_lives; q++) {
-			/*GPU_Image *image=textures[((player.lives>q)?"interface/live2.png":"interface/live1.png")];
-			GPU_BlitScale(image,0,ren,borders.left+lives_counter_size*(q+0.5f),borders.top+lives_counter_size/2,lives_counter_size/image->h,lives_counter_size/image->h);*/
-			str+=(player.lives>q)?get_text("__live2"):get_text("__live1");
+			str+=(player.lives>q)?get_text("game_interface/live2"):get_text("game_interface/live1");
 		}
 		FC_Draw(font,ren,borders.left,borders.bottom,str.c_str());
 	}
 	{
-		string str=to_string(entities["player"]->health);
-		short w=FC_Draw(font,ren,borders.left,SH-borders.bottom-h,"%s %d %s",get_text("__health_prev").c_str(),(int)entities["player"]->health,get_text("__health").c_str()).w;
+		FC_Draw(font,ren,borders.left,SH-borders.bottom-h,"%s %d %s",
+				get_text("game_interface/health_prev").c_str(),
+				(int)entities["player"]->health,
+				get_text("game_interface/health").c_str()).w;
 	}
 	{
 		auto draw_bullets=[=](string id,string str,uint8_t layer) {
@@ -164,9 +169,21 @@ void Interface::Game_interface::show() {
 		};
 		uint8_t layer=0;
 		if(player.bullets[weapons[entities["player"]->weapon].bullet2].max>0)
-			draw_bullets(weapons[entities["player"]->weapon].bullet2,"__bullet2",++layer);
+			draw_bullets(weapons[entities["player"]->weapon].bullet2,"game_interface/bullet2",++layer);
 		if(player.bullets[weapons[entities["player"]->weapon].bullet2].max>0)
-			draw_bullets(weapons[entities["player"]->weapon].bullet1,"__bullet1",++layer);
+			draw_bullets(weapons[entities["player"]->weapon].bullet1,"game_interface/bullet1",++layer);
+	}
+}
+void Interface::Pause::show(){
+
+}
+void Interface::Pause::load_config(){
+
+}
+void Interface::Pause::update(){
+	if(e.type==SDL_KEYDOWN) {
+		if(e.key.keysym.sym==SDLK_ESCAPE)
+			shown=!shown;
 	}
 }
 Interface interface;

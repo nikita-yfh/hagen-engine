@@ -357,7 +357,7 @@ bool Polygon::drag(float xp,float yp,int dr) {
 		for(int q=0; q<x.size(); q++)
 			cairo_line_to(cr,x[q],y[q]);
 		return cairo_in_fill(cr,xp,yp);
-	}else if(dr==5) {
+	} else if(dr==5) {
 		for(int q=0; q<size(); q++) {
 			if(touch(x[q],y[q],xp,yp)) {
 				x.erase(x.begin()+q);
@@ -389,7 +389,7 @@ bool Polygon::create(float xp,float yp,int dr) {
 void Polygon::draw(cairo_t *cr) {
 	if(!shows[layer])return;
 	if(!shows[3+parent(id)->type])return;
-	for(int q=0; q<size(); q++){
+	for(int q=0; q<size(); q++) {
 		draw_drag_rect(cr,x[q],y[q],selected&&point_ch==(q+1));
 		draw_drag_rect(cr,(x[(q+1)%size()]+x[q])/2,(y[(q+1)%size()]+y[q])/2,0);
 	}

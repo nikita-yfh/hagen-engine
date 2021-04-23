@@ -46,6 +46,18 @@ struct Interface {
 		void update();
 		Rect4 borders;
 	} game_interface;
+	struct Pause {
+		Color active_color;
+		Color passive_color;
+		Color pause_color;
+		bool shown;
+		uint8_t selected;
+		FC_Font *font=0;
+		void load_config();
+		void show();
+		void update();
+		Rect4 borders;
+	} pause;
 	void show();
 	void update();
 	void load_config();

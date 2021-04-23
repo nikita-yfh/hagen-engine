@@ -55,7 +55,7 @@ void dostring(string text) {
 void doscript(string file) {
 	dofile(prefix+file+".lua");
 }
-void level(string str){
+void level(string str) {
 	need_load=str;
 }
 void init_entities() {

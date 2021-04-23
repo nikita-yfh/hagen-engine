@@ -495,7 +495,7 @@ void b2Body::Dump() {
 	b2Dump("}\n");
 }
 
-void b2Body::SetTexture(std::string fix, std::string tex){
+void b2Body::SetTexture(std::string fix, std::string tex) {
 	for(b2Fixture *f=GetFixtureList(); f; f=f->GetNext()) {
 		if(f->GetUserData()->id==fix)
 			f->GetUserData()->texture=tex;

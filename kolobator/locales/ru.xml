@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <text>
-	<__live1>&#xE003;</__live1>
-	<__live2>&#xE004;</__live2>
-	<__bullet1>&#xE001;</__bullet1>
-	<__bullet2>&#xE001;</__bullet2>
-	<__health>&#xE000;</__health>
+	<game_interface>
+		<live1>&#xE003;</live1>
+		<live2>&#xE004;</live2>
+		<bullet1>&#xE001;</bullet1>
+		<bullet2>&#xE001;</bullet2>
+		<health>&#xE000;</health>
+	</game_interface>
+	<pause>
+		<pause>Меню паузы</pause>
+		<continue>Продолжить</continue>
+		<settings>Настройки</settings>
+		<main_menu>Выйти в меню</main_menu>
+		<exit_game>Выйти из игры</exit_game>
+	</pause>
+]
 </text>

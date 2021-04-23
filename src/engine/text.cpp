@@ -7,7 +7,13 @@ unordered_map <string,string>texts;
 string get_text(string id) {
 	if(texts.empty() || texts.find(id)!=texts.end()) {
 		XMLNode xml=XMLNode::openFileHelper((prefix+"locales/"+language+".xml").c_str(),"text");
-		xml=xml.getChildNode(id.c_str());
+		string id1=id;
+		while(id1.find("/")!=id1.npos) {
+			string s(id,0,id1.find("/"));
+			id1.erase(id1.begin(),id1.begin()+id1.find("/")+1);
+			xml=xml.getChildNode(s.c_str());
+		}
+		xml=xml.getChildNode(id1.c_str());
 		if(!(xml.isEmpty()))
 			texts[id]=xml.getText();
 	}
