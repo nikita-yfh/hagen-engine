@@ -188,3 +188,4 @@ void Interface::Pause::update(){
 	}
 }
 Interface interface;
+//if((c->m_fixtureA->m_filter.maskBits & c->m_fixtureB->m_filter.categoryBits) != 0 && (c->m_fixtureA->m_filter.categoryBits & c->m_fixtureB->m_filter.maskBits) != 0){

@@ -207,16 +207,15 @@ void b2ContactManager::AddPair(void* proxyUserDataA, void* proxyUserDataB) {
 	}
 
 	// Check user filtering.
-	if (m_contactFilter && m_contactFilter->ShouldCollide(fixtureA, fixtureB) == false) {
-		return;
-	}
-
 	// Call the factory.
 	b2Contact* c = b2Contact::Create(fixtureA, indexA, fixtureB, indexB, m_allocator);
 	if (c == nullptr) {
 		return;
 	}
 
+	if (m_contactFilter && m_contactFilter->ShouldCollide(fixtureA, fixtureB) == false) {
+		//return;
+	}
 	// Contact creation may swap fixtures.
 	fixtureA = c->GetFixtureA();
 	fixtureB = c->GetFixtureB();

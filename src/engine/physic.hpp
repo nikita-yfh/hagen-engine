@@ -47,3 +47,7 @@ bool ee_all_collide(Entity *e1,Entity *e2);
 bool lb_all_collide(b2Body *body);
 bool le_all_collide(Entity *e);
 void copy_collides();
+
+class ContactListener : b2ContactListener {
+	void PreSolve(b2Contact* contact, const b2Manifold* oldManifold);
+};

@@ -22,9 +22,15 @@
 
 #include "b2_fixture.h"
 #include "b2_world_callbacks.h"
+#include "b2_contact.h"
 
 // Return true if contact calculations should be performed between these two shapes.
 // If you implement your own collision filter you may want to build from this implementation.
+void b2ContactListener::PreSolve(b2Contact* contact, const b2Manifold* oldManifold) {
+	if(!(contact->m_fixtureA->m_filter.maskBits & contact->m_fixtureB->m_filter.categoryBits)
+	|| !(contact->m_fixtureA->m_filter.categoryBits & contact->m_fixtureB->m_filter.maskBits))
+		contact->SetEnabled(0);
+}
 bool b2ContactFilter::ShouldCollide(b2Fixture* fixtureA, b2Fixture* fixtureB) {
 	const b2Filter& filterA = fixtureA->GetFilterData();
 	const b2Filter& filterB = fixtureB->GetFilterData();

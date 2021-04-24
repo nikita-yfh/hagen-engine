@@ -52,7 +52,7 @@ void destroy_entity(Entity *entity) {
 }
 bool bb_all_collide(b2Body *b1,b2Body *b2) {
 	for(b2ContactEdge *c=b1->GetContactList(); c; c=c->next) {
-		if(c->other==b2 && c->contact->IsTouching())
+		if(c->other==b2/* && c->contact->IsTouching()*/)
 			return 1;
 	}
 	return 0;
@@ -122,4 +122,7 @@ bool le_collide(Entity *e) {
 			return 1;
 	}
 	return 0;
+}
+void ContactListener::PreSolve(b2Contact* contact, const b2Manifold* oldManifold){
+	contact->SetEnabled(0);
 }
