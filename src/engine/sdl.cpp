@@ -78,7 +78,7 @@ void panic(string message) {
 }
 
 void load_cursor() {
-	SDL_Surface *sur=GPU_LoadSurface(string(prefix+"cursors/default.png").c_str());
+	SDL_Surface *sur=GPU_LoadSurface(string(prefix+"cursors/aim.png").c_str());
 	SDL_Cursor *cur=SDL_CreateColorCursor(sur,0,0);
 	SDL_FreeSurface(sur);
 	SDL_SetCursor(cur);

@@ -58,6 +58,28 @@ void doscript(string file) {
 void level(string str) {
 	need_load=str;
 }
+void init_bodies() {
+	for(auto body : bodies){
+		if(B_DATA(body.second,script).size()){
+			luaL_dostring(L,(B_DATA(body.second,script)+"=extend(Body)\n").c_str());
+			doscript("templates/"+B_DATA(body.second,script));
+			getGlobal(L,B_DATA(body.second,script).c_str())["init"](body.second);
+			getGlobal(L,"Body")["init"](body.second);
+		}
+	}
+}
+
+void update_bodies() {
+	for(auto body : bodies) {
+		if(B_DATA(body.second,script).size()){
+			if(getGlobal(L,"Body")["update"](body.second) ||
+			getGlobal(L,B_DATA(body.second,script).c_str())["update"](body.second)){
+				destroy_body(body.second);
+				return;
+			}
+		}
+	}
+}
 void init_entities() {
 	for(auto entity : entities) {
 		luaL_dostring(L,(entity.second->type+"=extend(Entity)\n").c_str());
@@ -102,6 +124,7 @@ void gameloop() {
 	getGlobal(L,"Level")["update"]();
 	getGlobal(L,"level")["update"]();
 	update_entities();
+	update_bodies();
 	update_intervals();
 	copy_prev_key();
 }
@@ -111,6 +134,7 @@ short get_scancode(string k) {
 	if(k=="left")	return SDL_SCANCODE_A;
 	if(k=="right")	return SDL_SCANCODE_D;
 	if(k=="jump")	return SDL_SCANCODE_SPACE;
+	if(k=="action")	return SDL_SCANCODE_E;
 	if(k=="1")		return SDL_SCANCODE_1;
 	if(k=="2")		return SDL_SCANCODE_2;
 	if(k=="3")		return SDL_SCANCODE_3;
@@ -321,6 +345,10 @@ void init(string name) {
 		"level.init=function() end\n"
 		"level.update=function() end\n"
 
+		"Body={}\n"
+		"Body.init=function() end\n"
+		"Body.update=function() end\n"
+
 		"Weapon={}\n"
 		"Weapon.init=function() end\n"
 		"Weapon.update=function() end\n"
@@ -343,10 +371,12 @@ void init(string name) {
 	doscript("common/level");
 	doscript("common/entity");
 	doscript("common/weapon");
+	doscript("common/body");
 	doscript("levels/"+name);
 	getGlobal(L,"Level")["init"]();
 	getGlobal(L,"level")["init"]();
 	init_entities();
+	init_bodies();
 }
 void quit() {
 	if(L)lua_close(L);
