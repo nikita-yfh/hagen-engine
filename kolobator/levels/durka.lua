@@ -16,4 +16,8 @@ function level:update()
 	if(body("platform").x > 62.5) then
 		body("platform").vx=0
 	end
+	if(world.eb_all_collide(entity("player"),body("patrony"))) then 
+		player:bullet("27mm"):add(5)
+		world.destroy_body(body("patrony"))
+	end
 end

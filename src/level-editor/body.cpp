@@ -17,6 +17,8 @@ void Body::show() {
 	gtk_widget_show(ts);
 	gtk_widget_show(cr);
 	gtk_widget_show(cb);
+	gtk_widget_show(tt);
+	gtk_widget_show(en_script);
 }
 void Body::hide() {
 	Object::hide();
@@ -29,6 +31,8 @@ void Body::hide() {
 	gtk_widget_hide(ts);
 	gtk_widget_hide(cr);
 	gtk_widget_hide(cb);
+	gtk_widget_hide(tt);
+	gtk_widget_hide(en_script);
 }
 Body::~Body() {
 	for(int q=0; q<shapes.size(); q++) {
@@ -64,6 +68,8 @@ void Body::init(GtkWidget *table) {
 	ts=gtk_label_new("Gravity\nscale");
 	cb=gtk_check_button_new_with_label("Bullet");
 	cr=gtk_check_button_new_with_label("Fixed rotate");
+	tt=gtk_label_new("Script");
+	en_script=gtk_entry_new();
 
 	gtk_combo_box_append_text(GTK_COMBO_BOX(combo),"Static");
 	gtk_combo_box_append_text(GTK_COMBO_BOX(combo),"Dynamic");
@@ -79,6 +85,8 @@ void Body::init(GtkWidget *table) {
 	ins_widget	(table,ps,cur_table_string++);
 	ins_widget2(table,cb,cur_table_string++);
 	ins_widget2(table,cr,cur_table_string++);
+	ins_text(table,tt,cur_table_string);
+	ins_widget(table,en_script,cur_table_string++);
 
 	g_signal_connect(G_OBJECT(px),"value_changed",update1,0);
 	g_signal_connect(G_OBJECT(py),"value_changed",update1,0);
@@ -86,6 +94,7 @@ void Body::init(GtkWidget *table) {
 	g_signal_connect(G_OBJECT(cr),"toggled",update1,0);
 	g_signal_connect(G_OBJECT(cb),"toggled",update1,0);
 	g_signal_connect(G_OBJECT(combo),"changed",update1,0);
+	g_signal_connect(G_OBJECT(en_script),"notify::text",update1,0);
 }
 void Body::update(Body *l) {
 	gtk_combo_box_set_active(GTK_COMBO_BOX(combo),l->type);
@@ -94,6 +103,7 @@ void Body::update(Body *l) {
 	gtk_adjustment_configure(GTK_ADJUSTMENT(as),l->gravity_scale,0,1000,0.1,0.1,0);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(cb),l->bullet);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(cr),l->fixed_rot);
+	gtk_entry_set_text(GTK_ENTRY(en_script),l->script.c_str());
 }
 void Body::update1() {
 	Body *p=TYPE(Body*,get_selected_object());
@@ -104,6 +114,7 @@ void Body::update1() {
 	p->bullet=gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(cb));
 	p->fixed_rot=gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(cr));
 	p->gravity_scale=gtk_adjustment_get_value(GTK_ADJUSTMENT(as));
+	p->script=gtk_entry_get_text(GTK_ENTRY(en_script));
 	gtk_widget_queue_draw(drawable);
 }
 void Body::save(XMLNode &parent,bool p) {
@@ -136,6 +147,7 @@ void Body::save(XMLNode &parent,bool p) {
 		}
 		bd.addAttribute("type",type);
 	}
+	bd.addAttribute("script",script.c_str());
 	bd.addAttribute("shapes",shapes.size());
 	for(int w=0; w<shapes.size(); w++) { //shape
 		Physic *shape=TYPE(Physic*,shapes[w]);
@@ -226,6 +238,7 @@ void Body::load(XMLNode &node,bool p) {
 		else if(str=="dynamic")		type=TDYN;
 		else if(str=="kinematic")	type=TKNM;
 	}
+	script=node.getAttribute("script");
 	shapes.clear();
 	int shapes_count=stoi(node.getAttribute("shapes"));
 	for(int w=0; w<shapes_count; w++) {

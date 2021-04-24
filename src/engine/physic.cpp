@@ -22,16 +22,33 @@ Entity *create_entity(string type,string id,float x,float y) {
 void set_gravity(float x,float y) {
 	world->SetGravity({x,y});
 }
-void destroy_body(string id) {
-	bodies.erase(id);
+void destroy_body(b2Body *body) {
+	for(auto &b : bodies){
+		if(b.second==body){
+			bodies.erase(b.first);
+			world->DestroyBody(body);
+			return;
+		}
+	}
 }
 
-void destroy_joint(string id) {
-	joints.erase(id);
+void destroy_joint(b2Joint *joint) {
+	for(auto &j : joints){
+		if(j.second==joint){
+			joints.erase(j.first);
+			world->DestroyJoint(joint);
+			return;
+		}
+	}
 }
 
-void destroy_entity(string id) {
-	entities.erase(id);
+void destroy_entity(Entity *entity) {
+	for(auto &e : entities){
+		if(e.second==entity){
+			entities.erase(e.first);
+			return;
+		}
+	}
 }
 bool bb_all_collide(b2Body *b1,b2Body *b2) {
 	for(b2ContactEdge *c=b1->GetContactList(); c; c=c->next) {

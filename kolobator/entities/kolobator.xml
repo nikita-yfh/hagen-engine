@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <physics>
 	<bodies count="2">
-		<body x="-0.000955544" y="-0.0508645" id="body" type="dynamic" shapes="1">
+		<body x="-0.000955544" y="-0.0508645" id="body" type="dynamic" shapes="1" script="">
 			<physic bullet="0" fixed_rotation="1" gravity_scale="1"/>
 			<shape id="body_fixture" type="Polygon" pos="physic" texture="kolobator1.png" expand="1">
 				<position point_count="22">
@@ -32,7 +32,7 @@
 				<collision category="1" mask="65535"/>
 			</shape>
 		</body>
-		<body x="0" y="0.1875" id="wheel" type="dynamic" shapes="1">
+		<body x="0" y="0.1875" id="wheel" type="dynamic" shapes="1" script="">
 			<physic bullet="0" fixed_rotation="0" gravity_scale="1"/>
 			<shape id="_Circle2" type="Circle" pos="b_physic" texture="wheel.png" expand="1">
 				<position x="0" y="0" r="0.125"/>

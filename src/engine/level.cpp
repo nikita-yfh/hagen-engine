@@ -39,6 +39,7 @@ b2Body* read_body(XMLNode bd,b2Vec2 delta,bool temp) {
 		else if(str=="dynamic")     def.type=b2BodyType::b2_dynamicBody;
 		else if(str=="kinematic")   def.type=b2BodyType::b2_kinematicBody;
 	}
+	BD_DATA(def,script)=bd.getAttribute("script");
 	body=world->CreateBody(&def);
 	for(int j=0; j<shapes_count; j++) {
 		XMLNode sh=bd.getChildNode("shape",j);

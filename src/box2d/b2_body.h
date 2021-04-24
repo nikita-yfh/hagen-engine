@@ -51,6 +51,7 @@ enum b2BodyType {
 
 
 struct b2BodyData {
+	std::string script;
 };
 
 

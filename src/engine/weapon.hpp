@@ -14,5 +14,6 @@ struct Weapon {
 struct Bullet {
 	int count; //if count=-1,bullets are infinity
 	int max;
+	void add(int c);
 };
 extern unordered_map<string,Weapon>weapons;

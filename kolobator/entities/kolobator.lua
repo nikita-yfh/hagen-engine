@@ -2,24 +2,25 @@ function kolobator.init(a)
 	graphics.preload("kolobator1.png")
 	graphics.preload("kolobator2.png")
 	a.weapon="pistol"
-	player:bullet("9mm").count=270000
-	player:bullet("9mm").max=270000
-	player:bullet("27mm").count=100000
-	player:bullet("27mm").max=100000
+	player:bullet("9mm").count=27
+	player:bullet("9mm").max=27
+	player:bullet("27mm").count=10
+	player:bullet("27mm").max=10
+	kolobator.speed=10
+	kolobator.motor_speed=40
+	kolobator.jump_impulse=2000
 end
 function kolobator.update(a)
-	local max_speed=10
-	local motor_speed=40
 	local j=a:joint("joint")
 	local b=a:body("body")
-	if(game.key("left") and b.vx>-max_speed and game.interval(20)) then
+	if(game.key("left") and b.vx>-kolobator.speed and game.interval(20)) then
 		j.motor=1
-		j.motor_speed=-motor_speed
+		j.motor_speed=-kolobator.motor_speed
 		j.max_torque=30000
 		b:apply_center_impulse(-24,0)
-	elseif(game.key("right") and b.vx<max_speed and game.interval(20)) then
+	elseif(game.key("right") and b.vx<kolobator.speed and game.interval(20)) then
 		j.motor=1
-		j.motor_speed=motor_speed
+		j.motor_speed=kolobator.motor_speed
 		j.max_torque=30000
 		b:apply_center_impulse(24,0)
 	elseif(game.key("down")) then
@@ -29,7 +30,7 @@ function kolobator.update(a)
 	else
 		j.motor=0
 		if(game.press_key("jump") and world.lb_collide(a:body("wheel"))) then
-			b:apply_center_impulse(0,-2000)
+			b:apply_center_impulse(0,-kolobator.jump_impulse)
 		end
 	end
 	if(game.key("1")) then 

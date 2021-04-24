@@ -12,7 +12,8 @@ struct Body : Object {
 	float gravity_scale=1.0f;
 	bool drag(float xp,float yp,int dr);
 	std::string name();
-	static GtkWidget *combo, *px, *py, *ps, *tx, *ty, *ts, *cb, *cr;
+	std::string script="";
+	static GtkWidget *combo, *px, *py, *ps, *tx, *ty, *ts, *cb, *cr, *tt, *en_script;
 	static GtkObject *ax, *ay, *as;
 	static void init(GtkWidget*);
 	static void show();

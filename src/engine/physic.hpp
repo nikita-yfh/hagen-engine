@@ -33,9 +33,9 @@
 b2Body *create_body(string type,string id,float x,float y);
 Entity *create_entity(string type,string id,float x,float y);
 void set_gravity(float x,float y);
-void destroy_body(string id);
-void destroy_joint(string id);
-void destroy_entity(string id);
+void destroy_body(b2Body *body);
+void destroy_joint(b2Joint *joint);
+void destroy_entity(Entity *entity);
 bool bb_collide(b2Body *b1,b2Body *b2);
 bool eb_collide(Entity *ent,b2Body *b);
 bool ee_collide(Entity *e1,Entity *e2);

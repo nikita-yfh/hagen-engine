@@ -10,15 +10,21 @@
 using namespace std;
 
 b2Body *get_body(string id) {
-	return bodies[id];
+	if(bodies.find(id)!=bodies.end())
+		return bodies[id];
+	return 0;
 }
 
 b2Joint *get_joint(string id) {
-	return joints[id];
+	if(joints.find(id)!=joints.end())
+		return joints[id];
+	return 0;
 }
 
 Entity *get_entity(string id) {
-	return entities[id];
+	if(entities.find(id)!=entities.end())
+		return entities[id];
+	return 0;
 }
 
 Weapon *get_weapon(string id) {
