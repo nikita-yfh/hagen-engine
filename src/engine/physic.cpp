@@ -52,76 +52,92 @@ void destroy_entity(Entity *entity) {
 }
 bool bb_all_collide(b2Body *b1,b2Body *b2) {
 	for(b2ContactEdge *c=b1->GetContactList(); c; c=c->next) {
-		if(c->other==b2/* && c->contact->IsTouching()*/)
-			return 1;
+		if(c->other==b2 && c->contact->IsTouching())
+			return true;
 	}
-	return 0;
+	return false;
 }
-bool eb_all_collide(Entity *entity,b2Body *b) {
+b2Body *eb_all_collide(Entity *entity,b2Body *b) {
 	for(auto &b2 : entity->bodies) {
 		if(bb_all_collide(b2.second,b))
-			return 1;
+			return b2.second;
 	}
-	return 0;
+	return nullptr;
 }
 bool ee_all_collide(Entity *e1,Entity *e2) {
 	for(auto &b1 : e1->bodies) {
 		if(eb_all_collide(e2,b1.second))
-			return 1;
+			return true;
 	}
-	return 0;
+	return false;
 }
-bool lb_all_collide(b2Body *body) {
+b2Body *lb_all_collide(b2Body *body) {
 	for(auto &b1 : bodies) {
 		if(bb_all_collide(b1.second,body))
-			return 1;
+			return b1.second;
 	}
-	return 0;
+	return nullptr;
 }
-bool le_all_collide(Entity *e) {
+b2Body *le_all_collide(Entity *e) {
 	for(auto &body : e->bodies) {
 		if(lb_all_collide(body.second))
-			return 1;
+			return body.second;
 	}
-	return 0;
+	return nullptr;
+}
+
+Entity *sb_all_collide(b2Body *body) {
+	for(auto &e : entities) {
+		if(eb_all_collide(e.second,body))
+			return e.second;
+	}
+	return nullptr;
 }
 
 bool bb_collide(b2Body *b1,b2Body *b2) {
 	for(b2ContactEdge *c=b1->GetContactList(); c; c=c->next) {
 		if(c->other==b2 && c->contact->IsTouching()
 				&& !c->contact->m_fixtureA->IsSensor()
-				&& !c->contact->m_fixtureB->IsSensor())
-			return 1;
+				&& !c->contact->m_fixtureB->IsSensor()
+				&& c->contact->IsEnabled())
+			return true;
 	}
-	return 0;
+	return false;
 }
-bool eb_collide(Entity *entity,b2Body *b) {
+b2Body *eb_collide(Entity *entity,b2Body *b) {
 	for(auto &b2 : entity->bodies) {
 		if(bb_collide(b2.second,b))
-			return 1;
+			return b2.second;
 	}
-	return 0;
+	return nullptr;
 }
 bool ee_collide(Entity *e1,Entity *e2) {
 	for(auto &b1 : e1->bodies) {
 		if(eb_collide(e2,b1.second))
-			return 1;
+			return true;
 	}
-	return 0;
+	return false;
 }
-bool lb_collide(b2Body *body) {
+b2Body *lb_collide(b2Body *body) {
 	for(auto &b1 : bodies) {
 		if(bb_collide(b1.second,body))
-			return 1;
+			return b1.second;
 	}
-	return 0;
+	return nullptr;
 }
-bool le_collide(Entity *e) {
+b2Body *le_collide(Entity *e) {
 	for(auto &body : e->bodies) {
 		if(lb_collide(body.second))
-			return 1;
+			return body.second;
 	}
-	return 0;
+	return nullptr;
+}
+Entity *sb_collide(b2Body *body) {
+	for(auto &e : entities) {
+		if(eb_collide(e.second,body))
+			return e.second;
+	}
+	return nullptr;
 }
 void ContactListener::PreSolve(b2Contact* contact, const b2Manifold* oldManifold){
 	contact->SetEnabled(0);

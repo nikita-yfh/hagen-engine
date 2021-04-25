@@ -36,16 +36,19 @@ void set_gravity(float x,float y);
 void destroy_body(b2Body *body);
 void destroy_joint(b2Joint *joint);
 void destroy_entity(Entity *entity);
-bool bb_collide(b2Body *b1,b2Body *b2);
-bool eb_collide(Entity *ent,b2Body *b);
-bool ee_collide(Entity *e1,Entity *e2);
-bool lb_collide(b2Body *body);
-bool le_collide(Entity *e);
-bool bb_all_collide(b2Body *b1,b2Body *b2);
-bool eb_all_collide(Entity *ent,b2Body *b);
-bool ee_all_collide(Entity *e1,Entity *e2);
-bool lb_all_collide(b2Body *body);
-bool le_all_collide(Entity *e);
+
+bool	bb_collide(b2Body *b1,b2Body *b2);
+b2Body *eb_collide(Entity *ent,b2Body *b);
+bool	ee_collide(Entity *e1,Entity *e2);
+b2Body *lb_collide(b2Body *body);
+b2Body *le_collide(Entity *e);
+Entity *sb_collide(b2Body *body);
+bool	bb_all_collide(b2Body *b1,b2Body *b2);
+b2Body *eb_all_collide(Entity *ent,b2Body *b);
+bool	ee_all_collide(Entity *e1,Entity *e2);
+b2Body *lb_all_collide(b2Body *body);
+b2Body *le_all_collide(Entity *e);
+Entity *sb_all_collide(b2Body *body);
 void copy_collides();
 
 class ContactListener : b2ContactListener {

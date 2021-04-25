@@ -2,7 +2,7 @@ function level:init()
 end
 function level:update()
 	level_trigger(body("_end"),"durka")
-	if(world.bl_all_collide(body("bullet_sensor"))) then durka_door=true end
+	if(world.lb_all_collide(body("bullet_sensor"))) then durka_door=true end
 	if(durka_door==true) then
 		if(body("door").y < 17.5) then
 			body("door").vy=0

@@ -325,6 +325,7 @@ void template_save() {
 		Body *b=get_selected_body();
 			if(!b)return 1;
 			if(b->template_save(str))return 1;
+			return 0;
 		}())
 		set_status(CONTEXT_FILE_STATUS, "Save error");
 		else
