@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<body type="static" script="box_27mm_5" shapes="1">
+	<physic bullet="0" fixed_rotation="0" gravity_scale="1"/>
+	<shape id="_Rect10" type="Rect" pos="background" texture="durka_wall.png" expand="1">
+		<position x1="0.125" y1="-0.125" x2="-0.125" y2="0.125"/>
+		<physic density="1000" friction="0.3" restitution="0"/>
+		<collision category="0" mask="65535"/>
+	</shape>
+</body>

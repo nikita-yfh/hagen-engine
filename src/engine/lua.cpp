@@ -86,7 +86,7 @@ void level(string str) {
 void init_body(b2Body *body){
 	if(B_DATA(body,script).size()){
 		luaL_dostring(L,(B_DATA(body,script)+"=extend(Body)\n").c_str());
-		doscript("templates/"+B_DATA(body,script));
+		doscript("bodies/"+B_DATA(body,script));
 		getGlobal(L,B_DATA(body,script).c_str())["init"](body);
 		getGlobal(L,"Body")["init"](body);
 	}

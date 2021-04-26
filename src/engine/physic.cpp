@@ -9,7 +9,7 @@ int velocity_iterations=10;
 int position_iterations=10;
 using namespace std;
 b2Body *create_body(string type,string id,float x,float y) {
-	XMLNode bd=XMLNode::openFileHelper((prefix+"templates/"+type+".xml").c_str(),"body");
+	XMLNode bd=XMLNode::openFileHelper((prefix+"bodies/"+type+".xml").c_str(),"body");
 	b2Body *body=read_body(bd, {x,y},1);
 	load_body_textures(body);
 	if(id=="")id=free_id();

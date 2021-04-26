@@ -319,7 +319,7 @@ bool Body::template_save(string str) {
 	return 0;
 }
 void template_save() {
-	string str=get_save_path("templates");
+	string str=get_save_path("bodies");
 	if(str.size()) {
 		if([&]()->bool {
 		Body *b=get_selected_body();

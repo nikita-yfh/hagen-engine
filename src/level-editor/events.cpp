@@ -290,7 +290,7 @@ int mouse_scroll(GtkWidget*, GdkEventScroll *event, void*) {
 	return 0;
 }
 void select_template(GtkWidget*,GdkEventButton*,string* str) {
-	*str=get_open_path("game/templates").c_str();
+	*str=get_open_path("game/bodies").c_str();
 }
 void add_but() {
 	string tmp="";
