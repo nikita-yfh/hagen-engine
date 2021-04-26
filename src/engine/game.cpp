@@ -31,6 +31,7 @@ bool game() {
 		mouse.update();
 		if(!interface.console.shown && !interface.pause.shown)
 			lua::gameloop();
+		cout<<chrono::duration_cast<chrono::microseconds>(chrono::high_resolution_clock::now()-fps).count()/1000000.0f<<endl;
 		draw();
 		auto step=chrono::high_resolution_clock::now()-fps;
 		fps = chrono::high_resolution_clock::now();

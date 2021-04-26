@@ -13,7 +13,7 @@ int SH=0;
 GPU_Target *ren;
 const uint8_t* key=SDL_GetKeyboardState(0);
 using namespace std;
-unordered_map<string,GPU_Image*>textures;
+map<string,GPU_Image*>textures;
 GPU_Image *background=0;
 void Color::set(int _r,int _g,int _b,int _a) {
 	r=_r;
@@ -77,8 +77,8 @@ void panic(string message) {
 	exit(1);
 }
 
-void load_cursor() {
-	SDL_Surface *sur=GPU_LoadSurface(string(prefix+"cursors/aim.png").c_str());
+void set_cursor(string name) {
+	SDL_Surface *sur=GPU_LoadSurface(string(prefix+"cursors/"+name).c_str());
 	SDL_Cursor *cur=SDL_CreateColorCursor(sur,0,0);
 	SDL_FreeSurface(sur);
 	SDL_SetCursor(cur);

@@ -8,7 +8,6 @@
 #include "level.hpp"
 #include "utility.hpp"
 #include "interface.hpp"
-#include "player.hpp"
 #define CIRCLE_QUALITY 50
 using namespace std;
 Color scene_mask(0,0,0,0);

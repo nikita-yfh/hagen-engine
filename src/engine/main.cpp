@@ -17,7 +17,7 @@ int main(int argc, char * argv[]) {
 		if(argc>2)prefix=argv[2];
 		init("Engine",1024,768);
 		configure_textures();
-		load_cursor();
+		set_cursor("aim.png");
 		if(argc>1) load_level(argv[1]);
 		else       load_level("durka");
 

@@ -25,6 +25,14 @@
 
 #include "b2_math.h"
 #include <string>
+
+extern "C" {
+#include "luajit-2.0/lua.h"
+#include "luajit-2.0/lauxlib.h"
+#include "luajit-2.0/lualib.h"
+}
+#include "LuaBridge.h"
+
 #define NOTSUPPORT {throw std::string("attempt to call a nil value");}
 
 class b2Body;
@@ -35,6 +43,7 @@ class b2BlockAllocator;
 
 struct b2JointData {
 	std::string id;
+	luabridge::LuaRef *lua_userdata;
 };
 enum b2JointType {
 	e_unknownJoint,
@@ -206,6 +215,9 @@ public:
 
 	void SetID(std::string id);
 
+	luabridge::LuaRef *GetLuaUserData() const;
+	void SetLuaUserData(luabridge::LuaRef *d);
+
 	friend class b2World;
 	friend class b2Body;
 	friend class b2Island;
@@ -274,5 +286,12 @@ inline std::string b2Joint::GetID() const{
 }
 inline void b2Joint::SetID(std::string _id){
 	GetUserData()->id=_id;
+}
+
+inline luabridge::LuaRef *b2Joint::GetLuaUserData() const{
+	return GetUserData()->lua_userdata;
+}
+inline void b2Joint::SetLuaUserData(luabridge::LuaRef *d){
+	GetUserData()->lua_userdata=d;
 }
 #endif

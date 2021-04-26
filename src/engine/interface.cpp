@@ -2,7 +2,6 @@
 #include "sdl.hpp"
 #include "xmlParser.h"
 #include "main.hpp"
-#include "player.hpp"
 #include "level.hpp"
 #include "lua.hpp"
 #include "text.hpp"
@@ -43,7 +42,7 @@ void Interface::Console::String::del(short pos) {
 		text.erase(text.begin()+pos-1);
 }
 Interface::Console::Console() {
-	strings.emplace_back((string)LUA_VERSION+" Copyright (C) 1994-2015 Lua.org, PUC-Rio",2);
+	strings.emplace_back("LuaJIT 2.0.5 -- Copyright (C) 2005-2017 Mike Pall. http://luajit.org/",2);
 	strings.emplace_back("> ",0);
 }
 void Interface::Console::show() {
@@ -150,13 +149,6 @@ void Interface::Game_interface::update() {
 void Interface::Game_interface::show() {
 	short h=FC_GetLineHeight(font);
 	{
-		string str;
-		for(int q=0; q<player.max_lives; q++) {
-			str+=(player.lives>q)?get_text("game_interface/live2"):get_text("game_interface/live1");
-		}
-		FC_Draw(font,ren,borders.left,borders.bottom,str.c_str());
-	}
-	{
 		FC_Draw(font,ren,borders.left,SH-borders.bottom-h,"%s %d %s",
 				get_text("game_interface/health_prev").c_str(),
 				(int)entities["player"]->health,
@@ -166,14 +158,14 @@ void Interface::Game_interface::show() {
 		auto draw_bullets=[=](string id,string str,uint8_t layer) {
 			FC_DrawAlign(font,ren,SW-borders.left,SH-borders.top-layer*h,
 						 FC_ALIGN_RIGHT,"%s %d/%d %s",get_text(str+"_prev").c_str(),
-						 player.bullets[id].count,player.bullets[id].max,
+						 bullets[id].count,bullets[id].max,
 						 get_text(str).c_str());
 		};
 		uint8_t layer=0;
-		if(player.bullets[weapons[entities["player"]->weapon].bullet2].max>0 &&
+		if(bullets[weapons[entities["player"]->weapon].bullet2].max>0 &&
 			weapons[entities["player"]->weapon].bullet2 != weapons[entities["player"]->weapon].bullet1)
 			draw_bullets(weapons[entities["player"]->weapon].bullet2,"game_interface/bullet2",++layer);
-		if(player.bullets[weapons[entities["player"]->weapon].bullet2].max>0)
+		if(bullets[weapons[entities["player"]->weapon].bullet2].max>0)
 			draw_bullets(weapons[entities["player"]->weapon].bullet1,"game_interface/bullet1",++layer);
 	}
 }

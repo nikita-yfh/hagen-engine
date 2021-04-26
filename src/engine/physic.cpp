@@ -15,6 +15,7 @@ b2Body *create_body(string type,string id,float x,float y) {
 	if(id=="")id=free_id();
 	bodies[id]=body;
 	B_DATA(body,id)=id;
+	lua::create_body_userdata(body);
 	lua::init_body(body);
 	return body;
 }
@@ -24,6 +25,8 @@ Entity *create_entity(string type,string id,float x,float y) {
 	if(id=="")id=free_entity_id();
 	entities[id]=ent;
 	ent->id=id;
+	lua::create_entity_userdata(ent);
+	lua::init_entity(ent);
 	return ent;
 }
 void set_gravity(float x,float y) {

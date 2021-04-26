@@ -11,9 +11,9 @@
 using namespace std;
 unsigned short int levelw=20;
 unsigned short int levelh=20;
-unordered_map<string,b2Body*>bodies;
-unordered_map<string,b2Joint*>joints;
-unordered_map<string,Entity*>entities;
+map<string,b2Body*>bodies;
+map<string,b2Joint*>joints;
+map<string,Entity*>entities;
 b2World *world=0;
 
 b2Body* read_body(XMLNode bd,b2Vec2 delta,bool temp) {

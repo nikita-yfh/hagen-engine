@@ -2,9 +2,17 @@
 #include "box2d.h"
 #include "weapon.hpp"
 #include <string>
-#include <unordered_map>
+#include <map>
 #include <vector>
 using namespace std;
+
+extern "C" {
+#include "luajit-2.0/lua.h"
+#include "luajit-2.0/lauxlib.h"
+#include "luajit-2.0/lualib.h"
+}
+#include "LuaBridge.h"
+
 struct Entity {
 	Entity();
 	Entity(string type,float x,float y);
@@ -12,8 +20,8 @@ struct Entity {
 	string weapon;
 	float health=100;
 	string type;
-	unordered_map<string,b2Body*>bodies;
-	unordered_map<string,b2Joint*>joints;
+	map<string,b2Body*>bodies;
+	map<string,b2Joint*>joints;
 	float weapon_x=0;
 	float weapon_y=0;
 	float weapon_angle;
@@ -36,4 +44,5 @@ struct Entity {
 	int fire3();
 	int fire4();
 	void harm(int damage);
+	luabridge::LuaRef *lua_userdata;
 };

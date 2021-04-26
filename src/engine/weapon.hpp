@@ -2,8 +2,8 @@
 #include <box2d.h>
 #include <SDL_gpu.h>
 #include <string>
-#include <unordered_map>
 #include <xmlParser.h>
+#include <map>
 using namespace std;
 struct Weapon {
 	float dx;
@@ -16,4 +16,6 @@ struct Bullet {
 	int max;
 	void add(int c);
 };
-extern unordered_map<string,Weapon>weapons;
+extern map<string,Weapon>weapons;
+extern map<string,Bullet>bullets;
+Bullet *get_bullet(string id);

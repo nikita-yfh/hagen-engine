@@ -40,7 +40,6 @@ set(ENGINE_SOURCES
         src/engine/game.cpp
         src/engine/dialog.cpp
         src/engine/main.cpp
-        src/engine/player.cpp
         src/engine/utility.cpp
         src/engine/entity.cpp
         src/engine/lua.cpp
@@ -116,7 +115,6 @@ set(ENGINE_HEADERS
         src/engine/level.hpp
         src/engine/render.hpp
         src/engine/game.hpp
-        src/engine/player.hpp
         src/engine/utility.hpp
         src/engine/entity.hpp
         src/engine/lua.hpp
@@ -129,7 +127,7 @@ set(ENGINE_HEADERS
         src/engine/interface.hpp
         src/SDL_FontCache/SDL_FontCache.h
         src/XMLParser/xmlParser.h
-		src/box2d/b2_api.h
+	src/box2d/b2_api.h
         src/box2d/b2_block_allocator.h
         src/box2d/b2_body.h
         src/box2d/b2_broad_phase.h

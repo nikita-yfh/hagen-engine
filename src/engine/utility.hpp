@@ -9,6 +9,7 @@ b2Body *get_body(string id);
 b2Joint *get_joint(string id);
 Weapon *get_weapon(string id);
 Entity *get_entity(string id);
+Bullet *get_bullet(string id);
 bool exist_file(string path);
 string free_id();
 string free_entity_id();

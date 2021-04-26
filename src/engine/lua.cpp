@@ -9,7 +9,6 @@
 #include "text.hpp"
 #include "main.hpp"
 #include "interface.hpp"
-#include <player.hpp>
 #include <detail/Userdata.h>
 using namespace luabridge;
 using namespace std;
@@ -18,6 +17,7 @@ namespace lua {
 lua_State *L;
 string need_load;
 map<unsigned int,unsigned int>timers;
+vector<string>loaded;
 float game_timer=0;
 int prev_timer=0;
 bool get_interval(unsigned int ms) {
@@ -60,7 +60,6 @@ void set_mask(Color &c) {
 void print(LuaRef r) {
 	interface.console.out(r.tostring());
 	cout<<"Lua output: "<<r<<endl;
-	cout<<SDL_GetTicks()<<endl;
 }
 Color &get_mask() {
 	return scene_mask;
@@ -68,7 +67,8 @@ Color &get_mask() {
 void dofile(string file) {
 	if(!exist_file(file))return;
 	if(luaL_dofile(L, file.c_str())) {
-		throw string(lua_tostring(L, -1));
+		cout<<lua_tostring(L, -1)<<endl;
+		//throw string(lua_tostring(L, -1));
 	}
 }
 
@@ -85,8 +85,15 @@ void level(string str) {
 }
 void init_body(b2Body *body){
 	if(B_DATA(body,script).size()){
-		luaL_dostring(L,(B_DATA(body,script)+"=extend(Body)\n").c_str());
-		doscript("bodies/"+B_DATA(body,script));
+		bool ok=0;
+		for(string l : loaded)
+			if(B_DATA(body,script)==l)
+				ok=1;
+		if(!ok){
+			luaL_dostring(L,(B_DATA(body,script)+"=extend(Body)\n").c_str());
+			doscript("bodies/"+B_DATA(body,script));
+		}else
+			loaded.emplace_back(B_DATA(body,script));
 		getGlobal(L,B_DATA(body,script).c_str())["init"](body);
 		getGlobal(L,"Body")["init"](body);
 	}
@@ -108,13 +115,22 @@ void update_bodies() {
 		}
 	}
 }
+void init_entity(Entity *entity){
+	bool ok=0;
+	for(string l : loaded)
+		if(entity->type==l)
+			ok=1;
+	if(!ok){
+		luaL_dostring(L,(entity->type+"=extend(Entity)\n").c_str());
+		doscript("entities/"+entity->type);
+	}else
+		loaded.emplace_back(entity->type);
+	getGlobal(L,entity->type.c_str())["init"](entity);
+	getGlobal(L,"Entity")["init"](entity);
+}
 void init_entities() {
-	for(auto entity : entities) {
-		luaL_dostring(L,(entity.second->type+"=extend(Entity)\n").c_str());
-		doscript("entities/"+entity.second->type);
-		getGlobal(L,entity.second->type.c_str())["init"](entity.second);
-		getGlobal(L,"Entity")["init"](entity.second);
-	}
+	for(auto entity : entities)
+		init_entity(entity.second);
 }
 void init_weapon(string weapon) {
 	luaL_dostring(L,(weapon+"=extend(Weapon)\n").c_str());
@@ -185,6 +201,27 @@ short get_scancode(string k) {
 	if(k=="0")		return SDL_SCANCODE_0;
 	return -1;
 }
+void create_body_userdata(b2Body *b){
+	b->SetLuaUserData(new LuaRef(newTable(L)));
+}
+void create_joint_userdata(b2Joint *j){
+	j->SetLuaUserData(new LuaRef(newTable(L)));
+}
+void create_entity_userdata(Entity *e){
+	e->lua_userdata=new LuaRef(newTable(L));
+	for(auto b : e->bodies)
+		create_body_userdata(b.second);
+	for(auto j : e->joints)
+		create_joint_userdata(j.second);
+}
+void create_userdata(){
+	for(auto b : bodies)
+		create_body_userdata(b.second);
+	for(auto j : joints)
+		create_joint_userdata(j.second);
+	for(auto e : entities)
+		create_entity_userdata(e.second);
+}
 bool get_key(string k) {
 	short r=get_scancode(k);
 	if(r!=-1)return key[r];
@@ -215,9 +252,6 @@ bool get_release_key(string k) {
 	}
 	return 0;
 }
-Player *get_player() {
-	return &player;
-}
 void bind() {
 #define KEY(key) SDL_GetKeyboardState(key)
 	getGlobalNamespace(L)
@@ -225,9 +259,9 @@ void bind() {
 	.addFunction("joint",&get_joint)
 	.addFunction("entity",&get_entity)
 	.addFunction("weapon",&get_weapon)
+	.addFunction("bullet",&get_bullet)
 	.addFunction("gettext",&get_text)
 	.addFunction("print",&print)
-	.addFunction("get_player",&get_player)
 	.addFunction("loadlevel",&level)
 	.beginNamespace("world")
 	.addFunction("set_gravity",&set_gravity)
@@ -309,6 +343,7 @@ void bind() {
 	.addProperty("min_length",&b2Joint::GetMinLength,&b2Joint::SetMinLength)
 	.addProperty("max_length",&b2Joint::GetMaxLength,&b2Joint::SetMaxLength)
 	.addProperty("id",&b2Joint::GetID)
+	.addProperty("userdata",&b2Joint::GetLuaUserData,&b2Joint::SetLuaUserData)
 	.endClass()
 	.beginClass<b2Body>("Body")
 	.addProperty("x",&b2Body::GetX,&b2Body::SetX)
@@ -333,6 +368,7 @@ void bind() {
 	.addFunction("apply_center_impulse",&b2Body::CenterImpulse)
 	.addFunction("apply_angular_impulse",&b2Body::AngularImpulse)
 	.addFunction("set_texture",&b2Body::SetTexture)
+	.addProperty("userdata",&b2Body::GetLuaUserData,&b2Body::SetLuaUserData)
 	.endClass()
 	.beginClass<Entity>("Entity")
 	.addProperty("x",&Entity::getx,&Entity::setx)
@@ -341,7 +377,8 @@ void bind() {
 	.addProperty("weapon_x",&Entity::weapon_x,0)
 	.addProperty("weapon_y",&Entity::weapon_y,0)
 	.addProperty("health",&Entity::health)
-	.addProperty("id",&Entity::id)
+	.addProperty("id",&Entity::id,0)
+	.addProperty("userdata",&Entity::lua_userdata)
 	.addProperty("weapon_angle",&Entity::weapon_angle)
 	.addFunction("body",&Entity::get_body)
 	.addFunction("joint",&Entity::get_joint)
@@ -352,10 +389,6 @@ void bind() {
 	.addFunction("fire3",&Entity::fire3)
 	.addFunction("fire4",&Entity::fire4)
 	.addFunction("harm",&Entity::harm)
-	.endClass()
-	.beginClass<Player>("Player")
-	.addProperty("lives",&Player::lives)
-	.addFunction("bullet",&Player::get_bullet)
 	.endClass()
 	.beginClass<Bullet>("Bullet")
 	.addProperty("count",&Bullet::count)
@@ -395,7 +428,9 @@ void init(string name) {
 	L = luaL_newstate();
 	luaL_openlibs(L);
 	bind();
+	create_userdata();
 	dostring(
+		"player=entity('player')\n"
 		"Level={}\n"
 		"Level.init=function() end\n"
 		"Level.update=function() end\n"
@@ -429,7 +464,6 @@ void init(string name) {
 		"setmetatable(child,{__index = parent})\n"
 		"return child\n"
 		"end\n"
-		"player=get_player()\n"
 	);
 	doscript("common/level");
 	doscript("common/entity");

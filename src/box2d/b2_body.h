@@ -25,6 +25,14 @@
 
 #include "b2_math.h"
 #include "b2_shape.h"
+
+extern "C" {
+#include "luajit-2.0/lua.h"
+#include "luajit-2.0/lauxlib.h"
+#include "luajit-2.0/lualib.h"
+}
+#include "LuaBridge.h"
+
 #include <string>
 
 class b2Fixture;
@@ -53,6 +61,7 @@ enum b2BodyType {
 struct b2BodyData {
 	std::string script;
 	std::string id;
+	luabridge::LuaRef *lua_userdata;
 };
 
 
@@ -431,6 +440,9 @@ public:
 	std::string GetID() const;
 
 	void SetID(std::string id);
+
+	luabridge::LuaRef *GetLuaUserData() const;
+	void SetLuaUserData(luabridge::LuaRef *d);
 
 	friend class b2World;
 	friend class b2Island;
@@ -921,5 +933,12 @@ inline std::string b2Body::GetID() const{
 }
 inline void b2Body::SetID(std::string _id){
 	GetUserData()->id=_id;
+}
+
+inline luabridge::LuaRef *b2Body::GetLuaUserData() const{
+	return GetUserData()->lua_userdata;
+}
+inline void b2Body::SetLuaUserData(luabridge::LuaRef *d){
+	GetUserData()->lua_userdata=d;
 }
 #endif

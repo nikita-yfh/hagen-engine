@@ -3,7 +3,7 @@
 #include "xmlParser.h"
 #include "SDL_FontCache.h"
 string language="ru";
-unordered_map <string,string>texts;
+map <string,string>texts;
 string get_text(string id) {
 	if(texts.empty() || texts.find(id)!=texts.end()) {
 		XMLNode xml=XMLNode::openFileHelper((prefix+"locales/"+language+".xml").c_str(),"text");

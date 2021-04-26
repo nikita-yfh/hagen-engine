@@ -2,7 +2,7 @@
 #include "SDL.h"
 #include "entity.hpp"
 #include <string>
-#include <unordered_map>
+#include <map>
 #include "SDL_gpu.h"
 #include "SDL_FontCache.h"
 #include "box2d.h"
@@ -33,9 +33,9 @@ void init(const char* title,int w,int h);
 void quit();
 void panic(string message);
 GPU_Image *find_texture(string id);
-extern unordered_map<string,GPU_Image*>textures;
+extern map<string,GPU_Image*>textures;
 extern GPU_Image *background;
-void load_cursor();
+void set_cursor(string name);
 void load_textures();
 void configure_textures();
 void destroy_all();
