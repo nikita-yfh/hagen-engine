@@ -108,3 +108,7 @@ int Entity::fire3() {
 int Entity::fire4() {
 	return lua::fire4(this);
 }
+void Entity::harm(int damage){
+	health-=damage;
+	if(health<0)health=0;
+}

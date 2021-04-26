@@ -30,6 +30,11 @@
 #define JD_DATA(a,n) (a.userData->n)
 #define F_DATA(a,n) (a->GetUserData()->n)
 #define FD_DATA(a,n) (a.userData->n)
+
+extern float time_scale;
+extern int velocity_iterations;
+extern int position_iterations;
+
 b2Body *create_body(string type,string id,float x,float y);
 Entity *create_entity(string type,string id,float x,float y);
 void set_gravity(float x,float y);
@@ -50,7 +55,3 @@ b2Body *lb_all_collide(b2Body *body);
 b2Body *le_all_collide(Entity *e);
 Entity *sb_all_collide(b2Body *body);
 void copy_collides();
-
-class ContactListener : b2ContactListener {
-	void PreSolve(b2Contact* contact, const b2Manifold* oldManifold);
-};

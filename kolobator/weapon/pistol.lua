@@ -6,7 +6,7 @@ function pistol.init(w)
 end
 function pistol.fire1(w,e)
 	local body=e:body("body")
-	bullet=world.create_body("bullet","",e.x,e.y)
+	local bullet=world.create_body("bullet","",e.x,e.y)
 	bullet.angle=e.weapon_angle
 	bullet:apply_center_impulse(math.cos(game.camera.angle)*100,math.sin(game.camera.angle)*100);
 	body:apply_center_impulse(-math.cos(game.camera.angle)*100,-math.sin(game.camera.angle)*100);
@@ -15,7 +15,7 @@ end
 
 function pistol.fire3(w,e)
 	local body=e:body("body")
-	bullet=world.create_body("big_bullet","",e.x,e.y)
+	local bullet=world.create_body("big_bullet","",e.x,e.y)
 	bullet.angle=e.weapon_angle
 	bullet:apply_center_impulse(math.cos(game.camera.angle)*1000,math.sin(game.camera.angle)*1000);
 	body:apply_center_impulse(-math.cos(game.camera.angle)*1000,-math.sin(game.camera.angle)*1000);

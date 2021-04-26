@@ -52,6 +52,7 @@ enum b2BodyType {
 
 struct b2BodyData {
 	std::string script;
+	std::string id;
 };
 
 
@@ -208,6 +209,8 @@ public:
 	float GetLinearVelocityX() const;
 
 	float GetLinearVelocityY() const;
+
+	float GetLinearVelocityL() const;
 
 
 
@@ -425,7 +428,7 @@ public:
 	void Dump();
 	void SetTexture(std::string fix, std::string tex);
 
-	std::string &GetID() const;
+	std::string GetID() const;
 
 	void SetID(std::string id);
 
@@ -532,6 +535,10 @@ inline float b2Body::GetLinearVelocityX() const {
 
 inline float b2Body::GetLinearVelocityY() const {
 	return GetLinearVelocity().y;
+}
+
+inline float b2Body::GetLinearVelocityL() const {
+	return GetLinearVelocity().Length();
 }
 
 
@@ -908,5 +915,11 @@ inline b2World* b2Body::GetWorld() {
 
 inline const b2World* b2Body::GetWorld() const {
 	return m_world;
+}
+inline std::string b2Body::GetID() const{
+	return GetUserData()->id;
+}
+inline void b2Body::SetID(std::string _id){
+	GetUserData()->id=_id;
 }
 #endif

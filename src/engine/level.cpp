@@ -257,6 +257,7 @@ b2Joint *read_joint(XMLNode jn,string &id,b2Vec2 delta,Entity *ent) {
 						 stof(phs.getAttribute("ratio")));
 		j=world->CreateJoint(&joint);
 	}
+	J_DATA(j,id)=id;
 	return j;
 }
 void open_file(string path) {
@@ -275,7 +276,9 @@ void open_file(string path) {
 		for(int q=0; q<bodies_count; q++) {
 			XMLNode bd=bds.getChildNode("body",q);
 			b2Body *b=read_body(bd);
-			bodies[bd.getAttribute("id")]=b;
+			string id=bd.getAttribute("id");
+			bodies[id]=b;
+			B_DATA(b,id)=id;
 		}
 	}
 	{
@@ -313,6 +316,7 @@ void open_file(string path) {
 			string id=en.getAttribute("id");
 			string type=en.getAttribute("type");
 			entities[id]=new Entity(type,x,y);
+			entities[id]->id=id;
 		}
 	}
 	load_textures();

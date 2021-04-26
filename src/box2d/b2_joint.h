@@ -34,6 +34,7 @@ struct b2SolverData;
 class b2BlockAllocator;
 
 struct b2JointData {
+	std::string id;
 };
 enum b2JointType {
 	e_unknownJoint,
@@ -201,7 +202,7 @@ public:
 	b2Body* m_bodyA;
 	b2Body* m_bodyB;
 
-	std::string &GetID() const;
+	std::string GetID() const;
 
 	void SetID(std::string id);
 
@@ -268,4 +269,10 @@ inline int b2Joint::GetCollideConnected() const {
 	return m_collideConnected;
 }
 
+inline std::string b2Joint::GetID() const{
+	return GetUserData()->id;
+}
+inline void b2Joint::SetID(std::string _id){
+	GetUserData()->id=_id;
+}
 #endif

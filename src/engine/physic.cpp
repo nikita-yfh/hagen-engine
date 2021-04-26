@@ -3,6 +3,10 @@
 #include "utility.hpp"
 #include "sdl.hpp"
 #include "main.hpp"
+#include "lua.hpp"
+float time_scale=1.0f;
+int velocity_iterations=10;
+int position_iterations=10;
 using namespace std;
 b2Body *create_body(string type,string id,float x,float y) {
 	XMLNode bd=XMLNode::openFileHelper((prefix+"templates/"+type+".xml").c_str(),"body");
@@ -10,6 +14,8 @@ b2Body *create_body(string type,string id,float x,float y) {
 	load_body_textures(body);
 	if(id=="")id=free_id();
 	bodies[id]=body;
+	B_DATA(body,id)=id;
+	lua::init_body(body);
 	return body;
 }
 Entity *create_entity(string type,string id,float x,float y) {
@@ -17,6 +23,7 @@ Entity *create_entity(string type,string id,float x,float y) {
 	load_entity_textures(ent);
 	if(id=="")id=free_entity_id();
 	entities[id]=ent;
+	ent->id=id;
 	return ent;
 }
 void set_gravity(float x,float y) {
@@ -138,7 +145,4 @@ Entity *sb_collide(b2Body *body) {
 			return e.second;
 	}
 	return nullptr;
-}
-void ContactListener::PreSolve(b2Contact* contact, const b2Manifold* oldManifold){
-	contact->SetEnabled(0);
 }

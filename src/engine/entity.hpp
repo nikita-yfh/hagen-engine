@@ -19,6 +19,7 @@ struct Entity {
 	float weapon_angle;
 	float dx;
 	float dy;
+	string id;
 	b2Body *get_body(string id);
 	void set_weapon(string id);
 	string get_weapon() const;
@@ -34,4 +35,5 @@ struct Entity {
 	int fire2();
 	int fire3();
 	int fire4();
+	void harm(int damage);
 };

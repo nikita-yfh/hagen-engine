@@ -18,24 +18,49 @@ namespace lua {
 lua_State *L;
 string need_load;
 map<unsigned int,unsigned int>timers;
+float game_timer=0;
+int prev_timer=0;
 bool get_interval(unsigned int ms) {
-	if(SDL_GetTicks()-timers[ms]>ms) {
+	if(SDL_GetTicks()-timers[ms]>ms/time_scale) {
 		return 1;
 	}
 	return 0;
 }
 void update_intervals() {
 	for(auto &t : timers) {
-		if(SDL_GetTicks()-t.second>t.first)
+		if(SDL_GetTicks()-t.second>t.first/time_scale)
 			t.second=SDL_GetTicks();
+	}
+	while(prev_timer<SDL_GetTicks()+1){
+		prev_timer++;
+		game_timer+=time_scale;
 	}
 }
 //НАЧАЛО КОСТЫЛЕЙ И ОСНОВНЫХ ПРИЧИН БАГОВ
+struct BB_Contact{
+	string id1;
+	string id2;
+	b2Body *body1;
+	b2Body *body2;
+	bool collide;
+};
+struct EE_Contact : BB_Contact{
+	Entity *entity1;
+	Entity *entity2;
+	string entity_id1;
+	string entity_id2;
+};
+struct EB_Contact{
+	Entity *entity;
+	string entity_id;
+};
 void set_mask(Color &c) {
 	scene_mask=c;
 }
 void print(LuaRef r) {
 	interface.console.out(r.tostring());
+	cout<<"Lua output: "<<r<<endl;
+	cout<<SDL_GetTicks()<<endl;
 }
 Color &get_mask() {
 	return scene_mask;
@@ -58,14 +83,17 @@ void doscript(string file) {
 void level(string str) {
 	need_load=str;
 }
+void init_body(b2Body *body){
+	if(B_DATA(body,script).size()){
+		luaL_dostring(L,(B_DATA(body,script)+"=extend(Body)\n").c_str());
+		doscript("templates/"+B_DATA(body,script));
+		getGlobal(L,B_DATA(body,script).c_str())["init"](body);
+		getGlobal(L,"Body")["init"](body);
+	}
+}
 void init_bodies() {
 	for(auto body : bodies){
-		if(B_DATA(body.second,script).size()){
-			luaL_dostring(L,(B_DATA(body.second,script)+"=extend(Body)\n").c_str());
-			doscript("templates/"+B_DATA(body.second,script));
-			getGlobal(L,B_DATA(body.second,script).c_str())["init"](body.second);
-			getGlobal(L,"Body")["init"](body.second);
-		}
+		init_body(body.second);
 	}
 }
 
@@ -127,6 +155,16 @@ void gameloop() {
 	update_bodies();
 	update_intervals();
 	copy_prev_key();
+}
+void collide_callbacks(){
+	/*for(b2ContactEdge *c=world->GetContactList(); c; c=c->next) {
+		b2Body *b1=c->contact->m_fixtureA->m_body;
+		b2Body *b2=c->contact->m_fixtureB->m_body;
+		if(b1!=b2 && c->contact->IsTouching()){
+			BB_Contact contact;
+			conta
+		}
+	}*/
 }
 short get_scancode(string k) {
 	if(k=="up")		return SDL_SCANCODE_W;
@@ -210,6 +248,9 @@ void bind() {
 	.addFunction("lb_all_collide",&lb_all_collide)
 	.addFunction("le_all_collide",&le_all_collide)
 	.addFunction("sb_all_collide",&sb_all_collide)
+	.addProperty("time_scale",&time_scale)
+	.addProperty("position_iterations",&position_iterations)
+	.addProperty("velocity_iterations",&velocity_iterations)
 	.endNamespace()
 	.beginNamespace("game")
 	.beginNamespace("camera")
@@ -223,7 +264,7 @@ void bind() {
 	.addProperty("locked",&camera_locked)
 	.addProperty("angle",&mouse_angle)
 	.endNamespace()
-	.addProperty("timer",&SDL_GetTicks)
+	.addProperty("timer",&game_timer,0)
 	.addFunction("key",&get_key)
 	.addFunction("press_key",&get_press_key)
 	.addFunction("release_key",&get_release_key)
@@ -267,6 +308,7 @@ void bind() {
 	.addProperty("length_b",&b2Joint::GetCurrentLengthB)
 	.addProperty("min_length",&b2Joint::GetMinLength,&b2Joint::SetMinLength)
 	.addProperty("max_length",&b2Joint::GetMaxLength,&b2Joint::SetMaxLength)
+	.addProperty("id",&b2Joint::GetID)
 	.endClass()
 	.beginClass<b2Body>("Body")
 	.addProperty("x",&b2Body::GetX,&b2Body::SetX)
@@ -275,12 +317,14 @@ void bind() {
 	.addProperty("vangle",&b2Body::GetAngularVelocity,&b2Body::SetAngularVelocity)
 	.addProperty("vx",&b2Body::GetLinearVelocityX,&b2Body::SetLinearVelocityX)
 	.addProperty("vy",&b2Body::GetLinearVelocityY,&b2Body::SetLinearVelocityY)
+	.addProperty("v",&b2Body::GetLinearVelocityL)
 	.addProperty("gravity_scale",&b2Body::GetGravityScale, &b2Body::SetGravityScale)
 	.addProperty("mass",&b2Body::GetMass)
 	.addProperty("inertia",&b2Body::GetInertia)
 	.addProperty("enabled",&b2Body::IsEnabled,&b2Body::SetEnabled)
 	.addProperty("fixed_angle",&b2Body::IsFixedRotation,&b2Body::SetFixedRotation)
 	.addProperty("awake",&b2Body::IsAwake,&b2Body::SetAwake)
+	.addProperty("id",&b2Body::GetID)
 	.addProperty("bullet",&b2Body::IsBullet,&b2Body::SetBullet)
 	.addFunction("apply_force",&b2Body::Force)
 	.addFunction("apply_center_force",&b2Body::CenterForce)
@@ -297,6 +341,7 @@ void bind() {
 	.addProperty("weapon_x",&Entity::weapon_x,0)
 	.addProperty("weapon_y",&Entity::weapon_y,0)
 	.addProperty("health",&Entity::health)
+	.addProperty("id",&Entity::id)
 	.addProperty("weapon_angle",&Entity::weapon_angle)
 	.addFunction("body",&Entity::get_body)
 	.addFunction("joint",&Entity::get_joint)
@@ -306,6 +351,7 @@ void bind() {
 	.addFunction("fire2",&Entity::fire2)
 	.addFunction("fire3",&Entity::fire3)
 	.addFunction("fire4",&Entity::fire4)
+	.addFunction("harm",&Entity::harm)
 	.endClass()
 	.beginClass<Player>("Player")
 	.addProperty("lives",&Player::lives)
@@ -325,6 +371,23 @@ void bind() {
 	.addProperty("dy",&Weapon::dy)
 	.addProperty("bullet1",&Weapon::bullet1)
 	.addProperty("bullet2",&Weapon::bullet2)
+	.endClass()
+	.beginClass<BB_Contact>("BB_Contact")
+	.addProperty("id1",&BB_Contact::id1)
+	.addProperty("id2",&BB_Contact::id2)
+	.addProperty("body1",&BB_Contact::body1)
+	.addProperty("body2",&BB_Contact::body2)
+	.addProperty("collide",&BB_Contact::collide)
+	.endClass()
+	.deriveClass<EB_Contact,BB_Contact>("EB_Contact")
+	.addProperty("entity",&EB_Contact::entity)
+	.addProperty("entity_id",&EB_Contact::entity_id)
+	.endClass()
+	.deriveClass<EE_Contact,BB_Contact>("EE_Contact")
+	.addProperty("entity1",&EE_Contact::entity1)
+	.addProperty("entity2",&EE_Contact::entity2)
+	.addProperty("entity_id1",&EE_Contact::entity_id1)
+	.addProperty("entity_id2",&EE_Contact::entity_id2)
 	.endClass();
 }
 void init(string name) {
@@ -344,6 +407,8 @@ void init(string name) {
 		"Body={}\n"
 		"Body.init=function() end\n"
 		"Body.update=function() end\n"
+		"Body.collide_body = function() end\n"
+		"Body.collide_entity=function() end\n"
 
 		"Weapon={}\n"
 		"Weapon.init=function() end\n"
@@ -356,6 +421,8 @@ void init(string name) {
 		"Entity={}\n"
 		"Entity.init=function() end\n"
 		"Entity.update=function() end\n"
+		"Entity.collide_body = function() end\n"
+		"Entity.collide_entity=function() end\n"
 
 		"function extend(parent)\n"
 		"local child = {}\n"

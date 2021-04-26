@@ -35,7 +35,8 @@ bool game() {
 		auto step=chrono::high_resolution_clock::now()-fps;
 		fps = chrono::high_resolution_clock::now();
 		if(!interface.pause.shown)
-			world->Step(chrono::duration_cast<chrono::microseconds>(step).count()/1000000.0f,10,10);
+			world->Step(chrono::duration_cast<chrono::microseconds>(step).count()/1000000.0f*time_scale,
+						velocity_iterations,position_iterations);
 	}
 	return 0;
 }
