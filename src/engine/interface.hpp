@@ -56,6 +56,8 @@ struct Interface {
 		void load_config();
 		void show();
 		void update();
+		void open();
+		void close();
 		Rect4 borders;
 	} pause;
 	void show();

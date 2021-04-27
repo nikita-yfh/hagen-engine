@@ -170,16 +170,25 @@ void Interface::Game_interface::show() {
 			draw_bullets(weapons[entities["player"]->weapon].bullet1,"game_interface/bullet1",++layer);
 	}
 }
+void Interface::Pause::open(){
+	shown=!shown;
+	Mix_PauseMusic();
+}
+void Interface::Pause::close(){
+	shown=!shown;
+	Mix_ResumeMusic();
+}
 void Interface::Pause::show(){
-
 }
 void Interface::Pause::load_config(){
 
 }
 void Interface::Pause::update(){
 	if(e.type==SDL_KEYDOWN) {
-		if(e.key.keysym.sym==SDLK_ESCAPE)
-			shown=!shown;
+		if(e.key.keysym.sym==SDLK_ESCAPE){
+			if(shown)close();
+			else open();
+		}
 	}
 }
 Interface interface;
