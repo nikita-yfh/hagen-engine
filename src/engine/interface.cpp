@@ -12,6 +12,12 @@ void Rect4::stabilize() {
 	if(right<1)right*=SH;
 	if(bottom<1)bottom*=SH;
 }
+void Rect4::load(XMLNode l) {
+	top=stof(l.getAttribute("top"));
+	left=stof(l.getAttribute("left"));
+	right=stof(l.getAttribute("right"));
+	bottom=stof(l.getAttribute("bottom"));
+}
 void Interface::update(){
 	if(!console.shown)
 		pause.update();
@@ -20,7 +26,6 @@ void Interface::update(){
 }
 void Interface::load_config() {
 	pause.load_config();
-	console.load_config();
 	game_interface.load_config();
 }
 void Interface::show() {
@@ -78,14 +83,7 @@ void Interface::Game_interface::load_config() {
 		XMLNode text=node.getChildNode("text");
 		load_font(font,text,"color");
 	}
-	{
-		XMLNode l=node.getChildNode("border");
-		borders.top=stof(l.getAttribute("top"));
-		borders.left=stof(l.getAttribute("left"));
-		borders.right=stof(l.getAttribute("right"));
-		borders.bottom=stof(l.getAttribute("bottom"));
-		borders.stabilize();
-	}
+	borders.load(node.getChildNode("border"));
 }
 void Interface::Console::update() {
 	if(e.type==SDL_KEYDOWN) {
@@ -131,9 +129,12 @@ void Interface::Console::open() {
 	if(strings[strings.size()-1].type!=0)
 		strings.emplace_back("> ",0);
 	shown=1;
+	interface.update_cursor();
+	load_config();
 }
 void Interface::Console::close() {
 	shown=0;
+	interface.update_cursor();
 }
 void Interface::Console::out(string str) {
 	if(strings[strings.size()-1].type==0 && strings[strings.size()-1].text=="> ") {
@@ -144,9 +145,7 @@ void Interface::Console::out(string str) {
 	if(strings.size()>100)
 		strings.erase(strings.begin());
 }
-void Interface::Game_interface::update() {
-
-}
+void Interface::Game_interface::update() {}
 void Interface::Game_interface::show() {
 	short h=FC_GetLineHeight(font);
 	{
@@ -171,17 +170,38 @@ void Interface::Game_interface::show() {
 	}
 }
 void Interface::Pause::open(){
-	shown=!shown;
+	shown=1;
 	Mix_PauseMusic();
+	interface.update_cursor();
 }
 void Interface::Pause::close(){
-	shown=!shown;
+	shown=0;
 	Mix_ResumeMusic();
+	interface.update_cursor();
 }
 void Interface::Pause::show(){
+	//GPU_Image *
+	//GPU_BlitScale(textures["interface/pause_background.png"],0,ren,SW/2,SH/2,
+	//	)
 }
 void Interface::Pause::load_config(){
-
+	XMLNode node=XMLNode::openFileHelper((prefix+"config/pause.xml").c_str(),"pause");
+	{
+		XMLNode text=node.getChildNode("text");
+		active_color.load	(text.getChildNode("active_color"));
+		passive_color.load	(text.getChildNode("passive_color"));
+		pause_color.load	(text.getChildNode("pause_color"));
+		load_font(font,text,"passive_color");
+	}
+	{
+		XMLNode size=node.getChildNode("size");
+		w=stof(size.getAttribute("x"));
+		h=stof(size.getAttribute("y"));
+	}
+	borders.load(node.getChildNode("border"));
+	load_texture("interface/pause_background.png");
+	load_texture("interface/pause_active_button.png");
+	load_texture("interface/pause_passive_button.png");
 }
 void Interface::Pause::update(){
 	if(e.type==SDL_KEYDOWN) {
@@ -190,5 +210,11 @@ void Interface::Pause::update(){
 			else open();
 		}
 	}
+}
+void Interface::update_cursor(){
+	if(pause.shown || console.shown)
+		set_cursor("default.png");
+	else
+		set_cursor("aim.png");
 }
 Interface interface;

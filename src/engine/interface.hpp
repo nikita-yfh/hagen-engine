@@ -10,6 +10,7 @@ struct Rect4 {
 	float left;
 	float right;
 	void stabilize();
+	void load(XMLNode l);
 };
 struct Interface {
 	struct Console {
@@ -59,9 +60,12 @@ struct Interface {
 		void open();
 		void close();
 		Rect4 borders;
+		float w;
+		float h;
 	} pause;
 	void show();
 	void update();
 	void load_config();
+	void update_cursor();
 };
 extern Interface interface;

@@ -36,6 +36,8 @@ void panic(string message);
 GPU_Image *find_texture(string id);
 extern map<string,GPU_Image*>textures;
 void set_cursor(string name);
+void unset_cursor();
+void set_center_cursor(string name);
 void load_textures();
 void configure_textures();
 void destroy_all();

@@ -15,6 +15,7 @@ const uint8_t* key=SDL_GetKeyboardState(0);
 using namespace std;
 map<string,GPU_Image*>textures;
 map<string,Mix_Chunk*>sounds;
+SDL_Cursor *cursor=0;
 Mix_Music *music=nullptr;
 void Color::set(int _r,int _g,int _b,int _a) {
 	r=_r;
@@ -80,11 +81,26 @@ void panic(string message) {
 	exit(1);
 }
 
+void unset_cursor(){
+	if(cursor)SDL_FreeCursor(cursor);
+	cursor=SDL_GetDefaultCursor();
+	SDL_SetCursor(cursor);
+}
 void set_cursor(string name) {
+	if(cursor)SDL_FreeCursor(cursor);
 	SDL_Surface *sur=GPU_LoadSurface(string(prefix+"cursors/"+name).c_str());
-	SDL_Cursor *cur=SDL_CreateColorCursor(sur,0,0);
+	cursor=SDL_CreateColorCursor(sur,0,0);
 	SDL_FreeSurface(sur);
-	SDL_SetCursor(cur);
+	SDL_SetCursor(cursor);
+}
+void set_center_cursor(string name) {
+	if(cursor)SDL_FreeCursor(cursor);
+	SDL_Surface *sur=GPU_LoadSurface(string(prefix+"cursors/"+name).c_str());
+	cursor=SDL_CreateColorCursor(sur,sur->w/2,sur->h/2);
+	if(!sur || !cursor)
+		unset_cursor();
+	SDL_FreeSurface(sur);
+	SDL_SetCursor(cursor);
 }
 GPU_Image *load_texture(string str) {
 	if(str.size() && !find_texture(str)) {

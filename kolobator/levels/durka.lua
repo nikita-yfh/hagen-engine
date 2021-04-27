@@ -1,5 +1,5 @@
 function level:init()
-	music.play("fon-3.mp3")
+	--music.play("fon-3.mp3")
 end
 function level:update()
 	level_trigger(body("_end"),"durka")

@@ -3,3 +3,5 @@
 using namespace std;
 extern string prefix;
 #define TYPE(a,b) (static_cast<a>(b))
+const string main_cursor("default.png");
+const string game_cursor("aim.png");

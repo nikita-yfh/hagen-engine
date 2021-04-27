@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <pause>
+	<size x="0.2" y="0.3"/>
 	<text name="DroidSansMono.ttf" size="0.1">
 		<active_color r="255" g="255" b="255" a="255"/>
 		<passive_color r="255" g="255" b="255" a="255"/>
 		<pause_color r="255" g="255" b="255" a="255"/>
 	</text>
+	<border left="0.1" right="0.1" top="0.1" bottom="0.1"/>
 </pause> 
