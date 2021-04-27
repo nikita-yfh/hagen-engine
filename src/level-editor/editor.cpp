@@ -242,7 +242,7 @@ void set_grid() {
 	key_state=0;
 }
 void set_bgr() {
-	const char *bgr_path="game/backgrounds/";
+	const char *bgr_path="game/textures/";
 	string str=get_open_path(bgr_path);
 	if(str.size()) {
 		int n=str.find(bgr_path);  //find

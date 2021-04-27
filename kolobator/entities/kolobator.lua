@@ -2,8 +2,8 @@ function kolobator.init(a)
 	graphics.preload("kolobator1.png")
 	graphics.preload("kolobator2.png")
 	a.weapon="pistol"
-	bullet("9mm").count=27
-	bullet("9mm").max=27
+	bullet("9mm").count=100
+	bullet("9mm").max=100
 	bullet("27mm").count=10
 	bullet("27mm").max=10
 	kolobator.speed=10

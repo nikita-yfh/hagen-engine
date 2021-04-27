@@ -2,6 +2,7 @@
 #include "box2d.h"
 #include "sdl.hpp"
 #include "entity.hpp"
+#include "weapon.hpp"
 #include <string>
 void close_level();
 void load_level(string name);
@@ -13,3 +14,4 @@ Bullet *get_bullet(string id);
 bool exist_file(string path);
 string free_id();
 string free_entity_id();
+Entity *whois(b2Body *body);

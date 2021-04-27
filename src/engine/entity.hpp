@@ -1,6 +1,5 @@
 #pragma once
 #include "box2d.h"
-#include "weapon.hpp"
 #include <string>
 #include <map>
 #include <vector>
@@ -31,6 +30,8 @@ struct Entity {
 	b2Body *get_body(string id);
 	void set_weapon(string id);
 	string get_weapon() const;
+	float get_vx() const;
+	float get_vy() const;
 	float getx() const;
 	float gety() const;
 	void setx(float x);

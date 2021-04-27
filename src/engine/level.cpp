@@ -14,6 +14,7 @@ unsigned short int levelh=20;
 map<string,b2Body*>bodies;
 map<string,b2Joint*>joints;
 map<string,Entity*>entities;
+string background;
 b2World *world=0;
 
 b2Body* read_body(XMLNode bd,b2Vec2 delta,bool temp) {
@@ -266,7 +267,7 @@ void open_file(string path) {
 	{
 		//backgroung
 		XMLNode bgr=lvl.getChildNode("background");
-		load_background(bgr.getAttribute("img"));
+		background=bgr.getAttribute("img");
 	}
 	{
 		//bodies
@@ -327,6 +328,7 @@ void close_level() {
 	entities.clear();
 	joints.clear();
 	bodies.clear();
+	lua::clear_loaded_list();
 	if(world)delete world;
 	lua::quit();
 }

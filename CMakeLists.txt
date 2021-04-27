@@ -169,7 +169,7 @@ set(ENGINE_HEADERS
         src/box2d/box2d.h
 )
 find_package(PkgConfig REQUIRED)
-pkg_check_modules(SDL REQUIRED sdl2 SDL2_ttf)
+pkg_check_modules(SDL REQUIRED sdl2 SDL2_ttf SDL2_mixer)
 pkg_check_modules(GTK REQUIRED gtk+-2.0)
 pkg_check_modules(LUA REQUIRED luajit)
 include_directories(

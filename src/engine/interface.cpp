@@ -5,6 +5,7 @@
 #include "level.hpp"
 #include "lua.hpp"
 #include "text.hpp"
+#include "weapon.hpp"
 void Rect4::stabilize() {
 	if(top<1)top*=SH;
 	if(left<1)left*=SH;
