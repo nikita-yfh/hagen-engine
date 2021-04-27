@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <level w="100" h="20">
-	<background img="default.png"/>
+	<background img="backgrounds/default.png"/>
 	<bodies count="2">
-		<body x="50.8056" y="13.0247" id="ground" type="static" shapes="1" script="">
+		<body x="50.8056" y="13.0247" id="ground" type="static" script="" shapes="1">
 			<physic bullet="0" fixed_rotation="0" gravity_scale="1"/>
 			<shape id="_Polygon1" type="Polygon" pos="physic" texture="wooden_box.png" expand="0">
 				<position point_count="68">
@@ -20,13 +20,13 @@
 					<point x="43.3944" y="2.13529"/>
 					<point x="42.3544" y="1.73529"/>
 					<point x="41.5544" y="1.29529"/>
-					<point x="39.7944" y="0.255298"/>
-					<point x="39.2344" y="-0.0647001"/>
-					<point x="37.3944" y="-0.8247"/>
-					<point x="36.8744" y="-0.7447"/>
-					<point x="35.8344" y="-0.624701"/>
-					<point x="31.6944" y="0.4753"/>
-					<point x="31.1944" y="0.975297"/>
+					<point x="39.7944" y="0.255295"/>
+					<point x="39.2344" y="-0.064703"/>
+					<point x="37.3944" y="-0.824703"/>
+					<point x="36.8744" y="-0.744703"/>
+					<point x="35.8344" y="-0.624703"/>
+					<point x="31.6944" y="0.475297"/>
+					<point x="31.1944" y="0.975294"/>
 					<point x="30.1944" y="1.47529"/>
 					<point x="29.2744" y="1.73529"/>
 					<point x="28.9544" y="1.89529"/>
@@ -39,23 +39,23 @@
 					<point x="16.4744" y="1.97529"/>
 					<point x="15.6744" y="1.5353"/>
 					<point x="15.1944" y="1.33529"/>
-					<point x="14.0344" y="0.775298"/>
-					<point x="12.7145" y="0.175301"/>
-					<point x="12.0545" y="-0.1947"/>
-					<point x="11.2445" y="-0.214703"/>
-					<point x="10.3045" y="-0.1447"/>
-					<point x="9.69452" y="0.4753"/>
+					<point x="14.0344" y="0.775295"/>
+					<point x="12.7145" y="0.175298"/>
+					<point x="12.0545" y="-0.194703"/>
+					<point x="11.2445" y="-0.214705"/>
+					<point x="10.3045" y="-0.144703"/>
+					<point x="9.69452" y="0.475297"/>
 					<point x="6.99451" y="1.09529"/>
 					<point x="2.59451" y="2.05529"/>
-					<point x="-0.885502" y="0.295297"/>
+					<point x="-0.885506" y="0.295294"/>
 					<point x="-4.28548" y="-1.82471"/>
 					<point x="-6.96553" y="-1.86471"/>
 					<point x="-8.72552" y="-1.30471"/>
-					<point x="-11.6456" y="-0.7447"/>
-					<point x="-13.8856" y="0.375298"/>
-					<point x="-16.8056" y="0.975281"/>
-					<point x="-20.8056" y="0.975281"/>
-					<point x="-23.4456" y="-0.0247002"/>
+					<point x="-11.6456" y="-0.744703"/>
+					<point x="-13.8856" y="0.375295"/>
+					<point x="-16.8056" y="0.975278"/>
+					<point x="-20.8056" y="0.975278"/>
+					<point x="-23.4456" y="-0.024703"/>
 					<point x="-25.4056" y="-1.4247"/>
 					<point x="-26.3656" y="-1.7147"/>
 					<point x="-27.3056" y="-2.52471"/>
@@ -79,7 +79,7 @@
 				<collision category="0" mask="65535"/>
 			</shape>
 		</body>
-		<body x="32.5" y="13.25" id="_end" type="static" shapes="1" script="">
+		<body x="32.5" y="13.25" id="_end" type="static" script="" shapes="1">
 			<physic bullet="0" fixed_rotation="0" gravity_scale="1"/>
 			<shape id="_Rect2" type="Rect" pos="background" texture="durka.jpg" expand="1">
 				<position x1="-1" y1="-0.75" x2="1" y2="0.75"/>

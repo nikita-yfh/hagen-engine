@@ -1,6 +1,7 @@
 #include "entity.hpp"
 #include "level.hpp"
 #include "physic.hpp"
+#include "weapon.hpp"
 #include "main.hpp"
 #include "sdl.hpp"
 #include "lua.hpp"
@@ -111,4 +112,11 @@ int Entity::fire4() {
 void Entity::harm(int damage){
 	health-=damage;
 	if(health<0)health=0;
+}
+
+float Entity::get_vx() const {
+	return get_first()->GetLinearVelocityX();
+}
+float Entity::get_vy() const {
+	return get_first()->GetLinearVelocityY();
 }

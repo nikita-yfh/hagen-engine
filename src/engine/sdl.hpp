@@ -4,6 +4,7 @@
 #include <string>
 #include <map>
 #include "SDL_gpu.h"
+#include "SDL_mixer.h"
 #include "SDL_FontCache.h"
 #include "box2d.h"
 #include "xmlParser.h"
@@ -34,13 +35,18 @@ void quit();
 void panic(string message);
 GPU_Image *find_texture(string id);
 extern map<string,GPU_Image*>textures;
-extern GPU_Image *background;
 void set_cursor(string name);
 void load_textures();
 void configure_textures();
 void destroy_all();
-void load_background(string path);
 GPU_Image *load_texture(string str);
 void load_body_textures(b2Body *body);
 void load_entity_textures(Entity *ent);
 void load_font(FC_Font *&font, XMLNode node,string color);
+void play_music(string name);
+void stop_music();
+void pause_music();
+void resume_music();
+void play_sound(string name);
+void play_ws_sound(string name);
+void play_distance_sound(string name,float x,float y);

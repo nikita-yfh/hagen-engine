@@ -20,6 +20,7 @@ void quit();
 void init_weapon(string weapon);
 void init_body(b2Body *body);
 void init_entity(Entity *entity);
+void clear_loaded_list();
 int fire1(Entity *ent);
 int fire2(Entity *ent);
 int fire3(Entity *ent);

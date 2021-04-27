@@ -16,13 +16,14 @@ void draw_mask() {
 	GPU_RectangleFilled(ren,0,0,SW,SH,scene_mask.color());
 }
 void draw_bgr() {
-	if(!background)return;
-	float w=background->w;
-	float h=background->h;
+	if(!background.size())return;
+	GPU_Image *image=textures[background];
+	float w=image->w;
+	float h=image->h;
 	if(w/h>(float)SW/SH) {
-		GPU_BlitScale(background,0,ren,SW/2,SH/2,w/h,w/h);
+		GPU_BlitScale(image,0,ren,SW/2,SH/2,w/h,w/h);
 	} else {
-		GPU_BlitScale(background,0,ren,SW/2,SH/2,h/w,h/w);
+		GPU_BlitScale(image,0,ren,SW/2,SH/2,h/w,h/w);
 	}
 }
 void fixture_draw(b2Body *body,b2Fixture *fix) {
