@@ -55,6 +55,7 @@ void destroy_joint(b2Joint *joint) {
 void destroy_entity(Entity *entity) {
 	for(auto &e : entities){
 		if(e.second==entity){
+			delete entity;
 			entities.erase(e.first);
 			return;
 		}

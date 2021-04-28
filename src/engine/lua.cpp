@@ -123,14 +123,14 @@ void init_weapon(string weapon) {
 }
 void update_entities() {
 	for(auto entity : entities) {
-		getGlobal(L,"Entity")["update"](entity.second);
-		getGlobal(L,entity.second->type.c_str())["update"](entity.second);
+		if(getGlobal(L,"Entity")["update"](entity.second)||
+	getGlobal(L,entity.second->type.c_str())["update"](entity.second)){
+			destroy_entity(entity.second);
+			return;
+		}
 		if(weapons.find(entity.second->weapon)!=weapons.end()) {
-			if( getGlobal(L,"Weapon")["update"](&weapons[entity.second->weapon],entity.second) ||
-	getGlobal(L,entity.second->weapon.c_str())["update"](&weapons[entity.second->weapon],entity.second)){
-				destroy_entity(entity.second);
-				return;
-			}
+			getGlobal(L,"Weapon")["update"](&weapons[entity.second->weapon],entity.second);
+			getGlobal(L,entity.second->weapon.c_str())["update"](&weapons[entity.second->weapon],entity.second);
 		}
 	}
 }
@@ -372,6 +372,9 @@ void bind() {
 			.addFunction("fire3",&Entity::fire3)
 			.addFunction("fire4",&Entity::fire4)
 			.addFunction("harm",&Entity::harm)
+			.addFunction("focus",&Entity::focus)
+			.addFunction("focus_on_entity",&Entity::focus_on_entity)
+			.addFunction("focus_on_body",&Entity::focus_on_body)
 		.endClass()
 		.beginClass<Bullet>("Bullet")
 			.addProperty("count",&Bullet::count)

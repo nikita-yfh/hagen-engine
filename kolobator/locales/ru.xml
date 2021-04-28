@@ -10,6 +10,8 @@
 	<pause>
 		<pause>Меню паузы</pause>
 		<continue>Продолжить</continue>
+		<save_game>Сохранить</save_game>
+		<load_game>Загрузить</load_game>
 		<settings>Настройки</settings>
 		<main_menu>Выйти в меню</main_menu>
 		<exit_game>Выйти из игры</exit_game>

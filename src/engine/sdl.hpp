@@ -23,7 +23,7 @@ struct Rect : GPU_Rect {
 	Rect();
 	Rect(float,float,float,float);
 	void set(float,float,float,float);
-	void load(XMLNode node);
+	void load(XMLNode node,float h);
 };
 extern SDL_Event e;
 extern GPU_Target *ren;
@@ -44,7 +44,7 @@ void destroy_all();
 GPU_Image *load_texture(string str);
 void load_body_textures(b2Body *body);
 void load_entity_textures(Entity *ent);
-void load_font(FC_Font *&font, XMLNode node,string color);
+void load_font(FC_Font *&font, XMLNode node,string color,float h);
 void play_music(string name);
 void stop_music();
 void pause_music();

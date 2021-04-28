@@ -46,6 +46,9 @@ b2Vec2 rotate(b2Vec2 vec,float a) {
 float mouse_angle() {
 	float x=SW/2-mouse.x;
 	float y=SH/2-mouse.y;
+	return get_angle(x,y);
+}
+float get_angle(float x,float y){
 	float a;
 	if(x>=0)
 		a= M_PI+atan(y/x);

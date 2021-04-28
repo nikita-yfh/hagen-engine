@@ -15,7 +15,7 @@ using namespace luabridge;
 int main(int argc, char * argv[]) {
 	try {
 		if(argc>2)prefix=argv[2];
-		init("Engine",1024,768);
+		init("Engine",1920,1030);
 		configure_textures();
 		set_center_cursor("aim.png");
 		if(argc>1) load_level(argv[1]);

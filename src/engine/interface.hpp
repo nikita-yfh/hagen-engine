@@ -9,8 +9,8 @@ struct Rect4 {
 	float bottom;
 	float left;
 	float right;
-	void stabilize();
-	void load(XMLNode l);
+	void stabilize(float f);
+	void load(XMLNode l,float f);
 };
 struct Interface {
 	struct Console {
@@ -50,7 +50,6 @@ struct Interface {
 	struct Pause {
 		Color active_color;
 		Color passive_color;
-		Color pause_color;
 		bool shown;
 		uint8_t selected;
 		FC_Font *font=0;

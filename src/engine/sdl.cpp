@@ -52,11 +52,15 @@ Rect::Rect() {}
 Rect::Rect(float _x,float _y,float _w,float _h) {
 	set(_x,_y,_w,_h);
 }
-void Rect::load(XMLNode node) {
+void Rect::load(XMLNode node,float f) {
 	x=stoi(node.getAttribute("x"));
 	y=stoi(node.getAttribute("y"));
 	w=stoi(node.getAttribute("w"));
 	h=stoi(node.getAttribute("h"));
+	if(x<1.0f)x*=f;
+	if(y<1.0f)y*=f;
+	if(w<1.0f)w*=f;
+	if(h<1.0f)h*=f;
 }
 void init(const char* title,int w,int h) {
 	SDL_Init(SDL_INIT_EVERYTHING);
@@ -135,10 +139,10 @@ void destroy_all() {
 	textures.clear();
 }
 
-void load_font(FC_Font *&font, XMLNode node,string color) {
+void load_font(FC_Font *&font, XMLNode node,string color,float h) {
 	string font_path=node.getAttribute("name");
 	float size=stof(node.getAttribute("size"));
-	if(size<1)size*=SH;
+	if(size<1)size*=h;
 	font_path=prefix+"fonts/"+font_path;
 	if(font!=0)
 		FC_ClearFont(font);

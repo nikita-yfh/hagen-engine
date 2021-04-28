@@ -6,13 +6,13 @@
 #include "lua.hpp"
 #include "text.hpp"
 #include "weapon.hpp"
-void Rect4::stabilize() {
-	if(top<1)top*=SH;
-	if(left<1)left*=SH;
-	if(right<1)right*=SH;
-	if(bottom<1)bottom*=SH;
+void Rect4::stabilize(float f) {
+	if(top<1)top*=f;
+	if(left<1)left*=f;
+	if(right<1)right*=f;
+	if(bottom<1)bottom*=f;
 }
-void Rect4::load(XMLNode l) {
+void Rect4::load(XMLNode l,float f) {
 	top=stof(l.getAttribute("top"));
 	left=stof(l.getAttribute("left"));
 	right=stof(l.getAttribute("right"));
@@ -74,16 +74,17 @@ void Interface::Console::load_config() {
 		input_color.load(text.getChildNode("input_color"));
 		error_color.load(text.getChildNode("error_color"));
 		output_color.load(text.getChildNode("output_color"));
-		load_font(font,text,"input_color");
+		load_font(font,text,"input_color",SH);
 	}
 }
 void Interface::Game_interface::load_config() {
 	XMLNode node=XMLNode::openFileHelper((prefix+"config/interface.xml").c_str(),"interface");
 	{
 		XMLNode text=node.getChildNode("text");
-		load_font(font,text,"color");
+		load_font(font,text,"color",SH);
 	}
-	borders.load(node.getChildNode("border"));
+	borders.load(node.getChildNode("border"),SH);
+	borders.stabilize(SH);
 }
 void Interface::Console::update() {
 	if(e.type==SDL_KEYDOWN) {
@@ -180,36 +181,11 @@ void Interface::Pause::close(){
 	interface.update_cursor();
 }
 void Interface::Pause::show(){
-	//GPU_Image *
-	//GPU_BlitScale(textures["interface/pause_background.png"],0,ren,SW/2,SH/2,
-	//	)
+
 }
 void Interface::Pause::load_config(){
-	XMLNode node=XMLNode::openFileHelper((prefix+"config/pause.xml").c_str(),"pause");
-	{
-		XMLNode text=node.getChildNode("text");
-		active_color.load	(text.getChildNode("active_color"));
-		passive_color.load	(text.getChildNode("passive_color"));
-		pause_color.load	(text.getChildNode("pause_color"));
-		load_font(font,text,"passive_color");
-	}
-	{
-		XMLNode size=node.getChildNode("size");
-		w=stof(size.getAttribute("x"));
-		h=stof(size.getAttribute("y"));
-	}
-	borders.load(node.getChildNode("border"));
-	load_texture("interface/pause_background.png");
-	load_texture("interface/pause_active_button.png");
-	load_texture("interface/pause_passive_button.png");
 }
 void Interface::Pause::update(){
-	if(e.type==SDL_KEYDOWN) {
-		if(e.key.keysym.sym==SDLK_ESCAPE){
-			if(shown)close();
-			else open();
-		}
-	}
 }
 void Interface::update_cursor(){
 	if(pause.shown || console.shown)

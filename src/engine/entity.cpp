@@ -5,6 +5,7 @@
 #include "main.hpp"
 #include "sdl.hpp"
 #include "lua.hpp"
+#include "camera.hpp"
 using namespace std;
 Entity::Entity() {};
 Entity::Entity(string _type,float xp,float yp) {
@@ -47,7 +48,14 @@ Entity::Entity(string _type,float xp,float yp) {
 	dx=xp-get_first()->GetPosition().x;
 	dy=yp-get_first()->GetPosition().y;
 }
-Entity::~Entity() {}
+Entity::~Entity() {
+	for(auto &j : joints)
+		world->DestroyJoint(j.second);
+	for(auto &b : bodies)
+		world->DestroyBody(b.second);
+	joints.clear();
+	bodies.clear();
+}
 
 b2Body *Entity::get_first() const {
 	return bodies.begin()->second;
@@ -112,6 +120,18 @@ int Entity::fire4() {
 void Entity::harm(int damage){
 	health-=damage;
 	if(health<0)health=0;
+}
+
+void Entity::focus(float x,float y){
+	weapon_angle=get_angle(getx()-x,gety()-y);
+}
+
+void Entity::focus_on_entity(Entity *e){
+	focus(e->getx(),e->gety());
+}
+
+void Entity::focus_on_body(b2Body *b){
+	focus(b->GetX(),b->GetY());
 }
 
 float Entity::get_vx() const {

@@ -325,9 +325,15 @@ void open_file(string path) {
 void close_level() {
 	destroy_all();
 	weapons.clear();
-	entities.clear();
+	for(auto &j : joints)
+		delete j.second;
+	for(auto &j : joints)
+		world->DestroyJoint(j.second);
+	for(auto &b : bodies)
+		world->DestroyBody(b.second);
 	joints.clear();
 	bodies.clear();
+	entities.clear();
 	lua::clear_loaded_list();
 	if(world)delete world;
 	lua::quit();

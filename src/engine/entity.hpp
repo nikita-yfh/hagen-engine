@@ -46,4 +46,7 @@ struct Entity {
 	int fire4();
 	void harm(int damage);
 	luabridge::LuaRef *lua_userdata;
+	void focus(float x,float y);
+	void focus_on_entity(Entity *e);
+	void focus_on_body(b2Body *b);
 };
