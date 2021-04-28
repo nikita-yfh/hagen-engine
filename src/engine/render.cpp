@@ -21,9 +21,9 @@ void draw_bgr() {
 	float w=image->w;
 	float h=image->h;
 	if(w/h>(float)SW/SH) {
-		GPU_BlitScale(image,0,ren,SW/2,SH/2,w/h,w/h);
+		GPU_BlitScale(image,0,ren,SW/2,SH/2,SH/h,SH/h);
 	} else {
-		GPU_BlitScale(image,0,ren,SW/2,SH/2,h/w,h/w);
+		GPU_BlitScale(image,0,ren,SW/2,SH/2,SW/w,SW/w);
 	}
 }
 void fixture_draw(b2Body *body,b2Fixture *fix) {
