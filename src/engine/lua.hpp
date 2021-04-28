@@ -29,4 +29,5 @@ int fire4(Entity *ent);
 void create_entity_userdata(Entity *e);
 void create_body_userdata(b2Body *b);
 void create_joint_userdata(b2Joint *j);
+int get_time();
 };

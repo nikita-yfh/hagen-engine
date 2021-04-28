@@ -7,7 +7,9 @@
 #include "physic.hpp"
 #include "level.hpp"
 #include "utility.hpp"
+#include "lua.hpp"
 #include "interface.hpp"
+#include "effect.hpp"
 #define CIRCLE_QUALITY 50
 using namespace std;
 Color scene_mask(0,0,0,0);
@@ -180,6 +182,12 @@ void draw_entities(uint8_t pos) {
 		}
 	}
 }
+void draw_effects(){
+	for(auto &e : effects){
+		int frame=min((int)e.effect->anim.size(),int(float(lua::get_time()-e.begin_time)/e.effect->period));
+		GPU_Blit(e.effect->anim[frame],0,ren,drawx(e.x),drawy(e.y));
+	}
+}
 void draw() {
 	GPU_Clear(ren);
 	draw_bgr();
@@ -187,6 +195,7 @@ void draw() {
 		draw_bodies(q);
 		draw_entities(q);
 	}
+	draw_effects();
 	draw_mask();
 	interface.show();
 	GPU_Flip(ren);

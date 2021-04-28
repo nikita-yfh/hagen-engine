@@ -3,6 +3,7 @@ end
 function durka_man.update(a)
 	local b=a:body("body")
 	if(a.health==0) then 
+		graphics.effect("big_blood",a.x,a.y)
 		return 1
 	else
 		if(math.abs(player.x-a.x)<3) then

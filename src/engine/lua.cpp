@@ -7,6 +7,7 @@
 #include "sdl.hpp"
 #include "utility.hpp"
 #include "text.hpp"
+#include "effect.hpp"
 #include "main.hpp"
 #include "interface.hpp"
 #include <detail/Userdata.h>
@@ -148,6 +149,7 @@ void gameloop() {
 	update_entities();
 	update_bodies();
 	update_intervals();
+	update_effects();
 	copy_prev_key();
 }
 short get_scancode(string k) {
@@ -288,6 +290,7 @@ void bind() {
 			.addFunction("preload",&load_texture)
 			.addFunction("texture",&find_texture)
 			.addProperty("show_textures",&show_textures)
+			.addFunction("effect",&create_effect)
 		.endNamespace()
 		.beginNamespace("music")
 			.addFunction("play",&play_music)
@@ -445,5 +448,8 @@ void init(string name) {
 }
 void quit() {
 	if(L)lua_close(L);
+}
+int get_time(){
+	return game_timer;
 }
 };
