@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<physics>
+	<bodies count="2">
+		<body x="-0.000955544" y="-0.0508645" id="body" type="dynamic" shapes="1" script="">
+			<physic bullet="0" fixed_rotation="1" gravity_scale="1"/>
+			<shape id="body_fixture" type="Polygon" pos="physic" texture="kolobator1.png" expand="1">
+				<position point_count="22">
+					<point x="0.0109555" y="-0.199137"/>
+					<point x="0.0649555" y="-0.191137"/>
+					<point x="0.127954" y="-0.165137"/>
+					<point x="0.190954" y="-0.112137"/>
+					<point x="0.221954" y="-0.0681355"/>
+					<point x="0.243954" y="-0.0101355"/>
+					<point x="0.251954" y="0.0498645"/>
+					<point x="0.241954" y="0.119863"/>
+					<point x="0.213954" y="0.181863"/>
+					<point x="0.184954" y="0.219863"/>
+					<point x="0.156954" y="0.246863"/>
+					<point x="-0.151046" y="0.248863"/>
+					<point x="-0.194046" y="0.205863"/>
+					<point x="-0.228046" y="0.149863"/>
+					<point x="-0.246046" y="0.0898645"/>
+					<point x="-0.248046" y="0.0308645"/>
+					<point x="-0.238046" y="-0.0301355"/>
+					<point x="-0.212046" y="-0.0821355"/>
+					<point x="-0.170046" y="-0.131137"/>
+					<point x="-0.126045" y="-0.165136"/>
+					<point x="-0.0690445" y="-0.191137"/>
+					<point x="-0.0280445" y="-0.198137"/>
+				</position>
+				<physic density="1000" friction="0.3" restitution="0"/>
+				<collision category="1" mask="65535"/>
+			</shape>
+		</body>
+		<body x="0" y="0.1875" id="wheel" type="dynamic" shapes="1" script="">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1"/>
+			<shape id="_Circle2" type="Circle" pos="b_physic" texture="wheel.png" expand="1">
+				<position x="0" y="0" r="0.125"/>
+				<physic density="5000" friction="10" restitution="0"/>
+				<collision category="1" mask="65535"/>
+			</shape>
+		</body>
+	</bodies>
+	<joints count="1">
+		<joint type="RevoluteJoint" id="joint">
+			<connected collide="0" id1="body" id2="wheel"/>
+			<position x="0" y="0.1875"/>
+			<physic limit="0" motor="1" speed="10" max_torque="1e+09"/>
+		</joint>
+	</joints>
+</physics>
