@@ -13,7 +13,7 @@ using namespace std;
 namespace lua {
 extern string need_load;
 extern lua_State *L;
-
+bool get_interval(unsigned int ms);
 void gameloop();
 void init(string);
 void quit();

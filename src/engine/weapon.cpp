@@ -14,7 +14,7 @@ bool Bullet::full(){
 	return (count==max || count==-1 || max==-1);
 }
 
-b2Body *simple_bullet(Weapon *w, Entity *e, string type, float impulse){
+b2Body *simple_bullet(Entity *e, string type, float impulse){
 	float &angle=e->weapon_angle;
 	b2Body *bullet=create_body(type,"",e->getx(),e->gety());
 	bullet->SetAngle(angle);

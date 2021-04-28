@@ -21,4 +21,4 @@ struct Bullet {
 extern map<string,Weapon>weapons;
 extern map<string,Bullet>bullets;
 Bullet *get_bullet(string id);
-b2Body *simple_bullet(Weapon *w, Entity *e, string type, float impulse);
+b2Body *simple_bullet(Entity *e, string type, float impulse);
