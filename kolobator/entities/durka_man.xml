@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<physics>
+	<bodies count="1">
+		<body x="0" y="0" id="body" type="dynamic" script="" shapes="1">
+			<physic bullet="0" fixed_rotation="1" gravity_scale="1"/>
+			<shape id="_Rect1" type="Rect" pos="physic" texture="durka_man.png" expand="1">
+				<position x1="-0.27" y1="-0.75" x2="0.27" y2="0.75"/>
+				<physic density="1000" friction="0.3" restitution="0"/>
+				<collision category="1" mask="65533"/>
+			</shape>
+		</body>
+	</bodies>
+	<joints count="0"/>
+</physics>

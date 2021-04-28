@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<body type="dynamic" script="health_20" shapes="1">
+	<physic bullet="0" fixed_rotation="0" gravity_scale="1"/>
+	<shape id="_Rect10" type="Rect" pos="physic" texture="health.png" expand="1">
+		<position x1="0.125" y1="-0.125" x2="-0.125" y2="0.125"/>
+		<physic density="1000" friction="0.3" restitution="0"/>
+		<collision category="2" mask="65533"/>
+	</shape>
+</body>

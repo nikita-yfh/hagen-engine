@@ -5,7 +5,7 @@ function pistol.init(w)
 	w.bullet2="27mm"
 end
 function pistol.fire1(w,e)
-	local bullet=world.create_bullet(w,e,"bullet_9mm",100)
+	local bullet=world.create_bullet(e,"bullet_9mm",100)
 	bullet.userdata.create_time=game.timer
 	bullet.userdata.entity=e.id
 	sound.play("pistol.flac")
@@ -13,7 +13,7 @@ function pistol.fire1(w,e)
 end
 
 function pistol.fire3(w,e)
-	local bullet=world.create_bullet(w,e,"bullet_27mm",1000)
+	local bullet=world.create_bullet(e,"bullet_27mm",1000)
 	bullet.userdata.create_time=game.timer
 	bullet.userdata.entity=e.id
 	sound.play("pistol.flac")
