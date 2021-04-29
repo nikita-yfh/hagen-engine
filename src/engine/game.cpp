@@ -25,6 +25,11 @@ bool game() {
 			case SDL_QUIT:
 				run=0;
 				break;
+			case SDL_KEYDOWN:
+				if(e.key.keysym.sym==SDLK_9){
+					explosion(entities["player"]->getx() ,entities["player"]->gety()-1,500,100000000);
+				}
+				break;
 			}
 			interface.update();
 		}

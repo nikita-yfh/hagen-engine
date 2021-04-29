@@ -117,9 +117,13 @@ int Entity::fire3() {
 int Entity::fire4() {
 	return lua::fire4(this);
 }
-void Entity::harm(int damage){
-	health-=damage;
+void Entity::harm(int d){
+	health-=d;
 	if(health<0)health=0;
+}
+void Entity::heal(int d){
+	health+=d;
+	if(health>max_health)health=max_health;
 }
 
 void Entity::focus(float x,float y){

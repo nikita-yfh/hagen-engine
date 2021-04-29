@@ -117,7 +117,7 @@ void init_entities() {
 		init_entity(entity.second);
 }
 void init_weapon(string weapon) {
-	luaL_dostring(L,(weapon+"=extend(Weapon)\n").c_str());
+	luaL_dostring(L,(weapon+"=extend(Weapon)\n print("+weapon+".init)").c_str());
 	doscript("weapon/"+weapon);
 	getGlobal(L,"Weapon")["init"](&weapons[weapon]);
 	getGlobal(L,weapon.c_str())["init"](&weapons[weapon]);
@@ -242,6 +242,8 @@ void bind() {
 			.addFunction("destroy_entity",&destroy_entity)
 			.addFunction("destroy_joint",&destroy_joint)
 			.addFunction("create_bullet",&simple_bullet)
+			.addFunction("explosion",&explosion)
+			.addFunction("explosion_callbacks",&explosion_callbacks)
 			.addFunction("bb_collide",&bb_collide)
 			.addFunction("eb_collide",&eb_collide)
 			.addFunction("ee_collide",&ee_collide)
@@ -361,6 +363,7 @@ void bind() {
 			.addProperty("weapon_x",&Entity::weapon_x,0)
 			.addProperty("weapon_y",&Entity::weapon_y,0)
 			.addProperty("health",&Entity::health)
+			.addProperty("max_health",&Entity::max_health)
 			.addProperty("id",&Entity::id,0)
 			.addProperty("vx",&Entity::get_vx)
 			.addProperty("vy",&Entity::get_vy)
@@ -375,6 +378,7 @@ void bind() {
 			.addFunction("fire3",&Entity::fire3)
 			.addFunction("fire4",&Entity::fire4)
 			.addFunction("harm",&Entity::harm)
+			.addFunction("heal",&Entity::heal)
 			.addFunction("focus",&Entity::focus)
 			.addFunction("focus_on_entity",&Entity::focus_on_entity)
 			.addFunction("focus_on_body",&Entity::focus_on_body)

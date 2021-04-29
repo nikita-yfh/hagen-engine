@@ -184,7 +184,7 @@ void draw_entities(uint8_t pos) {
 }
 void draw_effects(){
 	for(auto &e : effect::effects){
-		int frame=min((int)e.effect->anim.size(),int(float(lua::get_time()-e.begin_time)/e.effect->period));
+		int frame=min((int)e.effect->anim.size()-1,int(float(lua::get_time()-e.begin_time)/e.effect->period));
 		GPU_Blit(e.effect->anim[frame],0,ren,drawx(e.x),drawy(e.y));
 	}
 }

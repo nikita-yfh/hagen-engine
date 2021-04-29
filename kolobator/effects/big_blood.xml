@@ -1,3 +1,8 @@
-<effect period="100" count="1">
-	<texture name="big_blood.png"/>
+<effect period="20" count="6">
+	<texture name="big_blood/1.png"/>
+	<texture name="big_blood/2.png"/>
+	<texture name="big_blood/3.png"/>
+	<texture name="big_blood/4.png"/>
+	<texture name="big_blood/5.png"/>
+	<texture name="big_blood/6.png"/>
 </effect>

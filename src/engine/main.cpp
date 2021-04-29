@@ -19,7 +19,7 @@ int main(int argc, char * argv[]) {
 		configure_textures();
 		set_center_cursor("aim.png");
 		if(argc>1) load_level(argv[1]);
-		else       load_level("durka");
+		else       load_level("default");
 
 		game();
 		quit();

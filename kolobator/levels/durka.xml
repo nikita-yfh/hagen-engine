@@ -2,63 +2,58 @@
 <level w="80" h="30">
 	<background img="backgrounds/default.png"/>
 	<bodies count="27">
-		<body x="31.4383" y="18.5357" id="wall" type="static" script="" shapes="7">
+		<body x="34.053" y="18.625" id="wall" type="static" script="" shapes="6">
 			<physic bullet="0" fixed_rotation="0" gravity_scale="1"/>
 			<shape id="_Rect1" type="Rect" pos="physic" texture="durka_wall.png" expand="0">
-				<position x1="-17.4383" y1="0.464275" x2="-31.4383" y2="2.46428"/>
+				<position x1="-20.053" y1="0.374987" x2="-34.053" y2="2.37499"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
 			</shape>
 			<shape id="_Rect2" type="Rect" pos="physic" texture="durka_wall.png" expand="0">
-				<position x1="-31.4383" y1="2.46433" x2="-13.9383" y2="11.4642"/>
+				<position x1="-34.053" y1="2.37504" x2="-16.553" y2="11.3749"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
 			</shape>
 			<shape id="_Rect3" type="Rect" pos="physic" texture="durka_wall.png" expand="0">
-				<position x1="-1.43855" y1="11.4642" x2="-13.9383" y2="2.46428"/>
-				<physic density="1000" friction="0.3" restitution="0"/>
-				<collision category="0" mask="65535"/>
-			</shape>
-			<shape id="_Rect6" type="Rect" pos="foreground" texture="durka.jpg" expand="1">
-				<position x1="-16.4383" y1="-1.03572" x2="-14.9383" y2="-0.0357246"/>
+				<position x1="-4.05329" y1="11.3749" x2="-16.553" y2="2.37499"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
 			</shape>
 			<shape id="_Rect9" type="Rect" pos="physic" texture="def.png" expand="0">
-				<position x1="48.5618" y1="5.46429" x2="32.0618" y2="2.46435"/>
+				<position x1="45.9471" y1="5.375" x2="29.4471" y2="2.37506"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
 			</shape>
 			<shape id="_Polygon1" type="Polygon" pos="physic" texture="durka_wall.png" expand="0">
 				<position point_count="22">
-					<point x="-31.4383" y="-18.5357"/>
-					<point x="-31.4383" y="-0.0357246"/>
-					<point x="-16.4383" y="-0.0357246"/>
-					<point x="-16.4383" y="-4.53572"/>
-					<point x="-9.9386" y="-4.53567"/>
-					<point x="-9.9386" y="-8.53562"/>
-					<point x="-24.4383" y="-8.53562"/>
-					<point x="-24.4383" y="-17.5357"/>
-					<point x="8.56143" y="-17.5357"/>
-					<point x="8.56143" y="-15.5357"/>
-					<point x="-3.4386" y="-15.5357"/>
-					<point x="-3.4386" y="-10.0357"/>
-					<point x="-8.4386" y="-10.0357"/>
-					<point x="-8.4386" y="-15.5357"/>
-					<point x="-23.4383" y="-15.5357"/>
-					<point x="-23.4383" y="-11.0357"/>
-					<point x="-8.93831" y="-11.0357"/>
-					<point x="-8.9386" y="-3.53567"/>
-					<point x="-14.9384" y="-3.53567"/>
-					<point x="-14.9383" y="-0.0356598"/>
-					<point x="21.5617" y="-0.0356598"/>
-					<point x="21.5617" y="-18.5357"/>
+					<point x="-34.053" y="-18.625"/>
+					<point x="-34.053" y="-0.125013"/>
+					<point x="-19.053" y="-0.125013"/>
+					<point x="-19.053" y="-4.62501"/>
+					<point x="-12.5533" y="-4.62496"/>
+					<point x="-12.5533" y="-8.62491"/>
+					<point x="-27.053" y="-8.62491"/>
+					<point x="-27.053" y="-17.625"/>
+					<point x="5.94669" y="-17.625"/>
+					<point x="5.94669" y="-15.625"/>
+					<point x="-6.05334" y="-15.625"/>
+					<point x="-6.05334" y="-10.125"/>
+					<point x="-11.0533" y="-10.125"/>
+					<point x="-11.0533" y="-15.625"/>
+					<point x="-26.053" y="-15.625"/>
+					<point x="-26.053" y="-11.125"/>
+					<point x="-11.553" y="-11.125"/>
+					<point x="-11.5533" y="-3.62496"/>
+					<point x="-17.5531" y="-3.62496"/>
+					<point x="-17.553" y="-0.124949"/>
+					<point x="18.947" y="-0.124949"/>
+					<point x="18.947" y="-18.625"/>
 				</position>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
 			</shape>
 			<shape id="_Rect4" type="Rect" pos="physic" texture="def.png" expand="0">
-				<position x1="32.0618" y1="-18.5357" x2="48.5618" y2="-0.0356407"/>
+				<position x1="29.4471" y1="-18.625" x2="45.9471" y2="-0.124929"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
 			</shape>
@@ -272,63 +267,9 @@
 			</shape>
 		</body>
 	</bodies>
-	<entities count="19">
+	<entities count="1">
 		<entity id="player" type="kolobator">
 			<position x="39" y="2"/>
-		</entity>
-		<entity id="_Entity1" type="durka_man">
-			<position x="29" y="2"/>
-		</entity>
-		<entity id="_Entity2" type="durka_man">
-			<position x="18" y="2"/>
-		</entity>
-		<entity id="_Entity3" type="durka_man">
-			<position x="10" y="2"/>
-		</entity>
-		<entity id="_Entity4" type="durka_man">
-			<position x="15" y="20"/>
-		</entity>
-		<entity id="_Entity5" type="durka_man">
-			<position x="26" y="20"/>
-		</entity>
-		<entity id="_Entity6" type="durka_man">
-			<position x="14" y="2"/>
-		</entity>
-		<entity id="_Entity7" type="durka_man">
-			<position x="21" y="20"/>
-		</entity>
-		<entity id="_Entity8" type="durka_man">
-			<position x="24" y="20"/>
-		</entity>
-		<entity id="_Entity9" type="durka_man">
-			<position x="25" y="6"/>
-		</entity>
-		<entity id="_Entity10" type="durka_man">
-			<position x="27" y="6"/>
-		</entity>
-		<entity id="_Entity11" type="durka_man">
-			<position x="26" y="6"/>
-		</entity>
-		<entity id="_Entity12" type="durka_man">
-			<position x="24" y="6"/>
-		</entity>
-		<entity id="_Entity13" type="durka_man">
-			<position x="16" y="2"/>
-		</entity>
-		<entity id="_Entity14" type="durka_man">
-			<position x="12" y="2"/>
-		</entity>
-		<entity id="_Entity15" type="durka_man">
-			<position x="13" y="8"/>
-		</entity>
-		<entity id="_Entity16" type="durka_man">
-			<position x="19" y="8"/>
-		</entity>
-		<entity id="_Entity17" type="durka_man">
-			<position x="16" y="20"/>
-		</entity>
-		<entity id="_Entity18" type="durka_man">
-			<position x="31" y="20"/>
 		</entity>
 	</entities>
 	<joints count="0"/>

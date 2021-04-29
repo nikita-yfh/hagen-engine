@@ -18,6 +18,7 @@ struct Entity {
 	~Entity();
 	string weapon;
 	float health=100;
+	float max_health=100;
 	string type;
 	map<string,b2Body*>bodies;
 	map<string,b2Joint*>joints;
@@ -44,7 +45,8 @@ struct Entity {
 	int fire2();
 	int fire3();
 	int fire4();
-	void harm(int damage);
+	void harm(int d);
+	void heal(int d);
 	luabridge::LuaRef *lua_userdata;
 	void focus(float x,float y);
 	void focus_on_entity(Entity *e);

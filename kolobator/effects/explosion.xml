@@ -1,0 +1,21 @@
+<effect period="50" count="19">
+	<texture name="explosion/1.png"/>
+	<texture name="explosion/2.png"/>
+	<texture name="explosion/3.png"/>
+	<texture name="explosion/4.png"/>
+	<texture name="explosion/5.png"/>
+	<texture name="explosion/6.png"/>
+	<texture name="explosion/7.png"/>
+	<texture name="explosion/8.png"/>
+	<texture name="explosion/9.png"/>
+	<texture name="explosion/10.png"/>
+	<texture name="explosion/11.png"/>
+	<texture name="explosion/12.png"/>
+	<texture name="explosion/13.png"/>
+	<texture name="explosion/14.png"/>
+	<texture name="explosion/15.png"/>
+	<texture name="explosion/16.png"/>
+	<texture name="explosion/17.png"/>
+	<texture name="explosion/18.png"/>
+	<texture name="explosion/19.png"/>
+</effect>

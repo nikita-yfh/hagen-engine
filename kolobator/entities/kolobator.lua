@@ -1,11 +1,11 @@
 function kolobator.init(a)
 	graphics.preload("kolobator1.png")
 	graphics.preload("kolobator2.png")
-	a.weapon="pistol"
+	a.weapon="knife"
 	bullet("9mm").count=100
 	bullet("9mm").max=100
-	bullet("27mm").count=10
-	bullet("27mm").max=10
+	bullet("grenade").count=6
+	bullet("grenade").max=6
 	kolobator.speed=10
 	kolobator.motor_speed=40
 	kolobator.jump_impulse=2000
@@ -39,6 +39,8 @@ function kolobator.update(a)
 		entity("player").weapon="pistol"
 	elseif(game.key("3")) then
 		entity("player").weapon="ak47"
+	elseif(game.key("4")) then
+		entity("player").weapon="rg6"
 	end
 	if(bullet(weapon(a.weapon).bullet1).count > 0) then
 		if(game.press_key("fire1")) then
