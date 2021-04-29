@@ -5,7 +5,7 @@
 #include <vector>
 using namespace std;
 
-
+namespace effect{
 
 struct Effect{
 	Effect(){}
@@ -24,8 +24,10 @@ struct ShowEffect{
 	int begin_time;
 	bool del();
 };
-void load_effect(string name);
-void create_effect(string name,float x,float y);
-void update_effects();
-extern map<string,Effect>loaded_effects;
+void load(string name);
+void create(string name,float x,float y);
+void update();
+extern map<string,Effect>loaded;
 extern vector<ShowEffect>effects;
+
+};

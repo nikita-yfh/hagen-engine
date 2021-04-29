@@ -149,7 +149,7 @@ void gameloop() {
 	update_entities();
 	update_bodies();
 	update_intervals();
-	update_effects();
+	effect::update();
 	copy_prev_key();
 }
 short get_scancode(string k) {
@@ -290,7 +290,7 @@ void bind() {
 			.addFunction("preload",&load_texture)
 			.addFunction("texture",&find_texture)
 			.addProperty("show_textures",&show_textures)
-			.addFunction("effect",&create_effect)
+			.addFunction("effect",&effect::create)
 		.endNamespace()
 		.beginNamespace("music")
 			.addFunction("play",&play_music)

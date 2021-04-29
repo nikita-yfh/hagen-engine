@@ -2,6 +2,7 @@
 #include "main.hpp"
 #include "xmlParser.h"
 #include "lua.hpp"
+namespace effect{
 Effect::Effect(string name){
 	load(name);
 }
@@ -26,24 +27,25 @@ bool ShowEffect::del(){
 	return lua::get_time()>begin_time+effect->anim.size()*effect->period;
 }
 
-void load_effect(string name){
-	if(loaded_effects.find(name)!=loaded_effects.end())
+void load(string name){
+	if(loaded.find(name)!=loaded.end())
 		return;
 	Effect e(name);
-	loaded_effects[name]=e;
+	loaded[name]=e;
 }
 
-void create_effect(string name,float x,float y){
-	load_effect(name);
-	effects.emplace_back(&loaded_effects[name],x,y);
+void create(string name,float x,float y){
+	load(name);
+	effects.emplace_back(&loaded[name],x,y);
 }
 
-void update_effects(){
+void update(){
 	for(int q=0;q<effects.size();q++){
 		if(effects[q].del())
 			effects.erase(effects.begin()+q);
 	}
 }
 
-map<string,Effect>loaded_effects;
+map<string,Effect>loaded;
 vector<ShowEffect>effects;
+};
