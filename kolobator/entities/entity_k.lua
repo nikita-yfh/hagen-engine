@@ -6,7 +6,8 @@ end
 function entity_k.update(a)
 	local j=a:joint("joint")
 	local b=a:body("body")
-	if(a.health==0) then 
+	if(a.health==0) then
+		graphics.effect("big_blood",a.x,a.y)
 		return 1
 	else
 		if(math.abs(player.x-a.x)<3) then
@@ -25,6 +26,8 @@ function entity_k.update(a)
 			end
 			a:focus_on_entity(player)
 			a:fire2()
+		else
+			j.motor=0
 		end
 	end
 end

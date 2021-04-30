@@ -244,6 +244,7 @@ void bind() {
 			.addFunction("create_bullet",&simple_bullet)
 			.addFunction("explosion",&explosion)
 			.addFunction("explosion_callbacks",&explosion_callbacks)
+			.addFunction("raycast_callbacks",&raycast_callbacks)
 			.addFunction("bb_collide",&bb_collide)
 			.addFunction("eb_collide",&eb_collide)
 			.addFunction("ee_collide",&ee_collide)
