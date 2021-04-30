@@ -196,12 +196,13 @@ b2Vec2 intersection(b2Vec2 cp1, b2Vec2 cp2, b2Vec2 s, b2Vec2 e) {
 	return b2Vec2( (n1*dp.x - n2*dc.x) * n3, (n1*dp.y - n2*dc.y) * n3);
 }
 
-vector<b2Vec2>create_polygon(b2CircleShape *shape){
+vector<b2Vec2>create_polygon(b2Fixture *fixture){
+	b2CircleShape *shape=TYPE(b2CircleShape*,fixture->GetShape());
 	vector<b2Vec2>vec;
 	for(int q=0; q<CIRCLE_QUALITY; q++) {
 		b2Vec2 v(shape->m_p.x+cos(2*M_PI/(CIRCLE_QUALITY)*q)*shape->m_radius,
 				shape->m_p.y+sin(2*M_PI/(CIRCLE_QUALITY)*q)*shape->m_radius);
-		vec.push_back(v);
+		vec.push_back(fixture->GetBody()->GetWorldPoint(v));
 	}
 	return vec;
 }
@@ -217,13 +218,14 @@ bool find_intersection_of_fixtures(b2Fixture* fA, b2Fixture* fB, std::vector<b2V
 		for (int i = 0; i < polyA->m_count; i++)
 			output.push_back(fA->GetBody()->GetWorldPoint( polyA->m_vertices[i]));
 	}else
-		output=create_polygon(TYPE(b2CircleShape*,fA->GetShape()));
-	b2PolygonShape* polyB = (b2PolygonShape*)fB->GetShape();
-
-
+		output=create_polygon(fA);
 	std::vector<b2Vec2> clip;
-	for (int i = 0; i < polyB->m_count; i++)
-		clip.push_back( fB->GetBody()->GetWorldPoint( polyB->m_vertices[i] ) );
+	if(fB->GetShape()->GetType() == b2Shape::e_polygon){
+		b2PolygonShape* polyB = (b2PolygonShape*)fB->GetShape();
+		for (int i = 0; i < polyB->m_count; i++)
+			clip.push_back(fB->GetBody()->GetWorldPoint(polyB->m_vertices[i]));
+	}else
+		clip=create_polygon(fB);
 
 	b2Vec2 cp1 = clip[clip.size()-1];
 	for (int j = 0; j < clip.size(); j++) {
