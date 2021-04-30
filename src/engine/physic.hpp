@@ -31,6 +31,8 @@
 #define F_DATA(a,n) (a->GetUserData()->n)
 #define FD_DATA(a,n) (a.userData->n)
 
+#define CIRCLE_QUALITY 50
+
 extern float time_scale;
 extern int velocity_iterations;
 extern int position_iterations;
@@ -54,4 +56,4 @@ bool	ee_all_collide(Entity *e1,Entity *e2);
 b2Body *lb_all_collide(b2Body *body);
 b2Body *le_all_collide(Entity *e);
 Entity *sb_all_collide(b2Body *body);
-void copy_collides();
+void update_fluid();

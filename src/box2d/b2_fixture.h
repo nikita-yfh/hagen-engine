@@ -71,7 +71,7 @@ struct b2FixtureDef {
 		friction = 0.2f;
 		restitution = 0.0f;
 		density = 0.0f;
-		isSensor = false;
+		isSensor = 0;
 	}
 
 	/// The shape, this must be set. The shape will be cloned, so you
@@ -92,7 +92,7 @@ struct b2FixtureDef {
 
 	/// A sensor shape collects contact information but never generates a collision
 	/// response.
-	bool isSensor;
+	uint8_t isSensor;
 
 	/// Contact filtering data.
 	b2Filter filter;
@@ -128,7 +128,7 @@ public:
 
 	/// Is this fixture a sensor (non-solid)?
 	/// @return the true if the shape is a sensor.
-	bool IsSensor() const;
+	uint8_t IsSensor() const;
 
 	/// Set the contact filtering data. This will not update contacts until the next time
 	/// step when either parent body is active and awake.
@@ -237,7 +237,7 @@ public:
 
 	b2Filter m_filter;
 
-	bool m_isSensor;
+	uint8_t m_isSensor;
 
 	b2FixtureData* m_userData;
 };
@@ -254,7 +254,7 @@ inline const b2Shape* b2Fixture::GetShape() const {
 	return m_shape;
 }
 
-inline bool b2Fixture::IsSensor() const {
+inline uint8_t b2Fixture::IsSensor() const {
 	return m_isSensor;
 }
 

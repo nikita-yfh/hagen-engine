@@ -424,8 +424,8 @@ void b2World::Solve(const b2TimeStep& step) {
 				}
 
 				// Skip sensors.
-				bool sensorA = contact->m_fixtureA->m_isSensor;
-				bool sensorB = contact->m_fixtureB->m_isSensor;
+				uint8_t sensorA = contact->m_fixtureA->m_isSensor;
+				uint8_t sensorB = contact->m_fixtureB->m_isSensor;
 				if (sensorA || sensorB) {
 					continue;
 				}
@@ -707,8 +707,8 @@ void b2World::SolveTOI(const b2TimeStep& step) {
 					}
 
 					// Skip sensors.
-					bool sensorA = contact->m_fixtureA->m_isSensor;
-					bool sensorB = contact->m_fixtureB->m_isSensor;
+					uint8_t sensorA = contact->m_fixtureA->m_isSensor;
+					uint8_t sensorB = contact->m_fixtureB->m_isSensor;
 					if (sensorA || sensorB) {
 						continue;
 					}

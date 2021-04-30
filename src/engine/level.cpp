@@ -58,7 +58,7 @@ b2Body* read_body(XMLNode bd,b2Vec2 delta,bool temp) {
 			else if(str=="f_physic")		FD_DATA(fix,pos)=TPHS3;
 			else if(str=="foreground")		FD_DATA(fix,pos)=TFGR;
 			else if(str=="none")			FD_DATA(fix,pos)=TNONE;
-			fix.isSensor=(FD_DATA(fix,pos)==TBGR||FD_DATA(fix,pos)>=TFGR);
+			fix.isSensor=(FD_DATA(fix,pos)==TBGR||FD_DATA(fix,pos)>=TFGR)*2;
 		}
 		{
 			//physic

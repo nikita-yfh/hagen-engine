@@ -1,6 +1,6 @@
 function ak47.init(w)
-	w.dx=0.5
-	w.dy=0.15
+	w.dx=0.4
+	w.dy=0.05
 	w.bullet1="9mm"
 end
 function ak47.fire2(w,e)

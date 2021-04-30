@@ -33,8 +33,8 @@ void set_gravity(float x,float y) {
 	world->SetGravity({x,y});
 }
 void destroy_body(b2Body *body) {
-	for(auto &b : bodies){
-		if(b.second==body){
+	for(auto &b : bodies) {
+		if(b.second==body) {
 			bodies.erase(b.first);
 			world->DestroyBody(body);
 			return;
@@ -43,8 +43,8 @@ void destroy_body(b2Body *body) {
 }
 
 void destroy_joint(b2Joint *joint) {
-	for(auto &j : joints){
-		if(j.second==joint){
+	for(auto &j : joints) {
+		if(j.second==joint) {
 			joints.erase(j.first);
 			world->DestroyJoint(joint);
 			return;
@@ -53,8 +53,8 @@ void destroy_joint(b2Joint *joint) {
 }
 
 void destroy_entity(Entity *entity) {
-	for(auto &e : entities){
-		if(e.second==entity){
+	for(auto &e : entities) {
+		if(e.second==entity) {
 			delete entity;
 			entities.erase(e.first);
 			return;
@@ -150,3 +150,154 @@ Entity *sb_collide(b2Body *body) {
 	}
 	return nullptr;
 }
+
+static b2Vec2 compute_centroid(std::vector<b2Vec2> vs, float& area) {
+	int count = (int)vs.size();
+	b2Assert(count >= 3);
+
+	b2Vec2 c;
+	c.Set(0.0f, 0.0f);
+	area = 0.0f;
+	b2Vec2 pRef(0.0f, 0.0f);
+
+	const float inv3 = 1.0f / 3.0f;
+
+	for (int32 i = 0; i < count; ++i) {
+		b2Vec2 p1 = pRef;
+		b2Vec2 p2 = vs[i];
+		b2Vec2 p3 = i + 1 < count ? vs[i+1] : vs[0];
+
+		b2Vec2 e1 = p2 - p1;
+		b2Vec2 e2 = p3 - p1;
+
+		float D = b2Cross(e1, e2);
+
+		float triangleArea = 0.5f * D;
+		area += triangleArea;
+		c += triangleArea * inv3 * (p1 + p2 + p3);
+	}
+	if (area > b2_epsilon)
+		c *= 1.0f / area;
+	else
+		area = 0;
+	return c;
+}
+
+bool inside(b2Vec2 cp1, b2Vec2 cp2, b2Vec2 p) {
+	return (cp2.x-cp1.x)*(p.y-cp1.y) > (cp2.y-cp1.y)*(p.x-cp1.x);
+}
+
+b2Vec2 intersection(b2Vec2 cp1, b2Vec2 cp2, b2Vec2 s, b2Vec2 e) {
+	b2Vec2 dc( cp1.x - cp2.x, cp1.y - cp2.y );
+	b2Vec2 dp( s.x - e.x, s.y - e.y );
+	float n1 = cp1.x * cp2.y - cp1.y * cp2.x;
+	float n2 = s.x * e.y - s.y * e.x;
+	float n3 = 1.0 / (dc.x * dp.y - dc.y * dp.x);
+	return b2Vec2( (n1*dp.x - n2*dc.x) * n3, (n1*dp.y - n2*dc.y) * n3);
+}
+
+vector<b2Vec2>create_polygon(b2CircleShape *shape){
+	vector<b2Vec2>vec;
+	for(int q=0; q<CIRCLE_QUALITY; q++) {
+		b2Vec2 v(shape->m_p.x+cos(2*M_PI/(CIRCLE_QUALITY)*q)*shape->m_radius,
+				shape->m_p.y+sin(2*M_PI/(CIRCLE_QUALITY)*q)*shape->m_radius);
+		vec.push_back(v);
+	}
+	return vec;
+}
+
+bool find_intersection_of_fixtures(b2Fixture* fA, b2Fixture* fB, std::vector<b2Vec2>& output) {
+	if ((fA->GetShape()->GetType() != b2Shape::e_polygon &&
+		 fA->GetShape()->GetType() != b2Shape::e_circle) ||
+		(fB->GetShape()->GetType() != b2Shape::e_polygon &&
+		 fB->GetShape()->GetType() != b2Shape::e_circle))
+		return false;
+	if(fA->GetShape()->GetType() == b2Shape::e_polygon){
+		b2PolygonShape* polyA = (b2PolygonShape*)fA->GetShape();
+		for (int i = 0; i < polyA->m_count; i++)
+			output.push_back(fA->GetBody()->GetWorldPoint( polyA->m_vertices[i]));
+	}else
+		output=create_polygon(TYPE(b2CircleShape*,fA->GetShape()));
+	b2PolygonShape* polyB = (b2PolygonShape*)fB->GetShape();
+
+
+	std::vector<b2Vec2> clip;
+	for (int i = 0; i < polyB->m_count; i++)
+		clip.push_back( fB->GetBody()->GetWorldPoint( polyB->m_vertices[i] ) );
+
+	b2Vec2 cp1 = clip[clip.size()-1];
+	for (int j = 0; j < clip.size(); j++) {
+		b2Vec2 cp2 = clip[j];
+		if ( output.empty() )
+			return false;
+		std::vector<b2Vec2> input = output;
+		output.clear();
+		b2Vec2 s = input[input.size() - 1];
+		for (int i = 0; i < input.size(); i++) {
+			b2Vec2 e = input[i];
+			if (inside(cp1, cp2, e)) {
+				if (!inside(cp1, cp2, s)) {
+					output.push_back( intersection(cp1, cp2, s, e) );
+				}
+				output.push_back(e);
+			} else if (inside(cp1, cp2, s)) {
+				output.push_back( intersection(cp1, cp2, s, e) );
+			}
+			s = e;
+		}
+		cp1 = cp2;
+	}
+
+	return !output.empty();
+}
+
+void update_fluid(){
+	for(b2Contact *c=world->GetContactList();c;c=c->GetNext()){
+		if((c->m_flags & b2Contact::e_fluidFlag)==b2Contact::e_fluidFlag){
+			b2Fixture *fixtureA=c->m_fixtureA;
+			b2Fixture *fixtureB=c->m_fixtureB;
+			if(fixtureB->IsSensor()==2)
+				swap(fixtureA,fixtureB);
+            float density = fixtureA->GetDensity();
+            std::vector<b2Vec2> intersectionPoints;
+            if (find_intersection_of_fixtures(fixtureA, fixtureB, intersectionPoints)) {
+                float area = 0;
+                b2Vec2 centroid = compute_centroid( intersectionPoints, area);
+                float displacedMass = fixtureA->GetDensity() * area;
+                b2Vec2 buoyancyForce = displacedMass * -world->GetGravity();
+                fixtureB->GetBody()->ApplyForce(buoyancyForce, centroid,1);
+                float dragMod = 0.25f;
+                float liftMod = 0.25f;
+                float maxDrag = 2000;
+                float maxLift = 500;
+                for (int i = 0; i < intersectionPoints.size(); i++) {
+                    b2Vec2 v0 = intersectionPoints[i];
+                    b2Vec2 v1 = intersectionPoints[(i+1)%intersectionPoints.size()];
+                    b2Vec2 midPoint = 0.5f * (v0+v1);
+                    b2Vec2 velDir = fixtureB->GetBody()->GetLinearVelocityFromWorldPoint(midPoint) -
+                            fixtureA->GetBody()->GetLinearVelocityFromWorldPoint(midPoint);
+                    float vel = velDir.Normalize();
+                    b2Vec2 edge = v1 - v0;
+                    float edgeLength = edge.Normalize();
+                    b2Vec2 normal = b2Cross(-1,edge);
+                    float dragDot = b2Dot(normal, velDir);
+                    if ( dragDot < 0 )
+                        continue;
+                    float dragMag = dragDot * dragMod * edgeLength * density * vel * vel;
+                    dragMag = b2Min( dragMag, maxDrag );
+                    b2Vec2 dragForce = dragMag * -velDir;
+                    fixtureB->GetBody()->ApplyForce(dragForce, midPoint,1);
+                    float liftDot = b2Dot(edge, velDir);
+                    float liftMag =  dragDot * liftDot * liftMod * edgeLength * density * vel * vel;
+                    liftMag = b2Min( liftMag, maxLift );
+                    b2Vec2 liftDir = b2Cross(1,velDir);
+                    b2Vec2 liftForce = liftMag * liftDir;
+                    fixtureB->GetBody()->ApplyForce(liftForce, midPoint,1);
+                }
+            }
+		}
+	}
+}
+
+
+

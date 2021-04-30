@@ -168,7 +168,10 @@ public:
 		e_bulletHitFlag		= 0x0010,
 
 		// This contact has a valid TOI in m_toi
-		e_toiFlag			= 0x0020
+		e_toiFlag			= 0x0020,
+
+
+		e_fluidFlag			= 0x0040
 	};
 
 	/// Flag this contact for filtering. Filtering will occur the next time step.

@@ -31,6 +31,16 @@ void b2ContactListener::PreSolve(b2Contact* contact, const b2Manifold* oldManifo
 	|| !(contact->m_fixtureA->m_filter.categoryBits & contact->m_fixtureB->m_filter.maskBits))
 		contact->SetEnabled(0);
 }
+void b2ContactListener::BeginContact(b2Contact* contact) {
+	b2Fixture* fixtureA = contact->GetFixtureA();
+	b2Fixture* fixtureB = contact->GetFixtureB();
+	if (fixtureA->IsSensor()==2 &&
+		 fixtureB->GetBody()->GetType() == b2_dynamicBody )
+		 contact->m_flags |= b2Contact::e_fluidFlag;
+	else if (fixtureB->IsSensor()==2 &&
+			  fixtureA->GetBody()->GetType() == b2_dynamicBody )
+		 contact->m_flags |= b2Contact::e_fluidFlag;
+}
 bool b2ContactFilter::ShouldCollide(b2Fixture* fixtureA, b2Fixture* fixtureB) {
 	const b2Filter& filterA = fixtureA->GetFilterData();
 	const b2Filter& filterB = fixtureB->GetFilterData();

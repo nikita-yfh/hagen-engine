@@ -10,7 +10,6 @@
 #include "lua.hpp"
 #include "interface.hpp"
 #include "effect.hpp"
-#define CIRCLE_QUALITY 50
 using namespace std;
 Color scene_mask(0,0,0,0);
 bool show_textures=1;

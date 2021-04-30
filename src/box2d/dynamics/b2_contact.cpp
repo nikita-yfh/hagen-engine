@@ -98,8 +98,8 @@ void b2Contact::Destroy(b2Contact* contact, b2BlockAllocator* allocator) {
 	b2Fixture* fixtureB = contact->m_fixtureB;
 
 	if (contact->m_manifold.pointCount > 0 &&
-			fixtureA->IsSensor() == false &&
-			fixtureB->IsSensor() == false) {
+			fixtureA->IsSensor() == 0 &&
+			fixtureB->IsSensor() == 0) {
 		fixtureA->GetBody()->SetAwake(true);
 		fixtureB->GetBody()->SetAwake(true);
 	}
@@ -157,8 +157,8 @@ void b2Contact::Update(b2ContactListener* listener) {
 	bool touching = false;
 	bool wasTouching = (m_flags & e_touchingFlag) == e_touchingFlag;
 
-	bool sensorA = m_fixtureA->IsSensor();
-	bool sensorB = m_fixtureB->IsSensor();
+	uint8_t sensorA = m_fixtureA->IsSensor();
+	uint8_t sensorB = m_fixtureB->IsSensor();
 	bool sensor = sensorA || sensorB;
 
 	b2Body* bodyA = m_fixtureA->GetBody();
