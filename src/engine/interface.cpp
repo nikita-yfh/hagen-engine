@@ -181,12 +181,36 @@ void Interface::Pause::close(){
 	interface.update_cursor();
 }
 void Interface::Pause::show(){
-
+	//GPU_Image *
+	//GPU_BlitScale(textures["interface/pause_background.png"],0,ren,SW/2,SH/2,
+	//	)
 }
 void Interface::Pause::load_config(){
+	XMLNode node=XMLNode::openFileHelper((prefix+"config/pause.xml").c_str(),"pause");
+	{
+		XMLNode text=node.getChildNode("text");
+		active_color.load	(text.getChildNode("active_color"));
+		passive_color.load	(text.getChildNode("passive_color"));
+	}
+	{
+		XMLNode size=node.getChildNode("size");
+		w=stof(size.getAttribute("x"));
+		h=stof(size.getAttribute("y"));
+	}
+	borders.load(node.getChildNode("border"),h);
+	load_texture("interface/pause_background.png");
+	load_texture("interface/pause_active_button.png");
+	load_texture("interface/pause_passive_button.png");
 }
 void Interface::Pause::update(){
+	if(e.type==SDL_KEYDOWN) {
+		if(e.key.keysym.sym==SDLK_ESCAPE){
+			if(shown)close();
+			else open();
+		}
+	}
 }
+
 void Interface::update_cursor(){
 	if(pause.shown || console.shown)
 		set_cursor("default.png");

@@ -72,7 +72,7 @@ bool Mouse::update() {
 	if(e.type==SDL_MOUSEBUTTONDOWN && state!=2) {
 		state=1;
 		b=e.button.button;
-	} else if(e.type==SDL_MOUSEBUTTONUP && state!=0)
+	} else if(e.type==SDL_MOUSEBUTTONUP)
 		state=3;
 	x=mx;
 	y=my;

@@ -13,6 +13,7 @@ struct Rect4 {
 	void load(XMLNode l,float f);
 };
 struct Interface {
+	FC_Font *font=0;
 	struct Console {
 		Console();
 		bool shown;
@@ -52,7 +53,6 @@ struct Interface {
 		Color passive_color;
 		bool shown;
 		uint8_t selected;
-		FC_Font *font=0;
 		void load_config();
 		void show();
 		void update();
@@ -62,6 +62,7 @@ struct Interface {
 		float w;
 		float h;
 	} pause;
+
 	void show();
 	void update();
 	void load_config();
