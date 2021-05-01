@@ -45,7 +45,7 @@ bool drag_shapes(int x,int y,int mouse) {
 bool create_shapes(int x,int y,int mouse) {
 	if(mouse==0&&create_status==0) {
 		Body *cr=get_selected_body();
-		if(cr==0 && tool_ch<7) {
+		if(cr==0 && tool_ch<8) {
 			set_status(CONTEXT_CREATE_ERROR,"You don't select any body");
 		} else {
 			remove_status(CONTEXT_CREATE_ERROR);
@@ -67,24 +67,27 @@ bool create_shapes(int x,int y,int mouse) {
 				obj = new Line;
 				break;
 			case 7:
-				obj = new RevoluteJoint;
+				obj = new Cover;
 				break;
 			case 8:
-				obj=new WeldJoint;
+				obj = new RevoluteJoint;
 				break;
 			case 9:
-				obj=new PrismaticJoint;
+				obj=new WeldJoint;
 				break;
 			case 10:
-				obj=new PulleyJoint;
+				obj=new PrismaticJoint;
 				break;
 			case 11:
-				obj=new GearJoint;
+				obj=new PulleyJoint;
 				break;
 			case 12:
-				obj=new DistanceJoint;
+				obj=new GearJoint;
 				break;
 			case 13:
+				obj=new DistanceJoint;
+				break;
+			case 14:
 				obj=new Entity;
 				break;
 			}

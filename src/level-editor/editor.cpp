@@ -344,13 +344,14 @@ void create_tools() {
 	tool[4]=	NEW_TOOLRB(tools,tool[3],	0,0,0,"square.png",		L(block=1; change_tool(4); block=0;));
 	tool[5]=	NEW_TOOLRB(tools,tool[4],	0,0,0,"circle.png",		L(block=1; change_tool(5); block=0;));
 	tool[6]=	NEW_TOOLRB(tools,tool[5],	0,0,0,"line.png",		L(block=1; change_tool(6); block=0;));
-	tool[7]=	NEW_TOOLRB(tools,tool[6],	0,0,0,"revolute.png",	L(block=1; change_tool(7); block=0;));
-	tool[8]=	NEW_TOOLRB(tools,tool[7],	0,0,0,"weld.png",		L(block=1; change_tool(8); block=0;));
-	tool[9]=	NEW_TOOLRB(tools,tool[8],	0,0,0,"prismatic.png",	L(block=1; change_tool(9); block=0;));
-	tool[10]=	NEW_TOOLRB(tools,tool[9],	0,0,0,"pulley.png",		L(block=1; change_tool(10); block=0;));
-	tool[11]=	NEW_TOOLRB(tools,tool[10],	0,0,0,"gear.png",		L(block=1; change_tool(11); block=0;));
-	tool[12]=	NEW_TOOLRB(tools,tool[11],	0,0,0,"distance.png",	L(block=1; change_tool(12); block=0;));
-	tool[13]=	NEW_TOOLRB(tools,tool[12],	0,0,0,"entity.png",		L(block=1; change_tool(13); block=0;));
+	tool[7]=	NEW_TOOLRB(tools,tool[6],	0,0,0,"cover.png",		L(block=1; change_tool(7); block=0;));
+	tool[8]=	NEW_TOOLRB(tools,tool[7],	0,0,0,"revolute.png",	L(block=1; change_tool(8); block=0;));
+	tool[9]=	NEW_TOOLRB(tools,tool[8],	0,0,0,"weld.png",		L(block=1; change_tool(9); block=0;));
+	tool[10]=	NEW_TOOLRB(tools,tool[9],	0,0,0,"prismatic.png",	L(block=1; change_tool(10); block=0;));
+	tool[11]=	NEW_TOOLRB(tools,tool[10],	0,0,0,"pulley.png",		L(block=1; change_tool(11); block=0;));
+	tool[12]=	NEW_TOOLRB(tools,tool[11],	0,0,0,"gear.png",		L(block=1; change_tool(12); block=0;));
+	tool[13]=	NEW_TOOLRB(tools,tool[12],	0,0,0,"distance.png",	L(block=1; change_tool(13); block=0;));
+	tool[14]=	NEW_TOOLRB(tools,tool[13],	0,0,0,"entity.png",		L(block=1; change_tool(14); block=0;));
 	gtk_box_pack_start(GTK_BOX(box_v),tools,0,1,0);
 }
 void create_buttons() {

@@ -12,7 +12,7 @@ GtkObject	*Point::ax, *Point::ay,
 			*BiSymmetrical::ax, *BiSymmetrical::ay, *BiSymmetrical::ar,
 			*Physic::a1, *Physic::a2, *Physic::a3,
 			*Body::ax, *Body::ay, *Body::as,
-			*Polygon::ax, *Polygon::ay,
+			*Polygon::ax, *Polygon::ay,*Cover::ax, *Cover::ay,
 			*PointJoint::ax, *PointJoint::ay,
 			*WeldJoint::as, *WeldJoint::ad,
 			*GearJoint::ar,
@@ -35,6 +35,7 @@ GtkWidget	*BiPoints::px1, *BiPoints::px2, *BiPoints::py1, *BiPoints::py2,
 			*Physic::set_but, *Physic::c_category, *Physic::t4, *Object::text, *Object::entry,
 			*Body::combo, *Body::px, *Body::py, *Body::tx, *Body::ty, *Body::ps, *Body::cb, *Body::cr, *Body::ts,
 			*Polygon::px, *Polygon::py, *Polygon::tx, *Polygon::ty,
+			*Cover::px, *Cover::py, *Cover::tx, *Cover::ty,
 			*Joint::c_collide, *Joint::p1, *Joint::p2, *Joint::t1, *Joint::t2,
 			*PointJoint::py, *PointJoint::px, *PointJoint::tx, *PointJoint::ty,
 			*WeldJoint::ps, *WeldJoint::pd, *WeldJoint::ts, *WeldJoint::td,
@@ -63,6 +64,7 @@ void hide_all() {
 	Physic::hide();
 	BiSymmetrical::hide();
 	Polygon::hide();
+	Cover::hide();
 	Body::hide();
 	Joint::hide();
 	PointJoint::hide();
@@ -78,9 +80,10 @@ void create_all(GtkWidget *prop_table) {
 	Object::init(prop_table);
 	Point::init(prop_table);
 	BiPoints::init(prop_table);
+	Physic::init(prop_table);
 	BiSymmetrical::init(prop_table);
 	Polygon::init(prop_table);
-	Physic::init(prop_table);
+	Cover::init(prop_table);
 	Body::init(prop_table);
 	Joint::init(prop_table);
 	PointJoint::init(prop_table);
@@ -108,8 +111,6 @@ vector <Object*> get_all() {
 	for(int q=0; q<level.entities.size(); q++) {
 		all.push_back(level.entities[q]);
 	}
-	//all.push_back(&level.start);
-	//all.push_back(&level.end);
 	return all;
 }
 

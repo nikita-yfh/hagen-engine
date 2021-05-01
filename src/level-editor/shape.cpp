@@ -318,9 +318,13 @@ void Rect::draw(cairo_t *cr) {
 	cairo_stroke_preserve(cr);
 	cairo_fill(cr);
 }
+Polygon::Polygon(){
+	ex=0;
+}
 Polygon::Polygon(std::vector<float>xp,std::vector<float>yp) {
 	x=xp;
 	y=yp;
+	ex=0;
 }
 bool Polygon::drag(float xp,float yp,int dr) {
 	if(!shows[layer])return 0;
@@ -474,6 +478,168 @@ string Polygon::name() {
 	return "Polygon";
 }
 int Polygon::size() {
+	return x.size();
+}
+Cover::Cover(){
+	ex=0;
+}
+Cover::Cover(std::vector<float>xp,std::vector<float>yp) {
+	x=xp;
+	y=yp;
+	ex=0;
+}
+bool Cover::drag(float xp,float yp,int dr) {
+	if(!shows[layer])return 0;
+	if(!shows[3+parent(id)->type])return 0;
+	if(dr==0) {
+		for(int q=0; q<size(); q++) {
+			if(touch(x[q],y[q],xp,yp)) {
+				point_ch=q+1;
+				hide_all();
+				vupdate();
+				return 1;
+			}
+			if(touch((x[(q+1)%size()]+x[q])/2,(y[(q+1)%size()]+y[q])/2,xp,yp)) {
+				x.insert(x.begin()+q+1,to_grid(xp));
+				y.insert(y.begin()+q+1,to_grid(xp));
+				point_ch=q+2;
+				hide_all();
+				vupdate();
+				return 1;
+			}
+		}
+		return 0;
+	} else if(dr==1&&point_ch) {
+		x[point_ch-1]=to_grid(xp);
+		y[point_ch-1]=to_grid(yp);
+		return 1;
+	} else if(dr==2)point_ch=0;
+	else if(dr==3)vupdate();
+	else if(dr==4) {
+		cairo_surface_t *surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, *max_element(x.begin(), x.end())-*min_element(x.begin(), x.end()),
+								   *max_element(y.begin(), y.end())-*min_element(y.begin(), y.end()));
+		cairo_t *cr = cairo_create (surface);
+		cairo_move_to(cr,x[x.size()-1],y[y.size()-1]);
+		for(int q=0; q<x.size(); q++)
+			cairo_line_to(cr,x[q],y[q]);
+		return cairo_in_fill(cr,xp,yp);
+	} else if(dr==5) {
+		for(int q=0; q<size(); q++) {
+			if(touch(x[q],y[q],xp,yp)) {
+				x.erase(x.begin()+q);
+				y.erase(y.begin()+q);
+				return 1;
+			}
+		}
+	}
+	return 0;
+}
+bool Cover::create(float xp,float yp,int dr) {
+	if(dr==0) {
+		for(int q=0; q<1+(size()==1); q++)
+			push(to_grid(xp),to_grid(yp));
+		return 1;
+	} else if(dr==1) {
+		x[x.size()-1]=to_grid(xp);
+		y[y.size()-1]=to_grid(yp);
+	} else if(dr==2) {
+		return 1;
+	} else if(dr==3) {
+		x.pop_back();
+		y.pop_back();
+		if(size()<3)return 1;
+	}
+	return 0;
+}
+
+void Cover::draw(cairo_t *cr) {
+	if(!shows[layer])return;
+	if(!shows[3+parent(id)->type])return;
+	for(int q=0; q<size(); q++) {
+		draw_drag_rect(cr,x[q],y[q],selected&&point_ch==(q+1));
+		draw_drag_rect(cr,(x[(q+1)%size()]+x[q])/2,(y[(q+1)%size()]+y[q])/2,0);
+	}
+	set_shape_color(cr,parent(id)->type);
+	cairo_move_to(cr,drawx(x[x.size()-1]),drawy(y[size()-1]));
+	for(int q=0; q<size(); q++)
+		cairo_line_to(cr,drawx(x[q]),drawy(y[q]));
+	cairo_stroke_preserve(cr);
+	cairo_fill(cr);
+}
+void Cover::push(float xp,float yp) {
+	x.push_back(xp);
+	y.push_back(yp);
+}
+vector<float*> Cover::get_xpoints() {
+	vector<float*>a;
+	for(int q=0; q<size(); q++)
+		a.emplace_back(&x[q]);
+	return a;
+}
+vector<float*> Cover::get_ypoints() {
+	vector<float*>a;
+	for(int q=0; q<size(); q++)
+		a.emplace_back(&y[q]);
+	return a;
+}
+void Cover::init(GtkWidget* table) {
+	ax=gtk_adjustment_new(0,0,level.w,grid,grid,0);
+	ay=gtk_adjustment_new(0,0,level.h,grid,grid,0);
+	px=gtk_spin_button_new(GTK_ADJUSTMENT(ax),0,4);
+	py=gtk_spin_button_new(GTK_ADJUSTMENT(ay),0,4);
+	tx=gtk_label_new("X");
+	ty=gtk_label_new("Y");
+
+	ins_text	(table,tx,cur_table_string);
+	ins_widget	(table,px,cur_table_string++);
+	ins_text	(table,ty,cur_table_string);
+	ins_widget	(table,py,cur_table_string++);
+
+	g_signal_connect(G_OBJECT(px),"value_changed",update1,0);
+	g_signal_connect(G_OBJECT(py),"value_changed",update1,0);
+}
+void Cover::show() {
+	Physic::show();
+	gtk_widget_show(px);
+	gtk_widget_show(py);
+	gtk_widget_show(tx);
+	gtk_widget_show(ty);
+}
+void Cover::hide() {
+	Physic::hide();
+	gtk_widget_hide(px);
+	gtk_widget_hide(py);
+	gtk_widget_hide(tx);
+	gtk_widget_hide(ty);
+}
+void Cover::update(Cover *p) {
+	gtk_adjustment_configure(GTK_ADJUSTMENT(ax),p->mean_x(),0,level.w,grid,0,0);
+	gtk_adjustment_configure(GTK_ADJUSTMENT(ay),p->mean_y(),0,level.h,grid,0,0);
+}
+void Cover::update1() {
+	if(block)return;
+	Cover *p=TYPE(Cover*,get_selected_object());
+	if(!p || point_ch)return;
+	int xp=gtk_adjustment_get_value(GTK_ADJUSTMENT(ax));
+	int yp=gtk_adjustment_get_value(GTK_ADJUSTMENT(ay));
+	int xb=p->mean_x();
+	int yb=p->mean_y();
+	for(int q=0; q<p->size(); q++) {
+		p->x[q]+=(xp-xb);
+		p->y[q]+=(yp-yb);
+	}
+	gtk_widget_queue_draw(drawable);
+}
+void Cover::vupdate() {
+	show();
+	update(this);
+	Physic::update(this);
+	Object::update(this);
+}
+string Cover::name() {
+	return "Cover";
+}
+int Cover::size() {
 	return x.size();
 }
 Line::Line(float xp1,float yp1,float xp2,float yp2) {

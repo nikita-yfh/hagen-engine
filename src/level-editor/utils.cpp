@@ -108,3 +108,10 @@ float vec_angle1(float x,float y) {
 float vec_angle2(float x,float y) {
 	return fmod(M_PI+vec_angle1(x,y),M_PI*2);
 }
+b2Vec2 bis(b2Vec2 v1,b2Vec2 v2,float length){
+	v1.Normalize();
+	v2.Normalize();
+	b2Vec2 sum=v1+v2;
+	sum.Normalize();
+	return length*sum;
+}

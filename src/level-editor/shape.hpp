@@ -81,9 +81,7 @@ struct Rect : BiPoints {
 	std::string name();
 };
 struct Polygon : Physic {
-	Polygon() {
-		ex=0;
-	}
+	Polygon();
 	Polygon(std::vector<float>,std::vector<float>);
 	static GtkWidget *px, *py, *tx, *ty;
 	static GtkObject *ax, *ay;
@@ -99,6 +97,28 @@ struct Polygon : Physic {
 	static void show();
 	static void hide();
 	static void update (Polygon *p);
+	static void update1();
+	void vupdate();
+	std::string name();
+	int size();
+};
+struct Cover : Physic {
+	Cover();
+	Cover(std::vector<float>,std::vector<float>);
+	static GtkWidget *px, *py, *tx, *ty;
+	static GtkObject *ax, *ay;
+	void draw(cairo_t *cr);
+	bool drag(float xp,float yp,int dr);
+	bool create(float xp,float yp,int dr);
+	void push(float x,float y);
+	std::vector<float>x;
+	std::vector<float>y;
+	std::vector<float*> get_xpoints();
+	std::vector<float*> get_ypoints();
+	static void init(GtkWidget*);
+	static void show();
+	static void hide();
+	static void update (Cover *p);
 	static void update1();
 	void vupdate();
 	std::string name();

@@ -6,6 +6,8 @@
 #include <cairo.h>
 #include <algorithm>
 #include <ctype.h>
+#include <cmath>
+#include "b2_math.h"
 #include <sstream>
 float drawx(float a);
 float drawy(float a);
@@ -39,3 +41,4 @@ std::string to_str(T val) {
 	return str.str();
 }
 float to_fl(const char*);
+b2Vec2 bis(b2Vec2 v1,b2Vec2 v2,float length);
