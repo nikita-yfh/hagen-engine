@@ -62,7 +62,7 @@ string free_entity_id() {
 	}
 }
 
-Entity *whois(b2Body *body){
+Entity *whois(b2Body *body) {
 	for(auto &e : entities)
 		for(auto &b : e.second->bodies)
 			if(b.second==body)

@@ -5,18 +5,18 @@
 #include <vector>
 using namespace std;
 
-namespace effect{
+namespace effect {
 
-struct Effect{
-	Effect(){}
+struct Effect {
+	Effect() {}
 	Effect(string name);
 	vector<GPU_Image*>anim;
 	uint16_t period;
 	void load(string name);
 };
 
-struct ShowEffect{
-	ShowEffect(){}
+struct ShowEffect {
+	ShowEffect() {}
 	ShowEffect(Effect *e,float _x,float _y);
 	Effect *effect;
 	float x;

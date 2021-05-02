@@ -21,8 +21,6 @@ struct PointJoint : Joint {
 	float x;
 	float y;
 	bool create(float xp,float yp,int dr);
-	std::vector<float*> get_xpoints();
-	std::vector<float*> get_ypoints();
 	static GtkWidget *px, *py, *tx, *ty;
 	static GtkObject *ax, *ay;
 	static void init(GtkWidget*);

@@ -98,8 +98,8 @@ void Body::init(GtkWidget *table) {
 }
 void Body::update(Body *l) {
 	gtk_combo_box_set_active(GTK_COMBO_BOX(combo),l->type);
-	gtk_adjustment_configure(GTK_ADJUSTMENT(ax),l->mean_x(),0,level.w,grid,0,0);
-	gtk_adjustment_configure(GTK_ADJUSTMENT(ay),l->mean_y(),0,level.h,grid,0,0);
+	gtk_adjustment_configure(GTK_ADJUSTMENT(ax),l->mean().x,0,level.w,grid,0,0);
+	gtk_adjustment_configure(GTK_ADJUSTMENT(ay),l->mean().y,0,level.h,grid,0,0);
 	gtk_adjustment_configure(GTK_ADJUSTMENT(as),l->gravity_scale,0,1000,0.1,0.1,0);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(cb),l->bullet);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(cr),l->fixed_rot);
@@ -118,11 +118,11 @@ void Body::update1() {
 	gtk_widget_queue_draw(drawable);
 }
 void Body::save(XMLNode &parent,bool p) {
-	float xb=mean_x(),yb=mean_y();
+	b2Vec2 d=mean();
 	XMLNode bd=parent.addChild("body");
 	if(p) {
-		bd.addAttribute("x",xb);
-		bd.addAttribute("y",yb);
+		bd.addAttribute("x",d.x);
+		bd.addAttribute("y",d.y);
 		bd.addAttribute("id",id);
 	}
 	{
@@ -173,6 +173,9 @@ void Body::save(XMLNode &parent,bool p) {
 			case TFGR:
 				type="foreground";
 				break;
+			case TLIQUID:
+				type="liquid";
+				break;
 			case TNONE:
 				type="none";
 				break;
@@ -187,23 +190,23 @@ void Body::save(XMLNode &parent,bool p) {
 			if(shape->name()=="Square" ||
 					shape->name()=="Circle") {
 				BiSymmetrical *c=TYPE(BiSymmetrical*,shape);
-				pos.addAttribute("x",c->pos.x-xb);
-				pos.addAttribute("y",c->pos.y-yb);
+				pos.addAttribute("x",c->pos.x-d.x);
+				pos.addAttribute("y",c->pos.y-d.y);
 				pos.addAttribute("r",c->r);
 			} else if(shape->name()=="Rect" ||
 					  shape->name()=="Line") {
 				BiPoints *rect=TYPE(BiPoints*,shape);
-				pos.addAttribute("x1",rect->p1.x-xb);
-				pos.addAttribute("y1",rect->p1.y-yb);
-				pos.addAttribute("x2",rect->p2.x-xb);
-				pos.addAttribute("y2",rect->p2.y-yb);
+				pos.addAttribute("x1",rect->p1.x-d.x);
+				pos.addAttribute("y1",rect->p1.y-d.y);
+				pos.addAttribute("x2",rect->p2.x-d.x);
+				pos.addAttribute("y2",rect->p2.y-d.y);
 			} else if(shape->name()=="Polygon") {
 				Polygon *poly=TYPE(Polygon*,shape);
 				pos.addAttribute("point_count",poly->size());
 				for(int e=0; e<poly->size(); e++) { //points
 					XMLNode point=pos.addChild("point");
-					point.addAttribute("x",poly->points[e].x-xb);
-					point.addAttribute("y",poly->points[e].y-yb);
+					point.addAttribute("x",poly->points[e].x-d.x);
+					point.addAttribute("y",poly->points[e].y-d.y);
 				}
 			}
 		}
@@ -250,22 +253,24 @@ void Body::load(XMLNode &node,bool p) {
 			string str=sh.getAttribute("type");
 			if(str=="Square") {
 				shp=new Square({to_fl(pos.getAttribute("x"))+x,
-							   to_fl(pos.getAttribute("y"))+y},
+								to_fl(pos.getAttribute("y"))+y},
 							   to_fl(pos.getAttribute("r")));
 			} else if(str=="Circle") {
 				shp=new Circle({to_fl(pos.getAttribute("x"))+x,
-							   to_fl(pos.getAttribute("y"))+y},
+								to_fl(pos.getAttribute("y"))+y},
 							   to_fl(pos.getAttribute("r")));
 			} else if(str=="Rect") {
 				shp=new Rect({to_fl(pos.getAttribute("x1"))+x,
-							 to_fl(pos.getAttribute("y1"))+y},
-							 {to_fl(pos.getAttribute("x2"))+x,
-							 to_fl(pos.getAttribute("y2"))+y});
+				to_fl(pos.getAttribute("y1"))+y}, {
+					to_fl(pos.getAttribute("x2"))+x,
+					to_fl(pos.getAttribute("y2"))+y
+				});
 			} else if(str=="Line") {
 				shp=new Line({to_fl(pos.getAttribute("x1"))+x,
-							 to_fl(pos.getAttribute("y1"))+y},
-							 {to_fl(pos.getAttribute("x2"))+x,
-							 to_fl(pos.getAttribute("y2"))+y});
+				to_fl(pos.getAttribute("y1"))+y}, {
+					to_fl(pos.getAttribute("x2"))+x,
+					to_fl(pos.getAttribute("y2"))+y
+				});
 			} else if(str=="Polygon") {
 				int c=stoi(pos.getAttribute("point_count"));
 				vector<b2Vec2>p(c);
@@ -287,6 +292,7 @@ void Body::load(XMLNode &node,bool p) {
 			else if(str=="physic")		shp->layer=TPHS2;
 			else if(str=="f_physic")	shp->layer=TPHS3;
 			else if(str=="foreground")	shp->layer=TFGR;
+			else if(str=="liquid")		shp->layer=TLIQUID;
 			else if(str=="none")		shp->layer=TNONE;
 		}
 		{
@@ -331,30 +337,20 @@ void template_save() {
 			set_status(CONTEXT_FILE_STATUS, "Saved successfully");
 	}
 }
-float Body::mean_x() {
-	float x=0;
+b2Vec2 Body::mean() {
+	b2Vec2 p;
 	for(int q=0; q<shapes.size(); q++)
-		x+=shapes[q]->mean_x();
-	x/=shapes.size();
-	return x;
-}
-float Body::mean_y() {
-	float y=0;
-	for(int q=0; q<shapes.size(); q++)
-		y+=shapes[q]->mean_y();
-	y/=shapes.size();
-	return y;
+		p+=shapes[q]->mean();
+	p.x/=shapes.size();
+	p.y/=shapes.size();
+	return p;
 }
 void Body::setpos(float x, float y) {
-	float xb=mean_x();
-	float yb=mean_y();
+	b2Vec2 vec=mean();
 	for(Physic *sh : shapes) {
-		vector<float*>points_x=sh->get_xpoints();
-		vector<float*>points_y=sh->get_ypoints();
-		for(int q=0; q<points_x.size(); q++) {
-			*points_x[q]+=(x-xb);
-			*points_y[q]+=(y-yb);
-		}
+		vector<b2Vec2*>points=sh->get_points();
+		for(int q=0; q<points.size(); q++)
+			*points[q]+=(b2Vec2(x,y)-vec);
 	}
 }
 void Body::resolve_names() {

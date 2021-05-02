@@ -117,24 +117,24 @@ int Entity::fire3() {
 int Entity::fire4() {
 	return lua::fire4(this);
 }
-void Entity::harm(int d){
+void Entity::harm(int d) {
 	health-=d;
 	if(health<0)health=0;
 }
-void Entity::heal(int d){
+void Entity::heal(int d) {
 	health+=d;
 	if(health>max_health)health=max_health;
 }
 
-void Entity::focus(float x,float y){
+void Entity::focus(float x,float y) {
 	weapon_angle=get_angle(getx()-x,gety()-y);
 }
 
-void Entity::focus_on_entity(Entity *e){
+void Entity::focus_on_entity(Entity *e) {
 	focus(e->getx(),e->gety());
 }
 
-void Entity::focus_on_body(b2Body *b){
+void Entity::focus_on_body(b2Body *b) {
 	focus(b->GetX(),b->GetY());
 }
 

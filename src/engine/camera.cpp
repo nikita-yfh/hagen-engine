@@ -48,7 +48,7 @@ float mouse_angle() {
 	float y=SH/2-mouse.y;
 	return get_angle(x,y);
 }
-float get_angle(float x,float y){
+float get_angle(float x,float y) {
 	float a;
 	if(x>=0)
 		a= M_PI+atan(y/x);

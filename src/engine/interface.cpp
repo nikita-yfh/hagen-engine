@@ -18,7 +18,7 @@ void Rect4::load(XMLNode l,float f) {
 	right=stof(l.getAttribute("right"));
 	bottom=stof(l.getAttribute("bottom"));
 }
-void Interface::update(){
+void Interface::update() {
 	if(!console.shown)
 		pause.update();
 	console.update();
@@ -164,28 +164,28 @@ void Interface::Game_interface::show() {
 		};
 		uint8_t layer=0;
 		if(bullets[weapons[entities["player"]->weapon].bullet2].max>0 &&
-			weapons[entities["player"]->weapon].bullet2 != weapons[entities["player"]->weapon].bullet1)
+				weapons[entities["player"]->weapon].bullet2 != weapons[entities["player"]->weapon].bullet1)
 			draw_bullets(weapons[entities["player"]->weapon].bullet2,"game_interface/bullet2",++layer);
 		if(bullets[weapons[entities["player"]->weapon].bullet1].max>0)
 			draw_bullets(weapons[entities["player"]->weapon].bullet1,"game_interface/bullet1",++layer);
 	}
 }
-void Interface::Pause::open(){
+void Interface::Pause::open() {
 	shown=1;
 	Mix_PauseMusic();
 	interface.update_cursor();
 }
-void Interface::Pause::close(){
+void Interface::Pause::close() {
 	shown=0;
 	Mix_ResumeMusic();
 	interface.update_cursor();
 }
-void Interface::Pause::show(){
+void Interface::Pause::show() {
 	//GPU_Image *
 	//GPU_BlitScale(textures["interface/pause_background.png"],0,ren,SW/2,SH/2,
 	//	)
 }
-void Interface::Pause::load_config(){
+void Interface::Pause::load_config() {
 	XMLNode node=XMLNode::openFileHelper((prefix+"config/pause.xml").c_str(),"pause");
 	{
 		XMLNode text=node.getChildNode("text");
@@ -202,16 +202,16 @@ void Interface::Pause::load_config(){
 	load_texture("interface/pause_active_button.png");
 	load_texture("interface/pause_passive_button.png");
 }
-void Interface::Pause::update(){
+void Interface::Pause::update() {
 	if(e.type==SDL_KEYDOWN) {
-		if(e.key.keysym.sym==SDLK_ESCAPE){
+		if(e.key.keysym.sym==SDLK_ESCAPE) {
 			if(shown)close();
 			else open();
 		}
 	}
 }
 
-void Interface::update_cursor(){
+void Interface::update_cursor() {
 	if(pause.shown || console.shown)
 		set_cursor("default.png");
 	else

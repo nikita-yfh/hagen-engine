@@ -49,12 +49,13 @@
 #define TDYN	1
 #define TKNM	2
 
-#define TBGR  0
-#define TPHS1 1
-#define TPHS2 2
-#define TPHS3 3
-#define TFGR  4
-#define TNONE 5
+#define TBGR 	0
+#define TPHS1	1
+#define TPHS2	2
+#define TPHS3	3
+#define TLIQUID	4
+#define TFGR	5
+#define TNONE	6
 
 #define VERSION "0.1"
 #define _(a) gettext(a)

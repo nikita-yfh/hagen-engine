@@ -222,10 +222,7 @@ bool Object::create(float xp,float yp,int dr) {
 bool Object::del(float xp,float yp,int dr) {
 	return 0;
 }
-vector<float*> Object::get_xpoints() {
-	return {};
-}
-vector<float*> Object::get_ypoints() {
+vector<b2Vec2*> Object::get_points() {
 	return {};
 }
 string Object::name() {
@@ -237,19 +234,12 @@ void Object::vupdate() {
 	show();
 	update(this);
 };
-float Object::mean_x() {
-	vector<float*>x=get_xpoints();
-	float sum=0;
-	for(int q=0; q<x.size(); q++)
-		sum+=*x[q];
-	return sum/x.size();
-}
-float Object::mean_y() {
-	vector<float*>y=get_ypoints();
-	float sum=0;
-	for(int q=0; q<y.size(); q++)
-		sum+=*y[q];
-	return sum/y.size();
+b2Vec2 Object::mean()  {
+	vector<b2Vec2*>p=get_points();
+	b2Vec2 sum(0,0);
+	for(int q=0; q<p.size(); q++)
+		sum+=*p[q];
+	return sum/(float)p.size();
 }
 void draw_drag_rect(cairo_t *cr, b2Vec2 pos,bool tc) {
 	if(zoom<20)return;
@@ -278,7 +268,7 @@ void Point::draw(cairo_t *cr) {
 	cairo_fill(cr);
 }
 bool Point::drag(float xp,float yp,int dr) {
-	if(dr==0 && touch(pos,{xp,yp})) {
+	if(dr==0 && touch(pos, {xp,yp})) {
 		hide_all();
 		vupdate();
 		point_ch=1;
@@ -339,11 +329,10 @@ void Point::update1() {
 	p->pos.y=gtk_adjustment_get_value(GTK_ADJUSTMENT(ay));
 	gtk_widget_queue_draw(drawable);
 }
-vector<float*> Point::get_xpoints() {
-	return {&pos.x};
-}
-vector<float*> Point::get_ypoints() {
-	return {&pos.y};
+vector<b2Vec2*> Point::get_points() {
+	vector<b2Vec2*>vec;
+	vec.push_back(&pos);
+	return vec;
 }
 void Point::vupdate() {
 	show();

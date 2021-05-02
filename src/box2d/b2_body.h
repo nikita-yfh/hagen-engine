@@ -928,17 +928,17 @@ inline b2World* b2Body::GetWorld() {
 inline const b2World* b2Body::GetWorld() const {
 	return m_world;
 }
-inline std::string b2Body::GetID() const{
+inline std::string b2Body::GetID() const {
 	return GetUserData()->id;
 }
-inline void b2Body::SetID(std::string _id){
+inline void b2Body::SetID(std::string _id) {
 	GetUserData()->id=_id;
 }
 
-inline luabridge::LuaRef *b2Body::GetLuaUserData() const{
+inline luabridge::LuaRef *b2Body::GetLuaUserData() const {
 	return GetUserData()->lua_userdata;
 }
-inline void b2Body::SetLuaUserData(luabridge::LuaRef *d){
+inline void b2Body::SetLuaUserData(luabridge::LuaRef *d) {
 	GetUserData()->lua_userdata=d;
 }
 #endif

@@ -181,8 +181,8 @@ void draw_entities(uint8_t pos) {
 		}
 	}
 }
-void draw_effects(){
-	for(auto &e : effect::effects){
+void draw_effects() {
+	for(auto &e : effect::effects) {
 		int frame=min((int)e.effect->anim.size()-1,int(float(lua::get_time()-e.begin_time)/e.effect->period));
 		GPU_BlitScale(e.effect->anim[frame],0,ren,drawx(e.x),drawy(e.y),zoom/100,zoom/100);
 	}
@@ -190,7 +190,7 @@ void draw_effects(){
 void draw() {
 	GPU_Clear(ren);
 	draw_bgr();
-	for(int q=0; q<5; q++) {
+	for(int q=0; q<6; q++) {
 		draw_bodies(q);
 		draw_entities(q);
 	}

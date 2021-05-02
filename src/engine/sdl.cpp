@@ -85,7 +85,7 @@ void panic(string message) {
 	exit(1);
 }
 
-void unset_cursor(){
+void unset_cursor() {
 	if(cursor)SDL_FreeCursor(cursor);
 	cursor=SDL_GetDefaultCursor();
 	SDL_SetCursor(cursor);
@@ -149,38 +149,38 @@ void load_font(FC_Font *&font, XMLNode node,string color,float h) {
 	font=FC_CreateFont();
 	FC_LoadFont(font,font_path.c_str(),size,Color(node.getChildNode(color.c_str())).color(),TTF_STYLE_NORMAL);
 }
-void play_music(string name){
+void play_music(string name) {
 	stop_music();
 	music=Mix_LoadMUS((prefix+"music/"+name).c_str());
 	if(music==0) throw string(SDL_GetError());
 	Mix_PlayMusic(music,-1);
 	Mix_ResumeMusic();
 }
-void stop_music(){
+void stop_music() {
 	Mix_PauseMusic();
 	if(music)
 		Mix_FreeMusic(music);
 	music=0;
 }
-void pause_music(){
+void pause_music() {
 	Mix_PauseMusic();
 }
-void resume_music(){
+void resume_music() {
 	Mix_ResumeMusic();
 }
 
-void play_sound(string name){
-	if(sounds.find(name)==sounds.end()){
+void play_sound(string name) {
+	if(sounds.find(name)==sounds.end()) {
 		sounds[name]=Mix_LoadWAV((prefix+"sound/"+name).c_str());
 		if(!sounds[name]) throw string(SDL_GetError());
 	}
 	Mix_PlayChannel(-1,sounds[name],0);
 }
-void play_ws_sound(string name){
+void play_ws_sound(string name) {
 	Mix_Chunk *sound=Mix_LoadWAV((prefix+"sound/"+name).c_str());
 	if(!sound) throw string(SDL_GetError());
 	Mix_PlayChannel(-1,sounds[name],0);
 }
-void play_distance_sound(string name,float x,float y){
+void play_distance_sound(string name,float x,float y) {
 
 }

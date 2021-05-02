@@ -12,8 +12,7 @@ struct Object {
 	virtual void draw(cairo_t *cr);
 	virtual bool drag(float xp,float yp,int dr);
 	virtual bool create(float xp,float yp,int dr);
-	virtual std::vector<float*> get_xpoints();
-	virtual std::vector<float*> get_ypoints();
+	virtual std::vector<b2Vec2*> get_points() ;
 	virtual void vupdate();
 	bool selected=0;
 	std::string id;
@@ -25,8 +24,7 @@ struct Object {
 	static void update1();
 	virtual std::string name();
 	virtual bool del(float xp,float yp,int dr);
-	virtual float mean_x();
-	virtual float mean_y();
+	virtual b2Vec2 mean() ;
 };
 std::vector <Object*> get_all();
 void hide_all();
@@ -46,8 +44,7 @@ struct Point:Object {
 	bool drag(float xp,float yp,int dr);
 	bool create(float xp,float yp,int dr);
 	b2Vec2 pos;
-	std::vector<float*> get_xpoints();
-	std::vector<float*> get_ypoints();
+	std::vector<b2Vec2*> get_points() ;
 	static GtkWidget *px, *py, *tx, *ty;
 	static GtkObject *ax,*ay;
 	static void init(GtkWidget*);

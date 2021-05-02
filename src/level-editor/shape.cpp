@@ -39,8 +39,8 @@ bool BiSymmetrical::drag(float xp,float yp,int dr) {
 	if(!shows[layer])return 0;
 	if(!shows[3+parent(id)->type])return 0;
 	if(dr==0) {
-		if(touch(pos+b2Vec2(r,0),{xp,yp}))	point_ch=2;
-		else	if(touch(pos,{xp,yp}))	point_ch=1;
+		if(touch(pos+b2Vec2(r,0), {xp,yp}))	point_ch=2;
+		else	if(touch(pos, {xp,yp}))	point_ch=1;
 		else return 0;
 		hide_all();
 		vupdate();
@@ -176,8 +176,8 @@ bool BiPoints::drag(float xp,float yp,int dr) {
 	if(!shows[layer])return 0;
 	if(!shows[3+parent(id)->type])return 0;
 	if(dr==0) {
-		if(touch(p1,{xp,yp}))	point_ch=1;
-		else	if(touch(p2,{xp,yp}))	point_ch=2;
+		if(touch(p1, {xp,yp}))	point_ch=1;
+		else	if(touch(p2, {xp,yp}))	point_ch=2;
 		else return 0;
 		hide_all();
 		vupdate();
@@ -307,7 +307,7 @@ void Rect::draw(cairo_t *cr) {
 	cairo_stroke_preserve(cr);
 	cairo_fill(cr);
 }
-Polygon::Polygon(){
+Polygon::Polygon() {
 	ex=0;
 }
 Polygon::Polygon(std::vector<b2Vec2>p) {
@@ -319,14 +319,14 @@ bool Polygon::drag(float xp,float yp,int dr) {
 	if(!shows[3+parent(id)->type])return 0;
 	if(dr==0) {
 		for(int q=0; q<size(); q++) {
-			if(touch(points[q],{xp,yp})) {
+			if(touch(points[q], {xp,yp})) {
 				point_ch=q+1;
 				hide_all();
 				vupdate();
 				return 1;
 			}
-			if(touch((points[(q+1)%size()]+points[q])/2,{xp,yp})) {
-				points.insert(points.begin()+q+1,{to_grid(xp),to_grid(yp)});
+			if(touch((points[(q+1)%size()]+points[q])/2, {xp,yp})) {
+				points.insert(points.begin()+q+1, {to_grid(xp),to_grid(yp)});
 				point_ch=q+2;
 				hide_all();
 				vupdate();
@@ -335,13 +335,13 @@ bool Polygon::drag(float xp,float yp,int dr) {
 		}
 		return 0;
 	} else if(dr==1&&point_ch) {
-		points[point_ch-1]={to_grid(xp),to_grid(yp)};
+		points[point_ch-1]= {to_grid(xp),to_grid(yp)};
 		return 1;
 	} else if(dr==2)point_ch=0;
 	else if(dr==3)vupdate();
 	else if(dr==4) {
 		b2Vec2 min(10000,10000),max(-10000,-10000);
-		for(b2Vec2 p : points){
+		for(b2Vec2 p : points) {
 			if(p.x<min.x)min.x=p.x;
 			if(p.y<min.y)min.y=p.y;
 			if(p.x>max.x)max.x=p.x;
@@ -355,7 +355,7 @@ bool Polygon::drag(float xp,float yp,int dr) {
 		return cairo_in_fill(cr,xp,yp);
 	} else if(dr==5) {
 		for(int q=0; q<size(); q++) {
-			if(touch(points[q],{xp,yp})) {
+			if(touch(points[q], {xp,yp})) {
 				points.erase(points.begin()+q);
 				return 1;
 			}
@@ -369,7 +369,7 @@ bool Polygon::create(float xp,float yp,int dr) {
 			points.emplace_back(to_grid(xp),to_grid(yp));
 		return 1;
 	} else if(dr==1) {
-		points[points.size()-1]={to_grid(xp),to_grid(yp)};
+		points[points.size()-1]= {to_grid(xp),to_grid(yp)};
 	} else if(dr==2) {
 		return 1;
 	} else if(dr==3) {
@@ -396,7 +396,7 @@ void Polygon::draw(cairo_t *cr) {
 vector<b2Vec2*> Polygon::get_points() {
 	vector<b2Vec2*>a;
 	for(int q=0; q<size(); q++)
-		a.emplace_back(&points[q]);
+		a.push_back(&points[q]);
 	return a;
 }
 void Polygon::init(GtkWidget* table) {
@@ -430,8 +430,9 @@ void Polygon::hide() {
 	gtk_widget_hide(ty);
 }
 void Polygon::update(Polygon *p) {
-	gtk_adjustment_configure(GTK_ADJUSTMENT(ax),p->mean_x(),0,level.w,grid,0,0);
-	gtk_adjustment_configure(GTK_ADJUSTMENT(ay),p->mean_y(),0,level.h,grid,0,0);
+	b2Vec2 vec=p->mean();
+	gtk_adjustment_configure(GTK_ADJUSTMENT(ax),vec.x,0,level.w,grid,0,0);
+	gtk_adjustment_configure(GTK_ADJUSTMENT(ay),vec.y,0,level.h,grid,0,0);
 }
 void Polygon::update1() {
 	if(block)return;
@@ -439,11 +440,9 @@ void Polygon::update1() {
 	if(!p || point_ch)return;
 	int xp=gtk_adjustment_get_value(GTK_ADJUSTMENT(ax));
 	int yp=gtk_adjustment_get_value(GTK_ADJUSTMENT(ay));
-	int xb=p->mean_x();
-	int yb=p->mean_y();
+	b2Vec2 vec=p->mean();
 	for(int q=0; q<p->size(); q++) {
-		p->points[q].x+=(xp-xb);
-		p->points[q].y+=(yp-yb);
+		p->points[q]+=(b2Vec2(xp,yp)-vec);
 	}
 	gtk_widget_queue_draw(drawable);
 }
@@ -459,7 +458,7 @@ string Polygon::name() {
 int Polygon::size() {
 	return points.size();
 }
-Cover::Cover(){
+Cover::Cover() {
 	ex=0;
 }
 Cover::Cover(std::vector<b2Vec2>p) {
@@ -471,14 +470,14 @@ bool Cover::drag(float xp,float yp,int dr) {
 	if(!shows[3+parent(id)->type])return 0;
 	if(dr==0) {
 		for(int q=0; q<size(); q++) {
-			if(touch(points[q],{xp,yp})) {
+			if(touch(points[q], {xp,yp})) {
 				point_ch=q+1;
 				hide_all();
 				vupdate();
 				return 1;
 			}
-			if(touch((points[(q+1)%size()]+points[q])/2,{xp,yp})) {
-				points.insert(points.begin()+q+1,{to_grid(xp),to_grid(yp)});
+			if(touch((points[(q+1)%size()]+points[q])/2, {xp,yp})) {
+				points.insert(points.begin()+q+1, {to_grid(xp),to_grid(yp)});
 				point_ch=q+2;
 				hide_all();
 				vupdate();
@@ -487,13 +486,13 @@ bool Cover::drag(float xp,float yp,int dr) {
 		}
 		return 0;
 	} else if(dr==1&&point_ch) {
-		points[point_ch-1]={to_grid(xp),to_grid(yp)};
+		points[point_ch-1]= {to_grid(xp),to_grid(yp)};
 		return 1;
 	} else if(dr==2)point_ch=0;
 	else if(dr==3)vupdate();
 	else if(dr==4) {
 		b2Vec2 min(10000,10000),max(-10000,-10000);
-		for(b2Vec2 p : points){
+		for(b2Vec2 p : points) {
 			if(p.x<min.x)min.x=p.x;
 			if(p.y<min.y)min.y=p.y;
 			if(p.x>max.x)max.x=p.x;
@@ -507,7 +506,7 @@ bool Cover::drag(float xp,float yp,int dr) {
 		return cairo_in_fill(cr,xp,yp);
 	} else if(dr==5) {
 		for(int q=0; q<size(); q++) {
-			if(touch(points[q],{xp,yp})) {
+			if(touch(points[q], {xp,yp})) {
 				points.erase(points.begin()+q);
 				return 1;
 			}
@@ -521,7 +520,7 @@ bool Cover::create(float xp,float yp,int dr) {
 			points.emplace_back(to_grid(xp),to_grid(yp));
 		return 1;
 	} else if(dr==1) {
-		points[points.size()-1]={to_grid(xp),to_grid(yp)};
+		points[points.size()-1]= {to_grid(xp),to_grid(yp)};
 	} else if(dr==2) {
 		return 1;
 	} else if(dr==3) {
@@ -536,14 +535,24 @@ void Cover::draw(cairo_t *cr) {
 	if(!shows[3+parent(id)->type])return;
 	for(int q=0; q<size(); q++) {
 		draw_drag_rect(cr,points[q],selected&&point_ch==(q+1));
-		draw_drag_rect(cr,(points[(q+1)%size()]+points[q])/2,0);
+		if(q!=0)
+			draw_drag_rect(cr,(points[q-1]+points[q])/2,0);
 	}
 	set_shape_color(cr,parent(id)->type);
-	cairo_move_to(cr,drawx(points[size()-1].x),drawy(points[size()-1].y));
 	for(int q=0; q<size(); q++)
 		cairo_line_to(cr,drawx(points[q].x),drawy(points[q].y));
-	cairo_stroke_preserve(cr);
-	cairo_fill(cr);
+	cairo_stroke(cr);
+	for(int q=0; q<size(); q++) {
+		b2Vec2 prev=(q==0)			?	2*points[q]-points[q+1]	:	points[q-1];
+		b2Vec2 next=(q==size()-1)	?	2*points[q]-points[q-1]	:	points[q+1];
+
+		b2Vec2 b=bis(prev-points[q],next-points[q],0.3f);
+		b2Vec2 p=b+points[q];
+		cairo_line_to(cr,drawx(p.x),drawy(p.y));
+		cairo_line_to(cr,drawx(points[q].x),drawy(points[q].y));
+		cairo_line_to(cr,drawx(p.x),drawy(p.y));
+	}
+	cairo_stroke(cr);
 }
 vector<b2Vec2*> Cover::get_points() {
 	vector<b2Vec2*>a;
@@ -582,8 +591,9 @@ void Cover::hide() {
 	gtk_widget_hide(ty);
 }
 void Cover::update(Cover *p) {
-	gtk_adjustment_configure(GTK_ADJUSTMENT(ax),p->mean_x(),0,level.w,grid,0,0);
-	gtk_adjustment_configure(GTK_ADJUSTMENT(ay),p->mean_y(),0,level.h,grid,0,0);
+	b2Vec2 vec=p->mean();
+	gtk_adjustment_configure(GTK_ADJUSTMENT(ax),vec.x,0,level.w,grid,0,0);
+	gtk_adjustment_configure(GTK_ADJUSTMENT(ay),vec.y,0,level.h,grid,0,0);
 }
 void Cover::update1() {
 	if(block)return;
@@ -591,11 +601,9 @@ void Cover::update1() {
 	if(!p || point_ch)return;
 	int xp=gtk_adjustment_get_value(GTK_ADJUSTMENT(ax));
 	int yp=gtk_adjustment_get_value(GTK_ADJUSTMENT(ay));
-	int xb=p->mean_x();
-	int yb=p->mean_y();
+	b2Vec2 vec=p->mean();
 	for(int q=0; q<p->size(); q++) {
-		p->points[q].x+=(xp-xb);
-		p->points[q].y+=(yp-yb);
+		p->points[q]+=(b2Vec2(xp,yp)-vec);
 	}
 	gtk_widget_queue_draw(drawable);
 }
@@ -647,6 +655,7 @@ void Physic::init(GtkWidget *table) {
 	gtk_combo_box_append_text(GTK_COMBO_BOX(combo),"Background physic");
 	gtk_combo_box_append_text(GTK_COMBO_BOX(combo),"Physic");
 	gtk_combo_box_append_text(GTK_COMBO_BOX(combo),"Foreground physic");
+	gtk_combo_box_append_text(GTK_COMBO_BOX(combo),"Liquid");
 	gtk_combo_box_append_text(GTK_COMBO_BOX(combo),"Foreground");
 	gtk_combo_box_append_text(GTK_COMBO_BOX(combo),"None");
 	gtk_combo_box_set_active(GTK_COMBO_BOX(combo),2);

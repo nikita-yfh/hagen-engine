@@ -26,8 +26,8 @@ bool game() {
 				run=0;
 				break;
 			case SDL_KEYDOWN:
-				if(e.key.keysym.sym==SDLK_9){
-					explosion(entities["player"]->getx() ,entities["player"]->gety()-1,500,100000000);
+				if(e.key.keysym.sym==SDLK_9) {
+					explosion(entities["player"]->getx(),entities["player"]->gety()-1,500,100000000);
 				}
 				break;
 			}
@@ -39,7 +39,7 @@ bool game() {
 		draw();
 		auto step=chrono::high_resolution_clock::now()-fps;
 		fps = chrono::high_resolution_clock::now();
-		if(!interface.pause.shown){
+		if(!interface.pause.shown) {
 			world->Step(chrono::duration_cast<chrono::microseconds>(step).count()/1000000.0f*time_scale,
 						velocity_iterations,position_iterations);
 			update_fluid();

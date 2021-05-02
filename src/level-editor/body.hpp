@@ -23,8 +23,7 @@ struct Body : Object {
 	void vupdate();
 	void save(XMLNode&,bool);
 	void load(XMLNode&,bool);
-	float mean_x();
-	float mean_y();
+	b2Vec2 mean() ;
 	void setpos(float x,float y);
 	bool template_open(std::string);
 	bool template_save(std::string);

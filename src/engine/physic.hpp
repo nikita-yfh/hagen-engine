@@ -11,8 +11,9 @@
 #define TPHS1          1
 #define TPHS2          2
 #define TPHS3          3
-#define TFGR           4
-#define TNONE          5
+#define TLIQUID        4
+#define TFGR           5
+#define TNONE          6
 
 #define POLYGON        1
 #define RECT           2

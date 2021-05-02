@@ -281,17 +281,17 @@ inline int b2Joint::GetCollideConnected() const {
 	return m_collideConnected;
 }
 
-inline std::string b2Joint::GetID() const{
+inline std::string b2Joint::GetID() const {
 	return GetUserData()->id;
 }
-inline void b2Joint::SetID(std::string _id){
+inline void b2Joint::SetID(std::string _id) {
 	GetUserData()->id=_id;
 }
 
-inline luabridge::LuaRef *b2Joint::GetLuaUserData() const{
+inline luabridge::LuaRef *b2Joint::GetLuaUserData() const {
 	return GetUserData()->lua_userdata;
 }
-inline void b2Joint::SetLuaUserData(luabridge::LuaRef *d){
+inline void b2Joint::SetLuaUserData(luabridge::LuaRef *d) {
 	GetUserData()->lua_userdata=d;
 }
 #endif
