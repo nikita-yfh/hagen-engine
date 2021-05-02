@@ -37,8 +37,8 @@ bool Level::save_file(std::string path,bool all) {
 			for(int q=0; q<entities.size(); q++) { //body
 				XMLNode en=ens.addChild("entity");
 				XMLNode pos=en.addChild("position");
-				pos.addAttribute("x",entities[q]->x);
-				pos.addAttribute("y",entities[q]->y);
+				pos.addAttribute("x",entities[q]->pos.x);
+				pos.addAttribute("y",entities[q]->pos.y);
 				en.addAttribute("id",entities[q]->id);
 				en.addAttribute("type",entities[q]->type);
 			}
@@ -88,8 +88,8 @@ bool Level::open_file(string path) {
 			XMLNode en=ens.getChildNode("entity",q);
 			XMLNode pos=en.getChildNode("position");
 			entities[q]=new Entity;
-			entities[q]->x=stof(pos.getAttribute("x"));
-			entities[q]->y=stof(pos.getAttribute("y"));
+			entities[q]->pos.x=stof(pos.getAttribute("x"));
+			entities[q]->pos.y=stof(pos.getAttribute("y"));
 			entities[q]->id=en.getAttribute("id");
 			entities[q]->type=en.getAttribute("type");
 		}

@@ -187,23 +187,23 @@ void Body::save(XMLNode &parent,bool p) {
 			if(shape->name()=="Square" ||
 					shape->name()=="Circle") {
 				BiSymmetrical *c=TYPE(BiSymmetrical*,shape);
-				pos.addAttribute("x",c->x-xb);
-				pos.addAttribute("y",c->y-yb);
+				pos.addAttribute("x",c->pos.x-xb);
+				pos.addAttribute("y",c->pos.y-yb);
 				pos.addAttribute("r",c->r);
 			} else if(shape->name()=="Rect" ||
 					  shape->name()=="Line") {
 				BiPoints *rect=TYPE(BiPoints*,shape);
-				pos.addAttribute("x1",rect->x1-xb);
-				pos.addAttribute("y1",rect->y1-yb);
-				pos.addAttribute("x2",rect->x2-xb);
-				pos.addAttribute("y2",rect->y2-yb);
+				pos.addAttribute("x1",rect->p1.x-xb);
+				pos.addAttribute("y1",rect->p1.y-yb);
+				pos.addAttribute("x2",rect->p2.x-xb);
+				pos.addAttribute("y2",rect->p2.y-yb);
 			} else if(shape->name()=="Polygon") {
 				Polygon *poly=TYPE(Polygon*,shape);
 				pos.addAttribute("point_count",poly->size());
 				for(int e=0; e<poly->size(); e++) { //points
 					XMLNode point=pos.addChild("point");
-					point.addAttribute("x",poly->x[e]-xb);
-					point.addAttribute("y",poly->y[e]-yb);
+					point.addAttribute("x",poly->points[e].x-xb);
+					point.addAttribute("y",poly->points[e].y-yb);
 				}
 			}
 		}
@@ -249,33 +249,32 @@ void Body::load(XMLNode &node,bool p) {
 			XMLNode pos=sh.getChildNode("position");
 			string str=sh.getAttribute("type");
 			if(str=="Square") {
-				shp=new Square(to_fl(pos.getAttribute("x"))+x,
-							   to_fl(pos.getAttribute("y"))+y,
+				shp=new Square({to_fl(pos.getAttribute("x"))+x,
+							   to_fl(pos.getAttribute("y"))+y},
 							   to_fl(pos.getAttribute("r")));
 			} else if(str=="Circle") {
-				shp=new Circle(to_fl(pos.getAttribute("x"))+x,
-							   to_fl(pos.getAttribute("y"))+y,
+				shp=new Circle({to_fl(pos.getAttribute("x"))+x,
+							   to_fl(pos.getAttribute("y"))+y},
 							   to_fl(pos.getAttribute("r")));
 			} else if(str=="Rect") {
-				shp=new Rect(to_fl(pos.getAttribute("x1"))+x,
-							 to_fl(pos.getAttribute("y1"))+y,
-							 to_fl(pos.getAttribute("x2"))+x,
-							 to_fl(pos.getAttribute("y2"))+y);
+				shp=new Rect({to_fl(pos.getAttribute("x1"))+x,
+							 to_fl(pos.getAttribute("y1"))+y},
+							 {to_fl(pos.getAttribute("x2"))+x,
+							 to_fl(pos.getAttribute("y2"))+y});
 			} else if(str=="Line") {
-				shp=new Line(to_fl(pos.getAttribute("x1"))+x,
-							 to_fl(pos.getAttribute("y1"))+y,
-							 to_fl(pos.getAttribute("x2"))+x,
-							 to_fl(pos.getAttribute("y2"))+y);
+				shp=new Line({to_fl(pos.getAttribute("x1"))+x,
+							 to_fl(pos.getAttribute("y1"))+y},
+							 {to_fl(pos.getAttribute("x2"))+x,
+							 to_fl(pos.getAttribute("y2"))+y});
 			} else if(str=="Polygon") {
 				int c=stoi(pos.getAttribute("point_count"));
-				vector<float>xp(c);
-				vector<float>yp(c);
+				vector<b2Vec2>p(c);
 				for(int e=0; e<c; e++) {
 					XMLNode point=pos.getChildNode("point",e);
-					xp[e]=to_fl(point.getAttribute("x"))+x;
-					yp[e]=to_fl(point.getAttribute("y"))+y;
+					p[e].x=to_fl(point.getAttribute("x"))+x;
+					p[e].y=to_fl(point.getAttribute("y"))+y;
 				}
-				shp=new Polygon(xp,yp);
+				shp=new Polygon(p);
 			}
 		}
 		shp->id     =sh.getAttribute("id");

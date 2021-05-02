@@ -1,8 +1,8 @@
 #pragma once
 #include "object.hpp"
 #include "xmlParser.h"
-std::string find_shape_1(float x,float y);
-std::string find_shape_2(float x,float y);
+std::string find_shape_1(b2Vec2 pos);
+std::string find_shape_2(b2Vec2 pos);
 struct Physic : Object {
 	float density=1000.0f;
 	float restitution=0.0f;
@@ -21,18 +21,16 @@ struct Physic : Object {
 	static void update (Physic *p);
 	static void update1();
 	void vupdate();
-	void save(XMLNode &parent,float xp,float yp);
+	void save(XMLNode &parent,b2Vec2 pos);
 };
 struct BiSymmetrical : Physic {
 	BiSymmetrical() {}
-	BiSymmetrical(float,float,float);
+	BiSymmetrical(b2Vec2,float);
 	bool drag(float xp,float yp,int dr);
 	bool create(float xp,float yp,int dr);
-	float x;
-	float y;
+	b2Vec2 pos;
 	float r;
-	std::vector<float*> get_xpoints();
-	std::vector<float*> get_ypoints();
+	std::vector<b2Vec2*> get_points();
 	static GtkWidget *px, *py, *pr, *tx, *ty, *tr;
 	static GtkObject *ax, *ay, *ar;
 	static void init(GtkWidget*);
@@ -44,27 +42,24 @@ struct BiSymmetrical : Physic {
 };
 struct Square : BiSymmetrical {
 	Square() {}
-	Square(float,float,float);
+	Square(b2Vec2,float);
 	void draw(cairo_t *cr);
 	std::string name();
 };
 struct Circle : BiSymmetrical {
 	Circle() {}
-	Circle(float,float,float);
+	Circle(b2Vec2,float);
 	void draw(cairo_t *cr);
 	std::string name();
 };
 struct BiPoints : Physic {
 	BiPoints() {}
-	BiPoints(float,float,float,float);
-	float x1;
-	float y1;
-	float x2;
-	float y2;
+	BiPoints(b2Vec2,b2Vec2);
+	b2Vec2 p1;
+	b2Vec2 p2;
 	bool drag(float xp,float yp,int dr);
 	bool create(float xp,float yp,int dr);
-	std::vector<float*> get_xpoints();
-	std::vector<float*> get_ypoints();
+	std::vector<b2Vec2*> get_points();
 	static GtkWidget *px1, *px2, *py1, *py2, *tx1, *tx2, *ty1, *ty2;
 	static GtkObject *ax1, *ax2, *ay1, *ay2;
 	static void init(GtkWidget*);
@@ -76,23 +71,20 @@ struct BiPoints : Physic {
 };
 struct Rect : BiPoints {
 	Rect() {}
-	Rect(float,float,float,float);
+	Rect(b2Vec2,b2Vec2);
 	void draw(cairo_t *cr);
 	std::string name();
 };
 struct Polygon : Physic {
 	Polygon();
-	Polygon(std::vector<float>,std::vector<float>);
+	Polygon(std::vector<b2Vec2>);
 	static GtkWidget *px, *py, *tx, *ty;
 	static GtkObject *ax, *ay;
 	void draw(cairo_t *cr);
 	bool drag(float xp,float yp,int dr);
 	bool create(float xp,float yp,int dr);
-	void push(float x,float y);
-	std::vector<float>x;
-	std::vector<float>y;
-	std::vector<float*> get_xpoints();
-	std::vector<float*> get_ypoints();
+	std::vector<b2Vec2>points;
+	std::vector<b2Vec2*> get_points();
 	static void init(GtkWidget*);
 	static void show();
 	static void hide();
@@ -104,17 +96,14 @@ struct Polygon : Physic {
 };
 struct Cover : Physic {
 	Cover();
-	Cover(std::vector<float>,std::vector<float>);
+	Cover(std::vector<b2Vec2>);
 	static GtkWidget *px, *py, *tx, *ty;
 	static GtkObject *ax, *ay;
 	void draw(cairo_t *cr);
 	bool drag(float xp,float yp,int dr);
 	bool create(float xp,float yp,int dr);
-	void push(float x,float y);
-	std::vector<float>x;
-	std::vector<float>y;
-	std::vector<float*> get_xpoints();
-	std::vector<float*> get_ypoints();
+	std::vector<b2Vec2>points;
+	std::vector<b2Vec2*> get_points();
 	static void init(GtkWidget*);
 	static void show();
 	static void hide();
@@ -126,7 +115,7 @@ struct Cover : Physic {
 };
 struct Line : BiPoints {
 	Line() {}
-	Line(float,float,float,float);
+	Line(b2Vec2,b2Vec2);
 	void draw(cairo_t *cr);
 	std::string name();
 };

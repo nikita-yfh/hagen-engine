@@ -98,7 +98,7 @@ bool create_shapes(int x,int y,int mouse) {
 			if(obj->create(dragx(x),dragy(y),0)) {
 				create_status=2;
 			} else create_status=1;
-			if(tool_ch<7)
+			if(tool_ch<8)
 				cr->shapes.push_back((Physic*)obj);
 			else if(tool_ch<13)
 				level.joints.push_back((Joint*)obj);

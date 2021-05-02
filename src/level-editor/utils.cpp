@@ -35,11 +35,11 @@ float to_angle_grid(float a) {
 	return std::round(a/g)*g;
 }
 
-bool touch(float x,float y,float xp,float yp) {
-	return	x*zoom-POINT_SIZE<xp*zoom &&
-			y*zoom-POINT_SIZE<yp*zoom &&
-			x*zoom+POINT_SIZE>xp*zoom &&
-			y*zoom+POINT_SIZE>yp*zoom;
+bool touch(b2Vec2 p1,b2Vec2 p2) {
+	return	p1.x*zoom-POINT_SIZE<p2.x*zoom &&
+			p1.y*zoom-POINT_SIZE<p2.y*zoom &&
+			p1.x*zoom+POINT_SIZE>p2.x*zoom &&
+			p1.y*zoom+POINT_SIZE>p2.y*zoom;
 }
 void set_shape_color(cairo_t *cr, uint8_t type) {
 	switch(type) {
@@ -97,16 +97,16 @@ float to_fl(const char* str) {
 	ss>>res;
 	return res;
 }
-float vec_angle1(float x,float y) {
-	if(x>=0)
-		return M_PI+atan(y/x);
-	else if(y>0)
-		return 2*M_PI+atan(y/x);
+float vec_angle1(b2Vec2 p) {
+	if(p.x>=0)
+		return M_PI+atan(p.y/p.x);
+	else if(p.y>0)
+		return 2*M_PI+atan(p.y/p.x);
 	else
-		return atan(y/x);
+		return atan(p.y/p.x);
 }
-float vec_angle2(float x,float y) {
-	return fmod(M_PI+vec_angle1(x,y),M_PI*2);
+float vec_angle2(b2Vec2 p) {
+	return fmod(M_PI+vec_angle1(p),M_PI*2);
 }
 b2Vec2 bis(b2Vec2 v1,b2Vec2 v2,float length){
 	v1.Normalize();

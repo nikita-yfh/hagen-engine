@@ -435,6 +435,10 @@ inline b2Vec2 operator * (float s, const b2Vec2& a) {
 	return b2Vec2(s * a.x, s * a.y);
 }
 
+inline b2Vec2 operator / (const b2Vec2& a,float s) {
+	return b2Vec2(a.x/s, a.y/s);
+}
+
 inline bool operator == (const b2Vec2& a, const b2Vec2& b) {
 	return a.x == b.x && a.y == b.y;
 }

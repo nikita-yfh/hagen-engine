@@ -251,42 +251,41 @@ float Object::mean_y() {
 		sum+=*y[q];
 	return sum/y.size();
 }
-void draw_drag_rect(cairo_t *cr, float x,float y,bool tc) {
+void draw_drag_rect(cairo_t *cr, b2Vec2 pos,bool tc) {
 	if(zoom<20)return;
 	cairo_set_source_rgb(cr, 1.0,  0.0,(double)tc);
-	cairo_rectangle(cr, drawx(x)-POINT_SIZE,drawy(y)-POINT_SIZE,POINT_SIZE*2,POINT_SIZE*2);
+	cairo_rectangle(cr, drawx(pos.x)-POINT_SIZE,drawy(pos.y)-POINT_SIZE,POINT_SIZE*2,POINT_SIZE*2);
 	cairo_stroke(cr);
 }
-void draw_drag_joint_rect(cairo_t *cr, float x,float y,bool tc) {
+void draw_drag_joint_rect(cairo_t *cr, b2Vec2 pos,bool tc) {
 	if(zoom<20)return;
 	cairo_set_source_rgb(cr, 0.0,  0.5,(double)tc);
-	cairo_rectangle(cr, drawx(x)-POINT_SIZE,drawy(y)-POINT_SIZE,POINT_SIZE*2,POINT_SIZE*2);
+	cairo_rectangle(cr, drawx(pos.x)-POINT_SIZE,drawy(pos.y)-POINT_SIZE,POINT_SIZE*2,POINT_SIZE*2);
 	cairo_stroke(cr);
 }
-Point::Point(float x,float y,string text) {
-	this->x=x;
-	this->y=y;
+Point::Point(b2Vec2 _pos,string text) {
+	pos=_pos;
 	id=text;
 }
 void Point::draw(cairo_t *cr) {
-	draw_drag_rect(cr,x,y,selected&&point_ch);
+	draw_drag_rect(cr,pos,selected&&point_ch);
 	cairo_set_source_rgb(cr,BLACK);
-	cairo_rectangle(cr,drawx(x)-1,drawy(y)-1,3,3);
+	cairo_rectangle(cr,drawx(pos.x)-1,drawy(pos.y)-1,3,3);
 	cairo_text_extents_t extents;
 	cairo_text_extents(cr, id.c_str(), &extents);
-	cairo_move_to(cr,drawx(x)-extents.width/2,drawy(y)-20);
+	cairo_move_to(cr,drawx(pos.x)-extents.width/2,drawy(pos.y)-20);
 	cairo_show_text(cr,id.c_str());
 	cairo_fill(cr);
 }
 bool Point::drag(float xp,float yp,int dr) {
-	if(dr==0 && touch(x,y,xp,yp)) {
+	if(dr==0 && touch(pos,{xp,yp})) {
 		hide_all();
 		vupdate();
 		point_ch=1;
 		return 1;
 	} else if(dr==1&&point_ch==1) {
-		x=to_grid(xp);
-		y=to_grid(yp);
+		pos.x=to_grid(xp);
+		pos.y=to_grid(yp);
 		return 1;
 	} else if(dr==2)point_ch=0;
 	else if(dr==3)vupdate();
@@ -294,8 +293,8 @@ bool Point::drag(float xp,float yp,int dr) {
 }
 bool Point::create(float xp,float yp,int dr) {
 	if(dr==0) {
-		x=to_grid(xp);
-		y=to_grid(yp);
+		pos.x=to_grid(xp);
+		pos.y=to_grid(yp);
 		return 1;
 	}
 	return 0;
@@ -330,21 +329,21 @@ void Point::hide() {
 	gtk_widget_hide(ty);
 }
 void Point::update(Point *p) {
-	gtk_adjustment_configure(GTK_ADJUSTMENT(ax),p->x,0,level.w,grid,0,0);
-	gtk_adjustment_configure(GTK_ADJUSTMENT(ay),p->y,0,level.h,grid,0,0);
+	gtk_adjustment_configure(GTK_ADJUSTMENT(ax),p->pos.x,0,level.w,grid,0,0);
+	gtk_adjustment_configure(GTK_ADJUSTMENT(ay),p->pos.y,0,level.h,grid,0,0);
 }
 void Point::update1() {
 	Point *p=TYPE(Point*,get_selected_object());
 	if(!p || point_ch)return;
-	p->x=gtk_adjustment_get_value(GTK_ADJUSTMENT(ax));
-	p->y=gtk_adjustment_get_value(GTK_ADJUSTMENT(ay));
+	p->pos.x=gtk_adjustment_get_value(GTK_ADJUSTMENT(ax));
+	p->pos.y=gtk_adjustment_get_value(GTK_ADJUSTMENT(ay));
 	gtk_widget_queue_draw(drawable);
 }
 vector<float*> Point::get_xpoints() {
-	return {&x};
+	return {&pos.x};
 }
 vector<float*> Point::get_ypoints() {
-	return {&y};
+	return {&pos.y};
 }
 void Point::vupdate() {
 	show();

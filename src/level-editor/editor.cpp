@@ -287,12 +287,13 @@ void create_menu() {
 		{"/Tools/Shapes/Square",			"<control>3",			L(change_tool(4);)},
 		{"/Tools/Shapes/Circle",			"<control>4",			L(change_tool(5);)},
 		{"/Tools/Shapes/Line",				"<control>5",			L(change_tool(6);)},
-		{"/Tools/Joints/Revolute joint",	"<control><shift>1",	L(change_tool(7);)},
-		{"/Tools/Joints/Weld joint",		"<control><shift>2",	L(change_tool(8);)},
-		{"/Tools/Joints/Prismatic joint",	"<control><shift>3",	L(change_tool(9);)},
-		{"/Tools/Joints/Pulley joint",		"<control><shift>4",	L(change_tool(10);)},
-		{"/Tools/Joints/Gear joint",		"<control><shift>5",	L(change_tool(11);)},
-		{"/Tools/Joints/Distance joint",	"<control><shift>6",	L(change_tool(12);)},
+		{"/Tools/Shapes/Cover",				"<control>6",			L(change_tool(8);)},
+		{"/Tools/Joints/Revolute joint",	"<control><shift>1",	L(change_tool(8);)},
+		{"/Tools/Joints/Weld joint",		"<control><shift>2",	L(change_tool(9);)},
+		{"/Tools/Joints/Prismatic joint",	"<control><shift>3",	L(change_tool(10);)},
+		{"/Tools/Joints/Pulley joint",		"<control><shift>4",	L(change_tool(11);)},
+		{"/Tools/Joints/Gear joint",		"<control><shift>5",	L(change_tool(12);)},
+		{"/Tools/Joints/Distance joint",	"<control><shift>6",	L(change_tool(13);)},
 		{"/Properties/Level size", 			"<control>R",           resize},
 		{"/Properties/Level background",	"<control>I",           set_bgr},
 		{"/Editor/Grid size",				"<control>G",			set_grid},
@@ -301,7 +302,7 @@ void create_menu() {
 	GtkAccelGroup *accel_group;
 	accel_group = gtk_accel_group_new();
 	menu = gtk_item_factory_new(GTK_TYPE_MENU_BAR, "<menu>", accel_group);
-	gtk_item_factory_create_items(menu, 38, menu_items, NULL);
+	gtk_item_factory_create_items(menu, 39, menu_items, NULL);
 	gtk_window_add_accel_group(GTK_WINDOW(window),accel_group);
 	gtk_box_pack_start(GTK_BOX(box_v), gtk_item_factory_get_widget(menu, "<menu>"), FALSE, FALSE, 0);
 	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(menu, "/View/Background layer")),1);

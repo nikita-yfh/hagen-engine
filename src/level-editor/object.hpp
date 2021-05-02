@@ -4,6 +4,7 @@
 #include <cairo.h>
 #include <string>
 #include <gtk/gtk.h>
+#include "b2_math.h"
 #include "main.hpp"
 
 struct Object {
@@ -32,20 +33,19 @@ void hide_all();
 void create_all(GtkWidget*);
 Object *get_selected_object();
 bool delete_id(std::string id);
-void draw_drag_rect(cairo_t *cr, float x,float y,bool tc);
-void draw_drag_joint_rect(cairo_t *cr, float x,float y,bool tc);
+void draw_drag_rect(cairo_t *cr, b2Vec2 pos,bool tc);
+void draw_drag_joint_rect(cairo_t *cr, b2Vec2 pos,bool tc);
 Object *get_id(std::string);
 
 extern int cur_table_string;
 
 struct Point:Object {
-	Point(float,float,std::string);
+	Point(b2Vec2,std::string);
 	Point() {};
 	void draw(cairo_t *cr);
 	bool drag(float xp,float yp,int dr);
 	bool create(float xp,float yp,int dr);
-	float x;
-	float y;
+	b2Vec2 pos;
 	std::vector<float*> get_xpoints();
 	std::vector<float*> get_ypoints();
 	static GtkWidget *px, *py, *tx, *ty;

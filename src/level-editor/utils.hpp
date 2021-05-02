@@ -15,7 +15,7 @@ float dragx(float a);
 float dragy(float a);
 float to_grid(float a);
 float to_angle_grid(float a);
-bool touch(float x,float y,float xp,float yp);
+bool touch(b2Vec2 v1,b2Vec2 v2);
 void set_shape_color(cairo_t *cr, uint8_t layer);
 float get_grid();
 void ins_text(GtkWidget *table,GtkWidget *child, int pos);
@@ -24,8 +24,8 @@ void ins_widget2(GtkWidget *table,GtkWidget *child, int pos);
 std::string lower(std::string);
 void set_status(int context,const char* text);
 void remove_status(int context);
-float vec_angle1(float x,float y);
-float vec_angle2(float x,float y);
+float vec_angle1(b2Vec2 v);
+float vec_angle2(b2Vec2 v);
 template<typename ... Args>
 std::string ssprintf(const std::string& format, Args ... args) {
 	int size = snprintf(nullptr, 0, format.c_str(), args ...) + 1;

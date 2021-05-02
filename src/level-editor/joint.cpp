@@ -129,10 +129,10 @@ bool PointJoint::create(float xp,float yp,int dr) {
 	if(dr==0) {
 		x=to_grid(xp);
 		y=to_grid(yp);
-		id1=find_shape_1(x,y);
-		id2=find_shape_2(x,y);
+		id1=find_shape_1({x,y});
+		id2=find_shape_2({x,y});
 	} else if(dr==1) {
-		id2=find_shape_2(xp,yp);
+		id2=find_shape_2({xp,yp});
 	}
 	return 0;
 }
@@ -154,7 +154,7 @@ void WeldJoint::init(GtkWidget *table) {
 void WeldJoint::draw(cairo_t *cr) {
 	if(!shows[6])return;
 	draw_lines(cr);
-	draw_drag_joint_rect(cr,x,y,selected&&point_ch);
+	draw_drag_joint_rect(cr,{x,y},selected&&point_ch);
 	cairo_set_source_rgb(cr,BLACK);
 	cairo_rectangle(cr,drawx(x)-1,drawy(y)-1,3,3);
 	cairo_fill(cr);
@@ -196,7 +196,7 @@ string WeldJoint::name() {
 }
 bool WeldJoint::drag(float xp,float yp,int dr) {
 	if(!shows[6])return 0;
-	if(dr==0 && touch(x,y,xp,yp)) {
+	if(dr==0 && touch({x,y},{xp,yp})) {
 		hide_all();
 		vupdate();
 		point_ch=1;
@@ -314,7 +314,7 @@ void RevoluteJoint::init(GtkWidget *table) {
 void RevoluteJoint::draw(cairo_t *cr) {
 	if(!shows[6])return;
 	draw_lines(cr);
-	draw_drag_joint_rect(cr,x,y,selected&&point_ch);
+	draw_drag_joint_rect(cr,{x,y},selected&&point_ch);
 	cairo_set_source_rgb(cr,BLACK);
 	cairo_rectangle(cr,drawx(x)-1,drawy(y)-1,3,3);
 	cairo_fill(cr);
@@ -334,7 +334,7 @@ void RevoluteJoint::draw(cairo_t *cr) {
 }
 bool RevoluteJoint::drag(float xp,float yp,int dr) {
 	if(!shows[6])return 0;
-	if(dr==0 && touch(x,y,xp,yp)) {
+	if(dr==0 && touch({x,y},{xp,yp})) {
 		hide_all();
 		vupdate();
 		point_ch=1;
@@ -444,7 +444,7 @@ void PrismaticJoint::init(GtkWidget *table) {
 void PrismaticJoint::draw(cairo_t *cr) {
 	if(!shows[6])return;
 	draw_lines(cr);
-	draw_drag_joint_rect(cr,x,y,selected&&point_ch==1);
+	draw_drag_joint_rect(cr,{x,y},selected&&point_ch==1);
 	cairo_set_source_rgb(cr,BLACK);
 	cairo_rectangle(cr,drawx(x)-1,drawy(y)-1,3,3);
 	cairo_fill(cr);
@@ -457,18 +457,18 @@ void PrismaticJoint::draw(cairo_t *cr) {
 	cairo_line_to(cr,drawx(x)+cos(angle)*(limit?upper*zoom:10000),drawy(y)+sin(angle)*(limit?upper*zoom:10000));
 	cairo_stroke(cr);
 	if(limit) {
-		draw_drag_joint_rect(cr,x+cos(angle)*lower,y+sin(angle)*lower,selected&&point_ch==2);
-		draw_drag_joint_rect(cr,x+cos(angle)*upper,y+sin(angle)*upper,selected&&point_ch==3);
+		draw_drag_joint_rect(cr,{x+cos(angle)*lower,y+sin(angle)*lower},selected&&point_ch==2);
+		draw_drag_joint_rect(cr,{x+cos(angle)*upper,y+sin(angle)*upper},selected&&point_ch==3);
 	}
 }
 bool PrismaticJoint::drag(float xp,float yp,int dr) {
 	if(!shows[6])return 0;
 	if(dr==0) {
-		if(touch(x,y,xp,yp))
+		if(touch({x,y},{xp,yp}))
 			point_ch=1;
-		else if(limit && touch(x+cos(angle)*lower,y+sin(angle)*lower,xp,yp))
+		else if(limit && touch({x+cos(angle)*lower,y+sin(angle)*lower},{xp,yp}))
 			point_ch=2;
-		else if(limit && touch(x+cos(angle)*upper,y+sin(angle)*upper,xp,yp))
+		else if(limit && touch({x+cos(angle)*upper,y+sin(angle)*upper},{xp,yp}))
 			point_ch=3;
 		else return 0;
 		hide_all();
@@ -479,10 +479,10 @@ bool PrismaticJoint::drag(float xp,float yp,int dr) {
 			x=to_grid(xp);
 			y=to_grid(yp);
 		} else if(point_ch==2) {
-			angle=to_angle_grid(vec_angle1(xp-x,yp-y));
+			angle=to_angle_grid(vec_angle1({xp-x,yp-y}));
 			lower=-to_grid(hypot(xp-x,yp-y));
 		} else if(point_ch==3) {
-			angle=to_angle_grid(vec_angle2(xp-x,yp-y));
+			angle=to_angle_grid(vec_angle2({xp-x,yp-y}));
 			upper=to_grid(hypot(xp-x,yp-y));
 		}
 		return 1;
@@ -607,11 +607,11 @@ bool DistanceJoint::create(float xp,float yp,int dr) {
 	if(dr==0) {
 		x1=x2=to_grid(xp);
 		y1=y2=to_grid(yp);
-		id1=find_shape_1(x1,y1);
+		id1=find_shape_1({x1,y1});
 	} else if(dr==1) {
 		x2=to_grid(xp);
 		y2=to_grid(yp);
-		id2=find_shape_1(x2,y2);
+		id2=find_shape_1({x2,y2});
 	} else if(dr==3) {
 		if(x1==x2&&y1==y2)return 1;
 	}
@@ -619,28 +619,28 @@ bool DistanceJoint::create(float xp,float yp,int dr) {
 }
 void DistanceJoint::draw(cairo_t *cr) {
 	if(!shows[6])return;
-	draw_drag_joint_rect(cr,x1,y1,selected&&point_ch==1);
-	draw_drag_joint_rect(cr,x2,y2,selected&&point_ch==2);
+	draw_drag_joint_rect(cr,{x1,y1},selected&&point_ch==1);
+	draw_drag_joint_rect(cr,{x2,y2},selected&&point_ch==2);
 	cairo_move_to(cr,drawx(x1),drawy(y1));
 	cairo_line_to(cr,drawx(x2),drawy(y2));
 	cairo_stroke(cr);
 	cairo_set_source_rgb(cr,RED);
 	cairo_move_to(cr,drawx(x2),drawy(y2));
-	cairo_line_to(cr,drawx(x2+cos(vec_angle2(x2-x1,y2-y1))*max),
-				  drawy(y2+sin(vec_angle2(x2-x1,y2-y1))*max));
+	cairo_line_to(cr,drawx(x2+cos(vec_angle2({x2-x1,y2-y1}))*max),
+				  drawy(y2+sin(vec_angle2({x2-x1,y2-y1}))*max));
 	cairo_stroke(cr);
 	cairo_set_source_rgb(cr,GREEN);
 	cairo_move_to(cr,drawx(x2),drawy(y2));
-	cairo_line_to(cr,drawx(x2+cos(vec_angle2(x2-x1,y2-y1))*min),
-				  drawy(y2+sin(vec_angle2(x2-x1,y2-y1))*min));
+	cairo_line_to(cr,drawx(x2+cos(vec_angle2({x2-x1,y2-y1}))*min),
+				  drawy(y2+sin(vec_angle2({x2-x1,y2-y1}))*min));
 	cairo_stroke(cr);
 	draw_lines(cr);
 }
 bool DistanceJoint::drag(float xp,float yp,int dr) {
 	if(!shows[6])return 0;
 	if(dr==0) {
-		if(touch(x1,y1,xp,yp))	point_ch=1;
-		else	if(touch(x2,y2,xp,yp))	point_ch=2;
+		if(touch({x1,y1},{xp,yp}))	point_ch=1;
+		else	if(touch({x2,y2},{xp,yp}))	point_ch=2;
 		else return 0;
 		hide_all();
 		vupdate();
@@ -821,11 +821,11 @@ bool PulleyJoint::create(float xp,float yp,int dr) {
 		if(x2==-1000) {
 			x1=to_grid(xp);
 			y1=to_grid(yp);
-			id1=find_shape_1(x1,y1);
+			id1=find_shape_1({x1,y1});
 		} else {
 			x2=to_grid(xp);
 			y2=to_grid(yp);
-			id2=find_shape_1(x2,y2);
+			id2=find_shape_1({x2,y2});
 			DEBUG;
 		}
 	} else if(dr==2) {
@@ -838,11 +838,11 @@ bool PulleyJoint::create(float xp,float yp,int dr) {
 }
 void PulleyJoint::draw(cairo_t *cr) {
 	if(!shows[6])return;
-	draw_drag_joint_rect(cr,x1,y1,selected&&point_ch==1);
-	draw_drag_joint_rect(cr,x3,y3,selected&&point_ch==3);
+	draw_drag_joint_rect(cr,{x1,y1},selected&&point_ch==1);
+	draw_drag_joint_rect(cr,{x3,y3},selected&&point_ch==3);
 	if(x4>-1000) {
-		draw_drag_joint_rect(cr,x2,y2,selected&&point_ch==2);
-		draw_drag_joint_rect(cr,x4,y4,selected&&point_ch==3);
+		draw_drag_joint_rect(cr,{x2,y2},selected&&point_ch==2);
+		draw_drag_joint_rect(cr,{x4,y4},selected&&point_ch==3);
 	}
 	cairo_set_source_rgb(cr,BLACK);
 	cairo_move_to(cr,drawx(x1),drawy(y1));
@@ -857,10 +857,10 @@ void PulleyJoint::draw(cairo_t *cr) {
 bool PulleyJoint::drag(float xp,float yp,int dr) {
 	if(!shows[6])return 0;
 	if(dr==0) {
-		if(touch(x1,y1,xp,yp))	point_ch=1;
-		else	if(touch(x2,y2,xp,yp))	point_ch=2;
-		else	if(touch(x3,y3,xp,yp))	point_ch=3;
-		else	if(touch(x4,y4,xp,yp))	point_ch=4;
+		if(touch({x1,y1},{xp,yp}))	point_ch=1;
+		else	if(touch({x2,y2},{xp,yp}))	point_ch=2;
+		else	if(touch({x3,y3},{xp,yp}))	point_ch=3;
+		else	if(touch({x4,y4},{xp,yp}))	point_ch=4;
 		else return 0;
 		hide_all();
 		vupdate();

@@ -11,10 +11,6 @@ using namespace std;
 void fill_shapes() {
 	gtk_tree_store_clear(store);
 	GtkTreeIter p;
-	/*gtk_tree_store_append(store, &p, 0);
-	gtk_tree_store_set(store, &p, 0, level.start.id.c_str(), 1, level.start.name().c_str(), -1);
-	gtk_tree_store_append(store, &p, 0);
-	gtk_tree_store_set(store, &p, 0, level.end.id.c_str(), 1, level.end.name().c_str(), -1);*/
 	for(int q=0; q<level.bodies.size(); q++) {
 		gtk_tree_store_append(store, &p, 0);
 		gtk_tree_store_set(store, &p, 0, level.bodies[q]->id.c_str(), 1, level.bodies[q]->name().c_str(), -1);

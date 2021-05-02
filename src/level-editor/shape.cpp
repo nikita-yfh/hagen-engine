@@ -6,20 +6,20 @@
 #include "tree_view.hpp"
 #include <cmath>
 using namespace std;
-string find_shape_1(float x, float y) {
+string find_shape_1(b2Vec2 pos) {
 	for(Body *bd : level.bodies) {
 		for(Physic *sh : bd->shapes) {
-			if(sh->drag(x,y,4))
+			if(sh->drag(pos.x,pos.y,4))
 				return bd->id;
 		}
 	}
 	return "";
 }
-string find_shape_2(float x, float y) {
+string find_shape_2(b2Vec2 pos) {
 	Body *b1=0;
 	for(Body *bd : level.bodies) {
 		for(Physic *sh : bd->shapes) {
-			if(sh->drag(x,y,4)) {
+			if(sh->drag(pos.x,pos.y,4)) {
 				if(b1!=bd && b1!=0)
 					return bd->id;
 				else
@@ -31,46 +31,45 @@ string find_shape_2(float x, float y) {
 	if(b1)return b1->id;
 	return "";
 }
-BiSymmetrical::BiSymmetrical(float x,float y,float r) {
-	this->x=x;
-	this->y=y;
-	this->r=r;
+BiSymmetrical::BiSymmetrical(b2Vec2 _pos,float _r) {
+	pos=_pos;
+	r=_r;
 }
 bool BiSymmetrical::drag(float xp,float yp,int dr) {
 	if(!shows[layer])return 0;
 	if(!shows[3+parent(id)->type])return 0;
 	if(dr==0) {
-		if(touch(x+r,y,xp,yp))	point_ch=2;
-		else	if(touch(x,y,xp,yp))	point_ch=1;
+		if(touch(pos+b2Vec2(r,0),{xp,yp}))	point_ch=2;
+		else	if(touch(pos,{xp,yp}))	point_ch=1;
 		else return 0;
 		hide_all();
 		vupdate();
 		return 1;
 	} else if(dr==1&&point_ch) {
 		if(point_ch==1) {
-			x=to_grid(xp);
-			y=to_grid(yp);
+			pos.x=to_grid(xp);
+			pos.y=to_grid(yp);
 		} else {
-			r=to_grid(hypot(x-xp,y-yp));
+			r=to_grid((pos-b2Vec2(xp,yp)).Length());
 		}
 		return 1;
 	} else if(dr==2)point_ch=0;
 	else if(dr==3)vupdate();
 	else if(dr==4) {
 		if(name()=="Circle")
-			return hypot(xp-x,yp-y)<=r;
+			return (pos-b2Vec2(xp,yp)).Length()<=r;
 		else
-			return abs(xp-x)<=r && abs(yp-y)<=r;
+			return abs(xp-pos.x)<=r && abs(yp-pos.y)<=r;
 	}
 	return 0;
 }
 bool BiSymmetrical::create(float xp,float yp,int dr) {
 	if(dr==0) {
-		x=to_grid(xp);
-		y=to_grid(yp);
+		pos.x=to_grid(xp);
+		pos.y=to_grid(yp);
 		r=0;
 	} else if(dr==1) {
-		r=to_grid(hypot(x-xp,y-yp));
+		r=to_grid((pos-b2Vec2(xp,yp)).Length());
 	} else if(dr==3) {
 		if(r==0)return 1;
 	}
@@ -117,23 +116,20 @@ void BiSymmetrical::hide() {
 	gtk_widget_hide(tr);
 }
 void BiSymmetrical::update(BiSymmetrical *p) {
-	gtk_adjustment_configure(GTK_ADJUSTMENT(ax),p->x,0,level.w,grid,0,0);
-	gtk_adjustment_configure(GTK_ADJUSTMENT(ay),p->y,0,level.h,grid,0,0);
+	gtk_adjustment_configure(GTK_ADJUSTMENT(ax),p->pos.x,0,level.w,grid,0,0);
+	gtk_adjustment_configure(GTK_ADJUSTMENT(ay),p->pos.y,0,level.h,grid,0,0);
 	gtk_adjustment_configure(GTK_ADJUSTMENT(ar),p->r,0,1000,grid,0,0);
 }
 void BiSymmetrical::update1() {
 	BiSymmetrical *p=TYPE(BiSymmetrical*,get_selected_object());
 	if(!p || point_ch)return;
-	p->x=gtk_adjustment_get_value(GTK_ADJUSTMENT(ax));
-	p->y=gtk_adjustment_get_value(GTK_ADJUSTMENT(ay));
+	p->pos.x=gtk_adjustment_get_value(GTK_ADJUSTMENT(ax));
+	p->pos.y=gtk_adjustment_get_value(GTK_ADJUSTMENT(ay));
 	p->r=gtk_adjustment_get_value(GTK_ADJUSTMENT(ar));
 	gtk_widget_queue_draw(drawable);
 }
-vector<float*> BiSymmetrical::get_xpoints() {
-	return {&x};
-}
-vector<float*> BiSymmetrical::get_ypoints() {
-	return {&y};
+vector<b2Vec2*> BiSymmetrical::get_points() {
+	return {&pos};
 }
 void BiSymmetrical::vupdate() {
 	show();
@@ -141,24 +137,22 @@ void BiSymmetrical::vupdate() {
 	Physic::update(this);
 	Object::update(this);
 }
-Square::Square(float xp,float yp,float rp) {
-	x=xp;
-	y=yp;
+Square::Square(b2Vec2 _pos,float rp) {
+	pos=_pos;
 	r=rp;
 }
 void Square::draw(cairo_t *cr) {
 	if(!shows[layer])return;
 	if(!shows[3+parent(id)->type])return;
-	draw_drag_rect(cr,x,y,selected&&point_ch==1);
-	draw_drag_rect(cr,x+r,y,selected&&point_ch==2);
+	draw_drag_rect(cr,pos,selected&&point_ch==1);
+	draw_drag_rect(cr,pos+b2Vec2(r,0),selected&&point_ch==2);
 	set_shape_color(cr,parent(id)->type);
-	cairo_rectangle(cr,drawx(x-r),drawy(y-r),drawx(r*2)-cx,drawy(r*2)-cy);
+	cairo_rectangle(cr,drawx(pos.x-r),drawy(pos.y-r),drawx(r*2)-cx,drawy(r*2)-cy);
 	cairo_stroke_preserve(cr);
 	cairo_fill(cr);
 }
-Circle::Circle(float xp,float yp,float rp) {
-	x=xp;
-	y=yp;
+Circle::Circle(b2Vec2 _pos,float rp) {
+	pos=_pos;
 	r=rp;
 }
 string Square::name() {
@@ -167,10 +161,10 @@ string Square::name() {
 void Circle::draw(cairo_t *cr) {
 	if(!shows[layer])return;
 	if(!shows[3+parent(id)->type])return;
-	draw_drag_rect(cr,x,y,selected&&point_ch==1);
-	draw_drag_rect(cr,x+r,y,selected&&point_ch==2);
+	draw_drag_rect(cr,pos,selected&&point_ch==1);
+	draw_drag_rect(cr,pos+b2Vec2(r,0),selected&&point_ch==2);
 	set_shape_color(cr,parent(id)->type);
-	cairo_arc(cr,drawx(x),drawy(y),r*zoom,0,2*M_PI);
+	cairo_arc(cr,drawx(pos.x),drawy(pos.y),r*zoom,0,2*M_PI);
 	cairo_stroke_preserve(cr);
 	cairo_fill(cr);
 }
@@ -182,27 +176,27 @@ bool BiPoints::drag(float xp,float yp,int dr) {
 	if(!shows[layer])return 0;
 	if(!shows[3+parent(id)->type])return 0;
 	if(dr==0) {
-		if(touch(x1,y1,xp,yp))	point_ch=1;
-		else	if(touch(x2,y2,xp,yp))	point_ch=2;
+		if(touch(p1,{xp,yp}))	point_ch=1;
+		else	if(touch(p2,{xp,yp}))	point_ch=2;
 		else return 0;
 		hide_all();
 		vupdate();
 		return 1;
 	} else if(dr==1&&point_ch) {
 		if(point_ch==1) {
-			x1=to_grid(xp);
-			y1=to_grid(yp);
+			p1.x=to_grid(xp);
+			p1.y=to_grid(yp);
 		} else if(point_ch==2) {
-			x2=to_grid(xp);
-			y2=to_grid(yp);
+			p2.x=to_grid(xp);
+			p2.y=to_grid(yp);
 		}
 		return 1;
 	} else if(dr==2)point_ch=0;
 	else if(dr==3)vupdate();
 	else if(dr==4) {
 		if(name()=="Rect")
-			return abs((x1+x2)/2-xp)<=abs(x1-x2)/2
-				   && abs((y1+y2)/2-yp)<=abs(y1-y2)/2;
+			return abs((p1.x+p2.x)/2-xp)<=abs(p1.y-p2.y)/2
+				   && abs((p1.y+p2.y)/2-yp)<=abs(p1.y-p2.y)/2;
 		else
 			return 0;
 	}
@@ -210,21 +204,18 @@ bool BiPoints::drag(float xp,float yp,int dr) {
 }
 bool BiPoints::create(float xp,float yp,int dr) {
 	if(dr==0) {
-		x1=x2=to_grid(xp);
-		y1=y2=to_grid(yp);
+		p1.x=p2.x=to_grid(xp);
+		p1.y=p2.y=to_grid(yp);
 	} else if(dr==1) {
-		x2=to_grid(xp);
-		y2=to_grid(yp);
+		p2.x=to_grid(xp);
+		p2.x=to_grid(yp);
 	} else if(dr==3) {
-		if(x1==x2&&y1==y2)return 1;
+		if(p1==p2)return 1;
 	}
 	return 0;
 }
-vector<float*> BiPoints::get_xpoints() {
-	return {&x1, &x2};
-}
-vector<float*> BiPoints::get_ypoints() {
-	return {&y1, &y2};
+vector<b2Vec2*> BiPoints::get_points() {
+	return {&p1,&p2};
 }
 void BiPoints::init(GtkWidget *table) {
 	ax1=gtk_adjustment_new(0,0,level.w,grid,grid,0);
@@ -279,18 +270,18 @@ void BiPoints::hide() {
 	gtk_widget_hide(ty2);
 }
 void BiPoints::update(BiPoints *p) {
-	gtk_adjustment_configure(GTK_ADJUSTMENT(ax1),p->x1,0,level.w,grid,0,0);
-	gtk_adjustment_configure(GTK_ADJUSTMENT(ay1),p->y1,0,level.h,grid,0,0);
-	gtk_adjustment_configure(GTK_ADJUSTMENT(ax2),p->x2,0,level.w,grid,0,0);
-	gtk_adjustment_configure(GTK_ADJUSTMENT(ay2),p->y2,0,level.h,grid,0,0);
+	gtk_adjustment_configure(GTK_ADJUSTMENT(ax1),p->p1.x,0,level.w,grid,0,0);
+	gtk_adjustment_configure(GTK_ADJUSTMENT(ay1),p->p1.y,0,level.h,grid,0,0);
+	gtk_adjustment_configure(GTK_ADJUSTMENT(ax2),p->p2.x,0,level.w,grid,0,0);
+	gtk_adjustment_configure(GTK_ADJUSTMENT(ay2),p->p2.y,0,level.h,grid,0,0);
 }
 void BiPoints::update1() {
 	BiPoints *p=TYPE(BiPoints*,get_selected_object());
 	if(!p || point_ch)return;
-	p->x1=gtk_adjustment_get_value(GTK_ADJUSTMENT(ax1));
-	p->y1=gtk_adjustment_get_value(GTK_ADJUSTMENT(ay1));
-	p->x2=gtk_adjustment_get_value(GTK_ADJUSTMENT(ax2));
-	p->y2=gtk_adjustment_get_value(GTK_ADJUSTMENT(ay2));
+	p->p1.x=gtk_adjustment_get_value(GTK_ADJUSTMENT(ax1));
+	p->p1.y=gtk_adjustment_get_value(GTK_ADJUSTMENT(ay1));
+	p->p2.x=gtk_adjustment_get_value(GTK_ADJUSTMENT(ax2));
+	p->p2.y=gtk_adjustment_get_value(GTK_ADJUSTMENT(ay2));
 	gtk_widget_queue_draw(drawable);
 }
 void BiPoints::vupdate() {
@@ -299,11 +290,9 @@ void BiPoints::vupdate() {
 	Physic::update(this);
 	Object::update(this);
 }
-Rect::Rect(float xp1,float yp1,float xp2, float yp2) {
-	x1=xp1;
-	x2=xp2;
-	y1=yp1;
-	y2=yp2;
+Rect::Rect(b2Vec2 _p1,b2Vec2 _p2) {
+	p1=_p1;
+	p2=_p2;
 }
 string Rect::name() {
 	return "Rect";
@@ -311,19 +300,18 @@ string Rect::name() {
 void Rect::draw(cairo_t *cr) {
 	if(!shows[layer])return;
 	if(!shows[3+parent(id)->type])return;
-	draw_drag_rect(cr,x1,y1,selected&&point_ch==1);
-	draw_drag_rect(cr,x2,y2,selected&&point_ch==2);
+	draw_drag_rect(cr,p1,selected&&point_ch==1);
+	draw_drag_rect(cr,p2,selected&&point_ch==2);
 	set_shape_color(cr,parent(id)->type);
-	cairo_rectangle(cr,drawx(x1),drawy(y1),(x2-x1)*zoom,(y2-y1)*zoom);
+	cairo_rectangle(cr,drawx(p1.x),drawy(p1.y),(p2-p1).x*zoom,(p2-p1).y*zoom);
 	cairo_stroke_preserve(cr);
 	cairo_fill(cr);
 }
 Polygon::Polygon(){
 	ex=0;
 }
-Polygon::Polygon(std::vector<float>xp,std::vector<float>yp) {
-	x=xp;
-	y=yp;
+Polygon::Polygon(std::vector<b2Vec2>p) {
+	points=p;
 	ex=0;
 }
 bool Polygon::drag(float xp,float yp,int dr) {
@@ -331,15 +319,14 @@ bool Polygon::drag(float xp,float yp,int dr) {
 	if(!shows[3+parent(id)->type])return 0;
 	if(dr==0) {
 		for(int q=0; q<size(); q++) {
-			if(touch(x[q],y[q],xp,yp)) {
+			if(touch(points[q],{xp,yp})) {
 				point_ch=q+1;
 				hide_all();
 				vupdate();
 				return 1;
 			}
-			if(touch((x[(q+1)%size()]+x[q])/2,(y[(q+1)%size()]+y[q])/2,xp,yp)) {
-				x.insert(x.begin()+q+1,to_grid(xp));
-				y.insert(y.begin()+q+1,to_grid(xp));
+			if(touch((points[(q+1)%size()]+points[q])/2,{xp,yp})) {
+				points.insert(points.begin()+q+1,{to_grid(xp),to_grid(yp)});
 				point_ch=q+2;
 				hide_all();
 				vupdate();
@@ -348,24 +335,28 @@ bool Polygon::drag(float xp,float yp,int dr) {
 		}
 		return 0;
 	} else if(dr==1&&point_ch) {
-		x[point_ch-1]=to_grid(xp);
-		y[point_ch-1]=to_grid(yp);
+		points[point_ch-1]={to_grid(xp),to_grid(yp)};
 		return 1;
 	} else if(dr==2)point_ch=0;
 	else if(dr==3)vupdate();
 	else if(dr==4) {
-		cairo_surface_t *surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, *max_element(x.begin(), x.end())-*min_element(x.begin(), x.end()),
-								   *max_element(y.begin(), y.end())-*min_element(y.begin(), y.end()));
+		b2Vec2 min(10000,10000),max(-10000,-10000);
+		for(b2Vec2 p : points){
+			if(p.x<min.x)min.x=p.x;
+			if(p.y<min.y)min.y=p.y;
+			if(p.x>max.x)max.x=p.x;
+			if(p.y>max.y)max.y=p.y;
+		}
+		cairo_surface_t *surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, max.x-min.x,max.y-min.y);
 		cairo_t *cr = cairo_create (surface);
-		cairo_move_to(cr,x[x.size()-1],y[y.size()-1]);
-		for(int q=0; q<x.size(); q++)
-			cairo_line_to(cr,x[q],y[q]);
+		cairo_move_to(cr,points[points.size()-1].x,points[points.size()-1].y);
+		for(int q=0; q<size(); q++)
+			cairo_line_to(cr,points[q].x,points[q].y);
 		return cairo_in_fill(cr,xp,yp);
 	} else if(dr==5) {
 		for(int q=0; q<size(); q++) {
-			if(touch(x[q],y[q],xp,yp)) {
-				x.erase(x.begin()+q);
-				y.erase(y.begin()+q);
+			if(touch(points[q],{xp,yp})) {
+				points.erase(points.begin()+q);
 				return 1;
 			}
 		}
@@ -375,16 +366,14 @@ bool Polygon::drag(float xp,float yp,int dr) {
 bool Polygon::create(float xp,float yp,int dr) {
 	if(dr==0) {
 		for(int q=0; q<1+(size()==1); q++)
-			push(to_grid(xp),to_grid(yp));
+			points.emplace_back(to_grid(xp),to_grid(yp));
 		return 1;
 	} else if(dr==1) {
-		x[x.size()-1]=to_grid(xp);
-		y[y.size()-1]=to_grid(yp);
+		points[points.size()-1]={to_grid(xp),to_grid(yp)};
 	} else if(dr==2) {
 		return 1;
 	} else if(dr==3) {
-		x.pop_back();
-		y.pop_back();
+		points.pop_back();
 		if(size()<3)return 1;
 	}
 	return 0;
@@ -394,30 +383,20 @@ void Polygon::draw(cairo_t *cr) {
 	if(!shows[layer])return;
 	if(!shows[3+parent(id)->type])return;
 	for(int q=0; q<size(); q++) {
-		draw_drag_rect(cr,x[q],y[q],selected&&point_ch==(q+1));
-		draw_drag_rect(cr,(x[(q+1)%size()]+x[q])/2,(y[(q+1)%size()]+y[q])/2,0);
+		draw_drag_rect(cr,points[q],selected&&point_ch==(q+1));
+		draw_drag_rect(cr,(points[(q+1)%size()]+points[q])/2,0);
 	}
 	set_shape_color(cr,parent(id)->type);
-	cairo_move_to(cr,drawx(x[x.size()-1]),drawy(y[size()-1]));
+	cairo_move_to(cr,drawx(points[size()-1].x),drawy(points[size()-1].y));
 	for(int q=0; q<size(); q++)
-		cairo_line_to(cr,drawx(x[q]),drawy(y[q]));
+		cairo_line_to(cr,drawx(points[q].x),drawy(points[q].y));
 	cairo_stroke_preserve(cr);
 	cairo_fill(cr);
 }
-void Polygon::push(float xp,float yp) {
-	x.push_back(xp);
-	y.push_back(yp);
-}
-vector<float*> Polygon::get_xpoints() {
-	vector<float*>a;
+vector<b2Vec2*> Polygon::get_points() {
+	vector<b2Vec2*>a;
 	for(int q=0; q<size(); q++)
-		a.emplace_back(&x[q]);
-	return a;
-}
-vector<float*> Polygon::get_ypoints() {
-	vector<float*>a;
-	for(int q=0; q<size(); q++)
-		a.emplace_back(&y[q]);
+		a.emplace_back(&points[q]);
 	return a;
 }
 void Polygon::init(GtkWidget* table) {
@@ -463,8 +442,8 @@ void Polygon::update1() {
 	int xb=p->mean_x();
 	int yb=p->mean_y();
 	for(int q=0; q<p->size(); q++) {
-		p->x[q]+=(xp-xb);
-		p->y[q]+=(yp-yb);
+		p->points[q].x+=(xp-xb);
+		p->points[q].y+=(yp-yb);
 	}
 	gtk_widget_queue_draw(drawable);
 }
@@ -478,14 +457,13 @@ string Polygon::name() {
 	return "Polygon";
 }
 int Polygon::size() {
-	return x.size();
+	return points.size();
 }
 Cover::Cover(){
 	ex=0;
 }
-Cover::Cover(std::vector<float>xp,std::vector<float>yp) {
-	x=xp;
-	y=yp;
+Cover::Cover(std::vector<b2Vec2>p) {
+	points=p;
 	ex=0;
 }
 bool Cover::drag(float xp,float yp,int dr) {
@@ -493,15 +471,14 @@ bool Cover::drag(float xp,float yp,int dr) {
 	if(!shows[3+parent(id)->type])return 0;
 	if(dr==0) {
 		for(int q=0; q<size(); q++) {
-			if(touch(x[q],y[q],xp,yp)) {
+			if(touch(points[q],{xp,yp})) {
 				point_ch=q+1;
 				hide_all();
 				vupdate();
 				return 1;
 			}
-			if(touch((x[(q+1)%size()]+x[q])/2,(y[(q+1)%size()]+y[q])/2,xp,yp)) {
-				x.insert(x.begin()+q+1,to_grid(xp));
-				y.insert(y.begin()+q+1,to_grid(xp));
+			if(touch((points[(q+1)%size()]+points[q])/2,{xp,yp})) {
+				points.insert(points.begin()+q+1,{to_grid(xp),to_grid(yp)});
 				point_ch=q+2;
 				hide_all();
 				vupdate();
@@ -510,24 +487,28 @@ bool Cover::drag(float xp,float yp,int dr) {
 		}
 		return 0;
 	} else if(dr==1&&point_ch) {
-		x[point_ch-1]=to_grid(xp);
-		y[point_ch-1]=to_grid(yp);
+		points[point_ch-1]={to_grid(xp),to_grid(yp)};
 		return 1;
 	} else if(dr==2)point_ch=0;
 	else if(dr==3)vupdate();
 	else if(dr==4) {
-		cairo_surface_t *surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, *max_element(x.begin(), x.end())-*min_element(x.begin(), x.end()),
-								   *max_element(y.begin(), y.end())-*min_element(y.begin(), y.end()));
+		b2Vec2 min(10000,10000),max(-10000,-10000);
+		for(b2Vec2 p : points){
+			if(p.x<min.x)min.x=p.x;
+			if(p.y<min.y)min.y=p.y;
+			if(p.x>max.x)max.x=p.x;
+			if(p.y>max.y)max.y=p.y;
+		}
+		cairo_surface_t *surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, max.x-min.x,max.y-min.y);
 		cairo_t *cr = cairo_create (surface);
-		cairo_move_to(cr,x[x.size()-1],y[y.size()-1]);
-		for(int q=0; q<x.size(); q++)
-			cairo_line_to(cr,x[q],y[q]);
+		cairo_move_to(cr,points[points.size()-1].x,points[points.size()-1].y);
+		for(int q=0; q<size(); q++)
+			cairo_line_to(cr,points[q].x,points[q].y);
 		return cairo_in_fill(cr,xp,yp);
 	} else if(dr==5) {
 		for(int q=0; q<size(); q++) {
-			if(touch(x[q],y[q],xp,yp)) {
-				x.erase(x.begin()+q);
-				y.erase(y.begin()+q);
+			if(touch(points[q],{xp,yp})) {
+				points.erase(points.begin()+q);
 				return 1;
 			}
 		}
@@ -537,16 +518,14 @@ bool Cover::drag(float xp,float yp,int dr) {
 bool Cover::create(float xp,float yp,int dr) {
 	if(dr==0) {
 		for(int q=0; q<1+(size()==1); q++)
-			push(to_grid(xp),to_grid(yp));
+			points.emplace_back(to_grid(xp),to_grid(yp));
 		return 1;
 	} else if(dr==1) {
-		x[x.size()-1]=to_grid(xp);
-		y[y.size()-1]=to_grid(yp);
+		points[points.size()-1]={to_grid(xp),to_grid(yp)};
 	} else if(dr==2) {
 		return 1;
 	} else if(dr==3) {
-		x.pop_back();
-		y.pop_back();
+		points.pop_back();
 		if(size()<3)return 1;
 	}
 	return 0;
@@ -556,30 +535,20 @@ void Cover::draw(cairo_t *cr) {
 	if(!shows[layer])return;
 	if(!shows[3+parent(id)->type])return;
 	for(int q=0; q<size(); q++) {
-		draw_drag_rect(cr,x[q],y[q],selected&&point_ch==(q+1));
-		draw_drag_rect(cr,(x[(q+1)%size()]+x[q])/2,(y[(q+1)%size()]+y[q])/2,0);
+		draw_drag_rect(cr,points[q],selected&&point_ch==(q+1));
+		draw_drag_rect(cr,(points[(q+1)%size()]+points[q])/2,0);
 	}
 	set_shape_color(cr,parent(id)->type);
-	cairo_move_to(cr,drawx(x[x.size()-1]),drawy(y[size()-1]));
+	cairo_move_to(cr,drawx(points[size()-1].x),drawy(points[size()-1].y));
 	for(int q=0; q<size(); q++)
-		cairo_line_to(cr,drawx(x[q]),drawy(y[q]));
+		cairo_line_to(cr,drawx(points[q].x),drawy(points[q].y));
 	cairo_stroke_preserve(cr);
 	cairo_fill(cr);
 }
-void Cover::push(float xp,float yp) {
-	x.push_back(xp);
-	y.push_back(yp);
-}
-vector<float*> Cover::get_xpoints() {
-	vector<float*>a;
+vector<b2Vec2*> Cover::get_points() {
+	vector<b2Vec2*>a;
 	for(int q=0; q<size(); q++)
-		a.emplace_back(&x[q]);
-	return a;
-}
-vector<float*> Cover::get_ypoints() {
-	vector<float*>a;
-	for(int q=0; q<size(); q++)
-		a.emplace_back(&y[q]);
+		a.emplace_back(&points[q]);
 	return a;
 }
 void Cover::init(GtkWidget* table) {
@@ -625,8 +594,8 @@ void Cover::update1() {
 	int xb=p->mean_x();
 	int yb=p->mean_y();
 	for(int q=0; q<p->size(); q++) {
-		p->x[q]+=(xp-xb);
-		p->y[q]+=(yp-yb);
+		p->points[q].x+=(xp-xb);
+		p->points[q].y+=(yp-yb);
 	}
 	gtk_widget_queue_draw(drawable);
 }
@@ -640,22 +609,20 @@ string Cover::name() {
 	return "Cover";
 }
 int Cover::size() {
-	return x.size();
+	return points.size();
 }
-Line::Line(float xp1,float yp1,float xp2,float yp2) {
-	x1=xp1;
-	x2=xp2;
-	y1=yp1;
-	y2=yp2;
+Line::Line(b2Vec2 _p1,b2Vec2 _p2) {
+	p1=_p1;
+	p2=_p2;
 }
 void Line::draw(cairo_t *cr) {
 	if(!shows[layer])return;
 	if(!shows[3+parent(id)->type])return;
-	draw_drag_rect(cr,x1,y1,selected&&point_ch==1);
-	draw_drag_rect(cr,x2,y2,selected&&point_ch==2);
+	draw_drag_rect(cr,p1,selected&&point_ch==1);
+	draw_drag_rect(cr,p2,selected&&point_ch==2);
 	set_shape_color(cr,parent(id)->type);
-	cairo_move_to(cr,drawx(x1),drawy(y1));
-	cairo_line_to(cr,drawx(x2),drawy(y2));
+	cairo_move_to(cr,drawx(p1.x),drawy(p1.y));
+	cairo_line_to(cr,drawx(p2.x),drawy(p2.y));
 	cairo_stroke(cr);
 }
 string Line::name() {
