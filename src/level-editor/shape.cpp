@@ -546,7 +546,7 @@ void Cover::draw(cairo_t *cr) {
 		b2Vec2 prev=(q==0)			?	2*points[q]-points[q+1]	:	points[q-1];
 		b2Vec2 next=(q==size()-1)	?	2*points[q]-points[q-1]	:	points[q+1];
 
-		b2Vec2 b=bis(prev-points[q],next-points[q],0.3f);
+		b2Vec2 b=bis(prev-points[q],next-points[q],w);
 		b2Vec2 p=b+points[q];
 		cairo_line_to(cr,drawx(p.x),drawy(p.y));
 		cairo_line_to(cr,drawx(points[q].x),drawy(points[q].y));
@@ -563,18 +563,24 @@ vector<b2Vec2*> Cover::get_points() {
 void Cover::init(GtkWidget* table) {
 	ax=gtk_adjustment_new(0,0,level.w,grid,grid,0);
 	ay=gtk_adjustment_new(0,0,level.h,grid,grid,0);
+	ad=gtk_adjustment_new(0,0,1000,grid,grid,0);
 	px=gtk_spin_button_new(GTK_ADJUSTMENT(ax),0,4);
 	py=gtk_spin_button_new(GTK_ADJUSTMENT(ay),0,4);
+	pd=gtk_spin_button_new(GTK_ADJUSTMENT(ad),0,4);
 	tx=gtk_label_new("X");
 	ty=gtk_label_new("Y");
+	td=gtk_label_new("Width");
 
 	ins_text	(table,tx,cur_table_string);
 	ins_widget	(table,px,cur_table_string++);
 	ins_text	(table,ty,cur_table_string);
 	ins_widget	(table,py,cur_table_string++);
+	ins_text	(table,td,cur_table_string);
+	ins_widget	(table,pd,cur_table_string++);
 
 	g_signal_connect(G_OBJECT(px),"value_changed",update1,0);
 	g_signal_connect(G_OBJECT(py),"value_changed",update1,0);
+	g_signal_connect(G_OBJECT(pd),"value_changed",update1,0);
 }
 void Cover::show() {
 	Physic::show();
@@ -582,6 +588,8 @@ void Cover::show() {
 	gtk_widget_show(py);
 	gtk_widget_show(tx);
 	gtk_widget_show(ty);
+	gtk_widget_show(td);
+	gtk_widget_show(pd);
 }
 void Cover::hide() {
 	Physic::hide();
@@ -589,11 +597,14 @@ void Cover::hide() {
 	gtk_widget_hide(py);
 	gtk_widget_hide(tx);
 	gtk_widget_hide(ty);
+	gtk_widget_hide(pd);
+	gtk_widget_hide(td);
 }
 void Cover::update(Cover *p) {
 	b2Vec2 vec=p->mean();
 	gtk_adjustment_configure(GTK_ADJUSTMENT(ax),vec.x,0,level.w,grid,0,0);
 	gtk_adjustment_configure(GTK_ADJUSTMENT(ay),vec.y,0,level.h,grid,0,0);
+	gtk_adjustment_configure(GTK_ADJUSTMENT(ad),p->w, 0,10000,grid,0,0);
 }
 void Cover::update1() {
 	if(block)return;
@@ -601,6 +612,7 @@ void Cover::update1() {
 	if(!p || point_ch)return;
 	int xp=gtk_adjustment_get_value(GTK_ADJUSTMENT(ax));
 	int yp=gtk_adjustment_get_value(GTK_ADJUSTMENT(ay));
+	p->w=gtk_adjustment_get_value(GTK_ADJUSTMENT(ad));
 	b2Vec2 vec=p->mean();
 	for(int q=0; q<p->size(); q++) {
 		p->points[q]+=(b2Vec2(xp,yp)-vec);

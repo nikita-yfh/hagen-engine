@@ -110,15 +110,18 @@ float vec_angle2(b2Vec2 p) {
 }
 b2Vec2 bis(b2Vec2 v1,b2Vec2 v2,float length) {
 	v1.Normalize();
-	if(v2.Length()==0)
-		return length*v1.Skew();
+	if(v1.Length()==0){
+		v2=v2.Skew();
+		v2.Normalize();
+		return length*v2;
+	}
 	v2.Normalize();
-	if(v1==-v2)v1+=v1.Skew();//crutch, but works!
+	if(v1==-v2)
+		v1+=0.001*v1.Skew();
 	b2Vec2 sum=v1+v2;
 	sum.Normalize();
 	if(v1.x*v2.y-v1.y*v2.x>0)
 		sum=-sum;
-
 	float angle=vec_angle1(v1)-vec_angle2(v2);
 	sum*=abs(length/cos(angle/2));
 

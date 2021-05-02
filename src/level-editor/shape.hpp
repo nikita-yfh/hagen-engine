@@ -97,11 +97,12 @@ struct Polygon : Physic {
 struct Cover : Physic {
 	Cover();
 	Cover(std::vector<b2Vec2>);
-	static GtkWidget *px, *py, *tx, *ty;
-	static GtkObject *ax, *ay;
+	static GtkWidget *px, *py, *pd, *tx, *ty, *td;
+	static GtkObject *ad, *ax, *ay;
 	void draw(cairo_t *cr);
 	bool drag(float xp,float yp,int dr);
 	bool create(float xp,float yp,int dr);
+	float w=0.5;
 	std::vector<b2Vec2>points;
 	std::vector<b2Vec2*> get_points();
 	static void init(GtkWidget*);
