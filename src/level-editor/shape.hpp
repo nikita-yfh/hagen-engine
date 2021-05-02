@@ -96,7 +96,7 @@ struct Polygon : Physic {
 };
 struct Cover : Physic {
 	Cover();
-	Cover(std::vector<b2Vec2>);
+	Cover(std::vector<b2Vec2>,float);
 	static GtkWidget *px, *py, *pd, *tx, *ty, *td;
 	static GtkObject *ad, *ax, *ay;
 	void draw(cairo_t *cr);

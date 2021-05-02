@@ -208,6 +208,15 @@ void Body::save(XMLNode &parent,bool p) {
 					point.addAttribute("x",poly->points[e].x-d.x);
 					point.addAttribute("y",poly->points[e].y-d.y);
 				}
+			} else if(shape->name()=="Cover") {
+				Cover *poly=TYPE(Cover*,shape);
+				pos.addAttribute("point_count",poly->size());
+				pos.addAttribute("width",poly->w);
+				for(int e=0; e<poly->size(); e++) { //points
+					XMLNode point=pos.addChild("point");
+					point.addAttribute("x",poly->points[e].x-d.x);
+					point.addAttribute("y",poly->points[e].y-d.y);
+				}
 			}
 		}
 		{
@@ -280,6 +289,16 @@ void Body::load(XMLNode &node,bool p) {
 					p[e].y=to_fl(point.getAttribute("y"))+y;
 				}
 				shp=new Polygon(p);
+			} else if(str=="Cover") {
+				int c=stoi(pos.getAttribute("point_count"));
+				float w=to_fl(pos.getAttribute("width"));
+				vector<b2Vec2>p(c);
+				for(int e=0; e<c; e++) {
+					XMLNode point=pos.getChildNode("point",e);
+					p[e].x=to_fl(point.getAttribute("x"))+x;
+					p[e].y=to_fl(point.getAttribute("y"))+y;
+				}
+				shp=new Cover(p,w);
 			}
 		}
 		shp->id     =sh.getAttribute("id");
@@ -338,7 +357,7 @@ void template_save() {
 	}
 }
 b2Vec2 Body::mean() {
-	b2Vec2 p;
+	b2Vec2 p(0,0);
 	for(int q=0; q<shapes.size(); q++)
 		p+=shapes[q]->mean();
 	p.x/=shapes.size();

@@ -461,9 +461,10 @@ int Polygon::size() {
 Cover::Cover() {
 	ex=0;
 }
-Cover::Cover(std::vector<b2Vec2>p) {
+Cover::Cover(std::vector<b2Vec2>p,float _w) {
 	points=p;
 	ex=0;
+	w=_w;
 }
 bool Cover::drag(float xp,float yp,int dr) {
 	if(!shows[layer])return 0;
@@ -525,7 +526,7 @@ bool Cover::create(float xp,float yp,int dr) {
 		return 1;
 	} else if(dr==3) {
 		points.pop_back();
-		if(size()<3)return 1;
+		if(size()<2)return 1;
 	}
 	return 0;
 }
@@ -557,7 +558,7 @@ void Cover::draw(cairo_t *cr) {
 vector<b2Vec2*> Cover::get_points() {
 	vector<b2Vec2*>a;
 	for(int q=0; q<size(); q++)
-		a.emplace_back(&points[q]);
+		a.push_back(&points[q]);
 	return a;
 }
 void Cover::init(GtkWidget* table) {
@@ -604,7 +605,7 @@ void Cover::update(Cover *p) {
 	b2Vec2 vec=p->mean();
 	gtk_adjustment_configure(GTK_ADJUSTMENT(ax),vec.x,0,level.w,grid,0,0);
 	gtk_adjustment_configure(GTK_ADJUSTMENT(ay),vec.y,0,level.h,grid,0,0);
-	gtk_adjustment_configure(GTK_ADJUSTMENT(ad),p->w, 0,10000,grid,0,0);
+	gtk_adjustment_configure(GTK_ADJUSTMENT(ad),p->w, -10000,10000,grid,0,0);
 }
 void Cover::update1() {
 	if(block)return;
