@@ -15,3 +15,4 @@ bool exist_file(string path);
 string free_id();
 string free_entity_id();
 Entity *whois(b2Body *body);
+b2Vec2 bis(b2Vec2 v1,b2Vec2 v2,float length);

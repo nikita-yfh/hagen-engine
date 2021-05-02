@@ -20,6 +20,7 @@
 #define SQUARE         3
 #define CIRCLE         4
 #define LINE           5
+#define COVER          6
 
 #define ST_DENDITY     1.0f
 #define ST_FRICTION    0.3f
