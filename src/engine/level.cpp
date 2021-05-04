@@ -166,12 +166,19 @@ b2Body* read_body(XMLNode bd,b2Vec2 delta,bool temp) {
 					b2FixtureDef fix2=fix;
 					b2PolygonShape shape;
 					b2Vec2 v[4];
-					{
+					if(q==0 || vec_angle(vec1[q]-vec1[q-1])<vec_angle(vec1[q-1]-vec1[q-2])){
 						v[0]=vec1[q-1];
+						v[3]=v[0]-point2_per(vec1[q-1],vec1[q],width);
+					}else{
+						v[0]=vec2[q-1];
+						v[3]=v[0]+point2_per(vec2[q-1],vec2[q],width);
+					}
+					if(q==count-1 || vec_angle(vec1[q-1]-vec1[q])>vec_angle(vec1[q]-vec1[q+1])){
 						v[1]=vec1[q];
-						v[2]=point2_per(v[0],v[1],width)+v[1];
-						v[3]=point2_per(v[0],v[1],width)+v[0];
-						//FD_DATA(fix2,tex_angle)=vec_angle(v[1]-v[0])+M_PI;
+						v[2]=v[1]-point2_per(vec1[q-1],vec1[q],width);
+					}else{
+						v[1]=vec2[q];
+						v[2]=v[1]+point2_per(vec2[q-1],vec2[q],width);
 					}
 					shape.Set(v,4);
 					fix2.shape=&shape;

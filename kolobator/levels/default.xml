@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <level w="100" h="20">
 	<background img="backgrounds/sky.png"/>
-	<bodies count="5">
+	<bodies count="4">
 		<body x="42.5503" y="15.0551" id="ground" type="static" script="" shapes="1">
 			<physic bullet="0" fixed_rotation="0" gravity_scale="1"/>
 			<shape id="_Polygon1" type="Polygon" pos="physic" texture="ground.png" expand="0">
@@ -113,14 +113,6 @@
 				<collision category="0" mask="65535"/>
 			</shape>
 		</body>
-		<body x="5.747" y="13.635" id="grass" type="static" script="" shapes="1">
-			<physic bullet="0" fixed_rotation="0" gravity_scale="1"/>
-			<shape id="_Rect1" type="Rect" pos="foreground" texture="grass/grass1.png" expand="1">
-				<position x1="-1.247" y1="-0.135" x2="1.247" y2="0.135"/>
-				<physic density="1000" friction="0.3" restitution="0"/>
-				<collision category="0" mask="65535"/>
-			</shape>
-		</body>
 		<body x="23.7232" y="19.1824" id="test" type="static" script="" shapes="1">
 			<physic bullet="0" fixed_rotation="0" gravity_scale="1"/>
 			<shape id="_Polygon2" type="Polygon" pos="liquid" texture="water.png" expand="0">
@@ -151,13 +143,19 @@
 				<collision category="0" mask="65535"/>
 			</shape>
 		</body>
-		<body x="8.16667" y="12" id="_Body1" type="static" script="" shapes="1">
+		<body x="8.33333" y="11.9444" id="_Body1" type="static" script="" shapes="1">
 			<physic bullet="0" fixed_rotation="0" gravity_scale="1"/>
-			<shape id="_Cover1" type="Cover" pos="physic" texture="grass/grass1.png" expand="0">
-				<position point_count="3" width="1">
-					<point x="-1.66667" y="-0.5"/>
-					<point x="-0.166667" y="0"/>
-					<point x="1.83333" y="0.5"/>
+			<shape id="_Cover1" type="Cover" pos="physic" texture="wooden_box.png" expand="0">
+				<position point_count="9" width="1">
+					<point x="-0.833333" y="-2.44444"/>
+					<point x="-2.33333" y="-1.94444"/>
+					<point x="-2.33333" y="-1.44444"/>
+					<point x="-1.83333" y="-0.444445"/>
+					<point x="-0.833333" y="0.555555"/>
+					<point x="0.666667" y="0.555555"/>
+					<point x="1.66667" y="1.55556"/>
+					<point x="2.66667" y="1.55556"/>
+					<point x="3.16667" y="2.05556"/>
 				</position>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
@@ -166,7 +164,7 @@
 	</bodies>
 	<entities count="1">
 		<entity id="player" type="kolobator">
-			<position x="7" y="9"/>
+			<position x="5" y="11"/>
 		</entity>
 	</entities>
 	<joints count="0"/>
