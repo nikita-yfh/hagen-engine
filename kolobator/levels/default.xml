@@ -143,19 +143,15 @@
 				<collision category="0" mask="65535"/>
 			</shape>
 		</body>
-		<body x="8.33333" y="11.9444" id="_Body1" type="static" script="" shapes="1">
+		<body x="7.8" y="12.1" id="_Body1" type="static" script="" shapes="1">
 			<physic bullet="0" fixed_rotation="0" gravity_scale="1"/>
 			<shape id="_Cover1" type="Cover" pos="physic" texture="wooden_box.png" expand="0">
-				<position point_count="9" width="1">
-					<point x="-0.833333" y="-2.44444"/>
-					<point x="-2.33333" y="-1.94444"/>
-					<point x="-2.33333" y="-1.44444"/>
-					<point x="-1.83333" y="-0.444445"/>
-					<point x="-0.833333" y="0.555555"/>
-					<point x="0.666667" y="0.555555"/>
-					<point x="1.66667" y="1.55556"/>
-					<point x="2.66667" y="1.55556"/>
-					<point x="3.16667" y="2.05556"/>
+				<position point_count="5" width="0.5">
+					<point x="-0.8" y="-1.1"/>
+					<point x="0.7" y="-0.6"/>
+					<point x="0.7" y="-0.1"/>
+					<point x="0.2" y="0.9"/>
+					<point x="-0.8" y="0.9"/>
 				</position>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>

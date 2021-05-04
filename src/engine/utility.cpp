@@ -104,3 +104,6 @@ b2Vec2 point2_per(b2Vec2 v1,b2Vec2 v2,float width){
 	per*=width;
 	return per;
 }
+bool bigger_angle(b2Vec2 v1,b2Vec2 v2){
+	return v1.x*v2.y>v1.y*v2.x;
+}

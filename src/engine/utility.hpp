@@ -18,3 +18,4 @@ Entity *whois(b2Body *body);
 b2Vec2 bis(b2Vec2 v1,b2Vec2 v2,float length);
 b2Vec2 point2_per(b2Vec2 v1,b2Vec2 v2,float width);
 float vec_angle(b2Vec2 p);
+bool bigger_angle(b2Vec2 v1,b2Vec2 v2);
