@@ -162,7 +162,6 @@ b2Body* read_body(XMLNode bd,b2Vec2 delta,bool temp) {
 				}
 
 				for(int q=1;q<count;q++){
-
 					b2FixtureDef fix2=fix;
 					b2PolygonShape shape;
 					b2Vec2 v[4];
@@ -185,20 +184,6 @@ b2Body* read_body(XMLNode bd,b2Vec2 delta,bool temp) {
 					body->CreateFixture(&fix2);
 				}
 			}
-
-			/*
-	for(int q=0; q<size(); q++) {
-		b2Vec2 prev=(q==0)			?	2*points[q]-points[q+1]	:	points[q-1];
-		b2Vec2 next=(q==size()-1)	?	2*points[q]-points[q-1]	:	points[q+1];
-
-		b2Vec2 b=bis(prev-points[q],next-points[q],w);
-		b2Vec2 p=b+points[q];
-		cairo_line_to(cr,drawx(p.x),drawy(p.y));
-		cairo_line_to(cr,drawx(points[q].x),drawy(points[q].y));
-		cairo_line_to(cr,drawx(p.x),drawy(p.y));
-	}
-
-			*/
 		}
 	}
 	return body;
