@@ -132,8 +132,8 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 				minv.x=min(v.x,minv.x);
 				minv.y=min(v.y,minv.y);
 			}
-			float f[shape->m_count*4];
-			for(int q=0; q<shape->m_count; q++) {
+			float f[12];
+			for(int q=0; q<3; q++) {
 				b2Vec2 v(shape->m_vertices[q].x,shape->m_vertices[q].y);
 				f[q*4]=drawx(body->GetPosition().x+rotatex(v,a_rad));
 				f[q*4+1]=drawy(body->GetPosition().y+rotatey(v,a_rad));
@@ -141,31 +141,31 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 				f[q*4+3]=(v-minv).y/(F_DATA(fix,expand)?(maxv-minv).y:(tex->h/100));
 			}
 			GPU_SetWrapMode(tex, GPU_WRAP_REPEAT, GPU_WRAP_REPEAT);
-			GPU_TriangleBatch(tex,ren,shape->m_count,f,shape->m_count,0,GPU_BATCH_XY_ST);
+			GPU_TriangleBatch(tex,ren,3,f,3,0,GPU_BATCH_XY_ST);
 		} else {
-			float f[shape->m_count*2];
-			for(int q=0; q<shape->m_count; q++) {
+			float f[6];
+			for(int q=0; q<3; q++) {
 				b2Vec2 v(shape->m_vertices[q].x,shape->m_vertices[q].y);
 				f[q*2]=drawx(body->GetPosition().x+rotatex(v,a_rad));
 				f[q*2+1]=drawy(body->GetPosition().y+rotatey(v,a_rad));
 			}
-			GPU_Polygon(ren,shape->m_count,f, {255,255,255,255});
+			GPU_Polygon(ren,3,f, {255,255,255,255});
 		}
 	}break;
 	case COVER: {
 		b2PolygonShape *shape=(b2PolygonShape*)fix->GetShape();
 		if(tex) {
 			float f[16];
-			for(int q=0; q<shape->m_count; q++) {
+			for(int q=0; q<4; q++) {
 				b2Vec2 v(shape->m_vertices[q].x,shape->m_vertices[q].y);
 				f[q*4]=drawx(body->GetPosition().x+rotatex(v,a_rad));
 				f[q*4+1]=drawy(body->GetPosition().y+rotatey(v,a_rad));
-				f[q*4+2]=(shape->m_vertices[q]-shape->m_vertices[0]).x*(zoom/tex->w);
-				f[q*4+3]=(shape->m_vertices[q]-shape->m_vertices[0]).y*(zoom/tex->h);
+				f[q*4+2]=shape->tex[q].x;
+				f[q*4+3]=shape->tex[q].y;
 			}
 			GPU_SetWrapMode(tex, GPU_WRAP_REPEAT, GPU_WRAP_REPEAT);
 			short unsigned int index[]= {0,1,3,2};
-			GPU_PrimitiveBatch(tex,ren,GPU_TRIANGLE_STRIP,shape->m_count,f,shape->m_count,index,GPU_BATCH_XY_ST);
+			GPU_PrimitiveBatch(tex,ren,GPU_TRIANGLE_STRIP,4,f,4,index,GPU_BATCH_XY_ST);
 		} /*else*/ {
 			float x[4];
 			float y[4];

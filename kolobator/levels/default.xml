@@ -143,15 +143,23 @@
 				<collision category="0" mask="65535"/>
 			</shape>
 		</body>
-		<body x="7.8" y="12.1" id="_Body1" type="static" script="" shapes="1">
+		<body x="7.36854" y="12.4751" id="_Body1" type="static" script="" shapes="1">
 			<physic bullet="0" fixed_rotation="0" gravity_scale="1"/>
-			<shape id="_Cover1" type="Cover" pos="physic" texture="wooden_box.png" expand="0">
-				<position point_count="5" width="0.5">
-					<point x="-0.8" y="-1.1"/>
-					<point x="0.7" y="-0.6"/>
-					<point x="0.7" y="-0.1"/>
-					<point x="0.2" y="0.9"/>
-					<point x="-0.8" y="0.9"/>
+			<shape id="_Cover1" type="Cover" pos="physic" texture="test.png" expand="0">
+				<position point_count="13" width="0.5">
+					<point x="-1.91554" y="-0.163077"/>
+					<point x="-1.68154" y="-0.194077"/>
+					<point x="-1.43154" y="-0.209077"/>
+					<point x="-1.22754" y="-0.225077"/>
+					<point x="-0.993538" y="-0.256077"/>
+					<point x="-0.788538" y="-0.226077"/>
+					<point x="-0.571538" y="-0.100077"/>
+					<point x="-0.356538" y="0.104923"/>
+					<point x="0.0534616" y="0.180923"/>
+					<point x="1.16246" y="0.180923"/>
+					<point x="1.72246" y="0.169923"/>
+					<point x="2.49046" y="0.180923"/>
+					<point x="3.53746" y="0.555923"/>
 				</position>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>

@@ -158,6 +158,8 @@ b2Body* read_body(XMLNode bd,b2Vec2 delta,bool temp) {
 					if(q!=0)length+=b2Distance(vec1[q],vec1[q-1]);
 					length1[q]=length;
 				}
+				for(int q=0; q<count; q++)
+					length1[q]/=length;
 				length=0;
 				for(int e=0; e<count; e++) {
 					b2Vec2 prev=(e==0)			?	2*vec1[e]-vec1[e+1]	:	vec1[e-1];
@@ -166,30 +168,40 @@ b2Body* read_body(XMLNode bd,b2Vec2 delta,bool temp) {
 					if(e!=0)length+=b2Distance(vec2[e],vec2[e-1]);
 					length2[e]=length;
 				}
-
+				for(int q=0; q<count; q++)
+					length2[q]/=length;
 				for(int q=1;q<count;q++){
 					b2FixtureDef fix2=fix;
 					b2PolygonShape shape;
 					b2Vec2 v[4];
+					b2Vec2 tex[4];
 					if(q==0 || bigger_angle(vec1[q]-vec1[q-1],vec1[q-1]-vec1[q-2])){
 						v[0]=vec1[q-1];
 						v[3]=v[0]-point2_per(vec1[q-1],vec1[q],width);
-						shape.length1=length1[q-1];
+						tex[0]=b2Vec2(length1[q-1],0);
+						tex[3]=b2Vec2(length1[q-1],1);
 					}else{
 						v[0]=vec2[q-1];
 						v[3]=v[0]+point2_per(vec2[q-1],vec2[q],width);
-						shape.length1=length2[q-1];
+						tex[0]=b2Vec2(length2[q-1],1);
+						tex[3]=b2Vec2(length2[q-1],0);
 					}
 					if(q==count-1 || !bigger_angle(vec1[q-1]-vec1[q],vec1[q]-vec1[q+1])){
 						v[1]=vec1[q];
 						v[2]=v[1]-point2_per(vec1[q-1],vec1[q],width);
-						shape.length2=length1[q];
+						tex[1]=b2Vec2(length1[q],0);
+						tex[2]=b2Vec2(length1[q],1);
 					}else{
 						v[1]=vec2[q];
 						v[2]=v[1]+point2_per(vec2[q-1],vec2[q],width);
-						shape.length2=length2[q];
+						tex[1]=b2Vec2(length2[q],1);
+						tex[2]=b2Vec2(length2[q],0);
 					}
 					shape.Set(v,4);
+					for(int e=0;e<4;e++)
+						for(int i=0;i<4;i++)
+							if(shape.m_vertices[i]==v[e])
+								shape.tex[i]=tex[e];
 					fix2.shape=&shape;
 					body->CreateFixture(&fix2);
 				}
