@@ -2,6 +2,8 @@ function entity_k.init(a)
 	a.weapon="ak47"
 	entity_k.speed=10
 	entity_k.motor_speed=40
+	a.max_health=1000000
+	a.health=1000000
 end
 function entity_k.update(a)
 	local j=a:joint("joint")

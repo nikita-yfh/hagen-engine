@@ -409,3 +409,4 @@ bool b2PolygonShape::Validate() const {
 
 	return true;
 }
+

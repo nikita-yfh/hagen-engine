@@ -124,7 +124,7 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 	case POLYGON: {
 		b2PolygonShape *shape=(b2PolygonShape*)fix->GetShape();
 		if(tex) {
-			b2Vec2 maxv(0,0),minv(100000,100000);
+			b2Vec2 maxv(-100000,-100000),minv(100000,100000);
 			for(int q=0; q<shape->b_count; q++) {
 				b2Vec2 v(shape->big_polygon[q]);
 				maxv.x=max(v.x,maxv.x);
@@ -151,8 +151,32 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 			}
 			GPU_Polygon(ren,shape->m_count,f, {255,255,255,255});
 		}
-	}
-	break;
+	}break;
+	case COVER: {
+		b2PolygonShape *shape=(b2PolygonShape*)fix->GetShape();
+		if(tex) {
+			float f[16];
+			for(int q=0; q<shape->m_count; q++) {
+				b2Vec2 v(shape->m_vertices[q].x,shape->m_vertices[q].y);
+				f[q*4]=drawx(body->GetPosition().x+rotatex(v,a_rad));
+				f[q*4+1]=drawy(body->GetPosition().y+rotatey(v,a_rad));
+				f[q*4+2]=(shape->m_vertices[q]-shape->m_vertices[0]).x*(zoom/tex->w);
+				f[q*4+3]=(shape->m_vertices[q]-shape->m_vertices[0]).y*(zoom/tex->h);
+			}
+			GPU_SetWrapMode(tex, GPU_WRAP_REPEAT, GPU_WRAP_REPEAT);
+			short unsigned int index[]= {0,1,3,2};
+			GPU_PrimitiveBatch(tex,ren,GPU_TRIANGLE_STRIP,shape->m_count,f,shape->m_count,index,GPU_BATCH_XY_ST);
+		} /*else*/ {
+			float x[4];
+			float y[4];
+			for(int q=0; q<4; q++) {
+				x[q]=drawx(body->GetPosition().x+rotatex(shape->m_vertices[q],a_rad));
+				y[q]=drawy(body->GetPosition().y+rotatey(shape->m_vertices[q],a_rad));
+			}
+			for(int q=0; q<4; q++)
+				GPU_Line(ren,x[q],y[q],x[(q+1)%4],y[(q+1)%4], {255,255,255,255});
+		}
+	}break;
 	}
 }
 void draw_bodies(uint8_t pos) {

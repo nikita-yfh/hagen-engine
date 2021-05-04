@@ -81,6 +81,7 @@ public:
 	b2Vec2 m_normals[b2_maxPolygonVertices];
 	int32 m_count;
 	b2Vec2 *big_polygon=0;
+	b2Vec2 length[3];
 	int b_count;
 };
 
@@ -90,5 +91,6 @@ inline b2PolygonShape::b2PolygonShape() {
 	m_count = 0;
 	m_centroid.SetZero();
 }
+
 
 #endif

@@ -2,6 +2,7 @@
 #include "editor.hpp"
 #include "object.hpp"
 #include <cmath>
+#include <iostream>
 using namespace std;
 extern uint8_t key_state;
 float drawx(float a) {

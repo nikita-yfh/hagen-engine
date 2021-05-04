@@ -7,6 +7,7 @@
 #include "sdl.hpp"
 #include <stdlib.h>
 #include <fstream>
+#include <cmath>
 using namespace std;
 
 b2Body *get_body(string id) {
@@ -69,6 +70,14 @@ Entity *whois(b2Body *body) {
 				return e.second;
 	return nullptr;
 }
+float vec_angle(b2Vec2 p) {
+	if(p.x>=0)
+		return M_PI+atan(p.y/p.x);
+	else if(p.y>0)
+		return 2*M_PI+atan(p.y/p.x);
+	else
+		return atan(p.y/p.x);
+}
 b2Vec2 bis(b2Vec2 v1,b2Vec2 v2,float length) {
 	v1.Normalize();
 	if(v1.Length()==0){
@@ -83,8 +92,15 @@ b2Vec2 bis(b2Vec2 v1,b2Vec2 v2,float length) {
 	sum.Normalize();
 	if(v1.x*v2.y-v1.y*v2.x<0)
 		sum=-sum;
-	float angle=vec_angle1(v1)-vec_angle2(v2);
+	float angle=vec_angle(v1)-vec_angle(v2)-M_PI;
 	sum*=abs(length/cos(angle/2));
 
 	return sum;
+}
+b2Vec2 point2_per(b2Vec2 v1,b2Vec2 v2,float width){
+	b2Vec2 d=v2-v1;
+	b2Vec2 per=d.Skew();
+	per.Normalize();
+	per*=width;
+	return per;
 }

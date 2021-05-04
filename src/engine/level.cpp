@@ -121,7 +121,7 @@ b2Body* read_body(XMLNode bd,b2Vec2 delta,bool temp) {
 				int count=stoi(pos.getAttribute("point_count"));
 				FD_DATA(fix,type)=POLYGON;
 				Vector2dVector vec(count),result;
-				b2Vec2 *big=new b2Vec[count];
+				b2Vec2 *big=new b2Vec2[count];
 
 				for(int e=0; e<count; e++) {
 					XMLNode point=pos.getChildNode("point",e);
@@ -145,37 +145,40 @@ b2Body* read_body(XMLNode bd,b2Vec2 delta,bool temp) {
 			}else if(str=="Cover") {
 				int count=stoi(pos.getAttribute("point_count"));
 				float width=stof(pos.getAttribute("width"));
-				FD_DATA(fix,type)=POLYGON;
-				Vector2dVector vec(count*2),result;
-				b2Vec2 *big=new b2Vec2[count*2];
+				FD_DATA(fix,type)=COVER;
+				Vector2dVector vec1(count);
+				Vector2dVector vec2(count);
 
-				for(int e=0; e<count; e++) {
-					XMLNode point=pos.getChildNode("point",e);
-					big[e].x=vec[e].x=stof(point.getAttribute("x"));
-					big[e].y=vec[e].y=stof(point.getAttribute("y"));
+				for(int q=0; q<count; q++) {
+					XMLNode point=pos.getChildNode("point",q);
+					vec1[q].x=stof(point.getAttribute("x"));
+					vec1[q].y=stof(point.getAttribute("y"));
 				}
 
 				for(int e=0; e<count; e++) {
-					b2Vec2 prev=(e==0)			?	2*big[e]-big[e+1]	:	big[e-1];
-					b2Vec2 next=(e==count-1)	?	2*big[e]-big[e-1]	:	big[e+1];
-					big[q+count]=vec[q+count]=bis(prev-big[e],next-big[e],width)+big[q];
-				}	
-				
-				Triangulate::Process(vec,result);
-				for(int q=0; q<result.size(); q+=3) {
+					b2Vec2 prev=(e==0)			?	2*vec1[e]-vec1[e+1]	:	vec1[e-1];
+					b2Vec2 next=(e==count-1)	?	2*vec1[e]-vec1[e-1]	:	vec1[e+1];
+					vec2[e]=bis(prev-vec1[e],next-vec1[e],width)+vec1[e];
+				}
+
+				for(int q=1;q<count;q++){
+
 					b2FixtureDef fix2=fix;
 					b2PolygonShape shape;
-					shape.big_polygon=big;
-					shape.b_count=count;
-					b2Vec2 v[3];
-					for(int e=0; e<3; e++)
-						v[e]=result[q+e];
-					shape.Set(v,3);
+					b2Vec2 v[4];
+					{
+						v[0]=vec1[q-1];
+						v[1]=vec1[q];
+						v[2]=point2_per(v[0],v[1],width)+v[1];
+						v[3]=point2_per(v[0],v[1],width)+v[0];
+						//FD_DATA(fix2,tex_angle)=vec_angle(v[1]-v[0])+M_PI;
+					}
+					shape.Set(v,4);
 					fix2.shape=&shape;
 					body->CreateFixture(&fix2);
 				}
 			}
-			
+
 			/*
 	for(int q=0; q<size(); q++) {
 		b2Vec2 prev=(q==0)			?	2*points[q]-points[q+1]	:	points[q-1];
@@ -188,7 +191,7 @@ b2Body* read_body(XMLNode bd,b2Vec2 delta,bool temp) {
 		cairo_line_to(cr,drawx(p.x),drawy(p.y));
 	}
 
-			/*
+			*/
 		}
 	}
 	return body;
