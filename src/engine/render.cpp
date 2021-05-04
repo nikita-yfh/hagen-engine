@@ -166,7 +166,7 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 			GPU_SetWrapMode(tex, GPU_WRAP_REPEAT, GPU_WRAP_REPEAT);
 			short unsigned int index[]= {0,1,3,2};
 			GPU_PrimitiveBatch(tex,ren,GPU_TRIANGLE_STRIP,4,f,4,index,GPU_BATCH_XY_ST);
-		} /*else*/ {
+		} else {
 			float x[4];
 			float y[4];
 			for(int q=0; q<4; q++) {
