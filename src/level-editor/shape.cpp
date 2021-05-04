@@ -208,7 +208,7 @@ bool BiPoints::create(float xp,float yp,int dr) {
 		p1.y=p2.y=to_grid(yp);
 	} else if(dr==1) {
 		p2.x=to_grid(xp);
-		p2.x=to_grid(yp);
+		p2.y=to_grid(yp);
 	} else if(dr==3) {
 		if(p1==p2)return 1;
 	}
