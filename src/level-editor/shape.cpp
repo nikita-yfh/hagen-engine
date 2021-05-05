@@ -438,8 +438,8 @@ void Polygon::update1() {
 	if(block)return;
 	Polygon *p=TYPE(Polygon*,get_selected_object());
 	if(!p || point_ch)return;
-	int xp=gtk_adjustment_get_value(GTK_ADJUSTMENT(ax));
-	int yp=gtk_adjustment_get_value(GTK_ADJUSTMENT(ay));
+	float xp=gtk_adjustment_get_value(GTK_ADJUSTMENT(ax));
+	float yp=gtk_adjustment_get_value(GTK_ADJUSTMENT(ay));
 	b2Vec2 vec=p->mean();
 	for(int q=0; q<p->size(); q++) {
 		p->points[q]+=(b2Vec2(xp,yp)-vec);
@@ -611,8 +611,8 @@ void Cover::update1() {
 	if(block)return;
 	Cover *p=TYPE(Cover*,get_selected_object());
 	if(!p || point_ch)return;
-	int xp=gtk_adjustment_get_value(GTK_ADJUSTMENT(ax));
-	int yp=gtk_adjustment_get_value(GTK_ADJUSTMENT(ay));
+	float xp=gtk_adjustment_get_value(GTK_ADJUSTMENT(ax));
+	float yp=gtk_adjustment_get_value(GTK_ADJUSTMENT(ay));
 	p->w=gtk_adjustment_get_value(GTK_ADJUSTMENT(ad));
 	b2Vec2 vec=p->mean();
 	for(int q=0; q<p->size(); q++) {
