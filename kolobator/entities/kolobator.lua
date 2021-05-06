@@ -4,8 +4,8 @@ function kolobator.init(a)
 	a.weapon="knife"
 	bullet("9mm").count=100
 	bullet("9mm").max=100
-	bullet("grenade").count=6
-	bullet("grenade").max=6
+	bullet("grenade").count=600
+	bullet("grenade").max=600
 	kolobator.speed=10
 	kolobator.motor_speed=40
 	kolobator.jump_impulse=2000

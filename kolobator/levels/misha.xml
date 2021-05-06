@@ -23,13 +23,13 @@
 					<point x="-4.43979" y="2.16481"/>
 					<point x="-5.51279" y="1.71077"/>
 					<point x="-6.45679" y="1.29379"/>
-					<point x="-7.70679" y="0.682784"/>
-					<point x="-8.70679" y="0.127785"/>
-					<point x="-9.67879" y="-0.345214"/>
-					<point x="-10.8459" y="-0.761221"/>
-					<point x="-11.4599" y="-0.905241"/>
-					<point x="-13.9549" y="-0.909241"/>
-					<point x="-14.2629" y="-0.964241"/>
+					<point x="-7.70679" y="0.682783"/>
+					<point x="-8.70679" y="0.127784"/>
+					<point x="-9.67879" y="-0.345215"/>
+					<point x="-10.8459" y="-0.761222"/>
+					<point x="-11.4599" y="-0.905242"/>
+					<point x="-13.9549" y="-0.909242"/>
+					<point x="-14.2629" y="-0.964242"/>
 					<point x="-14.7029" y="-1.15625"/>
 					<point x="-15.7389" y="-2.24024"/>
 					<point x="-16.4279" y="-3.25424"/>
@@ -64,7 +64,7 @@
 		</body>
 		<body x="5.747" y="13.635" id="grass" type="static" script="" shapes="1">
 			<physic bullet="0" fixed_rotation="0" gravity_scale="1"/>
-			<shape id="_Rect1" type="Rect" pos="foreground" texture="grass/grass1.png" expand="1">
+			<shape id="_Rect1" type="Rect" pos="foreground" texture="grass1.png" expand="1">
 				<position x1="-1.247" y1="-0.135" x2="1.247" y2="0.135"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
@@ -92,40 +92,45 @@
 				<collision category="0" mask="65535"/>
 			</shape>
 		</body>
-		<body x="17.824" y="16.0037" id="_Body1" type="dynamic" script="" shapes="3">
+		<body x="17.4629" y="16.1518" id="_Body1" type="dynamic" script="" shapes="3">
 			<physic bullet="0" fixed_rotation="0" gravity_scale="1"/>
 			<shape id="_Polygon3" type="Polygon" pos="physic" texture="wooden_box.png" expand="0">
 				<position point_count="9">
-					<point x="-2.82408" y="0.496283"/>
-					<point x="-2.82408" y="2.49629"/>
-					<point x="3.67592" y="2.49629"/>
-					<point x="3.67592" y="0.496283"/>
-					<point x="3.17592" y="0.496283"/>
-					<point x="3.17592" y="0.996283"/>
-					<point x="0.175953" y="0.996325"/>
-					<point x="-2.32408" y="0.996283"/>
-					<point x="-2.32408" y="0.496283"/>
+					<point x="-2.46298" y="0.348137"/>
+					<point x="-2.46298" y="2.34814"/>
+					<point x="4.03702" y="2.34814"/>
+					<point x="4.03702" y="0.348137"/>
+					<point x="3.53702" y="0.348137"/>
+					<point x="3.53702" y="0.848137"/>
+					<point x="0.537045" y="0.848179"/>
+					<point x="-1.96298" y="0.848137"/>
+					<point x="-1.96298" y="0.348137"/>
 				</position>
 				<physic density="470" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
 			</shape>
 			<shape id="_Polygon4" type="Polygon" pos="background" texture="wooden_box.png" expand="0">
-				<position point_count="4">
-					<point x="0.175945" y="-1.00368"/>
-					<point x="0.175953" y="0.996325"/>
-					<point x="0.675909" y="0.996283"/>
-					<point x="0.675909" y="-1.00371"/>
+				<position point_count="9">
+					<point x="0.537037" y="-1.15183"/>
+					<point x="0.537092" y="1.34815"/>
+					<point x="-1.4629" y="1.34815"/>
+					<point x="-1.4629" y="-1.15185"/>
+					<point x="-1.9629" y="-1.15185"/>
+					<point x="-1.9629" y="1.84815"/>
+					<point x="1.0371" y="1.84815"/>
+					<point x="1.037" y="0.848137"/>
+					<point x="1.037" y="-1.15186"/>
 				</position>
 				<physic density="100" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
 			</shape>
 			<shape id="_Polygon5" type="Polygon" pos="physic" texture="wooden_box.png" expand="0">
 				<position point_count="5">
-					<point x="-2.82408" y="-0.503717"/>
-					<point x="1.17592" y="-0.503717"/>
-					<point x="1.17592" y="-1.00371"/>
-					<point x="-0.824091" y="-2.50371"/>
-					<point x="-2.82404" y="-1.00367"/>
+					<point x="-2.46298" y="-0.651863"/>
+					<point x="1.53702" y="-0.651863"/>
+					<point x="1.53702" y="-1.15186"/>
+					<point x="-0.462999" y="-2.65186"/>
+					<point x="-2.46294" y="-1.15182"/>
 				</position>
 				<physic density="90" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>

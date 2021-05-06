@@ -5,7 +5,7 @@
 		<body x="34.053" y="18.625" id="wall" type="static" script="" shapes="6">
 			<physic bullet="0" fixed_rotation="0" gravity_scale="1"/>
 			<shape id="_Rect1" type="Rect" pos="physic" texture="durka_wall.png" expand="0">
-				<position x1="-20.053" y1="0.37499" x2="-34.053" y2="2.37499"/>
+				<position x1="-20.053" y1="0.374992" x2="-34.053" y2="2.37499"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
 			</shape>
@@ -15,7 +15,7 @@
 				<collision category="0" mask="65535"/>
 			</shape>
 			<shape id="_Rect3" type="Rect" pos="physic" texture="durka_wall.png" expand="0">
-				<position x1="-4.05333" y1="11.3749" x2="-16.553" y2="2.37499"/>
+				<position x1="-4.05334" y1="11.3749" x2="-16.553" y2="2.37499"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
 			</shape>
@@ -27,17 +27,17 @@
 			<shape id="_Polygon1" type="Polygon" pos="physic" texture="durka_wall.png" expand="0">
 				<position point_count="22">
 					<point x="-34.053" y="-18.625"/>
-					<point x="-34.053" y="-0.12501"/>
-					<point x="-19.053" y="-0.12501"/>
+					<point x="-34.053" y="-0.125008"/>
+					<point x="-19.053" y="-0.125008"/>
 					<point x="-19.053" y="-4.62501"/>
 					<point x="-12.5533" y="-4.62496"/>
 					<point x="-12.5533" y="-8.62491"/>
 					<point x="-27.053" y="-8.62491"/>
 					<point x="-27.053" y="-17.625"/>
-					<point x="5.94666" y="-17.625"/>
-					<point x="5.94666" y="-15.625"/>
-					<point x="-6.05338" y="-15.625"/>
-					<point x="-6.05338" y="-10.125"/>
+					<point x="5.94664" y="-17.625"/>
+					<point x="5.94664" y="-15.625"/>
+					<point x="-6.05339" y="-15.625"/>
+					<point x="-6.05339" y="-10.125"/>
 					<point x="-11.0533" y="-10.125"/>
 					<point x="-11.0533" y="-15.625"/>
 					<point x="-26.053" y="-15.625"/>
@@ -45,15 +45,15 @@
 					<point x="-11.553" y="-11.125"/>
 					<point x="-11.5533" y="-3.62496"/>
 					<point x="-17.5531" y="-3.62496"/>
-					<point x="-17.553" y="-0.124945"/>
-					<point x="18.947" y="-0.124945"/>
+					<point x="-17.553" y="-0.124943"/>
+					<point x="18.947" y="-0.124943"/>
 					<point x="18.947" y="-18.625"/>
 				</position>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
 			</shape>
 			<shape id="_Rect4" type="Rect" pos="physic" texture="def.png" expand="0">
-				<position x1="29.4471" y1="-18.625" x2="45.9471" y2="-0.124926"/>
+				<position x1="29.4471" y1="-18.625" x2="45.9471" y2="-0.124924"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
 			</shape>

@@ -2,12 +2,14 @@
 	local entity=world.sb_all_collide(a)
 	if((entity and a.v > 10 and a.userdata.entity ~= entity.id)
 			or world.lb_collide(a))then
-		world.explosion_callbacks(a.x,a.y,5,100000,
+		world.explosion_callbacks(a.x,a.y,5,10000,
 		function(e,d)
 			e:harm(5/d)
 			if(e.health<0) then e.health=0 end
 		end)
-		graphics.effect("explosion",a.x,a.y)
+		for i=0,100 do
+			graphics.effect("explosion",math.random(a.x/100-0.01,a.x/100+0.01)*100,math.random(a.y/100-0.01,a.y/100+0.01)*100)
+		end
 		sound.play("boom.flac")
 		return true
 	elseif(a.userdata.create_time+5000 < game.timer) then

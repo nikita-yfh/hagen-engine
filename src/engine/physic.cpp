@@ -268,8 +268,8 @@ void update_fluid() {
 				float displacedMass = fixtureA->GetDensity() * area;
 				b2Vec2 buoyancyForce = displacedMass * -world->GetGravity();
 				fixtureB->GetBody()->ApplyForce(buoyancyForce, centroid,1);
-				float dragMod = 0.25f;
-				float liftMod = 0.25f;
+				float dragMod = 0.25;
+				float liftMod = 0.25;
 				float maxDrag = 2000;
 				float maxLift = 500;
 				for (int i = 0; i < intersectionPoints.size(); i++) {
