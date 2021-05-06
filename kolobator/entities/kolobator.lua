@@ -9,10 +9,13 @@ function kolobator.init(a)
 	kolobator.speed=10
 	kolobator.motor_speed=40
 	kolobator.jump_impulse=2000
+	kolobator.jump=0
 end
 function kolobator.update(a)
 	local j=a:joint("joint")
 	local b=a:body("body")
+	if(game.press_key("jump")) then kolobator.jump=true end
+	if(game.release_key("jump")) then kolobator.jump=false end
 	if(game.key("left") and b.vx>-kolobator.speed and game.interval(20)) then
 		j.motor=1
 		j.motor_speed=-kolobator.motor_speed
@@ -29,8 +32,9 @@ function kolobator.update(a)
 		j.max_torque=30000
 	else
 		j.motor=0
-		if(game.press_key("jump") and world.lb_collide(a:body("wheel"))) then
+ 		if(kolobator.jump==true and world.lb_collide(a:body("wheel"))) then
 			b:apply_center_impulse(0,-kolobator.jump_impulse)
+			kolobator.jump=false
 		end
 	end
 	if(game.key("1")) then 

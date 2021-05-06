@@ -82,7 +82,6 @@ public:
 	int32 m_count;
 	b2Vec2 *big_polygon=0;
 	int b_count;
-	b2Vec2 tex[4];
 };
 
 inline b2PolygonShape::b2PolygonShape() {

@@ -13,6 +13,7 @@
 using namespace std;
 Color scene_mask(0,0,0,0);
 bool show_textures=1;
+const float tex_scale=1.0f;
 void draw_mask() {
 	GPU_RectangleFilled(ren,0,0,SW,SH,scene_mask.color());
 }
@@ -33,6 +34,12 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 	GPU_Image *tex=0;
 	if(show_textures)
 		tex=find_texture(F_DATA(fix,texture));
+
+	if(F_DATA(fix,expand) && tex)
+		GPU_SetWrapMode(tex, GPU_WRAP_NONE, GPU_WRAP_NONE);
+	else
+		GPU_SetWrapMode(tex, GPU_WRAP_REPEAT, GPU_WRAP_REPEAT);
+
 	switch(F_DATA(fix,type)) {
 	case RECT:
 	case SQUARE: {
@@ -56,7 +63,6 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 					f[q*4+2]=(shape->m_vertices[q]-shape->m_vertices[0]).x*(zoom/tex->w);
 					f[q*4+3]=(shape->m_vertices[q]-shape->m_vertices[0]).y*(zoom/tex->h);
 				}
-				GPU_SetWrapMode(tex, GPU_WRAP_REPEAT, GPU_WRAP_REPEAT);
 				short unsigned int index[]= {0,1,3,2};
 				GPU_PrimitiveBatch(tex,ren,GPU_TRIANGLE_STRIP,shape->m_count,f,shape->m_count,index,GPU_BATCH_XY_ST);
 			}
@@ -99,7 +105,6 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 				f[q*4+1]=f[5];
 				f[q*4+2]=f[6];
 				f[q*4+3]=f[7];
-				GPU_SetWrapMode(tex, GPU_WRAP_REPEAT, GPU_WRAP_REPEAT);
 				GPU_PrimitiveBatch(tex,ren,GPU_TRIANGLE_FAN,CIRCLE_QUALITY+2,f,CIRCLE_QUALITY+2,0,GPU_BATCH_XY_ST);
 			}
 		} else {
@@ -137,10 +142,9 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 				b2Vec2 v(shape->m_vertices[q].x,shape->m_vertices[q].y);
 				f[q*4]=drawx(body->GetPosition().x+rotatex(v,a_rad));
 				f[q*4+1]=drawy(body->GetPosition().y+rotatey(v,a_rad));
-				f[q*4+2]=(v-minv).x/(F_DATA(fix,expand)?(maxv-minv).x:(tex->w/100));
-				f[q*4+3]=(v-minv).y/(F_DATA(fix,expand)?(maxv-minv).y:(tex->h/100));
+				f[q*4+2]=(v-minv).x/(F_DATA(fix,expand)?(maxv-minv).x:(tex->w/100.0f/tex_scale));
+				f[q*4+3]=(v-minv).y/(F_DATA(fix,expand)?(maxv-minv).y:(tex->h/100.0f/tex_scale));
 			}
-			GPU_SetWrapMode(tex, GPU_WRAP_REPEAT, GPU_WRAP_REPEAT);
 			GPU_TriangleBatch(tex,ren,3,f,3,0,GPU_BATCH_XY_ST);
 		} else {
 			float f[6];
@@ -160,10 +164,17 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 				b2Vec2 v(shape->m_vertices[q].x,shape->m_vertices[q].y);
 				f[q*4]=drawx(body->GetPosition().x+rotatex(v,a_rad));
 				f[q*4+1]=drawy(body->GetPosition().y+rotatey(v,a_rad));
-				f[q*4+2]=shape->tex[q].x;
-				f[q*4+3]=shape->tex[q].y;
+				f[q*4+2]=shape->big_polygon[q].x/(F_DATA(fix,expand)?shape->big_polygon[4].x:(tex->w/100.0f/tex_scale));
+				if(F_DATA(fix,expand))
+					f[q*4+3]=(shape->big_polygon[q].y!=0);
+				else
+					f[q*4+3]=shape->big_polygon[q].y/(tex->h/100.0f/tex_scale);
 			}
-			GPU_SetWrapMode(tex, GPU_WRAP_REPEAT, GPU_WRAP_REPEAT);
+			if(F_DATA(fix,expand))
+				GPU_SetWrapMode(tex, GPU_WRAP_NONE, GPU_WRAP_NONE);
+			else
+				GPU_SetWrapMode(tex, GPU_WRAP_REPEAT, GPU_WRAP_NONE);
+
 			short unsigned int index[]= {0,1,3,2};
 			GPU_PrimitiveBatch(tex,ren,GPU_TRIANGLE_STRIP,4,f,4,index,GPU_BATCH_XY_ST);
 		} else {
