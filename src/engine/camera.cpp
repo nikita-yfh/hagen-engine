@@ -3,7 +3,6 @@
 #include <iostream>
 Mouse mouse;
 float cx=0,cy=0;
-float dcx=0,dcy=0;
 float zoom=100;
 bool camera_locked=1;
 void center_body(b2Body *body) {
@@ -14,25 +13,25 @@ void center(float x,float y) {
 	cy=y-SH/2/zoom;
 }
 float worldx(float dx) {
-	return dx/zoom+cx-dcx;
+	return dx/zoom+cx;
 }
 float worldy(float dy) {
-	return dy/zoom+cy-dcy;
+	return dy/zoom+cy;
 }
 float drawx(float wx) {
-	return (wx-cx+dcx)*zoom;
+	return (wx-cx)*zoom;
 }
 float drawy(float wy) {
-	return (wy-cy+dcy)*zoom;
+	return (wy-cy)*zoom;
 }
 b2Vec2 drawv(b2Vec2 v) {
-	return zoom*(v+b2Vec2(dcx-cx,dcy-cy));
+	return zoom*(v-b2Vec2(cx,cy));
 }
 int drawix(float wx) {
-	return (wx-cx+dcx)*zoom;
+	return (wx-cx)*zoom;
 }
 int drawiy(float wy) {
-	return (wy-cy+dcy)*zoom;
+	return (wy-cy)*zoom;
 }
 float rotatex(b2Vec2 vec,float a) {
 	return vec.x*cos(a)-vec.y*sin(a);

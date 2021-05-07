@@ -27,6 +27,6 @@ void preload_locale() {
 		texts[node.getName()]=node.getText();
 	}
 }
-void subtitles(string text, float time) {
+void subtitles(string text) {
 
 }

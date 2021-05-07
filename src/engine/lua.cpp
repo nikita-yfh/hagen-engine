@@ -273,8 +273,6 @@ void bind() {
 	.beginNamespace("camera")
 	.addProperty("x",&cx)
 	.addProperty("y",&cy)
-	.addProperty("dx",&dcx)
-	.addProperty("dy",&dcy)
 	.addProperty("zoom",&zoom)
 	.addFunction("center",&center)
 	.addFunction("center_body",&center_body)
