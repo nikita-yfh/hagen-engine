@@ -7,9 +7,7 @@
 			e:harm(5/d)
 			if(e.health<0) then e.health=0 end
 		end)
-		for i=0,100 do
-			graphics.effect("explosion",math.random(a.x/100-0.01,a.x/100+0.01)*100,math.random(a.y/100-0.01,a.y/100+0.01)*100)
-		end
+		graphics.effect("explosion",a.x,a.y)
 		sound.play("boom.flac")
 		return true
 	elseif(a.userdata.create_time+5000 < game.timer) then
