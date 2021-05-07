@@ -129,7 +129,7 @@ set(ENGINE_HEADERS
         src/engine/interface.hpp
         src/SDL_FontCache/SDL_FontCache.h
         src/XMLParser/xmlParser.h
-	src/box2d/b2_api.h
+		src/box2d/b2_api.h
         src/box2d/b2_block_allocator.h
         src/box2d/b2_body.h
         src/box2d/b2_broad_phase.h
@@ -170,14 +170,20 @@ set(ENGINE_HEADERS
         src/box2d/b2_world_callbacks.h
         src/box2d/box2d.h
 )
+macro(print_all_variables)
+    message(STATUS "print_all_variables------------------------------------------{")
+    get_cmake_property(_variableNames VARIABLES)
+    foreach (_variableName ${_variableNames})
+        message(STATUS "${_variableName}=${${_variableName}}")
+    endforeach()
+    message(STATUS "print_all_variables------------------------------------------}")
+endmacro()
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(SDL REQUIRED sdl2 SDL2_ttf SDL2_mixer)
 pkg_check_modules(GTK REQUIRED gtk+-2.0)
-pkg_check_modules(LUA REQUIRED luajit)
 include_directories(
         ${SDL_INCLUDE_DIRS}
         ${GTK_INCLUDE_DIRS}
-        ${LUA_INCLUDE_DIRS}
         "src/engine"
         "src/level-editor"
         "src/box2d/"
@@ -190,12 +196,14 @@ include_directories(
 
 add_executable(${ENGINE} ${ENGINE_SOURCES} ${ENGINE_HEADERS})
 add_executable(${LEVEL_EDITOR} ${LEVEL_EDITOR_SOURCES} ${LEVEL_EDITOR_HEADERS})
+add_subdirectory("src/LuaJIT-cmake")
+print_all_variables()
 add_subdirectory("src/sdl-gpu")
 
 
 target_link_libraries (${ENGINE}
         ${SDL_LIBRARIES}
-        ${LUA_LIBRARIES}
+		liblua-static		
         SDL_gpu_shared
 )
 if(UNIX)
