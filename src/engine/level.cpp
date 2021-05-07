@@ -324,7 +324,9 @@ b2Joint *read_joint(XMLNode jn,string &id,b2Vec2 delta,Entity *ent) {
 	J_DATA(j,id)=id;
 	return j;
 }
-void open_file(string path) {
+void open_file(string path){
+	if(!exist_file(path))
+		throw string("File "+path+" not found");
 	XMLNode lvl=XMLNode::openFileHelper(path.c_str(),"level");
 	world=new b2World(b2Vec2(0,9.8));
 	{
