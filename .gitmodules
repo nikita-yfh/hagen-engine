@@ -1,3 +1,6 @@
 [submodule "src/sdl-gpu"]
 	path = src/sdl-gpu
 	url = https://github.com/grimfang4/sdl-gpu
+[submodule "src/tinyxml2"]
+	path = src/tinyxml2
+	url = https://github.com/leethomason/tinyxml2
