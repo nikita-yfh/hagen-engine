@@ -33,12 +33,14 @@ struct RayCastClosestCallback : public b2RayCastCallback {
 		m_hit = false;
 	}
 
-	float ReportFixture(b2Fixture* fixture, const b2Vec2& point, const b2Vec2& normal, float fraction) override {
+	float ReportFixture(b2Fixture* fixture, const b2Vec2& point, const b2Vec2& normal, float) override {
 		m_hit = true;
 		m_point = point;
 		m_normal = normal;
 		body=fixture->GetBody();
-		return fraction;
+		if(fixture->IsSensor())
+			return 1.0f;
+		return 0.0f;
 	}
 
 	bool m_hit;
