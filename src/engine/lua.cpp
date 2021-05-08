@@ -42,7 +42,7 @@ void set_mask(Color &c) {
 	scene_mask=c;
 }
 void print(LuaRef r) {
-	interface.console.out(r.tostring());
+	interface.console.AddLog(r.tostring());
 	cout<<r<<endl;
 }
 Color &get_mask() {
