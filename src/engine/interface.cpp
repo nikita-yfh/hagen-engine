@@ -6,27 +6,33 @@
 #include "lua.hpp"
 #include "text.hpp"
 #include "weapon.hpp"
+#include "camera.hpp"
 #include "utility.hpp"
 void Interface::draw_frame1(GPU_Rect pos) {
 	float x1=pos.x, x2=pos.x+pos.w;
 	float y1=pos.y, y2=pos.y+pos.h;
-	GPU_Line(ren,x2,y1,x2,y2,frame_color2);
-	GPU_Line(ren,x1,y2,x2,y2,frame_color2);
-	GPU_Line(ren,x1,y1,x2,y1,frame_color1);
-	GPU_Line(ren,x1,y1,x1,y2,frame_color1);
+	GPU_RectangleFilled(ren,x1,y1,x2,y1+frame_size,frame_color1);
+	GPU_RectangleFilled(ren,x1,y1,x1+frame_size,y2,frame_color1);
+	GPU_RectangleFilled(ren,x2,y2,x1,y2-frame_size,frame_color2);
+	GPU_RectangleFilled(ren,x2,y2,x2-frame_size,y1,frame_color2);
 }
 void Interface::draw_frame2(GPU_Rect pos) {
 	float x1=pos.x, x2=pos.x+pos.w;
 	float y1=pos.y, y2=pos.y+pos.h;
-	GPU_Line(ren,x1,y1,x2,y1,frame_color2);
-	GPU_Line(ren,x1,y1,x1,y2,frame_color2);
-	GPU_Line(ren,x2,y1,x2,y2,frame_color1);
-	GPU_Line(ren,x1,y2,x2,y2,frame_color1);
+	GPU_RectangleFilled(ren,x2,y2,x1,y2-frame_size,frame_color1);
+	GPU_RectangleFilled(ren,x2,y2,x2-frame_size,y1,frame_color1);
+	GPU_RectangleFilled(ren,x1,y1,x2,y1+frame_size,frame_color2);
+	GPU_RectangleFilled(ren,x1,y1,x1+frame_size,y2,frame_color2);
 }
 bool Interface::draw_button(GPU_Rect pos,string text) {
 	pos=drawr(pos);
 	GPU_RectangleFilled2(ren,pos,widget_color);
+	if(mouse.in_rect(pos) && mouse.state==2){
+		draw_frame2(pos);
+		return 1;
+	}
 	draw_frame1(pos);
+	return 0;
 }
 float Interface::drawx(float x) {
 	return viewport.x+x*viewport.w;
@@ -58,6 +64,7 @@ void Interface::update() {
 void Interface::load_config() {
 	pause.load_config();
 	game_interface.load_config();
+	//viewport={0,0,SW,SH};
 }
 void Interface::show() {
 	if(pause.shown)
@@ -65,6 +72,7 @@ void Interface::show() {
 	console.show();
 	if(!console.shown)
 		game_interface.show();
+	//draw_button({0.3,0.3,0.4,0.4},"text");
 }
 Interface::Console::String::String() {}
 Interface::Console::String::String(string _text,uint8_t _type) {

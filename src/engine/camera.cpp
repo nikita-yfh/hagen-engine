@@ -77,3 +77,6 @@ bool Mouse::update() {
 	y=my;
 	return 0;
 }
+bool Mouse::in_rect(GPU_Rect r){
+	return r.x<x && r.y<y && r.x+r.w>x && r.y+r.h>y;
+}

@@ -17,6 +17,7 @@ struct Interface {
 	SDL_Color widget_color{255,0,0,255};
 	SDL_Color frame_color1{255,255,255,255};
 	SDL_Color frame_color2{0,0,0,255};
+	float frame_size=4;
 	GPU_Rect viewport;
 	float drawx(float x);
 	float drawy(float y);

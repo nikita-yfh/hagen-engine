@@ -1,5 +1,6 @@
 #pragma once
 #include "box2d.h"
+#include "sdl.hpp"
 extern float cx,cy;
 extern float zoom;
 void center(float x,float y);
@@ -22,5 +23,6 @@ struct Mouse {
 	uint8_t b=0;
 	int x,y;
 	bool update();
+	bool in_rect(GPU_Rect rect);
 };
 extern Mouse mouse;
