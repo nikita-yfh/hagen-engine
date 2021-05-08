@@ -51,19 +51,15 @@ void Console::Draw() {
 		if (!Filter.PassFilter(item.c_str()))
 			continue;
 		ImVec4 color;
-		bool has_color = false;
-		if (item.find("\"]:")!=item.npos) {
+		if (item.find("\"]:")!=item.npos)
 			color = ImVec4(1.0f, 0.0f, 0.0f, 1.0f);
-			has_color = true;
-		} else if (item.find("> ") == 0) {
+		else if (item.find("> ") == 0)
+			color = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
+		else
 			color = ImVec4(0.0f, 1.0f, 0.0f, 1.0f);
-			has_color = true;
-		}
-		if (has_color)
-			ImGui::PushStyleColor(ImGuiCol_Text, color);
+		ImGui::PushStyleColor(ImGuiCol_Text, color);
 		ImGui::TextUnformatted(item.c_str());
-		if (has_color)
-			ImGui::PopStyleColor();
+		ImGui::PopStyleColor();
 	}
 	if(ImGui::GetScrollY() >= ImGui::GetScrollMaxY() && ScrollToBottom)
 		ImGui::SetScrollHere(1.0f);
