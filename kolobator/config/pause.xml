@@ -1,8 +1,0 @@
-<pause>
-	<text>
-		<active_color r="255" g="255" b="255" a="255"/>
-		<passive_color r="255" g="255" b="255" a="255"/>
-	</text>
-	<size x="0.6" y="0.4"/>
-	<border top="0.2" left="0.1" bottom="0.2" right="0.1"/>
-</pause>

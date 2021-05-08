@@ -64,7 +64,11 @@ void Interface::update() {
 void Interface::load_config() {
 	pause.load_config();
 	game_interface.load_config();
-	//viewport={0,0,SW,SH};
+	{
+		XMLNode node=XMLNode::openFileHelper((prefix+"config/interface.xml").c_str(),"interface");
+		XMLNode text=node.getChildNode("text");
+		load_font(font,text,"color",SH);
+	}
 }
 void Interface::show() {
 	if(pause.shown)
@@ -117,7 +121,7 @@ void Interface::Console::load_config() {
 	}
 }
 void Interface::Game_interface::load_config() {
-	XMLNode node=XMLNode::openFileHelper((prefix+"config/interface.xml").c_str(),"interface");
+	XMLNode node=XMLNode::openFileHelper((prefix+"config/game_interface.xml").c_str(),"game_interface");
 	{
 		XMLNode text=node.getChildNode("text");
 		load_font(font,text,"color",SH);
@@ -223,26 +227,8 @@ void Interface::Pause::close() {
 	interface.update_cursor();
 }
 void Interface::Pause::show() {
-	//GPU_Image *
-	//GPU_BlitScale(textures["interface/pause_background.png"],0,ren,SW/2,SH/2,
-	//	)
 }
 void Interface::Pause::load_config() {
-	XMLNode node=XMLNode::openFileHelper((prefix+"config/pause.xml").c_str(),"pause");
-	{
-		XMLNode text=node.getChildNode("text");
-		active_color.load	(text.getChildNode("active_color"));
-		passive_color.load	(text.getChildNode("passive_color"));
-	}
-	{
-		XMLNode size=node.getChildNode("size");
-		w=stof(size.getAttribute("x"));
-		h=stof(size.getAttribute("y"));
-	}
-	borders.load(node.getChildNode("border"),h);
-	load_texture("interface/pause_background.png");
-	load_texture("interface/pause_active_button.png");
-	load_texture("interface/pause_passive_button.png");
 }
 void Interface::Pause::update() {
 	if(e.type==SDL_KEYDOWN) {
