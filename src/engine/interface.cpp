@@ -36,14 +36,15 @@ void Console::AddLog(string str) {
 void Console::Draw() {
 	if(!shown)return;
 	ImGui::SetNextWindowSize(ImVec2(520, 600), ImGuiCond_FirstUseEver);
-	if (!ImGui::Begin("Console", &shown)) {
+	if (!ImGui::Begin(get_text("console/title").c_str(), &shown)) {
 		ImGui::End();
 		return;
 	}
 	const float footer_height_to_reserve = ImGui::GetStyle().ItemSpacing.y + ImGui::GetFrameHeightWithSpacing();
 	ImGui::BeginChild("ScrollingRegion", ImVec2(0, -footer_height_to_reserve), false, ImGuiWindowFlags_HorizontalScrollbar);
 	if (ImGui::BeginPopupContextWindow()) {
-		if (ImGui::Selectable("Clear")) ClearLog();
+		if (ImGui::Selectable(get_text("console/clear").c_str()))
+			ClearLog();
 		ImGui::EndPopup();
 	}
 	ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(4, 1));
@@ -69,7 +70,7 @@ void Console::Draw() {
 	ImGui::Separator();
 	bool reclaim_focus = false;
 	ImGuiInputTextFlags input_text_flags = ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_CallbackCompletion | ImGuiInputTextFlags_CallbackHistory;
-	if (ImGui::InputText("Input", InputBuf, IM_ARRAYSIZE(InputBuf), input_text_flags, &Console::TextEditCallbackStub, (void*)this)) {
+	if (ImGui::InputText("1",/*get_text("console/input").c_str(),*/ InputBuf, IM_ARRAYSIZE(InputBuf), input_text_flags, &Console::TextEditCallbackStub, (void*)this)) {
 		string s = InputBuf;
 		trim(s);
 		if (s[0]) ExecCommand(s);
@@ -131,7 +132,7 @@ int Console::TextEditCallback(ImGuiInputTextCallbackData* data) {
 					break;
 				match_len++;
 			}
-			AddLog("Possible matches:");
+			AddLog(get_text("console/matches"));
 			for (int i = 0; i < candidates.size(); i++)
 				AddLog("- "+candidates[i]);
 		}
@@ -188,12 +189,16 @@ void Interface::init_imgui() {
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO();
-	(void)io;
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
 	const char* glsl_version = "#version 120";
 	ImGui_ImplOpenGL3_Init(glsl_version);
 	ImGui_ImplSDL2_InitForOpenGL(window, gl_context);
 	ImGui::StyleColorsClassic();
+	load_imgui_font();
+}
+void Interface::load_imgui_font(){
+	ImFont* pFont = ImGui::GetIO().Fonts->AddFontFromFileTTF((prefix+"fonts/interface.ttf").c_str(), 14);
+	ImGui::PushFont(pFont);
 }
 void Interface::load_config() {
 	game_interface.load_config();

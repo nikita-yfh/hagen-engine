@@ -7,6 +7,12 @@
 		<bullet2>&#xE002;</bullet2>
 		<health>&#xE000;</health>
 	</game_interface>
+	<console>
+		<title>Терминал</title>
+		<input>Ввод</input>
+		<clear>Очистить вывод</clear>
+		<matches>Возможные варианты:</matches>
+	</console>
 	<pause>
 		<pause>Меню паузы</pause>
 		<continue>Продолжить</continue>

@@ -35,6 +35,7 @@ struct Console{
 };
 struct Interface {
 	void init_imgui();
+	void load_imgui_font();
 	struct Game_interface {
 		bool shown;
 		FC_Font *font=0;
