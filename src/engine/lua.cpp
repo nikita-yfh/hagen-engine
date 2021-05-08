@@ -124,14 +124,16 @@ void init_weapon(string weapon) {
 }
 void update_entities() {
 	for(auto entity : entities) {
-		if(getGlobal(L,"Entity")["update"](entity.second)||
-				getGlobal(L,entity.second->type.c_str())["update"](entity.second)) {
-			destroy_entity(entity.second);
-			return;
-		}
-		if(weapons.find(entity.second->weapon)!=weapons.end() && entity.second->weapon!="") {
-			getGlobal(L,"Weapon")["update"](&weapons[entity.second->weapon],entity.second);
-			getGlobal(L,entity.second->weapon.c_str())["update"](&weapons[entity.second->weapon],entity.second);
+		if(entity.second){
+			if(getGlobal(L,"Entity")["update"](entity.second)||
+					getGlobal(L,entity.second->type.c_str())["update"](entity.second)) {
+				destroy_entity(entity.second);
+				return;
+			}
+			if(weapons.find(entity.second->weapon)!=weapons.end() && entity.second->weapon!="") {
+				getGlobal(L,"Weapon")["update"](&weapons[entity.second->weapon],entity.second);
+				getGlobal(L,entity.second->weapon.c_str())["update"](&weapons[entity.second->weapon],entity.second);
+			}
 		}
 	}
 }

@@ -6,6 +6,37 @@
 #include "lua.hpp"
 #include "text.hpp"
 #include "weapon.hpp"
+#include "utility.hpp"
+void Interface::draw_frame1(GPU_Rect pos) {
+	float x1=pos.x, x2=pos.x+pos.w;
+	float y1=pos.y, y2=pos.y+pos.h;
+	GPU_Line(ren,x2,y1,x2,y2,frame_color2);
+	GPU_Line(ren,x1,y2,x2,y2,frame_color2);
+	GPU_Line(ren,x1,y1,x2,y1,frame_color1);
+	GPU_Line(ren,x1,y1,x1,y2,frame_color1);
+}
+void Interface::draw_frame2(GPU_Rect pos) {
+	float x1=pos.x, x2=pos.x+pos.w;
+	float y1=pos.y, y2=pos.y+pos.h;
+	GPU_Line(ren,x1,y1,x2,y1,frame_color2);
+	GPU_Line(ren,x1,y1,x1,y2,frame_color2);
+	GPU_Line(ren,x2,y1,x2,y2,frame_color1);
+	GPU_Line(ren,x1,y2,x2,y2,frame_color1);
+}
+bool Interface::draw_button(GPU_Rect pos,string text) {
+	pos=drawr(pos);
+	GPU_RectangleFilled2(ren,pos,widget_color);
+	draw_frame1(pos);
+}
+float Interface::drawx(float x) {
+	return viewport.x+x*viewport.w;
+}
+float Interface::drawy(float y) {
+	return viewport.y+y*viewport.h;
+}
+GPU_Rect Interface::drawr(GPU_Rect r) {
+	return GPU_MakeRect(drawx(r.x),drawy(r.y),r.w*viewport.w,r.h*viewport.h);
+}
 void Rect4::stabilize(float f) {
 	if(top<1)top*=f;
 	if(left<1)left*=f;
@@ -151,14 +182,14 @@ void Interface::Game_interface::show() {
 	short h=FC_GetLineHeight(font);
 	{
 		int health=0;
-		if(entities["player"])
-			health=entities["player"]->health;
+		if(get_entity("player"))
+			health=get_entity("player")->health;
 		FC_Draw(font,ren,borders.left,SH-borders.bottom-h,"%s %d %s",
 				get_text("game_interface/health_prev").c_str(),
 				health,
 				get_text("game_interface/health").c_str()).w;
 	}
-	if(entities["player"]){
+	if(get_entity("player")) {
 		auto draw_bullets=[=](string id,string str,uint8_t layer) {
 			FC_DrawAlign(font,ren,SW-borders.left,SH-borders.top-layer*h,
 						 FC_ALIGN_RIGHT,"%s %d/%d %s",get_text(str+"_prev").c_str(),
@@ -166,11 +197,11 @@ void Interface::Game_interface::show() {
 						 get_text(str).c_str());
 		};
 		uint8_t layer=0;
-		if(bullets[weapons[entities["player"]->weapon].bullet2].max>0 &&
-				weapons[entities["player"]->weapon].bullet2 != weapons[entities["player"]->weapon].bullet1)
-			draw_bullets(weapons[entities["player"]->weapon].bullet2,"game_interface/bullet2",++layer);
-		if(bullets[weapons[entities["player"]->weapon].bullet1].max>0)
-			draw_bullets(weapons[entities["player"]->weapon].bullet1,"game_interface/bullet1",++layer);
+		if(bullets[weapons[get_entity("player")->weapon].bullet2].max>0 &&
+				weapons[get_entity("player")->weapon].bullet2 != weapons[get_entity("player")->weapon].bullet1)
+			draw_bullets(weapons[get_entity("player")->weapon].bullet2,"game_interface/bullet2",++layer);
+		if(bullets[weapons[get_entity("player")->weapon].bullet1].max>0)
+			draw_bullets(weapons[get_entity("player")->weapon].bullet1,"game_interface/bullet1",++layer);
 	}
 }
 void Interface::Pause::open() {

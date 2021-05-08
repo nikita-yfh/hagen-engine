@@ -13,6 +13,19 @@ struct Rect4 {
 	void load(XMLNode l,float f);
 };
 struct Interface {
+	SDL_Color background{0,0,0,255};
+	SDL_Color widget_color{255,0,0,255};
+	SDL_Color frame_color1{255,255,255,255};
+	SDL_Color frame_color2{0,0,0,255};
+	GPU_Rect viewport;
+	float drawx(float x);
+	float drawy(float y);
+	GPU_Rect drawr(GPU_Rect r);
+	void draw_frame1(GPU_Rect pos);
+	void draw_frame2(GPU_Rect pos);
+	bool draw_button(GPU_Rect pos,string text);
+
+
 	FC_Font *font=0;
 	struct Console {
 		Console();

@@ -1,5 +1,6 @@
 function level_trigger(body,name)
-	if(world.eb_all_collide(entity("player"),body)) then
+	print(entity("player"))
+	if(entity("player")~=nil and world.eb_all_collide(entity("player"),body)) then
 		loadlevel(name)
 	end
 end
