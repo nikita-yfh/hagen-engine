@@ -129,7 +129,7 @@ void update_entities() {
 			destroy_entity(entity.second);
 			return;
 		}
-		if(weapons.find(entity.second->weapon)!=weapons.end()) {
+		if(weapons.find(entity.second->weapon)!=weapons.end() && entity.second->weapon!="") {
 			getGlobal(L,"Weapon")["update"](&weapons[entity.second->weapon],entity.second);
 			getGlobal(L,entity.second->weapon.c_str())["update"](&weapons[entity.second->weapon],entity.second);
 		}

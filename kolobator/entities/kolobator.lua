@@ -14,6 +14,10 @@ end
 function kolobator.update(a)
 	local j=a:joint("joint")
 	local b=a:body("body")
+	if(a.health==0) then
+		graphics.effect("big_blood",a.x,a.y)
+		return true
+	end
 	if(game.press_key("jump")) then kolobator.jump=true end
 	if(game.release_key("jump")) then kolobator.jump=false end
 	if(game.key("left") and b.vx>-kolobator.speed and game.interval(20)) then
@@ -38,13 +42,13 @@ function kolobator.update(a)
 		end
 	end
 	if(game.key("1")) then 
-		entity("player").weapon="knife"
+		a.weapon="knife"
 	elseif(game.key("2")) then
-		entity("player").weapon="pistol"
+		a.weapon="pistol"
 	elseif(game.key("3")) then
-		entity("player").weapon="ak47"
+		a.weapon="ak47"
 	elseif(game.key("4")) then
-		entity("player").weapon="rg6"
+		a.weapon="rg6"
 	end
 	if(bullet(weapon(a.weapon).bullet1).count > 0) then
 		if(game.press_key("fire1")) then
@@ -69,4 +73,5 @@ function kolobator.update(a)
 	else
 		b:set_texture("body_fixture","kolobator1.png")
 	end
+	return false
 end

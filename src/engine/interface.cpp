@@ -150,12 +150,15 @@ void Interface::Game_interface::update() {}
 void Interface::Game_interface::show() {
 	short h=FC_GetLineHeight(font);
 	{
+		int health=0;
+		if(entities["player"])
+			health=entities["player"]->health;
 		FC_Draw(font,ren,borders.left,SH-borders.bottom-h,"%s %d %s",
 				get_text("game_interface/health_prev").c_str(),
-				(int)entities["player"]->health,
+				health,
 				get_text("game_interface/health").c_str()).w;
 	}
-	{
+	if(entities["player"]){
 		auto draw_bullets=[=](string id,string str,uint8_t layer) {
 			FC_DrawAlign(font,ren,SW-borders.left,SH-borders.top-layer*h,
 						 FC_ALIGN_RIGHT,"%s %d/%d %s",get_text(str+"_prev").c_str(),
