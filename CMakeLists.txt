@@ -173,9 +173,11 @@ set(ENGINE_HEADERS
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(SDL REQUIRED sdl2 SDL2_ttf SDL2_mixer)
 pkg_check_modules(GTK REQUIRED gtk+-2.0)
+pkg_check_modules(IMGUI REQUIRED imgui)
 include_directories(
         ${SDL_INCLUDE_DIRS}
         ${GTK_INCLUDE_DIRS}
+        ${IMGUI_INCLUDE_DIRS}
         "src/engine"
         "src/level-editor"
         "src/box2d/"
@@ -194,7 +196,8 @@ add_subdirectory("src/sdl-gpu")
 
 target_link_libraries (${ENGINE}
         ${SDL_LIBRARIES}
-	liblua-static		
+        ${IMGUI_LIBRARIES}
+		liblua-static		
         SDL_gpu_shared
 )
 if(UNIX)

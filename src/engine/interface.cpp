@@ -8,6 +8,16 @@
 #include "weapon.hpp"
 #include "camera.hpp"
 #include "utility.hpp"
+void Interface::draw_rect1(GPU_Rect pos){
+	pos=drawr(pos);
+	GPU_RectangleFilled2(ren,pos,widget_color);
+	draw_frame1(pos);
+}
+void Interface::draw_rect2(GPU_Rect pos){
+	pos=drawr(pos);
+	GPU_RectangleFilled2(ren,pos,widget_color);
+	draw_frame2(pos);
+}
 void Interface::draw_frame1(GPU_Rect pos) {
 	float x1=pos.x, x2=pos.x+pos.w;
 	float y1=pos.y, y2=pos.y+pos.h;
@@ -63,7 +73,6 @@ void Interface::update() {
 	game_interface.update();
 }
 void Interface::load_config() {
-	pause.load_config();
 	game_interface.load_config();
 	{
 		XMLNode node=XMLNode::openFileHelper((prefix+"config/interface.xml").c_str(),"interface");
@@ -78,7 +87,6 @@ void Interface::show() {
 	console.show();
 	if(!console.shown)
 		game_interface.show();
-	//draw_button({0.3,0.3,0.4,0.4},"text");
 }
 Interface::Console::String::String() {}
 Interface::Console::String::String(string _text,uint8_t _type) {
@@ -229,8 +237,10 @@ void Interface::Pause::close() {
 	interface.update_cursor();
 }
 void Interface::Pause::show() {
-}
-void Interface::Pause::load_config() {
+	interface.viewport={312,84,400,600};
+	interface.draw_rect1({0,0,1,1});
+	for(int q=0;q<6;q++)
+		interface.draw_button({0.1,0.1+q*0.133 ,0.8,0.1},"text");
 }
 void Interface::Pause::update() {
 	if(e.type==SDL_KEYDOWN) {
