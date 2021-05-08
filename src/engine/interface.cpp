@@ -74,6 +74,7 @@ void Interface::update() {
 		pause.update();
 	console.update();
 	game_interface.update();
+	ImGui_ImplSDL2_ProcessEvent(&e);
 }
 void Interface::load_config() {
 	game_interface.load_config();
@@ -100,6 +101,13 @@ void Interface::show() {
 	console.show();
 	if(!console.shown)
 		game_interface.show();
+	ImGui_ImplOpenGL3_NewFrame();
+	ImGui_ImplSDL2_NewFrame(SDL_GetWindowFromID(ren->context->windowID));
+	ImGui::NewFrame();
+	ImGui::ShowDemoWindow(0);
+	ImGui::Render();
+	SDL_GL_MakeCurrent(SDL_GetWindowFromID(ren->context->windowID), ren->context->context);
+	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
 Interface::Console::String::String() {}
 Interface::Console::String::String(string _text,uint8_t _type) {
