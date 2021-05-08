@@ -8,6 +8,9 @@
 #include "weapon.hpp"
 #include "camera.hpp"
 #include "utility.hpp"
+#include "imgui.h"
+#include "imgui_impl_sdl.h"
+#include "imgui_impl_opengl3.h"
 void Interface::draw_rect1(GPU_Rect pos){
 	pos=drawr(pos);
 	GPU_RectangleFilled2(ren,pos,widget_color);
@@ -80,6 +83,16 @@ void Interface::load_config() {
 		load_font(font,text,"color",SH);
 	}
 	viewport={0,0,SW,SH};
+	SDL_GLContext& gl_context = ren->context->context;
+    SDL_Window* window = SDL_GetWindowFromID(ren->context->windowID);
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO& io = ImGui::GetIO(); (void)io;
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+    const char* glsl_version = "#version 120";
+    ImGui_ImplOpenGL3_Init(glsl_version);
+    ImGui_ImplSDL2_InitForOpenGL(window, gl_context);
+    ImGui::StyleColorsClassic();
 }
 void Interface::show() {
 	if(pause.shown)

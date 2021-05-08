@@ -3,4 +3,4 @@
 	url = https://github.com/grimfang4/sdl-gpu
 [submodule "src/LuaJIT-cmake"]
 	path = src/LuaJIT-cmake
-	url = https://github.com/9chu/LuaJIT-cmake
+	url = https://github.com/9chu/LuaJIT-

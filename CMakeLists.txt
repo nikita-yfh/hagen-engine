@@ -173,7 +173,6 @@ set(ENGINE_HEADERS
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(SDL REQUIRED sdl2 SDL2_ttf SDL2_mixer)
 pkg_check_modules(GTK REQUIRED gtk+-2.0)
-pkg_check_modules(IMGUI REQUIRED imgui)
 include_directories(
         ${SDL_INCLUDE_DIRS}
         ${GTK_INCLUDE_DIRS}
@@ -185,6 +184,8 @@ include_directories(
         "src/SDL_FontCache"
         "src/XMLParser"
         "src/sdl-gpu/include"
+		"src/imgui/"
+		"src/imgui/examples"
         "src"
 )
 
@@ -192,6 +193,7 @@ add_executable(${ENGINE} ${ENGINE_SOURCES} ${ENGINE_HEADERS})
 add_executable(${LEVEL_EDITOR} ${LEVEL_EDITOR_SOURCES} ${LEVEL_EDITOR_HEADERS})
 add_subdirectory("src/LuaJIT-cmake")
 add_subdirectory("src/sdl-gpu")
+add_subdirectory("src/imgui")
 
 
 target_link_libraries (${ENGINE}
@@ -199,6 +201,7 @@ target_link_libraries (${ENGINE}
         ${IMGUI_LIBRARIES}
 		liblua-static		
         SDL_gpu_shared
+        imgui_sdl2
 )
 if(UNIX)
         target_link_libraries (${ENGINE} ${GTK_LIBRARIES})
