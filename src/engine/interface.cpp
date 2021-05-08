@@ -27,6 +27,7 @@ void Interface::draw_frame2(GPU_Rect pos) {
 bool Interface::draw_button(GPU_Rect pos,string text) {
 	pos=drawr(pos);
 	GPU_RectangleFilled2(ren,pos,widget_color);
+	FC_DrawCenter(font,ren,pos,text.c_str());
 	if(mouse.in_rect(pos) && mouse.state==2){
 		draw_frame2(pos);
 		return 1;
@@ -69,6 +70,7 @@ void Interface::load_config() {
 		XMLNode text=node.getChildNode("text");
 		load_font(font,text,"color",SH);
 	}
+	viewport={0,0,SW,SH};
 }
 void Interface::show() {
 	if(pause.shown)
