@@ -1,0 +1,2 @@
+/usr/bin/ar qc lib/libimgui_sdl2.a CMakeFiles/imgui_sdl2.dir/imgui.cpp.o CMakeFiles/imgui_sdl2.dir/imgui_draw.cpp.o CMakeFiles/imgui_sdl2.dir/imgui_widgets.cpp.o CMakeFiles/imgui_sdl2.dir/imgui_demo.cpp.o CMakeFiles/imgui_sdl2.dir/examples/imgui_impl_sdl.cpp.o CMakeFiles/imgui_sdl2.dir/examples/imgui_impl_opengl3.cpp.o CMakeFiles/imgui_sdl2.dir/examples/libs/glew/glew.c.o
+/usr/bin/ranlib lib/libimgui_sdl2.a
