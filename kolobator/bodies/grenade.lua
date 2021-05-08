@@ -11,6 +11,8 @@
 		sound.play("boom.flac")
 		return true
 	elseif(a.userdata.create_time+5000 < game.timer) then
+		graphics.effect("explosion",a.x,a.y)
+		sound.play("boom.flac")
 		return true
 	end
 	return false
