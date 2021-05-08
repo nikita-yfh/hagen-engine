@@ -1884,6 +1884,38 @@ static void FC_DrawColumnFromBuffer(FC_Font* font, FC_Target* dest, FC_Rect box,
 		*total_height = y - box.y;
 }
 
+FC_Rect FC_DrawLeft(FC_Font* font, FC_Target* dest, FC_Rect box, const char* formatted_text, ...) {
+	if(formatted_text == NULL || font == NULL)
+		return box;
+
+	FC_EXTRACT_VARARGS(fc_buffer, formatted_text);
+
+	int x,y;
+	y=box.y+(box.h-FC_GetLineHeight(font))/2;
+	x=box.x+5;
+
+	set_color_for_all_caches(font, font->default_color);
+
+	return FC_RenderLeft(font, dest, x, y, FC_MakeScale(1,1), fc_buffer);
+}
+
+FC_Rect FC_DrawCenter(FC_Font* font, FC_Target* dest, FC_Rect box, const char* formatted_text, ...) {
+	if(formatted_text == NULL || font == NULL)
+		return box;
+
+	FC_EXTRACT_VARARGS(fc_buffer, formatted_text);
+
+	int x,y;
+	y=box.y+(box.h-FC_GetLineHeight(font))/2;
+	x=box.x+box.w/2;
+
+	set_color_for_all_caches(font, font->default_color);
+
+	return FC_RenderCenter(font, dest, x, y, FC_MakeScale(1,1), fc_buffer);
+}
+
+
+
 FC_Rect FC_DrawBox(FC_Font* font, FC_Target* dest, FC_Rect box, const char* formatted_text, ...) {
 	Uint8 useClip;
 	if(formatted_text == NULL || font == NULL)

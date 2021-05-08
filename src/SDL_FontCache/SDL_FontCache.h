@@ -275,6 +275,8 @@ FC_Rect FC_DrawColumnAlign(FC_Font* font, FC_Target* dest, float x, float y, Uin
 FC_Rect FC_DrawColumnScale(FC_Font* font, FC_Target* dest, float x, float y, Uint16 width, FC_Scale scale, const char* formatted_text, ...);
 FC_Rect FC_DrawColumnColor(FC_Font* font, FC_Target* dest, float x, float y, Uint16 width, SDL_Color color, const char* formatted_text, ...);
 FC_Rect FC_DrawColumnEffect(FC_Font* font, FC_Target* dest, float x, float y, Uint16 width, FC_Effect effect, const char* formatted_text, ...);
+FC_Rect FC_DrawLeft(FC_Font* font, FC_Target* dest, FC_Rect box, const char* formatted_text, ...);
+FC_Rect FC_DrawCenter(FC_Font* font, FC_Target* dest, FC_Rect box, const char* formatted_text, ...);
 
 
 // Getters
