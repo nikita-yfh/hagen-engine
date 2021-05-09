@@ -45,9 +45,20 @@ void Pause::Draw(){
 	Button(get_text("pause/save_game").c_str(),align);
 	Button(get_text("pause/load_game").c_str(),align);
 	Button(get_text("pause/settings").c_str(),align);
-	Button(get_text("pause/main_menu").c_str(),align);
+	if(Button(get_text("pause/main_menu").c_str(),align))
+		ImGui::OpenPopup("Exit to menu?");
 	Button(get_text("pause/exit_game").c_str(),align);
 	w=GetWindowContentRegionWidth();
+	if (ImGui::BeginPopupModal("Exit to menu?", NULL, ImGuiWindowFlags_AlwaysAutoResize)){
+		ImGui::Text("All unsaved data will be lost!");
+		ImGui::Separator();
+
+		if (ImGui::Button("OK", ImVec2(120, 0))) { ImGui::CloseCurrentPopup(); }
+		ImGui::SetItemDefaultFocus();
+		ImGui::SameLine();
+		if (ImGui::Button("Cancel", ImVec2(120, 0))) { ImGui::CloseCurrentPopup(); }
+		ImGui::EndPopup();
+	}
 	End();
 }
 
