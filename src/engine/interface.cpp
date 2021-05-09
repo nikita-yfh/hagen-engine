@@ -8,6 +8,7 @@
 #include "weapon.hpp"
 #include "camera.hpp"
 #include "utility.hpp"
+using namespace ImGui;
 
 static inline void trim(std::string &s) {
 	while(s[0]==' ')
@@ -24,31 +25,30 @@ Pause::Pause(){
 	get_text("pause/main_menu");
 	get_text("pause/exit_game");
 }
-
 void Pause::Draw(){
 	if(!shown)return;
-	ImVec2 g=ImGui::GetItemRectSize();
-	ImGuiIO &io=ImGui::GetIO();
-	ImGui::SetNextWindowPos(ImVec2(io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.5f),
+	ImVec2 g=GetItemRectSize();
+	ImGuiIO &io=GetIO();
+	SetNextWindowPos(ImVec2(io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.5f),
 										ImGuiCond_Always, ImVec2(0.5f,0.5f));
-	if (!ImGui::Begin("", &shown,ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse |
+	if (!Begin("", &shown,ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse |
 					ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar)) {
-		ImGui::End();
+		End();
 		return;
 	}
 	static float w=0;
 	ImVec2 align=ImVec2(w, 0);
-	if(ImGui::Button(get_text("pause/continue").c_str(),align)){
+	if(Button(get_text("pause/continue").c_str(),align)){
 		shown=0;
 		interface.console.shown=0;
 	}
-	ImGui::Button(get_text("pause/save_game").c_str(),align);
-	ImGui::Button(get_text("pause/load_game").c_str(),align);
-	ImGui::Button(get_text("pause/settings").c_str(),align);
-	ImGui::Button(get_text("pause/main_menu").c_str(),align);
-	ImGui::Button(get_text("pause/exit_game").c_str(),align);
-	w=ImGui::GetWindowContentRegionWidth();
-	ImGui::End();
+	Button(get_text("pause/save_game").c_str(),align);
+	Button(get_text("pause/load_game").c_str(),align);
+	Button(get_text("pause/settings").c_str(),align);
+	Button(get_text("pause/main_menu").c_str(),align);
+	Button(get_text("pause/exit_game").c_str(),align);
+	w=GetWindowContentRegionWidth();
+	End();
 }
 
 Console::Console() {
@@ -63,6 +63,7 @@ Console::Console() {
 Console::~Console() {
 	ClearLog();
 }
+
 void  Console::ClearLog() {
 	Items.clear();
 }
@@ -72,19 +73,19 @@ void Console::AddLog(string str) {
 }
 void Console::Draw() {
 	if(!shown)return;
-	ImGui::SetNextWindowSize(ImVec2(520, 600), ImGuiCond_FirstUseEver);
-	if (!ImGui::Begin(get_text("console/title").c_str(), &shown)) {
-		ImGui::End();
+	SetNextWindowSize(ImVec2(520, 600), ImGuiCond_FirstUseEver);
+	if (!Begin(get_text("console/title").c_str(), &shown)) {
+		End();
 		return;
 	}
-	const float footer_height_to_reserve = ImGui::GetStyle().ItemSpacing.y + ImGui::GetFrameHeightWithSpacing();
-	ImGui::BeginChild("ScrollingRegion", ImVec2(0, -footer_height_to_reserve), false, ImGuiWindowFlags_HorizontalScrollbar);
-	if (ImGui::BeginPopupContextWindow()) {
-		if (ImGui::Selectable(get_text("console/clear").c_str()))
+	const float footer_height_to_reserve = GetStyle().ItemSpacing.y + GetFrameHeightWithSpacing();
+	BeginChild("ScrollingRegion", ImVec2(0, -footer_height_to_reserve), false, ImGuiWindowFlags_HorizontalScrollbar);
+	if (BeginPopupContextWindow()) {
+		if (Selectable(get_text("console/clear").c_str()))
 			ClearLog();
-		ImGui::EndPopup();
+		EndPopup();
 	}
-	ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(4, 1));
+	PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(4, 1));
 	for (string item : Items) {
 		if (!Filter.PassFilter(item.c_str()))
 			continue;
@@ -95,30 +96,30 @@ void Console::Draw() {
 			color = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
 		else
 			color = ImVec4(0.0f, 1.0f, 0.0f, 1.0f);
-		ImGui::PushStyleColor(ImGuiCol_Text, color);
-		ImGui::TextUnformatted(item.c_str());
-		ImGui::PopStyleColor();
+		PushStyleColor(ImGuiCol_Text, color);
+		TextUnformatted(item.c_str());
+		PopStyleColor();
 	}
-	if(ImGui::GetScrollY() >= ImGui::GetScrollMaxY() && ScrollToBottom)
-		ImGui::SetScrollHere(1.0f);
+	if(GetScrollY() >= GetScrollMaxY() && ScrollToBottom)
+		SetScrollHere(1.0f);
 
-	ImGui::PopStyleVar();
-	ImGui::EndChild();
-	ImGui::Separator();
+	PopStyleVar();
+	EndChild();
+	Separator();
 	bool reclaim_focus = false;
 	ImGuiInputTextFlags input_text_flags = ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_CallbackCompletion | ImGuiInputTextFlags_CallbackHistory;
-	if (ImGui::InputText(get_text("console/input").c_str(), InputBuf, IM_ARRAYSIZE(InputBuf), input_text_flags, &Console::TextEditCallbackStub, (void*)this)) {
+	if (InputText(get_text("console/input").c_str(), InputBuf, IM_ARRAYSIZE(InputBuf), input_text_flags, &Console::TextEditCallbackStub, (void*)this)) {
 		string s = InputBuf;
 		trim(s);
 		if (s[0]) ExecCommand(s);
 		strcpy(InputBuf,"");
 		reclaim_focus = true;
 	}
-	ImGui::SetItemDefaultFocus();
+	SetItemDefaultFocus();
 	if (reclaim_focus)
-		ImGui::SetKeyboardFocusHere(-1);
+		SetKeyboardFocusHere(-1);
 
-	ImGui::End();
+	End();
 }
 void Console::ExecCommand(string command_line) {
 	AddLog("> "+command_line);
@@ -227,14 +228,14 @@ void Interface::init_imgui() {
 	SDL_GLContext& gl_context = ren->context->context;
 	SDL_Window* window = SDL_GetWindowFromID(ren->context->windowID);
 	IMGUI_CHECKVERSION();
-	ImGui::CreateContext();
-	ImGuiIO& io = ImGui::GetIO();
+	CreateContext();
+	ImGuiIO& io = GetIO();
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
 	io.IniFilename=nullptr;
 	const char* glsl_version = "#version 120";
 	ImGui_ImplOpenGL3_Init(glsl_version);
 	ImGui_ImplSDL2_InitForOpenGL(window, gl_context);
-	ImGui::StyleColorsClassic();
+	StyleColorsClassic();
 	load_imgui_font();
 }
 void Interface::load_imgui_font(){
@@ -249,7 +250,7 @@ void Interface::load_imgui_font(){
         0x0400, 0x044F,
         0,
     };
-	ImGui::GetIO().Fonts->AddFontFromFileTTF((prefix+"fonts/interface.ttf").c_str(), 20.0f, &font_config, ranges);
+	GetIO().Fonts->AddFontFromFileTTF((prefix+"fonts/interface.ttf").c_str(), 20.0f, &font_config, ranges);
 }
 void Interface::load_config() {
 	game_interface.load_config();
@@ -258,12 +259,13 @@ void Interface::show() {
 	game_interface.show();
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL2_NewFrame(SDL_GetWindowFromID(ren->context->windowID));
-	ImGui::NewFrame();
+	NewFrame();
+	ShowDemoWindow(&console.shown);
 	console.Draw();
 	pause.Draw();
-	ImGui::Render();
+	Render();
 	SDL_GL_MakeCurrent(SDL_GetWindowFromID(ren->context->windowID), ren->context->context);
-	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+	ImGui_ImplOpenGL3_RenderDrawData(GetDrawData());
 }
 
 void Game_interface::load_config() {
