@@ -189,7 +189,6 @@ int Console::TextEditCallback(ImGuiInputTextCallbackData* data) {
 		}				//	|
 						//	v
 							end:
-
 		cout<<command<<endl;
 
 		vector<string> candidates;
