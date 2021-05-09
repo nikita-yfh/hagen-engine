@@ -48,7 +48,8 @@ struct Pause{
 };
 struct Interface {
 	void init_imgui();
-	void load_imgui_font();
+	void load_imgui_config();
+	void load_imgui_font(string name,float size);
 	Game_interface game_interface;
 	Console console;
 	Pause pause;

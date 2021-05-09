@@ -266,9 +266,15 @@ void Interface::init_imgui() {
 	ImGui_ImplOpenGL3_Init(glsl_version);
 	ImGui_ImplSDL2_InitForOpenGL(window, gl_context);
 	StyleColorsClassic();
-	load_imgui_font();
+	load_imgui_config();
 }
-void Interface::load_imgui_font(){
+void Interface::load_imgui_config(){
+	XMLNode node=XMLNode::openFileHelper((prefix+"config/imgui.xml").c_str(),"imgui");
+	XMLNode text=node.getChildNode("text");
+	if(!text.isEmpty())
+		load_imgui_font(text.getAttribute("name"),stof(text.getAttribute("size")));
+}
+void Interface::load_imgui_font(string name,float size){
 	ImFontConfig font_config;
     font_config.OversampleH = 1;
     font_config.OversampleV = 1;
@@ -280,7 +286,7 @@ void Interface::load_imgui_font(){
         0x0400, 0x044F,
         0,
     };
-	GetIO().Fonts->AddFontFromFileTTF((prefix+"fonts/interface.ttf").c_str(), 20.0f, &font_config, ranges);
+	GetIO().Fonts->AddFontFromFileTTF((prefix+"fonts/"+name).c_str(), size, &font_config, ranges);
 }
 void Interface::load_config() {
 	game_interface.load_config();
