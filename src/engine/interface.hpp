@@ -33,17 +33,18 @@ struct Console{
 	int TextEditCallback(ImGuiInputTextCallbackData* data);
 	static int TextEditCallbackStub(ImGuiInputTextCallbackData* data);
 };
+struct Game_interface {
+	bool shown;
+	FC_Font *font=0;
+	void load_config();
+	void show();
+	void update();
+	Rect4 borders;
+};
 struct Interface {
 	void init_imgui();
 	void load_imgui_font();
-	struct Game_interface {
-		bool shown;
-		FC_Font *font=0;
-		void load_config();
-		void show();
-		void update();
-		Rect4 borders;
-	} game_interface;
+	Game_interface game_interface;
 	Console console;
 	void show();
 	void update();

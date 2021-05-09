@@ -16,10 +16,16 @@ static inline void trim(std::string &s) {
 		s.erase(s.end());
 }
 
+
+
 Console::Console() {
 	ClearLog();
 	memset(InputBuf, 0, sizeof(InputBuf));
 	AddLog("LuaJIT 2.0.5 -- Copyright (C) 2005-2017 Mike Pall. http://luajit.org/");
+	get_text("console/title");
+	get_text("console/input");
+	get_text("console/matches");
+	get_text("console/clear");
 }
 Console::~Console() {
 	ClearLog();
@@ -70,7 +76,7 @@ void Console::Draw() {
 	ImGui::Separator();
 	bool reclaim_focus = false;
 	ImGuiInputTextFlags input_text_flags = ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_CallbackCompletion | ImGuiInputTextFlags_CallbackHistory;
-	if (ImGui::InputText("1",/*get_text("console/input").c_str(),*/ InputBuf, IM_ARRAYSIZE(InputBuf), input_text_flags, &Console::TextEditCallbackStub, (void*)this)) {
+	if (ImGui::InputText(get_text("console/input").c_str(), InputBuf, IM_ARRAYSIZE(InputBuf), input_text_flags, &Console::TextEditCallbackStub, (void*)this)) {
 		string s = InputBuf;
 		trim(s);
 		if (s[0]) ExecCommand(s);
@@ -197,8 +203,18 @@ void Interface::init_imgui() {
 	load_imgui_font();
 }
 void Interface::load_imgui_font(){
-	ImFont* pFont = ImGui::GetIO().Fonts->AddFontFromFileTTF((prefix+"fonts/interface.ttf").c_str(), 14);
-	ImGui::PushFont(pFont);
+	ImFontConfig font_config;
+    font_config.OversampleH = 1;
+    font_config.OversampleV = 1;
+    font_config.PixelSnapH = 1;
+
+    static const ImWchar ranges[] =
+    {
+        0x0020, 0x00FF,
+        0x0400, 0x044F,
+        0,
+    };
+	ImGui::GetIO().Fonts->AddFontFromFileTTF((prefix+"fonts/interface.ttf").c_str(), 14.0f, &font_config, ranges);
 }
 void Interface::load_config() {
 	game_interface.load_config();
@@ -214,7 +230,7 @@ void Interface::show() {
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
 
-void Interface::Game_interface::load_config() {
+void Game_interface::load_config() {
 	XMLNode node=XMLNode::openFileHelper((prefix+"config/game_interface.xml").c_str(),"game_interface");
 	{
 		XMLNode text=node.getChildNode("text");
@@ -224,8 +240,8 @@ void Interface::Game_interface::load_config() {
 	borders.stabilize(SH);
 }
 
-void Interface::Game_interface::update() {}
-void Interface::Game_interface::show() {
+void Game_interface::update() {}
+void Game_interface::show() {
 	short h=FC_GetLineHeight(font);
 	{
 		int health=0;
