@@ -1,3 +1,6 @@
 <imgui>
-	<text name="DroidSans-lite.ttf" size="30"/>
+	<text name="DroidSans-lite.ttf" size="20"/>
+	<colors>
+	</colors>
+	
 </imgui>

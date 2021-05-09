@@ -265,14 +265,119 @@ void Interface::init_imgui() {
 	const char* glsl_version = "#version 120";
 	ImGui_ImplOpenGL3_Init(glsl_version);
 	ImGui_ImplSDL2_InitForOpenGL(window, gl_context);
-	StyleColorsClassic();
+	StyleColorsDark();
 	load_imgui_config();
 }
+void get_value(XMLNode node, const char *name,float &value){
+	XMLNode value_n=node.getChildNode(name);
+	if(value_n.isEmpty())return;
+	value=stof(value_n.getAttribute("value"));
+};
+void get_value(XMLNode node, const char *name,bool &value){
+	XMLNode value_n=node.getChildNode(name);
+	if(value_n.isEmpty())return;
+	value=stoi(value_n.getAttribute("value"));
+};
+void get_value(XMLNode node, const char *name,ImVec2 &value){
+	XMLNode value_n=node.getChildNode(name);
+	if(value_n.isEmpty())return;
+	value.x=stof(value_n.getAttribute("x"));
+	value.y=stof(value_n.getAttribute("y"));
+};
 void Interface::load_imgui_config(){
 	XMLNode node=XMLNode::openFileHelper((prefix+"config/imgui.xml").c_str(),"imgui");
 	XMLNode text=node.getChildNode("text");
 	if(!text.isEmpty())
 		load_imgui_font(text.getAttribute("name"),stof(text.getAttribute("size")));
+	vector<const char*>colors={
+		"Text",
+		"TextDisabled",
+		"WindowBg",
+		"ChildBg",
+		"PopupBg",
+		"Border",
+		"BorderShadow",
+		"FrameBg",
+		"FrameBgHovered",
+		"FrameBgActive",
+		"TitleBg",
+		"TitleBgActive",
+		"TitleBgCollapsed",
+		"MenuBarBg",
+		"ScrollbarBg",
+		"ScrollbarGrab",
+		"ScrollbarGrabHovered",
+		"ScrollbarGrabActive",
+		"CheckMark",
+		"SliderGrab",
+		"SliderGrabActive",
+		"Button",
+		"ButtonHovered",
+		"ButtonActive",
+		"Header",
+		"HeaderHovered",
+		"HeaderActive",
+		"Separator",
+		"SeparatorHovered",
+		"SeparatorActive",
+		"ResizeGrip",
+		"ResizeGripHovered",
+		"ResizeGripActive",
+		"PlotLines",
+		"PlotLinesHovered",
+		"PlotHistogram",
+		"PlotHistogramHovered",
+		"TextSelectedBg",
+		"DragDropTarget",
+		"NavHighlight",
+		"NavWindowingHighlight",
+		"NavWindowingDimBg",
+		"ModalWindowDimBg"
+	};
+	ImGuiStyle &style=GetStyle();
+	XMLNode colors_n=node.getChildNode("colors");
+	if(!colors_n.isEmpty()){
+		for(int q=0;q<colors.size();q++){
+			XMLNode color_n=colors_n.getChildNode(colors[q]);
+			if(color_n.isEmpty())
+				continue;
+			ImVec4 color(
+				stoi(color_n.getAttribute("r"))/255.0f,
+				stoi(color_n.getAttribute("g"))/255.0f,
+				stoi(color_n.getAttribute("b"))/255.0f,
+				stoi(color_n.getAttribute("a"))/255.0f
+			);
+			style.Colors[q]=color;
+		}
+	}
+	get_value(node,"Alpha",style.Alpha);
+	style.Alpha/=255.0f;
+	get_value(node,"WindowPadding",style.WindowPadding);
+	get_value(node,"WindowRounding",style.WindowRounding);
+	get_value(node,"WindowBorderSize",style.WindowBorderSize);
+	get_value(node,"WindowMinSize",style.WindowMinSize);
+	get_value(node,"WindowTitleAlign",style.WindowTitleAlign);
+	get_value(node,"ChildRounding",style.ChildRounding);
+	get_value(node,"FramePadding",style.FramePadding);
+	get_value(node,"PopupBorderSize",style.PopupBorderSize);
+	get_value(node,"FrameRounding",style.FrameRounding);
+	get_value(node,"FrameBorderSize",style.FrameBorderSize);
+	get_value(node,"ItemSpacing",style.ItemSpacing);
+	get_value(node,"ItemInnerSpacing",style.ItemInnerSpacing);
+	get_value(node,"TouchExtraPadding",style.TouchExtraPadding);
+	get_value(node,"IndentSpacing",style.IndentSpacing);
+	get_value(node,"ColumnsMinSpacing",style.ColumnsMinSpacing);
+	get_value(node,"ScrollbarSize",style.ScrollbarSize);
+	get_value(node,"ScrollbarRounding",style.ScrollbarRounding);
+	get_value(node,"GrabMinSize",style.GrabMinSize);
+	get_value(node,"GrabRounding",style.GrabRounding);
+	get_value(node,"ButtonTextAlign",style.ButtonTextAlign);
+	get_value(node,"DisplayWindowPadding",style.DisplayWindowPadding);
+	get_value(node,"DisplaySafeAreaPadding",style.ChildBorderSize);
+	get_value(node,"MouseCursorScale",style.MouseCursorScale);
+	get_value(node,"AntiAliasedLines",style.AntiAliasedLines);
+	get_value(node,"AntiAliasedFill",style.AntiAliasedFill);
+	get_value(node,"CurveTessellationTol",style.CurveTessellationTol);
 }
 void Interface::load_imgui_font(string name,float size){
 	ImFontConfig font_config;
