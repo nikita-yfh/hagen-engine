@@ -23,6 +23,8 @@ Pause::Pause(){
 	get_text("pause/load_game");
 	get_text("pause/settings");
 	get_text("pause/main_menu");
+	get_text("pause/main_menu_title");
+	get_text("pause/main_menu_text");
 	get_text("pause/exit_game");
 }
 void Pause::Draw(){
@@ -46,17 +48,19 @@ void Pause::Draw(){
 	Button(get_text("pause/load_game").c_str(),align);
 	Button(get_text("pause/settings").c_str(),align);
 	if(Button(get_text("pause/main_menu").c_str(),align))
-		ImGui::OpenPopup("Exit to menu?");
+		ImGui::OpenPopup(get_text("pause/main_menu_title").c_str());
 	Button(get_text("pause/exit_game").c_str(),align);
 	w=GetWindowContentRegionWidth();
-	if (ImGui::BeginPopupModal("Exit to menu?", NULL, ImGuiWindowFlags_AlwaysAutoResize)){
-		ImGui::Text("All unsaved data will be lost!");
+	SetNextWindowPos(ImVec2(io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.5f),
+										ImGuiCond_Always, ImVec2(0.5f,0.5f));
+	if (ImGui::BeginPopupModal(get_text("pause/main_menu_title").c_str(), NULL, ImGuiWindowFlags_AlwaysAutoResize)){
+		ImGui::TextWrapped(get_text("pause/main_menu_text").c_str());
 		ImGui::Separator();
 
-		if (ImGui::Button("OK", ImVec2(120, 0))) { ImGui::CloseCurrentPopup(); }
+		ImGui::Button(get_text("common/ok").c_str(), ImVec2(120, 0));
 		ImGui::SetItemDefaultFocus();
 		ImGui::SameLine();
-		if (ImGui::Button("Cancel", ImVec2(120, 0))) { ImGui::CloseCurrentPopup(); }
+		if (ImGui::Button(get_text("common/cancel").c_str(), ImVec2(120, 0))) { ImGui::CloseCurrentPopup(); }
 		ImGui::EndPopup();
 	}
 	End();
