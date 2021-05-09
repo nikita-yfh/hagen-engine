@@ -272,21 +272,24 @@ void Interface::init_imgui() {
 	StyleColorsDark();
 	load_imgui_config();
 }
-void get_value(XMLNode node, const char *name,float &value) {
+bool get_value(XMLNode node, const char *name,float &value) {
 	XMLNode value_n=node.getChildNode(name);
-	if(value_n.isEmpty())return;
+	if(value_n.isEmpty())return 0;
 	value=stof(value_n.getAttribute("value"));
+	return 1;
 };
-void get_value(XMLNode node, const char *name,bool &value) {
+bool get_value(XMLNode node, const char *name,bool &value) {
 	XMLNode value_n=node.getChildNode(name);
-	if(value_n.isEmpty())return;
+	if(value_n.isEmpty())return 0;
 	value=stoi(value_n.getAttribute("value"));
+	return 1;
 };
-void get_value(XMLNode node, const char *name,ImVec2 &value) {
+bool get_value(XMLNode node, const char *name,ImVec2 &value) {
 	XMLNode value_n=node.getChildNode(name);
-	if(value_n.isEmpty())return;
+	if(value_n.isEmpty())return 0;
 	value.x=stof(value_n.getAttribute("x"));
 	value.y=stof(value_n.getAttribute("y"));
+	return 1;
 };
 void Interface::load_imgui_config() {
 	XMLNode node=XMLNode::openFileHelper((prefix+"config/imgui.xml").c_str(),"imgui");
@@ -354,8 +357,8 @@ void Interface::load_imgui_config() {
 			style.Colors[q]=color;
 		}
 	}
-	get_value(node,"Alpha",style.Alpha);
-	style.Alpha/=255.0f;
+	if(get_value(node,"Alpha",					style.Alpha))
+		style.Alpha/=255.0f;
 	get_value(node,"WindowPadding",				style.WindowPadding);
 	get_value(node,"WindowRounding",			style.WindowRounding);
 	get_value(node,"WindowBorderSize",			style.WindowBorderSize);
