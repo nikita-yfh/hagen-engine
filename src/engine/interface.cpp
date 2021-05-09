@@ -38,8 +38,10 @@ void Pause::Draw(){
 	}
 	static float w=0;
 	ImVec2 align=ImVec2(w, 0);
-	if(ImGui::Button(get_text("pause/continue").c_str(),align))
+	if(ImGui::Button(get_text("pause/continue").c_str(),align)){
 		shown=0;
+		interface.console.shown=0;
+	}
 	ImGui::Button(get_text("pause/save_game").c_str(),align);
 	ImGui::Button(get_text("pause/load_game").c_str(),align);
 	ImGui::Button(get_text("pause/settings").c_str(),align);
@@ -257,7 +259,6 @@ void Interface::show() {
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL2_NewFrame(SDL_GetWindowFromID(ren->context->windowID));
 	ImGui::NewFrame();
-	ImGui::ShowDemoWindow(0);
 	console.Draw();
 	pause.Draw();
 	ImGui::Render();
