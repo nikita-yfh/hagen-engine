@@ -61,7 +61,6 @@ void Pause::Draw() {
 		ImGui::Separator();
 
 		ImGui::Button(get_text("common/ok").c_str(), ImVec2(120, 0));
-		ImGui::SetItemDefaultFocus();
 		ImGui::SameLine();
 		if (ImGui::Button(get_text("common/cancel").c_str(), ImVec2(120, 0))) {
 			ImGui::CloseCurrentPopup();
@@ -75,7 +74,6 @@ void Pause::Draw() {
 		ImGui::Separator();
 
 		ImGui::Button(get_text("common/ok").c_str(), ImVec2(120, 0));
-		ImGui::SetItemDefaultFocus();
 		ImGui::SameLine();
 		if (ImGui::Button(get_text("common/cancel").c_str(), ImVec2(120, 0))) {
 			ImGui::CloseCurrentPopup();
@@ -174,14 +172,25 @@ int Console::TextEditCallbackStub(ImGuiInputTextCallbackData* data) {
 int Console::TextEditCallback(ImGuiInputTextCallbackData* data) {
 	switch (data->EventFlag) {
 	case ImGuiInputTextFlags_CallbackCompletion: {
-		const char* word_end = data->Buf + data->CursorPos;
-		const char* word_start = word_end;
-		while (word_start > data->Buf) {
-			const char c = word_start[-1];
-			if (c == ' ' || c == '\t' || c == ',' || c == ';')
-				break;
-			word_start--;
-		}
+		string command=data->Buf;
+		command.erase(command.begin()+data->CursorPos,command.end());
+
+		char break_chars[]=" \t,;*&><=-+^~()[]{}\"'?%$#@\\|";
+		int pos=command.size()-1;
+		while(pos-->0){
+			bool ok=0;
+			for(char c : break_chars){
+				if(command[pos]==c){
+					command.erase(command.begin(),command.begin()+pos+1);
+					goto end;
+				}		//	|
+			}			//	|
+			if(ok)break;//	|
+		}				//	|
+						//	v
+							end:
+
+		cout<<command<<endl;
 
 		vector<string> candidates;
 
@@ -189,19 +198,6 @@ int Console::TextEditCallback(ImGuiInputTextCallbackData* data) {
 			data->DeleteChars(0, data->BufTextLen);
 			data->InsertChars(0, candidates[0].c_str());
 		} else if(candidates.size()) {
-			int match_len = (int)(word_end - word_start);
-			for (;;) {
-				int c = 0;
-				bool all_candidates_matches = true;
-				for (int i = 0; i < candidates.size() && all_candidates_matches; i++)
-					if (i == 0)
-						c = toupper(candidates[i][match_len]);
-					else if (c == 0 || c != toupper(candidates[i][match_len]))
-						all_candidates_matches = false;
-				if (!all_candidates_matches)
-					break;
-				match_len++;
-			}
 			AddLog(get_text("console/matches"));
 			for (int i = 0; i < candidates.size(); i++)
 				AddLog("- "+candidates[i]);
@@ -407,7 +403,6 @@ void Interface::show() {
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL2_NewFrame(SDL_GetWindowFromID(ren->context->windowID));
 	NewFrame();
-	ShowDemoWindow(&console.shown);
 	console.Draw();
 	pause.Draw();
 	Render();
