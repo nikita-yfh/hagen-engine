@@ -17,7 +17,7 @@ static inline void trim(std::string &s) {
 		s.erase(s.end());
 }
 
-Pause::Pause(){
+Pause::Pause() {
 	get_text("pause/continue");
 	get_text("pause/save_game");
 	get_text("pause/load_game");
@@ -29,20 +29,20 @@ Pause::Pause(){
 	get_text("pause/exit_game_title");
 	get_text("pause/exit_game_text");
 }
-void Pause::Draw(){
+void Pause::Draw() {
 	if(!shown)return;
 	ImVec2 g=GetItemRectSize();
 	ImGuiIO &io=GetIO();
 	SetNextWindowPos(ImVec2(io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.5f),
-										ImGuiCond_Always, ImVec2(0.5f,0.5f));
+					 ImGuiCond_Always, ImVec2(0.5f,0.5f));
 	if (!Begin("", &shown,ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse |
-					ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar)) {
+			   ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar)) {
 		End();
 		return;
 	}
 	static float w=0;
 	ImVec2 align=ImVec2(w, 0);
-	if(Button(get_text("pause/continue").c_str(),align)){
+	if(Button(get_text("pause/continue").c_str(),align)) {
 		shown=0;
 		interface.console.shown=0;
 	}
@@ -55,27 +55,31 @@ void Pause::Draw(){
 		ImGui::OpenPopup(get_text("pause/exit_game_title").c_str());
 	w=GetWindowContentRegionWidth();
 	SetNextWindowPos(ImVec2(io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.5f),
-										ImGuiCond_Always, ImVec2(0.5f,0.5f));
-	if (ImGui::BeginPopupModal(get_text("pause/main_menu_title").c_str(), NULL, ImGuiWindowFlags_AlwaysAutoResize)){
+					 ImGuiCond_Always, ImVec2(0.5f,0.5f));
+	if (ImGui::BeginPopupModal(get_text("pause/main_menu_title").c_str(), NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
 		ImGui::TextWrapped(get_text("pause/main_menu_text").c_str());
 		ImGui::Separator();
 
 		ImGui::Button(get_text("common/ok").c_str(), ImVec2(120, 0));
 		ImGui::SetItemDefaultFocus();
 		ImGui::SameLine();
-		if (ImGui::Button(get_text("common/cancel").c_str(), ImVec2(120, 0))) { ImGui::CloseCurrentPopup(); }
+		if (ImGui::Button(get_text("common/cancel").c_str(), ImVec2(120, 0))) {
+			ImGui::CloseCurrentPopup();
+		}
 		ImGui::EndPopup();
 	}
 	SetNextWindowPos(ImVec2(io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.5f),
-										ImGuiCond_Always, ImVec2(0.5f,0.5f));
-	if (ImGui::BeginPopupModal(get_text("pause/exit_game_title").c_str(), NULL, ImGuiWindowFlags_AlwaysAutoResize)){
+					 ImGuiCond_Always, ImVec2(0.5f,0.5f));
+	if (ImGui::BeginPopupModal(get_text("pause/exit_game_title").c_str(), NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
 		ImGui::TextWrapped(get_text("pause/exit_game_text").c_str());
 		ImGui::Separator();
 
 		ImGui::Button(get_text("common/ok").c_str(), ImVec2(120, 0));
 		ImGui::SetItemDefaultFocus();
 		ImGui::SameLine();
-		if (ImGui::Button(get_text("common/cancel").c_str(), ImVec2(120, 0))) { ImGui::CloseCurrentPopup(); }
+		if (ImGui::Button(get_text("common/cancel").c_str(), ImVec2(120, 0))) {
+			ImGui::CloseCurrentPopup();
+		}
 		ImGui::EndPopup();
 	}
 	End();
@@ -243,7 +247,7 @@ void Interface::update() {
 	if(e.type==SDL_KEYDOWN) {
 		if(e.key.keysym.sym==SDLK_BACKQUOTE)
 			console.shown=!console.shown;
-		else if(e.key.keysym.sym==SDLK_ESCAPE){
+		else if(e.key.keysym.sym==SDLK_ESCAPE) {
 			if(console.shown)
 				console.shown=0;
 			else
@@ -268,28 +272,28 @@ void Interface::init_imgui() {
 	StyleColorsDark();
 	load_imgui_config();
 }
-void get_value(XMLNode node, const char *name,float &value){
+void get_value(XMLNode node, const char *name,float &value) {
 	XMLNode value_n=node.getChildNode(name);
 	if(value_n.isEmpty())return;
 	value=stof(value_n.getAttribute("value"));
 };
-void get_value(XMLNode node, const char *name,bool &value){
+void get_value(XMLNode node, const char *name,bool &value) {
 	XMLNode value_n=node.getChildNode(name);
 	if(value_n.isEmpty())return;
 	value=stoi(value_n.getAttribute("value"));
 };
-void get_value(XMLNode node, const char *name,ImVec2 &value){
+void get_value(XMLNode node, const char *name,ImVec2 &value) {
 	XMLNode value_n=node.getChildNode(name);
 	if(value_n.isEmpty())return;
 	value.x=stof(value_n.getAttribute("x"));
 	value.y=stof(value_n.getAttribute("y"));
 };
-void Interface::load_imgui_config(){
+void Interface::load_imgui_config() {
 	XMLNode node=XMLNode::openFileHelper((prefix+"config/imgui.xml").c_str(),"imgui");
 	XMLNode text=node.getChildNode("text");
 	if(!text.isEmpty())
 		load_imgui_font(text.getAttribute("name"),stof(text.getAttribute("size")));
-	vector<const char*>colors={
+	vector<const char*>colors= {
 		"Text",
 		"TextDisabled",
 		"WindowBg",
@@ -336,8 +340,8 @@ void Interface::load_imgui_config(){
 	};
 	ImGuiStyle &style=GetStyle();
 	XMLNode colors_n=node.getChildNode("colors");
-	if(!colors_n.isEmpty()){
-		for(int q=0;q<colors.size();q++){
+	if(!colors_n.isEmpty()) {
+		for(int q=0; q<colors.size(); q++) {
 			XMLNode color_n=colors_n.getChildNode(colors[q]);
 			if(color_n.isEmpty())
 				continue;
@@ -352,45 +356,44 @@ void Interface::load_imgui_config(){
 	}
 	get_value(node,"Alpha",style.Alpha);
 	style.Alpha/=255.0f;
-	get_value(node,"WindowPadding",style.WindowPadding);
-	get_value(node,"WindowRounding",style.WindowRounding);
-	get_value(node,"WindowBorderSize",style.WindowBorderSize);
-	get_value(node,"WindowMinSize",style.WindowMinSize);
-	get_value(node,"WindowTitleAlign",style.WindowTitleAlign);
-	get_value(node,"ChildRounding",style.ChildRounding);
-	get_value(node,"FramePadding",style.FramePadding);
-	get_value(node,"PopupBorderSize",style.PopupBorderSize);
-	get_value(node,"FrameRounding",style.FrameRounding);
-	get_value(node,"FrameBorderSize",style.FrameBorderSize);
-	get_value(node,"ItemSpacing",style.ItemSpacing);
-	get_value(node,"ItemInnerSpacing",style.ItemInnerSpacing);
-	get_value(node,"TouchExtraPadding",style.TouchExtraPadding);
-	get_value(node,"IndentSpacing",style.IndentSpacing);
-	get_value(node,"ColumnsMinSpacing",style.ColumnsMinSpacing);
-	get_value(node,"ScrollbarSize",style.ScrollbarSize);
-	get_value(node,"ScrollbarRounding",style.ScrollbarRounding);
-	get_value(node,"GrabMinSize",style.GrabMinSize);
-	get_value(node,"GrabRounding",style.GrabRounding);
-	get_value(node,"ButtonTextAlign",style.ButtonTextAlign);
-	get_value(node,"DisplayWindowPadding",style.DisplayWindowPadding);
-	get_value(node,"DisplaySafeAreaPadding",style.ChildBorderSize);
-	get_value(node,"MouseCursorScale",style.MouseCursorScale);
-	get_value(node,"AntiAliasedLines",style.AntiAliasedLines);
-	get_value(node,"AntiAliasedFill",style.AntiAliasedFill);
-	get_value(node,"CurveTessellationTol",style.CurveTessellationTol);
+	get_value(node,"WindowPadding",				style.WindowPadding);
+	get_value(node,"WindowRounding",			style.WindowRounding);
+	get_value(node,"WindowBorderSize",			style.WindowBorderSize);
+	get_value(node,"WindowMinSize",				style.WindowMinSize);
+	get_value(node,"WindowTitleAlign",			style.WindowTitleAlign);
+	get_value(node,"ChildRounding",				style.ChildRounding);
+	get_value(node,"FramePadding",				style.FramePadding);
+	get_value(node,"PopupBorderSize",			style.PopupBorderSize);
+	get_value(node,"FrameRounding",				style.FrameRounding);
+	get_value(node,"FrameBorderSize",			style.FrameBorderSize);
+	get_value(node,"ItemSpacing",				style.ItemSpacing);
+	get_value(node,"ItemInnerSpacing",			style.ItemInnerSpacing);
+	get_value(node,"TouchExtraPadding",			style.TouchExtraPadding);
+	get_value(node,"IndentSpacing",				style.IndentSpacing);
+	get_value(node,"ColumnsMinSpacing",			style.ColumnsMinSpacing);
+	get_value(node,"ScrollbarSize",				style.ScrollbarSize);
+	get_value(node,"ScrollbarRounding",			style.ScrollbarRounding);
+	get_value(node,"GrabMinSize",				style.GrabMinSize);
+	get_value(node,"GrabRounding",				style.GrabRounding);
+	get_value(node,"ButtonTextAlign",			style.ButtonTextAlign);
+	get_value(node,"DisplayWindowPadding",		style.DisplayWindowPadding);
+	get_value(node,"DisplaySafeAreaPadding",	style.ChildBorderSize);
+	get_value(node,"MouseCursorScale",			style.MouseCursorScale);
+	get_value(node,"AntiAliasedLines",			style.AntiAliasedLines);
+	get_value(node,"AntiAliasedFill",			style.AntiAliasedFill);
+	get_value(node,"CurveTessellationTol",		style.CurveTessellationTol);
 }
-void Interface::load_imgui_font(string name,float size){
+void Interface::load_imgui_font(string name,float size) {
 	ImFontConfig font_config;
-    font_config.OversampleH = 1;
-    font_config.OversampleV = 1;
-    font_config.PixelSnapH = 1;
+	font_config.OversampleH = 1;
+	font_config.OversampleV = 1;
+	font_config.PixelSnapH = 1;
 
-    static const ImWchar ranges[] =
-    {
-        0x0020, 0x00FF,
-        0x0400, 0x044F,
-        0,
-    };
+	static const ImWchar ranges[] = {
+		0x0020, 0x00FF,
+		0x0400, 0x044F,
+		0,
+	};
 	GetIO().Fonts->AddFontFromFileTTF((prefix+"fonts/"+name).c_str(), size, &font_config, ranges);
 }
 void Interface::load_config() {
