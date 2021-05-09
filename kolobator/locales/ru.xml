@@ -14,7 +14,6 @@
 		<matches>Возможные варианты:</matches>
 	</console>
 	<pause>
-		<pause>Меню паузы</pause>
 		<continue>Продолжить</continue>
 		<save_game>Сохранить</save_game>
 		<load_game>Загрузить</load_game>

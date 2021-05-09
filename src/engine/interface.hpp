@@ -41,11 +41,17 @@ struct Game_interface {
 	void update();
 	Rect4 borders;
 };
+struct Pause{
+	bool shown=false;
+	Pause();
+	void Draw();
+};
 struct Interface {
 	void init_imgui();
 	void load_imgui_font();
 	Game_interface game_interface;
 	Console console;
+	Pause pause;
 	void show();
 	void update();
 	void load_config();

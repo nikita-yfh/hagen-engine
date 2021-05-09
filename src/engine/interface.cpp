@@ -16,7 +16,38 @@ static inline void trim(std::string &s) {
 		s.erase(s.end());
 }
 
+Pause::Pause(){
+	get_text("pause/continue");
+	get_text("pause/save_game");
+	get_text("pause/load_game");
+	get_text("pause/settings");
+	get_text("pause/main_menu");
+	get_text("pause/exit_game");
+}
 
+void Pause::Draw(){
+	if(!shown)return;
+	ImVec2 g=ImGui::GetItemRectSize();
+	ImGuiIO &io=ImGui::GetIO();
+	ImGui::SetNextWindowPos(ImVec2(io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.5f),
+										ImGuiCond_Always, ImVec2(0.5f,0.5f));
+	if (!ImGui::Begin("", &shown,ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse |
+					ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar)) {
+		ImGui::End();
+		return;
+	}
+	static float w=0;
+	ImVec2 align=ImVec2(w, 0);
+	if(ImGui::Button(get_text("pause/continue").c_str(),align))
+		shown=0;
+	ImGui::Button(get_text("pause/save_game").c_str(),align);
+	ImGui::Button(get_text("pause/load_game").c_str(),align);
+	ImGui::Button(get_text("pause/settings").c_str(),align);
+	ImGui::Button(get_text("pause/main_menu").c_str(),align);
+	ImGui::Button(get_text("pause/exit_game").c_str(),align);
+	w=ImGui::GetWindowContentRegionWidth();
+	ImGui::End();
+}
 
 Console::Console() {
 	ClearLog();
@@ -33,12 +64,10 @@ Console::~Console() {
 void  Console::ClearLog() {
 	Items.clear();
 }
-
 void Console::AddLog(string str) {
 	Items.push_back(str+"\n");
 	ScrollToBottom=true;
 }
-
 void Console::Draw() {
 	if(!shown)return;
 	ImGui::SetNextWindowSize(ImVec2(520, 600), ImGuiCond_FirstUseEver);
@@ -89,7 +118,6 @@ void Console::Draw() {
 
 	ImGui::End();
 }
-
 void Console::ExecCommand(string command_line) {
 	AddLog("> "+command_line);
 	HistoryPos = -1;
@@ -106,7 +134,6 @@ int Console::TextEditCallbackStub(ImGuiInputTextCallbackData* data) {
 	Console* console = (Console*)data->UserData;
 	return console->TextEditCallback(data);
 }
-
 int Console::TextEditCallback(ImGuiInputTextCallbackData* data) {
 	switch (data->EventFlag) {
 	case ImGuiInputTextFlags_CallbackCompletion: {
@@ -183,8 +210,13 @@ void Interface::update() {
 	if(e.type==SDL_KEYDOWN) {
 		if(e.key.keysym.sym==SDLK_BACKQUOTE)
 			console.shown=!console.shown;
-		else if(e.key.keysym.sym==SDLK_ESCAPE && console.shown)
-			console.shown=0;
+		else if(e.key.keysym.sym==SDLK_ESCAPE){
+			if(console.shown)
+				console.shown=0;
+			else
+				pause.shown=!pause.shown;
+		}
+
 	}
 	game_interface.update();
 	ImGui_ImplSDL2_ProcessEvent(&e);
@@ -196,6 +228,7 @@ void Interface::init_imgui() {
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO();
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+	io.IniFilename=nullptr;
 	const char* glsl_version = "#version 120";
 	ImGui_ImplOpenGL3_Init(glsl_version);
 	ImGui_ImplSDL2_InitForOpenGL(window, gl_context);
@@ -214,7 +247,7 @@ void Interface::load_imgui_font(){
         0x0400, 0x044F,
         0,
     };
-	ImGui::GetIO().Fonts->AddFontFromFileTTF((prefix+"fonts/interface.ttf").c_str(), 14.0f, &font_config, ranges);
+	ImGui::GetIO().Fonts->AddFontFromFileTTF((prefix+"fonts/interface.ttf").c_str(), 20.0f, &font_config, ranges);
 }
 void Interface::load_config() {
 	game_interface.load_config();
@@ -224,7 +257,9 @@ void Interface::show() {
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL2_NewFrame(SDL_GetWindowFromID(ren->context->windowID));
 	ImGui::NewFrame();
+	ImGui::ShowDemoWindow(0);
 	console.Draw();
+	pause.Draw();
 	ImGui::Render();
 	SDL_GL_MakeCurrent(SDL_GetWindowFromID(ren->context->windowID), ren->context->context);
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
