@@ -28,6 +28,8 @@
 		<main_menu_title>Выйти в меню?</main_menu_title>
 		<main_menu_text>Не сохраненный игровой прогресс будет утерян!</main_menu_text>
 		<exit_game>Выйти из игры</exit_game>
+		<exit_game_title>Выйти из игры?</exit_game_title>
+		<exit_game_text>Не сохраненный игровой прогресс будет утерян!</exit_game_text>
 	</pause>
 ]
 </text>

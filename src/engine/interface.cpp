@@ -26,6 +26,8 @@ Pause::Pause(){
 	get_text("pause/main_menu_title");
 	get_text("pause/main_menu_text");
 	get_text("pause/exit_game");
+	get_text("pause/exit_game_title");
+	get_text("pause/exit_game_text");
 }
 void Pause::Draw(){
 	if(!shown)return;
@@ -49,12 +51,25 @@ void Pause::Draw(){
 	Button(get_text("pause/settings").c_str(),align);
 	if(Button(get_text("pause/main_menu").c_str(),align))
 		ImGui::OpenPopup(get_text("pause/main_menu_title").c_str());
-	Button(get_text("pause/exit_game").c_str(),align);
+	if(Button(get_text("pause/exit_game").c_str(),align))
+		ImGui::OpenPopup(get_text("pause/exit_game_title").c_str());
 	w=GetWindowContentRegionWidth();
 	SetNextWindowPos(ImVec2(io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.5f),
 										ImGuiCond_Always, ImVec2(0.5f,0.5f));
 	if (ImGui::BeginPopupModal(get_text("pause/main_menu_title").c_str(), NULL, ImGuiWindowFlags_AlwaysAutoResize)){
 		ImGui::TextWrapped(get_text("pause/main_menu_text").c_str());
+		ImGui::Separator();
+
+		ImGui::Button(get_text("common/ok").c_str(), ImVec2(120, 0));
+		ImGui::SetItemDefaultFocus();
+		ImGui::SameLine();
+		if (ImGui::Button(get_text("common/cancel").c_str(), ImVec2(120, 0))) { ImGui::CloseCurrentPopup(); }
+		ImGui::EndPopup();
+	}
+	SetNextWindowPos(ImVec2(io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.5f),
+										ImGuiCond_Always, ImVec2(0.5f,0.5f));
+	if (ImGui::BeginPopupModal(get_text("pause/exit_game_title").c_str(), NULL, ImGuiWindowFlags_AlwaysAutoResize)){
+		ImGui::TextWrapped(get_text("pause/exit_game_text").c_str());
 		ImGui::Separator();
 
 		ImGui::Button(get_text("common/ok").c_str(), ImVec2(120, 0));
