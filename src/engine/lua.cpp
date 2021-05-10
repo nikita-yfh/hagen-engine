@@ -498,4 +498,30 @@ void quit() {
 int get_time() {
 	return game_timer;
 }
+/*void save_luaref(XMLNode node,string name,LuaRef value){
+	if(value.isBool()){
+		n.addAttribute("type","boolean");
+		n.addAttribute("value",value.cast<bool>());
+	}else if(value.isNumber()){
+		n.addAttribute("type","number");
+		n.addAttribute("value",value.cast<float>());
+	}else if(value.isNil()){
+		n.addAttribute("type","nil");
+	}else if(value.isString()){
+		n.addAttribute("type","string");
+		n.addAttribute("value",value.cast<string>())
+	}else if(value.isTable()){
+		n.addAttribute("type","table");
+		value.push(L);
+		push(L,Nil());
+		while(lua_next(L,-2)!=0){
+			LuaRef key=LuaRef::fromStack(L,-2);
+			LuaRef val=LuaRef::fromStack(L,-1);
+			if(key.isString()){
+
+			}
+			lua_pop(L,1);
+		}
+	}
+}*/
 };

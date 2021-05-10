@@ -16,3 +16,5 @@ extern map<string,b2Joint*>joints;
 extern map<string,Entity*>entities;
 extern b2World *world;
 extern string background;
+
+void save_world_state();

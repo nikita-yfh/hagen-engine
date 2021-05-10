@@ -143,3 +143,13 @@ void save_value(XMLNode node, const char *name,b2Vec2 &value) {
 	value_n.addAttribute("x",value.x);
 	value_n.addAttribute("y",value.y);
 };
+
+void save_value(XMLNode node, const char *name,float &value) {
+	XMLNode value_n=node.addChild(name);
+	value_n.addAttribute("value",value);
+};
+
+void save_value(XMLNode node, const char *name,bool &value) {
+	XMLNode value_n=node.addChild(name);
+	value_n.addAttribute("value",value);
+};

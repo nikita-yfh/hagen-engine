@@ -16,7 +16,33 @@ map<string,b2Joint*>joints;
 map<string,Entity*>entities;
 string background;
 b2World *world=0;
+void save_body_state(XMLNode bd,b2Body *body){
+	bd.addAttribute("id",body->GetID());
+	{
+		XMLNode pos=bd.addChild("position");
+		pos.addAttribute("x",body->m_xf.p.x);
+		pos.addAttribute("y",body->m_xf.p.y);
+		pos.addAttribute("angle",body->m_sweep.a);
+	}
+	{
+		XMLNode vel=bd.addChild("velocity");
+		vel.addAttribute("x",body->m_linearVelocity.x);
+		vel.addAttribute("y",body->m_linearVelocity.y);
+		vel.addAttribute("angle",body->m_angularVelocity);
+	}
+}
+void save_entity_state(XMLNode en,Entity *entity){
 
+}
+void save_world_state(){
+	XMLNode Main=XMLNode::createXMLTopNode("xml",1);
+	XMLNode lvl=Main.addChild("level");
+	for(auto &body : bodies){
+		XMLNode bd=lvl.addChild("body");
+		save_body_state(bd,body.second);
+	}
+	Main.writeToFile((prefix+"save.xml").c_str());
+}
 b2Body* read_body(XMLNode bd,b2Vec2 delta,bool temp) {
 	int shapes_count=stoi(bd.getAttribute("shapes"));
 	if(shapes_count==0)

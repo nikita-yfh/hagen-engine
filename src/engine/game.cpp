@@ -26,6 +26,9 @@ bool game() {
 			case SDL_QUIT:
 				run=0;
 				break;
+			case SDL_KEYDOWN:
+				if(key[SDL_SCANCODE_G])
+					save_world_state();
 			}
 			interface.update();
 		}
