@@ -107,3 +107,39 @@ b2Vec2 point2_per(b2Vec2 v1,b2Vec2 v2,float width){
 bool bigger_angle(b2Vec2 v1,b2Vec2 v2){
 	return v1.x*v2.y>v1.y*v2.x;
 }
+
+bool load_value(XMLNode node, const char *name,float &value) {
+	XMLNode value_n=node.getChildNode(name);
+	if(value_n.isEmpty())return 0;
+	value=stof(value_n.getAttribute("value"));
+	return 1;
+};
+bool load_value(XMLNode node, const char *name,bool &value) {
+	XMLNode value_n=node.getChildNode(name);
+	if(value_n.isEmpty())return 0;
+	value=stoi(value_n.getAttribute("value"));
+	return 1;
+};
+bool load_value(XMLNode node, const char *name,ImVec2 &value) {
+	XMLNode value_n=node.getChildNode(name);
+	if(value_n.isEmpty())return 0;
+	value.x=stof(value_n.getAttribute("x"));
+	value.y=stof(value_n.getAttribute("y"));
+	return 1;
+};
+
+
+bool load_value(XMLNode node, const char *name,b2Vec2 &value) {
+	XMLNode value_n=node.getChildNode(name);
+	if(value_n.isEmpty())return 0;
+	value.x=stof(value_n.getAttribute("x"));
+	value.y=stof(value_n.getAttribute("y"));
+	return 1;
+};
+
+
+void save_value(XMLNode node, const char *name,b2Vec2 &value) {
+	XMLNode value_n=node.addChild(name);
+	value_n.addAttribute("x",value.x);
+	value_n.addAttribute("y",value.y);
+};

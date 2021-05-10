@@ -3,6 +3,7 @@
 #include "sdl.hpp"
 #include "entity.hpp"
 #include "weapon.hpp"
+#include "interface.hpp"
 #include <string>
 void close_level();
 void load_level(string name);
@@ -19,3 +20,9 @@ b2Vec2 bis(b2Vec2 v1,b2Vec2 v2,float length);
 b2Vec2 point2_per(b2Vec2 v1,b2Vec2 v2,float width);
 float vec_angle(b2Vec2 p);
 bool bigger_angle(b2Vec2 v1,b2Vec2 v2);
+
+bool load_value(XMLNode node, const char *name,float &value);
+bool load_value(XMLNode node, const char *name,bool &value);
+bool load_value(XMLNode node, const char *name,ImVec2 &value);
+bool load_value(XMLNode node, const char *name,b2Vec2 &value);
+void save_value(XMLNode node, const char *name,b2Vec2 &value);

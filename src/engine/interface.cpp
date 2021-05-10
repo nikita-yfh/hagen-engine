@@ -269,25 +269,6 @@ void Interface::init_imgui() {
 	StyleColorsDark();
 	load_imgui_config();
 }
-bool get_value(XMLNode node, const char *name,float &value) {
-	XMLNode value_n=node.getChildNode(name);
-	if(value_n.isEmpty())return 0;
-	value=stof(value_n.getAttribute("value"));
-	return 1;
-};
-bool get_value(XMLNode node, const char *name,bool &value) {
-	XMLNode value_n=node.getChildNode(name);
-	if(value_n.isEmpty())return 0;
-	value=stoi(value_n.getAttribute("value"));
-	return 1;
-};
-bool get_value(XMLNode node, const char *name,ImVec2 &value) {
-	XMLNode value_n=node.getChildNode(name);
-	if(value_n.isEmpty())return 0;
-	value.x=stof(value_n.getAttribute("x"));
-	value.y=stof(value_n.getAttribute("y"));
-	return 1;
-};
 void Interface::load_imgui_config() {
 	XMLNode node=XMLNode::openFileHelper((prefix+"config/imgui.xml").c_str(),"imgui");
 	XMLNode text=node.getChildNode("text");
@@ -354,34 +335,34 @@ void Interface::load_imgui_config() {
 			style.Colors[q]=color;
 		}
 	}
-	if(get_value(node,"Alpha",					style.Alpha))
+	if(load_value(node,"Alpha",					style.Alpha))
 		style.Alpha/=255.0f;
-	get_value(node,"WindowPadding",				style.WindowPadding);
-	get_value(node,"WindowRounding",			style.WindowRounding);
-	get_value(node,"WindowBorderSize",			style.WindowBorderSize);
-	get_value(node,"WindowMinSize",				style.WindowMinSize);
-	get_value(node,"WindowTitleAlign",			style.WindowTitleAlign);
-	get_value(node,"ChildRounding",				style.ChildRounding);
-	get_value(node,"FramePadding",				style.FramePadding);
-	get_value(node,"PopupBorderSize",			style.PopupBorderSize);
-	get_value(node,"FrameRounding",				style.FrameRounding);
-	get_value(node,"FrameBorderSize",			style.FrameBorderSize);
-	get_value(node,"ItemSpacing",				style.ItemSpacing);
-	get_value(node,"ItemInnerSpacing",			style.ItemInnerSpacing);
-	get_value(node,"TouchExtraPadding",			style.TouchExtraPadding);
-	get_value(node,"IndentSpacing",				style.IndentSpacing);
-	get_value(node,"ColumnsMinSpacing",			style.ColumnsMinSpacing);
-	get_value(node,"ScrollbarSize",				style.ScrollbarSize);
-	get_value(node,"ScrollbarRounding",			style.ScrollbarRounding);
-	get_value(node,"GrabMinSize",				style.GrabMinSize);
-	get_value(node,"GrabRounding",				style.GrabRounding);
-	get_value(node,"ButtonTextAlign",			style.ButtonTextAlign);
-	get_value(node,"DisplayWindowPadding",		style.DisplayWindowPadding);
-	get_value(node,"DisplaySafeAreaPadding",	style.ChildBorderSize);
-	get_value(node,"MouseCursorScale",			style.MouseCursorScale);
-	get_value(node,"AntiAliasedLines",			style.AntiAliasedLines);
-	get_value(node,"AntiAliasedFill",			style.AntiAliasedFill);
-	get_value(node,"CurveTessellationTol",		style.CurveTessellationTol);
+	load_value(node,"WindowPadding",				style.WindowPadding);
+	load_value(node,"WindowRounding",			style.WindowRounding);
+	load_value(node,"WindowBorderSize",			style.WindowBorderSize);
+	load_value(node,"WindowMinSize",				style.WindowMinSize);
+	load_value(node,"WindowTitleAlign",			style.WindowTitleAlign);
+	load_value(node,"ChildRounding",				style.ChildRounding);
+	load_value(node,"FramePadding",				style.FramePadding);
+	load_value(node,"PopupBorderSize",			style.PopupBorderSize);
+	load_value(node,"FrameRounding",				style.FrameRounding);
+	load_value(node,"FrameBorderSize",			style.FrameBorderSize);
+	load_value(node,"ItemSpacing",				style.ItemSpacing);
+	load_value(node,"ItemInnerSpacing",			style.ItemInnerSpacing);
+	load_value(node,"TouchExtraPadding",			style.TouchExtraPadding);
+	load_value(node,"IndentSpacing",				style.IndentSpacing);
+	load_value(node,"ColumnsMinSpacing",			style.ColumnsMinSpacing);
+	load_value(node,"ScrollbarSize",				style.ScrollbarSize);
+	load_value(node,"ScrollbarRounding",			style.ScrollbarRounding);
+	load_value(node,"GrabMinSize",				style.GrabMinSize);
+	load_value(node,"GrabRounding",				style.GrabRounding);
+	load_value(node,"ButtonTextAlign",			style.ButtonTextAlign);
+	load_value(node,"DisplayWindowPadding",		style.DisplayWindowPadding);
+	load_value(node,"DisplaySafeAreaPadding",	style.ChildBorderSize);
+	load_value(node,"MouseCursorScale",			style.MouseCursorScale);
+	load_value(node,"AntiAliasedLines",			style.AntiAliasedLines);
+	load_value(node,"AntiAliasedFill",			style.AntiAliasedFill);
+	load_value(node,"CurveTessellationTol",		style.CurveTessellationTol);
 }
 void Interface::load_imgui_font(string name,float size) {
 	ImFontConfig font_config;
