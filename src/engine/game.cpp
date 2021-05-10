@@ -30,12 +30,12 @@ bool game() {
 			interface.update();
 		}
 		mouse.update();
-		if(!interface.console.shown && !interface.pause.shown)
+		if(!interface.shown())
 			lua::gameloop();
 		draw();
 		auto step=chrono::high_resolution_clock::now()-fps;
 		fps = chrono::high_resolution_clock::now();
-		if(!interface.pause.shown){
+		if(!interface.shown()){
 			world->Step(chrono::duration_cast<chrono::microseconds>(step).count()/1000000.0f*time_scale,
 						velocity_iterations,position_iterations);
 			update_fluid();

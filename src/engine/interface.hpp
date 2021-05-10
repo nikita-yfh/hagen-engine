@@ -57,5 +57,6 @@ struct Interface {
 	void update();
 	void load_config();
 	void update_cursor();
+	bool shown();
 };
 extern Interface interface;

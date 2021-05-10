@@ -452,4 +452,7 @@ void Game_interface::show() {
 void Interface::update_cursor() {
 	set_cursor("aim.png");
 }
+bool Interface::shown(){
+	return console.shown || pause.shown;
+}
 Interface interface;

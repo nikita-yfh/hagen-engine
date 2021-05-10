@@ -150,7 +150,7 @@ void init_entities() {
 		init_entity(entity.second);
 }
 void init_weapon(string weapon) {
-	luaL_dostring(L,(weapon+"=extend(Weapon)\n print("+weapon+".init)").c_str());
+	luaL_dostring(L,(weapon+"=extend(Weapon)").c_str());
 	doscript("weapon/"+weapon);
 	getGlobal(L,"Weapon")["init"](&weapons[weapon]);
 	getGlobal(L,weapon.c_str())["init"](&weapons[weapon]);
