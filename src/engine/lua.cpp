@@ -11,6 +11,7 @@
 #include "main.hpp"
 #include "interface.hpp"
 #include <detail/Userdata.h>
+#include <algorithm>
 using namespace luabridge;
 using namespace std;
 uint8_t prev_key[SDL_NUM_SCANCODES];
@@ -56,6 +57,38 @@ void dofile(string file) {
 	if(luaL_dofile(L, file.c_str())) {
 		throw string(lua_tostring(L, -1));
 	}
+}
+
+vector<string>get_table_keys(string name){
+	vector<string>keys;
+	LuaRef g=getGlobal(L,"_G");
+	while(name.find('.')!=name.npos){
+		string table(name,0,name.find('.'));
+		name.erase(0,name.find('.')+1);
+		g=g[table];
+		if(g.isNil())return {};
+	}
+	g.push(L);
+	push(L,Nil());
+	while(lua_next(L,-2)!=0){
+		LuaRef key=LuaRef::fromStack(L,-2);
+		LuaRef val=LuaRef::fromStack(L,-1);
+		if(key.isString()){
+			if(val.isFunction())
+				keys.push_back(key.cast<string>()+"(");
+			else
+				keys.push_back(key.cast<string>());
+		}
+		lua_pop(L,1);
+	}
+	sort(keys.begin(),keys.end());
+	if(name!="")
+		for(int q=0; q<keys.size(); q++)
+			if(keys[q].find(name)!=0) {
+				keys.erase(keys.begin()+q);
+				q--;
+			}
+	return keys;
 }
 
 void dostring(string text) {

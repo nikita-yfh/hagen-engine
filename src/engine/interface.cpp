@@ -126,10 +126,12 @@ void Console::Draw() {
 			color = ImVec4(1.0f, 0.0f, 0.0f, 1.0f);
 		else if (item.find("> ") == 0)
 			color = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
+		else if (item.find("\t\t- ") == 0 || item.find(get_text("console/matches"))!=item.npos)
+			color = ImVec4(1.0f, 1.0f, 0.0f, 1.0f);
 		else
 			color = ImVec4(0.0f, 1.0f, 0.0f, 1.0f);
 		PushStyleColor(ImGuiCol_Text, color);
-		TextUnformatted(item.c_str());
+		TextWrapped(item.c_str());
 		PopStyleColor();
 	}
 	if(GetScrollY() >= GetScrollMaxY() && ScrollToBottom)
@@ -177,29 +179,29 @@ int Console::TextEditCallback(ImGuiInputTextCallbackData* data) {
 
 		char break_chars[]=" \t,;*&><=-+^~()[]{}\"'?%$#@\\|";
 		int pos=command.size()-1;
-		while(pos-->0){
+		while(pos-->0) {
 			bool ok=0;
-			for(char c : break_chars){
-				if(command[pos]==c){
+			for(char c : break_chars) {
+				if(command[pos]==c) {
 					command.erase(command.begin(),command.begin()+pos+1);
-					goto end;
-				}		//	|
-			}			//	|
-			if(ok)break;//	|
-		}				//	|
-						//	v
-							end:
-		cout<<command<<endl;
-
-		vector<string> candidates;
-
+					pos=0;
+					break; //exit
+				}
+			}
+			if(ok)break;
+		}
+		vector<string> candidates=lua::get_table_keys(command);
 		if (candidates.size()==1) {
-			data->DeleteChars(0, data->BufTextLen);
-			data->InsertChars(0, candidates[0].c_str());
+			int s1=data->CursorPos;
+			if(command.find('.')!=command.npos)
+				command.erase(0,command.rfind('.')+1);
+			int s2=command.size();
+			data->DeleteChars(s1-s2,s2);
+			data->InsertChars(s1-s2,candidates[0].c_str());
 		} else if(candidates.size()) {
-			AddLog(get_text("console/matches"));
+			AddLog("\t\t"+get_text("console/matches"));
 			for (int i = 0; i < candidates.size(); i++)
-				AddLog("- "+candidates[i]);
+				AddLog("\t\t- "+candidates[i]);
 		}
 
 		break;
