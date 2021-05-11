@@ -268,58 +268,58 @@ bool get_release_key(string k) {
 void bind() {
 #define KEY(key) SDL_GetKeyboardState(key)
 	getGlobalNamespace(L)
-	.addFunction("body",&get_body)
-	.addFunction("joint",&get_joint)
-	.addFunction("entity",&get_entity)
+	.addFunction("body",&get_body) //возвращает тело
+	.addFunction("joint",&get_joint)	//возвращает соединение
+	.addFunction("entity",&get_entity)	//возвращает сущность
 	.addFunction("weapon",&get_weapon)
 	.addFunction("bullet",&get_bullet)
-	.addFunction("gettext",&get_text)
+	.addFunction("gettext",&get_text)	//для локализации
 	.addFunction("print",&print)
-	.addFunction("loadlevel",&level)
+	.addFunction("loadlevel",&level)	//мгновенно грузит уровень
 	.beginNamespace("world")
-	.addFunction("who",&whois)
-	.addFunction("set_gravity",&set_gravity)
-	.addFunction("create_body",&create_body)
-	.addFunction("create_entity",&create_entity)
+	.addFunction("who",&whois)	//принимает тело, возвращает сущность
+	.addFunction("set_gravity",&set_gravity)	//глобальная гравитация. по умолчанию (0,-9.8)
+	.addFunction("create_body",&create_body)	//создать тело по шаблону
+	.addFunction("create_entity",&create_entity)	//создать существо по типу
 	.addFunction("destroy_body",&destroy_body)
 	.addFunction("destroy_entity",&destroy_entity)
 	.addFunction("destroy_joint",&destroy_joint)
-	.addFunction("create_bullet",&simple_bullet)
-	.addFunction("explosion",&explosion)
-	.addFunction("explosion_callbacks",&explosion_callbacks)
-	.addFunction("raycast_callbacks",&raycast_callbacks)
-	.addFunction("bb_collide",&bb_collide)
-	.addFunction("eb_collide",&eb_collide)
-	.addFunction("ee_collide",&ee_collide)
-	.addFunction("lb_collide",&lb_collide)
-	.addFunction("le_collide",&le_collide)
-	.addFunction("sb_collide",&sb_collide)
+	.addFunction("create_bullet",&simple_bullet)	//создает тело, придает ему скорость и направление
+	.addFunction("explosion",&explosion)	//просто взрыв без повреждений
+	.addFunction("explosion_callbacks",&explosion_callbacks)	//взрыв с колбэками.
+	.addFunction("raycast_callbacks",&raycast_callbacks)	//трассировка лучей на расстояние с колбэками.
+	.addFunction("bb_collide",&bb_collide)		//различные варианты столкновений.
+	.addFunction("eb_collide",&eb_collide)		//e-сущность
+	.addFunction("ee_collide",&ee_collide)		//b-тело
+	.addFunction("lb_collide",&lb_collide)		//l-все тела на уровне
+	.addFunction("le_collide",&le_collide)		//s-все существа на уровне
+	.addFunction("sb_collide",&sb_collide)		//all-реагирует на сенсоры
 	.addFunction("bb_all_collide",&bb_all_collide)
 	.addFunction("eb_all_collide",&eb_all_collide)
 	.addFunction("ee_all_collide",&ee_all_collide)
 	.addFunction("lb_all_collide",&lb_all_collide)
 	.addFunction("le_all_collide",&le_all_collide)
 	.addFunction("sb_all_collide",&sb_all_collide)
-	.addProperty("time_scale",&time_scale)
-	.addProperty("position_iterations",&position_iterations)
-	.addProperty("velocity_iterations",&velocity_iterations)
+	.addProperty("time_scale",&time_scale)		//скорость игры. по умолчанию 1
+	.addProperty("position_iterations",&position_iterations)	//точность физики
+	.addProperty("velocity_iterations",&velocity_iterations)	//точность физики
 	.endNamespace()
 	.beginNamespace("game")
 	.beginNamespace("camera")
 	.addProperty("x",&cx)
 	.addProperty("y",&cy)
 	.addProperty("zoom",&zoom)
-	.addFunction("center",&center)
-	.addFunction("center_body",&center_body)
-	.addProperty("locked",&camera_locked)
-	.addProperty("angle",&mouse_angle)
+	.addFunction("center",&center)	//центрирование камеры на координаты уровня
+	.addFunction("center_body",&center_body)	//центрирование камеры на тело
+	.addProperty("locked",&camera_locked)	//блокировка камеры. если заблокирована то двигается на главным героем и двигать нельзя.
+	.addProperty("angle",&mouse_angle)	//угол поворота мыши относительно центра экрана
 	.endNamespace()
-	.addProperty("timer",&game_timer,0)
-	.addFunction("key",&get_key)
-	.addFunction("press_key",&get_press_key)
-	.addFunction("release_key",&get_release_key)
-	.addFunction("interval",&get_interval)
-	.addProperty("bodies",&bodies)
+	.addProperty("timer",&game_timer,0)		//количество миллисекунд со старта уровня
+	.addFunction("key",&get_key)		//нажата ли клавиша
+	.addFunction("press_key",&get_press_key)	//когда клавишу только нажимают
+	.addFunction("release_key",&get_release_key)	//когда клавишу отпускают
+	.addFunction("interval",&get_interval)	//интервал для какого то действия. Возвращает 1 если время прошло.
+	.addProperty("bodies",&bodies)	//типо все тела на уровне возвращает
 	.endNamespace()
 	.beginNamespace("graphics")
 	.beginClass<Color>("Color")
@@ -331,10 +331,10 @@ void bind() {
 	.addProperty("a",&Color::a)
 	.addFunction("set",&Color::set)
 	.endClass()
-	.addFunction("preload",&load_texture)
-	.addFunction("texture",&find_texture)
-	.addProperty("show_textures",&show_textures)
-	.addFunction("effect",&effect::create)
+	.addFunction("preload",&load_texture)	//загрузка текстуры. Позволяет избежать фризов в игре, если все загрузить сразу
+	.addFunction("texture",&find_texture)	//текстура по ID
+	.addProperty("show_textures",&show_textures)	//показывать ли текстуры. не знаю для чего это зожет пригодиться
+	.addFunction("effect",&effect::create)	//создание граффического эффекта в заданных координатах.
 	.endNamespace()
 	.beginNamespace("music")
 	.addFunction("play",&play_music)
@@ -442,7 +442,7 @@ void bind() {
 	.addProperty("bullet2",&Weapon::bullet2)
 	.endClass();
 }
-void init(string name) {
+void init(string name) { //
 	copy_prev_key();
 	L = luaL_newstate();
 	luaL_openlibs(L);
@@ -495,10 +495,10 @@ void init(string name) {
 void quit() {
 	if(L)lua_close(L);
 }
-int get_time() {
+int get_time() { //Возвращает количество миллисекунд со старта игры
 	return game_timer;
 }
-void save_luaref(XMLNode n,LuaRef value){
+void save_luaref(XMLNode n,LuaRef value){ //сохраняет в XMLNode переменную
 	if(value.isBool()){
 		n.addAttribute("type","boolean");
 		n.addAttribute("value",value.cast<bool>());
@@ -534,7 +534,7 @@ void save_luaref(XMLNode n,LuaRef value){
 		n.addAttribute("count",count);
 	}
 }
-LuaRef load_luaref(XMLNode n){
+LuaRef load_luaref(XMLNode n){//Загружает переменную из XMLNode
 	string type=n.getAttribute("type");
 	if(type=="boolean")
 		return LuaRef(L,stoi(n.getAttribute("value"))?true:false);
