@@ -20,7 +20,7 @@ void gameloop();
 void init(string);
 void quit();
 void init_weapon(string weapon);
-void init_body(b2Body *body);
+void init_body(b2Body *body,bool ex=1);
 void init_entity(Entity *entity);
 void clear_loaded_list();
 int fire1(Entity *ent);

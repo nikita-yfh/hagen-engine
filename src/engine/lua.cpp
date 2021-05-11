@@ -102,7 +102,7 @@ void doscript(string file) {
 void level(string str) {
 	need_load=str;
 }
-void init_body(b2Body *body) {
+void init_body(b2Body *body,bool ex) {
 	if(B_DATA(body,script).size()) {
 		bool ok=0;
 		for(string l : loaded)
@@ -113,7 +113,8 @@ void init_body(b2Body *body) {
 			doscript("bodies/"+B_DATA(body,script));
 			loaded.emplace_back(B_DATA(body,script));
 		}
-		getGlobal(L,B_DATA(body,script).c_str())["init"](body);
+		if(ex)
+			getGlobal(L,B_DATA(body,script).c_str())["init"](body);
 	}
 }
 void init_bodies() {
@@ -548,7 +549,7 @@ LuaRef load_luaref(XMLNode n){//Загружает переменную из XML
 		for(int q=0;q<count;q++){
 			XMLNode child=n.getChildNode("value",q);
 			LuaRef ch(L,load_luaref(child));
-			string s=child.getAttribute("value");
+			string s=child.getAttribute("name");
 			c[s]=ch;
 		}
 		return c;

@@ -19,6 +19,7 @@ b2World *world=0;
 void save_body_state(XMLNode bd,b2Body *body){
 	bd.addAttribute("id",body->GetID());
 	bd.addAttribute("script",body->GetUserData()->script);
+	bd.addAttribute("created",body->GetUserData()->created);
 	XMLNode val=bd.addChild("userdata");
 	lua::save_luaref(val,*body->m_userData->lua_userdata);
 	save_value(bd,"transform",body->m_xf);
@@ -32,7 +33,10 @@ void save_body_state(XMLNode bd,b2Body *body){
 }
 void load_body_state(XMLNode bd,b2Body *body){
 	XMLNode val=bd.getChildNode("userdata");
-	*body->m_userData->lua_userdata=lua::load_luaref(val);
+	if(body->m_userData->lua_userdata)
+		delete body->m_userData->lua_userdata;
+	body->m_userData->lua_userdata=new luabridge::LuaRef(lua::load_luaref(val));
+	cout<<(*body->m_userData->lua_userdata)["create_time"]<<endl;
 	load_value(bd,"transform",body->m_xf);
 	load_value(bd,"force",body->m_force);
 	load_value(bd,"torque",body->m_torque);
@@ -64,6 +68,10 @@ void load_world_state(string path){
 	for(int q=0;q<count;q++){
 		XMLNode bd=bds.getChildNode("body",q);
 		string id=bd.getAttribute("id");
+		string script=bd.getAttribute("script");
+		bool created=stoi(bd.getAttribute("created"));
+		if(created)
+			create_body_winit(script,id);
 		load_body_state(bd,bodies[id]);
 	}
 }

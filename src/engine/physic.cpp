@@ -8,6 +8,18 @@ float time_scale=1.0f;
 int velocity_iterations=10;
 int position_iterations=10;
 using namespace std;
+
+b2Body *create_body_winit(string type,string id) {
+	XMLNode bd=XMLNode::openFileHelper((prefix+"bodies/"+type+".xml").c_str(),"body");
+	b2Body *body=read_body(bd, {0,0},1);
+	load_body_textures(body);
+	if(id=="")id=free_id();
+	bodies[id]=body;
+	B_DATA(body,id)=id;
+	lua::init_body(body,0);
+	body->m_userData->created=true;
+	return body;
+}
 b2Body *create_body(string type,string id,float x,float y) {
 	XMLNode bd=XMLNode::openFileHelper((prefix+"bodies/"+type+".xml").c_str(),"body");
 	b2Body *body=read_body(bd, {x,y},1);
