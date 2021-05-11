@@ -339,7 +339,7 @@ bool Body::template_save(string str) {
 	Main.addAttribute("version","1.0");
 	Main.addAttribute("encoding","UTF-8");
 	save(Main,0);
-	if(Main.writeToFile(str.c_str(),"UTF-8",1))return 1;
+	if(Main.writeToFile(str.c_str()))return 1;
 	return 0;
 }
 void template_save() {

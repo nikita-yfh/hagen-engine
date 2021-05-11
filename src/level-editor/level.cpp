@@ -4,48 +4,42 @@ using namespace std;
 extern bool save_ph;
 Level level;
 bool Level::save_file(std::string path,bool all) {
-	XMLNode Main=XMLNode::createXMLTopNode("xml",1);
-	Main.addAttribute("version","1.0");
-	Main.addAttribute("encoding","UTF-8");
-	{
-		//level
-		XMLNode lvl;
-		if(all) {
-			lvl=Main.addChild("level");
-			lvl.addAttribute("w",w);
-			lvl.addAttribute("h",h);
-			{
-				//background
-				XMLNode bgr=lvl.addChild("background");
-				bgr.addAttribute("img",background.c_str());
-			}
-		} else {
-			lvl=Main.addChild("physics");
-		}
+	XMLNode lvl=XMLNode::createXMLTopNode("level");
+	//level
+	if(all) {
+		lvl.addAttribute("w",w);
+		lvl.addAttribute("h",h);
 		{
-			//bodies
-			XMLNode bds=lvl.addChild("bodies");
-			bds.addAttribute("count",bodies.size());
-			for(int q=0; q<bodies.size(); q++) { //body
-				bodies[q]->save(bds,1);
-			}
+			//background
+			XMLNode bgr=lvl.addChild("background");
+			bgr.addAttribute("img",background.c_str());
 		}
-		if(all) {
-			//entities
-			XMLNode ens=lvl.addChild("entities");
-			ens.addAttribute("count",entities.size());
-			for(int q=0; q<entities.size(); q++) { //body
-				XMLNode en=ens.addChild("entity");
-				XMLNode pos=en.addChild("position");
-				pos.addAttribute("x",entities[q]->pos.x);
-				pos.addAttribute("y",entities[q]->pos.y);
-				en.addAttribute("id",entities[q]->id);
-				en.addAttribute("type",entities[q]->type);
-			}
-		}
-		save_joints(lvl);
+	} else {
+		lvl=XMLNode::createXMLTopNode("physics");
 	}
-	if(Main.writeToFile(path.c_str(),"UTF-8",1))return 1;
+	{
+		//bodies
+		XMLNode bds=lvl.addChild("bodies");
+		bds.addAttribute("count",bodies.size());
+		for(int q=0; q<bodies.size(); q++) { //body
+			bodies[q]->save(bds,1);
+		}
+	}
+	if(all) {
+		//entities
+		XMLNode ens=lvl.addChild("entities");
+		ens.addAttribute("count",entities.size());
+		for(int q=0; q<entities.size(); q++) { //body
+			XMLNode en=ens.addChild("entity");
+			XMLNode pos=en.addChild("position");
+			pos.addAttribute("x",entities[q]->pos.x);
+			pos.addAttribute("y",entities[q]->pos.y);
+			en.addAttribute("id",entities[q]->id);
+			en.addAttribute("type",entities[q]->type);
+		}
+	}
+	save_joints(lvl);
+	if(lvl.writeToFile(path.c_str()))return 1;
 	return 0;
 }
 bool Level::open_file(string path) {
