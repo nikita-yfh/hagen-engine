@@ -164,7 +164,9 @@ void init_weapon(string weapon,bool ex) {
 	if(ex){
 		getGlobal(L,"Weapon")["init"](&weapons[weapon]);
 		getGlobal(L,weapon.c_str())["init"](&weapons[weapon]);
+		loaded.emplace_back(weapon);
 	}
+	load_texture("weapon/"+weapon+".png");
 }
 void update_entities() {
 	for(auto entity : entities) {
@@ -498,6 +500,11 @@ void init(string name) { //
 	doscript("common/entity");
 	doscript("common/weapon");
 	doscript("levels/"+name);
+	loaded.emplace_back("level");
+	loaded.emplace_back("Level");
+	loaded.emplace_back("Entity");
+	loaded.emplace_back("Weapon");
+	loaded.emplace_back(name);
 	getGlobal(L,"Level")["init"]();
 	getGlobal(L,"level")["init"]();
 	init_entities();
@@ -546,24 +553,42 @@ void save_luaref(XMLNode n,LuaRef value){ //сохраняет в XMLNode пер
 	}
 }
 LuaRef load_luaref(XMLNode n){//Загружает переменную из XMLNode
-	string type=n.getAttribute("type");
-	if(type=="boolean")
-		return LuaRef(L,stoi(n.getAttribute("value"))?true:false);
-	else if(type=="number")
-		return LuaRef(L,stof(n.getAttribute("value")));
-	else if(type=="string")
-		return LuaRef(L,n.getAttribute("value"));
-	else if(type=="table"){
-		LuaRef c(newTable(L));
-		int count=stoi(n.getAttribute("count"));
-		for(int q=0;q<count;q++){
-			XMLNode child=n.getChildNode("value",q);
-			LuaRef ch(L,load_luaref(child));
-			string s=child.getAttribute("name");
-			c[s]=ch;
+	if(n.getAttribute("type")){
+		string type=n.getAttribute("type");
+		if(type=="boolean")
+			return LuaRef(L,stoi(n.getAttribute("value"))?true:false);
+		else if(type=="number")
+			return LuaRef(L,stof(n.getAttribute("value")));
+		else if(type=="string")
+			return LuaRef(L,n.getAttribute("value"));
+		else if(type=="table"){
+			LuaRef c(newTable(L));
+			int count=stoi(n.getAttribute("count"));
+			for(int q=0;q<count;q++){
+				XMLNode child=n.getChildNode("value",q);
+				LuaRef ch(L,load_luaref(child));
+				string s=child.getAttribute("name");
+				c[s]=ch;
+			}
+			return c;
 		}
-		return c;
 	}
 	return LuaRef(L);
+}
+bool is_filled(LuaRef value){
+	if(value.isBool()||value.isNumber()||value.isString())
+		return true;
+	if(value.isTable()){
+		value.push(L);
+		push(L,Nil());
+		while(lua_next(L,-2)!=0){
+			LuaRef key=LuaRef::fromStack(L,-2);
+			LuaRef val=LuaRef::fromStack(L,-1);
+			if((key.isString() || key.isNumber())&&is_filled(val))
+				return true;
+			lua_pop(L,1);
+		}
+	}
+	return false;
 }
 };

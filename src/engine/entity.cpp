@@ -100,7 +100,6 @@ void Entity::set_weapon(string id) {
 		weapons[id]=Weapon();
 		lua::init_weapon(id);
 	}
-	load_texture("weapon/"+id+".png");
 	weapon=id;
 }
 string Entity::get_weapon() const {

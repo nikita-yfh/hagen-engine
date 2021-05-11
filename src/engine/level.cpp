@@ -48,10 +48,8 @@ void load_body_state(XMLNode bd,b2Body *body){
 }
 void save_bodies_state(XMLNode bds,map<string,b2Body*>&bodies){
 	bds.addAttribute("count",bodies.size());
-	for(auto &body : bodies){
-		XMLNode bd=bds.addChild("body");
-		save_body_state(bd,body.second);
-	}
+	for(auto &body : bodies)
+		save_body_state(bds.addChild("body"),body.second);
 }
 void load_bodies_state(XMLNode bds,map<string,b2Body*>&bodies){
 	string s=bds.getAttribute("count");
@@ -99,10 +97,8 @@ void load_entity_state(XMLNode en,Entity *entity){
 }
 void save_entities_state(XMLNode bds,map<string,Entity*>&entities){
 	bds.addAttribute("count",entities.size());
-	for(auto &entity : entities){
-		XMLNode en=bds.addChild("entity");
-		save_entity_state(en,entity.second);
-	}
+	for(auto &entity : entities)
+		save_entity_state(bds.addChild("entity"),entity.second);
 }
 void load_entities_state(XMLNode ens,map<string,Entity*>&entities){
 	int count=stof(ens.getAttribute("count"));
@@ -116,17 +112,35 @@ void load_entities_state(XMLNode ens,map<string,Entity*>&entities){
 		load_entity_state(bd,entities[id]);
 	}
 }
+void save_values_state(XMLNode data){
+	data.addAttribute("count",lua::loaded.size());
+	for(string &str : lua::loaded){
+		XMLNode v=data.addChild("value");
+		v.addAttribute("name",str);
+		lua::save_luaref(v,luabridge::getGlobal(lua::L,str.c_str()));
+	}
+}
+void load_values_state(XMLNode data){
+	int count=stof(data.getAttribute("count"));
+	for(int q=0;q<count;q++){
+		XMLNode bd=data.getChildNode("value",q);
+		string str=bd.getAttribute("name");
+		luabridge::getGlobal(lua::L,str.c_str())=lua::load_luaref(bd);
+	}
+}
 void save_world_state(string path){
 	XMLNode lvl=XMLNode::createXMLTopNode("level");
 	lvl.addAttribute("name",levelname);
 	save_bodies_state(lvl.addChild("bodies"),bodies);
 	save_entities_state(lvl.addChild("entities"),entities);
+	save_values_state(lvl.addChild("values"));
 	lvl.writeToFile(path.c_str());
 }
 void load_world_state(string path){
 	XMLNode lvl=XMLNode::openFileHelper(path.c_str(),"level");
 	load_bodies_state(lvl.getChildNode("bodies"),bodies);
 	load_entities_state(lvl.getChildNode("entities"),entities);
+	load_values_state(lvl.getChildNode("values"));
 }
 b2Body* read_body(XMLNode bd,b2Vec2 delta,bool temp) {
 	int shapes_count=stoi(bd.getAttribute("shapes"));

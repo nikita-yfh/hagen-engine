@@ -34,7 +34,9 @@ void create_joint_userdata(b2Joint *j);
 int get_time();
 
 vector<string>get_table_keys(string name);
+extern vector<string>loaded;
 
 void save_luaref(XMLNode n,LuaRef value);
 LuaRef load_luaref(XMLNode n);
+bool is_filled(LuaRef value);
 };
