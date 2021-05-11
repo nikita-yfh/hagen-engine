@@ -113,12 +113,16 @@ void load_entities_state(XMLNode ens,map<string,Entity*>&entities){
 	}
 }
 void save_values_state(XMLNode data){
-	data.addAttribute("count",lua::loaded.size());
+	int count=0;
 	for(string &str : lua::loaded){
-		XMLNode v=data.addChild("value");
-		v.addAttribute("name",str);
-		lua::save_luaref(v,luabridge::getGlobal(lua::L,str.c_str()));
+		if(lua::is_filled(luabridge::getGlobal(lua::L,str.c_str()))){
+			XMLNode v=data.addChild("value");
+			v.addAttribute("name",str);
+			lua::save_luaref(v,luabridge::getGlobal(lua::L,str.c_str()));
+			count++;
+		}
 	}
+	data.addAttribute("count",lua::loaded.size());
 }
 void load_values_state(XMLNode data){
 	int count=stof(data.getAttribute("count"));
