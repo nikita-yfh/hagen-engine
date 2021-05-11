@@ -41,7 +41,10 @@ void save_world_state(){
 		XMLNode bd=lvl.addChild("body");
 		save_body_state(bd,body.second);
 	}
+	XMLNode value=lvl.addChild("value");
+	lua::save_luaref(value,luabridge::getGlobal(lua::L,"a"));
 	Main.writeToFile((prefix+"save.xml").c_str());
+	luabridge::getGlobal(lua::L,"a")=lua::load_luaref(value);
 }
 b2Body* read_body(XMLNode bd,b2Vec2 delta,bool temp) {
 	int shapes_count=stoi(bd.getAttribute("shapes"));

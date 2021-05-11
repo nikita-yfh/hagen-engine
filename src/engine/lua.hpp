@@ -5,11 +5,13 @@ extern "C" {
 #include "lualib.h"
 }
 #include "LuaBridge.h"
+#include "xmlParser.h"
 #include "Vector.h"
 #include "entity.hpp"
 #include <vector>
 #include <string>
 using namespace std;
+using namespace luabridge;
 namespace lua {
 extern string need_load;
 extern lua_State *L;
@@ -32,4 +34,7 @@ void create_joint_userdata(b2Joint *j);
 int get_time();
 
 vector<string>get_table_keys(string name);
+
+void save_luaref(XMLNode n,LuaRef value);
+LuaRef load_luaref(XMLNode n);
 };

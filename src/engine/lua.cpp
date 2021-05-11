@@ -498,7 +498,7 @@ void quit() {
 int get_time() {
 	return game_timer;
 }
-/*void save_luaref(XMLNode node,string name,LuaRef value){
+void save_luaref(XMLNode n,LuaRef value){
 	if(value.isBool()){
 		n.addAttribute("type","boolean");
 		n.addAttribute("value",value.cast<bool>());
@@ -509,19 +509,50 @@ int get_time() {
 		n.addAttribute("type","nil");
 	}else if(value.isString()){
 		n.addAttribute("type","string");
-		n.addAttribute("value",value.cast<string>())
+		n.addAttribute("value",value.cast<string>());
 	}else if(value.isTable()){
 		n.addAttribute("type","table");
+		int count=0;
 		value.push(L);
 		push(L,Nil());
 		while(lua_next(L,-2)!=0){
 			LuaRef key=LuaRef::fromStack(L,-2);
 			LuaRef val=LuaRef::fromStack(L,-1);
 			if(key.isString()){
-
+				XMLNode child=n.addChild("value");
+				child.addAttribute("name",key.cast<string>());
+				save_luaref(child,val);
+				count++;
+			}else if(key.isNumber()){
+				XMLNode child=n.addChild("value");
+				child.addAttribute("name",key.cast<float>());
+				save_luaref(child,val);
+				count++;
 			}
 			lua_pop(L,1);
 		}
+		n.addAttribute("count",count);
 	}
-}*/
+}
+LuaRef load_luaref(XMLNode n){
+	string type=n.getAttribute("type");
+	if(type=="boolean")
+		return LuaRef(L,stoi(n.getAttribute("value"))?true:false);
+	else if(type=="number")
+		return LuaRef(L,stof(n.getAttribute("value")));
+	else if(type=="string")
+		return LuaRef(L,n.getAttribute("value"));
+	else if(type=="table"){
+		LuaRef c(newTable(L));
+		int count=stoi(n.getAttribute("count"));
+		for(int q=0;q<count;q++){
+			XMLNode child=n.getChildNode("value",q);
+			LuaRef ch(L,load_luaref(child));
+			string s=child.getAttribute("value");
+			c[s]=ch;
+		}
+		return c;
+	}
+	return LuaRef(L);
+}
 };
