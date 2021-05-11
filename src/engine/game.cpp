@@ -9,6 +9,7 @@
 #include "sdl.hpp"
 #include "utility.hpp"
 #include "interface.hpp"
+#include "main.hpp"
 #include <chrono>
 #define TYPE(a,b) (static_cast<a>(b))
 bool game() {
@@ -27,8 +28,10 @@ bool game() {
 				run=0;
 				break;
 			case SDL_KEYDOWN:
-				if(key[SDL_SCANCODE_G])
-					save_world_state();
+				if(key[SDL_SCANCODE_O])
+					save_world_state(prefix+"save.xml");
+				if(key[SDL_SCANCODE_P])
+					load_world_state(prefix+"save.xml");
 			}
 			interface.update();
 		}

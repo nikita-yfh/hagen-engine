@@ -18,33 +18,54 @@ string background;
 b2World *world=0;
 void save_body_state(XMLNode bd,b2Body *body){
 	bd.addAttribute("id",body->GetID());
-	{
-		XMLNode pos=bd.addChild("position");
-		pos.addAttribute("x",body->m_xf.p.x);
-		pos.addAttribute("y",body->m_xf.p.y);
-		pos.addAttribute("angle",body->m_sweep.a);
-	}
-	{
-		XMLNode vel=bd.addChild("velocity");
-		vel.addAttribute("x",body->m_linearVelocity.x);
-		vel.addAttribute("y",body->m_linearVelocity.y);
-		vel.addAttribute("angle",body->m_angularVelocity);
-	}
+	bd.addAttribute("script",body->GetUserData()->script);
+	XMLNode val=bd.addChild("userdata");
+	lua::save_luaref(val,*body->m_userData->lua_userdata);
+	save_value(bd,"transform",body->m_xf);
+	save_value(bd,"force",body->m_force);
+	save_value(bd,"torque",body->m_torque);
+	save_value(bd,"ldamping",body->m_linearDamping);
+	save_value(bd,"adamping",body->m_angularDamping);
+	save_value(bd,"lvelocity",body->m_linearVelocity);
+	save_value(bd,"avelocity",body->m_angularVelocity);
+	save_value(bd,"sweep",body->m_sweep);
+}
+void load_body_state(XMLNode bd,b2Body *body){
+	XMLNode val=bd.getChildNode("userdata");
+	*body->m_userData->lua_userdata=lua::load_luaref(val);
+	load_value(bd,"transform",body->m_xf);
+	load_value(bd,"force",body->m_force);
+	load_value(bd,"torque",body->m_torque);
+	load_value(bd,"ldamping",body->m_linearDamping);
+	load_value(bd,"adamping",body->m_angularDamping);
+	load_value(bd,"lvelocity",body->m_linearVelocity);
+	load_value(bd,"avelocity",body->m_angularVelocity);
+	load_value(bd,"sweep",body->m_sweep);
 }
 void save_entity_state(XMLNode en,Entity *entity){
 
 }
-void save_world_state(){
-	XMLNode Main=XMLNode::createXMLTopNode("xml",1);
-	XMLNode lvl=Main.addChild("level");
-	for(auto &body : bodies){
-		XMLNode bd=lvl.addChild("body");
-		save_body_state(bd,body.second);
+void save_world_state(string path){
+	XMLNode lvl=XMLNode::createXMLTopNode("level");
+	{
+		XMLNode bds=lvl.addChild("bodies");
+		bds.addAttribute("count",bodies.size());
+		for(auto &body : bodies){
+			XMLNode bd=bds.addChild("body");
+			save_body_state(bd,body.second);
+		}
 	}
-	XMLNode value=lvl.addChild("value");
-	lua::save_luaref(value,luabridge::getGlobal(lua::L,"a"));
-	Main.writeToFile((prefix+"save.xml").c_str());
-	luabridge::getGlobal(lua::L,"a")=lua::load_luaref(value);
+	lvl.writeToFile(path.c_str());
+}
+void load_world_state(string path){
+	XMLNode lvl=XMLNode::openFileHelper(path.c_str(),"level");
+	XMLNode bds=lvl.getChildNode("bodies");
+	int count=stof(bds.getAttribute("count"));
+	for(int q=0;q<count;q++){
+		XMLNode bd=bds.getChildNode("body");
+		string id=bd.getAttribute("id");
+		load_body_state(bd,bodies[id]);
+	}
 }
 b2Body* read_body(XMLNode bd,b2Vec2 delta,bool temp) {
 	int shapes_count=stoi(bd.getAttribute("shapes"));
