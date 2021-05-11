@@ -133,7 +133,7 @@ void update_bodies() {
 		}
 	}
 }
-void init_entity(Entity *entity) {
+void init_entity(Entity *entity,bool ex) {
 	bool ok=0;
 	for(string l : loaded)
 		if(entity->type==l)
@@ -143,8 +143,10 @@ void init_entity(Entity *entity) {
 		doscript("entities/"+entity->type);
 		loaded.emplace_back(entity->type);
 	}
-	getGlobal(L,entity->type.c_str())["init"](entity);
-	getGlobal(L,"Entity")["init"](entity);
+	if(ex){
+		getGlobal(L,entity->type.c_str())["init"](entity);
+		getGlobal(L,"Entity")["init"](entity);
+	}
 }
 void init_entities() {
 	for(auto entity : entities)

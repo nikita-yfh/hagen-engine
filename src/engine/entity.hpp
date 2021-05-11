@@ -28,6 +28,7 @@ struct Entity {
 	float dx;
 	float dy;
 	string id;
+	bool created=false;
 	b2Body *get_body(string id);
 	void set_weapon(string id);
 	string get_weapon() const;

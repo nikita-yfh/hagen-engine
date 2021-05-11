@@ -21,6 +21,7 @@ Entity::Entity(string _type,float xp,float yp) {
 			string str=bd.getAttribute("id");
 			b2Body *b=read_body(bd, {xp,yp});
 			bodies[str]=b;
+			bodies[str]->m_userData->id=str;
 		}
 	}
 	{

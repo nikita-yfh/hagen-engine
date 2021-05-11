@@ -32,6 +32,16 @@ b2Body *create_body(string type,string id,float x,float y) {
 	body->m_userData->created=true;
 	return body;
 }
+Entity *create_entity_winit(string type,string id) {
+	Entity *ent=new Entity(type,0,0);
+	load_entity_textures(ent);
+	if(id=="")id=free_entity_id();
+	entities[id]=ent;
+	ent->id=id;
+	ent->created=true;
+	lua::init_entity(ent,0);
+	return ent;
+}
 Entity *create_entity(string type,string id,float x,float y) {
 	Entity *ent=new Entity(type,x,y);
 	load_entity_textures(ent);
@@ -40,6 +50,7 @@ Entity *create_entity(string type,string id,float x,float y) {
 	ent->id=id;
 	lua::create_entity_userdata(ent);
 	lua::init_entity(ent);
+	ent->created=true;
 	return ent;
 }
 void set_gravity(float x,float y) {

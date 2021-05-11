@@ -2,7 +2,7 @@
 <body type="dynamic" script="grenade" shapes="1">
 	<physic bullet="1" fixed_rotation="0" gravity_scale="1"/>
 	<shape id="_Rect1" type="Rect" pos="physic" texture="bullets/grenade.png" expand="1">
-		<position x1="-0.2" y1="-0.035" x2="0.2" y2="0.035"/>
+		<position x1="-0.1" y1="-0.0175" x2="0.1" y2="0.0175"/>
 		<physic density="1000" friction="0.3" restitution="0"/>
 		<collision category="2" mask="65533"/>
 	</shape>

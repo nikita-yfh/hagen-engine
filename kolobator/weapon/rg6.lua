@@ -4,7 +4,7 @@ function rg6.init(w)
 	w.bullet1="grenade"
 end
 function rg6.fire1(w,e)
-	local bullet=world.create_bullet(e,"grenade",300)
+	local bullet=world.create_bullet(e,"grenade",100)
 	bullet.userdata.create_time=game.timer
 	bullet.userdata.entity=e.id
 	sound.play("shot.flac")

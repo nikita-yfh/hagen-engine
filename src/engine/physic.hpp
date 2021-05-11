@@ -41,6 +41,7 @@ extern int position_iterations;
 
 b2Body *create_body_winit(string type,string id);
 b2Body *create_body(string type,string id,float x,float y);
+Entity *create_entity_winit(string type,string id);
 Entity *create_entity(string type,string id,float x,float y);
 void set_gravity(float x,float y);
 void destroy_body(b2Body *body);

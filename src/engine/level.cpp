@@ -15,6 +15,7 @@ map<string,b2Body*>bodies;
 map<string,b2Joint*>joints;
 map<string,Entity*>entities;
 string background;
+string levelname;
 b2World *world=0;
 void save_body_state(XMLNode bd,b2Body *body){
 	bd.addAttribute("id",body->GetID());
@@ -36,7 +37,6 @@ void load_body_state(XMLNode bd,b2Body *body){
 	if(body->m_userData->lua_userdata)
 		delete body->m_userData->lua_userdata;
 	body->m_userData->lua_userdata=new luabridge::LuaRef(lua::load_luaref(val));
-	cout<<(*body->m_userData->lua_userdata)["create_time"]<<endl;
 	load_value(bd,"transform",body->m_xf);
 	load_value(bd,"force",body->m_force);
 	load_value(bd,"torque",body->m_torque);
@@ -46,25 +46,16 @@ void load_body_state(XMLNode bd,b2Body *body){
 	load_value(bd,"avelocity",body->m_angularVelocity);
 	load_value(bd,"sweep",body->m_sweep);
 }
-void save_entity_state(XMLNode en,Entity *entity){
-
-}
-void save_world_state(string path){
-	XMLNode lvl=XMLNode::createXMLTopNode("level");
-	{
-		XMLNode bds=lvl.addChild("bodies");
-		bds.addAttribute("count",bodies.size());
-		for(auto &body : bodies){
-			XMLNode bd=bds.addChild("body");
-			save_body_state(bd,body.second);
-		}
+void save_bodies_state(XMLNode bds,map<string,b2Body*>&bodies){
+	bds.addAttribute("count",bodies.size());
+	for(auto &body : bodies){
+		XMLNode bd=bds.addChild("body");
+		save_body_state(bd,body.second);
 	}
-	lvl.writeToFile(path.c_str());
 }
-void load_world_state(string path){
-	XMLNode lvl=XMLNode::openFileHelper(path.c_str(),"level");
-	XMLNode bds=lvl.getChildNode("bodies");
-	int count=stof(bds.getAttribute("count"));
+void load_bodies_state(XMLNode bds,map<string,b2Body*>&bodies){
+	string s=bds.getAttribute("count");
+	int count=stoi(bds.getAttribute("count"));
 	for(int q=0;q<count;q++){
 		XMLNode bd=bds.getChildNode("body",q);
 		string id=bd.getAttribute("id");
@@ -74,6 +65,67 @@ void load_world_state(string path){
 			create_body_winit(script,id);
 		load_body_state(bd,bodies[id]);
 	}
+}
+void save_entity_state(XMLNode en,Entity *entity){
+	en.addAttribute("id",entity->id);
+	en.addAttribute("type",entity->type);
+	en.addAttribute("created",entity->created);
+	XMLNode weapon=en.addChild("weapon");
+	weapon.addAttribute("x",entity->weapon_x);
+	weapon.addAttribute("y",entity->weapon_y);
+	weapon.addAttribute("angle",entity->weapon_angle);
+	weapon.addAttribute("name",entity->weapon);
+	XMLNode health=en.addChild("health");
+	health.addAttribute("value",entity->health);
+	health.addAttribute("max",entity->max_health);
+	XMLNode val=en.addChild("userdata");
+	lua::save_luaref(val,*entity->lua_userdata);
+	save_bodies_state(en.addChild("bodies"),entity->bodies);
+}
+void load_entity_state(XMLNode en,Entity *entity){
+	XMLNode weapon=en.getChildNode("weapon");
+	entity->weapon_x=stof(weapon.getAttribute("x"));
+	entity->weapon_y=stof(weapon.getAttribute("y"));
+	entity->weapon_angle=stof(weapon.getAttribute("angle"));
+	entity->weapon=weapon.getAttribute("name");
+	XMLNode health=en.getChildNode("health");
+	entity->health=stof(health.getAttribute("value"));
+	entity->max_health=stof(health.getAttribute("max"));
+	if(entity->lua_userdata)
+		delete entity->lua_userdata;
+	entity->lua_userdata=new luabridge::LuaRef(lua::load_luaref(en.getChildNode("userdata")));
+	load_bodies_state(en.getChildNode("bodies"),entity->bodies);
+}
+void save_entities_state(XMLNode bds,map<string,Entity*>&entities){
+	bds.addAttribute("count",entities.size());
+	for(auto &entity : entities){
+		XMLNode en=bds.addChild("entity");
+		save_entity_state(en,entity.second);
+	}
+}
+void load_entities_state(XMLNode ens,map<string,Entity*>&entities){
+	int count=stof(ens.getAttribute("count"));
+	for(int q=0;q<count;q++){
+		XMLNode bd=ens.getChildNode("entity",q);
+		string id=bd.getAttribute("id");
+		string type=bd.getAttribute("type");
+		bool created=stoi(bd.getAttribute("created"));
+		if(created)
+			create_entity_winit(type,id);
+		load_entity_state(bd,entities[id]);
+	}
+}
+void save_world_state(string path){
+	XMLNode lvl=XMLNode::createXMLTopNode("level");
+	lvl.addAttribute("name",levelname);
+	save_bodies_state(lvl.addChild("bodies"),bodies);
+	save_entities_state(lvl.addChild("entities"),entities);
+	lvl.writeToFile(path.c_str());
+}
+void load_world_state(string path){
+	XMLNode lvl=XMLNode::openFileHelper(path.c_str(),"level");
+	load_bodies_state(lvl.getChildNode("bodies"),bodies);
+	load_entities_state(lvl.getChildNode("entities"),entities);
 }
 b2Body* read_body(XMLNode bd,b2Vec2 delta,bool temp) {
 	int shapes_count=stoi(bd.getAttribute("shapes"));
@@ -462,6 +514,7 @@ void close_level() {
 	lua::quit();
 }
 void load_level(string name) {
+	levelname=name;
 	close_level();
 	open_file(prefix+"levels/"+name+".xml");
 	lua::init(name);
