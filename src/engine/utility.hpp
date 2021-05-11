@@ -26,8 +26,10 @@ bool load_value(XMLNode node, const char *name,bool &value);
 bool load_value(XMLNode node, const char *name,ImVec2 &value);
 bool load_value(XMLNode node, const char *name,b2Vec2 &value);
 bool load_value(XMLNode node, const char *name,b2Transform &value);
+bool load_value(XMLNode node, const char *name,b2Sweep &value);
 
 void save_value(XMLNode node, const char *name,b2Vec2 &value);
 void save_value(XMLNode node, const char *name,float &value);
 void save_value(XMLNode node, const char *name,bool &value);
 void save_value(XMLNode node, const char *name,b2Transform &value);
+void save_value(XMLNode node, const char *name,b2Sweep &value);

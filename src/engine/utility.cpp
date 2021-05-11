@@ -145,6 +145,17 @@ bool load_value(XMLNode node, const char *name,b2Transform &value) {
 	value.q.s=stof(value_n.getAttribute("sin"));
 	return 1;
 };
+bool load_value(XMLNode node, const char *name,b2Sweep &value) {
+	XMLNode value_n=node.getChildNode(name);
+	if(value_n.isEmpty())return 0;
+	value.a=stof(value_n.getAttribute("a1"));
+	value.a0=stof(value_n.getAttribute("a0"));
+	value.c0.x=stof(value_n.getAttribute("c0x"));
+	value.c0.y=stof(value_n.getAttribute("c0y"));
+	value.c.x=stof(value_n.getAttribute("c1x"));
+	value.c.y=stof(value_n.getAttribute("c1y"));
+	return 1;
+};
 
 
 void save_value(XMLNode node, const char *name,b2Vec2 &value) {
@@ -169,4 +180,14 @@ void save_value(XMLNode node, const char *name,b2Transform &value) {
 	value_n.addAttribute("y",value.p.y);
 	value_n.addAttribute("sin",value.q.s);
 	value_n.addAttribute("cos",value.q.c);
+};
+
+void save_value(XMLNode node, const char *name,b2Sweep &value) {
+	XMLNode value_n=node.addChild(name);
+	value_n.addAttribute("a0",value.a0);
+	value_n.addAttribute("a1",value.a);
+	value_n.addAttribute("c0x",value.c0.x);
+	value_n.addAttribute("c0y",value.c0.y);
+	value_n.addAttribute("c1x",value.c.x);
+	value_n.addAttribute("c1y",value.c.y);
 };
