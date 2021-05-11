@@ -136,6 +136,15 @@ bool load_value(XMLNode node, const char *name,b2Vec2 &value) {
 	value.y=stof(value_n.getAttribute("y"));
 	return 1;
 };
+bool load_value(XMLNode node, const char *name,b2Transform &value) {
+	XMLNode value_n=node.getChildNode(name);
+	if(value_n.isEmpty())return 0;
+	value.p.x=stof(value_n.getAttribute("x"));
+	value.p.y=stof(value_n.getAttribute("y"));
+	value.q.c=stof(value_n.getAttribute("cos"));
+	value.q.s=stof(value_n.getAttribute("sin"));
+	return 1;
+};
 
 
 void save_value(XMLNode node, const char *name,b2Vec2 &value) {
@@ -152,4 +161,12 @@ void save_value(XMLNode node, const char *name,float &value) {
 void save_value(XMLNode node, const char *name,bool &value) {
 	XMLNode value_n=node.addChild(name);
 	value_n.addAttribute("value",value);
+};
+
+void save_value(XMLNode node, const char *name,b2Transform &value) {
+	XMLNode value_n=node.addChild(name);
+	value_n.addAttribute("x",value.p.x);
+	value_n.addAttribute("y",value.p.y);
+	value_n.addAttribute("sin",value.q.s);
+	value_n.addAttribute("cos",value.q.c);
 };
