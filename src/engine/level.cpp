@@ -62,7 +62,7 @@ void load_world_state(string path){
 	XMLNode bds=lvl.getChildNode("bodies");
 	int count=stof(bds.getAttribute("count"));
 	for(int q=0;q<count;q++){
-		XMLNode bd=bds.getChildNode("body");
+		XMLNode bd=bds.getChildNode("body",q);
 		string id=bd.getAttribute("id");
 		load_body_state(bd,bodies[id]);
 	}
