@@ -62,6 +62,7 @@ struct b2BodyData {
 	std::string script;
 	std::string id;
 	luabridge::LuaRef *lua_userdata;
+	bool created=false;
 };
 
 

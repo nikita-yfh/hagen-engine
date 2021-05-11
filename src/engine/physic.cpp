@@ -17,6 +17,7 @@ b2Body *create_body(string type,string id,float x,float y) {
 	B_DATA(body,id)=id;
 	lua::create_body_userdata(body);
 	lua::init_body(body);
+	body->m_userData->created=true;
 	return body;
 }
 Entity *create_entity(string type,string id,float x,float y) {
