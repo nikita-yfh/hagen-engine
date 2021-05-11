@@ -152,11 +152,19 @@ void init_entities() {
 	for(auto entity : entities)
 		init_entity(entity.second);
 }
-void init_weapon(string weapon) {
-	luaL_dostring(L,(weapon+"=extend(Weapon)").c_str());
-	doscript("weapon/"+weapon);
-	getGlobal(L,"Weapon")["init"](&weapons[weapon]);
-	getGlobal(L,weapon.c_str())["init"](&weapons[weapon]);
+void init_weapon(string weapon,bool ex) {
+	bool ok=0;
+	for(string l : loaded)
+		if(weapon==l)
+			ok=1;
+	if(!ok) {
+		luaL_dostring(L,(weapon+"=extend(Weapon)").c_str());
+		doscript("weapon/"+weapon);
+	}
+	if(ex){
+		getGlobal(L,"Weapon")["init"](&weapons[weapon]);
+		getGlobal(L,weapon.c_str())["init"](&weapons[weapon]);
+	}
 }
 void update_entities() {
 	for(auto entity : entities) {

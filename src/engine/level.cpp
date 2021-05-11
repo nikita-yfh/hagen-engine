@@ -95,6 +95,7 @@ void load_entity_state(XMLNode en,Entity *entity){
 		delete entity->lua_userdata;
 	entity->lua_userdata=new luabridge::LuaRef(lua::load_luaref(en.getChildNode("userdata")));
 	load_bodies_state(en.getChildNode("bodies"),entity->bodies);
+	lua::init_weapon(entity->weapon,0);
 }
 void save_entities_state(XMLNode bds,map<string,Entity*>&entities){
 	bds.addAttribute("count",entities.size());
