@@ -27,20 +27,11 @@ Color::Color() {}
 Color::Color(int _r,int _g,int _b,int _a) {
 	set(_r,_g,_b,_a);
 }
-Color::Color(XMLNode node) {
-	load(node);
-}
 Color::Color(int _r,int _g,int _b) {
 	set(_r,_g,_b,255);
 }
 SDL_Color Color::color() {
 	return SDL_Color({r,g,b,a});
-}
-void Color::load(XMLNode node) {
-	r=stoi(node.getAttribute("r"));
-	g=stoi(node.getAttribute("g"));
-	b=stoi(node.getAttribute("b"));
-	a=stoi(node.getAttribute("a"));
 }
 void Rect::set(float _x,float _y,float _w,float _h) {
 	x=_x;
@@ -147,7 +138,9 @@ void load_font(FC_Font *&font, XMLNode node,string color,float h) {
 	if(font!=0)
 		FC_ClearFont(font);
 	font=FC_CreateFont();
-	FC_LoadFont(font,font_path.c_str(),size,Color(node.getChildNode(color.c_str())).color(),TTF_STYLE_NORMAL);
+	Color col;
+	load_value(node,color.c_str(),col);
+	FC_LoadFont(font,font_path.c_str(),size,col.color(),TTF_STYLE_NORMAL);
 }
 void play_music(string name) {
 	stop_music();

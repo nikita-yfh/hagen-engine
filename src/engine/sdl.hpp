@@ -13,11 +13,9 @@ struct Color {
 	Color();
 	Color(int,int,int);
 	Color(int,int,int,int);
-	Color(XMLNode);
 	void set(int,int,int,int);
 	uint8_t r,g,b,a;
 	SDL_Color color();
-	void load(XMLNode node);
 };
 struct Rect : GPU_Rect {
 	Rect();
