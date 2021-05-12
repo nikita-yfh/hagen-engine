@@ -50,35 +50,35 @@ void Pause::Draw() {
 	Button(get_text("pause/load_game").c_str(),align);
 	Button(get_text("pause/settings").c_str(),align);
 	if(Button(get_text("pause/main_menu").c_str(),align))
-		ImGui::OpenPopup(get_text("pause/main_menu_title").c_str());
+		OpenPopup(get_text("pause/main_menu_title").c_str());
 	if(Button(get_text("pause/exit_game").c_str(),align))
-		ImGui::OpenPopup(get_text("pause/exit_game_title").c_str());
+		OpenPopup(get_text("pause/exit_game_title").c_str());
 	w=GetWindowContentRegionWidth();
 	SetNextWindowPos(ImVec2(io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.5f),
 					 ImGuiCond_Always, ImVec2(0.5f,0.5f));
-	if (ImGui::BeginPopupModal(get_text("pause/main_menu_title").c_str(), NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
-		ImGui::TextWrapped(get_text("pause/main_menu_text").c_str());
-		ImGui::Separator();
+	if (BeginPopupModal(get_text("pause/main_menu_title").c_str(), NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
+		TextWrapped(get_text("pause/main_menu_text").c_str());
+		Separator();
 
-		ImGui::Button(get_text("common/ok").c_str(), ImVec2(120, 0));
-		ImGui::SameLine();
-		if (ImGui::Button(get_text("common/cancel").c_str(), ImVec2(120, 0))) {
-			ImGui::CloseCurrentPopup();
+		Button(get_text("common/ok").c_str(), ImVec2(120, 0));
+		SameLine();
+		if (Button(get_text("common/cancel").c_str(), ImVec2(120, 0))) {
+			CloseCurrentPopup();
 		}
-		ImGui::EndPopup();
+		EndPopup();
 	}
 	SetNextWindowPos(ImVec2(io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.5f),
 					 ImGuiCond_Always, ImVec2(0.5f,0.5f));
-	if (ImGui::BeginPopupModal(get_text("pause/exit_game_title").c_str(), NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
-		ImGui::TextWrapped(get_text("pause/exit_game_text").c_str());
-		ImGui::Separator();
+	if (BeginPopupModal(get_text("pause/exit_game_title").c_str(), NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
+		TextWrapped(get_text("pause/exit_game_text").c_str());
+		Separator();
 
-		ImGui::Button(get_text("common/ok").c_str(), ImVec2(120, 0));
-		ImGui::SameLine();
-		if (ImGui::Button(get_text("common/cancel").c_str(), ImVec2(120, 0))) {
-			ImGui::CloseCurrentPopup();
+		Button(get_text("common/ok").c_str(), ImVec2(120, 0));
+		SameLine();
+		if (Button(get_text("common/cancel").c_str(), ImVec2(120, 0))) {
+			CloseCurrentPopup();
 		}
-		ImGui::EndPopup();
+		EndPopup();
 	}
 	End();
 }
@@ -392,6 +392,7 @@ void Interface::draw() {
 	NewFrame();
 	console.Draw();
 	pause.Draw();
+	ShowDemoWindow(0);
 	Render();
 	SDL_GL_MakeCurrent(SDL_GetWindowFromID(ren->context->windowID), ren->context->context);
 	ImGui_ImplOpenGL3_RenderDrawData(GetDrawData());
@@ -450,5 +451,8 @@ void Interface::quicksave(){
 void Interface::quickload(){
 	if(exist_file(saves+"quicksave.xml"))
 		load_world_state("quicksave");
+}
+void Saver::Draw(){
+
 }
 Interface interface;
