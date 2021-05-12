@@ -2,10 +2,11 @@
 #include "main.hpp"
 #include "xmlParser.h"
 #include "SDL_FontCache.h"
+#include <iostream>
 string language="ru";
 map <string,string>texts;
 string get_text(string id) {
-	if(texts.empty() || texts.find(id)!=texts.end()) {
+	if(texts.empty() || texts.find(id)==texts.end()) {
 		XMLNode xml=XMLNode::openFileHelper((prefix+"locales/"+language+".xml").c_str(),"text");
 		string id1=id;
 		while(id1.find("/")!=id1.npos) {
