@@ -251,7 +251,10 @@ void Interface::update() {
 			else
 				pause.shown=!pause.shown;
 			if(!shown())hide();
-		}
+		}else if(e.key.keysym.sym==SDLK_F5)
+			quicksave();
+		else if(e.key.keysym.sym==SDLK_F9)
+			quickload();
 
 	}
 	game_interface.update();
@@ -440,5 +443,12 @@ bool Interface::shown(){
 }
 void Interface::hide(){
 	lua::prev_time=SDL_GetTicks();
+}
+void Interface::quicksave(){
+	save_world_state("quicksave");
+}
+void Interface::quickload(){
+	if(exist_file(saves+"quicksave.xml"))
+		load_world_state("quicksave");
 }
 Interface interface;

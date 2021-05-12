@@ -60,5 +60,7 @@ struct Interface {
 	bool shown();
 	void hide();
 	int prev_time;
+	void quicksave();
+	void quickload();
 };
 extern Interface interface;

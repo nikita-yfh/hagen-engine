@@ -27,11 +27,6 @@ bool game() {
 			case SDL_QUIT:
 				run=0;
 				break;
-			case SDL_KEYDOWN:
-				if(key[SDL_SCANCODE_O])
-					save_world_state("save");
-				if(key[SDL_SCANCODE_P])
-					load_world_state("save");
 			}
 			interface.update();
 		}

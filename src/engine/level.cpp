@@ -90,6 +90,7 @@ void save_entities_state(XMLNode bds,map<string,Entity*>&entities){
 }
 void load_entities_state(XMLNode ens,map<string,Entity*>&entities){
 	int count=stof(ens.getAttribute("count"));
+	vector<string>loaded;
 	for(int q=0;q<count;q++){
 		XMLNode en=ens.getChildNode("entity",q);
 		string id=en.getAttribute("id");
@@ -97,6 +98,7 @@ void load_entities_state(XMLNode ens,map<string,Entity*>&entities){
 		bool created=stoi(en.getAttribute("created"));
 		if(created)
 			create_entity(type,id,0,0);
+		loaded.emplace_back(id);
 		Entity *entity=entities[id];
 		XMLNode weapon=en.getChildNode("weapon");
 		entity->weapon_x=stof(weapon.getAttribute("x"));
@@ -110,6 +112,14 @@ void load_entities_state(XMLNode ens,map<string,Entity*>&entities){
 			delete entity->lua_userdata;
 		entity->lua_userdata=new luabridge::LuaRef(lua::load_luaref(en.getChildNode("userdata")));
 		load_bodies_state(en.getChildNode("bodies"),entity->bodies);
+	}
+	for(auto &entity : entities){
+		bool ok=0;
+		for(auto &l : loaded)
+			if(entity.second->id==l)
+				ok=1;
+		if(!ok)
+			destroy_entity(entity.second);
 	}
 }
 void save_values_state(XMLNode data){
