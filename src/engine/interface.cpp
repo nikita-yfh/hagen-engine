@@ -244,13 +244,13 @@ void Interface::update() {
 	if(e.type==SDL_KEYDOWN) {
 		if(e.key.keysym.sym==SDLK_BACKQUOTE){
 			console.shown=!console.shown;
-			if(!pause.shown && !console.shown)hide();
+			if(!shown())hide();
 		}else if(e.key.keysym.sym==SDLK_ESCAPE) {
 			if(console.shown)
 				console.shown=0;
 			else
 				pause.shown=!pause.shown;
-			if(!pause.shown && !console.shown)hide();
+			if(!shown())hide();
 		}
 
 	}
