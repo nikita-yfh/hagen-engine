@@ -64,51 +64,49 @@ void load_bodies_state(XMLNode bds,map<string,b2Body*>&bodies){
 		load_body_state(bd,bodies[id]);
 	}
 }
-void save_entity_state(XMLNode en,Entity *entity){
-	en.addAttribute("id",entity->id);
-	en.addAttribute("type",entity->type);
-	en.addAttribute("created",entity->created);
-	XMLNode weapon=en.addChild("weapon");
-	weapon.addAttribute("x",entity->weapon_x);
-	weapon.addAttribute("y",entity->weapon_y);
-	weapon.addAttribute("angle",entity->weapon_angle);
-	weapon.addAttribute("name",entity->weapon);
-	XMLNode health=en.addChild("health");
-	health.addAttribute("value",entity->health);
-	health.addAttribute("max",entity->max_health);
-	XMLNode val=en.addChild("userdata");
-	lua::save_luaref(val,*entity->lua_userdata);
-	save_bodies_state(en.addChild("bodies"),entity->bodies);
-}
-void load_entity_state(XMLNode en,Entity *entity){
-	XMLNode weapon=en.getChildNode("weapon");
-	entity->weapon_x=stof(weapon.getAttribute("x"));
-	entity->weapon_y=stof(weapon.getAttribute("y"));
-	entity->weapon_angle=stof(weapon.getAttribute("angle"));
-	entity->set_weapon(weapon.getAttribute("name"));
-	XMLNode health=en.getChildNode("health");
-	entity->health=stof(health.getAttribute("value"));
-	entity->max_health=stof(health.getAttribute("max"));
-	if(entity->lua_userdata)
-		delete entity->lua_userdata;
-	entity->lua_userdata=new luabridge::LuaRef(lua::load_luaref(en.getChildNode("userdata")));
-	load_bodies_state(en.getChildNode("bodies"),entity->bodies);
-}
 void save_entities_state(XMLNode bds,map<string,Entity*>&entities){
 	bds.addAttribute("count",entities.size());
-	for(auto &entity : entities)
-		save_entity_state(bds.addChild("entity"),entity.second);
+	for(auto &entity : entities){
+		XMLNode en=bds.addChild("entity");
+		Entity *ent=entity.second;
+		en.addAttribute("id",ent->id);
+		en.addAttribute("type",ent->type);
+		en.addAttribute("created",ent->created);
+		XMLNode weapon=en.addChild("weapon");
+		weapon.addAttribute("x",ent->weapon_x);
+		weapon.addAttribute("y",ent->weapon_y);
+		weapon.addAttribute("angle",ent->weapon_angle);
+		weapon.addAttribute("name",ent->weapon);
+		XMLNode health=en.addChild("health");
+		health.addAttribute("value",ent->health);
+		health.addAttribute("max",ent->max_health);
+		XMLNode val=en.addChild("userdata");
+		lua::save_luaref(val,*ent->lua_userdata);
+		save_bodies_state(en.addChild("bodies"),ent->bodies);
+	}
 }
 void load_entities_state(XMLNode ens,map<string,Entity*>&entities){
 	int count=stof(ens.getAttribute("count"));
 	for(int q=0;q<count;q++){
-		XMLNode bd=ens.getChildNode("entity",q);
-		string id=bd.getAttribute("id");
-		string type=bd.getAttribute("type");
-		bool created=stoi(bd.getAttribute("created"));
+		XMLNode en=ens.getChildNode("entity",q);
+		string id=en.getAttribute("id");
+		string type=en.getAttribute("type");
+		bool created=stoi(en.getAttribute("created"));
 		if(created)
 			create_entity(type,id,0,0);
-		load_entity_state(bd,entities[id]);
+		Entity *entity=entities[id];
+		XMLNode weapon=en.getChildNode("weapon");
+		entity->weapon_x=stof(weapon.getAttribute("x"));
+		entity->weapon_y=stof(weapon.getAttribute("y"));
+		entity->weapon_angle=stof(weapon.getAttribute("angle"));
+		entity->set_weapon(weapon.getAttribute("name"));
+		XMLNode health=en.getChildNode("health");
+		entity->health=stof(health.getAttribute("value"));
+		entity->max_health=stof(health.getAttribute("max"));
+		if(entity->lua_userdata)
+			delete entity->lua_userdata;
+		entity->lua_userdata=new luabridge::LuaRef(lua::load_luaref(en.getChildNode("userdata")));
+		load_bodies_state(en.getChildNode("bodies"),entity->bodies);
 	}
 }
 void save_values_state(XMLNode data){
@@ -131,12 +129,26 @@ void load_values_state(XMLNode data){
 		luabridge::getGlobal(lua::L,str.c_str())=lua::load_luaref(bd);
 	}
 }
+void save_bullets_state(XMLNode bls){
+	int count=0;
+	for(auto &b : bullets){
+		if(b.first!=""){
+			XMLNode bl=bls.addChild("bullet");
+			bl.addAttribute("name",b.first);
+			bl.addAttribute("count",b.second.count);
+			bl.addAttribute("max",b.second.max);
+			count++;
+		}
+	}
+	bls.addAttribute("count",count);
+}
 void save_world_state(string path){
 	XMLNode lvl=XMLNode::createXMLTopNode("level");
 	lvl.addAttribute("name",levelname);
 	save_bodies_state(lvl.addChild("bodies"),bodies);
 	save_entities_state(lvl.addChild("entities"),entities);
 	save_values_state(lvl.addChild("values"));
+	save_bullets_state(lvl.addChild("bullets"));
 	lvl.writeToFile(path.c_str());
 }
 void load_world_state(string path){
