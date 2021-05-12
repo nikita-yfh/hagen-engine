@@ -1,7 +1,6 @@
 function knife.init(w)
 	w.dy=0.02
 	w.dx=0.2
-	w.bullet1="9mm"
 end
 function knife.fire1(w,e)
 	if(e.userdata.knife_timer~=nil and game.timer-e.userdata.knife_timer < math.pi*100) then 

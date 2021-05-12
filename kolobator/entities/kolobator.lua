@@ -50,18 +50,20 @@ function kolobator.update(a)
 	elseif(game.key("4")) then
 		a.weapon="rg6"
 	end
-	if(bullet(weapon(a.weapon).bullet1).count > 0) then
+	local b1=weapon(a.weapon).bullet1;
+	local b2=weapon(a.weapon).bullet2;
+	if(b1=="" or bullet(b1).count ~= 0) then
 		if(game.press_key("fire1")) then
-			bullet(weapon(a.weapon).bullet1).count = bullet(weapon(a.weapon).bullet1).count-a:fire1()
+			bullet(b1):del(a:fire1())
 		elseif(game.key("fire1")) then
-			bullet(weapon(a.weapon).bullet1).count = bullet(weapon(a.weapon).bullet1).count-a:fire2()
+			bullet(b1):del(a:fire2())
 		end
 	end
-	if(bullet(weapon(a.weapon).bullet2).count > 0) then
+	if(b2== "" or bullet(b2).count ~= 0) then
 		if(game.press_key("fire2")) then
-			bullet(weapon(a.weapon).bullet2).count = bullet(weapon(a.weapon).bullet2).count-a:fire3()
+			bullet(b2):del(a:fire3())
 		elseif(game.key("fire2")) then
-			bullet(weapon(a.weapon).bullet2).count = bullet(weapon(a.weapon).bullet2).count-a:fire4()
+			bullet(b2):del(a:fire4())
 		end
 	end
 	a.weapon_angle=game.camera.angle

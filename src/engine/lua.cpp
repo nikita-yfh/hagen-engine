@@ -446,6 +446,7 @@ void bind() {
 	.addProperty("count",&Bullet::count)
 	.addProperty("max",&Bullet::max)
 	.addFunction("add",&Bullet::add)
+	.addFunction("del",&Bullet::del)
 	.addFunction("full",&Bullet::full)
 	.endClass()
 	.beginClass<GPU_Image>("Texture")

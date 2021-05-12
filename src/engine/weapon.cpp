@@ -11,12 +11,17 @@ map<string,Weapon>weapons;
 map<string,Bullet>bullets;
 const int num_rays=100;
 void Bullet::add(int c) {
-	if(count==-1)return;
+	if(count<0)return;
 	count+=c;
 	if(count>max)count=max;
 }
+void Bullet::del(int c) {
+	if(count<0)return;
+	count-=c;
+	if(count<0)count=0;
+}
 bool Bullet::full() {
-	return (count==max || count==-1 || max==-1);
+	return (count==max || count<0 || max<0);
 }
 
 b2Body *simple_bullet(Entity *e, string type, float impulse) {

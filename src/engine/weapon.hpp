@@ -14,9 +14,10 @@ struct Weapon {
 	string bullet2;
 };
 struct Bullet {
-	int count; //if count=-1,bullets are infinity
+	int count; //if count<0,bullets are infinity
 	int max;
 	void add(int c);
+	void del(int c);
 	bool full();
 };
 extern map<string,Weapon>weapons;
