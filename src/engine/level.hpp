@@ -17,5 +17,5 @@ extern map<string,Entity*>entities;
 extern b2World *world;
 extern string background;
 
-void save_world_state(string path);
-void load_world_state(string path);
+void save_world_state(string name);
+void load_world_state(string name);

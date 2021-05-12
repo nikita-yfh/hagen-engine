@@ -4,7 +4,6 @@
 #include "sdl.hpp"
 #include "main.hpp"
 #include "lua.hpp"
-float time_scale=1.0f;
 int velocity_iterations=10;
 int position_iterations=10;
 using namespace std;

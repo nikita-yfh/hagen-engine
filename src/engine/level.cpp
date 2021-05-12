@@ -8,6 +8,7 @@
 #include "sdl.hpp"
 #include "triangulate.hpp"
 #include "main.hpp"
+#include "camera.hpp"
 using namespace std;
 unsigned short int levelw=20;
 unsigned short int levelh=20;
@@ -30,6 +31,7 @@ void save_body_state(XMLNode bd,b2Body *body){
 	save_value(bd,"adamping",body->m_angularDamping);
 	save_value(bd,"lvelocity",body->m_linearVelocity);
 	save_value(bd,"avelocity",body->m_angularVelocity);
+	save_value(bd,"sleep_time",body->m_sleepTime);
 	save_value(bd,"sweep",body->m_sweep);
 }
 void load_body_state(XMLNode bd,b2Body *body){
@@ -44,6 +46,7 @@ void load_body_state(XMLNode bd,b2Body *body){
 	load_value(bd,"adamping",body->m_angularDamping);
 	load_value(bd,"lvelocity",body->m_linearVelocity);
 	load_value(bd,"avelocity",body->m_angularVelocity);
+	load_value(bd,"sleep_time",body->m_sleepTime);
 	load_value(bd,"sweep",body->m_sweep);
 }
 void save_bodies_state(XMLNode bds,map<string,b2Body*>&bodies){
@@ -142,20 +145,68 @@ void save_bullets_state(XMLNode bls){
 	}
 	bls.addAttribute("count",count);
 }
-void save_world_state(string path){
+void load_bullets_state(XMLNode bls){
+	int count=stoi(bls.getAttribute("count"));
+	for(int q=0;q<count;q++){
+		XMLNode bl=bls.getChildNode("bullet",q);
+		string id=bl.getAttribute("name");
+		bullets[id].count=stoi(bl.getAttribute("count"));
+		bullets[id].max=stoi(bl.getAttribute("max"));
+	}
+}
+void save_world_state(string name){
 	XMLNode lvl=XMLNode::createXMLTopNode("level");
 	lvl.addAttribute("name",levelname);
+	{
+		XMLNode time=lvl.addChild("time");
+		time.addAttribute("value",lua::get_time());
+		time.addAttribute("scale",lua::time_scale);
+	}
+	{
+		XMLNode phs=lvl.addChild("physic");
+		phs.addAttribute("velocity_iterations",velocity_iterations);
+		phs.addAttribute("position_iterations",position_iterations);
+	}
+	save_value(lvl,"gravity",world->m_gravity);
+	{
+		XMLNode cam=lvl.addChild("camera");
+		cam.addAttribute("x",cx);
+		cam.addAttribute("y",cy);
+		cam.addAttribute("zoom",zoom);
+		cam.addAttribute("locked",camera_locked);
+	}
 	save_bodies_state(lvl.addChild("bodies"),bodies);
 	save_entities_state(lvl.addChild("entities"),entities);
 	save_values_state(lvl.addChild("values"));
 	save_bullets_state(lvl.addChild("bullets"));
-	lvl.writeToFile(path.c_str());
+	lvl.writeToFile((saves+name+".xml").c_str());
 }
-void load_world_state(string path){
-	XMLNode lvl=XMLNode::openFileHelper(path.c_str(),"level");
+void load_world_state(string name){
+	XMLNode lvl=XMLNode::openFileHelper((saves+name+".xml").c_str(),"level");
+	load_level(lvl.getAttribute("name"));
+	{
+		XMLNode time=lvl.getChildNode("time");
+		lua::game_time=stof(time.getAttribute("value"));
+		lua::time_scale=stof(time.getAttribute("scale"));
+		lua::prev_time=SDL_GetTicks();
+	}
+	{
+		XMLNode phs=lvl.getChildNode("physic");
+		velocity_iterations=stoi(phs.getAttribute("velocity_iterations"));
+		position_iterations=stoi(phs.getAttribute("position_iterations"));
+	}
+	load_value(lvl,"gravity",world->m_gravity);
+	{
+		XMLNode cam=lvl.getChildNode("camera");
+		cx=stof(cam.getAttribute("x"));
+		cy=stof(cam.getAttribute("y"));
+		zoom=stof(cam.getAttribute("zoom"));
+		camera_locked=stof(cam.getAttribute("locked"));
+	}
 	load_bodies_state(lvl.getChildNode("bodies"),bodies);
 	load_entities_state(lvl.getChildNode("entities"),entities);
 	load_values_state(lvl.getChildNode("values"));
+	load_bullets_state(lvl.getChildNode("bullets"));
 }
 b2Body* read_body(XMLNode bd,b2Vec2 delta,bool temp) {
 	int shapes_count=stoi(bd.getAttribute("shapes"));

@@ -10,6 +10,7 @@
 #include "text.hpp"
 #include "weapon.hpp"
 string prefix="game/";
+string saves="saves/";
 using namespace luabridge;
 
 int main(int argc, char * argv[]) {

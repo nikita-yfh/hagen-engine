@@ -35,7 +35,6 @@
 
 #define CIRCLE_QUALITY 50
 
-extern float time_scale;
 extern int velocity_iterations;
 extern int position_iterations;
 

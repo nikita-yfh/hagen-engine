@@ -1,44 +1,44 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <level w="100" h="20">
 	<background img="backgrounds/sky.png"/>
 	<bodies count="5">
-		<body x="18.4569" y="14.6782" id="ground" type="static" script="" shapes="1">
+		<body x="18.4645" y="14.6825" id="ground" type="static" script="" shapes="1">
 			<physic bullet="0" fixed_rotation="0" gravity_scale="1"/>
 			<shape id="_Polygon1" type="Polygon" pos="physic" texture="ground.png" expand="0">
 				<position point_count="33">
-					<point x="-28.9569" y="13.8218"/>
-					<point x="81.5431" y="13.8218"/>
-					<point x="81.5431" y="-1.67823"/>
-					<point x="80.5431" y="-1.67817"/>
-					<point x="80.5431" y="5.32182"/>
-					<point x="-2.95679" y="5.32181"/>
-					<point x="-3.47679" y="5.08181"/>
-					<point x="-3.62479" y="4.96883"/>
-					<point x="-3.73679" y="4.82181"/>
-					<point x="-3.85679" y="4.5118"/>
-					<point x="-3.92679" y="3.82181"/>
-					<point x="-3.95679" y="3.32181"/>
-					<point x="-3.97779" y="2.94981"/>
-					<point x="-4.12579" y="2.4538"/>
-					<point x="-4.43979" y="2.16481"/>
-					<point x="-5.51279" y="1.71077"/>
-					<point x="-6.45679" y="1.29379"/>
-					<point x="-7.70679" y="0.682783"/>
-					<point x="-8.70679" y="0.127784"/>
-					<point x="-9.67879" y="-0.345215"/>
-					<point x="-10.8459" y="-0.761222"/>
-					<point x="-11.4599" y="-0.905242"/>
-					<point x="-13.9549" y="-0.909242"/>
-					<point x="-14.2629" y="-0.964242"/>
-					<point x="-14.7029" y="-1.15625"/>
-					<point x="-15.7389" y="-2.24024"/>
-					<point x="-16.4279" y="-3.25424"/>
-					<point x="-17.2069" y="-4.81925"/>
-					<point x="-17.7629" y="-6.54525"/>
-					<point x="-18.3779" y="-8.68725"/>
-					<point x="-19.4689" y="-12.9522"/>
-					<point x="-19.9079" y="-14.6242"/>
-					<point x="-28.9569" y="-14.6782"/>
+					<point x="-28.9645" y="13.8175"/>
+					<point x="81.5355" y="13.8175"/>
+					<point x="81.5355" y="-1.6825"/>
+					<point x="80.5355" y="-1.68244"/>
+					<point x="80.5355" y="5.31755"/>
+					<point x="-2.96435" y="5.31754"/>
+					<point x="-3.48435" y="5.07754"/>
+					<point x="-3.63235" y="4.96456"/>
+					<point x="-3.74435" y="4.81754"/>
+					<point x="-3.86436" y="4.50753"/>
+					<point x="-3.93435" y="3.81754"/>
+					<point x="-3.96435" y="3.31754"/>
+					<point x="-3.98535" y="2.94554"/>
+					<point x="-4.13335" y="2.44953"/>
+					<point x="-4.44736" y="2.16054"/>
+					<point x="-5.52036" y="1.7065"/>
+					<point x="-6.46435" y="1.28952"/>
+					<point x="-7.71435" y="0.678512"/>
+					<point x="-8.71435" y="0.123512"/>
+					<point x="-9.68635" y="-0.349486"/>
+					<point x="-10.8535" y="-0.765493"/>
+					<point x="-11.4675" y="-0.909513"/>
+					<point x="-13.9625" y="-0.913513"/>
+					<point x="-14.2705" y="-0.968513"/>
+					<point x="-14.7105" y="-1.16052"/>
+					<point x="-15.7465" y="-2.24451"/>
+					<point x="-16.4355" y="-3.25851"/>
+					<point x="-16.9645" y="-4.68247"/>
+					<point x="-17.7705" y="-6.54952"/>
+					<point x="-18.3855" y="-8.69152"/>
+					<point x="-19.4765" y="-12.9565"/>
+					<point x="-19.9155" y="-14.6285"/>
+					<point x="-28.9645" y="-14.6825"/>
 				</position>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
@@ -139,7 +139,7 @@
 	</bodies>
 	<entities count="1">
 		<entity id="player" type="kolobator">
-			<position x="16" y="16"/>
+			<position x="17" y="16.5"/>
 		</entity>
 	</entities>
 	<joints count="0"/>

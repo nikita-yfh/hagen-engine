@@ -29,9 +29,9 @@ bool game() {
 				break;
 			case SDL_KEYDOWN:
 				if(key[SDL_SCANCODE_O])
-					save_world_state(prefix+"save.xml");
+					save_world_state("save");
 				if(key[SDL_SCANCODE_P])
-					load_world_state(prefix+"save.xml");
+					load_world_state("save");
 			}
 			interface.update();
 		}
@@ -42,7 +42,7 @@ bool game() {
 		auto step=chrono::high_resolution_clock::now()-fps;
 		fps = chrono::high_resolution_clock::now();
 		if(!interface.shown()){
-			world->Step(chrono::duration_cast<chrono::microseconds>(step).count()/1000000.0f*time_scale,
+			world->Step(chrono::duration_cast<chrono::microseconds>(step).count()/1000000.0f*lua::time_scale,
 						velocity_iterations,position_iterations);
 			update_fluid();
 		}

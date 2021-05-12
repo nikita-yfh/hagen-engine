@@ -20,8 +20,9 @@ lua_State *L;
 string need_load;
 map<unsigned int,unsigned int>timers;
 vector<string>loaded;
-int game_time=0;
+float game_time=0;
 int prev_time=0;
+float time_scale=1.0f;
 bool get_interval(unsigned int ms) {
 	if(get_time()-timers[ms]>ms/time_scale) {
 		return 1;
@@ -569,7 +570,7 @@ LuaRef load_luaref(XMLNode n){//Загружает переменную из XML
 			return c;
 		}
 	}
-	return LuaRef(L);
+	return newTable(L);
 }
 bool is_filled(LuaRef value){
 	if(value.isBool()||value.isNumber()||value.isString())
