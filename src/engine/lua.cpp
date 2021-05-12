@@ -234,21 +234,14 @@ short get_scancode(string k) {
 void create_body_userdata(b2Body *b) {
 	b->SetLuaUserData(new LuaRef(newTable(L)));
 }
-void create_joint_userdata(b2Joint *j) {
-	j->SetLuaUserData(new LuaRef(newTable(L)));
-}
 void create_entity_userdata(Entity *e) {
 	e->lua_userdata=new LuaRef(newTable(L));
 	for(auto b : e->bodies)
 		create_body_userdata(b.second);
-	for(auto j : e->joints)
-		create_joint_userdata(j.second);
 }
 void create_userdata() {
 	for(auto b : bodies)
 		create_body_userdata(b.second);
-	for(auto j : joints)
-		create_joint_userdata(j.second);
 	for(auto e : entities)
 		create_entity_userdata(e.second);
 }
@@ -388,7 +381,6 @@ void bind() {
 	.addProperty("min_length",&b2Joint::GetMinLength,&b2Joint::SetMinLength)
 	.addProperty("max_length",&b2Joint::GetMaxLength,&b2Joint::SetMaxLength)
 	.addProperty("id",&b2Joint::GetID)
-	.addProperty("userdata",&b2Joint::GetLuaUserData,&b2Joint::SetLuaUserData)
 	.endClass()
 	.beginClass<b2Body>("Body")
 	.addProperty("x",&b2Body::GetX,&b2Body::SetX)
