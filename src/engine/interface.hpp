@@ -37,7 +37,7 @@ struct Game_interface {
 	bool shown;
 	FC_Font *font=0;
 	void load_config();
-	void show();
+	void draw();
 	void update();
 	Rect4 borders;
 };
@@ -53,10 +53,12 @@ struct Interface {
 	Game_interface game_interface;
 	Console console;
 	Pause pause;
-	void show();
+	void draw();
 	void update();
 	void load_config();
 	void update_cursor();
 	bool shown();
+	void hide();
+	int prev_time;
 };
 extern Interface interface;

@@ -231,6 +231,6 @@ void draw() {
 	}
 	draw_effects();
 	draw_mask();
-	interface.show();
+	interface.draw();
 	GPU_Flip(ren);
 }

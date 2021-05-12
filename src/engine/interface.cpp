@@ -242,13 +242,15 @@ void Rect4::load(XMLNode l,float f) {
 }
 void Interface::update() {
 	if(e.type==SDL_KEYDOWN) {
-		if(e.key.keysym.sym==SDLK_BACKQUOTE)
+		if(e.key.keysym.sym==SDLK_BACKQUOTE){
 			console.shown=!console.shown;
-		else if(e.key.keysym.sym==SDLK_ESCAPE) {
+			if(!pause.shown && !console.shown)hide();
+		}else if(e.key.keysym.sym==SDLK_ESCAPE) {
 			if(console.shown)
 				console.shown=0;
 			else
 				pause.shown=!pause.shown;
+			if(!pause.shown && !console.shown)hide();
 		}
 
 	}
@@ -380,8 +382,8 @@ void Interface::load_imgui_font(string name,float size) {
 void Interface::load_config() {
 	game_interface.load_config();
 }
-void Interface::show() {
-	game_interface.show();
+void Interface::draw() {
+	game_interface.draw();
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL2_NewFrame(SDL_GetWindowFromID(ren->context->windowID));
 	NewFrame();
@@ -403,7 +405,7 @@ void Game_interface::load_config() {
 }
 
 void Game_interface::update() {}
-void Game_interface::show() {
+void Game_interface::draw() {
 	short h=FC_GetLineHeight(font);
 	{
 		int health=0;
@@ -435,5 +437,8 @@ void Interface::update_cursor() {
 }
 bool Interface::shown(){
 	return console.shown || pause.shown;
+}
+void Interface::hide(){
+	lua::prev_time=SDL_GetTicks();
 }
 Interface interface;

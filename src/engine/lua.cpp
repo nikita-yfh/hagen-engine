@@ -20,23 +20,26 @@ lua_State *L;
 string need_load;
 map<unsigned int,unsigned int>timers;
 vector<string>loaded;
-float game_timer=0;
-int prev_timer=0;
+int game_time=0;
+int prev_time=0;
 bool get_interval(unsigned int ms) {
-	if(SDL_GetTicks()-timers[ms]>ms/time_scale) {
+	if(get_time()-timers[ms]>ms/time_scale) {
 		return 1;
 	}
 	return 0;
 }
 void update_intervals() {
 	for(auto &t : timers) {
-		if(SDL_GetTicks()-t.second>t.first/time_scale)
-			t.second=SDL_GetTicks();
+		if(get_time()-t.second>t.first/time_scale)
+			t.second=get_time();
 	}
-	while(prev_timer<SDL_GetTicks()+1) {
-		prev_timer++;
-		game_timer+=time_scale;
+	while(prev_time<SDL_GetTicks()+1) {
+		prev_time++;
+		game_time+=time_scale;
 	}
+}
+int get_time(){
+	return game_time;
 }
 //НАЧАЛО КОСТЫЛЕЙ И ОСНОВНЫХ ПРИЧИН БАГОВ
 void set_mask(Color &c) {
@@ -327,7 +330,7 @@ void bind() {
 	.addProperty("locked",&camera_locked)	//блокировка камеры. если заблокирована то двигается на главным героем и двигать нельзя.
 	.addProperty("angle",&mouse_angle)	//угол поворота мыши относительно центра экрана
 	.endNamespace()
-	.addProperty("timer",&game_timer,0)		//количество миллисекунд со старта уровня
+	.addProperty("timer",&get_time)		//количество миллисекунд со старта уровня
 	.addFunction("key",&get_key)		//нажата ли клавиша
 	.addFunction("press_key",&get_press_key)	//когда клавишу только нажимают
 	.addFunction("release_key",&get_release_key)	//когда клавишу отпускают
@@ -513,10 +516,8 @@ void init(string name) { //
 void quit() {
 	if(L)lua_close(L);
 }
-int get_time() { //Возвращает количество миллисекунд со старта игры
-	return game_timer;
-}
 void save_luaref(XMLNode n,LuaRef value){ //сохраняет в XMLNode переменную
+	if(!is_filled(value))return;
 	if(value.isBool()){
 		n.addAttribute("type","boolean");
 		n.addAttribute("value",value.cast<bool>());
@@ -536,14 +537,9 @@ void save_luaref(XMLNode n,LuaRef value){ //сохраняет в XMLNode пер
 		while(lua_next(L,-2)!=0){
 			LuaRef key=LuaRef::fromStack(L,-2);
 			LuaRef val=LuaRef::fromStack(L,-1);
-			if(key.isString()){
+			if((key.isString() || key.isNumber()) && is_filled(val)){
 				XMLNode child=n.addChild("value");
 				child.addAttribute("name",key.cast<string>());
-				save_luaref(child,val);
-				count++;
-			}else if(key.isNumber()){
-				XMLNode child=n.addChild("value");
-				child.addAttribute("name",key.cast<float>());
 				save_luaref(child,val);
 				count++;
 			}
