@@ -43,12 +43,10 @@ struct Game_interface {
 };
 struct Pause{
 	bool shown=false;
-	Pause();
 	void Draw();
 	void close();
 };
 struct SaverLoader{
-	SaverLoader();
 	bool shown=false;
 	bool mode=1; //save
 	char selected[64];

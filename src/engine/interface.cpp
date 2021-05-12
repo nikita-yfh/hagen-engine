@@ -17,18 +17,6 @@ static inline void trim(std::string &s) {
 		s.erase(s.end());
 }
 
-Pause::Pause() {
-	get_text("pause/continue");
-	get_text("pause/save_game");
-	get_text("pause/load_game");
-	get_text("pause/settings");
-	get_text("pause/main_menu");
-	get_text("pause/main_menu_title");
-	get_text("pause/main_menu_text");
-	get_text("pause/exit_game");
-	get_text("pause/exit_game_title");
-	get_text("pause/exit_game_text");
-}
 void Pause::Draw() {
 	if(!shown)return;
 	ImVec2 g=GetItemRectSize();
@@ -95,10 +83,6 @@ Console::Console() {
 	ClearLog();
 	memset(InputBuf, 0, sizeof(InputBuf));
 	AddLog("LuaJIT 2.0.5 -- Copyright (C) 2005-2017 Mike Pall. http://luajit.org/");
-	get_text("console/title");
-	get_text("console/input");
-	get_text("console/matches");
-	get_text("console/clear");
 }
 Console::~Console() {
 	ClearLog();
@@ -461,13 +445,6 @@ void Interface::quicksave(){
 void Interface::quickload(){
 	if(exist_file(saves+"quicksave.xml"))
 		load_world_state("quicksave");
-}
-SaverLoader::SaverLoader(){
-	get_text("saveload/save_title");
-	get_text("saveload/save");
-	get_text("saveload/load_title");
-	get_text("saveload/load");
-	get_text("saveload/delete");
 }
 void SaverLoader::Draw(){
 	if(!shown)return;
