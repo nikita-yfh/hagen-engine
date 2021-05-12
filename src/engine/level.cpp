@@ -154,6 +154,32 @@ void load_bullets_state(XMLNode bls){
 		bullets[id].max=stoi(bl.getAttribute("max"));
 	}
 }
+void save_weapons_state(XMLNode ws){
+	int count=0;
+	for(auto &b : weapons){
+		if(b.first!=""){
+			XMLNode w=ws.addChild("weapon");
+			w.addAttribute("name",b.first);
+			w.addAttribute("dx",b.second.dx);
+			w.addAttribute("dy",b.second.dy);
+			w.addAttribute("bullet1",b.second.bullet1);
+			w.addAttribute("bullet2",b.second.bullet2);
+			count++;
+		}
+	}
+	ws.addAttribute("count",count);
+}
+void load_weapons_state(XMLNode ws){
+	int count=stoi(ws.getAttribute("count"));
+	for(int q=0;q<count;q++){
+		XMLNode w=ws.getChildNode("weapon",q);
+		string id=w.getAttribute("name");
+		weapons[id].dx=stof(w.getAttribute("dx"));
+		weapons[id].dy=stof(w.getAttribute("dy"));
+		weapons[id].bullet1=w.getAttribute("bullet1");
+		weapons[id].bullet2=w.getAttribute("bullet2");
+	}
+}
 void save_world_state(string name){
 	XMLNode lvl=XMLNode::createXMLTopNode("level");
 	lvl.addAttribute("name",levelname);
@@ -179,6 +205,7 @@ void save_world_state(string name){
 	save_entities_state(lvl.addChild("entities"),entities);
 	save_values_state(lvl.addChild("values"));
 	save_bullets_state(lvl.addChild("bullets"));
+	save_weapons_state(lvl.addChild("weapons"));
 	lvl.writeToFile((saves+name+".xml").c_str());
 }
 void load_world_state(string name){
@@ -207,6 +234,7 @@ void load_world_state(string name){
 	load_entities_state(lvl.getChildNode("entities"),entities);
 	load_values_state(lvl.getChildNode("values"));
 	load_bullets_state(lvl.getChildNode("bullets"));
+	load_weapons_state(lvl.getChildNode("weapons"));
 }
 b2Body* read_body(XMLNode bd,b2Vec2 delta,bool temp) {
 	int shapes_count=stoi(bd.getAttribute("shapes"));
