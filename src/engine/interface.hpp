@@ -46,6 +46,11 @@ struct Pause{
 	Pause();
 	void Draw();
 };
+struct Saver{
+	bool shown=false;
+	Saver();
+	void Draw();
+};
 struct Interface {
 	void init_imgui();
 	void load_imgui_config();

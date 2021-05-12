@@ -579,7 +579,7 @@ XMLNode XMLNode::openFileHelper(XMLCSTR filename, XMLCSTR tag, XMLError *error, 
 				  ,filename,XMLNode::getError(pResults.error),pResults.nLine,pResults.nColumn,s1,s2,s3);
 		if(error!=0)*error=pResults.error;
 		if(error_str!=0)strcpy(*error_str,message);
-		//throw std::runtime_error(message);
+		throw std::runtime_error(message);
 	}
 	return xnode;
 }
