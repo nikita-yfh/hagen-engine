@@ -56,6 +56,7 @@ void save_bodies_state(XMLNode bds,map<string,b2Body*>&bodies){
 }
 void load_bodies_state(XMLNode bds,map<string,b2Body*>&bodies){
 	string s=bds.getAttribute("count");
+	vector<string>loaded;
 	int count=stoi(bds.getAttribute("count"));
 	for(int q=0;q<count;q++){
 		XMLNode bd=bds.getChildNode("body",q);
@@ -64,7 +65,16 @@ void load_bodies_state(XMLNode bds,map<string,b2Body*>&bodies){
 		bool created=stoi(bd.getAttribute("created"));
 		if(created)
 			create_body(script,id,0,0);
+		loaded.push_back(id);
 		load_body_state(bd,bodies[id]);
+	}
+	for(auto &body : bodies){
+		bool ok=0;
+		for(auto &l : loaded)
+			if(body.second->GetID()==l)
+				ok=1;
+		if(!ok)
+			destroy_body(body.second);
 	}
 }
 void save_entities_state(XMLNode bds,map<string,Entity*>&entities){
@@ -98,7 +108,7 @@ void load_entities_state(XMLNode ens,map<string,Entity*>&entities){
 		bool created=stoi(en.getAttribute("created"));
 		if(created)
 			create_entity(type,id,0,0);
-		loaded.emplace_back(id);
+		loaded.push_back(id);
 		Entity *entity=entities[id];
 		XMLNode weapon=en.getChildNode("weapon");
 		entity->weapon_x=stof(weapon.getAttribute("x"));
