@@ -31,5 +31,11 @@
 		<exit_game_title>Выйти из игры?</exit_game_title>
 		<exit_game_text>Не сохраненный игровой прогресс будет утерян!</exit_game_text>
 	</pause>
-]
+	<saveload>
+		<save_title>Сохранить игру</save_title>
+		<load_title>Загрузить игру</load_title>
+		<save>Сохранить</save>
+		<load>Загрузить</load>
+		<delete>Удалить</delete>
+	</saveload>
 </text>

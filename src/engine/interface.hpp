@@ -45,11 +45,17 @@ struct Pause{
 	bool shown=false;
 	Pause();
 	void Draw();
+	void close();
 };
-struct Saver{
+struct SaverLoader{
+	SaverLoader();
 	bool shown=false;
-	Saver();
+	bool mode=1; //save
+	char selected[64];
 	void Draw();
+	void update_cache();
+	void close();
+	vector<string>list;
 };
 struct Interface {
 	void init_imgui();
@@ -57,6 +63,7 @@ struct Interface {
 	void load_imgui_font(string name,float size);
 	Game_interface game_interface;
 	Console console;
+	SaverLoader saver;
 	Pause pause;
 	void draw();
 	void update();

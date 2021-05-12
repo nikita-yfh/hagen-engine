@@ -43,11 +43,18 @@ void Pause::Draw() {
 	static float w=0;
 	ImVec2 align=ImVec2(w, 0);
 	if(Button(get_text("pause/continue").c_str(),align)) {
-		shown=0;
-		interface.console.shown=0;
+		close();
 	}
-	Button(get_text("pause/save_game").c_str(),align);
-	Button(get_text("pause/load_game").c_str(),align);
+	if(Button(get_text("pause/save_game").c_str(),align)){
+		interface.saver.mode=1;
+		interface.saver.update_cache();
+		interface.saver.shown=1;
+	}
+	if(Button(get_text("pause/load_game").c_str(),align)){
+		interface.saver.mode=0;
+		interface.saver.update_cache();
+		interface.saver.shown=1;
+	}
 	Button(get_text("pause/settings").c_str(),align);
 	if(Button(get_text("pause/main_menu").c_str(),align))
 		OpenPopup(get_text("pause/main_menu_title").c_str());
@@ -73,7 +80,8 @@ void Pause::Draw() {
 		TextWrapped(get_text("pause/exit_game_text").c_str());
 		Separator();
 
-		Button(get_text("common/ok").c_str(), ImVec2(120, 0));
+		if(Button(get_text("common/ok").c_str(), ImVec2(120, 0)))
+			quit();
 		SameLine();
 		if (Button(get_text("common/cancel").c_str(), ImVec2(120, 0))) {
 			CloseCurrentPopup();
@@ -248,8 +256,10 @@ void Interface::update() {
 		}else if(e.key.keysym.sym==SDLK_ESCAPE) {
 			if(console.shown)
 				console.shown=0;
+			else if(pause.shown)
+				pause.close();
 			else
-				pause.shown=!pause.shown;
+				pause.shown=1;
 			if(!shown())hide();
 		}else if(e.key.keysym.sym==SDLK_F5)
 			quicksave();
@@ -392,7 +402,7 @@ void Interface::draw() {
 	NewFrame();
 	console.Draw();
 	pause.Draw();
-	ShowDemoWindow(0);
+	saver.Draw();
 	Render();
 	SDL_GL_MakeCurrent(SDL_GetWindowFromID(ren->context->windowID), ren->context->context);
 	ImGui_ImplOpenGL3_RenderDrawData(GetDrawData());
@@ -452,7 +462,88 @@ void Interface::quickload(){
 	if(exist_file(saves+"quicksave.xml"))
 		load_world_state("quicksave");
 }
-void Saver::Draw(){
+SaverLoader::SaverLoader(){
+	get_text("saveload/save_title");
+	get_text("saveload/save");
+	get_text("saveload/load_title");
+	get_text("saveload/load");
+	get_text("saveload/delete");
+}
+void SaverLoader::Draw(){
+	if(!shown)return;
+	SetNextWindowSize(ImVec2(520, 300), ImGuiCond_FirstUseEver);
+	if (!Begin(get_text(mode?"saveload/save_title":"saveload/load_title").c_str(), &shown)) {
+		End();
+		return;
+	}
+	const float footer_height_to_reserve = GetStyle().ItemSpacing.y + GetFrameHeightWithSpacing();
+	BeginChild("ScrollingRegion", ImVec2(0, -footer_height_to_reserve), true, ImGuiWindowFlags_HorizontalScrollbar);
+	bool ok=1;
+	for (auto &l : list){
+		if (Selectable(l.c_str(), l.find(selected)==0 && ok && strlen(selected))){
+			strcpy(selected,l.c_str());
+			ok=0;
+		}
+	}
+	EndChild();
+	bool press=0;
+	if((mode && Button(get_text("saveload/save").c_str()))||
+		(!mode &&Button(get_text("saveload/load").c_str())))press=1;
+	SameLine();
+	if(Button(get_text("saveload/delete").c_str())){
+		remove((saves+selected+".xml").c_str());
+		update_cache();
+	}
+	SameLine();
+	if(Button(get_text("common/cancel").c_str()))close();
+	SameLine();
+	if(InputText("",selected,64,ImGuiInputTextFlags_EnterReturnsTrue) || press){
+		if(strlen(selected) && exist_file(saves+selected)){
+			if(mode)
+				save_world_state(selected);
+			else
+				load_world_state(selected);
+			interface.pause.shown=0;
+			close();
+		}
+	}
 
+	End();
+}
+void SaverLoader::update_cache(){
+	list.clear();
+#ifdef WIN32
+	WIN32_FIND_DATA fd;
+	HANDLE hFind = ::FindFirstFile(string(save_data_dir+saves+"*").c_str(), &fd);
+	if(hFind != INVALID_HANDLE_VALUE) {
+		do {
+			if(!(fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))list.push_back(fd.cFileName);
+		} while(::FindNextFile(hFind, &fd));
+		::FindClose(hFind);
+	}
+}
+#else
+	char var[128];
+	FILE *fp = popen(string("ls "+saves).c_str(),"r");
+	while (fgets(var, sizeof(var), fp) != NULL) {
+		list.push_back(string(var));
+		list[list.size()-1].pop_back();
+	}
+	pclose(fp);
+#endif
+	for(auto &s : list){
+		if(s.find(".")){
+			s.erase(s.begin()+s.find("."),s.end());
+		}
+	}
+}
+void SaverLoader::close(){
+	list.clear();
+	shown=0;
+}
+void Pause::close(){
+	shown=0;
+	interface.saver.close();
+	interface.console.shown=0;
 }
 Interface interface;
