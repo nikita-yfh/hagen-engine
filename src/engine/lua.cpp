@@ -72,6 +72,7 @@ vector<string>get_table_keys(string name){
 		g=g[table];
 		if(g.isNil())return {};
 	}
+	if(!g.isTable())return {};
 	g.push(L);
 	push(L,Nil());
 	while(lua_next(L,-2)!=0){
