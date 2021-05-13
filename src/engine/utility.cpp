@@ -80,7 +80,7 @@ float vec_angle(b2Vec2 p) {
 }
 b2Vec2 bis(b2Vec2 v1,b2Vec2 v2,float length) {
 	v1.Normalize();
-	if(v1.Length()==0){
+	if(v1.Length()==0) {
 		v2=v2.Skew();
 		v2.Normalize();
 		return length*v2;
@@ -97,14 +97,14 @@ b2Vec2 bis(b2Vec2 v1,b2Vec2 v2,float length) {
 
 	return sum;
 }
-b2Vec2 point2_per(b2Vec2 v1,b2Vec2 v2,float width){
+b2Vec2 point2_per(b2Vec2 v1,b2Vec2 v2,float width) {
 	b2Vec2 d=v2-v1;
 	b2Vec2 per=d.Skew();
 	per.Normalize();
 	per*=width;
 	return per;
 }
-bool bigger_angle(b2Vec2 v1,b2Vec2 v2){
+bool bigger_angle(b2Vec2 v1,b2Vec2 v2) {
 	return v1.x*v2.y>v1.y*v2.x;
 }
 

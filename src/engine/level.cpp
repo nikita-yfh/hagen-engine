@@ -19,7 +19,7 @@ map<string,Entity*>entities;
 string background;
 string levelname;
 b2World *world=0;
-void save_body_state(XMLNode bd,b2Body *body){
+void save_body_state(XMLNode bd,b2Body *body) {
 	bd.addAttribute("id",body->GetID());
 	bd.addAttribute("script",body->GetUserData()->script);
 	bd.addAttribute("created",body->GetUserData()->created);
@@ -35,7 +35,7 @@ void save_body_state(XMLNode bd,b2Body *body){
 	save_value(bd,"sleep_time",body->m_sleepTime);
 	save_value(bd,"sweep",body->m_sweep);
 }
-void load_body_state(XMLNode bd,b2Body *body){
+void load_body_state(XMLNode bd,b2Body *body) {
 	XMLNode val=bd.getChildNode("userdata");
 	if(body->m_userData->lua_userdata)
 		delete body->m_userData->lua_userdata;
@@ -50,16 +50,16 @@ void load_body_state(XMLNode bd,b2Body *body){
 	load_value(bd,"sleep_time",body->m_sleepTime);
 	load_value(bd,"sweep",body->m_sweep);
 }
-void save_bodies_state(XMLNode bds,map<string,b2Body*>&bodies){
+void save_bodies_state(XMLNode bds,map<string,b2Body*>&bodies) {
 	bds.addAttribute("count",bodies.size());
 	for(auto &body : bodies)
 		save_body_state(bds.addChild("body"),body.second);
 }
-void load_bodies_state(XMLNode bds,map<string,b2Body*>&bodies){
+void load_bodies_state(XMLNode bds,map<string,b2Body*>&bodies) {
 	string s=bds.getAttribute("count");
 	vector<string>loaded;
 	int count=stoi(bds.getAttribute("count"));
-	for(int q=0;q<count;q++){
+	for(int q=0; q<count; q++) {
 		XMLNode bd=bds.getChildNode("body",q);
 		string id=bd.getAttribute("id");
 		string script=bd.getAttribute("script");
@@ -70,13 +70,13 @@ void load_bodies_state(XMLNode bds,map<string,b2Body*>&bodies){
 		load_body_state(bd,bodies[id]);
 	}
 	bool erased=1;
-	while(erased){
-		for(auto &body : bodies){
+	while(erased) {
+		for(auto &body : bodies) {
 			bool ok=0;
 			for(auto &l : loaded)
 				if(body.second->GetID()==l)
 					ok=1;
-			if(!ok){
+			if(!ok) {
 				destroy_body(body.second);
 				erased=1;
 				break;
@@ -85,9 +85,9 @@ void load_bodies_state(XMLNode bds,map<string,b2Body*>&bodies){
 		erased=0;
 	}
 }
-void save_entities_state(XMLNode bds,map<string,Entity*>&entities){
+void save_entities_state(XMLNode bds,map<string,Entity*>&entities) {
 	bds.addAttribute("count",entities.size());
-	for(auto &entity : entities){
+	for(auto &entity : entities) {
 		XMLNode en=bds.addChild("entity");
 		Entity *ent=entity.second;
 		en.addAttribute("id",ent->id);
@@ -106,10 +106,10 @@ void save_entities_state(XMLNode bds,map<string,Entity*>&entities){
 		save_bodies_state(en.addChild("bodies"),ent->bodies);
 	}
 }
-void load_entities_state(XMLNode ens,map<string,Entity*>&entities){
+void load_entities_state(XMLNode ens,map<string,Entity*>&entities) {
 	int count=stof(ens.getAttribute("count"));
 	vector<string>loaded;
-	for(int q=0;q<count;q++){
+	for(int q=0; q<count; q++) {
 		XMLNode en=ens.getChildNode("entity",q);
 		string id=en.getAttribute("id");
 		string type=en.getAttribute("type");
@@ -132,13 +132,13 @@ void load_entities_state(XMLNode ens,map<string,Entity*>&entities){
 		load_bodies_state(en.getChildNode("bodies"),entity->bodies);
 	}
 	bool erased=1;
-	while(erased){
-		for(auto &entity : entities){
+	while(erased) {
+		for(auto &entity : entities) {
 			bool ok=0;
 			for(auto &l : loaded)
 				if(entity.second->id==l)
 					ok=1;
-			if(!ok){
+			if(!ok) {
 				destroy_entity(entity.second);
 				erased=1;
 				break;
@@ -147,10 +147,10 @@ void load_entities_state(XMLNode ens,map<string,Entity*>&entities){
 		erased=0;
 	}
 }
-void save_values_state(XMLNode data){
+void save_values_state(XMLNode data) {
 	int count=0;
-	for(string &str : lua::loaded){
-		if(lua::is_filled(luabridge::getGlobal(lua::L,str.c_str()))){
+	for(string &str : lua::loaded) {
+		if(lua::is_filled(luabridge::getGlobal(lua::L,str.c_str()))) {
 			XMLNode v=data.addChild("value");
 			v.addAttribute("name",str);
 			lua::save_luaref(v,luabridge::getGlobal(lua::L,str.c_str()));
@@ -159,18 +159,18 @@ void save_values_state(XMLNode data){
 	}
 	data.addAttribute("count",count);
 }
-void load_values_state(XMLNode data){
+void load_values_state(XMLNode data) {
 	int count=stof(data.getAttribute("count"));
-	for(int q=0;q<count;q++){
+	for(int q=0; q<count; q++) {
 		XMLNode bd=data.getChildNode("value",q);
 		string str=bd.getAttribute("name");
 		luabridge::getGlobal(lua::L,str.c_str())=lua::load_luaref(bd);
 	}
 }
-void save_bullets_state(XMLNode bls){
+void save_bullets_state(XMLNode bls) {
 	int count=0;
-	for(auto &b : bullets){
-		if(b.first!=""){
+	for(auto &b : bullets) {
+		if(b.first!="") {
 			XMLNode bl=bls.addChild("bullet");
 			bl.addAttribute("name",b.first);
 			bl.addAttribute("count",b.second.count);
@@ -180,19 +180,19 @@ void save_bullets_state(XMLNode bls){
 	}
 	bls.addAttribute("count",count);
 }
-void load_bullets_state(XMLNode bls){
+void load_bullets_state(XMLNode bls) {
 	int count=stoi(bls.getAttribute("count"));
-	for(int q=0;q<count;q++){
+	for(int q=0; q<count; q++) {
 		XMLNode bl=bls.getChildNode("bullet",q);
 		string id=bl.getAttribute("name");
 		bullets[id].count=stoi(bl.getAttribute("count"));
 		bullets[id].max=stoi(bl.getAttribute("max"));
 	}
 }
-void save_weapons_state(XMLNode ws){
+void save_weapons_state(XMLNode ws) {
 	int count=0;
-	for(auto &b : weapons){
-		if(b.first!=""){
+	for(auto &b : weapons) {
+		if(b.first!="") {
 			XMLNode w=ws.addChild("weapon");
 			w.addAttribute("name",b.first);
 			w.addAttribute("dx",b.second.dx);
@@ -204,9 +204,9 @@ void save_weapons_state(XMLNode ws){
 	}
 	ws.addAttribute("count",count);
 }
-void load_weapons_state(XMLNode ws){
+void load_weapons_state(XMLNode ws) {
 	int count=stoi(ws.getAttribute("count"));
-	for(int q=0;q<count;q++){
+	for(int q=0; q<count; q++) {
 		XMLNode w=ws.getChildNode("weapon",q);
 		string id=w.getAttribute("name");
 		weapons[id].dx=stof(w.getAttribute("dx"));
@@ -215,7 +215,7 @@ void load_weapons_state(XMLNode ws){
 		weapons[id].bullet2=w.getAttribute("bullet2");
 	}
 }
-void save_world_state(string name){
+void save_world_state(string name) {
 	XMLNode lvl=XMLNode::createXMLTopNode("level");
 	lvl.addAttribute("name",levelname);
 	{
@@ -243,7 +243,7 @@ void save_world_state(string name){
 	save_weapons_state(lvl.addChild("weapons"));
 	lvl.writeToFile((saves+name+".xml").c_str());
 }
-void load_world_state(string name){
+void load_world_state(string name) {
 	XMLNode lvl=XMLNode::openFileHelper((saves+name+".xml").c_str(),"level");
 	load_level(lvl.getAttribute("name"));
 	{
@@ -396,7 +396,7 @@ b2Body* read_body(XMLNode bd,b2Vec2 delta,bool temp) {
 					fix2.shape=&shape;
 					body->CreateFixture(&fix2);
 				}
-			}else if(str=="Cover") {
+			} else if(str=="Cover") {
 				int count=stoi(pos.getAttribute("point_count"));
 				float width=stof(pos.getAttribute("width"));
 				FD_DATA(fix,type)=COVER;
@@ -419,28 +419,28 @@ b2Body* read_body(XMLNode bd,b2Vec2 delta,bool temp) {
 					if(e!=0)length_a2+=b2Distance(vec2[e],vec2[e-1]);
 					length2[e]=length_a2;
 				}
-				for(int q=1;q<count;q++){
+				for(int q=1; q<count; q++) {
 					b2FixtureDef fix2=fix;
 					b2PolygonShape shape;
 					b2Vec2 v[4];
 					b2Vec2 tex[4];
-					if(q==0 || bigger_angle(vec1[q]-vec1[q-1],vec1[q-1]-vec1[q-2])){
+					if(q==0 || bigger_angle(vec1[q]-vec1[q-1],vec1[q-1]-vec1[q-2])) {
 						v[0]=vec1[q-1];
 						v[3]=v[0]-point2_per(vec1[q-1],vec1[q],width);
 						tex[0]=b2Vec2(length1[q-1],width);
 						tex[3]=b2Vec2(length1[q-1],0);
-					}else{
+					} else {
 						v[0]=vec2[q-1];
 						v[3]=v[0]+point2_per(vec2[q-1],vec2[q],width);
 						tex[0]=b2Vec2(length2[q-1],0);
 						tex[3]=b2Vec2(length2[q-1],width);
 					}
-					if(q==count-1 || !bigger_angle(vec1[q-1]-vec1[q],vec1[q]-vec1[q+1])){
+					if(q==count-1 || !bigger_angle(vec1[q-1]-vec1[q],vec1[q]-vec1[q+1])) {
 						v[1]=vec1[q];
 						v[2]=v[1]-point2_per(vec1[q-1],vec1[q],width);
 						tex[1]=b2Vec2(length1[q],width);
 						tex[2]=b2Vec2(length1[q],0);
-					}else{
+					} else {
 						v[1]=vec2[q];
 						v[2]=v[1]+point2_per(vec2[q-1],vec2[q],width);
 						tex[1]=b2Vec2(length2[q],0);
@@ -449,8 +449,8 @@ b2Body* read_body(XMLNode bd,b2Vec2 delta,bool temp) {
 					shape.Set(v,4);
 					shape.big_polygon=new b2Vec2[5];
 					shape.b_count=5;
-					for(int e=0;e<4;e++)
-						for(int i=0;i<4;i++)
+					for(int e=0; e<4; e++)
+						for(int i=0; i<4; i++)
 							if(shape.m_vertices[i]==v[e])
 								shape.big_polygon[i]=tex[e];
 					shape.big_polygon[4]=b2Vec2(max(length_a1,length_a2),width);
@@ -578,7 +578,7 @@ b2Joint *read_joint(XMLNode jn,string &id,b2Vec2 delta,Entity *ent) {
 	J_DATA(j,id)=id;
 	return j;
 }
-void open_file(string path){
+void open_file(string path) {
 	if(!exist_file(path))
 		throw string("File "+path+" not found");
 	XMLNode lvl=XMLNode::openFileHelper(path.c_str(),"level");

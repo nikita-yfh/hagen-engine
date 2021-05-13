@@ -33,17 +33,17 @@ void Pause::Draw() {
 	if(Button(get_text("pause/continue").c_str(),align)) {
 		close();
 	}
-	if(Button(get_text("pause/save_game").c_str(),align)){
+	if(Button(get_text("pause/save_game").c_str(),align)) {
 		interface.saver.mode=1;
 		interface.saver.update_cache();
 		interface.saver.shown=1;
 	}
-	if(Button(get_text("pause/load_game").c_str(),align)){
+	if(Button(get_text("pause/load_game").c_str(),align)) {
 		interface.saver.mode=0;
 		interface.saver.update_cache();
 		interface.saver.shown=1;
 	}
-	if(Button(get_text("pause/settings").c_str(),align)){
+	if(Button(get_text("pause/settings").c_str(),align)) {
 		interface.settingmanager.shown=1;
 	}
 	if(Button(get_text("pause/main_menu").c_str(),align))
@@ -236,11 +236,11 @@ void Rect4::load(XMLNode l,float f) {
 }
 void Interface::update() {
 	if(e.type==SDL_KEYDOWN) {
-		if(e.key.keysym.sym==SDLK_BACKQUOTE){
+		if(e.key.keysym.sym==SDLK_BACKQUOTE) {
 			console.shown=!console.shown;
 			if(!shown())hide();
 			update_cursor();
-		}else if(e.key.keysym.sym==SDLK_ESCAPE) {
+		} else if(e.key.keysym.sym==SDLK_ESCAPE) {
 			if(console.shown)
 				console.shown=0;
 			else if(pause.shown)
@@ -249,7 +249,7 @@ void Interface::update() {
 				pause.shown=1;
 			if(!shown())hide();
 			update_cursor();
-		}else if(e.key.keysym.sym==SDLK_F5)
+		} else if(e.key.keysym.sym==SDLK_F5)
 			quicksave();
 		else if(e.key.keysym.sym==SDLK_F9)
 			quickload();
@@ -435,28 +435,27 @@ void Game_interface::draw() {
 }
 
 void Interface::update_cursor() {
-	if(shown()){
+	if(shown()) {
 		GetIO().ConfigFlags &= ~ImGuiConfigFlags_NoMouseCursorChange;
-	}
-	else{
+	} else {
 		GetIO().ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;
 		set_center_cursor("cursor.png");
 	}
 }
-bool Interface::shown(){
+bool Interface::shown() {
 	return console.shown || pause.shown;
 }
-void Interface::hide(){
+void Interface::hide() {
 	lua::prev_time=SDL_GetTicks();
 }
-void Interface::quicksave(){
+void Interface::quicksave() {
 	save_world_state("quicksave");
 }
-void Interface::quickload(){
+void Interface::quickload() {
 	if(exist_file(saves+"quicksave.xml"))
 		load_world_state("quicksave");
 }
-void SaverLoader::Draw(){
+void SaverLoader::Draw() {
 	if(!shown)return;
 	SetNextWindowSize(ImVec2(520, 300), ImGuiCond_FirstUseEver);
 	if (!Begin(get_text(mode?"saveload/save_title":"saveload/load_title").c_str(), &shown)) {
@@ -466,8 +465,8 @@ void SaverLoader::Draw(){
 	const float footer_height_to_reserve = GetStyle().ItemSpacing.y + GetFrameHeightWithSpacing();
 	BeginChild("ScrollingRegion", ImVec2(0, -footer_height_to_reserve), true, ImGuiWindowFlags_HorizontalScrollbar);
 	bool ok=1;
-	for (auto &l : list){
-		if (Selectable(l.c_str(), l.find(selected)==0 && ok && strlen(selected))){
+	for (auto &l : list) {
+		if (Selectable(l.c_str(), l.find(selected)==0 && ok && strlen(selected))) {
 			strcpy(selected,l.c_str());
 			ok=0;
 		}
@@ -475,17 +474,17 @@ void SaverLoader::Draw(){
 	EndChild();
 	bool press=0;
 	if((mode && Button(get_text("saveload/save").c_str()))||
-		(!mode &&Button(get_text("saveload/load").c_str())))press=1;
+			(!mode &&Button(get_text("saveload/load").c_str())))press=1;
 	SameLine();
-	if(Button(get_text("saveload/delete").c_str())){
+	if(Button(get_text("saveload/delete").c_str())) {
 		remove((saves+selected+".xml").c_str());
 		update_cache();
 	}
 	SameLine();
 	if(Button(get_text("common/cancel").c_str()))close();
 	SameLine();
-	if(InputText("",selected,64,ImGuiInputTextFlags_EnterReturnsTrue) || press){
-		if(strlen(selected)){
+	if(InputText("",selected,64,ImGuiInputTextFlags_EnterReturnsTrue) || press) {
+		if(strlen(selected)) {
 			if(mode)
 				save_world_state(selected);
 			else if(exist_file(saves+selected+".xml"))
@@ -497,7 +496,7 @@ void SaverLoader::Draw(){
 
 	End();
 }
-void SaverLoader::update_cache(){
+void SaverLoader::update_cache() {
 	list.clear();
 #ifdef WIN32
 	WIN32_FIND_DATA fd;
@@ -518,23 +517,23 @@ void SaverLoader::update_cache(){
 	}
 	pclose(fp);
 #endif
-	for(auto &s : list){
-		if(s.find(".")){
-			s.erase(s.begin()+s.find("."),s.end());
-		}
+for(auto &s : list) {
+	if(s.find(".")) {
+		s.erase(s.begin()+s.find("."),s.end());
 	}
 }
-void SaverLoader::close(){
+}
+void SaverLoader::close() {
 	list.clear();
 	shown=0;
 }
-void Pause::close(){
+void Pause::close() {
 	shown=0;
 	interface.saver.close();
 	interface.console.shown=0;
 	interface.settingmanager.shown=0;
 }
-void SettingManager::Draw(){
+void SettingManager::Draw() {
 	if(!shown)return;
 	SetNextWindowSize(ImVec2(520, 300), ImGuiCond_FirstUseEver);
 	if (!Begin("Settings", &shown)) {
@@ -542,11 +541,11 @@ void SettingManager::Draw(){
 		return;
 	}
 	int w=GetWindowWidth();
-	string text[4]={"Graphics","Audio","Game","Control"};
-	for(int q=0;q<4;q++){
-		if(Selectable(text[q].c_str(),selected==q,0,{w/4,0}))
+	string text[4]= {"Graphics","Audio","Game","Control"};
+	for(int q=0; q<4; q++) {
+		if(Selectable(text[q].c_str(),selected==q,0, {w/4,0}))
 			selected=q;
-		//SameLine();
+		SameLine();
 	}
 	End();
 }

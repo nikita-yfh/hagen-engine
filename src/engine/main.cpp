@@ -41,7 +41,7 @@ int main(int argc, char * argv[]) {
 
 Settings settings;
 
-void Settings::save(){
+void Settings::save() {
 	XMLNode Main=XMLNode::createXMLTopNode("settings");
 	XMLNode graphics=Main.addChild("graphics");
 	graphics.addAttribute("w",SW);
@@ -56,8 +56,8 @@ void Settings::save(){
 	game.addAttribute("language",language);
 	Main.writeToFile((saves+"settings.xml").c_str());
 }
-void Settings::load(){
-	try{
+void Settings::load() {
+	try {
 		XMLNode Main=XMLNode::openFileHelper((saves+"settings.xml").c_str(),"settings");
 		XMLNode graphics=Main.getChildNode("graphics");
 		SW=stoi(graphics.getAttribute("w"));
@@ -70,12 +70,12 @@ void Settings::load(){
 		sound_freq=stoi(sound.getAttribute("frequency"));
 		XMLNode game=Main.getChildNode("game");
 		language=game.getAttribute("language");
-	}catch(...){
+	} catch(...) {
 		def();
 		save();
 	}
 }
-void Settings::def(){
+void Settings::def() {
 	fullscreen=true;
 	SDL_DisplayMode mode;
 	SDL_GetCurrentDisplayMode(0,&mode);

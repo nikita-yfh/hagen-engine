@@ -111,7 +111,7 @@ float vec_angle2(b2Vec2 p) {
 }
 b2Vec2 bis(b2Vec2 v1,b2Vec2 v2,float length) {
 	v1.Normalize();
-	if(v1.Length()==0){
+	if(v1.Length()==0) {
 		v2=v2.Skew();
 		v2.Normalize();
 		return length*v2;

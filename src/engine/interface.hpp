@@ -15,7 +15,7 @@ struct Rect4 {
 	void stabilize(float f);
 	void load(XMLNode l,float f);
 };
-struct Console{
+struct Console {
 	bool shown=false;
 	char                  InputBuf[256];
 	vector<string>     	  Items;
@@ -41,12 +41,12 @@ struct Game_interface {
 	void update();
 	Rect4 borders;
 };
-struct Pause{
+struct Pause {
 	bool shown=false;
 	void Draw();
 	void close();
 };
-struct SaverLoader{
+struct SaverLoader {
 	bool shown=false;
 	bool mode=1; //save
 	char selected[64];
@@ -55,7 +55,7 @@ struct SaverLoader{
 	void close();
 	vector<string>list;
 };
-struct SettingManager{
+struct SettingManager {
 	bool shown=false;
 	uint8_t selected=0;
 	void Draw();

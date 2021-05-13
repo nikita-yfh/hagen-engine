@@ -32,7 +32,7 @@ bool game() {
 		draw();
 		auto step=chrono::high_resolution_clock::now()-time;
 		time = chrono::high_resolution_clock::now();
-		if(!interface.shown()){
+		if(!interface.shown()) {
 			world->Step(chrono::duration_cast<chrono::microseconds>(step).count()/1000000.0f*lua::time_scale,
 						velocity_iterations,position_iterations);
 			update_fluid();

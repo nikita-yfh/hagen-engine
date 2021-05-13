@@ -155,7 +155,8 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 			}
 			GPU_Polygon(ren,3,f, {255,255,255,255});
 		}
-	}break;
+	}
+	break;
 	case COVER: {
 		b2PolygonShape *shape=(b2PolygonShape*)fix->GetShape();
 		if(tex) {
@@ -187,7 +188,8 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 			for(int q=0; q<4; q++)
 				GPU_Line(ren,x[q],y[q],x[(q+1)%4],y[(q+1)%4], {255,255,255,255});
 		}
-	}break;
+	}
+	break;
 	}
 }
 void draw_bodies(uint8_t pos) {

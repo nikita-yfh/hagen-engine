@@ -39,7 +39,7 @@ void update_intervals() {
 		game_time+=time_scale;
 	}
 }
-int get_time(){
+int get_time() {
 	return game_time;
 }
 //НАЧАЛО КОСТЫЛЕЙ И ОСНОВНЫХ ПРИЧИН БАГОВ
@@ -63,10 +63,10 @@ void dofile(string file) {
 	}
 }
 
-vector<string>get_table_keys(string name){
+vector<string>get_table_keys(string name) {
 	vector<string>keys;
 	LuaRef g=getGlobal(L,"_G");
-	while(name.find('.')!=name.npos){
+	while(name.find('.')!=name.npos) {
 		string table(name,0,name.find('.'));
 		name.erase(0,name.find('.')+1);
 		g=g[table];
@@ -75,10 +75,10 @@ vector<string>get_table_keys(string name){
 	if(!g.isTable())return {};
 	g.push(L);
 	push(L,Nil());
-	while(lua_next(L,-2)!=0){
+	while(lua_next(L,-2)!=0) {
 		LuaRef key=LuaRef::fromStack(L,-2);
 		LuaRef val=LuaRef::fromStack(L,-1);
-		if(key.isString()){
+		if(key.isString()) {
 			if(val.isFunction())
 				keys.push_back(key.cast<string>()+"(");
 			else
@@ -148,7 +148,7 @@ void init_entity(Entity *entity,bool ex) {
 		doscript("entities/"+entity->type);
 		loaded.emplace_back(entity->type);
 	}
-	if(ex){
+	if(ex) {
 		getGlobal(L,entity->type.c_str())["init"](entity);
 		getGlobal(L,"Entity")["init"](entity);
 	}
@@ -166,7 +166,7 @@ void init_weapon(string weapon,bool ex) {
 		luaL_dostring(L,(weapon+"=extend(Weapon)").c_str());
 		doscript("weapon/"+weapon);
 	}
-	if(ex){
+	if(ex) {
 		getGlobal(L,"Weapon")["init"](&weapons[weapon]);
 		getGlobal(L,weapon.c_str())["init"](&weapons[weapon]);
 		loaded.emplace_back(weapon);
@@ -175,7 +175,7 @@ void init_weapon(string weapon,bool ex) {
 }
 void update_entities() {
 	for(auto entity : entities) {
-		if(entity.second){
+		if(entity.second) {
 			if(getGlobal(L,"Entity")["update"](entity.second)||
 					getGlobal(L,entity.second->type.c_str())["update"](entity.second)) {
 				destroy_entity(entity.second);
@@ -511,28 +511,28 @@ void init(string name) { //
 void quit() {
 	if(L)lua_close(L);
 }
-void save_luaref(XMLNode n,LuaRef value){ //сохраняет в XMLNode переменную
+void save_luaref(XMLNode n,LuaRef value) { //сохраняет в XMLNode переменную
 	if(!is_filled(value))return;
-	if(value.isBool()){
+	if(value.isBool()) {
 		n.addAttribute("type","boolean");
 		n.addAttribute("value",value.cast<bool>());
-	}else if(value.isNumber()){
+	} else if(value.isNumber()) {
 		n.addAttribute("type","number");
 		n.addAttribute("value",value.cast<float>());
-	}else if(value.isNil()){
+	} else if(value.isNil()) {
 		n.addAttribute("type","nil");
-	}else if(value.isString()){
+	} else if(value.isString()) {
 		n.addAttribute("type","string");
 		n.addAttribute("value",value.cast<string>());
-	}else if(value.isTable()){
+	} else if(value.isTable()) {
 		n.addAttribute("type","table");
 		int count=0;
 		value.push(L);
 		push(L,Nil());
-		while(lua_next(L,-2)!=0){
+		while(lua_next(L,-2)!=0) {
 			LuaRef key=LuaRef::fromStack(L,-2);
 			LuaRef val=LuaRef::fromStack(L,-1);
-			if((key.isString() || key.isNumber()) && is_filled(val)){
+			if((key.isString() || key.isNumber()) && is_filled(val)) {
 				XMLNode child=n.addChild("value");
 				child.addAttribute("name",key.cast<string>());
 				save_luaref(child,val);
@@ -543,8 +543,8 @@ void save_luaref(XMLNode n,LuaRef value){ //сохраняет в XMLNode пер
 		n.addAttribute("count",count);
 	}
 }
-LuaRef load_luaref(XMLNode n){//Загружает переменную из XMLNode
-	if(n.getAttribute("type")){
+LuaRef load_luaref(XMLNode n) { //Загружает переменную из XMLNode
+	if(n.getAttribute("type")) {
 		string type=n.getAttribute("type");
 		if(type=="boolean")
 			return LuaRef(L,stoi(n.getAttribute("value"))?true:false);
@@ -552,10 +552,10 @@ LuaRef load_luaref(XMLNode n){//Загружает переменную из XML
 			return LuaRef(L,stof(n.getAttribute("value")));
 		else if(type=="string")
 			return LuaRef(L,n.getAttribute("value"));
-		else if(type=="table"){
+		else if(type=="table") {
 			LuaRef c(newTable(L));
 			int count=stoi(n.getAttribute("count"));
-			for(int q=0;q<count;q++){
+			for(int q=0; q<count; q++) {
 				XMLNode child=n.getChildNode("value",q);
 				LuaRef ch(L,load_luaref(child));
 				string s=child.getAttribute("name");
@@ -566,13 +566,13 @@ LuaRef load_luaref(XMLNode n){//Загружает переменную из XML
 	}
 	return newTable(L);
 }
-bool is_filled(LuaRef value){
+bool is_filled(LuaRef value) {
 	if(value.isBool()||value.isNumber()||value.isString())
 		return true;
-	if(value.isTable()){
+	if(value.isTable()) {
 		value.push(L);
 		push(L,Nil());
-		while(lua_next(L,-2)!=0){
+		while(lua_next(L,-2)!=0) {
 			LuaRef key=LuaRef::fromStack(L,-2);
 			LuaRef val=LuaRef::fromStack(L,-1);
 			if((key.isString() || key.isNumber())&&is_filled(val))

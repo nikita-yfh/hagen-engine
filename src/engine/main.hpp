@@ -5,7 +5,7 @@ extern string prefix;
 extern string saves;
 #define TYPE(a,b) (static_cast<a>(b))
 
-struct Settings{
+struct Settings {
 	void save();
 	void load();
 	void def();
