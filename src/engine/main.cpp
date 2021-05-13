@@ -18,7 +18,7 @@ int main(int argc, char * argv[]) {
 		if(argc>2)prefix=argv[2];
 		init();
 		configure_textures();
-		set_center_cursor("aim.png");
+		set_center_cursor("cursor.png");
 		if(argc>1) load_level(argv[1]);
 		else       load_level("ground1");
 

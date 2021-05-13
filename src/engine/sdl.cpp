@@ -82,14 +82,14 @@ void unset_cursor() {
 }
 void set_cursor(string name) {
 	if(cursor)SDL_FreeCursor(cursor);
-	SDL_Surface *sur=GPU_LoadSurface(string(prefix+"cursors/"+name).c_str());
+	SDL_Surface *sur=GPU_LoadSurface(string(prefix+"textures/"+name).c_str());
 	cursor=SDL_CreateColorCursor(sur,0,0);
 	SDL_FreeSurface(sur);
 	SDL_SetCursor(cursor);
 }
 void set_center_cursor(string name) {
 	if(cursor)SDL_FreeCursor(cursor);
-	SDL_Surface *sur=GPU_LoadSurface(string(prefix+"cursors/"+name).c_str());
+	SDL_Surface *sur=GPU_LoadSurface(string(prefix+"textures/"+name).c_str());
 	cursor=SDL_CreateColorCursor(sur,sur->w/2,sur->h/2);
 	if(!sur || !cursor)
 		unset_cursor();

@@ -237,6 +237,7 @@ void Interface::update() {
 		if(e.key.keysym.sym==SDLK_BACKQUOTE){
 			console.shown=!console.shown;
 			if(!shown())hide();
+			update_cursor();
 		}else if(e.key.keysym.sym==SDLK_ESCAPE) {
 			if(console.shown)
 				console.shown=0;
@@ -249,7 +250,7 @@ void Interface::update() {
 			quicksave();
 		else if(e.key.keysym.sym==SDLK_F9)
 			quickload();
-
+		update_cursor();
 	}
 	game_interface.update();
 	ImGui_ImplSDL2_ProcessEvent(&e);
@@ -260,7 +261,7 @@ void Interface::init_imgui() {
 	IMGUI_CHECKVERSION();
 	CreateContext();
 	ImGuiIO& io = GetIO();
-	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard | ImGuiConfigFlags_NoMouseCursorChange;
 	io.IniFilename=nullptr;
 	const char* glsl_version = "#version 120";
 	ImGui_ImplOpenGL3_Init(glsl_version);
@@ -431,7 +432,13 @@ void Game_interface::draw() {
 }
 
 void Interface::update_cursor() {
-	set_cursor("aim.png");
+	if(shown()){
+		GetIO().ConfigFlags &= ~ImGuiConfigFlags_NoMouseCursorChange;
+	}
+	else{
+		GetIO().ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;
+		set_center_cursor("cursor.png");
+	}
 }
 bool Interface::shown(){
 	return console.shown || pause.shown;
