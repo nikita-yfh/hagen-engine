@@ -631,8 +631,6 @@ void close_level() {
 	destroy_all();
 	weapons.clear();
 	for(auto &j : joints)
-		delete j.second;
-	for(auto &j : joints)
 		world->DestroyJoint(j.second);
 	for(auto &b : bodies)
 		world->DestroyBody(b.second);

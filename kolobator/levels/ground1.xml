@@ -1,106 +1,108 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<level w="100" h="20">
+<level w="100" h="30">
 	<background img="backgrounds/sky.png"/>
-	<bodies count="5">
-		<body x="41.7758" y="15.1409" id="ground" type="static" script="" shapes="1">
+	<bodies count="8">
+		<body x="42.4715" y="15.853" id="ground" type="static" script="" shapes="1">
 			<physic bullet="0" fixed_rotation="0" gravity_scale="1"/>
 			<shape id="_Polygon1" type="Polygon" pos="physic" texture="ground.png" expand="0">
-				<position point_count="95">
-					<point x="-52.2758" y="13.3591"/>
-					<point x="58.2242" y="13.3591"/>
-					<point x="58.2242" y="-2.14098"/>
-					<point x="57.6542" y="-1.85098"/>
-					<point x="56.8912" y="-1.00197"/>
-					<point x="56.0572" y="-0.307974"/>
-					<point x="54.5852" y="0.192026"/>
-					<point x="52.9462" y="0.248028"/>
-					<point x="50.0852" y="0.0260267"/>
-					<point x="46.1682" y="-0.612974"/>
-					<point x="43.6132" y="-1.05798"/>
-					<point x="42.4042" y="-1.19098"/>
-					<point x="40.9542" y="-1.17098"/>
-					<point x="39.7942" y="-1.07098"/>
-					<point x="38.3542" y="-0.840972"/>
-					<point x="36.8542" y="-0.420975"/>
-					<point x="35.5022" y="0.0530262"/>
-					<point x="33.9182" y="0.303026"/>
-					<point x="32.7042" y="0.379028"/>
-					<point x="31.2542" y="0.0490265"/>
-					<point x="30.3542" y="-0.32097"/>
-					<point x="28.8142" y="-0.930972"/>
-					<point x="27.5372" y="-1.11"/>
-					<point x="25.6462" y="-0.999992"/>
-					<point x="23.3652" y="-0.265989"/>
-					<point x="21.8182" y="0.093009"/>
-					<point x="20.4272" y="0.093009"/>
-					<point x="19.1612" y="-0.140988"/>
-					<point x="17.1302" y="-0.609989"/>
-					<point x="15.5212" y="-0.781991"/>
-					<point x="13.9582" y="-0.781991"/>
-					<point x="12.2862" y="-0.56299"/>
-					<point x="10.8021" y="-0.156989"/>
-					<point x="9.83513" y="0.192026"/>
-					<point x="8.75213" y="0.442029"/>
-					<point x="7.72413" y="0.331029"/>
-					<point x="6.30711" y="0.0530262"/>
-					<point x="4.94611" y="-0.307974"/>
-					<point x="3.69412" y="-0.730974"/>
-					<point x="2.2341" y="-1.09097"/>
-					<point x="0.934078" y="-1.22098"/>
-					<point x="0.314083" y="-1.12098"/>
-					<point x="-0.185917" y="-0.990982"/>
-					<point x="-1.24789" y="-0.557974"/>
-					<point x="-2.11594" y="-0.230974"/>
-					<point x="-2.83194" y="-0.168973"/>
-					<point x="-4.02589" y="-0.0849743"/>
-					<point x="-4.71078" y="0.0310917"/>
-					<point x="-5.06578" y="0.143091"/>
-					<point x="-5.30278" y="0.261091"/>
-					<point x="-5.59278" y="0.468092"/>
-					<point x="-5.92377" y="0.841091"/>
-					<point x="-6.28477" y="1.29109"/>
-					<point x="-6.63377" y="1.62209"/>
-					<point x="-6.91177" y="1.84709"/>
-					<point x="-7.18378" y="2.01309"/>
-					<point x="-7.45077" y="2.09009"/>
-					<point x="-7.66878" y="2.14309"/>
-					<point x="-7.80577" y="2.27909"/>
-					<point x="-7.80577" y="2.43909"/>
-					<point x="-7.69878" y="2.51009"/>
-					<point x="-7.26078" y="2.57509"/>
-					<point x="-7.27578" y="2.85909"/>
-					<point x="-8.12577" y="4.33909"/>
-					<point x="-8.85577" y="4.62909"/>
-					<point x="-9.77578" y="4.85909"/>
-					<point x="-26.2758" y="4.85905"/>
-					<point x="-26.7958" y="4.61905"/>
-					<point x="-26.9438" y="4.50608"/>
-					<point x="-27.0558" y="4.35905"/>
-					<point x="-27.1758" y="4.04905"/>
-					<point x="-27.2458" y="3.35905"/>
-					<point x="-27.2758" y="2.85905"/>
-					<point x="-27.2968" y="2.48705"/>
-					<point x="-27.4448" y="1.99105"/>
-					<point x="-27.7588" y="1.70205"/>
-					<point x="-28.8318" y="1.24802"/>
-					<point x="-29.7758" y="0.831029"/>
-					<point x="-31.0258" y="0.220026"/>
-					<point x="-32.0258" y="-0.334974"/>
-					<point x="-32.9978" y="-0.807974"/>
-					<point x="-33.5888" y="-1.01092"/>
-					<point x="-34.1648" y="-1.22398"/>
-					<point x="-34.7788" y="-1.368"/>
-					<point x="-37.2738" y="-1.372"/>
-					<point x="-37.5818" y="-1.427"/>
-					<point x="-38.0218" y="-1.619"/>
-					<point x="-39.0578" y="-2.703"/>
-					<point x="-39.7468" y="-3.717"/>
-					<point x="-40.5258" y="-5.282"/>
-					<point x="-41.0818" y="-7.008"/>
-					<point x="-41.6968" y="-9.15"/>
-					<point x="-42.7878" y="-13.4149"/>
-					<point x="-43.2268" y="-15.0869"/>
-					<point x="-52.2758" y="-15.1409"/>
+				<position point_count="97">
+					<point x="-52.9715" y="14.147"/>
+					<point x="57.5285" y="14.147"/>
+					<point x="57.5285" y="-2.85313"/>
+					<point x="56.9585" y="-2.56313"/>
+					<point x="56.1954" y="-1.71412"/>
+					<point x="55.3615" y="-1.02012"/>
+					<point x="53.8895" y="-0.520121"/>
+					<point x="52.2505" y="-0.464119"/>
+					<point x="49.3895" y="-0.68612"/>
+					<point x="45.4725" y="-1.32512"/>
+					<point x="42.9174" y="-1.77013"/>
+					<point x="41.7085" y="-1.90313"/>
+					<point x="40.2584" y="-1.88313"/>
+					<point x="39.0984" y="-1.78313"/>
+					<point x="37.6584" y="-1.55312"/>
+					<point x="36.1584" y="-1.13312"/>
+					<point x="34.8064" y="-0.659121"/>
+					<point x="33.2225" y="-0.409121"/>
+					<point x="32.0084" y="-0.333118"/>
+					<point x="30.5584" y="-0.66312"/>
+					<point x="29.6584" y="-1.03312"/>
+					<point x="28.1184" y="-1.64312"/>
+					<point x="26.8415" y="-1.82215"/>
+					<point x="24.9504" y="-1.71214"/>
+					<point x="22.6694" y="-0.978136"/>
+					<point x="21.1224" y="-0.619138"/>
+					<point x="19.7314" y="-0.619138"/>
+					<point x="16.0285" y="-1.35305"/>
+					<point x="13.0285" y="-1.85305"/>
+					<point x="13.0285" y="10.147"/>
+					<point x="56.5285" y="10.147"/>
+					<point x="56.5285" y="11.397"/>
+					<point x="13.0285" y="11.397"/>
+					<point x="13.0285" y="12.147"/>
+					<point x="1.52845" y="12.147"/>
+					<point x="1.52845" y="-1.72805"/>
+					<point x="1.43945" y="-1.79105"/>
+					<point x="1.31045" y="-1.83105"/>
+					<point x="1.11045" y="-1.86605"/>
+					<point x="0.799454" y="-1.89705"/>
+					<point x="0.524452" y="-1.92905"/>
+					<point x="0.238327" y="-1.93313"/>
+					<point x="-0.0345497" y="-1.88405"/>
+					<point x="-0.381668" y="-1.83313"/>
+					<point x="-0.881668" y="-1.70313"/>
+					<point x="-1.94364" y="-1.27012"/>
+					<point x="-2.81169" y="-0.943121"/>
+					<point x="-3.52769" y="-0.88112"/>
+					<point x="-4.72164" y="-0.797121"/>
+					<point x="-5.40653" y="-0.681055"/>
+					<point x="-5.76153" y="-0.569056"/>
+					<point x="-5.99853" y="-0.451056"/>
+					<point x="-6.28853" y="-0.244055"/>
+					<point x="-6.61952" y="0.128944"/>
+					<point x="-6.98052" y="0.578943"/>
+					<point x="-7.32952" y="0.909943"/>
+					<point x="-7.60752" y="1.13494"/>
+					<point x="-7.87953" y="1.30094"/>
+					<point x="-8.14652" y="1.37794"/>
+					<point x="-8.36453" y="1.43094"/>
+					<point x="-8.50152" y="1.56694"/>
+					<point x="-8.50152" y="1.72694"/>
+					<point x="-8.39453" y="1.79794"/>
+					<point x="-7.95653" y="1.86294"/>
+					<point x="-7.97153" y="2.14694"/>
+					<point x="-8.82152" y="3.62694"/>
+					<point x="-9.55152" y="3.91694"/>
+					<point x="-10.4715" y="4.14694"/>
+					<point x="-26.9716" y="4.1469"/>
+					<point x="-27.4916" y="3.9069"/>
+					<point x="-27.6396" y="3.79393"/>
+					<point x="-27.7516" y="3.6469"/>
+					<point x="-27.8716" y="3.3369"/>
+					<point x="-27.9416" y="2.6469"/>
+					<point x="-27.9716" y="2.1469"/>
+					<point x="-27.9926" y="1.7749"/>
+					<point x="-28.1406" y="1.2789"/>
+					<point x="-28.4546" y="0.989902"/>
+					<point x="-29.5276" y="0.535873"/>
+					<point x="-30.4716" y="0.118882"/>
+					<point x="-31.7216" y="-0.492121"/>
+					<point x="-32.7215" y="-1.04712"/>
+					<point x="-33.6936" y="-1.52012"/>
+					<point x="-34.2845" y="-1.72307"/>
+					<point x="-34.8605" y="-1.93613"/>
+					<point x="-35.4746" y="-2.08015"/>
+					<point x="-37.9696" y="-2.08415"/>
+					<point x="-38.2775" y="-2.13915"/>
+					<point x="-38.7176" y="-2.33115"/>
+					<point x="-39.7536" y="-3.41515"/>
+					<point x="-40.4426" y="-4.42915"/>
+					<point x="-41.2215" y="-5.99415"/>
+					<point x="-41.7775" y="-7.72015"/>
+					<point x="-42.3926" y="-9.86215"/>
+					<point x="-43.4836" y="-14.127"/>
+					<point x="-43.9226" y="-15.799"/>
+					<point x="-52.9715" y="-15.853"/>
 				</position>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
@@ -168,11 +170,35 @@
 				<collision category="0" mask="65535"/>
 			</shape>
 		</body>
-		<body x="17.5" y="16" id="_Body1" type="dynamic" script="" shapes="1">
+		<body x="17.5" y="17" id="_Body1" type="dynamic" script="" shapes="1">
 			<physic bullet="0" fixed_rotation="0" gravity_scale="1"/>
 			<shape id="_Rect1" type="Rect" pos="physic" texture="wooden_box.png" expand="0">
-				<position x1="-2" y1="-1.5" x2="2" y2="1.5"/>
+				<position x1="-2" y1="-0.5" x2="2" y2="0.5"/>
 				<physic density="500" friction="0.3" restitution="0"/>
+				<collision category="0" mask="65535"/>
+			</shape>
+		</body>
+		<body x="100" y="6.5" id="_end" type="static" script="" shapes="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1"/>
+			<shape id="_Line3" type="Line" pos="physic" texture="" expand="1">
+				<position x1="0" y1="6.5" x2="0" y2="-6.5"/>
+				<physic density="1000" friction="0.3" restitution="0"/>
+				<collision category="0" mask="65535"/>
+			</shape>
+		</body>
+		<body x="43.875" y="8.0625" id="most" type="dynamic" script="" shapes="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1"/>
+			<shape id="_Rect2" type="Rect" pos="physic" texture="wooden_box.png" expand="0">
+				<position x1="-0.125" y1="-5.9375" x2="0.125" y2="5.9375"/>
+				<physic density="1000" friction="0.3" restitution="0"/>
+				<collision category="0" mask="65535"/>
+			</shape>
+		</body>
+		<body x="43.875" y="14" id="test2" type="static" script="" shapes="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1"/>
+			<shape id="_Rect3" type="Rect" pos="background" texture="wooden_box.png" expand="0">
+				<position x1="-0.125" y1="-0.25" x2="0.125" y2="0.25"/>
+				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
 			</shape>
 		</body>
@@ -182,5 +208,11 @@
 			<position x="2" y="6"/>
 		</entity>
 	</entities>
-	<joints count="0"/>
+	<joints count="1">
+		<joint type="RevoluteJoint" id="_RevoluteJoint1">
+			<connected collide="0" id1="test2" id2="most"/>
+			<position x="43.875" y="13.875"/>
+			<physic limit="0" motor="0"/>
+		</joint>
+	</joints>
 </level>
