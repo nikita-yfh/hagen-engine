@@ -6,11 +6,12 @@
 #include "camera.hpp"
 #include "main.hpp"
 #include "dialog.hpp"
+#include "effect.hpp"
 #include <string>
 SDL_Event e;
 int &SW=settings.SW;
 int &SH=settings.SH;
-GPU_Target *ren;
+GPU_Target *ren=0;
 const uint8_t* key=SDL_GetKeyboardState(0);
 using namespace std;
 map<string,GPU_Image*>textures;
@@ -54,20 +55,38 @@ void Rect::load(XMLNode node,float f) {
 	if(h<1.0f)h*=f;
 }
 void init() {
-	SDL_Init(SDL_INIT_EVERYTHING);
+	if(SDL_Init(SDL_INIT_EVERYTHING))
+		throw string(SDL_GetError());
 	settings.load();
 	GPU_SetPreInitFlags(GPU_INIT_DISABLE_VSYNC);
 	ren=GPU_Init(settings.SW,settings.SH,settings.fullscreen?SDL_WINDOW_FULLSCREEN:0);
-	Mix_Init(MIX_INIT_MP3|MIX_INIT_MOD);
-	Mix_OpenAudio(22050,AUDIO_S16SYS,2,640);
+	if(!ren)
+		throw string(SDL_GetError());
+	int mix_flags=MIX_INIT_MP3|MIX_INIT_MOD;
+	if(Mix_Init(mix_flags)&mix_flags!=mix_flags)
+		throw string(SDL_GetError());
+	if(Mix_OpenAudio(settings.sound_freq,AUDIO_S16SYS,2,640))
+		throw string(SDL_GetError());
+	interface.load_config();
+	interface.init_imgui();
 }
 GPU_Image *find_texture(string id) {
 	return textures[id];
 }
 void quit() {
-	GPU_Quit();
-	TTF_Quit();
-	SDL_Quit();
+	try{
+		GPU_Quit();
+		TTF_Quit();
+		Mix_CloseAudio();
+		Mix_Quit();
+		SDL_Quit();
+		textures.clear();
+		effect::effects.clear();
+		effect::loaded.clear();
+		close_level();
+	}catch(...){
+		exit(1);
+	}
 }
 void panic(string message) {
 	dialog::show("Fatal error",message,dialog::Style::Error);
@@ -121,8 +140,6 @@ void load_textures() {
 		load_entity_textures(ent.second);
 	load_texture(background);
 }
-void configure_textures() {
-}
 void destroy_all() {
 	for(auto &t : textures)
 		GPU_FreeImage(t.second);
@@ -175,4 +192,7 @@ void play_ws_sound(string name) {
 }
 void play_distance_sound(string name,float x,float y) {
 
+}
+void clear_sounds(){
+	sounds.clear();
 }

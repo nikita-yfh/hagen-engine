@@ -209,3 +209,26 @@ void save_value(XMLNode node, const char *name,Color &value) {
 	value_n.addAttribute("b",value.b);
 	value_n.addAttribute("a",value.a);
 };
+vector<string>list_files(string dir){
+	vector<string>list;
+#ifdef WIN32
+	WIN32_FIND_DATA fd;
+	HANDLE hFind = ::FindFirstFile((dir+"/*").c_str(), &fd);
+	if(hFind != INVALID_HANDLE_VALUE) {
+		do {
+			if(!(fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))list.push_back(fd.cFileName);
+		} while(::FindNextFile(hFind, &fd));
+		::FindClose(hFind);
+	}
+}
+#else
+	char var[128];
+	FILE *fp = popen(string("ls "+dir).c_str(),"r");
+	while (fgets(var, sizeof(var), fp) != NULL) {
+		list.push_back(string(var));
+		list[list.size()-1].pop_back();
+	}
+	pclose(fp);
+#endif
+	return list;
+}

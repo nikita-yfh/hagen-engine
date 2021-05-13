@@ -14,14 +14,18 @@ string saves="saves/";
 using namespace luabridge;
 
 int main(int argc, char * argv[]) {
+	if(argc>2)prefix=argv[2];
 	try {
-		if(argc>2)prefix=argv[2];
 		init();
-		configure_textures();
-		set_center_cursor("cursor.png");
+	}catch(...){
+		settings.def();
+		settings.save();
+	}
+	try{
+		interface.load_config();
+		interface.init_imgui();
 		if(argc>1) load_level(argv[1]);
 		else       load_level("ground1");
-
 		game();
 		quit();
 		return 0;
@@ -36,6 +40,8 @@ int main(int argc, char * argv[]) {
 	} catch(...) {
 		panic("Unknown error");
 	}
+	quit();
+	return 0;
 }
 
 
@@ -46,7 +52,6 @@ void Settings::save() {
 	XMLNode graphics=Main.addChild("graphics");
 	graphics.addAttribute("w",SW);
 	graphics.addAttribute("h",SH);
-	graphics.addAttribute("fps",fps);
 	graphics.addAttribute("fullscreen",fullscreen);
 	XMLNode sound=Main.addChild("sound");
 	sound.addAttribute("sound_volume",sound_volume);
@@ -63,7 +68,6 @@ void Settings::load() {
 		SW=stoi(graphics.getAttribute("w"));
 		SH=stoi(graphics.getAttribute("h"));
 		fullscreen=stoi(graphics.getAttribute("fullscreen"));
-		fps=stoi(graphics.getAttribute("fps"));
 		XMLNode sound=Main.getChildNode("sound");
 		sound_volume=stoi(sound.getAttribute("sound_volume"));
 		music_volume=stoi(sound.getAttribute("music_volume"));
@@ -81,9 +85,8 @@ void Settings::def() {
 	SDL_GetCurrentDisplayMode(0,&mode);
 	SW=mode.w;
 	SH=mode.h;
-	fps=-1;
 	sound_volume=100;
 	music_volume=100;
-	language="default";
+	language="en";
 	sound_freq=22050;
 }

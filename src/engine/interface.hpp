@@ -3,6 +3,7 @@
 #include <string>
 #include "sdl.hpp"
 #include "SDL_FontCache.h"
+#include "main.hpp"
 #include "imgui.h"
 #include "imgui_impl_sdl.h"
 #include "imgui_impl_opengl3.h"
@@ -59,6 +60,9 @@ struct SettingManager {
 	bool shown=false;
 	uint8_t selected=0;
 	void Draw();
+	void update();
+	Settings set;
+	vector<string>languages;
 };
 struct Interface {
 	void init_imgui();

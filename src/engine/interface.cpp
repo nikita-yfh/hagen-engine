@@ -44,6 +44,7 @@ void Pause::Draw() {
 		interface.saver.shown=1;
 	}
 	if(Button(get_text("pause/settings").c_str(),align)) {
+		interface.settingmanager.update();
 		interface.settingmanager.shown=1;
 	}
 	if(Button(get_text("pause/main_menu").c_str(),align))
@@ -484,7 +485,7 @@ void SaverLoader::Draw() {
 	if(Button(get_text("common/cancel").c_str()))close();
 	SameLine();
 	if(InputText("",selected,64,ImGuiInputTextFlags_EnterReturnsTrue) || press) {
-		if(strlen(selected)) {
+		if(strlen(selected) && string(selected)!=string("settings")) {
 			if(mode)
 				save_world_state(selected);
 			else if(exist_file(saves+selected+".xml"))
@@ -497,31 +498,15 @@ void SaverLoader::Draw() {
 	End();
 }
 void SaverLoader::update_cache() {
-	list.clear();
-#ifdef WIN32
-	WIN32_FIND_DATA fd;
-	HANDLE hFind = ::FindFirstFile(string(save_data_dir+saves+"*").c_str(), &fd);
-	if(hFind != INVALID_HANDLE_VALUE) {
-		do {
-			if(!(fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))list.push_back(fd.cFileName);
-		} while(::FindNextFile(hFind, &fd));
-		::FindClose(hFind);
+	list=list_files(saves);
+	for(int q=0; q<list.size(); q++) {
+		string &s=list[q];
+		if(s.find(".")) {
+			s.erase(s.begin()+s.find("."),s.end());
+		}
+		if(s=="settings")
+			list.erase(list.begin()+q);
 	}
-}
-#else
-	char var[128];
-	FILE *fp = popen(string("ls "+saves).c_str(),"r");
-	while (fgets(var, sizeof(var), fp) != NULL) {
-		list.push_back(string(var));
-		list[list.size()-1].pop_back();
-	}
-	pclose(fp);
-#endif
-for(auto &s : list) {
-	if(s.find(".")) {
-		s.erase(s.begin()+s.find("."),s.end());
-	}
-}
 }
 void SaverLoader::close() {
 	list.clear();
@@ -535,18 +520,58 @@ void Pause::close() {
 }
 void SettingManager::Draw() {
 	if(!shown)return;
+	ShowDemoWindow();
 	SetNextWindowSize(ImVec2(520, 300), ImGuiCond_FirstUseEver);
 	if (!Begin("Settings", &shown)) {
 		End();
 		return;
 	}
-	int w=GetWindowWidth();
-	string text[4]= {"Graphics","Audio","Game","Control"};
-	for(int q=0; q<4; q++) {
-		if(Selectable(text[q].c_str(),selected==q,0, {w/4,0}))
-			selected=q;
-		SameLine();
+	ImGui::BeginChild("item view", ImVec2(0, -ImGui::GetFrameHeightWithSpacing()),true);
+	Text("Graphics");
+	int size_input[2]= {set.SW,set.SH};
+	InputInt2("Screen width",size_input);
+	set.SW=size_input[0];
+	set.SH=size_input[1];
+	Checkbox("Fullscreen",&set.fullscreen);
+	Text("Sound");
+	SliderInt("Sound volume",&set.sound_volume,0,100,"%d%%");
+	SliderInt("Music volume",&set.music_volume,0,100,"%d%%");
+	InputInt("Sound frequency",&set.sound_freq,100,1000);
+	Text("Game");
+	if (ImGui::BeginCombo("Language",set.language.c_str())) {
+		for (int q = 0; q<languages.size(); q++) {
+			const bool is_selected = (set.language==languages[q]);
+			if (ImGui::Selectable(languages[q].c_str(),is_selected))
+				set.language=languages[q];
+			if (is_selected)
+				ImGui::SetItemDefaultFocus();
+		}
+		ImGui::EndCombo();
 	}
+
+	EndChild();
+	if(Button("Apply")) {
+		settings=set;
+		settings.save();
+		GPU_SetFullscreen(settings.fullscreen,0);
+		GPU_SetWindowResolution(settings.SW,settings.SH);
+		Mix_CloseAudio();
+		Mix_OpenAudio(settings.sound_freq,AUDIO_S16SYS,2,640);
+		clear_sounds();
+		shown=0;
+	}
+	SameLine();
+	if(Button("Cancel"))
+		shown=0;
 	End();
+}
+void SettingManager::update() {
+	set=settings;
+	languages=list_files(prefix+"locales");
+	for(auto &s : languages) {
+		if(s.find(".")) {
+			s.erase(s.begin()+s.find("."),s.end());
+		}
+	}
 }
 Interface interface;

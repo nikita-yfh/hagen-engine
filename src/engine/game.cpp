@@ -13,8 +13,6 @@
 #include <chrono>
 #define TYPE(a,b) (static_cast<a>(b))
 bool game() {
-	interface.load_config();
-	interface.init_imgui();
 	auto time=chrono::high_resolution_clock::now();
 	while(1) {
 		if(lua::need_load.size()) {

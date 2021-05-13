@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<text>
+	<common>
+		<ok>OK</ok>
+		<cancel>Cancel</cancel>
+		<yes>Yes</yes>
+		<no>No</no>
+	</common>
+	<game_interface>
+		<live1>&#xE003;</live1>
+		<live2>&#xE004;</live2>
+		<bullet1>&#xE001;</bullet1>
+		<bullet2>&#xE002;</bullet2>
+		<health>&#xE000;</health>
+	</game_interface>
+	<console>
+		<title>Console</title>
+		<input>Input</input>
+		<clear>Clear</clear>
+		<matches>Possible variants:</matches>
+	</console>
+	<pause>
+		<continue>Continue</continue>
+		<save_game>Save game</save_game>
+		<load_game>Load game</load_game>
+		<settings>Settings</settings>
+		<main_menu>Exit to menu</main_menu>
+		<main_menu_title>Exit to menu?</main_menu_title>
+		<main_menu_text>Un-saved game progress will be lost!</main_menu_text>
+		<exit_game>Exit game</exit_game>
+		<exit_game_title>Exit game?</exit_game_title>
+		<exit_game_text>Un-saved game progress will be lost!</exit_game_text>
+	</pause>
+	<saveload>
+		<save_title>Save game</save_title>
+		<load_title>Load game</load_title>
+		<save>Save</save>
+		<load>Load</load>
+		<delete>Delete</delete>
+	</saveload>
+</text>

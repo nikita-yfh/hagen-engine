@@ -12,7 +12,6 @@ struct Settings {
 	int SW;
 	int SH;
 	bool fullscreen;
-	int fps;
 	int music_volume;
 	int sound_volume;
 	int sound_freq;
