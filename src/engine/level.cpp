@@ -69,13 +69,20 @@ void load_bodies_state(XMLNode bds,map<string,b2Body*>&bodies){
 		loaded.push_back(id);
 		load_body_state(bd,bodies[id]);
 	}
-	for(auto &body : bodies){
-		bool ok=0;
-		for(auto &l : loaded)
-			if(body.second->GetID()==l)
-				ok=1;
-		if(!ok)
-			destroy_body(body.second);
+	bool erased=1;
+	while(erased){
+		for(auto &body : bodies){
+			bool ok=0;
+			for(auto &l : loaded)
+				if(body.second->GetID()==l)
+					ok=1;
+			if(!ok){
+				destroy_body(body.second);
+				erased=1;
+				break;
+			}
+		}
+		erased=0;
 	}
 }
 void save_entities_state(XMLNode bds,map<string,Entity*>&entities){
@@ -124,13 +131,20 @@ void load_entities_state(XMLNode ens,map<string,Entity*>&entities){
 		entity->lua_userdata=new luabridge::LuaRef(lua::load_luaref(en.getChildNode("userdata")));
 		load_bodies_state(en.getChildNode("bodies"),entity->bodies);
 	}
-	for(auto &entity : entities){
-		bool ok=0;
-		for(auto &l : loaded)
-			if(entity.second->id==l)
-				ok=1;
-		if(!ok)
-			destroy_entity(entity.second);
+	bool erased=1;
+	while(erased){
+		for(auto &entity : entities){
+			bool ok=0;
+			for(auto &l : loaded)
+				if(entity.second->id==l)
+					ok=1;
+			if(!ok){
+				destroy_entity(entity.second);
+				erased=1;
+				break;
+			}
+		}
+		erased=0;
 	}
 }
 void save_values_state(XMLNode data){
