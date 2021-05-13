@@ -8,8 +8,8 @@
 #include "dialog.hpp"
 #include <string>
 SDL_Event e;
-int SW=0;
-int SH=0;
+int &SW=settings.SW;
+int &SH=settings.SH;
 GPU_Target *ren;
 const uint8_t* key=SDL_GetKeyboardState(0);
 using namespace std;
@@ -53,14 +53,13 @@ void Rect::load(XMLNode node,float f) {
 	if(w<1.0f)w*=f;
 	if(h<1.0f)h*=f;
 }
-void init(const char* title,int w,int h) {
+void init() {
 	SDL_Init(SDL_INIT_EVERYTHING);
+	settings.load();
 	GPU_SetPreInitFlags(GPU_INIT_DISABLE_VSYNC);
-	ren=GPU_Init(w,h,0);
+	ren=GPU_Init(settings.SW,settings.SH,settings.fullscreen?SDL_WINDOW_FULLSCREEN:0);
 	Mix_Init(MIX_INIT_MP3|MIX_INIT_MOD);
 	Mix_OpenAudio(22050,AUDIO_S16SYS,2,640);
-	SW=w;
-	SH=h;
 }
 GPU_Image *find_texture(string id) {
 	return textures[id];

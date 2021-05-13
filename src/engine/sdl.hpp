@@ -26,9 +26,9 @@ struct Rect : GPU_Rect {
 extern SDL_Event e;
 extern GPU_Target *ren;
 extern const uint8_t *key;
-extern int SW;
-extern int SH;
-void init(const char* title,int w,int h);
+extern int &SW;
+extern int &SH;
+void init();
 void quit();
 void panic(string message);
 GPU_Image *find_texture(string id);

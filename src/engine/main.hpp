@@ -4,5 +4,19 @@ using namespace std;
 extern string prefix;
 extern string saves;
 #define TYPE(a,b) (static_cast<a>(b))
-const string main_cursor("default.png");
-const string game_cursor("aim.png");
+
+struct Settings{
+	void save();
+	void load();
+	void def();
+	int SW;
+	int SH;
+	bool fullscreen;
+	int fps;
+	int music_volume;
+	int sound_volume;
+	int sound_freq;
+	string language;
+	bool loaded=false;
+};
+extern Settings settings;

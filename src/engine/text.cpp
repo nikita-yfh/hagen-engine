@@ -3,11 +3,10 @@
 #include "xmlParser.h"
 #include "SDL_FontCache.h"
 #include <iostream>
-string language="ru";
 map <string,string>texts;
 string get_text(string id) {
 	if(texts.empty() || texts.find(id)==texts.end()) {
-		XMLNode xml=XMLNode::openFileHelper((prefix+"locales/"+language+".xml").c_str(),"text");
+		XMLNode xml=XMLNode::openFileHelper((prefix+"locales/"+settings.language+".xml").c_str(),"text");
 		string id1=id;
 		while(id1.find("/")!=id1.npos) {
 			string s(id,0,id1.find("/"));
@@ -21,7 +20,7 @@ string get_text(string id) {
 	return texts[id];
 }
 void preload_locale() {
-	XMLNode xml=XMLNode::openFileHelper((prefix+"locales/"+language+".xml").c_str(),"text");
+	XMLNode xml=XMLNode::openFileHelper((prefix+"locales/"+settings.language+".xml").c_str(),"text");
 	for(int q=0;; q++) {
 		XMLNode node=xml.getChildNode(q);
 		if(node.isEmpty())return;
