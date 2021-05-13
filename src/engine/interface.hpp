@@ -55,6 +55,11 @@ struct SaverLoader{
 	void close();
 	vector<string>list;
 };
+struct SettingManager{
+	bool shown=false;
+	uint8_t selected=0;
+	void Draw();
+};
 struct Interface {
 	void init_imgui();
 	void load_imgui_config();
@@ -63,6 +68,7 @@ struct Interface {
 	Console console;
 	SaverLoader saver;
 	Pause pause;
+	SettingManager settingmanager;
 	void draw();
 	void update();
 	void load_config();

@@ -43,7 +43,9 @@ void Pause::Draw() {
 		interface.saver.update_cache();
 		interface.saver.shown=1;
 	}
-	Button(get_text("pause/settings").c_str(),align);
+	if(Button(get_text("pause/settings").c_str(),align)){
+		interface.settingmanager.shown=1;
+	}
 	if(Button(get_text("pause/main_menu").c_str(),align))
 		OpenPopup(get_text("pause/main_menu_title").c_str());
 	if(Button(get_text("pause/exit_game").c_str(),align))
@@ -246,11 +248,11 @@ void Interface::update() {
 			else
 				pause.shown=1;
 			if(!shown())hide();
+			update_cursor();
 		}else if(e.key.keysym.sym==SDLK_F5)
 			quicksave();
 		else if(e.key.keysym.sym==SDLK_F9)
 			quickload();
-		update_cursor();
 	}
 	game_interface.update();
 	ImGui_ImplSDL2_ProcessEvent(&e);
@@ -388,6 +390,7 @@ void Interface::draw() {
 	console.Draw();
 	pause.Draw();
 	saver.Draw();
+	settingmanager.Draw();
 	Render();
 	SDL_GL_MakeCurrent(SDL_GetWindowFromID(ren->context->windowID), ren->context->context);
 	ImGui_ImplOpenGL3_RenderDrawData(GetDrawData());
@@ -529,5 +532,22 @@ void Pause::close(){
 	shown=0;
 	interface.saver.close();
 	interface.console.shown=0;
+	interface.settingmanager.shown=0;
+}
+void SettingManager::Draw(){
+	if(!shown)return;
+	SetNextWindowSize(ImVec2(520, 300), ImGuiCond_FirstUseEver);
+	if (!Begin("Settings", &shown)) {
+		End();
+		return;
+	}
+	int w=GetWindowWidth();
+	string text[4]={"Graphics","Audio","Game","Control"};
+	for(int q=0;q<4;q++){
+		if(Selectable(text[q].c_str(),selected==q,0,{w/4,0}))
+			selected=q;
+		//SameLine();
+	}
+	End();
 }
 Interface interface;
