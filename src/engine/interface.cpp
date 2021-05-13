@@ -475,10 +475,10 @@ void SaverLoader::Draw(){
 	if(Button(get_text("common/cancel").c_str()))close();
 	SameLine();
 	if(InputText("",selected,64,ImGuiInputTextFlags_EnterReturnsTrue) || press){
-		if(strlen(selected) && exist_file(saves+selected)){
+		if(strlen(selected)){
 			if(mode)
 				save_world_state(selected);
-			else
+			else if(exist_file(saves+selected+".xml"))
 				load_world_state(selected);
 			interface.pause.shown=0;
 			close();
