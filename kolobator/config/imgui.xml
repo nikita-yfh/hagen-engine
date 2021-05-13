@@ -1,6 +1,4 @@
 <imgui>
 	<text name="DroidSans-lite.ttf" size="20"/>
-	<colors>
-	</colors>
-	
+	<WindowRounding value="5"/>
 </imgui>

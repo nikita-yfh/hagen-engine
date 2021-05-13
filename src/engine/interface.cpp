@@ -337,23 +337,23 @@ void Interface::load_imgui_config() {
 	}
 	if(load_value(node,"Alpha",					style.Alpha))
 		style.Alpha/=255.0f;
-	load_value(node,"WindowPadding",				style.WindowPadding);
+	load_value(node,"WindowPadding",			style.WindowPadding);
 	load_value(node,"WindowRounding",			style.WindowRounding);
 	load_value(node,"WindowBorderSize",			style.WindowBorderSize);
-	load_value(node,"WindowMinSize",				style.WindowMinSize);
+	load_value(node,"WindowMinSize",			style.WindowMinSize);
 	load_value(node,"WindowTitleAlign",			style.WindowTitleAlign);
-	load_value(node,"ChildRounding",				style.ChildRounding);
+	load_value(node,"ChildRounding",			style.ChildRounding);
 	load_value(node,"FramePadding",				style.FramePadding);
 	load_value(node,"PopupBorderSize",			style.PopupBorderSize);
-	load_value(node,"FrameRounding",				style.FrameRounding);
+	load_value(node,"FrameRounding",			style.FrameRounding);
 	load_value(node,"FrameBorderSize",			style.FrameBorderSize);
 	load_value(node,"ItemSpacing",				style.ItemSpacing);
 	load_value(node,"ItemInnerSpacing",			style.ItemInnerSpacing);
-	load_value(node,"TouchExtraPadding",			style.TouchExtraPadding);
-	load_value(node,"IndentSpacing",				style.IndentSpacing);
-	load_value(node,"ColumnsMinSpacing",			style.ColumnsMinSpacing);
-	load_value(node,"ScrollbarSize",				style.ScrollbarSize);
-	load_value(node,"ScrollbarRounding",			style.ScrollbarRounding);
+	load_value(node,"TouchExtraPadding",		style.TouchExtraPadding);
+	load_value(node,"IndentSpacing",			style.IndentSpacing);
+	load_value(node,"ColumnsMinSpacing",		style.ColumnsMinSpacing);
+	load_value(node,"ScrollbarSize",			style.ScrollbarSize);
+	load_value(node,"ScrollbarRounding",		style.ScrollbarRounding);
 	load_value(node,"GrabMinSize",				style.GrabMinSize);
 	load_value(node,"GrabRounding",				style.GrabRounding);
 	load_value(node,"ButtonTextAlign",			style.ButtonTextAlign);
