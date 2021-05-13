@@ -30,3 +30,6 @@ void preload_locale() {
 void subtitles(string text) {
 
 }
+void clear_locale(){
+	texts.clear();
+}

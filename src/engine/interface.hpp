@@ -46,6 +46,7 @@ struct Pause {
 	bool shown=false;
 	void Draw();
 	void close();
+	int width=0;
 };
 struct SaverLoader {
 	bool shown=false;

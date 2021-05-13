@@ -28,8 +28,7 @@ void Pause::Draw() {
 		End();
 		return;
 	}
-	static float w=0;
-	ImVec2 align=ImVec2(w, 0);
+	ImVec2 align=ImVec2(width, 0);
 	if(Button(get_text("pause/continue").c_str(),align)) {
 		close();
 	}
@@ -51,7 +50,7 @@ void Pause::Draw() {
 		OpenPopup(get_text("pause/main_menu_title").c_str());
 	if(Button(get_text("pause/exit_game").c_str(),align))
 		OpenPopup(get_text("pause/exit_game_title").c_str());
-	w=GetWindowContentRegionWidth();
+	width=GetWindowContentRegionWidth();
 	SetNextWindowPos(ImVec2(io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.5f),
 					 ImGuiCond_Always, ImVec2(0.5f,0.5f));
 	if (BeginPopupModal(get_text("pause/main_menu_title").c_str(), NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
@@ -558,6 +557,8 @@ void SettingManager::Draw() {
 		Mix_CloseAudio();
 		Mix_OpenAudio(settings.sound_freq,AUDIO_S16SYS,2,640);
 		clear_sounds();
+		clear_locale();
+		interface.pause.width=0;
 		shown=0;
 	}
 	SameLine();
