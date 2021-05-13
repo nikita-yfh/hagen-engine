@@ -23,7 +23,7 @@ void Pause::Draw() {
 	ImGuiIO &io=GetIO();
 	SetNextWindowPos(ImVec2(io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.5f),
 					 ImGuiCond_Always, ImVec2(0.5f,0.5f));
-	if (!Begin("", &shown,ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse |
+	if (!Begin(get_text("pause/pause").c_str(), &shown,ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse |
 			   ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar)) {
 		End();
 		return;
@@ -549,7 +549,13 @@ void SettingManager::Draw() {
 	}
 
 	EndChild();
-	if(Button("Apply")) {
+	int button=0;
+	if(Button("Apply"))
+		button=1;
+	SameLine();
+	if(Button("OK"))
+		button=2;
+	if(button) {
 		settings=set;
 		settings.save();
 		GPU_SetFullscreen(settings.fullscreen,0);
@@ -559,7 +565,8 @@ void SettingManager::Draw() {
 		clear_sounds();
 		clear_locale();
 		interface.pause.width=0;
-		shown=0;
+		if(button==2)
+			shown=0;
 	}
 	SameLine();
 	if(Button("Cancel"))
