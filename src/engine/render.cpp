@@ -60,8 +60,8 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 					b2Vec2 v(shape->m_vertices[q].x,shape->m_vertices[q].y);
 					f[q*4]=drawx(body->GetPosition().x+rotatex(v,a_rad));
 					f[q*4+1]=drawy(body->GetPosition().y+rotatey(v,a_rad));
-					f[q*4+2]=(shape->m_vertices[q]-shape->m_vertices[0]).x*(zoom/tex->w);
-					f[q*4+3]=(shape->m_vertices[q]-shape->m_vertices[0]).y*(zoom/tex->h);
+					f[q*4+2]=(shape->m_vertices[q]-shape->m_vertices[0]).x*(tex->w/100.0f/tex_scale);
+					f[q*4+3]=(shape->m_vertices[q]-shape->m_vertices[0]).y*(tex->h/100.0f/tex_scale);
 				}
 				short unsigned int index[]= {0,1,3,2};
 				GPU_PrimitiveBatch(tex,ren,GPU_TRIANGLE_STRIP,shape->m_count,f,shape->m_count,index,GPU_BATCH_XY_ST);
@@ -98,8 +98,8 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 								   shape->m_p.y+sin(2*M_PI/(CIRCLE_QUALITY)*q)*shape->m_radius);
 					f[q*4+0]=drawx(body->GetPosition().x+rotatex(v,a_rad));
 					f[q*4+1]=drawy(body->GetPosition().y+rotatey(v,a_rad));
-					f[q*4+2]=(v.x-shape->m_p.x-shape->m_radius)*(zoom/tex->w);
-					f[q*4+3]=(v.y-shape->m_p.y-shape->m_radius)*(zoom/tex->h);
+					f[q*4+2]=(v.x-shape->m_p.x-shape->m_radius)*(tex->w/100.0f/tex_scale);
+					f[q*4+3]=(v.y-shape->m_p.y-shape->m_radius)*(tex->h/100.0f/tex_scale);
 				}
 				f[q*4+0]=f[4];
 				f[q*4+1]=f[5];
