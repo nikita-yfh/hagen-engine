@@ -9,6 +9,7 @@
 #include "triangulate.hpp"
 #include "main.hpp"
 #include "camera.hpp"
+#include "effect.hpp"
 using namespace std;
 unsigned short int levelw=20;
 unsigned short int levelh=20;
@@ -639,6 +640,8 @@ void close_level() {
 	bodies.clear();
 	entities.clear();
 	lua::clear_loaded_list();
+	effect::effects.clear();
+	effect::loaded.clear();
 	if(world)delete world;
 	lua::quit();
 }

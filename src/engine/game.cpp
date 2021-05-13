@@ -13,21 +13,17 @@
 #include <chrono>
 #define TYPE(a,b) (static_cast<a>(b))
 bool game() {
-	bool run=1;
 	interface.load_config();
 	interface.init_imgui();
 	auto fps=chrono::high_resolution_clock::now();
-	while(run) {
+	while(1) {
 		if(lua::need_load.size()) {
 			load_level(lua::need_load);
 			lua::need_load="";
 		}
 		while(SDL_PollEvent(&e)) {
-			switch(e.type) {
-			case SDL_QUIT:
-				run=0;
-				break;
-			}
+			if(e.type==SDL_QUIT)
+				quit();
 			interface.update();
 		}
 		mouse.update();
