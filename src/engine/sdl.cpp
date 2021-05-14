@@ -199,8 +199,8 @@ void play_distance_sound(string name,float distance) {
 		sounds[name]=Mix_LoadWAV((prefix+"sound/"+name).c_str());
 		if(!sounds[name]) throw string(SDL_GetError());
 	}
-	int channel=Mix_PlayChannel(-1,sounds[name],min(settings.sound_volume*1.28f,192.0f/distance));
-	Mix_Volume(channel,settings.sound_volume);
+	int channel=Mix_PlayChannel(-1,sounds[name],0);
+	Mix_Volume(channel,min(settings.sound_volume*1.28f,1.92f/distance*settings.sound_volume));
 }
 void clear_sounds(){
 	sounds.clear();

@@ -7,6 +7,6 @@ function pistol.fire1(w,e)
 	local bullet=world.create_bullet(e,"bullet_9mm",100)
 	bullet.userdata.create_time=game.timer
 	bullet.userdata.entity=e.id
-	sound.play("shot.flac")
+	play("shot.flac",e.x,e.y)
 	return 1
 end

@@ -8,7 +8,7 @@ or world.lb_collide(a) or a.userdata.create_time+5000 < game.timer)then
 			if(e.health<0) then e.health=0 end
 		end)
 		graphics.effect("explosion",a.x,a.y)
-		sound.play("boom.flac")
+		play("boom.flac",a.x,a.y)
 		return true
 	end
 	return false
