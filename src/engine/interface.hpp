@@ -8,6 +8,18 @@
 #include "imgui_impl_sdl.h"
 #include "imgui_impl_opengl3.h"
 using namespace std;
+struct WindowConfig{
+	int width;
+	int heigth;
+	bool resize;
+	bool collapse;
+	bool move;
+	bool title;
+	bool focus;
+	bool center;
+	void load(XMLNode);
+	bool apply(const char* name,bool *shown);
+};
 struct Rect4 {
 	float top;
 	float bottom;
@@ -33,6 +45,7 @@ struct Console {
 	void ExecCommand(string);
 	int TextEditCallback(ImGuiInputTextCallbackData* data);
 	static int TextEditCallbackStub(ImGuiInputTextCallbackData* data);
+	WindowConfig config;
 };
 struct Game_interface {
 	bool shown;
@@ -47,6 +60,7 @@ struct Pause {
 	void Draw();
 	void close();
 	int width=0;
+	WindowConfig config;
 };
 struct SaverLoader {
 	bool shown=false;
@@ -56,6 +70,7 @@ struct SaverLoader {
 	void update_cache();
 	void close();
 	vector<string>list;
+	WindowConfig config;
 };
 struct SettingManager {
 	bool shown=false;
@@ -64,6 +79,10 @@ struct SettingManager {
 	void update();
 	Settings set;
 	vector<string>languages;
+	WindowConfig config;
+};
+struct LevelChooser{
+
 };
 struct Interface {
 	void init_imgui();

@@ -48,5 +48,5 @@ void pause_music();
 void resume_music();
 void play_sound(string name);
 void play_ws_sound(string name);
-void play_distance_sound(string name,float x,float y);
+void play_distance_sound(string name,float distance);
 void clear_sounds();

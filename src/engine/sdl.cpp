@@ -69,6 +69,7 @@ void init() {
 		throw string(SDL_GetError());
 	interface.load_config();
 	interface.init_imgui();
+	interface.update_cursor();
 }
 GPU_Image *find_texture(string id) {
 	return textures[id];
@@ -162,6 +163,7 @@ void play_music(string name) {
 	stop_music();
 	music=Mix_LoadMUS((prefix+"music/"+name).c_str());
 	if(music==0) throw string(SDL_GetError());
+	Mix_VolumeMusic(settings.music_volume);
 	Mix_PlayMusic(music,-1);
 	Mix_ResumeMusic();
 }
@@ -184,13 +186,15 @@ void play_sound(string name) {
 		if(!sounds[name]) throw string(SDL_GetError());
 	}
 	Mix_PlayChannel(-1,sounds[name],0);
+	Mix_Volume(-1,settings.sound_volume);
 }
 void play_ws_sound(string name) {
 	Mix_Chunk *sound=Mix_LoadWAV((prefix+"sound/"+name).c_str());
 	if(!sound) throw string(SDL_GetError());
 	Mix_PlayChannel(-1,sounds[name],0);
+	Mix_Volume(-1,settings.sound_volume);
 }
-void play_distance_sound(string name,float x,float y) {
+void play_distance_sound(string name,float distance) {
 
 }
 void clear_sounds(){

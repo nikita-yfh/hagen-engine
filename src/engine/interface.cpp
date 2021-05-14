@@ -19,61 +19,56 @@ static inline void trim(std::string &s) {
 
 void Pause::Draw() {
 	if(!shown)return;
-	ImVec2 g=GetItemRectSize();
-	ImGuiIO &io=GetIO();
-	SetNextWindowPos(ImVec2(io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.5f),
-					 ImGuiCond_Always, ImVec2(0.5f,0.5f));
-	if (!Begin(get_text("pause/pause").c_str(), &shown,ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse |
-			   ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar)) {
+	if (!config.apply(get_ctext("pause/title"), &shown)) {
 		End();
 		return;
 	}
 	ImVec2 align=ImVec2(width, 0);
-	if(Button(get_text("pause/continue").c_str(),align)) {
+	if(Button(get_ctext("pause/continue"),align)) {
 		close();
 	}
-	if(Button(get_text("pause/save_game").c_str(),align)) {
+	if(Button(get_ctext("pause/save_game"),align)) {
 		interface.saver.mode=1;
 		interface.saver.update_cache();
 		interface.saver.shown=1;
 	}
-	if(Button(get_text("pause/load_game").c_str(),align)) {
+	if(Button(get_ctext("pause/load_game"),align)) {
 		interface.saver.mode=0;
 		interface.saver.update_cache();
 		interface.saver.shown=1;
 	}
-	if(Button(get_text("pause/settings").c_str(),align)) {
+	if(Button(get_ctext("pause/settings"),align)) {
 		interface.settingmanager.update();
 		interface.settingmanager.shown=1;
 	}
-	if(Button(get_text("pause/main_menu").c_str(),align))
-		OpenPopup(get_text("pause/main_menu_title").c_str());
-	if(Button(get_text("pause/exit_game").c_str(),align))
-		OpenPopup(get_text("pause/exit_game_title").c_str());
+	if(Button(get_ctext("pause/main_menu"),align))
+		OpenPopup(get_ctext("pause/main_menu_title"));
+	if(Button(get_ctext("pause/exit_game"),align))
+		OpenPopup(get_ctext("pause/exit_game_title"));
 	width=GetWindowContentRegionWidth();
-	SetNextWindowPos(ImVec2(io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.5f),
-					 ImGuiCond_Always, ImVec2(0.5f,0.5f));
+	SetNextWindowPos(ImVec2(GetIO().DisplaySize.x * 0.5f, GetIO().DisplaySize.y * 0.5f),
+                                        ImGuiCond_Always, ImVec2(0.5f,0.5f));
 	if (BeginPopupModal(get_text("pause/main_menu_title").c_str(), NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
-		TextWrapped(get_text("pause/main_menu_text").c_str());
+		TextWrapped(get_ctext("pause/main_menu_text"));
 		Separator();
 
-		Button(get_text("common/ok").c_str(), ImVec2(120, 0));
+		Button(get_ctext("common/ok"), ImVec2(120, 0));
 		SameLine();
-		if (Button(get_text("common/cancel").c_str(), ImVec2(120, 0))) {
+		if (Button(get_ctext("common/cancel"), ImVec2(120, 0))) {
 			CloseCurrentPopup();
 		}
 		EndPopup();
 	}
-	SetNextWindowPos(ImVec2(io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.5f),
-					 ImGuiCond_Always, ImVec2(0.5f,0.5f));
+	SetNextWindowPos(ImVec2(GetIO().DisplaySize.x * 0.5f, GetIO().DisplaySize.y * 0.5f),
+                                        ImGuiCond_Always, ImVec2(0.5f,0.5f));
 	if (BeginPopupModal(get_text("pause/exit_game_title").c_str(), NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
-		TextWrapped(get_text("pause/exit_game_text").c_str());
+		TextWrapped(get_ctext("pause/exit_game_text"));
 		Separator();
 
-		if(Button(get_text("common/ok").c_str(), ImVec2(120, 0)))
+		if(Button(get_ctext("common/ok"), ImVec2(120, 0)))
 			quit();
 		SameLine();
-		if (Button(get_text("common/cancel").c_str(), ImVec2(120, 0))) {
+		if (Button(get_ctext("common/cancel"), ImVec2(120, 0))) {
 			CloseCurrentPopup();
 		}
 		EndPopup();
@@ -99,15 +94,14 @@ void Console::AddLog(string str) {
 }
 void Console::Draw() {
 	if(!shown)return;
-	SetNextWindowSize(ImVec2(520, 600), ImGuiCond_FirstUseEver);
-	if (!Begin(get_text("console/title").c_str(), &shown)) {
+	if (!config.apply(get_ctext("console/title"), &shown)) {
 		End();
 		return;
 	}
 	const float footer_height_to_reserve = GetStyle().ItemSpacing.y + GetFrameHeightWithSpacing();
 	BeginChild("ScrollingRegion", ImVec2(0, -footer_height_to_reserve), false, ImGuiWindowFlags_HorizontalScrollbar);
 	if (BeginPopupContextWindow()) {
-		if (Selectable(get_text("console/clear").c_str()))
+		if (Selectable(get_ctext("console/clear")))
 			ClearLog();
 		EndPopup();
 	}
@@ -136,7 +130,7 @@ void Console::Draw() {
 	Separator();
 	bool reclaim_focus = false;
 	ImGuiInputTextFlags input_text_flags = ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_CallbackCompletion | ImGuiInputTextFlags_CallbackHistory;
-	if (InputText(get_text("console/input").c_str(), InputBuf, IM_ARRAYSIZE(InputBuf), input_text_flags, &Console::TextEditCallbackStub, (void*)this)) {
+	if (InputText(get_ctext("console/input"), InputBuf, IM_ARRAYSIZE(InputBuf), input_text_flags, &Console::TextEditCallbackStub, (void*)this)) {
 		string s = InputBuf;
 		trim(s);
 		if (s[0]) ExecCommand(s);
@@ -365,6 +359,10 @@ void Interface::load_imgui_config() {
 	load_value(node,"AntiAliasedLines",			style.AntiAliasedLines);
 	load_value(node,"AntiAliasedFill",			style.AntiAliasedFill);
 	load_value(node,"CurveTessellationTol",		style.CurveTessellationTol);
+	settingmanager.config.load(node.getChildNode("settings"));
+	console.config.load(node.getChildNode("console"));
+	pause.config.load(node.getChildNode("pause"));
+	saver.config.load(node.getChildNode("saverloader"));
 }
 void Interface::load_imgui_font(string name,float size) {
 	ImFontConfig font_config;
@@ -414,16 +412,16 @@ void Game_interface::draw() {
 		if(get_entity("player"))
 			health=get_entity("player")->health;
 		FC_Draw(font,ren,borders.left,SH-borders.bottom-h,"%s %d %s",
-				get_text("game_interface/health_prev").c_str(),
+				get_ctext("game_interface/health_prev"),
 				health,
-				get_text("game_interface/health").c_str()).w;
+				get_ctext("game_interface/health")).w;
 	}
 	if(get_entity("player")) {
 		auto draw_bullets=[=](string id,string str,uint8_t layer) {
 			FC_DrawAlign(font,ren,SW-borders.left,SH-borders.top-layer*h,
-						 FC_ALIGN_RIGHT,"%s %d/%d %s",get_text(str+"_prev").c_str(),
+						 FC_ALIGN_RIGHT,"%s %d/%d %s",get_ctext(str+"_prev"),
 						 bullets[id].count,bullets[id].max,
-						 get_text(str).c_str());
+						 get_ctext(str));
 		};
 		uint8_t layer=0;
 		if(bullets[weapons[get_entity("player")->weapon].bullet2].max>0 &&
@@ -458,7 +456,7 @@ void Interface::quickload() {
 void SaverLoader::Draw() {
 	if(!shown)return;
 	SetNextWindowSize(ImVec2(520, 300), ImGuiCond_FirstUseEver);
-	if (!Begin(get_text(mode?"saveload/save_title":"saveload/load_title").c_str(), &shown)) {
+	if (!config.apply(get_ctext(mode?"saveload/save_title":"saveload/load_title"), &shown)) {
 		End();
 		return;
 	}
@@ -473,15 +471,15 @@ void SaverLoader::Draw() {
 	}
 	EndChild();
 	bool press=0;
-	if((mode && Button(get_text("saveload/save").c_str()))||
-			(!mode &&Button(get_text("saveload/load").c_str())))press=1;
+	if((mode && Button(get_ctext("saveload/save")))||
+			(!mode &&Button(get_ctext("saveload/load"))))press=1;
 	SameLine();
-	if(Button(get_text("saveload/delete").c_str())) {
+	if(Button(get_ctext("saveload/delete"))) {
 		remove((saves+selected+".xml").c_str());
 		update_cache();
 	}
 	SameLine();
-	if(Button(get_text("common/cancel").c_str()))close();
+	if(Button(get_ctext("common/cancel")))close();
 	SameLine();
 	if(InputText("",selected,64,ImGuiInputTextFlags_EnterReturnsTrue) || press) {
 		if(strlen(selected) && string(selected)!=string("settings")) {
@@ -519,25 +517,24 @@ void Pause::close() {
 }
 void SettingManager::Draw() {
 	if(!shown)return;
-	ShowDemoWindow();
-	SetNextWindowSize(ImVec2(520, 300), ImGuiCond_FirstUseEver);
-	if (!Begin("Settings", &shown)) {
+	ShowDemoWindow(&shown);
+	if(!config.apply(get_ctext("settings/title"), &shown)) {
 		End();
 		return;
 	}
-	ImGui::BeginChild("item view", ImVec2(0, -ImGui::GetFrameHeightWithSpacing()),true);
-	Text("Graphics");
+	ImGui::BeginChild(get_ctext("settings/title"), ImVec2(0, -ImGui::GetFrameHeightWithSpacing()),true);
+	Text(get_ctext("settings/graphics"));
 	int size_input[2]= {set.SW,set.SH};
-	InputInt2("Screen width",size_input);
+	InputInt2(get_ctext("settings/window_size"),size_input);
 	set.SW=size_input[0];
 	set.SH=size_input[1];
-	Checkbox("Fullscreen",&set.fullscreen);
-	Text("Sound");
-	SliderInt("Sound volume",&set.sound_volume,0,100,"%d%%");
-	SliderInt("Music volume",&set.music_volume,0,100,"%d%%");
-	InputInt("Sound frequency",&set.sound_freq,100,1000);
-	Text("Game");
-	if (ImGui::BeginCombo("Language",set.language.c_str())) {
+	Checkbox(get_ctext("settings/fullscreen"),&set.fullscreen);
+	Text(get_ctext("settings/sound"));
+	SliderInt(get_ctext("settings/sound_volume"),&set.sound_volume,0,100,"%d%%");
+	SliderInt(get_ctext("settings/music_volume"),&set.music_volume,0,100,"%d%%");
+	InputInt(get_ctext("settings/sound_freq"),&set.sound_freq,100,1000);
+	Text(get_ctext("settings/game"));
+	if (ImGui::BeginCombo(get_ctext("settings/language"),set.language.c_str())) {
 		for (int q = 0; q<languages.size(); q++) {
 			const bool is_selected = (set.language==languages[q]);
 			if (ImGui::Selectable(languages[q].c_str(),is_selected))
@@ -550,11 +547,11 @@ void SettingManager::Draw() {
 
 	EndChild();
 	int button=0;
-	if(Button("Apply"))
-		button=1;
-	SameLine();
-	if(Button("OK"))
+	if(Button(get_ctext("common/ok")))
 		button=2;
+	SameLine();
+	if(Button(get_ctext("common/apply")))
+		button=1;
 	if(button) {
 		settings=set;
 		settings.save();
@@ -569,7 +566,7 @@ void SettingManager::Draw() {
 			shown=0;
 	}
 	SameLine();
-	if(Button("Cancel"))
+	if(Button(get_ctext("common/cancel")))
 		shown=0;
 	End();
 }
@@ -581,5 +578,27 @@ void SettingManager::update() {
 			s.erase(s.begin()+s.find("."),s.end());
 		}
 	}
+}
+void WindowConfig::load(XMLNode node){
+	collapse=stoi(node.getAttribute("collapse"));
+	resize=stoi(node.getAttribute("resize"));
+	center=stoi(node.getAttribute("center"));
+	heigth=stoi(node.getAttribute("heigth"));
+	width=stoi(node.getAttribute("width"));
+	title=stoi(node.getAttribute("title"));
+	focus=stoi(node.getAttribute("focus"));
+	move=stoi(node.getAttribute("move"));
+}
+bool WindowConfig::apply(const char* name,bool *shown){
+	if(center)
+		SetNextWindowPosCenter(ImGuiCond_FirstUseEver);
+	SetNextWindowSize({width,heigth},ImGuiCond_FirstUseEver);
+	int flags=0;
+	if(!collapse)	flags|=ImGuiWindowFlags_NoCollapse;
+	if(!move)		flags|=ImGuiWindowFlags_NoMove;
+	if(!title)		flags|=ImGuiWindowFlags_NoTitleBar;
+	if(!resize)		flags|=ImGuiWindowFlags_NoResize;
+	if(!focus)		flags|=ImGuiWindowFlags_NoFocusOnAppearing;
+	return Begin(name, shown, flags);
 }
 Interface interface;

@@ -5,10 +5,9 @@
 		<cancel>Cancel</cancel>
 		<yes>Yes</yes>
 		<no>No</no>
+		<apply>Apply</apply>
 	</common>
 	<game_interface>
-		<live1>&#xE003;</live1>
-		<live2>&#xE004;</live2>
 		<bullet1>&#xE001;</bullet1>
 		<bullet2>&#xE002;</bullet2>
 		<health>&#xE000;</health>
@@ -20,6 +19,7 @@
 		<matches>Possible variants:</matches>
 	</console>
 	<pause>
+		<title>Pause</title>
 		<continue>Continue</continue>
 		<save_game>Save game</save_game>
 		<load_game>Load game</load_game>
@@ -38,4 +38,16 @@
 		<load>Load</load>
 		<delete>Delete</delete>
 	</saveload>
+	<settings>
+		<title>Settings</title>
+		<graphics>Video settings</graphics>
+		<window_size>Window size</window_size>
+		<fullscreen>Fullscreen</fullscreen>
+		<sound>Sound settings</sound>
+		<sound_volume>Sound volume</sound_volume>
+		<music_volume>Music volume</music_volume>
+		<sound_freq>Sound frequency</sound_freq>
+		<game>Game settings</game>
+		<language>Language</language>
+	</settings>
 </text>

@@ -5,10 +5,9 @@
 		<cancel>Отмена</cancel>
 		<yes>Да</yes>
 		<no>Нет</no>
+		<apply>Применить</apply>
 	</common>
 	<game_interface>
-		<live1>&#xE003;</live1>
-		<live2>&#xE004;</live2>
 		<bullet1>&#xE001;</bullet1>
 		<bullet2>&#xE002;</bullet2>
 		<health>&#xE000;</health>
@@ -20,7 +19,7 @@
 		<matches>Возможные варианты:</matches>
 	</console>
 	<pause>
-		<pause>Пауза</pause>
+		<title>Пауза</title>
 		<continue>Продолжить</continue>
 		<save_game>Сохранить</save_game>
 		<load_game>Загрузить</load_game>
@@ -39,4 +38,16 @@
 		<load>Загрузить</load>
 		<delete>Удалить</delete>
 	</saveload>
+	<settings>
+		<title>Настройки</title>
+		<graphics>Настройки графики</graphics>
+		<window_size>Размер окна</window_size>
+		<fullscreen>Во весь экран</fullscreen>
+		<sound>Настройки звука</sound>
+		<sound_volume>Громкость звуков</sound_volume>
+		<music_volume>Громкость музыки</music_volume>
+		<sound_freq>Частота звука</sound_freq>
+		<game>Настройки игры</game>
+		<language>Язык игры</language>
+	</settings>
 </text>
