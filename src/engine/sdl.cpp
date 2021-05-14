@@ -186,16 +186,21 @@ void play_sound(string name) {
 		if(!sounds[name]) throw string(SDL_GetError());
 	}
 	Mix_PlayChannel(-1,sounds[name],0);
-	Mix_Volume(-1,settings.sound_volume);
+	Mix_Volume(-1,settings.sound_volume*1.28f);
 }
 void play_ws_sound(string name) {
 	Mix_Chunk *sound=Mix_LoadWAV((prefix+"sound/"+name).c_str());
 	if(!sound) throw string(SDL_GetError());
-	Mix_PlayChannel(-1,sounds[name],0);
-	Mix_Volume(-1,settings.sound_volume);
+	int channel=Mix_PlayChannel(-1,sounds[name],0);
+	Mix_Volume(channel,settings.sound_volume*1.28f);
 }
 void play_distance_sound(string name,float distance) {
-
+	if(sounds.find(name)==sounds.end()) {
+		sounds[name]=Mix_LoadWAV((prefix+"sound/"+name).c_str());
+		if(!sounds[name]) throw string(SDL_GetError());
+	}
+	int channel=Mix_PlayChannel(-1,sounds[name],min(settings.sound_volume*1.28f,192.0f/distance));
+	Mix_Volume(channel,settings.sound_volume);
 }
 void clear_sounds(){
 	sounds.clear();

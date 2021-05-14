@@ -83,6 +83,11 @@ struct SettingManager {
 };
 struct LevelChooser{
 
+	vector<bool>opened;
+	WindowConfig config;
+	void load();
+	void save();
+	void def();
 };
 struct Interface {
 	void init_imgui();

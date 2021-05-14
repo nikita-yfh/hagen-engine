@@ -517,7 +517,6 @@ void Pause::close() {
 }
 void SettingManager::Draw() {
 	if(!shown)return;
-	ShowDemoWindow(&shown);
 	if(!config.apply(get_ctext("settings/title"), &shown)) {
 		End();
 		return;
