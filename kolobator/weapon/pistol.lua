@@ -1,7 +1,8 @@
-function pistol.init(w)
+function pistol.init(w,e)
 	w.dx=0.1
 	w.dy=0.1
 	w.bullet1="9mm"
+	w.texture="weapon/pistol.png"
 end
 function pistol.fire1(w,e)
 	local bullet=world.create_bullet(e,"bullet_9mm",100)

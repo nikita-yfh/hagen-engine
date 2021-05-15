@@ -94,10 +94,15 @@ void save_entities_state(XMLNode bds,map<string,Entity*>&entities) {
 		en.addAttribute("type",ent->type);
 		en.addAttribute("created",ent->created);
 		XMLNode weapon=en.addChild("weapon");
-		weapon.addAttribute("x",ent->weapon_x);
-		weapon.addAttribute("y",ent->weapon_y);
-		weapon.addAttribute("angle",ent->weapon_angle);
-		weapon.addAttribute("name",ent->weapon);
+		weapon.addAttribute("name",ent->weapon.name);
+		weapon.addAttribute("bullet1",ent->weapon.bullet1);
+		weapon.addAttribute("bullet2",ent->weapon.bullet2);
+		weapon.addAttribute("angle",ent->weapon.angle);
+		weapon.addAttribute("dx",ent->weapon.dx);
+		weapon.addAttribute("dy",ent->weapon.dy);
+		weapon.addAttribute("point_x",ent->weapon.point_x);
+		weapon.addAttribute("point_y",ent->weapon.point_y);
+		weapon.addAttribute("texture",ent->weapon.texture);
 		XMLNode health=en.addChild("health");
 		health.addAttribute("value",ent->health);
 		health.addAttribute("max",ent->max_health);
@@ -119,10 +124,16 @@ void load_entities_state(XMLNode ens,map<string,Entity*>&entities) {
 		loaded.push_back(id);
 		Entity *entity=entities[id];
 		XMLNode weapon=en.getChildNode("weapon");
-		entity->weapon_x=stof(weapon.getAttribute("x"));
-		entity->weapon_y=stof(weapon.getAttribute("y"));
-		entity->weapon_angle=stof(weapon.getAttribute("angle"));
-		entity->set_weapon(weapon.getAttribute("name"));
+		entity->weapon.name=weapon.getAttribute("name");
+		entity->set_weapon(entity->weapon.name);
+		entity->weapon.angle=stof(weapon.getAttribute("angle"));
+		entity->weapon.bullet1=weapon.getAttribute("bullet1");
+		entity->weapon.bullet2=weapon.getAttribute("bullet2");
+		entity->weapon.dx=stof(weapon.getAttribute("dx"));
+		entity->weapon.dy=stof(weapon.getAttribute("dy"));
+		entity->weapon.point_x=stof(weapon.getAttribute("point_x"));
+		entity->weapon.point_y=stof(weapon.getAttribute("point_y"));
+		entity->weapon.texture=weapon.getAttribute("texture");
 		XMLNode health=en.getChildNode("health");
 		entity->health=stof(health.getAttribute("value"));
 		entity->max_health=stof(health.getAttribute("max"));
@@ -189,32 +200,6 @@ void load_bullets_state(XMLNode bls) {
 		bullets[id].max=stoi(bl.getAttribute("max"));
 	}
 }
-void save_weapons_state(XMLNode ws) {
-	int count=0;
-	for(auto &b : weapons) {
-		if(b.first!="") {
-			XMLNode w=ws.addChild("weapon");
-			w.addAttribute("name",b.first);
-			w.addAttribute("dx",b.second.dx);
-			w.addAttribute("dy",b.second.dy);
-			w.addAttribute("bullet1",b.second.bullet1);
-			w.addAttribute("bullet2",b.second.bullet2);
-			count++;
-		}
-	}
-	ws.addAttribute("count",count);
-}
-void load_weapons_state(XMLNode ws) {
-	int count=stoi(ws.getAttribute("count"));
-	for(int q=0; q<count; q++) {
-		XMLNode w=ws.getChildNode("weapon",q);
-		string id=w.getAttribute("name");
-		weapons[id].dx=stof(w.getAttribute("dx"));
-		weapons[id].dy=stof(w.getAttribute("dy"));
-		weapons[id].bullet1=w.getAttribute("bullet1");
-		weapons[id].bullet2=w.getAttribute("bullet2");
-	}
-}
 void save_world_state(string name) {
 	XMLNode lvl=XMLNode::createXMLTopNode("level");
 	lvl.addAttribute("name",levelname);
@@ -240,7 +225,7 @@ void save_world_state(string name) {
 	save_entities_state(lvl.addChild("entities"),entities);
 	save_values_state(lvl.addChild("values"));
 	save_bullets_state(lvl.addChild("bullets"));
-	save_weapons_state(lvl.addChild("weapons"));
+	//save_weapons_state(lvl.addChild("weapons"));
 	lvl.writeToFile((saves+name+".xml").c_str());
 }
 void load_world_state(string name) {
@@ -269,7 +254,7 @@ void load_world_state(string name) {
 	load_entities_state(lvl.getChildNode("entities"),entities);
 	load_values_state(lvl.getChildNode("values"));
 	load_bullets_state(lvl.getChildNode("bullets"));
-	load_weapons_state(lvl.getChildNode("weapons"));
+	//load_weapons_state(lvl.getChildNode("weapons"));
 }
 b2Body* read_body(XMLNode bd,b2Vec2 delta,bool temp) {
 	int shapes_count=stoi(bd.getAttribute("shapes"));
@@ -643,7 +628,6 @@ void open_file(string path) {
 }
 void close_level() {
 	destroy_all();
-	weapons.clear();
 	for(auto &j : joints)
 		world->DestroyJoint(j.second);
 	for(auto &b : bodies)

@@ -11,20 +11,29 @@ extern "C" {
 #include "lualib.h"
 }
 #include "LuaBridge.h"
-
+struct Weapon {
+	float dx=0;
+	float dy=0;
+	string bullet1;
+	string bullet2;
+	string name;
+	string texture;
+	float angle=0;
+	float point_x=0;
+	float point_y=0;
+	void set_texture(string texture);
+	string get_texture() const;
+};
 struct Entity {
 	Entity();
 	Entity(string type,float x,float y);
 	~Entity();
-	string weapon;
+	Weapon weapon;
 	float health=100;
 	float max_health=100;
 	string type;
 	map<string,b2Body*>bodies;
 	map<string,b2Joint*>joints;
-	float weapon_x=0;
-	float weapon_y=0;
-	float weapon_angle;
 	float dx;
 	float dy;
 	string id;

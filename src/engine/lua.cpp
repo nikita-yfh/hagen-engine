@@ -157,21 +157,20 @@ void init_entities() {
 	for(auto entity : entities)
 		init_entity(entity.second);
 }
-void init_weapon(string weapon,bool ex) {
+void init_weapon(Entity *entity,bool ex) {
 	bool ok=0;
 	for(string l : loaded)
-		if(weapon==l)
+		if(entity->weapon.name==l)
 			ok=1;
 	if(!ok) {
-		luaL_dostring(L,(weapon+"=extend(Weapon)").c_str());
-		doscript("weapon/"+weapon);
+		luaL_dostring(L,(entity->weapon.name+"=extend(Weapon)").c_str());
+		doscript("weapon/"+entity->weapon.name);
 	}
 	if(ex) {
-		getGlobal(L,"Weapon")["init"](&weapons[weapon]);
-		getGlobal(L,weapon.c_str())["init"](&weapons[weapon]);
-		loaded.emplace_back(weapon);
+		getGlobal(L,"Weapon")["init"](&entity->weapon,entity);
+		getGlobal(L,entity->weapon.name.c_str())["init"](&entity->weapon,entity);
+		loaded.emplace_back(entity->weapon.name);
 	}
-	load_texture("weapon/"+weapon+".png");
 }
 void update_entities() {
 	for(auto entity : entities) {
@@ -181,25 +180,25 @@ void update_entities() {
 				destroy_entity(entity.second);
 				return;
 			}
-			if(weapons.find(entity.second->weapon)!=weapons.end() && entity.second->weapon!="") {
-				getGlobal(L,"Weapon")["update"](&weapons[entity.second->weapon],entity.second);
-				getGlobal(L,entity.second->weapon.c_str())["update"](&weapons[entity.second->weapon],entity.second);
+			if(entity.second->weapon.name.size()){
+				getGlobal(L,"Weapon")["update"](&entity.second->weapon,entity.second);
+				getGlobal(L,entity.second->weapon.name.c_str())["update"](&entity.second->weapon,entity.second);
 			}
 		}
 	}
 }
 
 int fire1(Entity *ent) {
-	return getGlobal(L,ent->weapon.c_str())["fire1"](&weapons[ent->weapon],ent);
+	return getGlobal(L,ent->weapon.name.c_str())["fire1"](&ent->weapon,ent);
 }
 int fire2(Entity *ent) {
-	return getGlobal(L,ent->weapon.c_str())["fire2"](&weapons[ent->weapon],ent);
+	return getGlobal(L,ent->weapon.name.c_str())["fire2"](&ent->weapon,ent);
 }
 int fire3(Entity *ent) {
-	return getGlobal(L,ent->weapon.c_str())["fire3"](&weapons[ent->weapon],ent);
+	return getGlobal(L,ent->weapon.name.c_str())["fire3"](&ent->weapon,ent);
 }
 int fire4(Entity *ent) {
-	return getGlobal(L,ent->weapon.c_str())["fire4"](&weapons[ent->weapon],ent);
+	return getGlobal(L,ent->weapon.name.c_str())["fire4"](&ent->weapon,ent);
 }
 void copy_prev_key() {
 	memcpy(prev_key,SDL_GetKeyboardState(0),SDL_NUM_SCANCODES);
@@ -282,7 +281,6 @@ void bind() {
 	.addFunction("body",&get_body) //возвращает тело
 	.addFunction("joint",&get_joint)	//возвращает соединение
 	.addFunction("entity",&get_entity)	//возвращает сущность
-	.addFunction("weapon",&get_weapon)
 	.addFunction("bullet",&get_bullet)
 	.addFunction("gettext",&get_text)	//для локализации
 	.addFunction("print",&print)
@@ -411,16 +409,14 @@ void bind() {
 	.beginClass<Entity>("Entity")
 	.addProperty("x",&Entity::getx,&Entity::setx)
 	.addProperty("y",&Entity::gety,&Entity::sety)
-	.addProperty("weapon",&Entity::get_weapon,&Entity::set_weapon)
-	.addProperty("weapon_x",&Entity::weapon_x,0)
-	.addProperty("weapon_y",&Entity::weapon_y,0)
+	.addProperty("weapon",&Entity::weapon)
+	.addFunction("set_weapon",&Entity::set_weapon)
 	.addProperty("health",&Entity::health)
 	.addProperty("max_health",&Entity::max_health)
 	.addProperty("id",&Entity::id,0)
 	.addProperty("vx",&Entity::get_vx)
 	.addProperty("vy",&Entity::get_vy)
 	.addProperty("userdata",&Entity::lua_userdata)
-	.addProperty("weapon_angle",&Entity::weapon_angle)
 	.addFunction("body",&Entity::get_body)
 	.addFunction("joint",&Entity::get_joint)
 	.addFunction("destroy_body",&Entity::destroy_body)
@@ -451,6 +447,11 @@ void bind() {
 	.addProperty("dy",&Weapon::dy)
 	.addProperty("bullet1",&Weapon::bullet1)
 	.addProperty("bullet2",&Weapon::bullet2)
+	.addProperty("name",&Weapon::name)
+	.addProperty("texture",&Weapon::get_texture,&Weapon::set_texture)
+	.addProperty("point_x",&Weapon::point_x)
+	.addProperty("point_y",&Weapon::point_y)
+	.addProperty("angle",&Weapon::angle)
 	.endClass();
 }
 void init(string name) { //

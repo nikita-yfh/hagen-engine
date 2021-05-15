@@ -1,7 +1,7 @@
 function kolobator.init(a)
 	graphics.preload("kolobator1.png")
 	graphics.preload("kolobator2.png")
-	a.weapon="knife"
+	a:set_weapon("knife")
 	bullet("9mm").count=100
 	bullet("9mm").max=100
 	bullet("grenade").count=600
@@ -42,16 +42,16 @@ function kolobator.update(a)
 		end
 	end
 	if(game.key("1")) then 
-		a.weapon="knife"
+		a:set_weapon("knife")
 	elseif(game.key("2")) then
-		a.weapon="pistol"
+		a:set_weapon("pistol")
 	elseif(game.key("3")) then
-		a.weapon="ak47"
+		a:set_weapon("ak47")
 	elseif(game.key("4")) then
-		a.weapon="rg6"
+		a:set_weapon("rg6")
 	end
-	local b1=weapon(a.weapon).bullet1;
-	local b2=weapon(a.weapon).bullet2;
+	local b1=a.weapon.bullet1;
+	local b2=a.weapon.bullet2;
 	if(b1=="" or bullet(b1).count ~= 0) then
 		if(game.press_key("fire1")) then
 			bullet(b1):del(a:fire1())
@@ -66,11 +66,11 @@ function kolobator.update(a)
 			bullet(b2):del(a:fire4())
 		end
 	end
-	a.weapon_angle=game.camera.angle
+	a.weapon.angle=game.camera.angle
 	if(game.camera.locked) then
 		game.camera.center_body(a:body("body"))
 	end
-	if(a.weapon_angle>math.pi*0.5 and a.weapon_angle<math.pi*1.5) then
+	if(a.weapon.angle>math.pi*0.5 and a.weapon.angle<math.pi*1.5) then
 		b:set_texture("body_fixture","kolobator2.png")
 	else
 		b:set_texture("body_fixture","kolobator1.png")

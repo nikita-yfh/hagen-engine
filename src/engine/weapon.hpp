@@ -7,12 +7,6 @@
 #include "entity.hpp"
 #include "lua.hpp"
 using namespace std;
-struct Weapon {
-	float dx;
-	float dy;
-	string bullet1;
-	string bullet2;
-};
 struct Bullet {
 	int count; //if count<0,bullets are infinity
 	int max;
@@ -20,7 +14,6 @@ struct Bullet {
 	void del(int c);
 	bool full();
 };
-extern map<string,Weapon>weapons;
 extern map<string,Bullet>bullets;
 Bullet *get_bullet(string id);
 b2Body *simple_bullet(Entity *e, string type, float impulse);

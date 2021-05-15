@@ -1,7 +1,8 @@
-function rg6.init(w)
+function rg6.init(w,e)
 	w.dx=0.34
 	w.dy=0.1
 	w.bullet1="grenade"
+	w.texture="weapon/rg6.png"
 end
 function rg6.fire1(w,e)
 	local bullet=world.create_bullet(e,"grenade",100)

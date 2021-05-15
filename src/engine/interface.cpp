@@ -424,11 +424,11 @@ void Game_interface::draw() {
 						 get_ctext(str));
 		};
 		uint8_t layer=0;
-		if(bullets[weapons[get_entity("player")->weapon].bullet2].max>0 &&
-				weapons[get_entity("player")->weapon].bullet2 != weapons[get_entity("player")->weapon].bullet1)
-			draw_bullets(weapons[get_entity("player")->weapon].bullet2,"game_interface/bullet2",++layer);
-		if(bullets[weapons[get_entity("player")->weapon].bullet1].max>0)
-			draw_bullets(weapons[get_entity("player")->weapon].bullet1,"game_interface/bullet1",++layer);
+		if(bullets[get_entity("player")->weapon.bullet2].max>0 &&
+				get_entity("player")->weapon.bullet2 != get_entity("player")->weapon.bullet1)
+			draw_bullets(get_entity("player")->weapon.bullet2,"game_interface/bullet2",++layer);
+		if(bullets[get_entity("player")->weapon.bullet1].max>0)
+			draw_bullets(get_entity("player")->weapon.bullet1,"game_interface/bullet1",++layer);
 	}
 }
 

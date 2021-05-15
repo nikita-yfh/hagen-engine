@@ -1,5 +1,5 @@
 function entity_k.init(a)
-	a.weapon="ak47"
+	a.set_weapon("ak47")
 	entity_k.speed=10
 	entity_k.motor_speed=40
 	a.max_health=1000000

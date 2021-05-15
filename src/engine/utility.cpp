@@ -28,10 +28,6 @@ Entity *get_entity(string id) {
 	return nullptr;
 }
 
-Weapon *get_weapon(string id) {
-	return &weapons[id];
-}
-
 Bullet *get_bullet(string id) {
 	return &bullets[id];
 }

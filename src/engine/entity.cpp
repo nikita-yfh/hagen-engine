@@ -7,6 +7,13 @@
 #include "lua.hpp"
 #include "camera.hpp"
 using namespace std;
+void Weapon::set_texture(string tex){
+	load_texture(tex);
+	texture=tex;
+}
+string Weapon::get_texture() const{
+	return texture;
+}
 Entity::Entity() {};
 Entity::Entity(string _type,float xp,float yp) {
 	type=_type;
@@ -96,14 +103,12 @@ void Entity::destroy_joint(string id) {
 	joints.erase(id);
 }
 void Entity::set_weapon(string id) {
-	if(weapons.find(id)==weapons.end()) {
-		weapons[id]=Weapon();
-		lua::init_weapon(id);
-	}
-	weapon=id;
-}
-string Entity::get_weapon() const {
-	return weapon;
+	weapon.bullet1=weapon.bullet2="";
+	weapon.dx=0;
+	weapon.dy=0;
+	weapon.texture="";
+	weapon.name=id;
+	lua::init_weapon(this);
 }
 int Entity::fire1() {
 	return lua::fire1(this);
@@ -127,7 +132,7 @@ void Entity::heal(int d) {
 }
 
 void Entity::focus(float x,float y) {
-	weapon_angle=get_angle(getx()-x,gety()-y);
+	weapon.angle=get_angle(getx()-x,gety()-y);
 }
 
 void Entity::focus_on_entity(Entity *e) {

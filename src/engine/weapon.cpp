@@ -25,7 +25,7 @@ bool Bullet::full() {
 }
 
 b2Body *simple_bullet(Entity *e, string type, float impulse) {
-	float &angle=e->weapon_angle;
+	float &angle=e->weapon.angle;
 	b2Body *bullet=create_body(type,"",e->getx(),e->gety());
 	bullet->SetAngle(angle);
 	bullet->SetLinearVelocity(e->get_first()->GetLinearVelocity());
