@@ -82,12 +82,15 @@ struct SettingManager {
 	WindowConfig config;
 };
 struct LevelChooser{
-
 	vector<bool>opened;
 	WindowConfig config;
 	void load();
 	void save();
 	void def();
+};
+struct MainMenu{
+	bool shown=false;
+	void Draw();
 };
 struct Interface {
 	void init_imgui();
@@ -98,6 +101,7 @@ struct Interface {
 	SaverLoader saver;
 	Pause pause;
 	SettingManager settingmanager;
+	MainMenu mainmenu;
 	void draw();
 	void update();
 	void load_config();

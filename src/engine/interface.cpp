@@ -385,6 +385,7 @@ void Interface::draw() {
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL2_NewFrame(SDL_GetWindowFromID(ren->context->windowID));
 	NewFrame();
+	mainmenu.Draw();
 	console.Draw();
 	pause.Draw();
 	saver.Draw();
@@ -406,6 +407,7 @@ void Game_interface::load_config() {
 
 void Game_interface::update() {}
 void Game_interface::draw() {
+	if(!shown)return;
 	short h=FC_GetLineHeight(font);
 	{
 		int health=0;
@@ -599,5 +601,21 @@ bool WindowConfig::apply(const char* name,bool *shown){
 	if(!resize)		flags|=ImGuiWindowFlags_NoResize;
 	if(!focus)		flags|=ImGuiWindowFlags_NoFocusOnAppearing;
 	return Begin(name, shown, flags);
+}
+void MainMenu::Draw(){
+	if(!shown)return;
+	static int width=0;
+	SetNextWindowBgAlpha(0.0f);
+	SetNextWindowPosCenter(ImGuiCond_FirstUseEver);
+	SetNextWindowSize({-1,-1},ImGuiCond_FirstUseEver);
+	Begin("Main menu",&shown, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize
+									| ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoNav);
+	ImVec2 align=ImVec2(width, 0);
+	Button("New game",align);
+	Button("Continue",align);
+	Button("Settings",align);
+	Button("Exit game",align);
+	width=GetWindowContentRegionWidth();
+	End();
 }
 Interface interface;
