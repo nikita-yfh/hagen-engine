@@ -436,8 +436,8 @@ void Interface::update_cursor() {
 	if(shown()) {
 		GetIO().ConfigFlags &= ~ImGuiConfigFlags_NoMouseCursorChange;
 	} else {
-		GetIO().ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;
-		set_center_cursor("cursor.png");
+		//GetIO().ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;
+		//set_center_cursor("cursor.png");
 	}
 }
 bool Interface::shown() {

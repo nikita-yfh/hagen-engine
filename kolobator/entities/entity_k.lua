@@ -1,9 +1,9 @@
 function entity_k.init(a)
-	a.set_weapon("ak47")
+	a:set_weapon("ak47")
 	entity_k.speed=10
 	entity_k.motor_speed=40
-	a.max_health=1000000
-	a.health=1000000
+	a.max_health=10
+	a.health=10
 end
 function entity_k.update(a)
 	local j=a:joint("joint")
@@ -12,7 +12,7 @@ function entity_k.update(a)
 		graphics.effect("big_blood",a.x,a.y)
 		return 1
 	else
-		if(math.abs(player.x-a.x)<3) then
+		if(entity("player")~=nil and math.abs(player.x-a.x)<3) then
 			if(player.x+2<a.x and b.vx>-entity_k.speed and game.interval(20)) then
 				j.motor=1
 				j.motor_speed=-entity_k.motor_speed
