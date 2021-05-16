@@ -85,6 +85,7 @@ void destroy_entity(Entity *entity) {
 	}
 }
 bool bb_all_collide(b2Body *b1,b2Body *b2) {
+	if(!b1 || !b2)return false;
 	for(b2ContactEdge *c=b1->GetContactList(); c; c=c->next) {
 		if(c->other==b2 && c->contact->IsTouching())
 			return true;
@@ -92,6 +93,7 @@ bool bb_all_collide(b2Body *b1,b2Body *b2) {
 	return false;
 }
 b2Body *eb_all_collide(Entity *entity,b2Body *b) {
+	if(!entity || !b)return nullptr;
 	for(auto &b2 : entity->bodies) {
 		if(bb_all_collide(b2.second,b))
 			return b2.second;
@@ -99,6 +101,7 @@ b2Body *eb_all_collide(Entity *entity,b2Body *b) {
 	return nullptr;
 }
 bool ee_all_collide(Entity *e1,Entity *e2) {
+	if(!e1 || !e2)return false;
 	for(auto &b1 : e1->bodies) {
 		if(eb_all_collide(e2,b1.second))
 			return true;
@@ -106,6 +109,7 @@ bool ee_all_collide(Entity *e1,Entity *e2) {
 	return false;
 }
 b2Body *lb_all_collide(b2Body *body) {
+	if(!body)return nullptr;
 	for(auto &b1 : bodies) {
 		if(bb_all_collide(b1.second,body))
 			return b1.second;
@@ -113,6 +117,7 @@ b2Body *lb_all_collide(b2Body *body) {
 	return nullptr;
 }
 b2Body *le_all_collide(Entity *e) {
+	if(!e)return nullptr;
 	for(auto &body : e->bodies) {
 		if(lb_all_collide(body.second))
 			return body.second;
@@ -121,6 +126,7 @@ b2Body *le_all_collide(Entity *e) {
 }
 
 Entity *sb_all_collide(b2Body *body) {
+	if(!body)return nullptr;
 	for(auto &e : entities) {
 		if(eb_all_collide(e.second,body))
 			return e.second;
@@ -129,6 +135,7 @@ Entity *sb_all_collide(b2Body *body) {
 }
 
 bool bb_collide(b2Body *b1,b2Body *b2) {
+	if(!b1 || !b2)return false;
 	for(b2ContactEdge *c=b1->GetContactList(); c; c=c->next) {
 		if(c->other==b2 && c->contact->IsTouching()
 				&& !c->contact->m_fixtureA->IsSensor()
@@ -139,6 +146,7 @@ bool bb_collide(b2Body *b1,b2Body *b2) {
 	return false;
 }
 b2Body *eb_collide(Entity *entity,b2Body *b) {
+	if(!entity || !b)return nullptr;
 	for(auto &b2 : entity->bodies) {
 		if(bb_collide(b2.second,b))
 			return b2.second;
@@ -146,6 +154,7 @@ b2Body *eb_collide(Entity *entity,b2Body *b) {
 	return nullptr;
 }
 bool ee_collide(Entity *e1,Entity *e2) {
+	if(!e1 || !e2)return false;
 	for(auto &b1 : e1->bodies) {
 		if(eb_collide(e2,b1.second))
 			return true;
@@ -153,6 +162,7 @@ bool ee_collide(Entity *e1,Entity *e2) {
 	return false;
 }
 b2Body *lb_collide(b2Body *body) {
+	if(!body)return nullptr;
 	for(auto &b1 : bodies) {
 		if(bb_collide(b1.second,body))
 			return b1.second;
@@ -160,6 +170,7 @@ b2Body *lb_collide(b2Body *body) {
 	return nullptr;
 }
 b2Body *le_collide(Entity *e) {
+	if(!e)return nullptr;
 	for(auto &body : e->bodies) {
 		if(lb_collide(body.second))
 			return body.second;
@@ -167,6 +178,7 @@ b2Body *le_collide(Entity *e) {
 	return nullptr;
 }
 Entity *sb_collide(b2Body *body) {
+	if(!body)return nullptr;
 	for(auto &e : entities) {
 		if(eb_collide(e.second,body))
 			return e.second;

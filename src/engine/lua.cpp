@@ -23,6 +23,23 @@ vector<string>loaded;
 float game_time=0;
 int prev_time=0;
 float time_scale=1.0f;
+struct Thread{
+	LuaRef l;
+	bool used=true;
+};
+vector<Thread>threads;
+int run_thread(void *ptr){
+	LuaRef *func=TYPE(LuaRef*,ptr);
+	if(func->isFunction()){
+		(*func)();
+	}
+	return 0;
+}
+
+void create_thread(LuaRef val){
+	threads.push_back({val,true});
+	SDL_CreateThread(run_thread,"lua_thread",&threads[threads.size()-1].l);
+}
 bool get_interval(unsigned int ms) {
 	if(get_time()-timers[ms]>ms/time_scale) {
 		return 1;
@@ -285,6 +302,7 @@ void bind() {
 	.addFunction("gettext",&get_text)	//для локализации
 	.addFunction("print",&print)
 	.addFunction("loadlevel",&level)	//мгновенно грузит уровень
+	.addFunction("create_thread",&create_thread)
 	.beginNamespace("world")
 	.addFunction("who",&whois)	//принимает тело, возвращает сущность
 	.addFunction("set_gravity",&set_gravity)	//глобальная гравитация. по умолчанию (0,-9.8)
