@@ -73,6 +73,7 @@ void init() {
 	info_log("Music inited succesfully");
 	interface.load_config();
 	interface.init_imgui();
+	info_log("ImGui inited succesfully");
 	interface.update_cursor();
 }
 GPU_Image *find_texture(string id) {

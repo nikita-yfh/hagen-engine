@@ -439,9 +439,11 @@ void Game_interface::draw() {
 void Interface::update_cursor() {
 	if(shown()) {
 		GetIO().ConfigFlags &= ~ImGuiConfigFlags_NoMouseCursorChange;
+		info_log("Setted standart cursor");
 	} else {
-		//GetIO().ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;
-		//set_center_cursor("cursor.png");
+		GetIO().ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;
+		set_center_cursor("cursor.png");
+		info_log("Setted game cursor");
 	}
 }
 bool Interface::shown() {

@@ -225,8 +225,8 @@ void save_world_state(string name) {
 	save_entities_state(lvl.addChild("entities"),entities);
 	save_values_state(lvl.addChild("values"));
 	save_bullets_state(lvl.addChild("bullets"));
-	//save_weapons_state(lvl.addChild("weapons"));
 	lvl.writeToFile((saves+name+".xml").c_str());
+	info_log("Saved to "+saves+name+".xml");
 }
 void load_world_state(string name) {
 	XMLNode lvl=XMLNode::openFileHelper((saves+name+".xml").c_str(),"level");
@@ -254,7 +254,7 @@ void load_world_state(string name) {
 	load_entities_state(lvl.getChildNode("entities"),entities);
 	load_values_state(lvl.getChildNode("values"));
 	load_bullets_state(lvl.getChildNode("bullets"));
-	//load_weapons_state(lvl.getChildNode("weapons"));
+	info_log("Loaded from "+saves+name+".xml");
 }
 b2Body* read_body(XMLNode bd,b2Vec2 delta,bool temp) {
 	int shapes_count=stoi(bd.getAttribute("shapes"));
