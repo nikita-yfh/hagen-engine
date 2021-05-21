@@ -10,6 +10,7 @@
 #include "lua.hpp"
 #include "interface.hpp"
 #include "effect.hpp"
+#include "shader.hpp"
 using namespace std;
 Color scene_mask(0,0,0,0);
 bool show_textures=1;

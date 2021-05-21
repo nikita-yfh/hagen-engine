@@ -205,7 +205,7 @@ void save_value(XMLNode node, const char *name,Color &value) {
 	value_n.addAttribute("b",value.b);
 	value_n.addAttribute("a",value.a);
 };
-vector<string>list_files(string dir){
+vector<string>list_files(string dir) {
 	vector<string>list;
 #ifdef WIN32
 	WIN32_FIND_DATA fd;
@@ -226,5 +226,24 @@ vector<string>list_files(string dir){
 	}
 	pclose(fp);
 #endif
-	return list;
+return list;
+}
+string get_time() {
+	int ms=SDL_GetTicks()%1000;
+	int sec=SDL_GetTicks()/1000;
+
+	return format("[ %d.%d ]",sec,ms);
+}
+void info_log(string text) {
+	interface.console.AddLog(get_time()+" [I] "+text);
+	cout<<get_time()<<" [I] "<<text<<endl;
+}
+
+void warning_log(string text) {
+	interface.console.AddLog(get_time()+" [W] "+text);
+	cout<<get_time()<<" [W] "<<text<<endl;
+}
+void error_log(string text) {
+	interface.console.AddLog(get_time()+" [E] "+text);
+	cout<<get_time()<<" [E] "<<text<<endl;
 }

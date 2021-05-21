@@ -110,8 +110,10 @@ void Console::Draw() {
 		if (!Filter.PassFilter(item.c_str()))
 			continue;
 		ImVec4 color;
-		if (item.find("\"]:")!=item.npos)
+		if (item.find("\"]:")!=item.npos || item.find("[E]")!=item.npos)
 			color = ImVec4(1.0f, 0.0f, 0.0f, 1.0f);
+		else if (item.find("[I]")!=item.npos)
+			color = ImVec4(0.7, 0.7f, 0.7f, 1.0f);
 		else if (item.find("> ") == 0)
 			color = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
 		else if (item.find("\t\t- ") == 0 || item.find(get_text("console/matches"))!=item.npos)

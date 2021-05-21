@@ -48,7 +48,7 @@ struct Console {
 	WindowConfig config;
 };
 struct Game_interface {
-	bool shown;
+	bool shown=true;
 	FC_Font *font=0;
 	void load_config();
 	void draw();

@@ -18,6 +18,7 @@ map<string,GPU_Image*>textures;
 map<string,Mix_Chunk*>sounds;
 SDL_Cursor *cursor=0;
 Mix_Music *music=nullptr;
+
 void Color::set(int _r,int _g,int _b,int _a) {
 	r=_r;
 	g=_g;
@@ -57,16 +58,19 @@ void Rect::load(XMLNode node,float f) {
 void init() {
 	if(SDL_Init(SDL_INIT_EVERYTHING))
 		throw string(SDL_GetError());
+	info_log("SDL inited succesfully");
 	settings.load();
 	GPU_SetPreInitFlags(GPU_INIT_DISABLE_VSYNC);
 	ren=GPU_Init(settings.SW,settings.SH,settings.fullscreen?SDL_WINDOW_FULLSCREEN:0);
 	if(!ren)
 		throw string(SDL_GetError());
+	info_log("Renderer inited succesfully");
 	int mix_flags=MIX_INIT_MP3|MIX_INIT_MOD;
 	if(Mix_Init(mix_flags)&mix_flags!=mix_flags)
 		throw string(SDL_GetError());
 	if(Mix_OpenAudio(settings.sound_freq,AUDIO_S16SYS,2,640))
 		throw string(SDL_GetError());
+	info_log("Music inited succesfully");
 	interface.load_config();
 	interface.init_imgui();
 	interface.update_cursor();
@@ -90,6 +94,7 @@ void quit() {
 	}
 }
 void panic(string message) {
+	error_log(message);
 	dialog::show("Fatal error",message,dialog::Style::Error);
 	quit();
 	exit(1);
