@@ -30,7 +30,7 @@ int fire4(Entity *ent);
 
 void create_entity_userdata(Entity *e);
 void create_body_userdata(b2Body *b);
-int get_time();
+float get_time();
 extern int prev_time;
 extern float game_time;
 extern float time_scale;

@@ -4,7 +4,8 @@ varying vec2 texCoord;
 uniform vec2 resolution;
 uniform sampler2D tex;
 uniform sampler2D tex1;
-uniform float globalTime;
+uniform float time;
+uniform float zoom;
 
 void main() {
 	vec2 q = texCoord;
@@ -16,7 +17,7 @@ void main() {
 	{
 		float f = pow(dis, .45)+.25;
 
-		vec2 st =  f * (q * vec2(1.5, .05)+vec2(-globalTime*.1+q.y*.5, globalTime*.12));
+		vec2 st =  f * (q * vec2(1.5, .05)+vec2(-time*.1+q.y*.5, time*.12))/zoom*100.0;
 		f = (texture2D(tex1, st * .5).x + texture2D(tex1, st*.5).y);
 		f = clamp(pow(abs(f)*.5, 29.0) * 140.0, 0.00, q.y*.4+.05);
 

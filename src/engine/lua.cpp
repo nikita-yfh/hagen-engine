@@ -56,7 +56,7 @@ void update_intervals() {
 		game_time+=time_scale;
 	}
 }
-int get_time() {
+float get_time() {
 	return game_time;
 }
 //НАЧАЛО КОСТЫЛЕЙ И ОСНОВНЫХ ПРИЧИН БАГОВ
