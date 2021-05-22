@@ -8,13 +8,17 @@ using namespace std;
 class Shader {
 public:
 	// Constructor
-	Shader(const string& id, const string& v_str, const string& f_str);
+	Shader(const string& v_str, const string& f_str);
+
+	Shader();
+
+	void load(const string& v_str, const string& f_str);
 
 	// Destructor
 	~Shader();
 
 	// Add an image
-	void addImg(string path);
+	void addImg(string name);
 
 	// Free the image used in the shader
 	void freeImg();
@@ -32,12 +36,11 @@ public:
 	void setImgShader();
 
 	// Activate the shader
-	void activate();
+	void enable();
+	void disable();
 
 
 private:
-	// Shader Id
-	string id;
 
 	// v vertice shader, f fragment shader, p shader program
 	uint32_t v, f, l;
@@ -49,5 +52,5 @@ private:
 	GPU_ShaderBlock block;
 
 	// Image for the shader
-	GPU_Image *img;
+	GPU_Image *img=nullptr;
 };

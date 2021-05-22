@@ -642,8 +642,12 @@ void close_level() {
 	lua::quit();
 }
 void load_level(string name) {
+	info_log("Level: "+name);
 	levelname=name;
 	close_level();
 	open_file(prefix+"levels/"+name+".xml");
+	info_log("Loaded objects");
 	lua::init(name);
+	info_log("Lua inited");
+	info_log("Level loaded successfully");
 }

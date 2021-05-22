@@ -14,10 +14,12 @@ string saves="saves/";
 using namespace luabridge;
 
 int main(int argc, char * argv[]) {
+	info_log("Welcome to Hagen Engine!");
 	if(argc>2)prefix=argv[2];
 	try {
 		init();
 	}catch(...){
+		error_log("Error while init engine");
 		settings.def();
 		settings.save();
 	}
@@ -48,18 +50,25 @@ int main(int argc, char * argv[]) {
 Settings settings;
 
 void Settings::save() {
-	XMLNode Main=XMLNode::createXMLTopNode("settings");
-	XMLNode graphics=Main.addChild("graphics");
-	graphics.addAttribute("w",SW);
-	graphics.addAttribute("h",SH);
-	graphics.addAttribute("fullscreen",fullscreen);
-	XMLNode sound=Main.addChild("sound");
-	sound.addAttribute("sound_volume",sound_volume);
-	sound.addAttribute("music_volume",music_volume);
-	sound.addAttribute("frequency",sound_freq);
-	XMLNode game=Main.addChild("game");
-	game.addAttribute("language",language);
-	Main.writeToFile((saves+"settings.xml").c_str());
+	try {
+		XMLNode Main=XMLNode::createXMLTopNode("settings");
+		XMLNode graphics=Main.addChild("graphics");
+		graphics.addAttribute("w",SW);
+		graphics.addAttribute("h",SH);
+		graphics.addAttribute("fullscreen",fullscreen);
+		XMLNode sound=Main.addChild("sound");
+		sound.addAttribute("sound_volume",sound_volume);
+		sound.addAttribute("music_volume",music_volume);
+		sound.addAttribute("frequency",sound_freq);
+		XMLNode game=Main.addChild("game");
+		game.addAttribute("language",language);
+		Main.writeToFile((saves+"settings.xml").c_str());
+		info_log("Saved settings to settings.xml");
+	} catch(...) {
+		error_log("Cannot write to settings.xml");
+		def();
+		save();
+	}
 }
 void Settings::load() {
 	try {
@@ -74,7 +83,9 @@ void Settings::load() {
 		sound_freq=stoi(sound.getAttribute("frequency"));
 		XMLNode game=Main.getChildNode("game");
 		language=game.getAttribute("language");
+		info_log("Loaded settings from settings.xml successfully");
 	} catch(...) {
+		warning_log("Cannot open settings.xml");
 		def();
 		save();
 	}
@@ -89,4 +100,5 @@ void Settings::def() {
 	music_volume=100;
 	language="en";
 	sound_freq=22050;
+	info_log("Restored sefault settings");
 }

@@ -225,9 +225,20 @@ void draw_effects() {
 		GPU_BlitScale(e.effect->anim[frame],0,ren,drawx(e.x),drawy(e.y),zoom/100,zoom/100);
 	}
 }
+extern Shader shader;
 void draw() {
 	GPU_Clear(ren);
+
+	shader.enable();
+	float time = SDL_GetTicks();
+	GPU_SetUniformf(shader.getVar("globalTime"), time);
+	shader.setImgShader();
+	float resolution[2]={SW,SH};
+	GPU_SetUniformfv(shader.getVar("resolution"), 2, 1, resolution);
+
 	draw_bgr();
+	shader.disable();
+
 	for(int q=0; q<6; q++) {
 		draw_bodies(q);
 		draw_entities(q);

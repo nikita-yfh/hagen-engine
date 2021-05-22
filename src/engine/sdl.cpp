@@ -8,6 +8,7 @@
 #include "dialog.hpp"
 #include "effect.hpp"
 #include <string>
+#include "shader.hpp"
 SDL_Event e;
 int &SW=settings.SW;
 int &SH=settings.SH;
@@ -55,6 +56,7 @@ void Rect::load(XMLNode node,float f) {
 	if(w<1.0f)w*=f;
 	if(h<1.0f)h*=f;
 }
+Shader shader;
 void init() {
 	if(SDL_Init(SDL_INIT_EVERYTHING))
 		throw string(SDL_GetError());
@@ -64,7 +66,7 @@ void init() {
 	ren=GPU_Init(settings.SW,settings.SH,settings.fullscreen?SDL_WINDOW_FULLSCREEN:0);
 	if(!ren)
 		throw string(SDL_GetError());
-	info_log("Renderer inited succesfully");
+	info_log("Renderer created succesfully");
 	int mix_flags=MIX_INIT_MP3|MIX_INIT_MOD;
 	if(Mix_Init(mix_flags)&mix_flags!=mix_flags)
 		throw string(SDL_GetError());
@@ -75,6 +77,8 @@ void init() {
 	interface.init_imgui();
 	info_log("ImGui inited succesfully");
 	interface.update_cursor();
+	shader.load(prefix+"shaders/v1.vert",prefix+"shaders/rain.frag");
+	shader.addImg("noise.png");
 }
 GPU_Image *find_texture(string id) {
 	return textures[id];

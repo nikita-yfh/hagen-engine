@@ -254,18 +254,22 @@ void Interface::update() {
 	ImGui_ImplSDL2_ProcessEvent(&e);
 }
 void Interface::init_imgui() {
-	SDL_GLContext& gl_context = ren->context->context;
-	SDL_Window* window = SDL_GetWindowFromID(ren->context->windowID);
-	IMGUI_CHECKVERSION();
-	CreateContext();
-	ImGuiIO& io = GetIO();
-	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard | ImGuiConfigFlags_NoMouseCursorChange;
-	io.IniFilename=nullptr;
-	const char* glsl_version = "#version 120";
-	ImGui_ImplOpenGL3_Init(glsl_version);
-	ImGui_ImplSDL2_InitForOpenGL(window, gl_context);
-	StyleColorsDark();
-	load_imgui_config();
+	try{
+		SDL_GLContext& gl_context = ren->context->context;
+		SDL_Window* window = SDL_GetWindowFromID(ren->context->windowID);
+		IMGUI_CHECKVERSION();
+		CreateContext();
+		ImGuiIO& io = GetIO();
+		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard | ImGuiConfigFlags_NoMouseCursorChange;
+		io.IniFilename=nullptr;
+		const char* glsl_version = "#version 120";
+		ImGui_ImplOpenGL3_Init(glsl_version);
+		ImGui_ImplSDL2_InitForOpenGL(window, gl_context);
+		StyleColorsDark();
+		load_imgui_config();
+	}catch(...){
+		error_log("Error while initing ImGui");
+	}
 }
 void Interface::load_imgui_config() {
 	XMLNode node=XMLNode::openFileHelper((prefix+"config/imgui.xml").c_str(),"imgui");
@@ -380,7 +384,12 @@ void Interface::load_imgui_font(string name,float size) {
 	GetIO().Fonts->AddFontFromFileTTF((prefix+"fonts/"+name).c_str(), size, &font_config, ranges);
 }
 void Interface::load_config() {
-	game_interface.load_config();
+	try{
+		game_interface.load_config();
+		info_log("Loaded interface config");
+	}catch(...){
+		error_log("Error while loading interface config");
+	}
 }
 void Interface::draw() {
 	game_interface.draw();
@@ -439,11 +448,9 @@ void Game_interface::draw() {
 void Interface::update_cursor() {
 	if(shown()) {
 		GetIO().ConfigFlags &= ~ImGuiConfigFlags_NoMouseCursorChange;
-		info_log("Setted standart cursor");
 	} else {
 		GetIO().ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;
 		set_center_cursor("cursor.png");
-		info_log("Setted game cursor");
 	}
 }
 bool Interface::shown() {
