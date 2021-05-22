@@ -57,28 +57,52 @@ void Rect::load(XMLNode node,float f) {
 	if(h<1.0f)h*=f;
 }
 Shader shader;
-void init() {
-	if(SDL_Init(SDL_INIT_EVERYTHING))
-		throw string(SDL_GetError());
-	info_log("SDL inited succesfully");
-	settings.load();
-	GPU_SetPreInitFlags(GPU_INIT_DISABLE_VSYNC);
-	ren=GPU_Init(settings.SW,settings.SH,settings.fullscreen?SDL_WINDOW_FULLSCREEN:0);
-	if(!ren)
-		throw string(SDL_GetError());
-	info_log("Renderer created succesfully");
-
-    GPU_Renderer* renderer = GPU_GetCurrentRenderer();
+void print_renderer_info(GPU_Renderer *renderer){
     GPU_RendererID id = renderer->id;
 
 	info_log(format("Using renderer: %s (%d.%d)", id.name, id.major_version, id.minor_version));
 	info_log(format("Shader versions supported: %d to %d", renderer->min_shader_version, renderer->max_shader_version));
 
+	string languages[6]={
+		"None",
+		"ARB_ASSEMBLY",
+		"GLSL",
+		"GLSLES",
+		"HLSL",
+		"CG"
+	};
+
+	info_log("Shader language: "+languages[renderer->shader_language]);
+}
+void init() {
+	if(SDL_Init(SDL_INIT_EVERYTHING)){
+		error_log(SDL_GetError());
+		throw string(SDL_GetError());
+	}
+	info_log("SDL inited succesfully");
+	settings.load();
+	GPU_SetPreInitFlags(GPU_INIT_DISABLE_VSYNC);
+	ren=GPU_Init(settings.SW,settings.SH,settings.fullscreen?SDL_WINDOW_FULLSCREEN:0);
+	if(!ren){
+		GPU_ErrorObject error=GPU_PopErrorCode();
+		string str=(string)"In function "+error.function+": "+error.details;
+		error_log(str);
+		throw string(error.details);
+	}
+	info_log("Renderer created succesfully");
+
+	print_renderer_info(GPU_GetCurrentRenderer());
+
+
 	int mix_flags=MIX_INIT_MP3|MIX_INIT_MOD;
-	if(Mix_Init(mix_flags)&mix_flags!=mix_flags)
+	if(Mix_Init(mix_flags)&mix_flags!=mix_flags){
+		error_log(SDL_GetError());
 		throw string(SDL_GetError());
-	if(Mix_OpenAudio(settings.sound_freq,AUDIO_S16SYS,2,640))
+	}
+	if(Mix_OpenAudio(settings.sound_freq,AUDIO_S16SYS,2,640)){
+		error_log(SDL_GetError());
 		throw string(SDL_GetError());
+	}
 	info_log("Music inited succesfully");
 	interface.load_config();
 	interface.init_imgui();
