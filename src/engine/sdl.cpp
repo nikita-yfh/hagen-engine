@@ -67,6 +67,13 @@ void init() {
 	if(!ren)
 		throw string(SDL_GetError());
 	info_log("Renderer created succesfully");
+
+    GPU_Renderer* renderer = GPU_GetCurrentRenderer();
+    GPU_RendererID id = renderer->id;
+
+	info_log(format("Using renderer: %s (%d.%d)", id.name, id.major_version, id.minor_version));
+	info_log(format("Shader versions supported: %d to %d", renderer->min_shader_version, renderer->max_shader_version));
+
 	int mix_flags=MIX_INIT_MP3|MIX_INIT_MOD;
 	if(Mix_Init(mix_flags)&mix_flags!=mix_flags)
 		throw string(SDL_GetError());

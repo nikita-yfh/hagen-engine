@@ -79,7 +79,6 @@ void Pause::Draw() {
 Console::Console() {
 	ClearLog();
 	memset(InputBuf, 0, sizeof(InputBuf));
-	AddLog("LuaJIT 2.0.5 -- Copyright (C) 2005-2017 Mike Pall. http://luajit.org/");
 }
 Console::~Console() {
 	ClearLog();
