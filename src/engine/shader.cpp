@@ -75,14 +75,14 @@ void GLSLtex::set(string name){
 void GLSLtex::update(){
 	GPU_SetShaderImage(tex, loc,1);
 }
+GLSLtex::~GLSLtex(){
+	if(tex)
+		GPU_FreeImage(tex);
+}
 Shader::Shader(){}
 Shader::~Shader(){
-	freeImg();
-}
-void Shader::freeImg(){
-	if(img)
-		GPU_FreeImage(img);
-	img=nullptr;
+	for(auto &var : variables)
+		delete var.second;
 }
 void Shader::load(const std::string& v_str, const std::string& f_str){
 	info_log("Vertex shader: "+v_str);
@@ -116,21 +116,6 @@ Shader::Shader(const std::string& v_str, const std::string& f_str) {
 	load(v_str,f_str);
 }
 
-void Shader::addImg(std::string name) {
-	img=GPU_LoadImage((prefix+"textures/"+name).c_str());
-
-	GPU_SetSnapMode(img, GPU_SNAP_NONE);
-	GPU_SetWrapMode(img, GPU_WRAP_REPEAT, GPU_WRAP_REPEAT);
-}
-
-void Shader::addVariable(std::string idV) {
-	uint32_t location = GPU_GetUniformLocation(l, idV.c_str());
-	variables[idV]=location;
-}
-
-void Shader::setImgShader() {
-	GPU_SetShaderImage(img, getVar("tex1"), 1);
-}
 void Shader::enable() {
 	GPU_ActivateShaderProgram(l, &block);
 	update();
@@ -139,17 +124,37 @@ void Shader::disable() {
 	GPU_DeactivateShaderProgram();
 }
 
-uint32_t Shader::getVar(std::string idV) {
+GLSLtype *Shader::getuniform(std::string idV) {
 	if(variables.find(idV)!=variables.end())
 		return variables[idV];
-	addVariable(idV);
-	return getVar(idV);
+	return nullptr;
 }
 
 void Shader::update(){
-	GPU_SetUniformf(getVar("time"), lua::get_time());
-	GPU_SetUniformf(getVar("zoom"), zoom);
-	setImgShader();
-	float resolution[2]={SW,SH};
-	GPU_SetUniformfv(getVar("resolution"), 2, 1, resolution);
+	for(auto &var : variables)
+		var.second->update();
 }
+#define GLSL_TYPE(TYPE,NAME)	\
+TYPE *Shader::NAME(string id){	\
+	GLSLtype *t=variables[id];	\
+	int loc=-1;	\
+	if(t){	\
+		loc=t->loc;	\
+		delete t;	\
+	}	\
+	TYPE *var=new TYPE;	\
+	if(loc==-1)	\
+		var->loc=GPU_GetUniformLocation(l,id.c_str());	\
+	else	\
+		var->loc=loc;	\
+	variables[id]=var;	\
+	return var;	\
+}
+GLSL_TYPE(GLSLfloat,add_float);
+GLSL_TYPE(GLSLvec2,add_vec2);
+GLSL_TYPE(GLSLvec3,add_vec3);
+GLSL_TYPE(GLSLvec4,add_vec4);
+GLSL_TYPE(GLSLmat2,add_mat2);
+GLSL_TYPE(GLSLmat3,add_mat3);
+GLSL_TYPE(GLSLmat4,add_mat4);
+GLSL_TYPE(GLSLtex,add_tex);

@@ -228,9 +228,10 @@ void draw_effects() {
 extern Shader shader;
 void draw() {
 	GPU_Clear(ren);
-
+	cout<<shader.getuniform("time")->loc<<endl;
+	shader.add_vec2("resolution")->set(SW+lua::get_time()/10,SH+lua::get_time()/10);
+	//shader.add_float("time")->set(lua::get_time());
 	shader.enable();
-
 	draw_bgr();
 
 	for(int q=0; q<6; q++) {

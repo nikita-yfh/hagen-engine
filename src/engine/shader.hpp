@@ -6,7 +6,7 @@
 using namespace std;
 
 struct GLSLtype{
-	int loc;
+	uint loc;
 	virtual void update(){};
 };
 struct GLSLfloat : GLSLtype{
@@ -60,38 +60,26 @@ struct GLSLtex : GLSLtype{
 	GPU_Image *tex=nullptr;
 	void update();
 	void set(string name);
+	~GLSLtex();
 };
 class Shader {
 public:
-	// Constructor
-	Shader(const string& v_str, const string& f_str);
-
 	Shader();
-
+	~Shader();
+	Shader(const string& v_str, const string& f_str);
 	void load(const string& v_str, const string& f_str);
 
-	// Destructor
-	~Shader();
+	GLSLtype *getuniform(string idV);
 
-	// Add an image
-	void addImg(string name);
+	GLSLfloat *add_float(string id);
+	GLSLvec2 *add_vec2(string id);
+	GLSLvec3 *add_vec3(string id);
+	GLSLvec4 *add_vec4(string id);
+	GLSLmat2 *add_mat2(string id);
+	GLSLmat3 *add_mat3(string id);
+	GLSLmat4 *add_mat4(string id);
+	GLSLtex *add_tex(string id);
 
-	// Free the image used in the shader
-	void freeImg();
-
-	// Add a variable to the vector
-	void addVariable(string idV);
-
-	// Get the location of a variable
-	uint32_t getVar(string idV);
-
-	// Getter for the id
-	string getId();
-
-	// Set the image to the shader
-	void setImgShader();
-
-	// Activate the shader
 	void enable();
 	void disable();
 
@@ -99,16 +87,8 @@ public:
 
 
 private:
-
-	// v vertice shader, f fragment shader, l shader program
 	uint32_t v, f, l;
-
-	 // Array of pair (id variable, location in the shader)
-	map<string,uint32_t> variables;
-
-	// Shader attributes and uniform locations
+	map<string,GLSLtype*> variables;
 	GPU_ShaderBlock block;
-
-	// Image for the shader
 	GPU_Image *img=nullptr;
 };

@@ -10,6 +10,7 @@
 #include "effect.hpp"
 #include "main.hpp"
 #include "interface.hpp"
+#include "shader.hpp"
 #include <detail/Userdata.h>
 #include <algorithm>
 using namespace luabridge;
@@ -470,6 +471,32 @@ void bind() {
 	.addProperty("point_x",&Weapon::point_x)
 	.addProperty("point_y",&Weapon::point_y)
 	.addProperty("angle",&Weapon::angle)
+	.endClass()
+	.beginClass<GLSLtype>("GLSLtype")
+	.addFunction("update",&GLSLtype::update)
+	.addProperty("location",&GLSLtype::loc,0)
+	.endClass()
+	.deriveClass<GLSLfloat,GLSLtype>("GLSLfloat")
+	.addFunction("set",&GLSLfloat::set)
+	.addProperty("value",&GLSLfloat::value)
+	.endClass()
+	.deriveClass<GLSLvec2,GLSLtype>("GLSLvec2")
+	.addFunction("set",&GLSLvec2::set)
+	.addProperty("x",&GLSLvec2::x)
+	.addProperty("y",&GLSLvec2::y)
+	.endClass()
+	.deriveClass<GLSLvec3,GLSLtype>("GLSLvec3")
+	.addFunction("set",&GLSLvec3::set)
+	.addProperty("x",&GLSLvec3::x)
+	.addProperty("y",&GLSLvec3::y)
+	.addProperty("z",&GLSLvec3::z)
+	.endClass()
+	.deriveClass<GLSLvec4,GLSLtype>("GLSLvec4")
+	.addFunction("set",&GLSLvec4::set)
+	.addProperty("x",&GLSLvec4::x)
+	.addProperty("y",&GLSLvec4::y)
+	.addProperty("z",&GLSLvec4::z)
+	.addProperty("w",&GLSLvec4::w)
 	.endClass();
 }
 void init(string name) { //
