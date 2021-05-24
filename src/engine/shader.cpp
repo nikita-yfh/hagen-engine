@@ -71,6 +71,8 @@ void GLSLtex::set(string name){
 	if(tex)
 		GPU_FreeImage(tex);
 	tex=GPU_LoadImage((prefix+"textures/"+name).c_str());
+	GPU_SetWrapMode(tex,GPU_WRAP_REPEAT,GPU_WRAP_REPEAT);
+	GPU_SetSnapMode(tex, GPU_SNAP_NONE);
 }
 void GLSLtex::update(){
 	GPU_SetShaderImage(tex, loc,1);
