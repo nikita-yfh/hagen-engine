@@ -4,7 +4,6 @@
 #include <vector>
 #include <map>
 using namespace std;
-
 struct GLSLtype{
 	uint loc;
 	virtual void update(){};
@@ -104,3 +103,6 @@ private:
 	GPU_ShaderBlock block;
 	GPU_Image *img=nullptr;
 };
+void set_texture_shader(string id,Shader shader);
+void enable_shader(string id);
+void disable_shaders();

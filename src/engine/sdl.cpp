@@ -112,7 +112,6 @@ void init() {
 
 	shader.add_tex("tex1")->set("noise.png");
 	shader.add_float("time")->set(lua::get_time());
-	shader.add_float("zoom")->set(zoom);
 	shader.add_vec2("resolution")->set(SW,SH);
 }
 GPU_Image *find_texture(string id) {

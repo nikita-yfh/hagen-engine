@@ -4,7 +4,7 @@
 		entity:harm(5)
 		graphics.effect("blood",a.x,a.y)
 		return true
-	elseif(a.userdata.create_time+5000 < game.timer) then
+	elseif(a.userdata.create_time+5000 < game.time) then
 		return true
 	end
 	return false

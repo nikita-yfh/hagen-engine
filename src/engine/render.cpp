@@ -41,6 +41,9 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 	else
 		GPU_SetWrapMode(tex, GPU_WRAP_REPEAT, GPU_WRAP_REPEAT);
 
+	if(tex)
+		enable_shader(F_DATA(fix,texture));
+
 	switch(F_DATA(fix,type)) {
 	case RECT:
 	case SQUARE: {
@@ -192,6 +195,7 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 	}
 	break;
 	}
+	disable_shaders();
 }
 void draw_bodies(uint8_t pos) {
 	for(auto &body : bodies) {
@@ -208,6 +212,7 @@ void draw_entities(uint8_t pos) {
 			}
 		}
 		if(pos==3 && en.second->weapon.texture!="" && show_textures) {
+			enable_shader(en.second->weapon.texture);
 			float size_y=1.0f;
 			if(en.second->weapon.angle>0.5*M_PI&&en.second->weapon.angle<1.5*M_PI)
 				size_y=-1.0f;
@@ -216,6 +221,7 @@ void draw_entities(uint8_t pos) {
 							   drawy(en.second->gety()+en.second->weapon.point_y),
 							   en.second->weapon.dx*100,en.second->weapon.dy*100,
 							   en.second->weapon.angle/M_PI*180,zoom/100,size_y*zoom/100);
+			disable_shaders();
 		}
 	}
 }
@@ -229,15 +235,15 @@ extern Shader shader;
 void draw() {
 	GPU_Clear(ren);
 	shader.add_float("time")->set(lua::get_time());
-	shader.enable();
+	//shader.enable();
 	draw_bgr();
 
 	for(int q=0; q<6; q++) {
 		draw_bodies(q);
 		draw_entities(q);
 	}
-	shader.disable();
 	draw_effects();
+	shader.disable();
 	draw_mask();
 	interface.draw();
 	GPU_Flip(ren);

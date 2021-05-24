@@ -6,7 +6,7 @@ function pistol.init(w,e)
 end
 function pistol.fire1(w,e)
 	local bullet=world.create_bullet(e,"bullet_9mm",100)
-	bullet.userdata.create_time=game.timer
+	bullet.userdata.create_time=game.time
 	bullet.userdata.entity=e.id
 	play("shot.flac",e.x,e.y)
 	return 1

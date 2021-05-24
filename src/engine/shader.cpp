@@ -176,3 +176,13 @@ GLSL_TYPE(GLSLmat2,add_mat2);
 GLSL_TYPE(GLSLmat3,add_mat3);
 GLSL_TYPE(GLSLmat4,add_mat4);
 GLSL_TYPE(GLSLtex,add_tex);
+map<string,Shader>shaders;
+void set_texture_shader(string id,Shader shader){
+	shaders[id]=shader;
+}
+void enable_shader(string id){
+	shaders[id].update();
+}
+void disable_shaders(){
+	GPU_DeactivateShaderProgram();
+}

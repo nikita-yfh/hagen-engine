@@ -342,7 +342,7 @@ void bind() {
 	.addProperty("locked",&camera_locked)	//блокировка камеры. если заблокирована то двигается на главным героем и двигать нельзя.
 	.addProperty("angle",&mouse_angle)	//угол поворота мыши относительно центра экрана
 	.endNamespace()
-	.addProperty("timer",&get_time)		//количество миллисекунд со старта уровня
+	.addProperty("time",&get_time)		//количество миллисекунд со старта уровня
 	.addFunction("key",&get_key)		//нажата ли клавиша
 	.addFunction("press_key",&get_press_key)	//когда клавишу только нажимают
 	.addFunction("release_key",&get_release_key)	//когда клавишу отпускают
@@ -363,6 +363,11 @@ void bind() {
 	.addFunction("texture",&find_texture)	//текстура по ID
 	.addProperty("show_textures",&show_textures)	//показывать ли текстуры. не знаю для чего это зожет пригодиться
 	.addFunction("effect",&effect::create)	//создание граффического эффекта в заданных координатах.
+	.addFunction("set_texture_shader",&set_texture_shader)
+	.beginNamespace("display")
+	.addProperty("w",&SW,0)
+	.addProperty("h",&SH,0)
+	.endNamespace()
 	.endNamespace()
 	.beginNamespace("music")
 	.addFunction("play",&play_music)
@@ -521,6 +526,16 @@ void bind() {
 	.endClass()
 	.beginClass<Shader>("Shader")
 	.addConstructor <void (*) (string,string)> ()
+	.addFunction("add_tex",&Shader::add_tex)
+	.addFunction("add_float",&Shader::add_float)
+	.addFunction("add_int",&Shader::add_int)
+	.addFunction("add_uint",&Shader::add_uint)
+	.addFunction("add_vec2",&Shader::add_vec2)
+	.addFunction("add_vec3",&Shader::add_vec3)
+	.addFunction("add_vec4",&Shader::add_vec4)
+	.addFunction("add_mat2",&Shader::add_mat2)
+	.addFunction("add_mat3",&Shader::add_mat3)
+	.addFunction("add_mat4",&Shader::add_mat4)
 	.endClass();
 }
 void init(string name) { //
