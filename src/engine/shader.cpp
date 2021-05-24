@@ -10,6 +10,18 @@ void GLSLfloat::set(float v){
 void GLSLfloat::update(){
 	GPU_SetUniformf(loc,value);
 }
+void GLSLint::set(int v){
+	value=v;
+}
+void GLSLint::update(){
+	GPU_SetUniformf(loc,value);
+}
+void GLSLuint::set(uint v){
+	value=v;
+}
+void GLSLuint::update(){
+	GPU_SetUniformf(loc,value);
+}
 void GLSLvec2::set(float _x,float _y){
 	x=_x;
 	y=_y;
@@ -86,7 +98,9 @@ Shader::~Shader(){
 	for(auto &var : variables)
 		delete var.second;
 }
-void Shader::load(const std::string& v_str, const std::string& f_str){
+void Shader::load(string v_str, string f_str){
+	v_str=prefix+"shaders/"+v_str;
+	f_str=prefix+"shaders/"+f_str;
 	info_log("Vertex shader: "+v_str);
 	info_log("Fragment shader: "+f_str);
 	v = GPU_LoadShader(GPU_VERTEX_SHADER, v_str.c_str());
@@ -114,7 +128,7 @@ void Shader::load(const std::string& v_str, const std::string& f_str){
 	info_log("Loaded shader block");
 }
 
-Shader::Shader(const std::string& v_str, const std::string& f_str) {
+Shader::Shader(string v_str, string f_str) {
 	load(v_str,f_str);
 }
 
@@ -126,7 +140,7 @@ void Shader::disable() {
 	GPU_DeactivateShaderProgram();
 }
 
-GLSLtype *Shader::getuniform(std::string idV) {
+GLSLtype *Shader::getuniform(string idV) {
 	if(variables.find(idV)!=variables.end())
 		return variables[idV];
 	return nullptr;
@@ -153,6 +167,8 @@ TYPE *Shader::NAME(string id){	\
 	return var;	\
 }
 GLSL_TYPE(GLSLfloat,add_float);
+GLSL_TYPE(GLSLint,add_int);
+GLSL_TYPE(GLSLuint,add_uint);
 GLSL_TYPE(GLSLvec2,add_vec2);
 GLSL_TYPE(GLSLvec3,add_vec3);
 GLSL_TYPE(GLSLvec4,add_vec4);

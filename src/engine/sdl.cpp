@@ -108,7 +108,7 @@ void init() {
 	interface.init_imgui();
 	info_log("ImGui inited succesfully");
 	interface.update_cursor();
-	shader.load(prefix+"shaders/v1.vert",prefix+"shaders/rain.frag");
+	shader.load("v1.vert","rain.frag");
 
 	shader.add_tex("tex1")->set("noise.png");
 	shader.add_float("time")->set(lua::get_time());

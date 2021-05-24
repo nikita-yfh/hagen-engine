@@ -14,6 +14,16 @@ struct GLSLfloat : GLSLtype{
 	void update();
 	void set(float v);
 };
+struct GLSLint : GLSLtype{
+	int value;
+	void update();
+	void set(int v);
+};
+struct GLSLuint : GLSLtype{
+	uint value;
+	void update();
+	void set(uint v);
+};
 struct GLSLvec2 : GLSLtype{
 	float x;
 	float y;
@@ -66,12 +76,14 @@ class Shader {
 public:
 	Shader();
 	~Shader();
-	Shader(const string& v_str, const string& f_str);
-	void load(const string& v_str, const string& f_str);
+	Shader(string v_str, string f_str);
+	void load(string v_str, string f_str);
 
 	GLSLtype *getuniform(string idV);
 
 	GLSLfloat *add_float(string id);
+	GLSLint *add_int(string id);
+	GLSLuint *add_uint(string id);
 	GLSLvec2 *add_vec2(string id);
 	GLSLvec3 *add_vec3(string id);
 	GLSLvec4 *add_vec4(string id);

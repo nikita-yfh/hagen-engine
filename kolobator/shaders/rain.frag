@@ -26,6 +26,5 @@ void main() {
 		dis += 3.5;
 	}
 	col = pow(col, vec4(1.1));
-	
 	gl_FragColor = col;
 }	
