@@ -24,20 +24,20 @@ vector<string>loaded;
 float game_time=0;
 int prev_time=0;
 float time_scale=1.0f;
-struct Thread{
+struct Thread {
 	LuaRef l;
 	bool used=true;
 };
 vector<Thread>threads;
-int run_thread(void *ptr){
+int run_thread(void *ptr) {
 	LuaRef *func=TYPE(LuaRef*,ptr);
-	if(func->isFunction()){
+	if(func->isFunction()) {
 		(*func)();
 	}
 	return 0;
 }
 
-void create_thread(LuaRef val){
+void create_thread(LuaRef val) {
 	threads.push_back({val,true});
 	SDL_CreateThread(run_thread,"lua_thread",&threads[threads.size()-1].l);
 }
@@ -198,7 +198,7 @@ void update_entities() {
 				destroy_entity(entity.second);
 				return;
 			}
-			if(entity.second->weapon.name.size()){
+			if(entity.second->weapon.name.size()) {
 				getGlobal(L,"Weapon")["update"](&entity.second->weapon,entity.second);
 				getGlobal(L,entity.second->weapon.name.c_str())["update"](&entity.second->weapon,entity.second);
 			}

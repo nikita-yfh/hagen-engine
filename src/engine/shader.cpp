@@ -4,101 +4,121 @@
 #include "sdl.hpp"
 #include "camera.hpp"
 
-void GLSLfloat::set(float v){
+void GLSLfloat::set(float v) {
 	value=v;
 }
-void GLSLfloat::update(){
+void GLSLfloat::update() {
 	GPU_SetUniformf(loc,value);
 }
-void GLSLint::set(int v){
+void GLSLint::set(int v) {
 	value=v;
 }
-void GLSLint::update(){
+void GLSLint::update() {
 	GPU_SetUniformf(loc,value);
 }
-void GLSLuint::set(uint v){
+void GLSLuint::set(uint v) {
 	value=v;
 }
-void GLSLuint::update(){
+void GLSLuint::update() {
 	GPU_SetUniformf(loc,value);
 }
-void GLSLvec2::set(float _x,float _y){
+void GLSLvec2::set(float _x,float _y) {
 	x=_x;
 	y=_y;
 }
-void GLSLvec2::update(){
-	float val[2]={x,y};
+void GLSLvec2::update() {
+	float val[2]= {x,y};
 	GPU_SetUniformfv(loc,2,1,val);
 }
-void GLSLvec3::set(float _x,float _y,float _z){
+void GLSLvec3::set(float _x,float _y,float _z) {
 	x=_x;
 	y=_y;
 	z=_z;
 }
-void GLSLvec3::update(){
-	float val[3]={x,y,z};
+void GLSLvec3::update() {
+	float val[3]= {x,y,z};
 	GPU_SetUniformfv(loc,3,1,val);
 }
-void GLSLvec4::set(float _x,float _y,float _z,float _w){
+void GLSLvec4::set(float _x,float _y,float _z,float _w) {
 	x=_x;
 	y=_y;
 	z=_z;
 	w=_w;
 }
-void GLSLvec4::update(){
-	float val[4]={x,y,z,w};
+void GLSLvec4::update() {
+	float val[4]= {x,y,z,w};
 	GPU_SetUniformfv(loc,4,1,val);
 }
 void GLSLmat2::set(float v11,float v12,
-					float v21,float v22){
-	value[0][0]=v11;value[0][1]=v12;
-	value[1][0]=v21;value[1][1]=v22;
+				   float v21,float v22) {
+	value[0][0]=v11;
+	value[0][1]=v12;
+	value[1][0]=v21;
+	value[1][1]=v22;
 }
-void GLSLmat2::update(){
+void GLSLmat2::update() {
 	GPU_SetUniformMatrixfv(loc,1,2,2,0,(float*)value);
 }
 void GLSLmat3::set(float v11,float v12,float v13,
-					float v21,float v22,float v23,
-					float v31,float v32,float v33){
-	value[0][0]=v11;value[0][1]=v12;value[0][2]=v13;
-	value[1][0]=v21;value[1][1]=v22;value[1][2]=v23;
-	value[2][0]=v31;value[2][1]=v32;value[2][2]=v33;
+				   float v21,float v22,float v23,
+				   float v31,float v32,float v33) {
+	value[0][0]=v11;
+	value[0][1]=v12;
+	value[0][2]=v13;
+	value[1][0]=v21;
+	value[1][1]=v22;
+	value[1][2]=v23;
+	value[2][0]=v31;
+	value[2][1]=v32;
+	value[2][2]=v33;
 }
-void GLSLmat3::update(){
+void GLSLmat3::update() {
 	GPU_SetUniformMatrixfv(loc,1,3,3,0,(float*)value);
 }
 void GLSLmat4::set(float v11,float v12,float v13,float v14,
-					float v21,float v22,float v23,float v24,
-					float v31,float v32,float v33,float v34,
-					float v41,float v42,float v43,float v44){
-	value[0][0]=v11;value[0][1]=v12;value[0][2]=v13;value[0][3]=v14;
-	value[1][0]=v21;value[1][1]=v22;value[1][2]=v23;value[1][3]=v24;
-	value[2][0]=v31;value[2][1]=v32;value[2][2]=v33;value[2][3]=v34;
-	value[3][0]=v41;value[3][1]=v42;value[3][2]=v43;value[3][3]=v44;
+				   float v21,float v22,float v23,float v24,
+				   float v31,float v32,float v33,float v34,
+				   float v41,float v42,float v43,float v44) {
+	value[0][0]=v11;
+	value[0][1]=v12;
+	value[0][2]=v13;
+	value[0][3]=v14;
+	value[1][0]=v21;
+	value[1][1]=v22;
+	value[1][2]=v23;
+	value[1][3]=v24;
+	value[2][0]=v31;
+	value[2][1]=v32;
+	value[2][2]=v33;
+	value[2][3]=v34;
+	value[3][0]=v41;
+	value[3][1]=v42;
+	value[3][2]=v43;
+	value[3][3]=v44;
 }
-void GLSLmat4::update(){
+void GLSLmat4::update() {
 	GPU_SetUniformMatrixfv(loc,1,4,4,0,(float*)value);
 }
-void GLSLtex::set(string name){
+void GLSLtex::set(string name) {
 	if(tex)
 		GPU_FreeImage(tex);
 	tex=GPU_LoadImage((prefix+"textures/"+name).c_str());
 	GPU_SetWrapMode(tex,GPU_WRAP_REPEAT,GPU_WRAP_REPEAT);
 	GPU_SetSnapMode(tex, GPU_SNAP_NONE);
 }
-void GLSLtex::update(){
+void GLSLtex::update() {
 	GPU_SetShaderImage(tex, loc,1);
 }
-GLSLtex::~GLSLtex(){
+GLSLtex::~GLSLtex() {
 	if(tex)
 		GPU_FreeImage(tex);
 }
-Shader::Shader(){}
-Shader::~Shader(){
+Shader::Shader() {}
+Shader::~Shader() {
 	for(auto &var : variables)
 		delete var.second;
 }
-void Shader::load(string v_str, string f_str){
+void Shader::load(string v_str, string f_str) {
 	v_str=prefix+"shaders/"+v_str;
 	f_str=prefix+"shaders/"+f_str;
 	info_log("Vertex shader: "+v_str);
@@ -146,7 +166,7 @@ GLSLtype *Shader::getuniform(string idV) {
 	return nullptr;
 }
 
-void Shader::update(){
+void Shader::update() {
 	for(auto &var : variables)
 		var.second->update();
 }
@@ -177,12 +197,12 @@ GLSL_TYPE(GLSLmat3,add_mat3);
 GLSL_TYPE(GLSLmat4,add_mat4);
 GLSL_TYPE(GLSLtex,add_tex);
 map<string,Shader>shaders;
-void set_texture_shader(string id,Shader shader){
+void set_texture_shader(string id,Shader shader) {
 	shaders[id]=shader;
 }
-void enable_shader(string id){
+void enable_shader(string id) {
 	shaders[id].update();
 }
-void disable_shaders(){
+void disable_shaders() {
 	GPU_DeactivateShaderProgram();
 }

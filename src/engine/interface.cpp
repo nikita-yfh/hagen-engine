@@ -47,7 +47,7 @@ void Pause::Draw() {
 		OpenPopup(get_ctext("pause/exit_game_title"));
 	width=GetWindowContentRegionWidth();
 	SetNextWindowPos(ImVec2(GetIO().DisplaySize.x * 0.5f, GetIO().DisplaySize.y * 0.5f),
-                                        ImGuiCond_Always, ImVec2(0.5f,0.5f));
+					 ImGuiCond_Always, ImVec2(0.5f,0.5f));
 	if (BeginPopupModal(get_text("pause/main_menu_title").c_str(), NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
 		TextWrapped(get_ctext("pause/main_menu_text"));
 		Separator();
@@ -60,7 +60,7 @@ void Pause::Draw() {
 		EndPopup();
 	}
 	SetNextWindowPos(ImVec2(GetIO().DisplaySize.x * 0.5f, GetIO().DisplaySize.y * 0.5f),
-                                        ImGuiCond_Always, ImVec2(0.5f,0.5f));
+					 ImGuiCond_Always, ImVec2(0.5f,0.5f));
 	if (BeginPopupModal(get_text("pause/exit_game_title").c_str(), NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
 		TextWrapped(get_ctext("pause/exit_game_text"));
 		Separator();
@@ -253,7 +253,7 @@ void Interface::update() {
 	ImGui_ImplSDL2_ProcessEvent(&e);
 }
 void Interface::init_imgui() {
-	try{
+	try {
 		SDL_GLContext& gl_context = ren->context->context;
 		SDL_Window* window = SDL_GetWindowFromID(ren->context->windowID);
 		IMGUI_CHECKVERSION();
@@ -266,7 +266,7 @@ void Interface::init_imgui() {
 		ImGui_ImplSDL2_InitForOpenGL(window, gl_context);
 		StyleColorsDark();
 		load_imgui_config();
-	}catch(...){
+	} catch(...) {
 		error_log("Error while initing ImGui");
 	}
 }
@@ -383,10 +383,10 @@ void Interface::load_imgui_font(string name,float size) {
 	GetIO().Fonts->AddFontFromFileTTF((prefix+"fonts/"+name).c_str(), size, &font_config, ranges);
 }
 void Interface::load_config() {
-	try{
+	try {
 		game_interface.load_config();
 		info_log("Loaded interface config");
-	}catch(...){
+	} catch(...) {
 		error_log("Error while loading interface config");
 	}
 }
@@ -590,7 +590,7 @@ void SettingManager::update() {
 		}
 	}
 }
-void WindowConfig::load(XMLNode node){
+void WindowConfig::load(XMLNode node) {
 	collapse=stoi(node.getAttribute("collapse"));
 	resize=stoi(node.getAttribute("resize"));
 	center=stoi(node.getAttribute("center"));
@@ -600,7 +600,7 @@ void WindowConfig::load(XMLNode node){
 	focus=stoi(node.getAttribute("focus"));
 	move=stoi(node.getAttribute("move"));
 }
-bool WindowConfig::apply(const char* name,bool *shown){
+bool WindowConfig::apply(const char* name,bool *shown) {
 	if(center)
 		SetNextWindowPosCenter(ImGuiCond_FirstUseEver);
 	SetNextWindowSize({width,heigth},ImGuiCond_FirstUseEver);
@@ -612,14 +612,14 @@ bool WindowConfig::apply(const char* name,bool *shown){
 	if(!focus)		flags|=ImGuiWindowFlags_NoFocusOnAppearing;
 	return Begin(name, shown, flags);
 }
-void MainMenu::Draw(){
+void MainMenu::Draw() {
 	if(!shown)return;
 	static int width=0;
 	SetNextWindowBgAlpha(0.0f);
 	SetNextWindowPosCenter(ImGuiCond_FirstUseEver);
 	SetNextWindowSize({-1,-1},ImGuiCond_FirstUseEver);
 	Begin("Main menu",&shown, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize
-									| ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoNav);
+		  | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoNav);
 	ImVec2 align=ImVec2(width, 0);
 	Button("New game",align);
 	Button("Continue",align);

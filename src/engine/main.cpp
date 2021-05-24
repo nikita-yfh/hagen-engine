@@ -18,12 +18,12 @@ int main(int argc, char * argv[]) {
 	if(argc>2)prefix=argv[2];
 	try {
 		init();
-	}catch(...){
+	} catch(...) {
 		error_log("Error while init engine");
 		settings.def();
 		settings.save();
 	}
-	try{
+	try {
 		interface.load_config();
 		interface.init_imgui();
 		if(argc>1) load_level(argv[1]);

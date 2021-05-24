@@ -19,7 +19,7 @@ string get_text(string id) {
 	}
 	return texts[id];
 }
-const char* get_ctext(string id){
+const char* get_ctext(string id) {
 	get_text(id);
 	return texts[id].c_str();
 }
@@ -34,6 +34,6 @@ void preload_locale() {
 void subtitles(string text) {
 
 }
-void clear_locale(){
+void clear_locale() {
 	texts.clear();
 }

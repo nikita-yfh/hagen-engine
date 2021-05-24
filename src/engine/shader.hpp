@@ -4,39 +4,39 @@
 #include <vector>
 #include <map>
 using namespace std;
-struct GLSLtype{
+struct GLSLtype {
 	uint loc;
-	virtual void update(){};
+	virtual void update() {};
 };
-struct GLSLfloat : GLSLtype{
+struct GLSLfloat : GLSLtype {
 	float value;
 	void update();
 	void set(float v);
 };
-struct GLSLint : GLSLtype{
+struct GLSLint : GLSLtype {
 	int value;
 	void update();
 	void set(int v);
 };
-struct GLSLuint : GLSLtype{
+struct GLSLuint : GLSLtype {
 	uint value;
 	void update();
 	void set(uint v);
 };
-struct GLSLvec2 : GLSLtype{
+struct GLSLvec2 : GLSLtype {
 	float x;
 	float y;
 	void update();
 	void set(float x,float y);
 };
-struct GLSLvec3 : GLSLtype{
+struct GLSLvec3 : GLSLtype {
 	float x;
 	float y;
 	float z;
 	void update();
 	void set(float x,float y,float z);
 };
-struct GLSLvec4 : GLSLtype{
+struct GLSLvec4 : GLSLtype {
 	float x;
 	float y;
 	float z;
@@ -44,28 +44,28 @@ struct GLSLvec4 : GLSLtype{
 	void update();
 	void set(float x,float y,float z,float w);
 };
-struct GLSLmat2 : GLSLtype{
+struct GLSLmat2 : GLSLtype {
 	float value[2][2];
 	void update();
 	void set(float v11,float v12,
-			float v21,float v22);
+			 float v21,float v22);
 };
-struct GLSLmat3 : GLSLtype{
+struct GLSLmat3 : GLSLtype {
 	float value[3][3];
 	void update();
 	void set(float v11,float v12,float v13,
-			float v21,float v22,float v23,
-			float v31,float v32,float v33);
+			 float v21,float v22,float v23,
+			 float v31,float v32,float v33);
 };
-struct GLSLmat4 : GLSLtype{
+struct GLSLmat4 : GLSLtype {
 	float value[4][4];
 	void update();
 	void set(float v11,float v12,float v13,float v14,
-			float v21,float v22,float v23,float v24,
-			float v31,float v32,float v33,float v34,
-			float v41,float v42,float v43,float v44);
+			 float v21,float v22,float v23,float v24,
+			 float v31,float v32,float v33,float v34,
+			 float v41,float v42,float v43,float v44);
 };
-struct GLSLtex : GLSLtype{
+struct GLSLtex : GLSLtype {
 	GPU_Image *tex=nullptr;
 	void update();
 	void set(string name);

@@ -8,7 +8,7 @@
 #include "imgui_impl_sdl.h"
 #include "imgui_impl_opengl3.h"
 using namespace std;
-struct WindowConfig{
+struct WindowConfig {
 	int width;
 	int heigth;
 	bool resize;
@@ -81,14 +81,14 @@ struct SettingManager {
 	vector<string>languages;
 	WindowConfig config;
 };
-struct LevelChooser{
+struct LevelChooser {
 	vector<bool>opened;
 	WindowConfig config;
 	void load();
 	void save();
 	void def();
 };
-struct MainMenu{
+struct MainMenu {
 	bool shown=false;
 	void Draw();
 };

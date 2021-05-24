@@ -7,11 +7,11 @@
 #include "lua.hpp"
 #include "camera.hpp"
 using namespace std;
-void Weapon::set_texture(string tex){
+void Weapon::set_texture(string tex) {
 	load_texture(tex);
 	texture=tex;
 }
-string Weapon::get_texture() const{
+string Weapon::get_texture() const {
 	return texture;
 }
 Entity::Entity() {};
