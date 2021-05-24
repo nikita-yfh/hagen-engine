@@ -17,8 +17,8 @@ void main() {
 	{
 		float f = pow(dis, .45)+.25;
 
-		vec2 st =  f * (q * vec2(1.5, .05)+vec2(-time*.1+q.y*.5, time*.12))/zoom*100.0;
-		f = (texture2D(tex1, st * .5).x + texture2D(tex1, st*.5).y);
+		vec2 st =  f * (q * vec2(1.5, .05)+vec2(-time*.001+q.y*.5, time*.0012));
+		f = (texture2D(tex1, st * .5, -99.0).x + texture2D(tex1, st*.284, -99.0).y);
 		f = clamp(pow(abs(f)*.5, 29.0) * 140.0, 0.00, q.y*.4+.05);
 
 		vec4 bri = vec4(.5);
