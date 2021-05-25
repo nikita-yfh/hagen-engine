@@ -8,3 +8,5 @@ void body_draw(b2Body *body);
 void draw();
 extern Color scene_mask;
 extern bool show_textures;
+void init_target();
+void delete_target();

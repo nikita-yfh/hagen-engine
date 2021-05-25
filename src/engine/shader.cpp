@@ -115,8 +115,7 @@ GLSLtex::~GLSLtex() {
 }
 Shader::Shader() {}
 Shader::~Shader() {
-	for(auto &var : variables)
-		delete var.second;
+	variables.clear();
 }
 void Shader::load(string v_str, string f_str) {
 	v_str=prefix+"shaders/"+v_str;
@@ -197,11 +196,17 @@ GLSL_TYPE(GLSLmat3,add_mat3);
 GLSL_TYPE(GLSLmat4,add_mat4);
 GLSL_TYPE(GLSLtex,add_tex);
 map<string,Shader>shaders;
+Shader *get_shader(string id){
+	if(shaders.find(id)!=shaders.end())
+		return &shaders[id];
+	return nullptr;
+}
 void set_texture_shader(string id,Shader shader) {
 	shaders[id]=shader;
 }
 void enable_shader(string id) {
-	shaders[id].update();
+	if(shaders.find(id)!=shaders.end())
+		shaders[id].enable();
 }
 void disable_shaders() {
 	GPU_DeactivateShaderProgram();

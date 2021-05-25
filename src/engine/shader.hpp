@@ -103,6 +103,7 @@ private:
 	GPU_ShaderBlock block;
 	GPU_Image *img=nullptr;
 };
+Shader *get_shader(string id);
 void set_texture_shader(string id,Shader shader);
 void enable_shader(string id);
 void disable_shaders();

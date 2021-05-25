@@ -15,19 +15,31 @@ using namespace std;
 Color scene_mask(0,0,0,0);
 bool show_textures=1;
 const float tex_scale=1.0f;
+GPU_Image *img1;
+GPU_Target *ren1;
+void init_target(){
+	img1=GPU_CreateImage(SW,SH,GPU_FORMAT_RGBA);
+	GPU_LoadTarget(img1);
+	ren1=img1->target;
+}
+void delete_target(){
+	GPU_FreeImage(img1);
+}
 void draw_mask() {
 	GPU_RectangleFilled(ren,0,0,SW,SH,scene_mask.color());
 }
 void draw_bgr() {
 	if(!background.size())return;
+	enable_shader(background);
 	GPU_Image *image=textures[background];
 	float w=image->w;
 	float h=image->h;
 	if(w/h>(float)SW/SH) {
-		GPU_BlitScale(image,0,ren,SW/2,SH/2,SH/h,SH/h);
+		GPU_BlitScale(image,0,ren1,SW/2,SH/2,SH/h,SH/h);
 	} else {
-		GPU_BlitScale(image,0,ren,SW/2,SH/2,SW/w,SW/w);
+		GPU_BlitScale(image,0,ren1,SW/2,SH/2,SW/w,SW/w);
 	}
+	disable_shaders();
 }
 void fixture_draw(b2Body *body,b2Fixture *fix) {
 	float a_rad=body->GetAngle();
@@ -52,7 +64,7 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 			float w=shape->m_vertices[2].x-shape->m_vertices[0].x;
 			float h=shape->m_vertices[2].y-shape->m_vertices[0].y;
 			if(F_DATA(fix,expand)) {
-				GPU_BlitTransformX(tex,0,ren,
+				GPU_BlitTransformX(tex,0,ren1,
 								   drawx(body->GetPosition().x),drawy(body->GetPosition().y),
 								   (0.5-shape->m_centroid.x/w)*tex->w,
 								   (0.5-shape->m_centroid.y/h)*tex->h,a_deg,
@@ -68,7 +80,7 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 					f[q*4+3]=(shape->m_vertices[q]-shape->m_vertices[0]).y*(tex->h/100.0f/tex_scale);
 				}
 				short unsigned int index[]= {0,1,3,2};
-				GPU_PrimitiveBatch(tex,ren,GPU_TRIANGLE_STRIP,shape->m_count,f,shape->m_count,index,GPU_BATCH_XY_ST);
+				GPU_PrimitiveBatch(tex,ren1,GPU_TRIANGLE_STRIP,shape->m_count,f,shape->m_count,index,GPU_BATCH_XY_ST);
 			}
 		} else {
 			float x[4];
@@ -78,7 +90,7 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 				y[q]=drawy(body->GetPosition().y+rotatey(shape->m_vertices[q],a_rad));
 			}
 			for(int q=0; q<4; q++)
-				GPU_Line(ren,x[q],y[q],x[(q+1)%4],y[(q+1)%4], {255,255,255,255});
+				GPU_Line(ren1,x[q],y[q],x[(q+1)%4],y[(q+1)%4], {255,255,255,255});
 		}
 	}
 	break;
@@ -86,7 +98,7 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 		b2CircleShape *shape=(b2CircleShape*)fix->GetShape();
 		if(tex) {
 			if(F_DATA(fix,expand)) {
-				GPU_BlitTransformX(tex,0,ren,
+				GPU_BlitTransformX(tex,0,ren1,
 								   drawx(body->GetPosition().x),drawy(body->GetPosition().y),
 								   (0.5+shape->m_p.x/shape->m_radius/2.0)*tex->w,
 								   (0.5+shape->m_p.y/shape->m_radius/2.0)*tex->h,a_deg+180,
@@ -109,15 +121,15 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 				f[q*4+1]=f[5];
 				f[q*4+2]=f[6];
 				f[q*4+3]=f[7];
-				GPU_PrimitiveBatch(tex,ren,GPU_TRIANGLE_FAN,CIRCLE_QUALITY+2,f,CIRCLE_QUALITY+2,0,GPU_BATCH_XY_ST);
+				GPU_PrimitiveBatch(tex,ren1,GPU_TRIANGLE_FAN,CIRCLE_QUALITY+2,f,CIRCLE_QUALITY+2,0,GPU_BATCH_XY_ST);
 			}
 		} else {
 			float x=drawx(body->GetPosition().x+rotatex(shape->m_p,a_rad));
 			float y=drawy(body->GetPosition().y+rotatey(shape->m_p,a_rad));
 			float xp=x+(zoom*shape->m_radius)*cos(a_rad);
 			float yp=y+(zoom*shape->m_radius)*sin(a_rad);
-			GPU_Circle(ren,x,y,shape->m_radius*zoom, {255,255,255,255});
-			GPU_Line(ren,x,y,xp,yp, {255,255,255,255});
+			GPU_Circle(ren1,x,y,shape->m_radius*zoom, {255,255,255,255});
+			GPU_Line(ren1,x,y,xp,yp, {255,255,255,255});
 		}
 	}
 	break;
@@ -127,7 +139,7 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 		float y1=drawiy(body->GetPosition().y+rotatey(shape->m_vertex1,a_rad));
 		float x2=drawix(body->GetPosition().x+rotatex(shape->m_vertex2,a_rad));
 		float y2=drawiy(body->GetPosition().y+rotatey(shape->m_vertex2,a_rad));
-		GPU_Line(ren,x1,y1,x2,y2, {255,255,255,255});
+		GPU_Line(ren1,x1,y1,x2,y2, {255,255,255,255});
 	}
 	break;
 	case POLYGON: {
@@ -149,7 +161,7 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 				f[q*4+2]=(v-minv).x/(F_DATA(fix,expand)?(maxv-minv).x:(tex->w/100.0f/tex_scale));
 				f[q*4+3]=(v-minv).y/(F_DATA(fix,expand)?(maxv-minv).y:(tex->h/100.0f/tex_scale));
 			}
-			GPU_TriangleBatch(tex,ren,3,f,3,0,GPU_BATCH_XY_ST);
+			GPU_TriangleBatch(tex,ren1,3,f,3,0,GPU_BATCH_XY_ST);
 		} else {
 			float f[6];
 			for(int q=0; q<3; q++) {
@@ -157,7 +169,7 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 				f[q*2]=drawx(body->GetPosition().x+rotatex(v,a_rad));
 				f[q*2+1]=drawy(body->GetPosition().y+rotatey(v,a_rad));
 			}
-			GPU_Polygon(ren,3,f, {255,255,255,255});
+			GPU_Polygon(ren1,3,f, {255,255,255,255});
 		}
 	}
 	break;
@@ -181,7 +193,7 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 				GPU_SetWrapMode(tex, GPU_WRAP_REPEAT, GPU_WRAP_NONE);
 
 			short unsigned int index[]= {0,1,3,2};
-			GPU_PrimitiveBatch(tex,ren,GPU_TRIANGLE_STRIP,4,f,4,index,GPU_BATCH_XY_ST);
+			GPU_PrimitiveBatch(tex,ren1,GPU_TRIANGLE_STRIP,4,f,4,index,GPU_BATCH_XY_ST);
 		} else {
 			float x[4];
 			float y[4];
@@ -190,7 +202,7 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 				y[q]=drawy(body->GetPosition().y+rotatey(shape->m_vertices[q],a_rad));
 			}
 			for(int q=0; q<4; q++)
-				GPU_Line(ren,x[q],y[q],x[(q+1)%4],y[(q+1)%4], {255,255,255,255});
+				GPU_Line(ren1,x[q],y[q],x[(q+1)%4],y[(q+1)%4], {255,255,255,255});
 		}
 	}
 	break;
@@ -216,7 +228,7 @@ void draw_entities(uint8_t pos) {
 			float size_y=1.0f;
 			if(en.second->weapon.angle>0.5*M_PI&&en.second->weapon.angle<1.5*M_PI)
 				size_y=-1.0f;
-			GPU_BlitTransformX(textures[en.second->weapon.texture],0,ren,
+			GPU_BlitTransformX(textures[en.second->weapon.texture],0,ren1,
 							   drawx(en.second->getx()+en.second->weapon.point_x),
 							   drawy(en.second->gety()+en.second->weapon.point_y),
 							   en.second->weapon.dx*100,en.second->weapon.dy*100,
@@ -228,14 +240,12 @@ void draw_entities(uint8_t pos) {
 void draw_effects() {
 	for(auto &e : effect::effects) {
 		int frame=max(0,min((int)e.effect->anim.size()-1,int(float(lua::get_time()-e.begin_time)/e.effect->period)));
-		GPU_BlitScale(e.effect->anim[frame],0,ren,drawx(e.x),drawy(e.y),zoom/100,zoom/100);
+		GPU_BlitScale(e.effect->anim[frame],0,ren1,drawx(e.x),drawy(e.y),zoom/100,zoom/100);
 	}
 }
-extern Shader shader;
 void draw() {
 	GPU_Clear(ren);
-	shader.add_float("time")->set(lua::get_time());
-	//shader.enable();
+	GPU_Clear(ren1);
 	draw_bgr();
 
 	for(int q=0; q<6; q++) {
@@ -243,7 +253,9 @@ void draw() {
 		draw_entities(q);
 	}
 	draw_effects();
-	shader.disable();
+	enable_shader("_all");
+	GPU_Blit(img1,0,ren,SW/2,SH/2);
+	disable_shaders();
 	draw_mask();
 	interface.draw();
 	GPU_Flip(ren);

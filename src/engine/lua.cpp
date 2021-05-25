@@ -364,6 +364,7 @@ void bind() {
 	.addProperty("show_textures",&show_textures)	//показывать ли текстуры. не знаю для чего это зожет пригодиться
 	.addFunction("effect",&effect::create)	//создание граффического эффекта в заданных координатах.
 	.addFunction("set_texture_shader",&set_texture_shader)
+	.addFunction("get_shader",&get_shader)
 	.beginNamespace("display")
 	.addProperty("w",&SW,0)
 	.addProperty("h",&SH,0)

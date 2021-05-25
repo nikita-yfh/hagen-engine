@@ -9,6 +9,7 @@
 #include "effect.hpp"
 #include <string>
 #include "shader.hpp"
+#include "render.hpp"
 SDL_Event e;
 int &SW=settings.SW;
 int &SH=settings.SH;
@@ -56,7 +57,6 @@ void Rect::load(XMLNode node,float f) {
 	if(w<1.0f)w*=f;
 	if(h<1.0f)h*=f;
 }
-Shader shader;
 void print_renderer_info(GPU_Renderer *renderer){
     GPU_RendererID id = renderer->id;
 
@@ -103,21 +103,19 @@ void init() {
 		error_log(SDL_GetError());
 		throw string(SDL_GetError());
 	}
+	init_target();
 	info_log("Music inited succesfully");
 	interface.load_config();
 	interface.init_imgui();
 	info_log("ImGui inited succesfully");
 	interface.update_cursor();
-	shader.load("v1.vert","rain.frag");
-	shader.add_tex("tex1")->set("noise.png");
-	shader.add_float("time")->set(lua::get_time());
-	shader.add_vec2("resolution")->set(SW,SH);
 }
 GPU_Image *find_texture(string id) {
 	return textures[id];
 }
 void quit() {
 	try{
+		delete_target();
 		GPU_Quit();
 		TTF_Quit();
 		Mix_CloseAudio();
