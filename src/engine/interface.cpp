@@ -557,24 +557,10 @@ void SettingManager::Draw() {
 	}
 
 	EndChild();
-	int button=0;
-	if(Button(get_ctext("common/ok")))
-		button=2;
-	SameLine();
-	if(Button(get_ctext("common/apply")))
-		button=1;
-	if(button) {
+	if(Button(get_ctext("common/ok"))){
 		settings=set;
 		settings.save();
-		GPU_SetFullscreen(settings.fullscreen,0);
-		GPU_SetWindowResolution(settings.SW,settings.SH);
-		Mix_CloseAudio();
-		Mix_OpenAudio(settings.sound_freq,AUDIO_S16SYS,2,640);
-		clear_sounds();
-		clear_locale();
-		interface.pause.width=0;
-		if(button==2)
-			shown=0;
+		quit();
 	}
 	SameLine();
 	if(Button(get_ctext("common/cancel")))
