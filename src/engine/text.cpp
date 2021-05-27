@@ -1,7 +1,8 @@
 #include "text.hpp"
 #include "main.hpp"
 #include "xmlParser.h"
-#include "SDL_FontCache.h"
+#include "sdl.hpp"
+#include "utility.hpp"
 #include <iostream>
 map <string,string>texts;
 string get_text(string id) {
@@ -15,7 +16,9 @@ string get_text(string id) {
 		}
 		xml=xml.getChildNode(id1.c_str());
 		if(!(xml.isEmpty()))
-			texts[id]=xml.getText();
+			texts[id]=xml.getAttribute("value");
+		else
+			warning_log("String "+id+" not found in locale file "+settings.language+".xml");
 	}
 	return texts[id];
 }
@@ -28,7 +31,7 @@ void preload_locale() {
 	for(int q=0;; q++) {
 		XMLNode node=xml.getChildNode(q);
 		if(node.isEmpty())return;
-		texts[node.getName()]=node.getText();
+		texts[node.getName()]=xml.getAttribute("value");
 	}
 }
 void subtitles(string text) {

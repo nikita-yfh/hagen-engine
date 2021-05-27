@@ -41,13 +41,13 @@ struct Console {
 	~Console();
 	void ClearLog();
 	void AddLog(string);
-	void Draw();
+	void draw();
 	void ExecCommand(string);
 	int TextEditCallback(ImGuiInputTextCallbackData* data);
 	static int TextEditCallbackStub(ImGuiInputTextCallbackData* data);
 	WindowConfig config;
 };
-struct Game_interface {
+struct GameInterface {
 	bool shown=true;
 	FC_Font *font=0;
 	void load_config();
@@ -57,7 +57,7 @@ struct Game_interface {
 };
 struct Pause {
 	bool shown=false;
-	void Draw();
+	void draw();
 	void close();
 	int width=0;
 	WindowConfig config;
@@ -66,7 +66,7 @@ struct SaverLoader {
 	bool shown=false;
 	bool mode=1; //save
 	char selected[64];
-	void Draw();
+	void draw();
 	void update_cache();
 	void close();
 	vector<string>list;
@@ -75,7 +75,7 @@ struct SaverLoader {
 struct SettingManager {
 	bool shown=false;
 	uint8_t selected=0;
-	void Draw();
+	void draw();
 	void update();
 	Settings set;
 	vector<string>languages;
@@ -89,14 +89,19 @@ struct LevelChooser {
 	void def();
 };
 struct MainMenu {
-	bool shown=false;
-	void Draw();
+	bool shown=true;
+	void draw();
+	void load_config();
+	FC_Font *font;
+	Color active;
+	Color inactive;
+	string title;
 };
 struct Interface {
 	void init_imgui();
 	void load_imgui_config();
 	void load_imgui_font(string name,float size);
-	Game_interface game_interface;
+	GameInterface game_interface;
 	Console console;
 	SaverLoader saver;
 	Pause pause;

@@ -17,7 +17,7 @@ static inline void trim(std::string &s) {
 		s.erase(s.end());
 }
 
-void Pause::Draw() {
+void Pause::draw() {
 	if(!shown)return;
 	if (!config.apply(get_ctext("pause/title"), &shown)) {
 		End();
@@ -91,7 +91,7 @@ void Console::AddLog(string str) {
 	Items.push_back(str+"\n");
 	ScrollToBottom=true;
 }
-void Console::Draw() {
+void Console::draw() {
 	if(!shown)return;
 	if (!config.apply(get_ctext("console/title"), &shown)) {
 		End();
@@ -385,6 +385,7 @@ void Interface::load_imgui_font(string name,float size) {
 void Interface::load_config() {
 	try {
 		game_interface.load_config();
+		mainmenu.load_config();
 		info_log("Loaded interface config");
 	} catch(...) {
 		error_log("Error while loading interface config");
@@ -395,17 +396,17 @@ void Interface::draw() {
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL2_NewFrame(SDL_GetWindowFromID(ren->context->windowID));
 	NewFrame();
-	mainmenu.Draw();
-	console.Draw();
-	pause.Draw();
-	saver.Draw();
-	settingmanager.Draw();
+	mainmenu.draw();
+	console.draw();
+	pause.draw();
+	saver.draw();
+	settingmanager.draw();
 	Render();
 	SDL_GL_MakeCurrent(SDL_GetWindowFromID(ren->context->windowID), ren->context->context);
 	ImGui_ImplOpenGL3_RenderDrawData(GetDrawData());
 }
 
-void Game_interface::load_config() {
+void GameInterface::load_config() {
 	XMLNode node=XMLNode::openFileHelper((prefix+"config/game_interface.xml").c_str(),"game_interface");
 	{
 		XMLNode text=node.getChildNode("text");
@@ -415,8 +416,8 @@ void Game_interface::load_config() {
 	borders.stabilize(SH);
 }
 
-void Game_interface::update() {}
-void Game_interface::draw() {
+void GameInterface::update() {}
+void GameInterface::draw() {
 	if(!shown)return;
 	short h=FC_GetLineHeight(font);
 	{
@@ -465,7 +466,7 @@ void Interface::quickload() {
 	if(exist_file(saves+"quicksave.xml"))
 		load_world_state("quicksave");
 }
-void SaverLoader::Draw() {
+void SaverLoader::draw() {
 	if(!shown)return;
 	SetNextWindowSize(ImVec2(520, 300), ImGuiCond_FirstUseEver);
 	if (!config.apply(get_ctext(mode?"saveload/save_title":"saveload/load_title"), &shown)) {
@@ -527,7 +528,7 @@ void Pause::close() {
 	interface.console.shown=0;
 	interface.settingmanager.shown=0;
 }
-void SettingManager::Draw() {
+void SettingManager::draw() {
 	if(!shown)return;
 	if(!config.apply(get_ctext("settings/title"), &shown)) {
 		End();
@@ -598,7 +599,7 @@ bool WindowConfig::apply(const char* name,bool *shown) {
 	if(!focus)		flags|=ImGuiWindowFlags_NoFocusOnAppearing;
 	return Begin(name, shown, flags);
 }
-void MainMenu::Draw() {
+void MainMenu::draw() {
 	if(!shown)return;
 	static int width=0;
 	SetNextWindowBgAlpha(0.0f);
@@ -613,5 +614,15 @@ void MainMenu::Draw() {
 	Button("Exit game",align);
 	width=GetWindowContentRegionWidth();
 	End();
+}
+
+void MainMenu::load_config() {
+	XMLNode node=XMLNode::openFileHelper((prefix+"config/main_menu.xml").c_str(),"main_menu");
+	{
+		XMLNode text=node.getChildNode("text");
+		load_font(font,text,"inactive",SH);
+		load_value(text,"active",active);
+		load_value(text,"inactive",inactive);
+	}
 }
 Interface interface;

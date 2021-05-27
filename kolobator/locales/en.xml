@@ -1,53 +1,53 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version = "1.0" encoding = "UTF-8"?>
 <text>
-	<common>
-		<ok>OK</ok>
-		<cancel>Cancel</cancel>
-		<yes>Yes</yes>
-		<no>No</no>
-		<apply>Apply</apply>
-	</common>
-	<game_interface>
-		<bullet1>&#xE001;</bullet1>
-		<bullet2>&#xE002;</bullet2>
-		<health>&#xE000;</health>
-	</game_interface>
-	<console>
-		<title>Console</title>
-		<input>Input</input>
-		<clear>Clear</clear>
-		<matches>Possible variants:</matches>
-	</console>
-	<pause>
-		<title>Pause</title>
-		<continue>Continue</continue>
-		<save_game>Save game</save_game>
-		<load_game>Load game</load_game>
-		<settings>Settings</settings>
-		<main_menu>Exit to menu</main_menu>
-		<main_menu_title>Exit to menu?</main_menu_title>
-		<main_menu_text>Un-saved game progress will be lost!</main_menu_text>
-		<exit_game>Exit game</exit_game>
-		<exit_game_title>Exit game?</exit_game_title>
-		<exit_game_text>Un-saved game progress will be lost!</exit_game_text>
-	</pause>
-	<saveload>
-		<save_title>Save game</save_title>
-		<load_title>Load game</load_title>
-		<save>Save</save>
-		<load>Load</load>
-		<delete>Delete</delete>
-	</saveload>
-	<settings>
-		<title>Settings</title>
-		<graphics>Video settings</graphics>
-		<window_size>Window size</window_size>
-		<fullscreen>Fullscreen</fullscreen>
-		<sound>Sound settings</sound>
-		<sound_volume>Sound volume</sound_volume>
-		<music_volume>Music volume</music_volume>
-		<sound_freq>Sound frequency</sound_freq>
-		<game>Game settings</game>
-		<language>Language</language>
-	</settings>
+<common>
+<ok value = "OK" />
+<cancel value = "Cancel" />
+<yes value = "Yes" />
+<no value = "No" />
+<apply value = "Apply" />
+</common>
+<game_interface>
+<bullet1 value = "&#xE001;" />
+<bullet2 value = "&#xE002;" />
+<health value = "&#xE000;" />
+</game_interface>
+<console>
+<title value = "Terminal" />
+<input value = "Input" />
+<clear value = "Clear output" />
+<matches value = "Possible options:" />
+</console>
+<pause>
+<title value = "Pause" />
+<continue value = "Continue" />
+<save_game value = "Save" />
+<load_game value = "Load" />
+<settings value = "Settings" />
+<main_menu value = "Exit to menu" />
+<main_menu_title value = "Exit to the menu?" />
+<main_menu_text value = "Unsaved game progress will be lost!" />
+<exit_game value = "Exit game" />
+<exit_game_title value = "Exit the game?" />
+<exit_game_text value = "Unsaved game progress will be lost!" />
+</pause>
+<saveload>
+<save_title value = "Save game" />
+<load_title value = "Load game" />
+<save value = "Save" />
+<load value = "Load" />
+<delete value = "Delete" />
+</saveload>
+<settings>
+<title value = "Settings" />
+<graphics value = "Graphics Settings" />
+<window_size value = "Window size" />
+<fullscreen value = "Fullscreen" />
+<sound value = "Sound settings" />
+<sound_volume value = "Sound volume" />
+<music_volume value = "Music volume" />
+<sound_freq value = "Sound frequency" />
+<game value = "Game settings" />
+<language value = "Game language" />
+</settings>
 </text>

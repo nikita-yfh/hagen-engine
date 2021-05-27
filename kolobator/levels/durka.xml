@@ -15,7 +15,7 @@
 				<collision category="0" mask="65535"/>
 			</shape>
 			<shape id="_Rect3" type="Rect" pos="physic" texture="durka_wall.png" expand="0">
-				<position x1="-4.05338" y1="11.3749" x2="-16.553" y2="2.37499"/>
+				<position x1="-4.05339" y1="11.3749" x2="-16.553" y2="2.37499"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
 			</shape>
@@ -34,10 +34,10 @@
 					<point x="-12.5533" y="-8.62491"/>
 					<point x="-27.053" y="-8.62491"/>
 					<point x="-27.053" y="-17.625"/>
-					<point x="5.9466" y="-17.625"/>
-					<point x="5.9466" y="-15.625"/>
-					<point x="-6.05343" y="-15.625"/>
-					<point x="-6.05343" y="-10.125"/>
+					<point x="5.94659" y="-17.625"/>
+					<point x="5.94659" y="-15.625"/>
+					<point x="-6.05344" y="-15.625"/>
+					<point x="-6.05344" y="-10.125"/>
 					<point x="-11.0533" y="-10.125"/>
 					<point x="-11.0533" y="-15.625"/>
 					<point x="-26.053" y="-15.625"/>
