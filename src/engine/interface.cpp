@@ -229,6 +229,14 @@ void Rect4::load(XMLNode l) {
 	right=stof(l.getAttribute("right"));
 	bottom=stof(l.getAttribute("bottom"));
 }
+void Vec::stabilize(float f) {
+	if(x<1)top*=x;
+	if(y<1)top*=y;
+}
+void Rect4::load(XMLNode l) {
+	x=stof(l.getAttribute("x"));
+	y=stof(l.getAttribute("y"));
+}
 void Interface::update() {
 	if(e.type==SDL_KEYDOWN) {
 		if(e.key.keysym.sym==SDLK_BACKQUOTE) {
@@ -612,14 +620,16 @@ void MainMenu::draw() {
 	};
 	uint16_t text_h=FC_GetLineHeight(font);
 	uint16_t pos=SH-borders.bottom-text_h*sizeof(buttons)/sizeof(*buttons);
+	GPU_Image *img=textures[title_image];
+	GPU_BlitScale(img,0,ren,borders.left,borders.top.image_size.x/img->w,image_size.y/img->h);
 	for(auto button : buttons){
-		GPU_Rect rect=GPU_MakeRect(borders.right,pos,FC_GetWidth(font,button.text.c_str()),text_h);
+		GPU_Rect rect=GPU_MakeRect(borders.left,pos,FC_GetWidth(font,button.text.c_str()),text_h);
 		if(mouse.in_rect(rect)){
-			FC_DrawColor(font,ren,borders.right,pos,active.color(),button.text.c_str());
+			FC_DrawColor(font,ren,borders.left,pos,active.color(),button.text.c_str());
 			if(mouse.state)
 				button.func();
 		}else{
-			FC_DrawColor(font,ren,borders.right,pos,inactive.color(),button.text.c_str());
+			FC_DrawColor(font,ren,borders.left,pos,inactive.color(),button.text.c_str());
 		}
 		pos+=text_h;
 	}
@@ -632,6 +642,13 @@ void MainMenu::load_config() {
 		load_font(font,text,"inactive",SH);
 		load_value(text,"active",active);
 		load_value(text,"inactive",inactive);
+	}
+	{
+		XMLNode title=node.getChildNode("title");
+		title_image=node.getAttribute("image");
+		image_size.load(title);
+		load_texture(title_image);
+		image_size.stabilize(SH);
 	}
 	borders.load(node.getChildNode("border"));
 	borders.stabilize(SH);

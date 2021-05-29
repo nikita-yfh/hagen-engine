@@ -27,7 +27,13 @@ struct Rect4 {
 	float right;
 	void stabilize(float f);
 	void load(XMLNode l);
-};
+}
+struct Vec {
+	float x;
+	float y;
+	void stabilize(float f);
+	void load(XMLNode l);
+}
 struct Console {
 	bool shown=false;
 	char                  InputBuf[256];
@@ -64,7 +70,7 @@ struct Pause {
 };
 struct SaverLoader {
 	bool shown=false;
-	bool mode=1; //save
+	bool mode=1; //1-save,0-load
 	char selected[64];
 	void draw();
 	void update_cache();
@@ -95,8 +101,9 @@ struct MainMenu {
 	FC_Font *font;
 	Color active;
 	Color inactive;
-	string title;
+	string title_image;
 	Rect4 borders;
+	Vec image_size;
 };
 struct Interface {
 	void init_imgui();
