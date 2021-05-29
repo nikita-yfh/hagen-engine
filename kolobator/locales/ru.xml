@@ -50,4 +50,12 @@
 		<game value="Настройки игры"/>
 		<language value="Язык игры"/>
 	</settings>
+    <main_menu>
+        <new_game value="Начать новую игру"/>
+		<load_game value="Продолжить с сохранения"/>
+		<settings value="Настройки"/>
+		<exit_game value="Выйти из игры"/>
+		<exit_game_title value="Выйти из игры?"/>
+		<exit_game_text value="Ты точно хочешь выйти из игры?"/>
+    </main_menu>
 </text>

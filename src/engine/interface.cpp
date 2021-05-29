@@ -223,7 +223,7 @@ void Rect4::stabilize(float f) {
 	if(right<1)right*=f;
 	if(bottom<1)bottom*=f;
 }
-void Rect4::load(XMLNode l,float f) {
+void Rect4::load(XMLNode l) {
 	top=stof(l.getAttribute("top"));
 	left=stof(l.getAttribute("left"));
 	right=stof(l.getAttribute("right"));
@@ -412,7 +412,7 @@ void GameInterface::load_config() {
 		XMLNode text=node.getChildNode("text");
 		load_font(font,text,"color",SH);
 	}
-	borders.load(node.getChildNode("border"),SH);
+	borders.load(node.getChildNode("border"));
 	borders.stabilize(SH);
 }
 
@@ -601,8 +601,28 @@ bool WindowConfig::apply(const char* name,bool *shown) {
 }
 void MainMenu::draw() {
 	if(!shown)return;
-	static int width=0;
-	End();
+	struct{
+		string text;
+		void(*func)();
+	}buttons[]={
+		{get_text("main_menu/new_game"),[](){}},
+		{get_text("main_menu/load_game"),[](){interface.saver.mode=0;interface.saver.shown=1;}},
+		{get_text("main_menu/settings"),[](){interface.settingmanager.update(); interface.settingmanager.shown=1;}},
+		{get_text("main_menu/exit_game"),[](){quit();}}
+	};
+	uint16_t text_h=FC_GetLineHeight(font);
+	uint16_t pos=SH-borders.bottom-text_h*sizeof(buttons)/sizeof(*buttons);
+	for(auto button : buttons){
+		GPU_Rect rect=GPU_MakeRect(borders.right,pos,FC_GetWidth(font,button.text.c_str()),text_h);
+		if(mouse.in_rect(rect)){
+			FC_DrawColor(font,ren,borders.right,pos,active.color(),button.text.c_str());
+			if(mouse.state)
+				button.func();
+		}else{
+			FC_DrawColor(font,ren,borders.right,pos,inactive.color(),button.text.c_str());
+		}
+		pos+=text_h;
+	}
 }
 
 void MainMenu::load_config() {
@@ -613,5 +633,7 @@ void MainMenu::load_config() {
 		load_value(text,"active",active);
 		load_value(text,"inactive",inactive);
 	}
+	borders.load(node.getChildNode("border"));
+	borders.stabilize(SH);
 }
 Interface interface;

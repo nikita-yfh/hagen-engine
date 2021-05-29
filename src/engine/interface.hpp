@@ -26,7 +26,7 @@ struct Rect4 {
 	float left;
 	float right;
 	void stabilize(float f);
-	void load(XMLNode l,float f);
+	void load(XMLNode l);
 };
 struct Console {
 	bool shown=false;
@@ -89,7 +89,7 @@ struct LevelChooser {
 	void def();
 };
 struct MainMenu {
-	bool shown=false;
+	bool shown=true;
 	void draw();
 	void load_config();
 	FC_Font *font;

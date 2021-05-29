@@ -1,7 +1,8 @@
 <main_menu>
     <title image="title.png"/>
-    <text name="DroidSans-lite.ttf" size="0.05">
-		<active r="255" g="255" b="255" a="255"/>
+    <text name="DroidSans-lite.ttf" size="0.02">
+		<active r="255" g="255" b="0" a="255"/>
 		<inactive r="255" g="255" b="255" a="255"/>
 	</text>
+    <border left="40" right="40" top="40" bottom="40"/>
 </main_menu>
