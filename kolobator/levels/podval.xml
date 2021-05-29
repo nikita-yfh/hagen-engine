@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<level w="40" h="20">
+	<background img="backgrounds/default.png"/>
+	<bodies count="1">
+		<body x="20.875" y="9.125" id="allwall" type="static" script="" shapes="2">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1"/>
+			<shape id="_Polygon1" type="Polygon" pos="physic" texture="black.png" expand="0">
+				<position point_count="8">
+					<point x="33.125" y="-8.625"/>
+					<point x="-26.875" y="-8.625"/>
+					<point x="-26.875" y="7.875"/>
+					<point x="33.125" y="7.875"/>
+					<point x="33.125" y="1.375"/>
+					<point x="-15.875" y="1.375"/>
+					<point x="-15.875" y="-1.125"/>
+					<point x="33.125" y="-1.125"/>
+				</position>
+				<physic density="1000" friction="0.3" restitution="0"/>
+				<collision category="0" mask="65535"/>
+			</shape>
+			<shape id="_Rect1" type="Rect" pos="background" texture="podval_wall.png" expand="0">
+				<position x1="-15.875" y1="-1.125" x2="4.125" y2="1.375"/>
+				<physic density="1000" friction="0.3" restitution="0"/>
+				<collision category="0" mask="65535"/>
+			</shape>
+		</body>
+	</bodies>
+	<entities count="1">
+		<entity id="player" type="kolobator">
+			<position x="7" y="9"/>
+		</entity>
+	</entities>
+	<joints count="0"/>
+</level>

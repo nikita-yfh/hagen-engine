@@ -106,6 +106,13 @@ void GLSLtex::set(string name) {
 	GPU_SetWrapMode(tex,GPU_WRAP_REPEAT,GPU_WRAP_REPEAT);
 	GPU_SetSnapMode(tex, GPU_SNAP_NONE);
 }
+void GLSLtex::set_tex(GPU_Image *_tex) {
+	if(tex)
+		GPU_FreeImage(tex);
+	tex=_tex;
+	GPU_SetWrapMode(tex,GPU_WRAP_REPEAT,GPU_WRAP_REPEAT);
+	GPU_SetSnapMode(tex, GPU_SNAP_NONE);
+}
 void GLSLtex::update() {
 	GPU_SetShaderImage(tex, loc,1);
 }
@@ -164,7 +171,6 @@ GLSLtype *Shader::getuniform(string idV) {
 		return variables[idV];
 	return nullptr;
 }
-
 void Shader::update() {
 	for(auto &var : variables)
 		var.second->update();

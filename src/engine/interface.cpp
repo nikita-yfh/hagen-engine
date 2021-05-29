@@ -393,10 +393,10 @@ void Interface::load_config() {
 }
 void Interface::draw() {
 	game_interface.draw();
+	mainmenu.draw();
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL2_NewFrame(SDL_GetWindowFromID(ren->context->windowID));
 	NewFrame();
-	mainmenu.draw();
 	console.draw();
 	pause.draw();
 	saver.draw();
@@ -602,17 +602,6 @@ bool WindowConfig::apply(const char* name,bool *shown) {
 void MainMenu::draw() {
 	if(!shown)return;
 	static int width=0;
-	SetNextWindowBgAlpha(0.0f);
-	SetNextWindowPosCenter(ImGuiCond_FirstUseEver);
-	SetNextWindowSize({-1,-1},ImGuiCond_FirstUseEver);
-	Begin("Main menu",&shown, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize
-		  | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoNav);
-	ImVec2 align=ImVec2(width, 0);
-	Button("New game",align);
-	Button("Continue",align);
-	Button("Settings",align);
-	Button("Exit game",align);
-	width=GetWindowContentRegionWidth();
 	End();
 }
 

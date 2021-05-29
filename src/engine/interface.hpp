@@ -89,13 +89,14 @@ struct LevelChooser {
 	void def();
 };
 struct MainMenu {
-	bool shown=true;
+	bool shown=false;
 	void draw();
 	void load_config();
 	FC_Font *font;
 	Color active;
 	Color inactive;
 	string title;
+	Rect4 borders;
 };
 struct Interface {
 	void init_imgui();

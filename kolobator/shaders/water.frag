@@ -3,6 +3,7 @@ varying vec2 texCoord;
 
 uniform sampler2D tex;
 uniform sampler2D tex1;
+uniform sampler2D ren;
 uniform float time;
 
 void main() {

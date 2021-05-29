@@ -69,6 +69,7 @@ struct GLSLtex : GLSLtype {
 	GPU_Image *tex=nullptr;
 	void update();
 	void set(string name);
+	void set_tex(GPU_Image *tex);
 	~GLSLtex();
 };
 class Shader {
