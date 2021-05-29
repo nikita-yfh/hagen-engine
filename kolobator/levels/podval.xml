@@ -4,7 +4,7 @@
 	<bodies count="1">
 		<body x="20.875" y="9.125" id="allwall" type="static" script="" shapes="2">
 			<physic bullet="0" fixed_rotation="0" gravity_scale="1"/>
-			<shape id="_Polygon1" type="Polygon" pos="physic" texture="black.png" expand="0">
+			<shape id="_Polygon1" type="Polygon" pos="physic" texture="wooden_box.png" expand="0">
 				<position point_count="8">
 					<point x="33.125" y="-8.625"/>
 					<point x="-26.875" y="-8.625"/>

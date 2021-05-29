@@ -71,17 +71,14 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 								   zoom*w/tex->w,
 								   zoom*h/tex->h);
 			} else {
-				static float g=0;
-				if(key[SDL_SCANCODE_8])g+=0.01;
-				if(key[SDL_SCANCODE_9])g-=0.01;
-				info_log(to_string(g));
 				float f[16];
 				for(int q=0; q<shape->m_count; q++) {
 					b2Vec2 v(shape->m_vertices[q].x,shape->m_vertices[q].y);
 					f[q*4]=drawx(body->GetPosition().x+rotatex(v,a_rad));
 					f[q*4+1]=drawy(body->GetPosition().y+rotatey(v,a_rad));
-					f[q*4+2]=(shape->m_vertices[q]-shape->m_vertices[0]).x*(zoom/tex->w);
-					f[q*4+3]=(shape->m_vertices[q]-shape->m_vertices[0]).y*(zoom/tex->h);
+					f[q*4+2]=(shape->m_vertices[q]-shape->m_vertices[0]).x*(100.0f/tex->w/tex_scale);
+					f[q*4+3]=(shape->m_vertices[q]-shape->m_vertices[0]).y*(100.0f/tex->h/tex_scale);
+					cout<<tex->w<<' '<<tex->h<<' '<<tex->w/100.0f/tex_scale<<' '<<tex->h/100.0f/tex_scale<<endl;
 				}
 				short unsigned int index[]= {0,1,3,2};
 				GPU_PrimitiveBatch(tex,ren1,GPU_TRIANGLE_STRIP,shape->m_count,f,shape->m_count,index,GPU_BATCH_XY_ST);
@@ -118,8 +115,8 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 								   shape->m_p.y+sin(2*M_PI/(CIRCLE_QUALITY)*q)*shape->m_radius);
 					f[q*4+0]=drawx(body->GetPosition().x+rotatex(v,a_rad));
 					f[q*4+1]=drawy(body->GetPosition().y+rotatey(v,a_rad));
-					f[q*4+2]=(v.x-shape->m_p.x-shape->m_radius)*(tex->w/zoom/tex_scale);
-					f[q*4+3]=(v.y-shape->m_p.y-shape->m_radius)*(tex->h/zoom/tex_scale);
+					f[q*4+2]=(v.x-shape->m_p.x-shape->m_radius)*(100.0f/tex->w/tex_scale);
+					f[q*4+3]=(v.y-shape->m_p.y-shape->m_radius)*(100.0f/tex->h/tex_scale);
 				}
 				f[q*4+0]=f[4];
 				f[q*4+1]=f[5];
@@ -162,8 +159,8 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 				b2Vec2 v(shape->m_vertices[q].x,shape->m_vertices[q].y);
 				f[q*4]=drawx(body->GetPosition().x+rotatex(v,a_rad));
 				f[q*4+1]=drawy(body->GetPosition().y+rotatey(v,a_rad));
-				f[q*4+2]=(v-minv).x/(F_DATA(fix,expand)?(maxv-minv).x:(tex->w/zoom/tex_scale));
-				f[q*4+3]=(v-minv).y/(F_DATA(fix,expand)?(maxv-minv).y:(tex->h/zoom/tex_scale));
+				f[q*4+2]=(v-minv).x/(F_DATA(fix,expand)?(maxv-minv).x:(tex->w/100/tex_scale));
+				f[q*4+3]=(v-minv).y/(F_DATA(fix,expand)?(maxv-minv).y:(tex->h/100/tex_scale));
 			}
 			GPU_TriangleBatch(tex,ren1,3,f,3,0,GPU_BATCH_XY_ST);
 		} else {
