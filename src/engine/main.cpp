@@ -101,5 +101,5 @@ void Settings::def() {
 	music_volume=100;
 	language="en";
 	sound_freq=22050;
-	info_log("Restored sefault settings");
+	info_log("Restored default settings");
 }
