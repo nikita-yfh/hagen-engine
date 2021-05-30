@@ -49,6 +49,8 @@
 		<sound_freq value="Частота звука"/>
 		<game value="Настройки игры"/>
 		<language value="Язык игры"/>
+        <restart_title value="Перезагрузить"/>
+        <restart_text value="Для применения настроек необходимо перезагрузить игру"/>
 	</settings>
     <main_menu>
         <new_game value="Начать новую игру"/>

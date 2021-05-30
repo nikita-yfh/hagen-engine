@@ -27,13 +27,13 @@ struct Rect4 {
 	float right;
 	void stabilize(float f);
 	void load(XMLNode l);
-}
+};
 struct Vec {
 	float x;
 	float y;
 	void stabilize(float f);
 	void load(XMLNode l);
-}
+};
 struct Console {
 	bool shown=false;
 	char                  InputBuf[256];
@@ -86,6 +86,8 @@ struct SettingManager {
 	Settings set;
 	vector<string>languages;
 	WindowConfig config;
+	bool restart=false;
+	void apply();
 };
 struct LevelChooser {
 	vector<bool>opened;
@@ -95,15 +97,16 @@ struct LevelChooser {
 	void def();
 };
 struct MainMenu {
+	~MainMenu();
 	bool shown=true;
 	void draw();
 	void load_config();
 	FC_Font *font;
 	Color active;
 	Color inactive;
-	string title_image;
+	GPU_Image *title=nullptr;
 	Rect4 borders;
-	Vec image_size;
+	float image_h;
 };
 struct Interface {
 	void init_imgui();

@@ -78,7 +78,6 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 					f[q*4+1]=drawy(body->GetPosition().y+rotatey(v,a_rad));
 					f[q*4+2]=(shape->m_vertices[q]-shape->m_vertices[0]).x*(100.0f/tex->w/tex_scale);
 					f[q*4+3]=(shape->m_vertices[q]-shape->m_vertices[0]).y*(100.0f/tex->h/tex_scale);
-					cout<<tex->w<<' '<<tex->h<<' '<<tex->w/100.0f/tex_scale<<' '<<tex->h/100.0f/tex_scale<<endl;
 				}
 				short unsigned int index[]= {0,1,3,2};
 				GPU_PrimitiveBatch(tex,ren1,GPU_TRIANGLE_STRIP,shape->m_count,f,shape->m_count,index,GPU_BATCH_XY_ST);

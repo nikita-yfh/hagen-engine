@@ -230,10 +230,10 @@ void Rect4::load(XMLNode l) {
 	bottom=stof(l.getAttribute("bottom"));
 }
 void Vec::stabilize(float f) {
-	if(x<1)top*=x;
-	if(y<1)top*=y;
+	if(x<1)x*=f;
+	if(y<1)y*=f;
 }
-void Rect4::load(XMLNode l) {
+void Vec::load(XMLNode l) {
 	x=stof(l.getAttribute("x"));
 	y=stof(l.getAttribute("y"));
 }
@@ -545,10 +545,12 @@ void SettingManager::draw() {
 	ImGui::BeginChild(get_ctext("settings/title"), ImVec2(0, -ImGui::GetFrameHeightWithSpacing()),true);
 	Text(get_ctext("settings/graphics"));
 	int size_input[2]= {set.SW,set.SH};
-	InputInt2(get_ctext("settings/window_size"),size_input);
+	if(InputInt2(get_ctext("settings/window_size"),size_input))
+		restart=true;
 	set.SW=size_input[0];
 	set.SH=size_input[1];
-	Checkbox(get_ctext("settings/fullscreen"),&set.fullscreen);
+	if(Checkbox(get_ctext("settings/fullscreen"),&set.fullscreen))
+		restart=true;
 	Text(get_ctext("settings/sound"));
 	SliderInt(get_ctext("settings/sound_volume"),&set.sound_volume,0,100,"%d%%");
 	SliderInt(get_ctext("settings/music_volume"),&set.music_volume,0,100,"%d%%");
@@ -566,15 +568,49 @@ void SettingManager::draw() {
 	}
 
 	EndChild();
+	info_log(to_string(restart));
 	if(Button(get_ctext("common/ok"))){
-		settings=set;
-		settings.save();
-		quit();
+		if(restart)
+			OpenPopup(get_text("settings/restart_title").c_str());
+		else
+			apply();
 	}
 	SameLine();
 	if(Button(get_ctext("common/cancel")))
-		shown=0;
+		shown=false;
+	SetNextWindowPos(ImVec2(GetIO().DisplaySize.x * 0.5f, GetIO().DisplaySize.y * 0.5f),
+					 ImGuiCond_Always, ImVec2(0.5f,0.5f));
+	if (BeginPopupModal(get_text("settings/restart_title").c_str(), NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
+		TextWrapped(get_ctext("settings/restart_text"));
+		Separator();
+		if(Button(get_ctext("common/ok"), ImVec2(120, 0)))
+			apply();
+		SameLine();
+		if (Button(get_ctext("common/cancel"), ImVec2(120, 0)))
+			CloseCurrentPopup();
+		EndPopup();
+	}
 	End();
+}
+void SettingManager::apply(){
+	settings=set;
+	settings.save();
+	if(restart)
+		quit();
+	else{
+		Mix_Quit();
+		int mix_flags=MIX_INIT_MP3|MIX_INIT_MOD;
+		if(Mix_Init(mix_flags)&mix_flags!=mix_flags){
+			error_log(SDL_GetError());
+			throw string(SDL_GetError());
+		}
+		if(Mix_OpenAudio(settings.sound_freq,AUDIO_S16SYS,2,640)){
+			error_log(SDL_GetError());
+			throw string(SDL_GetError());
+		}
+		info_log("Music inited succesfully");
+	}
+	shown=false;
 }
 void SettingManager::update() {
 	set=settings;
@@ -584,6 +620,7 @@ void SettingManager::update() {
 			s.erase(s.begin()+s.find("."),s.end());
 		}
 	}
+	restart=false;
 }
 void WindowConfig::load(XMLNode node) {
 	collapse=stoi(node.getAttribute("collapse"));
@@ -620,8 +657,12 @@ void MainMenu::draw() {
 	};
 	uint16_t text_h=FC_GetLineHeight(font);
 	uint16_t pos=SH-borders.bottom-text_h*sizeof(buttons)/sizeof(*buttons);
-	GPU_Image *img=textures[title_image];
-	GPU_BlitScale(img,0,ren,borders.left,borders.top.image_size.x/img->w,image_size.y/img->h);
+
+	float image_scale=image_h/title->h;
+
+	float image_w=image_scale*title->w;
+
+	GPU_BlitScale(title,0,ren,borders.left+image_w/2,borders.top+image_h/2,image_scale,image_scale);
 	for(auto button : buttons){
 		GPU_Rect rect=GPU_MakeRect(borders.left,pos,FC_GetWidth(font,button.text.c_str()),text_h);
 		if(mouse.in_rect(rect)){
@@ -644,13 +685,19 @@ void MainMenu::load_config() {
 		load_value(text,"inactive",inactive);
 	}
 	{
-		XMLNode title=node.getChildNode("title");
-		title_image=node.getAttribute("image");
-		image_size.load(title);
-		load_texture(title_image);
-		image_size.stabilize(SH);
+		XMLNode titlen=node.getChildNode("title");
+		string str=titlen.getAttribute("image");
+		image_h=stof(titlen.getAttribute("h"));
+		if(image_h<1)image_h*=SH;
+		title=load_texture(str);
+		textures.erase(str);
 	}
 	borders.load(node.getChildNode("border"));
 	borders.stabilize(SH);
+}
+
+MainMenu::~MainMenu(){
+	if(title)
+		GPU_FreeImage(title);
 }
 Interface interface;

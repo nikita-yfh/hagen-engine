@@ -1,5 +1,5 @@
 <main_menu>
-    <title image="title.png" x="0.1" y="0.2"/>
+    <title image="title.png" h="117"/>
     <text name="DroidSans-lite.ttf" size="0.02">
 		<active r="255" g="255" b="0" a="255"/>
 		<inactive r="255" g="255" b="255" a="255"/>

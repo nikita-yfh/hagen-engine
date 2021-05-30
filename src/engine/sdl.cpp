@@ -89,6 +89,7 @@ void init() {
 		error_log(str);
 		throw string(error.details);
 	}
+	init_target();
 	info_log("Renderer created succesfully");
 
 	print_renderer_info(GPU_GetCurrentRenderer());
@@ -103,7 +104,6 @@ void init() {
 		error_log(SDL_GetError());
 		throw string(SDL_GetError());
 	}
-	init_target();
 	info_log("Music inited succesfully");
 	interface.load_config();
 	interface.init_imgui();
