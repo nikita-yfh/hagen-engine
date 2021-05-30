@@ -202,7 +202,7 @@ GLSL_TYPE(GLSLmat3,add_mat3);
 GLSL_TYPE(GLSLmat4,add_mat4);
 GLSL_TYPE(GLSLtex,add_tex);
 map<string,Shader>shaders;
-Shader *get_shader(string id){
+Shader *get_shader(string id) {
 	if(shaders.find(id)!=shaders.end())
 		return &shaders[id];
 	return nullptr;

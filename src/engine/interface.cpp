@@ -208,10 +208,10 @@ int Console::TextEditCallback(ImGuiInputTextCallbackData* data) {
 	}
 	return 0;
 }
-void Console::open(){
+void Console::open() {
 	shown=true;
 }
-void Console::close(){
+void Console::close() {
 	shown=false;
 }
 void Rect4::stabilize(float f) {
@@ -512,7 +512,7 @@ void SaverLoader::draw() {
 
 	End();
 }
-void SaverLoader::open(bool _mode){
+void SaverLoader::open(bool _mode) {
 	update_cache();
 	mode=_mode;
 	shown=true;
@@ -571,7 +571,7 @@ void SettingManager::draw() {
 
 	EndChild();
 	info_log(to_string(restart));
-	if(Button(get_ctext("common/ok"))){
+	if(Button(get_ctext("common/ok"))) {
 		if(restart)
 			OpenPopup(get_text("settings/restart_title").c_str());
 		else
@@ -594,19 +594,19 @@ void SettingManager::draw() {
 	}
 	End();
 }
-void SettingManager::apply(){
+void SettingManager::apply() {
 	settings=set;
 	settings.save();
 	if(restart)
 		quit();
-	else{
+	else {
 		Mix_Quit();
 		int mix_flags=MIX_INIT_MP3|MIX_INIT_MOD;
-		if(Mix_Init(mix_flags)&mix_flags!=mix_flags){
+		if(Mix_Init(mix_flags)&mix_flags!=mix_flags) {
 			error_log(SDL_GetError());
 			throw string(SDL_GetError());
 		}
-		if(Mix_OpenAudio(settings.sound_freq,AUDIO_S16SYS,2,640)){
+		if(Mix_OpenAudio(settings.sound_freq,AUDIO_S16SYS,2,640)) {
 			error_log(SDL_GetError());
 			throw string(SDL_GetError());
 		}
@@ -624,11 +624,11 @@ void SettingManager::update() {
 	}
 	restart=false;
 }
-void SettingManager::open(){
+void SettingManager::open() {
 	shown=true;
 	update();
 }
-void SettingManager::close(){
+void SettingManager::close() {
 	languages.clear();
 }
 void WindowConfig::load(XMLNode node) {
@@ -655,14 +655,26 @@ bool WindowConfig::apply(const char* name,bool *shown) {
 }
 void MainMenu::draw() {
 	if(!shown)return;
-	struct{
+	struct {
 		string text;
 		void(*func)();
-	}buttons[]={
-		{get_text("main_menu/new_game"),[](){lua::init_new_game();}},
-		{get_text("main_menu/load_game"),[](){interface.saver.open(0);}},
-		{get_text("main_menu/settings"),[](){interface.settingmanager.open();}},
-		{get_text("main_menu/exit_game"),[](){quit();}}
+	} buttons[]= {
+		{get_text("main_menu/new_game"),[]() {
+				lua::init_new_game();
+			}
+		},
+		{get_text("main_menu/load_game"),[]() {
+				interface.saver.open(0);
+			}
+		},
+		{get_text("main_menu/settings"),[]() {
+				interface.settingmanager.open();
+			}
+		},
+		{get_text("main_menu/exit_game"),[]() {
+				quit();
+			}
+		}
 	};
 	uint16_t text_h=FC_GetLineHeight(font);
 	uint16_t pos=SH-borders.bottom-text_h*sizeof(buttons)/sizeof(*buttons);
@@ -672,13 +684,13 @@ void MainMenu::draw() {
 	float image_w=image_scale*title->w;
 
 	GPU_BlitScale(title,0,ren,borders.left+image_w/2,borders.top+image_h/2,image_scale,image_scale);
-	for(auto button : buttons){
+	for(auto button : buttons) {
 		GPU_Rect rect=GPU_MakeRect(borders.left,pos,FC_GetWidth(font,button.text.c_str()),text_h);
-		if(mouse.in_rect(rect)){
+		if(mouse.in_rect(rect)) {
 			FC_DrawColor(font,ren,borders.left,pos,active.color(),button.text.c_str());
 			if(mouse.state)
 				button.func();
-		}else{
+		} else {
 			FC_DrawColor(font,ren,borders.left,pos,inactive.color(),button.text.c_str());
 		}
 		pos+=text_h;
@@ -705,7 +717,7 @@ void MainMenu::load_config() {
 	borders.stabilize(SH);
 }
 
-MainMenu::~MainMenu(){
+MainMenu::~MainMenu() {
 	if(title)
 		GPU_FreeImage(title);
 }

@@ -57,13 +57,13 @@ void Rect::load(XMLNode node,float f) {
 	if(w<1.0f)w*=f;
 	if(h<1.0f)h*=f;
 }
-void print_renderer_info(GPU_Renderer *renderer){
-    GPU_RendererID id = renderer->id;
+void print_renderer_info(GPU_Renderer *renderer) {
+	GPU_RendererID id = renderer->id;
 
 	info_log(format("Using renderer: %s (%d.%d)", id.name, id.major_version, id.minor_version));
 	info_log(format("Shader versions supported: %d to %d", renderer->min_shader_version, renderer->max_shader_version));
 
-	string languages[6]={
+	string languages[6]= {
 		"None",
 		"ARB_ASSEMBLY",
 		"GLSL",
@@ -75,7 +75,7 @@ void print_renderer_info(GPU_Renderer *renderer){
 	info_log("Shader language: "+languages[renderer->shader_language]);
 }
 void init() {
-	if(SDL_Init(SDL_INIT_EVERYTHING)){
+	if(SDL_Init(SDL_INIT_EVERYTHING)) {
 		error_log(SDL_GetError());
 		throw string(SDL_GetError());
 	}
@@ -83,7 +83,7 @@ void init() {
 	settings.load();
 	GPU_SetPreInitFlags(GPU_INIT_DISABLE_VSYNC);
 	ren=GPU_Init(settings.SW,settings.SH,settings.fullscreen?SDL_WINDOW_FULLSCREEN:0);
-	if(!ren){
+	if(!ren) {
 		GPU_ErrorObject error=GPU_PopErrorCode();
 		string str=(string)"In function "+error.function+": "+error.details;
 		error_log(str);
@@ -96,11 +96,11 @@ void init() {
 
 
 	int mix_flags=MIX_INIT_MP3|MIX_INIT_MOD;
-	if(Mix_Init(mix_flags)&mix_flags!=mix_flags){
+	if(Mix_Init(mix_flags)&mix_flags!=mix_flags) {
 		error_log(SDL_GetError());
 		throw string(SDL_GetError());
 	}
-	if(Mix_OpenAudio(settings.sound_freq,AUDIO_S16SYS,2,640)){
+	if(Mix_OpenAudio(settings.sound_freq,AUDIO_S16SYS,2,640)) {
 		error_log(SDL_GetError());
 		throw string(SDL_GetError());
 	}
@@ -114,7 +114,7 @@ GPU_Image *find_texture(string id) {
 	return textures[id];
 }
 void quit() {
-	try{
+	try {
 		delete_target();
 		GPU_Quit();
 		TTF_Quit();
@@ -125,7 +125,7 @@ void quit() {
 		effect::effects.clear();
 		effect::loaded.clear();
 		close_level();
-	}catch(...){
+	} catch(...) {
 		exit(1);
 	}
 }
@@ -244,6 +244,6 @@ void play_distance_sound(string name,float distance) {
 	int channel=Mix_PlayChannel(-1,sounds[name],0);
 	Mix_Volume(channel,min(settings.sound_volume*1.28f,1.92f/distance*settings.sound_volume));
 }
-void clear_sounds(){
+void clear_sounds() {
 	sounds.clear();
 }

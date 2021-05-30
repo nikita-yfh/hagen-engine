@@ -17,12 +17,12 @@ bool show_textures=1;
 const float tex_scale=1.0f;
 GPU_Image *img1;
 GPU_Target *ren1;
-void init_target(){
+void init_target() {
 	img1=GPU_CreateImage(SW,SH,GPU_FORMAT_RGBA);
 	GPU_LoadTarget(img1);
 	ren1=img1->target;
 }
-void delete_target(){
+void delete_target() {
 	GPU_FreeImage(img1);
 }
 void draw_mask() {

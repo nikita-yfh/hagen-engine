@@ -543,7 +543,7 @@ void bind() {
 	.addFunction("add_mat4",&Shader::add_mat4)
 	.endClass();
 }
-void init(){
+void init() {
 	copy_prev_key();
 	L = luaL_newstate();
 	luaL_openlibs(L);
@@ -594,13 +594,13 @@ void init(){
 	loaded.emplace_back("common");
 }
 
-void init_new_game(){
+void init_new_game() {
 	init();
 	getGlobal(L,"new_game")();
 	interface.mainmenu.shown=false;
 }
 
-void init_main_menu(){
+void init_main_menu() {
 	init();
 	getGlobal(L,"init_main_menu")();
 	interface.mainmenu.shown=true;

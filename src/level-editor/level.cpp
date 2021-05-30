@@ -45,9 +45,9 @@ bool Level::save_file(std::string path,bool all) {
 bool Level::open_file(string path) {
 	bool all=1;
 	XMLNode lvl;
-	try{
+	try {
 		lvl=XMLNode::openFileHelper(path.c_str(),"level",0);
-	}catch(...){
+	} catch(...) {
 		lvl=XMLNode::openFileHelper(path.c_str(),"physics");
 		all=0;
 	}
