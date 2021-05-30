@@ -44,7 +44,8 @@ void Pause::draw() {
 		TextWrapped(get_ctext("pause/main_menu_text"));
 		Separator();
 
-		Button(get_ctext("common/ok"), ImVec2(120, 0));
+		if(Button(get_ctext("common/ok"), ImVec2(120, 0)))
+			interface.mainmenu.show();
 		SameLine();
 		if (Button(get_ctext("common/cancel"), ImVec2(120, 0))) {
 			CloseCurrentPopup();
@@ -450,7 +451,7 @@ void GameInterface::draw() {
 }
 
 void Interface::update_cursor() {
-	if(shown()) {
+	if(shown() || mainmenu.shown) {
 		GetIO().ConfigFlags &= ~ImGuiConfigFlags_NoMouseCursorChange;
 	} else {
 		GetIO().ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;
@@ -505,7 +506,7 @@ void SaverLoader::draw() {
 			else if(exist_file(saves+selected+".xml"))
 				load_world_state(selected);
 			interface.pause.close();
-			interface.mainmenu.shown=false;
+			interface.mainmenu.hide();
 			close();
 		}
 	}
@@ -720,5 +721,15 @@ void MainMenu::load_config() {
 MainMenu::~MainMenu() {
 	if(title)
 		GPU_FreeImage(title);
+}
+void MainMenu::hide(){
+	shown=false;
+	interface.update_cursor();
+}
+void MainMenu::show(){
+	shown=true;
+	interface.update_cursor();
+	interface.pause.close();
+	lua::init_main_menu();
 }
 Interface interface;

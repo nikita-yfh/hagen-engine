@@ -111,6 +111,8 @@ struct MainMenu {
 	GPU_Image *title=nullptr;
 	Rect4 borders;
 	float image_h;
+	void hide();
+	void show();
 };
 struct Interface {
 	void init_imgui();

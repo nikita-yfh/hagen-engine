@@ -597,13 +597,14 @@ void init() {
 void init_new_game() {
 	init();
 	getGlobal(L,"new_game")();
-	interface.mainmenu.shown=false;
+	interface.mainmenu.hide();
 }
 
 void init_main_menu() {
 	init();
 	getGlobal(L,"init_main_menu")();
-	interface.mainmenu.shown=true;
+	interface.mainmenu.show();
+	interface.update_cursor();
 }
 
 void init_level(string name) {
