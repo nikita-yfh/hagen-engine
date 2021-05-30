@@ -27,7 +27,8 @@ int main(int argc, char * argv[]) {
 		interface.load_config();
 		interface.init_imgui();
 		if(argc>1) load_level(argv[1]);
-		else       load_level("ground1");
+		else
+			lua::init_main_menu();
 		game();
 		quit();
 		return 0;

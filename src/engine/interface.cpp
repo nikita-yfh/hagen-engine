@@ -27,20 +27,12 @@ void Pause::draw() {
 	if(Button(get_ctext("pause/continue"),align)) {
 		close();
 	}
-	if(Button(get_ctext("pause/save_game"),align)) {
-		interface.saver.mode=1;
-		interface.saver.update_cache();
-		interface.saver.shown=1;
-	}
-	if(Button(get_ctext("pause/load_game"),align)) {
-		interface.saver.mode=0;
-		interface.saver.update_cache();
-		interface.saver.shown=1;
-	}
-	if(Button(get_ctext("pause/settings"),align)) {
-		interface.settingmanager.update();
-		interface.settingmanager.shown=1;
-	}
+	if(Button(get_ctext("pause/save_game"),align))
+		interface.saver.open(1);
+	if(Button(get_ctext("pause/load_game"),align))
+		interface.saver.open(0);
+	if(Button(get_ctext("pause/settings"),align))
+		interface.settingmanager.open();
 	if(Button(get_ctext("pause/main_menu"),align))
 		OpenPopup(get_ctext("pause/main_menu_title"));
 	if(Button(get_ctext("pause/exit_game"),align))
@@ -216,7 +208,12 @@ int Console::TextEditCallback(ImGuiInputTextCallbackData* data) {
 	}
 	return 0;
 }
-
+void Console::open(){
+	shown=true;
+}
+void Console::close(){
+	shown=false;
+}
 void Rect4::stabilize(float f) {
 	if(top<1)top*=f;
 	if(left<1)left*=f;
@@ -238,18 +235,18 @@ void Vec::load(XMLNode l) {
 	y=stof(l.getAttribute("y"));
 }
 void Interface::update() {
-	if(e.type==SDL_KEYDOWN) {
+	if(e.type==SDL_KEYDOWN && !mainmenu.shown) {
 		if(e.key.keysym.sym==SDLK_BACKQUOTE) {
 			console.shown=!console.shown;
 			if(!shown())hide();
 			update_cursor();
 		} else if(e.key.keysym.sym==SDLK_ESCAPE) {
 			if(console.shown)
-				console.shown=0;
+				console.close();
 			else if(pause.shown)
 				pause.close();
 			else
-				pause.shown=1;
+				pause.shown=true;
 			if(!shown())hide();
 			update_cursor();
 		} else if(e.key.keysym.sym==SDLK_F5)
@@ -257,7 +254,6 @@ void Interface::update() {
 		else if(e.key.keysym.sym==SDLK_F9)
 			quickload();
 	}
-	game_interface.update();
 	ImGui_ImplSDL2_ProcessEvent(&e);
 }
 void Interface::init_imgui() {
@@ -400,11 +396,11 @@ void Interface::load_config() {
 	}
 }
 void Interface::draw() {
-	game_interface.draw();
-	mainmenu.draw();
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL2_NewFrame(SDL_GetWindowFromID(ren->context->windowID));
 	NewFrame();
+	game_interface.draw();
+	mainmenu.draw();
 	console.draw();
 	pause.draw();
 	saver.draw();
@@ -424,9 +420,9 @@ void GameInterface::load_config() {
 	borders.stabilize(SH);
 }
 
-void GameInterface::update() {}
 void GameInterface::draw() {
 	if(!shown)return;
+	if(interface.mainmenu.shown)return;
 	short h=FC_GetLineHeight(font);
 	{
 		int health=0;
@@ -508,12 +504,18 @@ void SaverLoader::draw() {
 				save_world_state(selected);
 			else if(exist_file(saves+selected+".xml"))
 				load_world_state(selected);
-			interface.pause.shown=0;
+			interface.pause.close();
+			interface.mainmenu.shown=false;
 			close();
 		}
 	}
 
 	End();
+}
+void SaverLoader::open(bool _mode){
+	update_cache();
+	mode=_mode;
+	shown=true;
 }
 void SaverLoader::update_cache() {
 	list=list_files(saves);
@@ -528,13 +530,13 @@ void SaverLoader::update_cache() {
 }
 void SaverLoader::close() {
 	list.clear();
-	shown=0;
+	shown=false;
 }
 void Pause::close() {
-	shown=0;
+	shown=false;
 	interface.saver.close();
-	interface.console.shown=0;
-	interface.settingmanager.shown=0;
+	interface.console.close();
+	interface.settingmanager.close();
 }
 void SettingManager::draw() {
 	if(!shown)return;
@@ -577,7 +579,7 @@ void SettingManager::draw() {
 	}
 	SameLine();
 	if(Button(get_ctext("common/cancel")))
-		shown=false;
+		close();
 	SetNextWindowPos(ImVec2(GetIO().DisplaySize.x * 0.5f, GetIO().DisplaySize.y * 0.5f),
 					 ImGuiCond_Always, ImVec2(0.5f,0.5f));
 	if (BeginPopupModal(get_text("settings/restart_title").c_str(), NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
@@ -610,7 +612,7 @@ void SettingManager::apply(){
 		}
 		info_log("Music inited succesfully");
 	}
-	shown=false;
+	close();
 }
 void SettingManager::update() {
 	set=settings;
@@ -621,6 +623,13 @@ void SettingManager::update() {
 		}
 	}
 	restart=false;
+}
+void SettingManager::open(){
+	shown=true;
+	update();
+}
+void SettingManager::close(){
+	languages.clear();
 }
 void WindowConfig::load(XMLNode node) {
 	collapse=stoi(node.getAttribute("collapse"));
@@ -650,9 +659,9 @@ void MainMenu::draw() {
 		string text;
 		void(*func)();
 	}buttons[]={
-		{get_text("main_menu/new_game"),[](){}},
-		{get_text("main_menu/load_game"),[](){interface.saver.mode=0;interface.saver.shown=1;}},
-		{get_text("main_menu/settings"),[](){interface.settingmanager.update(); interface.settingmanager.shown=1;}},
+		{get_text("main_menu/new_game"),[](){lua::init_new_game();}},
+		{get_text("main_menu/load_game"),[](){interface.saver.open(0);}},
+		{get_text("main_menu/settings"),[](){interface.settingmanager.open();}},
 		{get_text("main_menu/exit_game"),[](){quit();}}
 	};
 	uint16_t text_h=FC_GetLineHeight(font);

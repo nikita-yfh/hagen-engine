@@ -13,6 +13,7 @@
 #include "shader.hpp"
 #include <detail/Userdata.h>
 #include <algorithm>
+#include <Map.h>
 using namespace luabridge;
 using namespace std;
 uint8_t prev_key[SDL_NUM_SCANCODES];
@@ -264,6 +265,7 @@ void create_userdata() {
 		create_entity_userdata(e.second);
 }
 bool get_key(string k) {
+	if(interface.mainmenu.shown)return 0;
 	short r=get_scancode(k);
 	if(r!=-1)return key[r];
 	else {
@@ -274,6 +276,7 @@ bool get_key(string k) {
 	return 0;
 }
 bool get_press_key(string k) {
+	if(interface.mainmenu.shown)return 0;
 	short r=get_scancode(k);
 	if(r!=-1)return (key[r] && !prev_key[r]);
 	else {
@@ -284,6 +287,7 @@ bool get_press_key(string k) {
 	return 0;
 }
 bool get_release_key(string k) {
+	if(interface.mainmenu.shown)return 0;
 	short r=get_scancode(k);
 	if(r!=-1)return (!key[r] && prev_key[r]);
 	else {
@@ -539,12 +543,11 @@ void bind() {
 	.addFunction("add_mat4",&Shader::add_mat4)
 	.endClass();
 }
-void init(string name) { //
+void init(){
 	copy_prev_key();
 	L = luaL_newstate();
 	luaL_openlibs(L);
 	bind();
-	create_userdata();
 	dostring(
 		"player=entity('player')\n"
 		"Level={}\n"
@@ -583,11 +586,30 @@ void init(string name) { //
 	doscript("common/level");
 	doscript("common/entity");
 	doscript("common/weapon");
-	doscript("levels/"+name);
+	doscript("common/common");
 	loaded.emplace_back("level");
 	loaded.emplace_back("Level");
 	loaded.emplace_back("Entity");
 	loaded.emplace_back("Weapon");
+	loaded.emplace_back("common");
+}
+
+void init_new_game(){
+	init();
+	getGlobal(L,"new_game")();
+	interface.mainmenu.shown=false;
+}
+
+void init_main_menu(){
+	init();
+	getGlobal(L,"init_main_menu")();
+	interface.mainmenu.shown=true;
+}
+
+void init_level(string name) {
+	init();
+	create_userdata();
+	doscript("levels/"+name);
 	loaded.emplace_back(name);
 	getGlobal(L,"Level")["init"]();
 	getGlobal(L,"level")["init"]();

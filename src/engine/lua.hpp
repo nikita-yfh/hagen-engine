@@ -17,7 +17,7 @@ extern string need_load;
 extern lua_State *L;
 bool get_interval(unsigned int ms);
 void gameloop();
-void init(string);
+void init_level(string);
 void quit();
 void init_weapon(Entity *entity,bool ex=1);
 void init_body(b2Body *body,bool ex=1);
@@ -30,6 +30,8 @@ int fire4(Entity *ent);
 
 void create_entity_userdata(Entity *e);
 void create_body_userdata(b2Body *b);
+void init_main_menu();
+void init_new_game();
 float get_time();
 extern int prev_time;
 extern float game_time;

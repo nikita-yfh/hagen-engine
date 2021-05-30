@@ -1,5 +1,6 @@
 #include "camera.hpp"
 #include "sdl.hpp"
+#include "interface.hpp"
 #include <iostream>
 Mouse mouse;
 float cx=0,cy=0;
@@ -43,6 +44,7 @@ b2Vec2 rotate(b2Vec2 vec,float a) {
 	return {rotatex(vec,a),rotatey(vec,a)};
 }
 float mouse_angle() {
+	if(interface.mainmenu.shown)return 0.0f;
 	float x=SW/2-mouse.x;
 	float y=SH/2-mouse.y;
 	return get_angle(x,y);
