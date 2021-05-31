@@ -35,6 +35,7 @@ bool game() {
 						velocity_iterations,position_iterations);
 			update_fluid();
 		}
+		info_log(format("time: %d, time2: %d",SDL_GetTicks(),lua::prev_time));
 	}
 	return 0;
 }

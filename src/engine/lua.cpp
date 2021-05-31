@@ -545,6 +545,8 @@ void bind() {
 }
 void init() {
 	copy_prev_key();
+	prev_time=SDL_GetTicks();
+	timers.clear();
 	L = luaL_newstate();
 	luaL_openlibs(L);
 	bind();
@@ -603,8 +605,6 @@ void init_new_game() {
 void init_main_menu() {
 	init();
 	getGlobal(L,"init_main_menu")();
-	interface.mainmenu.show();
-	interface.update_cursor();
 }
 
 void init_level(string name) {

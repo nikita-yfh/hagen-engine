@@ -571,7 +571,6 @@ void SettingManager::draw() {
 	}
 
 	EndChild();
-	info_log(to_string(restart));
 	if(Button(get_ctext("common/ok"))) {
 		if(restart)
 			OpenPopup(get_text("settings/restart_title").c_str());
@@ -630,6 +629,7 @@ void SettingManager::open() {
 	update();
 }
 void SettingManager::close() {
+	shown=false;
 	languages.clear();
 }
 void WindowConfig::load(XMLNode node) {

@@ -128,6 +128,7 @@ void quit() {
 	} catch(...) {
 		exit(1);
 	}
+	exit(1);
 }
 void panic(string message) {
 	error_log(message);
