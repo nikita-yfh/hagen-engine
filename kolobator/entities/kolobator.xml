@@ -1,41 +1,50 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <physics>
 	<bodies count="2">
-		<body x="-0.00095575" y="-0.0508646" id="body" type="dynamic" script="" shapes="1">
+		<body x="0.00638709" y="-0.0306129" id="body" type="dynamic" script="" shapes="1">
 			<physic bullet="0" fixed_rotation="1" gravity_scale="1"/>
 			<shape id="body_fixture" type="Polygon" pos="physic" texture="kolobator1.png" expand="1">
-				<position point_count="22">
-					<point x="0.0109557" y="-0.199137"/>
-					<point x="0.0649557" y="-0.191137"/>
-					<point x="0.127954" y="-0.165137"/>
-					<point x="0.190954" y="-0.112137"/>
-					<point x="0.221954" y="-0.0681354"/>
-					<point x="0.243954" y="-0.0101354"/>
-					<point x="0.251954" y="0.0498646"/>
-					<point x="0.241954" y="0.119863"/>
-					<point x="0.213954" y="0.181863"/>
-					<point x="0.184954" y="0.219863"/>
-					<point x="0.156954" y="0.246863"/>
-					<point x="-0.151046" y="0.248863"/>
-					<point x="-0.194046" y="0.205863"/>
-					<point x="-0.228046" y="0.149863"/>
-					<point x="-0.246046" y="0.0898646"/>
-					<point x="-0.248046" y="0.0308646"/>
-					<point x="-0.238046" y="-0.0301354"/>
-					<point x="-0.212046" y="-0.0821354"/>
-					<point x="-0.170046" y="-0.131137"/>
-					<point x="-0.126045" y="-0.165136"/>
-					<point x="-0.0690443" y="-0.191137"/>
-					<point x="-0.0280443" y="-0.198137"/>
+				<position point_count="31">
+					<point x="0.0146129" y="-0.138387"/>
+					<point x="0.0416129" y="-0.132387"/>
+					<point x="0.0676129" y="-0.122387"/>
+					<point x="0.0946129" y="-0.106387"/>
+					<point x="0.118613" y="-0.0853871"/>
+					<point x="0.129613" y="-0.0713871"/>
+					<point x="0.143613" y="-0.0503871"/>
+					<point x="0.152613" y="-0.0293871"/>
+					<point x="0.161613" y="-0.000387097"/>
+					<point x="0.163613" y="0.0256129"/>
+					<point x="0.161613" y="0.0576129"/>
+					<point x="0.154613" y="0.0866129"/>
+					<point x="0.143613" y="0.110613"/>
+					<point x="0.129613" y="0.132613"/>
+					<point x="0.104613" y="0.159613"/>
+					<point x="0.0736129" y="0.180613"/>
+					<point x="-0.0863871" y="0.180613"/>
+					<point x="-0.116387" y="0.160613"/>
+					<point x="-0.141387" y="0.133613"/>
+					<point x="-0.158387" y="0.105613"/>
+					<point x="-0.169387" y="0.0786129"/>
+					<point x="-0.175387" y="0.0446129"/>
+					<point x="-0.175387" y="0.0116129"/>
+					<point x="-0.169387" y="-0.0173871"/>
+					<point x="-0.158387" y="-0.0453871"/>
+					<point x="-0.145387" y="-0.0673871"/>
+					<point x="-0.126387" y="-0.0893871"/>
+					<point x="-0.100387" y="-0.111387"/>
+					<point x="-0.0713871" y="-0.126387"/>
+					<point x="-0.0443871" y="-0.135387"/>
+					<point x="-0.0173871" y="-0.139387"/>
 				</position>
-				<physic density="1000" friction="0.3" restitution="0"/>
+				<physic density="3000" friction="0.3" restitution="0"/>
 				<collision category="1" mask="65533"/>
 			</shape>
 		</body>
-		<body x="0" y="0.1875" id="wheel" type="dynamic" script="" shapes="1">
+		<body x="0" y="0.12" id="wheel" type="dynamic" script="" shapes="1">
 			<physic bullet="0" fixed_rotation="0" gravity_scale="1"/>
-			<shape id="_Circle2" type="Circle" pos="b_physic" texture="wheel.png" expand="1">
-				<position x="0" y="0" r="0.125"/>
+			<shape id="_Circle3" type="Circle" pos="b_physic" texture="wheel.png" expand="1">
+				<position x="0" y="0" r="0.085"/>
 				<physic density="5000" friction="10" restitution="0"/>
 				<collision category="1" mask="65533"/>
 			</shape>
@@ -44,7 +53,7 @@
 	<joints count="1">
 		<joint type="RevoluteJoint" id="joint">
 			<connected collide="0" id1="body" id2="wheel"/>
-			<position x="0" y="0.1875"/>
+			<position x="4.47035e-10" y="0.12"/>
 			<physic limit="0" motor="1" speed="10" max_torque="1e+09"/>
 		</joint>
 	</joints>

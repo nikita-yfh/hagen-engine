@@ -24,5 +24,6 @@ struct Mouse {
 	int x,y;
 	bool update();
 	bool in_rect(GPU_Rect rect);
+	void clear();
 };
 extern Mouse mouse;

@@ -14,7 +14,8 @@
 using namespace std;
 Color scene_mask(0,0,0,0);
 bool show_textures=1;
-const float tex_scale=1.0f;
+float tex_scale=1.0f;
+float weapon_scale=1.0f;
 GPU_Image *img1;
 GPU_Target *ren1;
 void init_target() {
@@ -158,8 +159,8 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 				b2Vec2 v(shape->m_vertices[q].x,shape->m_vertices[q].y);
 				f[q*4]=drawx(body->GetPosition().x+rotatex(v,a_rad));
 				f[q*4+1]=drawy(body->GetPosition().y+rotatey(v,a_rad));
-				f[q*4+2]=(v-minv).x/(F_DATA(fix,expand)?(maxv-minv).x:(tex->w/100/tex_scale));
-				f[q*4+3]=(v-minv).y/(F_DATA(fix,expand)?(maxv-minv).y:(tex->h/100/tex_scale));
+				f[q*4+2]=(v-minv).x/(F_DATA(fix,expand)?(maxv-minv).x:(tex->w/100*tex_scale));
+				f[q*4+3]=(v-minv).y/(F_DATA(fix,expand)?(maxv-minv).y:(tex->h/100*tex_scale));
 			}
 			GPU_TriangleBatch(tex,ren1,3,f,3,0,GPU_BATCH_XY_ST);
 		} else {
@@ -225,14 +226,14 @@ void draw_entities(uint8_t pos) {
 		}
 		if(pos==3 && en.second->weapon.texture!="" && show_textures) {
 			enable_shader(en.second->weapon.texture);
-			float size_y=1.0f;
+			float size_y=weapon_scale;
 			if(en.second->weapon.angle>0.5*M_PI&&en.second->weapon.angle<1.5*M_PI)
-				size_y=-1.0f;
+				size_y*=-1;
 			GPU_BlitTransformX(textures[en.second->weapon.texture],0,ren1,
 							   drawx(en.second->getx()+en.second->weapon.point_x),
 							   drawy(en.second->gety()+en.second->weapon.point_y),
 							   en.second->weapon.dx*100,en.second->weapon.dy*100,
-							   en.second->weapon.angle/M_PI*180,zoom/100,size_y*zoom/100);
+							   en.second->weapon.angle/M_PI*180,weapon_scale*zoom/100,size_y*zoom/100);
 			disable_shaders();
 		}
 	}

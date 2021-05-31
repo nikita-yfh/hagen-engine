@@ -1,7 +1,7 @@
 function entity_k.init(a)
 	a:set_weapon("ak47")
-	entity_k.speed=10
-	entity_k.motor_speed=40
+	entity_k.speed=8
+	entity_k.motor_speed=20
 	a.max_health=10
 	a.health=10
 end

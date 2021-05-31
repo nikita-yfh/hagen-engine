@@ -369,6 +369,8 @@ void bind() {
 	.addFunction("effect",&effect::create)	//создание граффического эффекта в заданных координатах.
 	.addFunction("set_texture_shader",&set_texture_shader)
 	.addFunction("get_shader",&get_shader)
+	.addProperty("texture_scale",&tex_scale)
+	.addProperty("weapon_scale",&weapon_scale)
 	.beginNamespace("display")
 	.addProperty("w",&SW,0)
 	.addProperty("h",&SH,0)
@@ -545,6 +547,7 @@ void bind() {
 }
 void init() {
 	copy_prev_key();
+	mouse.clear();
 	prev_time=SDL_GetTicks();
 	timers.clear();
 	L = luaL_newstate();

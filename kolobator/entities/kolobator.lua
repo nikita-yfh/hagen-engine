@@ -4,11 +4,11 @@ function kolobator.init(a)
 	a:set_weapon("knife")
 	bullet("9mm").count=100
 	bullet("9mm").max=100
-	bullet("grenade").count=600
-	bullet("grenade").max=600
-	kolobator.speed=10
-	kolobator.motor_speed=40
-	kolobator.jump_impulse=2000
+	bullet("grenade").count=6
+	bullet("grenade").max=6
+	kolobator.speed=8
+	kolobator.motor_speed=20
+	kolobator.jump_impulse=1350
 	kolobator.jump=0
 end
 function kolobator.update(a)
@@ -24,18 +24,19 @@ function kolobator.update(a)
 		j.motor=1
 		j.motor_speed=-kolobator.motor_speed
 		j.max_torque=30000
-		b:apply_center_impulse(-24,0)
+		b:apply_center_impulse(-12,0)
 	elseif(game.key("right") and b.vx<kolobator.speed and game.interval(20)) then
 		j.motor=1
 		j.motor_speed=kolobator.motor_speed
 		j.max_torque=30000
-		b:apply_center_impulse(24,0)
+		b:apply_center_impulse(12,0)
 	elseif(game.key("down")) then
 		j.motor=1
 		j.motor_speed=0
 		j.max_torque=30000
 	else
 		j.motor=0
+		j.max_torque=0
  		if(kolobator.jump==true and world.lb_collide(a:body("wheel"))) then
 			b:apply_center_impulse(0,-kolobator.jump_impulse)
 			kolobator.jump=false

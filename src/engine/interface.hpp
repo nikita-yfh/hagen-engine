@@ -52,8 +52,8 @@ struct Console {
 	int TextEditCallback(ImGuiInputTextCallbackData* data);
 	static int TextEditCallbackStub(ImGuiInputTextCallbackData* data);
 	WindowConfig config;
-	void open();
-	void close();
+	void show();
+	void hide();
 };
 struct GameInterface {
 	bool shown=true;
@@ -65,7 +65,7 @@ struct GameInterface {
 struct Pause {
 	bool shown=false;
 	void draw();
-	void close();
+	void hide();
 	int width=0;
 	WindowConfig config;
 };
@@ -75,8 +75,8 @@ struct SaverLoader {
 	char selected[64];
 	void draw();
 	void update_cache();
-	void close();
-	void open(bool mode);
+	void hide();
+	void show(bool mode);
 	vector<string>list;
 	WindowConfig config;
 };
@@ -90,8 +90,8 @@ struct SettingManager {
 	WindowConfig config;
 	bool restart=false;
 	void apply();
-	void open();
-	void close();
+	void show();
+	void hide();
 };
 struct LevelChooser {
 	vector<bool>opened;

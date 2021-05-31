@@ -4,9 +4,8 @@ function rg6.init(w,e)
 	w.bullet1="grenade"
 	w.texture="weapon/rg6.png"
 end
-function rg6.fire2(w,e)
-    if(not game.interval(100)) then return 0 end
-	local bullet=world.create_bullet(e,"grenade",100)
+function rg6.fire1(w,e)
+	local bullet=world.create_bullet(e,"grenade",50)
 	bullet.userdata.create_time=game.time
 	bullet.userdata.entity=e.id
 	play("shot.flac",e.x,e.y)

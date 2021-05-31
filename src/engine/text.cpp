@@ -5,6 +5,9 @@
 #include "utility.hpp"
 #include <iostream>
 map <string,string>texts;
+struct Subtitles{
+
+};
 string get_text(string id) {
 	if(texts.empty() || texts.find(id)==texts.end()) {
 		XMLNode xml=XMLNode::openFileHelper((prefix+"locales/"+settings.language+".xml").c_str(),"text");

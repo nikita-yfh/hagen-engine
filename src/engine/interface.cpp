@@ -25,14 +25,14 @@ void Pause::draw() {
 	}
 	ImVec2 align=ImVec2(width, 0);
 	if(Button(get_ctext("pause/continue"),align)) {
-		close();
+		hide();
 	}
 	if(Button(get_ctext("pause/save_game"),align))
-		interface.saver.open(1);
+		interface.saver.show(1);
 	if(Button(get_ctext("pause/load_game"),align))
-		interface.saver.open(0);
+		interface.saver.show(0);
 	if(Button(get_ctext("pause/settings"),align))
-		interface.settingmanager.open();
+		interface.settingmanager.show();
 	if(Button(get_ctext("pause/main_menu"),align))
 		OpenPopup(get_ctext("pause/main_menu_title"));
 	if(Button(get_ctext("pause/exit_game"),align))
@@ -209,10 +209,10 @@ int Console::TextEditCallback(ImGuiInputTextCallbackData* data) {
 	}
 	return 0;
 }
-void Console::open() {
+void Console::show() {
 	shown=true;
 }
-void Console::close() {
+void Console::hide() {
 	shown=false;
 }
 void Rect4::stabilize(float f) {
@@ -243,9 +243,9 @@ void Interface::update() {
 			update_cursor();
 		} else if(e.key.keysym.sym==SDLK_ESCAPE) {
 			if(console.shown)
-				console.close();
+				console.hide();
 			else if(pause.shown)
-				pause.close();
+				pause.hide();
 			else
 				pause.shown=true;
 			if(!shown())hide();
@@ -497,7 +497,7 @@ void SaverLoader::draw() {
 		update_cache();
 	}
 	SameLine();
-	if(Button(get_ctext("common/cancel")))close();
+	if(Button(get_ctext("common/cancel")))hide();
 	SameLine();
 	if(InputText("",selected,64,ImGuiInputTextFlags_EnterReturnsTrue) || press) {
 		if(strlen(selected) && string(selected)!=string("settings")) {
@@ -505,15 +505,15 @@ void SaverLoader::draw() {
 				save_world_state(selected);
 			else if(exist_file(saves+selected+".xml"))
 				load_world_state(selected);
-			interface.pause.close();
+			interface.pause.hide();
 			interface.mainmenu.hide();
-			close();
+			hide();
 		}
 	}
 
 	End();
 }
-void SaverLoader::open(bool _mode) {
+void SaverLoader::show(bool _mode) {
 	update_cache();
 	mode=_mode;
 	shown=true;
@@ -529,15 +529,15 @@ void SaverLoader::update_cache() {
 			list.erase(list.begin()+q);
 	}
 }
-void SaverLoader::close() {
+void SaverLoader::hide() {
 	list.clear();
 	shown=false;
 }
-void Pause::close() {
+void Pause::hide() {
 	shown=false;
-	interface.saver.close();
-	interface.console.close();
-	interface.settingmanager.close();
+	interface.saver.hide();
+	interface.console.hide();
+	interface.settingmanager.hide();
 }
 void SettingManager::draw() {
 	if(!shown)return;
@@ -579,7 +579,7 @@ void SettingManager::draw() {
 	}
 	SameLine();
 	if(Button(get_ctext("common/cancel")))
-		close();
+		hide();
 	SetNextWindowPos(ImVec2(GetIO().DisplaySize.x * 0.5f, GetIO().DisplaySize.y * 0.5f),
 					 ImGuiCond_Always, ImVec2(0.5f,0.5f));
 	if (BeginPopupModal(get_text("settings/restart_title").c_str(), NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
@@ -612,7 +612,7 @@ void SettingManager::apply() {
 		}
 		info_log("Music inited succesfully");
 	}
-	close();
+	hide();
 }
 void SettingManager::update() {
 	set=settings;
@@ -624,11 +624,11 @@ void SettingManager::update() {
 	}
 	restart=false;
 }
-void SettingManager::open() {
+void SettingManager::show() {
 	shown=true;
 	update();
 }
-void SettingManager::close() {
+void SettingManager::hide() {
 	shown=false;
 	languages.clear();
 }
@@ -665,11 +665,11 @@ void MainMenu::draw() {
 			}
 		},
 		{get_text("main_menu/load_game"),[]() {
-				interface.saver.open(0);
+				interface.saver.show(0);
 			}
 		},
 		{get_text("main_menu/settings"),[]() {
-				interface.settingmanager.open();
+				interface.settingmanager.show();
 			}
 		},
 		{get_text("main_menu/exit_game"),[]() {
@@ -729,7 +729,7 @@ void MainMenu::hide(){
 void MainMenu::show(){
 	shown=true;
 	interface.update_cursor();
-	interface.pause.close();
+	interface.pause.hide();
 	lua::init_main_menu();
 }
 Interface interface;
