@@ -371,6 +371,7 @@ void bind() {
 	.addFunction("get_shader",&get_shader)
 	.addProperty("texture_scale",&tex_scale)
 	.addProperty("weapon_scale",&weapon_scale)
+	.addProperty("effect_scale",&effect_scale)
 	.beginNamespace("display")
 	.addProperty("w",&SW,0)
 	.addProperty("h",&SH,0)

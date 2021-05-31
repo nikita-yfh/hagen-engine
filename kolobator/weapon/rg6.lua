@@ -5,7 +5,7 @@ function rg6.init(w,e)
 	w.texture="weapon/rg6.png"
 end
 function rg6.fire1(w,e)
-	local bullet=world.create_bullet(e,"grenade",50)
+	local bullet=world.create_bullet(e,"grenade",150)
 	bullet.userdata.create_time=game.time
 	bullet.userdata.entity=e.id
 	play("shot.flac",e.x,e.y)

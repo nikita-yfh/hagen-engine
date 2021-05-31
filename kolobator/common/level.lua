@@ -10,7 +10,10 @@ function Level.init()
     graphics.set_texture_shader("water.png",shader)
     graphics.texture_scale=0.5
     graphics.weapon_scale=0.5
+    graphics.effect_scale=0.5
     game.camera.zoom=200
+    world.position_iterations=10
+    world.velocity_iterations=10
 end
 function Level.update()
     --local shader=graphics.get_shader("_all")

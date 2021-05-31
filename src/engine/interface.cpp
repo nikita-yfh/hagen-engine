@@ -683,13 +683,12 @@ void MainMenu::draw() {
 	float image_scale=image_h/title->h;
 
 	float image_w=image_scale*title->w;
-
 	GPU_BlitScale(title,0,ren,borders.left+image_w/2,borders.top+image_h/2,image_scale,image_scale);
 	for(auto button : buttons) {
 		GPU_Rect rect=GPU_MakeRect(borders.left,pos,FC_GetWidth(font,button.text.c_str()),text_h);
 		if(mouse.in_rect(rect)) {
 			FC_DrawColor(font,ren,borders.left,pos,active.color(),button.text.c_str());
-			if(mouse.state)
+			if(mouse.state==1)
 				button.func();
 		} else {
 			FC_DrawColor(font,ren,borders.left,pos,inactive.color(),button.text.c_str());

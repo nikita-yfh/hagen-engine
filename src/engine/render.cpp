@@ -16,6 +16,7 @@ Color scene_mask(0,0,0,0);
 bool show_textures=1;
 float tex_scale=1.0f;
 float weapon_scale=1.0f;
+float effect_scale=1.0f;
 GPU_Image *img1;
 GPU_Target *ren1;
 void init_target() {
@@ -159,8 +160,8 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 				b2Vec2 v(shape->m_vertices[q].x,shape->m_vertices[q].y);
 				f[q*4]=drawx(body->GetPosition().x+rotatex(v,a_rad));
 				f[q*4+1]=drawy(body->GetPosition().y+rotatey(v,a_rad));
-				f[q*4+2]=(v-minv).x/(F_DATA(fix,expand)?(maxv-minv).x:(tex->w/100*tex_scale));
-				f[q*4+3]=(v-minv).y/(F_DATA(fix,expand)?(maxv-minv).y:(tex->h/100*tex_scale));
+				f[q*4+2]=(v-minv).x/(F_DATA(fix,expand)?(maxv-minv).x:(tex->w/100.0*tex_scale));
+				f[q*4+3]=(v-minv).y/(F_DATA(fix,expand)?(maxv-minv).y:(tex->h/100.0*tex_scale));
 			}
 			GPU_TriangleBatch(tex,ren1,3,f,3,0,GPU_BATCH_XY_ST);
 		} else {
@@ -182,11 +183,11 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 				b2Vec2 v(shape->m_vertices[q].x,shape->m_vertices[q].y);
 				f[q*4]=drawx(body->GetPosition().x+rotatex(v,a_rad));
 				f[q*4+1]=drawy(body->GetPosition().y+rotatey(v,a_rad));
-				f[q*4+2]=shape->big_polygon[q].x/(F_DATA(fix,expand)?shape->big_polygon[4].x:(tex->w/100.0f/tex_scale));
+				f[q*4+2]=shape->big_polygon[q].x/(F_DATA(fix,expand)?shape->big_polygon[4].x:(tex->w/100.0f*tex_scale));
 				if(F_DATA(fix,expand))
 					f[q*4+3]=(shape->big_polygon[q].y!=0);
 				else
-					f[q*4+3]=shape->big_polygon[q].y/(tex->h/100.0f/tex_scale);
+					f[q*4+3]=shape->big_polygon[q].y/(tex->h/100.0f*tex_scale);
 			}
 			if(F_DATA(fix,expand))
 				GPU_SetWrapMode(tex, GPU_WRAP_NONE, GPU_WRAP_NONE);
@@ -241,7 +242,7 @@ void draw_entities(uint8_t pos) {
 void draw_effects() {
 	for(auto &e : effect::effects) {
 		int frame=max(0,min((int)e.effect->anim.size()-1,int(float(lua::get_time()-e.begin_time)/e.effect->period)));
-		GPU_BlitScale(e.effect->anim[frame],0,ren1,drawx(e.x),drawy(e.y),zoom/100,zoom/100);
+		GPU_BlitScale(e.effect->anim[frame],0,ren1,drawx(e.x),drawy(e.y),zoom/100*effect_scale,zoom/100*effect_scale);
 	}
 }
 void draw() {
