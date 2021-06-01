@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<body type="dynamic" shapes="1" script="bullet_762">
+	<physic bullet="1" fixed_rotation="0" gravity_scale="1"/>
+	<shape id="_Rect1" type="Rect" pos="physic" texture="bullets/762.png" expand="1">
+		<position x1="-0.025" y1="-0.009" x2="0.025" y2="0.009"/>
+		<physic density="1332" friction="0.3" restitution="0"/>
+		<collision category="2" mask="65533"/>
+	</shape>
+</body>
