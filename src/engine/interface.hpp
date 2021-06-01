@@ -93,11 +93,16 @@ struct SettingManager {
 	void show();
 	void hide();
 };
+struct CLevel {
+	string id;
+	bool show=0;
+	bool open=0;
+};
 struct LevelChooser {
-	vector<bool>opened;
+	bool shown=false;
+	vector<CLevel>levels;
 	WindowConfig config;
 	void load();
-	void save();
 	void def();
 };
 struct MainMenu {
@@ -124,6 +129,7 @@ struct Interface {
 	Pause pause;
 	SettingManager settingmanager;
 	MainMenu mainmenu;
+	LevelChooser levelchooser;
 	void draw();
 	void update();
 	void load_config();

@@ -91,13 +91,6 @@ string get_free_name(string name) {
 		if(ok)return ssprintf("_%s%d",name.c_str(),q);
 	}
 }
-float to_fl(const char* str) {
-	std::stringstream ss;
-	ss<<str;
-	float res;
-	ss>>res;
-	return res;
-}
 float vec_angle1(b2Vec2 p) {
 	if(p.x>=0)
 		return M_PI+atan(p.y/p.x);

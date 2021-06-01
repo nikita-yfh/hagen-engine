@@ -125,6 +125,7 @@ void doscript(string file) {
 }
 void level(string str) {
 	need_load=str;
+	//save_world_state(levelname+"_autosave");
 }
 void init_body(b2Body *body,bool ex) {
 	if(B_DATA(body,script).size()) {
@@ -563,6 +564,7 @@ void init() {
 		"level={}\n"
 		"level.init=function() end\n"
 		"level.update=function() end\n"
+		"level.newgame=function() end\n"
 
 		"Body={}\n"
 		"Body.init=function() end\n"
@@ -660,14 +662,14 @@ LuaRef load_luaref(XMLNode n) { //Загружает переменную из X
 	if(n.getAttribute("type")) {
 		string type=n.getAttribute("type");
 		if(type=="boolean")
-			return LuaRef(L,stoi(n.getAttribute("value"))?true:false);
+			return LuaRef(L,n.getAttributei("value")?true:false);
 		else if(type=="number")
-			return LuaRef(L,stof(n.getAttribute("value")));
+			return LuaRef(L,n.getAttributef("value"));
 		else if(type=="string")
 			return LuaRef(L,n.getAttribute("value"));
 		else if(type=="table") {
 			LuaRef c(newTable(L));
-			int count=stoi(n.getAttribute("count"));
+			int count=n.getAttributei("count");
 			for(int q=0; q<count; q++) {
 				XMLNode child=n.getChildNode("value",q);
 				LuaRef ch(L,load_luaref(child));

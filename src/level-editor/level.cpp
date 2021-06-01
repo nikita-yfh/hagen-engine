@@ -52,8 +52,8 @@ bool Level::open_file(string path) {
 		all=0;
 	}
 	if(all) {
-		w=stoi(lvl.getAttribute("w"));
-		h=stoi(lvl.getAttribute("h"));
+		w=lvl.getAttributei("w");
+		h=lvl.getAttributei("h");
 		{
 			//backgroung
 			XMLNode bgr=lvl.getChildNode("background");
@@ -66,7 +66,7 @@ bool Level::open_file(string path) {
 		for(int q=0; q<bodies.size(); q++) {
 			delete bodies[q];
 		}
-		bodies.resize(stoi(bds.getAttribute("count")));
+		bodies.resize(bds.getAttributei("count"));
 		for(int q=0; q<bodies.size(); q++) {
 			XMLNode bd=bds.getChildNode("body",q);
 			bodies[q]=new Body;
@@ -79,13 +79,13 @@ bool Level::open_file(string path) {
 		for(int q=0; q<entities.size(); q++) {
 			delete entities[q];
 		}
-		entities.resize(stoi(ens.getAttribute("count")));
+		entities.resize(ens.getAttributei("count"));
 		for(int q=0; q<entities.size(); q++) {
 			XMLNode en=ens.getChildNode("entity",q);
 			XMLNode pos=en.getChildNode("position");
 			entities[q]=new Entity;
-			entities[q]->pos.x=stof(pos.getAttribute("x"));
-			entities[q]->pos.y=stof(pos.getAttribute("y"));
+			entities[q]->pos.x=pos.getAttributef("x");
+			entities[q]->pos.y=pos.getAttributef("y");
 			entities[q]->id=en.getAttribute("id");
 			entities[q]->type=en.getAttribute("type");
 		}
@@ -174,7 +174,7 @@ void Level::save_joints(XMLNode &lvl) {
 }
 void Level::load_joints(XMLNode &lvl) {
 	XMLNode jall=lvl.getChildNode("joints");
-	int joints_count=stoi(jall.getAttribute("count"));
+	int joints_count=jall.getAttributei("count");
 	for(int q=0; q<joints.size(); q++)
 		delete joints[q];
 	joints.resize(joints_count);
@@ -186,73 +186,73 @@ void Level::load_joints(XMLNode &lvl) {
 		string type=node.getAttribute("type");
 		if(type=="WeldJoint") {
 			WeldJoint *j=new WeldJoint;
-			j->x=to_fl(pos.getAttribute("x"));
-			j->y=to_fl(pos.getAttribute("y"));
-			j->stiffness=to_fl(phs.getAttribute("stiffness"));
-			j->damping=to_fl(phs.getAttribute("damping"));
+			j->x=pos.getAttributef("x");
+			j->y=pos.getAttributef("y");
+			j->stiffness=phs.getAttributef("stiffness");
+			j->damping=phs.getAttributef("damping");
 			joints[q]=j;
 		} else if(type=="RevoluteJoint") {
 			RevoluteJoint *j=new RevoluteJoint;
-			j->x=to_fl(pos.getAttribute("x"));
-			j->y=to_fl(pos.getAttribute("y"));
-			j->limit=stoi(phs.getAttribute("limit"));
-			j->motor=stoi(phs.getAttribute("motor"));
+			j->x=pos.getAttributef("x");
+			j->y=pos.getAttributef("y");
+			j->limit=phs.getAttributei("limit");
+			j->motor=phs.getAttributei("motor");
 			if(j->limit) {
-				j->lower=to_fl(phs.getAttribute("lower"));
-				j->upper=to_fl(phs.getAttribute("upper"));
+				j->lower=phs.getAttributef("lower");
+				j->upper=phs.getAttributef("upper");
 			}
 			if(j->motor) {
-				j->speed=to_fl(phs.getAttribute("speed"));
-				j->torque=to_fl(phs.getAttribute("max_torque"));
+				j->speed=phs.getAttributef("speed");
+				j->torque=phs.getAttributef("max_torque");
 			}
 			joints[q]=j;
 		} else if(type=="GearJoint") {
 			GearJoint *j=new GearJoint;
-			j->ratio=to_fl(phs.getAttribute("ratio"));
+			j->ratio=phs.getAttributef("ratio");
 			joints[q]=j;
 		} else if(type=="PrismaticJoint") {
 			PrismaticJoint *j=new PrismaticJoint;
-			j->x=to_fl(pos.getAttribute("x"));
-			j->y=to_fl(pos.getAttribute("y"));
-			j->angle=to_fl(pos.getAttribute("angle"));
-			j->limit=stoi(phs.getAttribute("limit"));
-			j->motor=stoi(phs.getAttribute("motor"));
+			j->x=pos.getAttributef("x");
+			j->y=pos.getAttributef("y");
+			j->angle=pos.getAttributef("angle");
+			j->limit=phs.getAttributei("limit");
+			j->motor=phs.getAttributei("motor");
 			if(j->limit) {
-				j->lower=to_fl(phs.getAttribute("lower"));
-				j->upper=to_fl(phs.getAttribute("upper"));
+				j->lower=phs.getAttributef("lower");
+				j->upper=phs.getAttributef("upper");
 			}
 			if(j->motor) {
-				j->speed=to_fl(phs.getAttribute("speed"));
-				j->force=to_fl(phs.getAttribute("max_force"));
+				j->speed=phs.getAttributef("speed");
+				j->force=phs.getAttributef("max_force");
 			}
 			joints[q]=j;
 		} else if(type=="DistanceJoint") {
 			DistanceJoint *j=new DistanceJoint;
-			j->x1=to_fl(pos.getAttribute("x1"));
-			j->y1=to_fl(pos.getAttribute("y1"));
-			j->x2=to_fl(pos.getAttribute("x2"));
-			j->y2=to_fl(pos.getAttribute("y2"));
-			j->min=to_fl(pos.getAttribute("min"));
-			j->max=to_fl(pos.getAttribute("max"));
-			j->stiffness=to_fl(phs.getAttribute("stiffness"));
-			j->damping=to_fl(phs.getAttribute("damping"));
+			j->x1=pos.getAttributef("x1");
+			j->y1=pos.getAttributef("y1");
+			j->x2=pos.getAttributef("x2");
+			j->y2=pos.getAttributef("y2");
+			j->min=pos.getAttributef("min");
+			j->max=pos.getAttributef("max");
+			j->stiffness=phs.getAttributef("stiffness");
+			j->damping=phs.getAttributef("damping");
 			joints[q]=j;
 		} else if(type=="PulleyJoint") {
 			PulleyJoint *j=new PulleyJoint;
-			j->x1=to_fl(pos.getAttribute("x1"));
-			j->y1=to_fl(pos.getAttribute("y1"));
-			j->x2=to_fl(pos.getAttribute("x2"));
-			j->y2=to_fl(pos.getAttribute("y2"));
-			j->x3=to_fl(pos.getAttribute("x3"));
-			j->y3=to_fl(pos.getAttribute("y3"));
-			j->x4=to_fl(pos.getAttribute("x4"));
-			j->y4=to_fl(pos.getAttribute("y4"));
-			j->ratio=to_fl(phs.getAttribute("ratio"));
+			j->x1=pos.getAttributef("x1");
+			j->y1=pos.getAttributef("y1");
+			j->x2=pos.getAttributef("x2");
+			j->y2=pos.getAttributef("y2");
+			j->x3=pos.getAttributef("x3");
+			j->y3=pos.getAttributef("y3");
+			j->x4=pos.getAttributef("x4");
+			j->y4=pos.getAttributef("y4");
+			j->ratio=phs.getAttributef("ratio");
 			joints[q]=j;
 		}
 		joints[q]->id1=con.getAttribute("id1");
 		joints[q]->id2=con.getAttribute("id2");
-		joints[q]->collide=stoi(con.getAttribute("collide"));
+		joints[q]->collide=con.getAttributei("collide");
 		joints[q]->id=node.getAttribute("id");
 	}
 }

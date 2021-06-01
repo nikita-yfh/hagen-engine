@@ -75,13 +75,13 @@ void Settings::load() {
 	try {
 		XMLNode Main=XMLNode::openFileHelper((saves+"settings.xml").c_str(),"settings");
 		XMLNode graphics=Main.getChildNode("graphics");
-		SW=stoi(graphics.getAttribute("w"));
-		SH=stoi(graphics.getAttribute("h"));
-		fullscreen=stoi(graphics.getAttribute("fullscreen"));
+		SW=graphics.getAttributei("w");
+		SH=graphics.getAttributei("h");
+		fullscreen=graphics.getAttributei("fullscreen");
 		XMLNode sound=Main.getChildNode("sound");
-		sound_volume=stoi(sound.getAttribute("sound_volume"));
-		music_volume=stoi(sound.getAttribute("music_volume"));
-		sound_freq=stoi(sound.getAttribute("frequency"));
+		sound_volume=sound.getAttributei("sound_volume");
+		music_volume=sound.getAttributei("music_volume");
+		sound_freq=sound.getAttributei("frequency");
 		XMLNode game=Main.getChildNode("game");
 		language=game.getAttribute("language");
 		info_log("Loaded settings from settings.xml successfully");

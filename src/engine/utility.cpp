@@ -107,20 +107,20 @@ bool bigger_angle(b2Vec2 v1,b2Vec2 v2) {
 bool load_value(XMLNode node, const char *name,float &value) {
 	XMLNode value_n=node.getChildNode(name);
 	if(value_n.isEmpty())return 0;
-	value=stof(value_n.getAttribute("value"));
+	value=value_n.getAttributef("value");
 	return 1;
 };
 bool load_value(XMLNode node, const char *name,bool &value) {
 	XMLNode value_n=node.getChildNode(name);
 	if(value_n.isEmpty())return 0;
-	value=stoi(value_n.getAttribute("value"));
+	value=value_n.getAttributei("value");
 	return 1;
 };
 bool load_value(XMLNode node, const char *name,ImVec2 &value) {
 	XMLNode value_n=node.getChildNode(name);
 	if(value_n.isEmpty())return 0;
-	value.x=stof(value_n.getAttribute("x"));
-	value.y=stof(value_n.getAttribute("y"));
+	value.x=value_n.getAttributef("x");
+	value.y=value_n.getAttributef("y");
 	return 1;
 };
 
@@ -128,38 +128,38 @@ bool load_value(XMLNode node, const char *name,ImVec2 &value) {
 bool load_value(XMLNode node, const char *name,b2Vec2 &value) {
 	XMLNode value_n=node.getChildNode(name);
 	if(value_n.isEmpty())return 0;
-	value.x=stof(value_n.getAttribute("x"));
-	value.y=stof(value_n.getAttribute("y"));
+	value.x=value_n.getAttributef("x");
+	value.y=value_n.getAttributef("y");
 	return 1;
 };
 bool load_value(XMLNode node, const char *name,b2Transform &value) {
 	XMLNode value_n=node.getChildNode(name);
 	if(value_n.isEmpty())return 0;
-	value.p.x=stof(value_n.getAttribute("x"));
-	value.p.y=stof(value_n.getAttribute("y"));
-	value.q.c=stof(value_n.getAttribute("cos"));
-	value.q.s=stof(value_n.getAttribute("sin"));
+	value.p.x=value_n.getAttributef("x");
+	value.p.y=value_n.getAttributef("y");
+	value.q.c=value_n.getAttributef("cos");
+	value.q.s=value_n.getAttributef("sin");
 	return 1;
 };
 bool load_value(XMLNode node, const char *name,b2Sweep &value) {
 	XMLNode value_n=node.getChildNode(name);
 	if(value_n.isEmpty())return 0;
-	value.a=stof(value_n.getAttribute("a1"));
-	value.a0=stof(value_n.getAttribute("a0"));
-	value.c0.x=stof(value_n.getAttribute("c0x"));
-	value.c0.y=stof(value_n.getAttribute("c0y"));
-	value.c.x=stof(value_n.getAttribute("c1x"));
-	value.c.y=stof(value_n.getAttribute("c1y"));
+	value.a=value_n.getAttributef("a1");
+	value.a0=value_n.getAttributef("a0");
+	value.c0.x=value_n.getAttributef("c0x");
+	value.c0.y=value_n.getAttributef("c0y");
+	value.c.x=value_n.getAttributef("c1x");
+	value.c.y=value_n.getAttributef("c1y");
 	return 1;
 };
 
 bool load_value(XMLNode node, const char *name,Color &value) {
 	XMLNode value_n=node.getChildNode(name);
 	if(value_n.isEmpty())return 0;
-	value.r=stof(value_n.getAttribute("r"));
-	value.g=stof(value_n.getAttribute("g"));
-	value.b=stof(value_n.getAttribute("b"));
-	value.a=stof(value_n.getAttribute("a"));
+	value.r=value_n.getAttributef("r");
+	value.g=value_n.getAttributef("g");
+	value.b=value_n.getAttributef("b");
+	value.a=value_n.getAttributef("a");
 	return 1;
 };
 

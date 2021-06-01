@@ -21,7 +21,7 @@ Entity::Entity(string _type,float xp,float yp) {
 	{
 		//bodies
 		XMLNode bds=xml.getChildNode("bodies");
-		int bodies_count=stoi(bds.getAttribute("count"));
+		int bodies_count=bds.getAttributei("count");
 		bodies.clear();
 		for(int q=0; q<bodies_count; q++) {
 			XMLNode bd=bds.getChildNode("body",q);
@@ -34,7 +34,7 @@ Entity::Entity(string _type,float xp,float yp) {
 	{
 		//joints
 		XMLNode js=xml.getChildNode("joints");
-		int joints_count=stoi(js.getAttribute("count"));
+		int joints_count=js.getAttributei("count");
 		joints.clear();
 		for(int q=0; q<joints_count; q++) {
 			XMLNode ch=js.getChildNode("joint",q);

@@ -2789,6 +2789,17 @@ XMLNode XMLNode::getChildNodeWithAttribute(XMLCSTR name,XMLCSTR attributeName,XM
 	return emptyXMLNode;
 }
 
+int XMLNode::getAttributei(XMLCSTR lpszAttrib,int j) const{
+	return stoi(getAttribute(lpszAttrib,j));
+}
+float XMLNode::getAttributef(XMLCSTR lpszAttrib,int j) const{
+	stringstream ss;
+	ss<<getAttribute(lpszAttrib,j);
+	float f;
+	ss>>f;
+	return f;
+}
+
 // Find an attribute on an node.
 XMLCSTR XMLNode::getAttribute(XMLCSTR lpszAttrib, int *j) const {
 	if (!d) return NULL;

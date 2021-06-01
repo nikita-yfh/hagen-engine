@@ -66,7 +66,7 @@
 #endif /* TRUE */
 #include <string>
 #include <sstream>
-
+using namespace std;
 /// Enumeration for XML parse errors.
 typedef enum XMLError {
 	eXMLErrorNone = 0,
@@ -248,6 +248,8 @@ public:
 	char  isAttributeSet(XMLCSTR name) const;                      ///< test if an attribute with a specific name is given
 	XMLCSTR getAttribute(XMLCSTR name, int i) const;               ///< return ith attribute content with specific name (return a NULL if failing)
 	XMLCSTR getAttribute(XMLCSTR name, int *i=NULL) const;         ///< return next attribute content with specific name (return a NULL if failing)
+	int getAttributei(XMLCSTR name, int i=0) const;
+	float getAttributef(XMLCSTR name, int i=0) const;
 	int nAttribute() const;                                        ///< nbr of attribute
 	XMLClear getClear(int i=0) const;                              ///< return ith clear field (comments)
 	int nClear() const;                                            ///< nbr of clear field

@@ -48,10 +48,10 @@ Rect::Rect(float _x,float _y,float _w,float _h) {
 	set(_x,_y,_w,_h);
 }
 void Rect::load(XMLNode node,float f) {
-	x=stoi(node.getAttribute("x"));
-	y=stoi(node.getAttribute("y"));
-	w=stoi(node.getAttribute("w"));
-	h=stoi(node.getAttribute("h"));
+	x=node.getAttributef("x");
+	y=node.getAttributef("y");
+	w=node.getAttributef("w");
+	h=node.getAttributef("h");
 	if(x<1.0f)x*=f;
 	if(y<1.0f)y*=f;
 	if(w<1.0f)w*=f;
@@ -192,7 +192,7 @@ void destroy_all() {
 
 void load_font(FC_Font *&font, XMLNode node,string color,float h) {
 	string font_path=node.getAttribute("name");
-	float size=stof(node.getAttribute("size"));
+	float size=node.getAttributef("size");
 	if(size<1)size*=h;
 	font_path=prefix+"fonts/"+font_path;
 	if(font!=0)

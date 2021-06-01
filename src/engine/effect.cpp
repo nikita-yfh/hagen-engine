@@ -8,8 +8,8 @@ Effect::Effect(string name) {
 }
 void Effect::load(string name) {
 	XMLNode node=XMLNode::openFileHelper((prefix+"effects/"+name+".xml").c_str(),"effect");
-	period=stoi(node.getAttribute("period"));
-	anim.resize(stoi(node.getAttribute("count")));
+	period=node.getAttributei("period");
+	anim.resize(node.getAttributei("count"));
 	for(int q=0; q<anim.size(); q++) {
 		XMLNode tex_n=node.getChildNode("texture",q);
 		anim[q]=load_texture(tex_n.getAttribute("name"));

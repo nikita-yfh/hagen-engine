@@ -222,18 +222,18 @@ void Rect4::stabilize(float f) {
 	if(bottom<1)bottom*=f;
 }
 void Rect4::load(XMLNode l) {
-	top=stof(l.getAttribute("top"));
-	left=stof(l.getAttribute("left"));
-	right=stof(l.getAttribute("right"));
-	bottom=stof(l.getAttribute("bottom"));
+	top=l.getAttributef("top");
+	left=l.getAttributef("left");
+	right=l.getAttributef("right");
+	bottom=l.getAttributef("bottom");
 }
 void Vec::stabilize(float f) {
 	if(x<1)x*=f;
 	if(y<1)y*=f;
 }
 void Vec::load(XMLNode l) {
-	x=stof(l.getAttribute("x"));
-	y=stof(l.getAttribute("y"));
+	x=l.getAttributef("x");
+	y=l.getAttributef("y");
 }
 void Interface::update() {
 	if(e.type==SDL_KEYDOWN && !mainmenu.shown) {
@@ -279,7 +279,7 @@ void Interface::load_imgui_config() {
 	XMLNode node=XMLNode::openFileHelper((prefix+"config/imgui.xml").c_str(),"imgui");
 	XMLNode text=node.getChildNode("text");
 	if(!text.isEmpty())
-		load_imgui_font(text.getAttribute("name"),stof(text.getAttribute("size")));
+		load_imgui_font(text.getAttribute("name"),text.getAttributef("size"));
 	vector<const char*>colors= {
 		"Text",
 		"TextDisabled",
@@ -333,10 +333,10 @@ void Interface::load_imgui_config() {
 			if(color_n.isEmpty())
 				continue;
 			ImVec4 color(
-				stoi(color_n.getAttribute("r"))/255.0f,
-				stoi(color_n.getAttribute("g"))/255.0f,
-				stoi(color_n.getAttribute("b"))/255.0f,
-				stoi(color_n.getAttribute("a"))/255.0f
+				color_n.getAttributei("r")/255.0f,
+				color_n.getAttributei("g")/255.0f,
+				color_n.getAttributei("b")/255.0f,
+				color_n.getAttributei("a")/255.0f
 			);
 			style.Colors[q]=color;
 		}
@@ -373,6 +373,7 @@ void Interface::load_imgui_config() {
 	console.config.load(node.getChildNode("console"));
 	pause.config.load(node.getChildNode("pause"));
 	saver.config.load(node.getChildNode("saverloader"));
+	levelchooser.config.load(node.getChildNode("levelchooser"));
 }
 void Interface::load_imgui_font(string name,float size) {
 	ImFontConfig font_config;
@@ -633,19 +634,19 @@ void SettingManager::hide() {
 	languages.clear();
 }
 void WindowConfig::load(XMLNode node) {
-	collapse=stoi(node.getAttribute("collapse"));
-	resize=stoi(node.getAttribute("resize"));
-	center=stoi(node.getAttribute("center"));
-	heigth=stoi(node.getAttribute("heigth"));
-	width=stoi(node.getAttribute("width"));
-	title=stoi(node.getAttribute("title"));
-	focus=stoi(node.getAttribute("focus"));
-	move=stoi(node.getAttribute("move"));
+	collapse=node.getAttributei("collapse");
+	resize=node.getAttributei("resize");
+	center=node.getAttributei("center");
+	heigth=node.getAttributei("heigth");
+	width=node.getAttributei("width");
+	title=node.getAttributei("title");
+	focus=node.getAttributei("focus");
+	move=node.getAttributei("move");
 }
 bool WindowConfig::apply(const char* name,bool *shown) {
 	if(center)
 		SetNextWindowPosCenter(ImGuiCond_FirstUseEver);
-	SetNextWindowSize({width,heigth},ImGuiCond_FirstUseEver);
+	SetNextWindowSize({width*1.0f,heigth*1.0f},ImGuiCond_FirstUseEver);
 	int flags=0;
 	if(!collapse)	flags|=ImGuiWindowFlags_NoCollapse;
 	if(!move)		flags|=ImGuiWindowFlags_NoMove;
@@ -708,7 +709,7 @@ void MainMenu::load_config() {
 	{
 		XMLNode titlen=node.getChildNode("title");
 		string str=titlen.getAttribute("image");
-		image_h=stof(titlen.getAttribute("h"));
+		image_h=titlen.getAttributef("h");
 		if(image_h<1)image_h*=SH;
 		title=load_texture(str);
 		textures.erase(str);
@@ -730,5 +731,12 @@ void MainMenu::show(){
 	interface.update_cursor();
 	interface.pause.hide();
 	lua::init_main_menu();
+}
+void LevelChooser::load(){
+	XMLNode file=XMLNode::openFileHelper((prefix+"config/levels.xml").c_str(),"levels");
+	//int count=XMLNode::get
+	//for(int q=0;;q++){
+
+	//}
 }
 Interface interface;

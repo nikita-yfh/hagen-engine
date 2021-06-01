@@ -238,11 +238,11 @@ void Body::load(XMLNode &node,bool p) {
 	if(p) {
 		XMLNode phs=node.getChildNode("physic");
 		id=node.getAttribute("id");
-		bullet=stoi(phs.getAttribute("bullet"));
-		fixed_rot=stoi(phs.getAttribute("fixed_rotation"));
-		gravity_scale=stof(phs.getAttribute("gravity_scale"));
-		x=to_fl(node.getAttribute("x"));
-		y=to_fl(node.getAttribute("y"));
+		bullet=phs.getAttributei("bullet");
+		fixed_rot=phs.getAttributei("fixed_rotation");
+		gravity_scale=phs.getAttributef("gravity_scale");
+		x=node.getAttributef("x");
+		y=node.getAttributef("y");
 	}
 	{
 		string str=node.getAttribute("type");
@@ -252,7 +252,7 @@ void Body::load(XMLNode &node,bool p) {
 	}
 	script=node.getAttribute("script");
 	shapes.clear();
-	int shapes_count=stoi(node.getAttribute("shapes"));
+	int shapes_count=node.getAttributei("shapes");
 	for(int w=0; w<shapes_count; w++) {
 		XMLNode sh=node.getChildNode("shape",w);
 		Physic *shp;
@@ -261,49 +261,49 @@ void Body::load(XMLNode &node,bool p) {
 			XMLNode pos=sh.getChildNode("position");
 			string str=sh.getAttribute("type");
 			if(str=="Square") {
-				shp=new Square({to_fl(pos.getAttribute("x"))+x,
-								to_fl(pos.getAttribute("y"))+y},
-							   to_fl(pos.getAttribute("r")));
+				shp=new Square({pos.getAttributef("x")+x,
+								pos.getAttributef("y")+y},
+							   pos.getAttributef("r"));
 			} else if(str=="Circle") {
-				shp=new Circle({to_fl(pos.getAttribute("x"))+x,
-								to_fl(pos.getAttribute("y"))+y},
-							   to_fl(pos.getAttribute("r")));
+				shp=new Circle({pos.getAttributef("x")+x,
+								pos.getAttributef("y")+y},
+							   pos.getAttributef("r"));
 			} else if(str=="Rect") {
-				shp=new Rect({to_fl(pos.getAttribute("x1"))+x,
-				to_fl(pos.getAttribute("y1"))+y}, {
-					to_fl(pos.getAttribute("x2"))+x,
-					to_fl(pos.getAttribute("y2"))+y
+				shp=new Rect({pos.getAttributef("x1")+x,
+				pos.getAttributef("y1")+y}, {
+					pos.getAttributef("x2")+x,
+					pos.getAttributef("y2")+y
 				});
 			} else if(str=="Line") {
-				shp=new Line({to_fl(pos.getAttribute("x1"))+x,
-				to_fl(pos.getAttribute("y1"))+y}, {
-					to_fl(pos.getAttribute("x2"))+x,
-					to_fl(pos.getAttribute("y2"))+y
+				shp=new Line({pos.getAttributef("x1")+x,
+				pos.getAttributef("y1")+y}, {
+					pos.getAttributef("x2")+x,
+					pos.getAttributef("y2")+y
 				});
 			} else if(str=="Polygon") {
-				int c=stoi(pos.getAttribute("point_count"));
+				int c=pos.getAttributei("point_count");
 				vector<b2Vec2>p(c);
 				for(int e=0; e<c; e++) {
 					XMLNode point=pos.getChildNode("point",e);
-					p[e].x=to_fl(point.getAttribute("x"))+x;
-					p[e].y=to_fl(point.getAttribute("y"))+y;
+					p[e].x=point.getAttributef("x")+x;
+					p[e].y=point.getAttributef("y")+y;
 				}
 				shp=new Polygon(p);
 			} else if(str=="Cover") {
-				int c=stoi(pos.getAttribute("point_count"));
-				float w=to_fl(pos.getAttribute("width"));
+				int c=pos.getAttributei("point_count");
+				float w=pos.getAttributef("width");
 				vector<b2Vec2>p(c);
 				for(int e=0; e<c; e++) {
 					XMLNode point=pos.getChildNode("point",e);
-					p[e].x=to_fl(point.getAttribute("x"))+x;
-					p[e].y=to_fl(point.getAttribute("y"))+y;
+					p[e].x=point.getAttributef("x")+x;
+					p[e].y=point.getAttributef("y")+y;
 				}
 				shp=new Cover(p,w);
 			}
 		}
 		shp->id     =sh.getAttribute("id");
 		shp->texture=sh.getAttribute("texture");
-		shp->ex		=stoi(sh.getAttribute("expand"));
+		shp->ex		=sh.getAttributei("expand");
 		{
 			string str=sh.getAttribute("pos");
 			if(str=="background")		shp->layer=TBGR;
@@ -317,14 +317,14 @@ void Body::load(XMLNode &node,bool p) {
 		{
 			//physic
 			XMLNode phs=sh.getChildNode("physic");
-			shp->density=    to_fl(phs.getAttribute("density"));
-			shp->friction=   to_fl(phs.getAttribute("friction"));
-			shp->restitution=to_fl(phs.getAttribute("restitution"));
+			shp->density=    phs.getAttributef("density");
+			shp->friction=   phs.getAttributef("friction");
+			shp->restitution=phs.getAttributef("restitution");
 		}
 		{
 			XMLNode collision=sh.getChildNode("collision");
-			shp->category=stoi(collision.getAttribute("category"));
-			shp->mask=stoi(collision.getAttribute("mask"));
+			shp->category=collision.getAttributei("category");
+			shp->mask=collision.getAttributei("mask");
 		}
 		shapes.push_back(shp);
 	}

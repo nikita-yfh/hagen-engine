@@ -58,12 +58,12 @@ void save_bodies_state(XMLNode bds,map<string,b2Body*>&bodies) {
 void load_bodies_state(XMLNode bds,map<string,b2Body*>&bodies) {
 	string s=bds.getAttribute("count");
 	vector<string>loaded;
-	int count=stoi(bds.getAttribute("count"));
+	int count=bds.getAttributei("count");
 	for(int q=0; q<count; q++) {
 		XMLNode bd=bds.getChildNode("body",q);
 		string id=bd.getAttribute("id");
 		string script=bd.getAttribute("script");
-		bool created=stoi(bd.getAttribute("created"));
+		bool created=bd.getAttribute("created");
 		if(created)
 			create_body(script,id,0,0);
 		loaded.push_back(id);
@@ -112,13 +112,13 @@ void save_entities_state(XMLNode bds,map<string,Entity*>&entities) {
 	}
 }
 void load_entities_state(XMLNode ens,map<string,Entity*>&entities) {
-	int count=stof(ens.getAttribute("count"));
+	int count=ens.getAttributei("count");
 	vector<string>loaded;
 	for(int q=0; q<count; q++) {
 		XMLNode en=ens.getChildNode("entity",q);
 		string id=en.getAttribute("id");
 		string type=en.getAttribute("type");
-		bool created=stoi(en.getAttribute("created"));
+		bool created=en.getAttributei("created");
 		if(created)
 			create_entity(type,id,0,0);
 		loaded.push_back(id);
@@ -126,17 +126,17 @@ void load_entities_state(XMLNode ens,map<string,Entity*>&entities) {
 		XMLNode weapon=en.getChildNode("weapon");
 		entity->weapon.name=weapon.getAttribute("name");
 		entity->set_weapon(entity->weapon.name);
-		entity->weapon.angle=stof(weapon.getAttribute("angle"));
+		entity->weapon.angle=weapon.getAttributef("angle");
 		entity->weapon.bullet1=weapon.getAttribute("bullet1");
 		entity->weapon.bullet2=weapon.getAttribute("bullet2");
-		entity->weapon.dx=stof(weapon.getAttribute("dx"));
-		entity->weapon.dy=stof(weapon.getAttribute("dy"));
-		entity->weapon.point_x=stof(weapon.getAttribute("point_x"));
-		entity->weapon.point_y=stof(weapon.getAttribute("point_y"));
+		entity->weapon.dx=weapon.getAttributef("dx");
+		entity->weapon.dy=weapon.getAttributef("dy");
+		entity->weapon.point_x=weapon.getAttributef("point_x");
+		entity->weapon.point_y=weapon.getAttributef("point_y");
 		entity->weapon.texture=weapon.getAttribute("texture");
 		XMLNode health=en.getChildNode("health");
-		entity->health=stof(health.getAttribute("value"));
-		entity->max_health=stof(health.getAttribute("max"));
+		entity->health=health.getAttributef("value");
+		entity->max_health=health.getAttributef("max");
 		if(entity->lua_userdata)
 			delete entity->lua_userdata;
 		entity->lua_userdata=new luabridge::LuaRef(lua::load_luaref(en.getChildNode("userdata")));
@@ -171,7 +171,7 @@ void save_values_state(XMLNode data) {
 	data.addAttribute("count",count);
 }
 void load_values_state(XMLNode data) {
-	int count=stof(data.getAttribute("count"));
+	int count=data.getAttributei("count");
 	for(int q=0; q<count; q++) {
 		XMLNode bd=data.getChildNode("value",q);
 		string str=bd.getAttribute("name");
@@ -192,12 +192,12 @@ void save_bullets_state(XMLNode bls) {
 	bls.addAttribute("count",count);
 }
 void load_bullets_state(XMLNode bls) {
-	int count=stoi(bls.getAttribute("count"));
+	int count=bls.getAttributei("count");
 	for(int q=0; q<count; q++) {
 		XMLNode bl=bls.getChildNode("bullet",q);
 		string id=bl.getAttribute("name");
-		bullets[id].count=stoi(bl.getAttribute("count"));
-		bullets[id].max=stoi(bl.getAttribute("max"));
+		bullets[id].count=bl.getAttributei("count");
+		bullets[id].max=bl.getAttributei("max");
 	}
 }
 void save_world_state(string name) {
@@ -233,22 +233,22 @@ void load_world_state(string name) {
 	load_level(lvl.getAttribute("name"));
 	{
 		XMLNode time=lvl.getChildNode("time");
-		lua::game_time=stof(time.getAttribute("value"));
-		lua::time_scale=stof(time.getAttribute("scale"));
+		lua::game_time=time.getAttributef("value");
+		lua::time_scale=time.getAttributef("scale");
 		lua::prev_time=SDL_GetTicks();
 	}
 	{
 		XMLNode phs=lvl.getChildNode("physic");
-		velocity_iterations=stoi(phs.getAttribute("velocity_iterations"));
-		position_iterations=stoi(phs.getAttribute("position_iterations"));
+		velocity_iterations=phs.getAttributei("velocity_iterations");
+		position_iterations=phs.getAttributei("position_iterations");
 	}
 	load_value(lvl,"gravity",world->m_gravity);
 	{
 		XMLNode cam=lvl.getChildNode("camera");
-		cx=stof(cam.getAttribute("x"));
-		cy=stof(cam.getAttribute("y"));
-		zoom=stof(cam.getAttribute("zoom"));
-		camera_locked=stof(cam.getAttribute("locked"));
+		cx=cam.getAttributef("x");
+		cy=cam.getAttributef("y");
+		zoom=cam.getAttributef("zoom");
+		camera_locked=cam.getAttribute("locked");
 	}
 	load_bodies_state(lvl.getChildNode("bodies"),bodies);
 	load_entities_state(lvl.getChildNode("entities"),entities);
@@ -257,21 +257,21 @@ void load_world_state(string name) {
 	info_log("Loaded from "+saves+name+".xml");
 }
 b2Body* read_body(XMLNode bd,b2Vec2 delta,bool temp) {
-	int shapes_count=stoi(bd.getAttribute("shapes"));
+	int shapes_count=bd.getAttributei("shapes");
 	if(shapes_count==0)
 		throw string("Body \""+(string)bd.getAttribute("id")+"\" is empty");
 	b2BodyDef def;
 	b2Body *body;
 	def.userData=new b2BodyData;
 	if(!temp) {
-		def.position=b2Vec2(stof(bd.getAttribute("x")),
-							stof(bd.getAttribute("y")))+delta;
+		def.position=b2Vec2(bd.getAttributef("x"),
+							bd.getAttributef("y"))+delta;
 	} else def.position=delta;
 	{
 		XMLNode phs=bd.getChildNode("physic");
-		def.fixedRotation=stoi(phs.getAttribute("fixed_rotation"));
-		def.bullet=stoi(phs.getAttribute("bullet"));
-		def.gravityScale=stof(phs.getAttribute("gravity_scale"));
+		def.fixedRotation=phs.getAttributei("fixed_rotation");
+		def.bullet=phs.getAttributei("bullet");
+		def.gravityScale=phs.getAttributef("gravity_scale");
 	}
 	{
 		string str=bd.getAttribute("type");
@@ -286,7 +286,7 @@ b2Body* read_body(XMLNode bd,b2Vec2 delta,bool temp) {
 		b2FixtureDef fix;
 		fix.userData=new b2FixtureData;
 		FD_DATA(fix,texture)	=sh.getAttribute("texture");
-		FD_DATA(fix,expand)		=stoi(sh.getAttribute("expand"));
+		FD_DATA(fix,expand)		=sh.getAttributei("expand");
 		FD_DATA(fix,id)			=sh.getAttribute("id");
 		{
 			//pos
@@ -304,15 +304,15 @@ b2Body* read_body(XMLNode bd,b2Vec2 delta,bool temp) {
 		{
 			//physic
 			XMLNode phs=sh.getChildNode("physic");
-			fix.density=    stof(phs.getAttribute("density"));
-			fix.friction=   stof(phs.getAttribute("friction"));
-			fix.restitution=stof(phs.getAttribute("restitution"));
+			fix.density=    phs.getAttributef("density");
+			fix.friction=   phs.getAttributef("friction");
+			fix.restitution=phs.getAttributef("restitution");
 		}
 		{
 			//collision
 			XMLNode collision=sh.getChildNode("collision");
-			fix.filter.categoryBits=    pow(2,stoi(collision.getAttribute("category")));
-			fix.filter.maskBits=    	stoi(collision.getAttribute("mask"));
+			fix.filter.categoryBits=    pow(2,collision.getAttributei("category"));
+			fix.filter.maskBits=    	collision.getAttributei("mask");
 
 		}
 		{
@@ -321,51 +321,51 @@ b2Body* read_body(XMLNode bd,b2Vec2 delta,bool temp) {
 			string str=sh.getAttribute("type");
 			if(str=="Square") {
 				b2PolygonShape shape;
-				float r=stof(pos.getAttribute("r"));
+				float r=pos.getAttributef("r");
 				shape.SetAsBox(r,r,b2Vec2(
-								   stof(pos.getAttribute("x")),
-								   stof(pos.getAttribute("y"))),0);
+								   pos.getAttributef("x"),
+								   pos.getAttributef("y")),0);
 				fix.shape=&shape;
 				FD_DATA(fix,type)=SQUARE;
 				body->CreateFixture(&fix);
 			} else if(str=="Circle") {
 				b2CircleShape shape;
-				shape.m_radius=stof(pos.getAttribute("r"));
-				shape.m_p.Set( stof(pos.getAttribute("x")),
-							   stof(pos.getAttribute("y")));
+				shape.m_radius=pos.getAttributef("r");
+				shape.m_p.Set( pos.getAttributef("x"),
+							   pos.getAttributef("y"));
 				fix.shape=&shape;
 				FD_DATA(fix,type)=CIRCLE;
 				body->CreateFixture(&fix);
 			} else if(str=="Rect") {
 				b2PolygonShape shape;
-				float xp1=stof(pos.getAttribute("x1"));
-				float yp1=stof(pos.getAttribute("y1"));
-				float xp2=stof(pos.getAttribute("x2"));
-				float yp2=stof(pos.getAttribute("y2"));
+				float xp1=pos.getAttributef("x1");
+				float yp1=pos.getAttributef("y1");
+				float xp2=pos.getAttributef("x2");
+				float yp2=pos.getAttributef("y2");
 				shape.SetAsBox(abs(xp2-xp1)/2,abs(yp2-yp1)/2,b2Vec2((xp1+xp2)/2,(yp1+yp2)/2),0);
 				fix.shape=&shape;
 				FD_DATA(fix,type)=RECT;
 				body->CreateFixture(&fix);
 			} else if(str=="Line") {
 				b2EdgeShape shape;
-				float x1=stof(pos.getAttribute("x1"));
-				float y1=stof(pos.getAttribute("y1"));
-				float x2=stof(pos.getAttribute("x2"));
-				float y2=stof(pos.getAttribute("y2"));
+				float x1=pos.getAttributef("x1");
+				float y1=pos.getAttributef("y1");
+				float x2=pos.getAttributef("x2");
+				float y2=pos.getAttributef("y2");
 				shape.SetTwoSided(b2Vec2(x1,y1),b2Vec2(x2,y2));
 				fix.shape=&shape;
 				FD_DATA(fix,type)=LINE;
 				body->CreateFixture(&fix);
 			} else if(str=="Polygon") {
-				int count=stoi(pos.getAttribute("point_count"));
+				int count=pos.getAttributei("point_count");
 				FD_DATA(fix,type)=POLYGON;
 				Vector2dVector vec(count),result;
 				b2Vec2 *big=new b2Vec2[count];
 
 				for(int e=0; e<count; e++) {
 					XMLNode point=pos.getChildNode("point",e);
-					big[e].x=vec[e].x=stof(point.getAttribute("x"));
-					big[e].y=vec[e].y=stof(point.getAttribute("y"));
+					big[e].x=vec[e].x=point.getAttributef("x");
+					big[e].y=vec[e].y=point.getAttributef("y");
 				}
 
 				Triangulate::Process(vec,result);
@@ -382,8 +382,8 @@ b2Body* read_body(XMLNode bd,b2Vec2 delta,bool temp) {
 					body->CreateFixture(&fix2);
 				}
 			} else if(str=="Cover") {
-				int count=stoi(pos.getAttribute("point_count"));
-				float width=stof(pos.getAttribute("width"));
+				int count=pos.getAttributei("point_count");
+				float width=pos.getAttributef("width");
 				FD_DATA(fix,type)=COVER;
 				Vector2dVector vec1(count);
 				Vector2dVector vec2(count);
@@ -392,8 +392,8 @@ b2Body* read_body(XMLNode bd,b2Vec2 delta,bool temp) {
 				float length_a1=0,length_a2=0;
 				for(int q=0; q<count; q++) {
 					XMLNode point=pos.getChildNode("point",q);
-					vec1[q].x=stof(point.getAttribute("x"));
-					vec1[q].y=stof(point.getAttribute("y"));
+					vec1[q].x=point.getAttributef("x");
+					vec1[q].y=point.getAttributef("y");
 					if(q!=0)length_a1+=b2Distance(vec1[q],vec1[q-1]);
 					length1[q]=length_a1;
 				}
@@ -456,7 +456,7 @@ void set_bds(b2JointDef *j,XMLNode &node,string id1,string id2,Entity *ent=0) {
 		j->bodyA=get_body(id1);
 		j->bodyB=get_body(id2);
 	}
-	j->collideConnected=stoi(node.getAttribute("collide"));
+	j->collideConnected=node.getAttributei("collide");
 	j->userData=new b2JointData;
 }
 b2Joint *read_joint(XMLNode jn,string &id,b2Vec2 delta,Entity *ent) {
@@ -471,32 +471,32 @@ b2Joint *read_joint(XMLNode jn,string &id,b2Vec2 delta,Entity *ent) {
 	if(type=="WeldJoint") {
 		b2WeldJointDef joint;
 		joint.Initialize(joint.bodyA,joint.bodyB,
-						 b2Vec2(stof(pos.getAttribute("x")),stof(pos.getAttribute("y")))+delta);
+						 b2Vec2(pos.getAttributef("x"),pos.getAttributef("y"))+delta);
 		set_bds(&joint,con,id1,id2,ent);
-		joint.stiffness=stof(phs.getAttribute("stiffness"));
-		joint.damping=stof(phs.getAttribute("damping"));
+		joint.stiffness=phs.getAttributef("stiffness");
+		joint.damping=phs.getAttributef("damping");
 		j=world->CreateJoint(&joint);
 	} else if(type=="RevoluteJoint") {
 		b2RevoluteJointDef joint;
 		set_bds(&joint,con,id1,id2,ent);
 		joint.Initialize(joint.bodyA,joint.bodyB,
-						 b2Vec2(stof(pos.getAttribute("x")),stof(pos.getAttribute("y")))+delta);
-		joint.enableLimit=stoi(phs.getAttribute("limit"));
-		joint.enableMotor=stoi(phs.getAttribute("motor"));
+						 b2Vec2(pos.getAttributef("x"),pos.getAttributef("y"))+delta);
+		joint.enableLimit=phs.getAttributei("limit");
+		joint.enableMotor=phs.getAttributei("motor");
 		if(joint.enableLimit) {
-			joint.lowerAngle=stof(phs.getAttribute("lower"));
-			joint.upperAngle=stof(phs.getAttribute("upper"));
+			joint.lowerAngle=phs.getAttributef("lower");
+			joint.upperAngle=phs.getAttributef("upper");
 		}
 		if(joint.enableMotor) {
-			joint.maxMotorTorque=stof(phs.getAttribute("max_torque"));
-			joint.motorSpeed=stof(phs.getAttribute("speed"));
+			joint.maxMotorTorque=phs.getAttributef("max_torque");
+			joint.motorSpeed=phs.getAttributef("speed");
 		}
 		j=world->CreateJoint(&joint);
 	} else if(type=="GearJoint") {
 		b2GearJointDef joint;
 		joint.userData=new b2JointData;
-		joint.collideConnected=stoi(con.getAttribute("collide"));
-		joint.ratio=stof(phs.getAttribute("ratio"));
+		joint.collideConnected=con.getAttributei("collide");
+		joint.ratio=phs.getAttributef("ratio");
 		b2Joint *j1=joints[id1];
 		b2Joint *j2=joints[id2];
 		if(!j1)throw string("\""+id1="\"is not a joint");
@@ -520,44 +520,44 @@ b2Joint *read_joint(XMLNode jn,string &id,b2Vec2 delta,Entity *ent) {
 	} else if(type=="PrismaticJoint") {
 		b2PrismaticJointDef joint;
 		set_bds(&joint,con,id1,id2,ent);
-		float angle=stof(pos.getAttribute("angle"))+M_PI;
+		float angle=pos.getAttributef("angle")+M_PI;
 		joint.Initialize(joint.bodyA,joint.bodyB,
-						 b2Vec2(stof(pos.getAttribute("x")),stof(pos.getAttribute("y")))+delta,
+						 b2Vec2(pos.getAttributef("x"),pos.getAttributef("y"))+delta,
 						 b2Vec2(cos(angle),sin(angle)));
-		joint.enableLimit=stoi(phs.getAttribute("limit"));
-		joint.enableMotor=stoi(phs.getAttribute("motor"));
+		joint.enableLimit=phs.getAttributei("limit");
+		joint.enableMotor=phs.getAttributei("motor");
 		if(joint.enableLimit) {
-			joint.lowerTranslation=stof(phs.getAttribute("lower"));
-			joint.upperTranslation=stof(phs.getAttribute("upper"));
+			joint.lowerTranslation=phs.getAttributef("lower");
+			joint.upperTranslation=phs.getAttributef("upper");
 		}
 		if(joint.enableMotor) {
-			joint.maxMotorForce=stof(phs.getAttribute("max_force"));
-			joint.motorSpeed=stof(phs.getAttribute("speed"));
+			joint.maxMotorForce=phs.getAttributef("max_force");
+			joint.motorSpeed=phs.getAttributef("speed");
 		}
 		j=world->CreateJoint(&joint);
 	} else if(type=="DistanceJoint") {
 		b2DistanceJointDef joint;
 		set_bds(&joint,con,id1,id2,ent);
-		float x1=stof(pos.getAttribute("x1"));
-		float x2=stof(pos.getAttribute("x2"));
-		float y1=stof(pos.getAttribute("y1"));
-		float y2=stof(pos.getAttribute("y2"));
+		float x1=pos.getAttributef("x1");
+		float x2=pos.getAttributef("x2");
+		float y1=pos.getAttributef("y1");
+		float y2=pos.getAttributef("y2");
 		joint.Initialize(joint.bodyA,joint.bodyB, delta+b2Vec2(x1,y1), delta+b2Vec2(x2,y2));
 		joint.length=hypot(x2-x1,y2-y1);
-		joint.maxLength=joint.length+stof(pos.getAttribute("max"));
-		joint.minLength=joint.length+stof(pos.getAttribute("min"));
-		joint.stiffness=stof(phs.getAttribute("stiffness"));
-		joint.damping=stof(phs.getAttribute("damping"));
+		joint.maxLength=joint.length+pos.getAttributef("max");
+		joint.minLength=joint.length+pos.getAttributef("min");
+		joint.stiffness=phs.getAttributef("stiffness");
+		joint.damping=phs.getAttributef("damping");
 		j=world->CreateJoint(&joint);
 	} else if(type=="PulleyJoint") {
 		b2PulleyJointDef joint;
 		set_bds(&joint,con,id1,id2,ent);
 		joint.Initialize(joint.bodyA,joint.bodyB,
-						 b2Vec2(stof(pos.getAttribute("x3")),stof(pos.getAttribute("y3")))+delta,
-						 b2Vec2(stof(pos.getAttribute("x4")),stof(pos.getAttribute("y4")))+delta,
-						 b2Vec2(stof(pos.getAttribute("x1")),stof(pos.getAttribute("y2")))+delta,
-						 b2Vec2(stof(pos.getAttribute("x2")),stof(pos.getAttribute("y2")))+delta,
-						 stof(phs.getAttribute("ratio")));
+						 b2Vec2(pos.getAttributef("x3"),pos.getAttributef("y3"))+delta,
+						 b2Vec2(pos.getAttributef("x4"),pos.getAttributef("y4"))+delta,
+						 b2Vec2(pos.getAttributef("x1"),pos.getAttributef("y2"))+delta,
+						 b2Vec2(pos.getAttributef("x2"),pos.getAttributef("y2"))+delta,
+						 phs.getAttributef("ratio"));
 		j=world->CreateJoint(&joint);
 	}
 	J_DATA(j,id)=id;
@@ -576,7 +576,7 @@ void open_file(string path) {
 	{
 		//bodies
 		XMLNode bds=lvl.getChildNode("bodies");
-		int bodies_count=stoi(bds.getAttribute("count"));
+		int bodies_count=bds.getAttributei("count");
 		bodies.clear();
 		for(int q=0; q<bodies_count; q++) {
 			XMLNode bd=bds.getChildNode("body",q);
@@ -589,7 +589,7 @@ void open_file(string path) {
 	{
 		//joints
 		XMLNode js=lvl.getChildNode("joints");
-		int joints_count=stoi(js.getAttribute("count"));
+		int joints_count=js.getAttributei("count");
 		joints.clear();
 		for(int q=0; q<joints_count; q++) {
 			XMLNode ch=js.getChildNode("joint",q);
@@ -611,13 +611,13 @@ void open_file(string path) {
 	{
 		//entities
 		XMLNode ens=lvl.getChildNode("entities");
-		int count=stoi(ens.getAttribute("count"));
+		int count=ens.getAttributei("count");
 		entities.clear();
 		for(int q=0; q<count; q++) {
 			XMLNode en=ens.getChildNode("entity",q);
 			XMLNode pos=en.getChildNode("position");
-			float x=stof(pos.getAttribute("x"));
-			float y=stof(pos.getAttribute("y"));
+			float x=pos.getAttributef("x");
+			float y=pos.getAttributef("y");
 			string id=en.getAttribute("id");
 			string type=en.getAttribute("type");
 			entities[id]=new Entity(type,x,y);
