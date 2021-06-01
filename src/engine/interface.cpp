@@ -17,224 +17,7 @@ static inline void trim(std::string &s) {
 		s.erase(s.end());
 }
 
-void Pause::draw() {
-	if(!shown)return;
-	if (!config.apply(get_ctext("pause/title"), &shown)) {
-		End();
-		return;
-	}
-	ImVec2 align=ImVec2(width, 0);
-	if(Button(get_ctext("pause/continue"),align)) {
-		hide();
-	}
-	if(Button(get_ctext("pause/save_game"),align))
-		interface.saver.show(1);
-	if(Button(get_ctext("pause/load_game"),align))
-		interface.saver.show(0);
-	if(Button(get_ctext("pause/settings"),align))
-		interface.settingmanager.show();
-	if(Button(get_ctext("pause/main_menu"),align))
-		OpenPopup(get_ctext("pause/main_menu_title"));
-	if(Button(get_ctext("pause/exit_game"),align))
-		OpenPopup(get_ctext("pause/exit_game_title"));
-	width=GetWindowContentRegionWidth();
-	SetNextWindowPos(ImVec2(GetIO().DisplaySize.x * 0.5f, GetIO().DisplaySize.y * 0.5f),
-					 ImGuiCond_Always, ImVec2(0.5f,0.5f));
-	if (BeginPopupModal(get_text("pause/main_menu_title").c_str(), NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
-		TextWrapped(get_ctext("pause/main_menu_text"));
-		Separator();
 
-		if(Button(get_ctext("common/ok"), ImVec2(120, 0)))
-			interface.mainmenu.show();
-		SameLine();
-		if (Button(get_ctext("common/cancel"), ImVec2(120, 0))) {
-			CloseCurrentPopup();
-		}
-		EndPopup();
-	}
-	SetNextWindowPos(ImVec2(GetIO().DisplaySize.x * 0.5f, GetIO().DisplaySize.y * 0.5f),
-					 ImGuiCond_Always, ImVec2(0.5f,0.5f));
-	if (BeginPopupModal(get_text("pause/exit_game_title").c_str(), NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
-		TextWrapped(get_ctext("pause/exit_game_text"));
-		Separator();
-
-		if(Button(get_ctext("common/ok"), ImVec2(120, 0)))
-			quit();
-		SameLine();
-		if (Button(get_ctext("common/cancel"), ImVec2(120, 0))) {
-			CloseCurrentPopup();
-		}
-		EndPopup();
-	}
-	End();
-}
-
-Console::Console() {
-	ClearLog();
-	memset(InputBuf, 0, sizeof(InputBuf));
-}
-Console::~Console() {
-	ClearLog();
-}
-
-void  Console::ClearLog() {
-	Items.clear();
-}
-void Console::AddLog(string str) {
-	Items.push_back(str+"\n");
-	ScrollToBottom=true;
-}
-void Console::draw() {
-	if(!shown)return;
-	if (!config.apply(get_ctext("console/title"), &shown)) {
-		End();
-		return;
-	}
-	const float footer_height_to_reserve = GetStyle().ItemSpacing.y + GetFrameHeightWithSpacing();
-	BeginChild("ScrollingRegion", ImVec2(0, -footer_height_to_reserve), false, ImGuiWindowFlags_HorizontalScrollbar);
-	if (BeginPopupContextWindow()) {
-		if (Selectable(get_ctext("console/clear")))
-			ClearLog();
-		EndPopup();
-	}
-	PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(4, 1));
-	for (string item : Items) {
-		if (!Filter.PassFilter(item.c_str()))
-			continue;
-		ImVec4 color;
-		if (item.find("\"]:")!=item.npos || item.find("[E]")!=item.npos)
-			color = ImVec4(1.0f, 0.0f, 0.0f, 1.0f);
-		else if (item.find("[I]")!=item.npos)
-			color = ImVec4(0.7, 0.7f, 0.7f, 1.0f);
-		else if (item.find("> ") == 0)
-			color = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
-		else if (item.find("\t\t- ") == 0 || item.find(get_text("console/matches"))!=item.npos)
-			color = ImVec4(1.0f, 1.0f, 0.0f, 1.0f);
-		else
-			color = ImVec4(0.0f, 1.0f, 0.0f, 1.0f);
-		PushStyleColor(ImGuiCol_Text, color);
-		TextWrapped(item.c_str());
-		PopStyleColor();
-	}
-	if(GetScrollY() >= GetScrollMaxY() && ScrollToBottom)
-		SetScrollHere(1.0f);
-
-	PopStyleVar();
-	EndChild();
-	Separator();
-	bool reclaim_focus = false;
-	ImGuiInputTextFlags input_text_flags = ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_CallbackCompletion | ImGuiInputTextFlags_CallbackHistory;
-	if (InputText(get_ctext("console/input"), InputBuf, IM_ARRAYSIZE(InputBuf), input_text_flags, &Console::TextEditCallbackStub, (void*)this)) {
-		string s = InputBuf;
-		trim(s);
-		if (s[0]) ExecCommand(s);
-		strcpy(InputBuf,"");
-		reclaim_focus = true;
-	}
-	SetItemDefaultFocus();
-	if (reclaim_focus)
-		SetKeyboardFocusHere(-1);
-
-	End();
-}
-void Console::ExecCommand(string command_line) {
-	AddLog("> "+command_line);
-	HistoryPos = -1;
-	for (int i = History.size() - 1; i >= 0; i--)
-		if (History[i] == command_line) {
-			History.erase(History.begin() + i);
-			break;
-		}
-	History.push_back(command_line);
-	if(luaL_dostring(lua::L,command_line.c_str()))
-		AddLog(lua_tostring(lua::L,-1));
-}
-int Console::TextEditCallbackStub(ImGuiInputTextCallbackData* data) {
-	Console* console = (Console*)data->UserData;
-	return console->TextEditCallback(data);
-}
-int Console::TextEditCallback(ImGuiInputTextCallbackData* data) {
-	switch (data->EventFlag) {
-	case ImGuiInputTextFlags_CallbackCompletion: {
-		string command=data->Buf;
-		command.erase(command.begin()+data->CursorPos,command.end());
-
-		char break_chars[]=" \t,;*&><=-+^~()[]{}\"'?%$#@\\|";
-		int pos=command.size()-1;
-		while(pos-->0) {
-			bool ok=0;
-			for(char c : break_chars) {
-				if(command[pos]==c) {
-					command.erase(command.begin(),command.begin()+pos+1);
-					pos=0;
-					break; //exit
-				}
-			}
-			if(ok)break;
-		}
-		vector<string> candidates=lua::get_table_keys(command);
-		if (candidates.size()==1) {
-			int s1=data->CursorPos;
-			if(command.find('.')!=command.npos)
-				command.erase(0,command.rfind('.')+1);
-			int s2=command.size();
-			data->DeleteChars(s1-s2,s2);
-			data->InsertChars(s1-s2,candidates[0].c_str());
-		} else if(candidates.size()) {
-			AddLog("\t\t"+get_text("console/matches"));
-			for (int i = 0; i < candidates.size(); i++)
-				AddLog("\t\t- "+candidates[i]);
-		}
-
-		break;
-	}
-	case ImGuiInputTextFlags_CallbackHistory: {
-		const int prev_history_pos = HistoryPos;
-		if (data->EventKey == ImGuiKey_UpArrow) {
-			if (HistoryPos == -1)
-				HistoryPos = History.size() - 1;
-			else if (HistoryPos > 0)
-				HistoryPos--;
-		} else if (data->EventKey == ImGuiKey_DownArrow) {
-			if (HistoryPos != -1)
-				if (++HistoryPos >= History.size())
-					HistoryPos = -1;
-		}
-		if (prev_history_pos != HistoryPos) {
-			string history_str = (HistoryPos >= 0) ? History[HistoryPos] : "";
-			data->DeleteChars(0, data->BufTextLen);
-			data->InsertChars(0, history_str.c_str());
-		}
-	}
-	}
-	return 0;
-}
-void Console::show() {
-	shown=true;
-}
-void Console::hide() {
-	shown=false;
-}
-void Rect4::stabilize(float f) {
-	if(top<1)top*=f;
-	if(left<1)left*=f;
-	if(right<1)right*=f;
-	if(bottom<1)bottom*=f;
-}
-void Rect4::load(XMLNode l) {
-	top=l.getAttributef("top");
-	left=l.getAttributef("left");
-	right=l.getAttributef("right");
-	bottom=l.getAttributef("bottom");
-}
-void Vec::stabilize(float f) {
-	if(x<1)x*=f;
-	if(y<1)y*=f;
-}
-void Vec::load(XMLNode l) {
-	x=l.getAttributef("x");
-	y=l.getAttributef("y");
-}
 void Interface::update() {
 	if(e.type==SDL_KEYDOWN && !mainmenu.shown) {
 		if(e.key.keysym.sym==SDLK_BACKQUOTE) {
@@ -398,59 +181,20 @@ void Interface::load_config() {
 	}
 }
 void Interface::draw() {
+	mainmenu.draw();
+	game_interface.draw();
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL2_NewFrame(SDL_GetWindowFromID(ren->context->windowID));
 	NewFrame();
-	game_interface.draw();
-	mainmenu.draw();
 	console.draw();
 	pause.draw();
 	saver.draw();
 	settingmanager.draw();
+	levelchooser.draw();
 	Render();
 	SDL_GL_MakeCurrent(SDL_GetWindowFromID(ren->context->windowID), ren->context->context);
 	ImGui_ImplOpenGL3_RenderDrawData(GetDrawData());
 }
-
-void GameInterface::load_config() {
-	XMLNode node=XMLNode::openFileHelper((prefix+"config/game_interface.xml").c_str(),"game_interface");
-	{
-		XMLNode text=node.getChildNode("text");
-		load_font(font,text,"color",SH);
-	}
-	borders.load(node.getChildNode("border"));
-	borders.stabilize(SH);
-}
-
-void GameInterface::draw() {
-	if(!shown)return;
-	if(interface.mainmenu.shown)return;
-	short h=FC_GetLineHeight(font);
-	{
-		int health=0;
-		if(get_entity("player"))
-			health=get_entity("player")->health;
-		FC_Draw(font,ren,borders.left,SH-borders.bottom-h,"%s %d %s",
-				get_ctext("game_interface/health_prev"),
-				health,
-				get_ctext("game_interface/health")).w;
-	}
-	if(get_entity("player")) {
-		auto draw_bullets=[=](string id,string str,uint8_t layer) {
-			FC_DrawAlign(font,ren,SW-borders.left,SH-borders.top-layer*h,
-						 FC_ALIGN_RIGHT,"%s %d/%d %s",get_ctext(str+"_prev"),
-						 bullets[id].count,bullets[id].max,
-						 get_ctext(str));
-		};
-		uint8_t layer=0;
-		if(bullets[get_entity("player")->weapon.bullet2].max>0 &&
-				get_entity("player")->weapon.bullet2 != get_entity("player")->weapon.bullet1)
-			draw_bullets(get_entity("player")->weapon.bullet2,"game_interface/bullet2",++layer);
-		if(bullets[get_entity("player")->weapon.bullet1].max>0)
-			draw_bullets(get_entity("player")->weapon.bullet1,"game_interface/bullet1",++layer);
-	}
-}
-
 void Interface::update_cursor() {
 	if(shown() || mainmenu.shown) {
 		GetIO().ConfigFlags &= ~ImGuiConfigFlags_NoMouseCursorChange;
@@ -472,6 +216,237 @@ void Interface::quickload() {
 	if(exist_file(saves+"quicksave.xml"))
 		load_world_state("quicksave");
 }
+
+
+void Pause::draw() {
+	if(!shown)return;
+	if (!config.apply(get_ctext("pause/title"), &shown)) {
+		End();
+		return;
+	}
+	ImVec2 align=ImVec2(width, 0);
+	if(Button(get_ctext("pause/continue"),align)) {
+		hide();
+	}
+	if(Button(get_ctext("pause/save_game"),align))
+		interface.saver.show(1);
+	if(Button(get_ctext("pause/load_game"),align))
+		interface.saver.show(0);
+	if(Button(get_ctext("pause/settings"),align))
+		interface.settingmanager.show();
+	if(Button(get_ctext("pause/main_menu"),align))
+		OpenPopup(get_ctext("pause/main_menu_title"));
+	if(Button(get_ctext("pause/exit_game"),align))
+		OpenPopup(get_ctext("pause/exit_game_title"));
+	width=GetWindowContentRegionWidth();
+	SetNextWindowPos(ImVec2(GetIO().DisplaySize.x * 0.5f, GetIO().DisplaySize.y * 0.5f),
+					 ImGuiCond_Always, ImVec2(0.5f,0.5f));
+	if (BeginPopupModal(get_text("pause/main_menu_title").c_str(), NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
+		TextWrapped(get_ctext("pause/main_menu_text"));
+		Separator();
+
+		if(Button(get_ctext("common/ok"), ImVec2(120, 0)))
+			interface.mainmenu.show();
+		SameLine();
+		if (Button(get_ctext("common/cancel"), ImVec2(120, 0))) {
+			CloseCurrentPopup();
+		}
+		EndPopup();
+	}
+	SetNextWindowPos(ImVec2(GetIO().DisplaySize.x * 0.5f, GetIO().DisplaySize.y * 0.5f),
+					 ImGuiCond_Always, ImVec2(0.5f,0.5f));
+	if (BeginPopupModal(get_text("pause/exit_game_title").c_str(), NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
+		TextWrapped(get_ctext("pause/exit_game_text"));
+		Separator();
+
+		if(Button(get_ctext("common/ok"), ImVec2(120, 0)))
+			quit();
+		SameLine();
+		if (Button(get_ctext("common/cancel"), ImVec2(120, 0))) {
+			CloseCurrentPopup();
+		}
+		EndPopup();
+	}
+	End();
+}
+void Pause::hide() {
+	shown=false;
+	interface.saver.hide();
+	interface.console.hide();
+	interface.settingmanager.hide();
+}
+
+
+Console::Console() {
+	ClearLog();
+	memset(InputBuf, 0, sizeof(InputBuf));
+}
+Console::~Console() {
+	ClearLog();
+}
+void  Console::ClearLog() {
+	Items.clear();
+}
+void Console::AddLog(string str) {
+	Items.push_back(str+"\n");
+	ScrollToBottom=true;
+}
+void Console::draw() {
+	if(!shown)return;
+	if (!config.apply(get_ctext("console/title"), &shown)) {
+		End();
+		return;
+	}
+	const float footer_height_to_reserve = GetStyle().ItemSpacing.y + GetFrameHeightWithSpacing();
+	BeginChild("ScrollingRegion", ImVec2(0, -footer_height_to_reserve), false, ImGuiWindowFlags_HorizontalScrollbar);
+	if (BeginPopupContextWindow()) {
+		if (Selectable(get_ctext("console/clear")))
+			ClearLog();
+		EndPopup();
+	}
+	PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(4, 1));
+	for (string item : Items) {
+		if (!Filter.PassFilter(item.c_str()))
+			continue;
+		ImVec4 color;
+		if (item.find("\"]:")!=item.npos || item.find("[E]")!=item.npos)
+			color = ImVec4(1.0f, 0.0f, 0.0f, 1.0f);
+		else if (item.find("[I]")!=item.npos)
+			color = ImVec4(0.7, 0.7f, 0.7f, 1.0f);
+		else if (item.find("> ") == 0)
+			color = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
+		else if (item.find("\t\t- ") == 0 || item.find(get_text("console/matches"))!=item.npos)
+			color = ImVec4(1.0f, 1.0f, 0.0f, 1.0f);
+		else
+			color = ImVec4(0.0f, 1.0f, 0.0f, 1.0f);
+		PushStyleColor(ImGuiCol_Text, color);
+		TextWrapped(item.c_str());
+		PopStyleColor();
+	}
+	if(GetScrollY() >= GetScrollMaxY() && ScrollToBottom)
+		SetScrollHere(1.0f);
+
+	PopStyleVar();
+	EndChild();
+	Separator();
+	bool reclaim_focus = false;
+	ImGuiInputTextFlags input_text_flags = ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_CallbackCompletion | ImGuiInputTextFlags_CallbackHistory;
+	if (InputText(get_ctext("console/input"), InputBuf, IM_ARRAYSIZE(InputBuf), input_text_flags, &Console::TextEditCallbackStub, (void*)this)) {
+		string s = InputBuf;
+		trim(s);
+		if (s[0]) ExecCommand(s);
+		strcpy(InputBuf,"");
+		reclaim_focus = true;
+	}
+	SetItemDefaultFocus();
+	if (reclaim_focus)
+		SetKeyboardFocusHere(-1);
+
+	End();
+}
+void Console::ExecCommand(string command_line) {
+	AddLog("> "+command_line);
+	HistoryPos = -1;
+	for (int i = History.size() - 1; i >= 0; i--)
+		if (History[i] == command_line) {
+			History.erase(History.begin() + i);
+			break;
+		}
+	History.push_back(command_line);
+	if(luaL_dostring(lua::L,command_line.c_str()))
+		AddLog(lua_tostring(lua::L,-1));
+}
+int Console::TextEditCallbackStub(ImGuiInputTextCallbackData* data) {
+	Console* console = (Console*)data->UserData;
+	return console->TextEditCallback(data);
+}
+int Console::TextEditCallback(ImGuiInputTextCallbackData* data) {
+	switch (data->EventFlag) {
+	case ImGuiInputTextFlags_CallbackCompletion: {
+		string command=data->Buf;
+		command.erase(command.begin()+data->CursorPos,command.end());
+
+		char break_chars[]=" \t,;*&><=-+^~()[]{}\"'?%$#@\\|";
+		int pos=command.size()-1;
+		while(pos-->0) {
+			bool ok=0;
+			for(char c : break_chars) {
+				if(command[pos]==c) {
+					command.erase(command.begin(),command.begin()+pos+1);
+					pos=0;
+					break; //exit
+				}
+			}
+			if(ok)break;
+		}
+		vector<string> candidates=lua::get_table_keys(command);
+		if (candidates.size()==1) {
+			int s1=data->CursorPos;
+			if(command.find('.')!=command.npos)
+				command.erase(0,command.rfind('.')+1);
+			int s2=command.size();
+			data->DeleteChars(s1-s2,s2);
+			data->InsertChars(s1-s2,candidates[0].c_str());
+		} else if(candidates.size()) {
+			AddLog("\t\t"+get_text("console/matches"));
+			for (int i = 0; i < candidates.size(); i++)
+				AddLog("\t\t- "+candidates[i]);
+		}
+
+		break;
+	}
+	case ImGuiInputTextFlags_CallbackHistory: {
+		const int prev_history_pos = HistoryPos;
+		if (data->EventKey == ImGuiKey_UpArrow) {
+			if (HistoryPos == -1)
+				HistoryPos = History.size() - 1;
+			else if (HistoryPos > 0)
+				HistoryPos--;
+		} else if (data->EventKey == ImGuiKey_DownArrow) {
+			if (HistoryPos != -1)
+				if (++HistoryPos >= History.size())
+					HistoryPos = -1;
+		}
+		if (prev_history_pos != HistoryPos) {
+			string history_str = (HistoryPos >= 0) ? History[HistoryPos] : "";
+			data->DeleteChars(0, data->BufTextLen);
+			data->InsertChars(0, history_str.c_str());
+		}
+	}
+	}
+	return 0;
+}
+void Console::show() {
+	shown=true;
+}
+void Console::hide() {
+	shown=false;
+}
+
+
+void Rect4::stabilize(float f) {
+	if(top<1)top*=f;
+	if(left<1)left*=f;
+	if(right<1)right*=f;
+	if(bottom<1)bottom*=f;
+}
+void Rect4::load(XMLNode l) {
+	top=l.getAttributef("top");
+	left=l.getAttributef("left");
+	right=l.getAttributef("right");
+	bottom=l.getAttributef("bottom");
+}
+
+
+void Vec::stabilize(float f) {
+	if(x<1)x*=f;
+	if(y<1)y*=f;
+}
+void Vec::load(XMLNode l) {
+	x=l.getAttributef("x");
+	y=l.getAttributef("y");
+}
+
 void SaverLoader::draw() {
 	if(!shown)return;
 	SetNextWindowSize(ImVec2(520, 300), ImGuiCond_FirstUseEver);
@@ -534,12 +509,8 @@ void SaverLoader::hide() {
 	list.clear();
 	shown=false;
 }
-void Pause::hide() {
-	shown=false;
-	interface.saver.hide();
-	interface.console.hide();
-	interface.settingmanager.hide();
-}
+
+
 void SettingManager::draw() {
 	if(!shown)return;
 	if(!config.apply(get_ctext("settings/title"), &shown)) {
@@ -633,6 +604,8 @@ void SettingManager::hide() {
 	shown=false;
 	languages.clear();
 }
+
+
 void WindowConfig::load(XMLNode node) {
 	collapse=node.getAttributei("collapse");
 	resize=node.getAttributei("resize");
@@ -655,6 +628,47 @@ bool WindowConfig::apply(const char* name,bool *shown) {
 	if(!focus)		flags|=ImGuiWindowFlags_NoFocusOnAppearing;
 	return Begin(name, shown, flags);
 }
+
+
+void GameInterface::load_config() {
+	XMLNode node=XMLNode::openFileHelper((prefix+"config/game_interface.xml").c_str(),"game_interface");
+	{
+		XMLNode text=node.getChildNode("text");
+		load_font(font,text,"color",SH);
+	}
+	borders.load(node.getChildNode("border"));
+	borders.stabilize(SH);
+}
+void GameInterface::draw() {
+	if(!shown)return;
+	if(interface.mainmenu.shown)return;
+	short h=FC_GetLineHeight(font);
+	{
+		int health=0;
+		if(get_entity("player"))
+			health=get_entity("player")->health;
+		FC_Draw(font,ren,borders.left,SH-borders.bottom-h,"%s %d %s",
+				get_ctext("game_interface/health_prev"),
+				health,
+				get_ctext("game_interface/health")).w;
+	}
+	if(get_entity("player")) {
+		auto draw_bullets=[=](string id,string str,uint8_t layer) {
+			FC_DrawAlign(font,ren,SW-borders.left,SH-borders.top-layer*h,
+						 FC_ALIGN_RIGHT,"%s %d/%d %s",get_ctext(str+"_prev"),
+						 bullets[id].count,bullets[id].max,
+						 get_ctext(str));
+		};
+		uint8_t layer=0;
+		if(bullets[get_entity("player")->weapon.bullet2].max>0 &&
+				get_entity("player")->weapon.bullet2 != get_entity("player")->weapon.bullet1)
+			draw_bullets(get_entity("player")->weapon.bullet2,"game_interface/bullet2",++layer);
+		if(bullets[get_entity("player")->weapon.bullet1].max>0)
+			draw_bullets(get_entity("player")->weapon.bullet1,"game_interface/bullet1",++layer);
+	}
+}
+
+
 void MainMenu::draw() {
 	if(!shown)return;
 	struct {
@@ -663,6 +677,10 @@ void MainMenu::draw() {
 	} buttons[]= {
 		{get_text("main_menu/new_game"),[]() {
 				lua::init_new_game();
+			}
+		},
+		{get_text("main_menu/choose_level"),[]() {
+				interface.levelchooser.show();
 			}
 		},
 		{get_text("main_menu/load_game"),[]() {
@@ -697,7 +715,6 @@ void MainMenu::draw() {
 		pos+=text_h;
 	}
 }
-
 void MainMenu::load_config() {
 	XMLNode node=XMLNode::openFileHelper((prefix+"config/main_menu.xml").c_str(),"main_menu");
 	{
@@ -717,7 +734,6 @@ void MainMenu::load_config() {
 	borders.load(node.getChildNode("border"));
 	borders.stabilize(SH);
 }
-
 MainMenu::~MainMenu() {
 	if(title)
 		GPU_FreeImage(title);
@@ -732,11 +748,60 @@ void MainMenu::show(){
 	interface.pause.hide();
 	lua::init_main_menu();
 }
+
+
+void LevelChooser::hide(){
+	shown=false;
+}
+void LevelChooser::show(){
+	load();
+	shown=true;
+}
 void LevelChooser::load(){
 	XMLNode file=XMLNode::openFileHelper((prefix+"config/levels.xml").c_str(),"levels");
-	//int count=XMLNode::get
-	//for(int q=0;;q++){
+	int count=file.getAttributei("count");
+	levels.clear();
+	for(int q=0;q<count;q++){
+		XMLNode leveln=file.getChildNode("level",q);
+		CLevel level;
+		level.id=leveln.getAttribute("id");
+		level.open=leveln.getAttributei("open");
+		level.show=leveln.getAttributei("show");
+		if(exist_file(saves+level.id+"_autosave.xml") && get_level_name(level.id+"_autosave")==level.id)
+			level.open=true;
+		levels.push_back(level);
+	}
+}
+void LevelChooser::draw() {
+	if(!shown)return;
+	SetNextWindowSize(ImVec2(520, 300), ImGuiCond_FirstUseEver);
+	if (!config.apply(get_ctext("levelchooser/title"), &shown)) {
+		End();
+		return;
+	}
+	const float footer_height_to_reserve = GetStyle().ItemSpacing.y + GetFrameHeightWithSpacing();
+	BeginChild("ScrollingRegion", ImVec2(0, -footer_height_to_reserve), true, ImGuiWindowFlags_HorizontalScrollbar);
+	for (int q=0;q<levels.size();q++) {
+		CLevel l=levels[q];
+		if(!l.show)continue;
 
-	//}
+		if(l.open)
+			if(Selectable(l.id.c_str(), q==selected))
+				selected=q;
+		else{
+			PushStyleColor(ImGuiCol_Text, GetStyle().Colors[ImGuiCol_TextDisabled]);
+			Selectable(l.id.c_str(), false);
+			PopStyleColor();
+		}
+	}
+	EndChild();
+	if(Button(get_ctext("levelchooser/load"))){
+		load_world_state(levels[selected].id+"_autosave");
+	}
+	SameLine();
+	if(Button(get_ctext("common/cancel")))hide();
+	SameLine();
+
+	End();
 }
 Interface interface;

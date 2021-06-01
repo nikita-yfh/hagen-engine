@@ -103,7 +103,10 @@ struct LevelChooser {
 	vector<CLevel>levels;
 	WindowConfig config;
 	void load();
-	void def();
+	void show();
+	void hide();
+	void draw();
+	int selected=-1;
 };
 struct MainMenu {
 	~MainMenu();

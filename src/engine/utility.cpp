@@ -104,6 +104,11 @@ bool bigger_angle(b2Vec2 v1,b2Vec2 v2) {
 	return v1.x*v2.y>v1.y*v2.x;
 }
 
+string get_level_name(string name){
+	XMLNode lvl=XMLNode::openFileHelper((saves+name+".xml").c_str(),"level");
+	return lvl.getAttribute("name");
+}
+
 bool load_value(XMLNode node, const char *name,float &value) {
 	XMLNode value_n=node.getChildNode(name);
 	if(value_n.isEmpty())return 0;

@@ -54,10 +54,15 @@
 	</settings>
     <main_menu>
         <new_game value="Начать новую игру"/>
+        <choose_level value="Выбор уровня"/>
 		<load_game value="Продолжить с сохранения"/>
 		<settings value="Настройки"/>
 		<exit_game value="Выйти из игры"/>
 		<exit_game_title value="Выйти из игры?"/>
 		<exit_game_text value="Ты точно хочешь выйти из игры?"/>
     </main_menu>
+    <levelchooser>
+        <title value="Выбрать уровень"/>
+        <load value="Загрузить"/>
+    </levelchooser>
 </text>

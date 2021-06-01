@@ -21,6 +21,7 @@ b2Vec2 bis(b2Vec2 v1,b2Vec2 v2,float length);
 b2Vec2 point2_per(b2Vec2 v1,b2Vec2 v2,float width);
 float vec_angle(b2Vec2 p);
 bool bigger_angle(b2Vec2 v1,b2Vec2 v2);
+string get_level_name(string name);
 
 bool load_value(XMLNode node, const char *name,float &value);
 bool load_value(XMLNode node, const char *name,bool &value);

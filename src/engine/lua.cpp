@@ -125,7 +125,8 @@ void doscript(string file) {
 }
 void level(string str) {
 	need_load=str;
-	//save_world_state(levelname+"_autosave");
+	if(levelname.size())
+		save_world_state(levelname+"_autosave");
 }
 void init_body(b2Body *body,bool ex) {
 	if(B_DATA(body,script).size()) {
