@@ -125,8 +125,6 @@ void doscript(string file) {
 }
 void level(string str) {
 	need_load=str;
-	if(levelname.size())
-		save_world_state(levelname+"_autosave");
 }
 void init_body(b2Body *body,bool ex) {
 	if(B_DATA(body,script).size()) {
@@ -561,11 +559,14 @@ void init() {
 		"Level={}\n"
 		"Level.init=function() end\n"
 		"Level.update=function() end\n"
+		"Level.newgame=function() end\n"
 
 		"level={}\n"
 		"level.init=function() end\n"
 		"level.update=function() end\n"
-		"level.newgame=function() end\n"
+		"level.newgame=function()"
+			"Level.newgame()\n"
+		"end\n"
 
 		"Body={}\n"
 		"Body.init=function() end\n"
@@ -603,22 +604,18 @@ void init() {
 	loaded.emplace_back("common");
 }
 
-void init_new_game() {
-	init();
-	getGlobal(L,"new_game")();
-	interface.mainmenu.hide();
-}
-
 void init_main_menu() {
 	init();
 	getGlobal(L,"init_main_menu")();
 }
 
-void init_level(string name) {
+void init_level(string name,bool n) {
 	init();
 	create_userdata();
 	doscript("levels/"+name);
 	loaded.emplace_back(name);
+	if(n)
+		getGlobal(L,"level")["newgame"]();
 	getGlobal(L,"Level")["init"]();
 	getGlobal(L,"level")["init"]();
 	init_entities();

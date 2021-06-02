@@ -26,13 +26,13 @@ int main(int argc, char * argv[]) {
 	try {
 		interface.load_config();
 		interface.init_imgui();
-		if(argc>1) load_level(argv[1]);
+		if(argc>1) load_level(argv[1],true);
 		else
 			interface.mainmenu.show();
 		game();
 		quit();
 		return 0;
-	} catch(XMLError er) {
+	} catch(XMLError &er) {
 		panic(XMLNode::getError(er));
 	} catch(string &er) {
 		panic(er);
@@ -65,10 +65,10 @@ void Settings::save() {
 		game.addAttribute("language",language);
 		Main.writeToFile((saves+"settings.xml").c_str());
 		info_log("Saved settings to settings.xml");
-	} catch(...) {
-		error_log("Cannot write to settings.xml");
-		def();
-		save();
+	} catch(XMLError &er){
+		panic((string)"Cannot write to settings.xml: "+XMLNode::getError(er));
+	}catch(...){
+		panic("Cannot write to settings.xml");
 	}
 }
 void Settings::load() {

@@ -7,8 +7,6 @@
 #include <memory>
 #include <string>
 #include <stdexcept>
-void close_level();
-void load_level(string name);
 b2Body *get_body(string id);
 b2Joint *get_joint(string id);
 Entity *get_entity(string id);

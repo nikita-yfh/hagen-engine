@@ -1,13 +1,6 @@
 function kolobator.init(a)
 	graphics.preload("kolobator1.png")
 	graphics.preload("kolobator2.png")
-	a:set_weapon("knife")
-	bullet("9mm").count=30
-	bullet("9mm").max=30
-	bullet("762").count=50
-	bullet("762").max=50
-	bullet("grenade").count=6
-	bullet("grenade").max=6
 	kolobator.speed=15
 	kolobator.motor_speed=30
 	kolobator.jump_impulse=1350

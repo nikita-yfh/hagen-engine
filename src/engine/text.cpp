@@ -5,7 +5,7 @@
 #include "utility.hpp"
 #include <iostream>
 map <string,string>texts;
-struct Subtitles{
+struct Subtitles {
 
 };
 string get_text(string id) {

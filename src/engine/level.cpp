@@ -63,7 +63,7 @@ void load_bodies_state(XMLNode bds,map<string,b2Body*>&bodies) {
 		XMLNode bd=bds.getChildNode("body",q);
 		string id=bd.getAttribute("id");
 		string script=bd.getAttribute("script");
-		bool created=bd.getAttribute("created");
+		bool created=bd.getAttributei("created");
 		if(created)
 			create_body(script,id,0,0);
 		loaded.push_back(id);
@@ -641,13 +641,15 @@ void close_level() {
 	if(world)delete world;
 	lua::quit();
 }
-void load_level(string name) {
+void load_level(string name,bool n) {
 	info_log("Level: "+name);
 	levelname=name;
 	close_level();
 	open_file(prefix+"levels/"+name+".xml");
 	info_log("Loaded objects");
-	lua::init_level(name);
+	lua::init_level(name,n);
 	info_log("Lua inited");
 	info_log("Level loaded successfully");
+	if(!interface.mainmenu.shown)
+		interface.levelchooser.open_level(name);
 }

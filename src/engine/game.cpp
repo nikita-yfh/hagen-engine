@@ -16,7 +16,7 @@ bool game() {
 	auto time=chrono::high_resolution_clock::now();
 	while(1) {
 		if(lua::need_load.size()) {
-			load_level(lua::need_load);
+			load_level(lua::need_load,interface.mainmenu.shown);
 			lua::need_load="";
 		}
 		while(SDL_PollEvent(&e)) {

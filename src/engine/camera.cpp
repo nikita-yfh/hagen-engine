@@ -82,7 +82,7 @@ bool Mouse::update() {
 bool Mouse::in_rect(GPU_Rect r) {
 	return r.x<x && r.y<y && r.x+r.w>x && r.y+r.h>y;
 }
-void Mouse::clear(){
+void Mouse::clear() {
 	state=0;
 	b=0;
 }

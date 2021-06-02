@@ -2789,10 +2789,10 @@ XMLNode XMLNode::getChildNodeWithAttribute(XMLCSTR name,XMLCSTR attributeName,XM
 	return emptyXMLNode;
 }
 
-int XMLNode::getAttributei(XMLCSTR lpszAttrib,int j) const{
+int XMLNode::getAttributei(XMLCSTR lpszAttrib,int j) const {
 	return stoi(getAttribute(lpszAttrib,j));
 }
-float XMLNode::getAttributef(XMLCSTR lpszAttrib,int j) const{
+float XMLNode::getAttributef(XMLCSTR lpszAttrib,int j) const {
 	stringstream ss;
 	ss<<getAttribute(lpszAttrib,j);
 	float f;

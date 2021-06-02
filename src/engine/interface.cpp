@@ -181,10 +181,10 @@ void Interface::load_config() {
 	}
 }
 void Interface::draw() {
-	mainmenu.draw();
-	game_interface.draw();
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL2_NewFrame(SDL_GetWindowFromID(ren->context->windowID));
+	mainmenu.draw();
+	game_interface.draw();
 	NewFrame();
 	console.draw();
 	pause.draw();
@@ -501,7 +501,7 @@ void SaverLoader::update_cache() {
 		if(s.find(".")) {
 			s.erase(s.begin()+s.find("."),s.end());
 		}
-		if(s=="settings")
+		if(s=="settings" || s=="levels")
 			list.erase(list.begin()+q);
 	}
 }
@@ -675,23 +675,31 @@ void MainMenu::draw() {
 		string text;
 		void(*func)();
 	} buttons[]= {
-		{get_text("main_menu/new_game"),[]() {
-				lua::init_new_game();
+		{
+			get_text("main_menu/new_game"),[]() {
+				load_level(interface.levelchooser.get_first_level(),true);
+				interface.mainmenu.hide();
+				interface.levelchooser.hide();
+				interface.pause.hide();
 			}
 		},
-		{get_text("main_menu/choose_level"),[]() {
+		{
+			get_text("main_menu/choose_level"),[]() {
 				interface.levelchooser.show();
 			}
 		},
-		{get_text("main_menu/load_game"),[]() {
+		{
+			get_text("main_menu/load_game"),[]() {
 				interface.saver.show(0);
 			}
 		},
-		{get_text("main_menu/settings"),[]() {
+		{
+			get_text("main_menu/settings"),[]() {
 				interface.settingmanager.show();
 			}
 		},
-		{get_text("main_menu/exit_game"),[]() {
+		{
+			get_text("main_menu/exit_game"),[]() {
 				quit();
 			}
 		}
@@ -738,11 +746,11 @@ MainMenu::~MainMenu() {
 	if(title)
 		GPU_FreeImage(title);
 }
-void MainMenu::hide(){
+void MainMenu::hide() {
 	shown=false;
 	interface.update_cursor();
 }
-void MainMenu::show(){
+void MainMenu::show() {
 	shown=true;
 	interface.update_cursor();
 	interface.pause.hide();
@@ -750,26 +758,63 @@ void MainMenu::show(){
 }
 
 
-void LevelChooser::hide(){
+void LevelChooser::open_level(string id){
+	load();
+	for(auto &level :levels){
+		if(level.id==id && level.show){
+			info_log("Opening "+id+" level");
+			level.open=true;
+			save();
+			return;
+		}
+	}
+	warning_log("Level "+id+" is not shown or not exist");
+}
+void LevelChooser::hide() {
 	shown=false;
 }
-void LevelChooser::show(){
+void LevelChooser::show() {
 	load();
 	shown=true;
 }
-void LevelChooser::load(){
-	XMLNode file=XMLNode::openFileHelper((prefix+"config/levels.xml").c_str(),"levels");
+void LevelChooser::load() {
+	if(levels.size())return;
+	XMLNode file;
+	try {
+		file=XMLNode::openFileHelper((saves+"levels.xml").c_str(),"levels");
+	} catch(...){
+		warning_log("Failed to load "+saves+"levels.xml, restoring default");
+		file=XMLNode::openFileHelper((prefix+"config/levels.xml").c_str(),"levels");
+	}
 	int count=file.getAttributei("count");
 	levels.clear();
-	for(int q=0;q<count;q++){
+	for(int q=0; q<count; q++) {
 		XMLNode leveln=file.getChildNode("level",q);
 		CLevel level;
 		level.id=leveln.getAttribute("id");
 		level.open=leveln.getAttributei("open");
 		level.show=leveln.getAttributei("show");
-		if(exist_file(saves+level.id+"_autosave.xml") && get_level_name(level.id+"_autosave")==level.id)
-			level.open=true;
 		levels.push_back(level);
+	}
+	info_log("Loaded levels config");
+	save();
+}
+void LevelChooser::save() {
+	try{
+		XMLNode file=XMLNode::createXMLTopNode("levels");
+		file.addAttribute("count",levels.size());
+		for(auto &level : levels) {
+			XMLNode leveln=file.addChild("level");
+			leveln.addAttribute("id",level.id);
+			leveln.addAttribute("open",level.open);
+			leveln.addAttribute("show",level.show);
+		}
+		file.writeToFile((saves+"levels.xml").c_str());
+		info_log("Saved levels config");
+	}catch(XMLError &er){
+		panic((string)"Cannot write to levels.xml: "+XMLNode::getError(er));
+	}catch(...){
+		panic("Cannot write to levels.xml");
 	}
 }
 void LevelChooser::draw() {
@@ -781,27 +826,35 @@ void LevelChooser::draw() {
 	}
 	const float footer_height_to_reserve = GetStyle().ItemSpacing.y + GetFrameHeightWithSpacing();
 	BeginChild("ScrollingRegion", ImVec2(0, -footer_height_to_reserve), true, ImGuiWindowFlags_HorizontalScrollbar);
-	for (int q=0;q<levels.size();q++) {
+	for (int q=0; q<levels.size(); q++) {
 		CLevel l=levels[q];
 		if(!l.show)continue;
-
-		if(l.open)
+		if(l.open) {
 			if(Selectable(l.id.c_str(), q==selected))
 				selected=q;
-		else{
+		} else {
 			PushStyleColor(ImGuiCol_Text, GetStyle().Colors[ImGuiCol_TextDisabled]);
 			Selectable(l.id.c_str(), false);
 			PopStyleColor();
 		}
 	}
 	EndChild();
-	if(Button(get_ctext("levelchooser/load"))){
-		load_world_state(levels[selected].id+"_autosave");
+	if(Button(get_ctext("levelchooser/load"))) {
+		interface.mainmenu.hide();
+		interface.levelchooser.hide();
+		interface.pause.hide();
+		load_level(levels[selected].id,true);
 	}
 	SameLine();
 	if(Button(get_ctext("common/cancel")))hide();
 	SameLine();
 
 	End();
+}
+string LevelChooser::get_first_level(){
+	load();
+	if(!levels.size())
+		panic("Failed to get first level: level count = 0");
+	return levels[0].id;
 }
 Interface interface;

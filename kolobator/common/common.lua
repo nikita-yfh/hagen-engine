@@ -14,6 +14,3 @@ end
 function init_main_menu()
     loadlevel("ground1")
 end
-function new_game()
-    loadlevel("podval")
-end
