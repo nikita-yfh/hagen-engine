@@ -183,16 +183,16 @@ void Interface::load_config() {
 void Interface::draw() {
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL2_NewFrame(SDL_GetWindowFromID(ren->context->windowID));
+	NewFrame();
 	mainmenu.draw();
 	game_interface.draw();
-	NewFrame();
+	GPU_Rectangle(ren,-20,-20,100000,100000,SDL_Color{0,0,0,0});
 	console.draw();
 	pause.draw();
 	saver.draw();
 	settingmanager.draw();
 	levelchooser.draw();
 	Render();
-	SDL_GL_MakeCurrent(SDL_GetWindowFromID(ren->context->windowID), ren->context->context);
 	ImGui_ImplOpenGL3_RenderDrawData(GetDrawData());
 }
 void Interface::update_cursor() {
@@ -216,7 +216,6 @@ void Interface::quickload() {
 	if(exist_file(saves+"quicksave.xml"))
 		load_world_state("quicksave");
 }
-
 
 void Pause::draw() {
 	if(!shown)return;
