@@ -8,15 +8,23 @@ namespace text{
 FC_Font *font;
 Color tips_color;
 Rect4 tips_borders;
-Tip::Tip(float _x,float _y,string _text,Color _color){
+Tip::Tip(float x,float y,string text,Color color){
+	set(x,y,text,color,0);
+}
+Tip::Tip(float x,float y,string text){
+	set(x,y,text,FC_GetDefaultColor(font),0);
+}
+Tip::Tip(float x,float y,string text,Color color,float time){
+	set(x,y,text,color,time);
+}
+Tip::Tip(float x,float y,string text,float time){
+	set(x,y,text,FC_GetDefaultColor(font),time);
+}
+void Tip::set(float _x,float _y,string _text,Color _color,float _time){
 	pos={_x,_y};
 	text=_text;
 	color=_color;
-}
-Tip::Tip(float _x,float _y,string _text){
-	pos={_x,_y};
-	text=_text;
-	color=FC_GetDefaultColor(font);
+	timer=lua::get_time()+_time;
 }
 vector<Tip>tips;
 map <string,string>texts;
@@ -68,6 +76,17 @@ void add_tip_color(float x,float y,string text,Color color){
 }
 void add_tip(float x,float y,string text){
 	tips.emplace_back(x,y,text);
+}
+void add_tip_color_time(float x,float y,string text,Color color,float time){
+	tips.emplace_back(x,y,text,color,time);
+}
+void add_tip_time(float x,float y,string text,float time){
+	tips.emplace_back(x,y,text,time);
+}
+void update(){
+	for(int q=0;q<tips.size();q++)
+		if(tips[q].timer<=lua::get_time())
+			tips.erase(tips.begin()+q);
 }
 void clear_text(){
 	tips.clear();

@@ -220,7 +220,7 @@ void copy_prev_key() {
 	memcpy(prev_key,SDL_GetKeyboardState(0),SDL_NUM_SCANCODES);
 }
 void gameloop() {
-	text::clear_text();
+	text::update();
 	getGlobal(L,"Level")["update"]();
 	getGlobal(L,"level")["update"]();
 	update_entities();
@@ -362,6 +362,8 @@ void bind() {
 	.addFunction("get",&text::get)
 	.addFunction("add_tip",&text::add_tip)
 	.addFunction("add_tip_color",&text::add_tip_color)
+	.addFunction("add_tip_time",&text::add_tip_time)
+	.addFunction("add_tip_color_time",&text::add_tip_color_time)
 	.endNamespace()
 	.beginNamespace("graphics")
 	.addFunction("set_mask",&set_mask)
