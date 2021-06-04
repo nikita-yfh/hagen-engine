@@ -711,7 +711,7 @@ void MainMenu::draw() {
 	GPU_BlitScale(title,0,ren,borders.left+image_w/2,borders.top+image_h/2,image_scale,image_scale);
 	for(auto button : buttons) {
 		GPU_Rect rect=GPU_MakeRect(borders.left,pos,FC_GetWidth(font,button.text.c_str()),text_h);
-		if(mouse.in_rect(rect)) {
+		if(mouse.in_rect(rect) && !GetIO().WantCaptureMouse) {
 			FC_DrawColor(font,ren,borders.left,pos,active.color(),button.text.c_str());
 			if(mouse.state==1)
 				button.func();
