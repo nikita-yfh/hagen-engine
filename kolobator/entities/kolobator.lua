@@ -71,5 +71,6 @@ function kolobator.update(a)
 	else
 		b:set_texture("body_fixture","kolobator1.png")
 	end
+    text.add_tip(a.x,a.y-0.5,"Это Колобатор.")
 	return false
 end

@@ -11,6 +11,7 @@
 #include "interface.hpp"
 #include "effect.hpp"
 #include "shader.hpp"
+#include "text.hpp"
 using namespace std;
 Color scene_mask(0,0,0,0);
 bool show_textures=1;
@@ -258,6 +259,7 @@ void draw() {
 	enable_shader("_all");
 	GPU_Blit(img1,0,ren,SW/2,SH/2);
 	disable_shaders();
+	text::draw();
 	draw_mask();
 	interface.draw();
 	GPU_Flip(ren);

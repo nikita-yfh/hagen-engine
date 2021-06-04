@@ -169,6 +169,15 @@ bool load_value(XMLNode node, const char *name,Color &value) {
 };
 
 
+bool load_value(XMLNode node, const char *name,Rect4 &value) {
+	XMLNode value_n=node.getChildNode(name);
+	if(value_n.isEmpty())return 0;
+	value.load(value_n);
+	value.stabilize(SW);
+	return 1;
+};
+
+
 void save_value(XMLNode node, const char *name,b2Vec2 &value) {
 	XMLNode value_n=node.addChild(name);
 	value_n.addAttribute("x",value.x);

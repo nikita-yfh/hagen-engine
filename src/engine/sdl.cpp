@@ -31,6 +31,12 @@ Color::Color() {}
 Color::Color(int _r,int _g,int _b,int _a) {
 	set(_r,_g,_b,_a);
 }
+Color::Color(SDL_Color c){
+	r=c.r;
+	g=c.g;
+	b=c.b;
+	a=c.a;
+}
 Color::Color(int _r,int _g,int _b) {
 	set(_r,_g,_b,255);
 }

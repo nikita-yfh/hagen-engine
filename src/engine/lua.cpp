@@ -62,15 +62,12 @@ float get_time() {
 	return game_time;
 }
 //НАЧАЛО КОСТЫЛЕЙ И ОСНОВНЫХ ПРИЧИН БАГОВ
-void set_mask(Color &c) {
+void set_mask(Color c) {
 	scene_mask=c;
 }
 void print(LuaRef r) {
 	interface.console.AddLog(r.tostring());
 	cout<<r.tostring()<<endl;
-}
-Color &get_mask() {
-	return scene_mask;
 }
 void clear_loaded_list() {
 	loaded.clear();
@@ -223,6 +220,7 @@ void copy_prev_key() {
 	memcpy(prev_key,SDL_GetKeyboardState(0),SDL_NUM_SCANCODES);
 }
 void gameloop() {
+	text::clear_text();
 	getGlobal(L,"Level")["update"]();
 	getGlobal(L,"level")["update"]();
 	update_entities();
@@ -300,11 +298,18 @@ bool get_release_key(string k) {
 void bind() {
 #define KEY(key) SDL_GetKeyboardState(key)
 	getGlobalNamespace(L)
+	.beginClass<Color>("Color")
+	.addConstructor<void(*)(uint8_t,uint8_t,uint8_t,uint8_t)>()
+	.addProperty("r",&Color::r)
+	.addProperty("g",&Color::g)
+	.addProperty("b",&Color::b)
+	.addProperty("a",&Color::a)
+	.addFunction("set",&Color::set)
+	.endClass()
 	.addFunction("body",&get_body) //возвращает тело
 	.addFunction("joint",&get_joint)	//возвращает соединение
 	.addFunction("entity",&get_entity)	//возвращает сущность
 	.addFunction("bullet",&get_bullet)
-	.addFunction("gettext",&get_text)	//для локализации
 	.addFunction("print",&print)
 	.addFunction("loadlevel",&level)	//мгновенно грузит уровень
 	.addFunction("create_thread",&create_thread)
@@ -353,16 +358,13 @@ void bind() {
 	.addFunction("interval",&get_interval)	//интервал для какого то действия. Возвращает 1 если время прошло.
 	.addProperty("bodies",&bodies)	//типо все тела на уровне возвращает
 	.endNamespace()
+	.beginNamespace("text")
+	.addFunction("get",&text::get)
+	.addFunction("add_tip",&text::add_tip)
+	.addFunction("add_tip_color",&text::add_tip_color)
+	.endNamespace()
 	.beginNamespace("graphics")
-	.beginClass<Color>("Color")
-	.addConstructor<void(*)(uint8_t,uint8_t,uint8_t,uint8_t)>()
-	.addConstructor<void(*)(uint8_t,uint8_t,uint8_t)>()
-	.addProperty("r",&Color::r)
-	.addProperty("g",&Color::g)
-	.addProperty("b",&Color::b)
-	.addProperty("a",&Color::a)
-	.addFunction("set",&Color::set)
-	.endClass()
+	.addFunction("set_mask",&set_mask)
 	.addFunction("preload",&load_texture)	//загрузка текстуры. Позволяет избежать фризов в игре, если все загрузить сразу
 	.addFunction("texture",&find_texture)	//текстура по ID
 	.addProperty("show_textures",&show_textures)	//показывать ли текстуры. не знаю для чего это зожет пригодиться

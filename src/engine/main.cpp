@@ -25,6 +25,7 @@ int main(int argc, char * argv[]) {
 	}
 	try {
 		interface.load_config();
+		text::load_config();
 		interface.init_imgui();
 		if(argc>1) load_level(argv[1],true);
 		else

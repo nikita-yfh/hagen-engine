@@ -220,49 +220,49 @@ void Interface::quickload() {
 
 void Pause::draw() {
 	if(!shown)return;
-	if (!config.apply(get_ctext("pause/title"), &shown)) {
+	if (!config.apply(text::getc("pause/title"), &shown)) {
 		End();
 		return;
 	}
 	ImVec2 align=ImVec2(width, 0);
-	if(Button(get_ctext("pause/continue"),align)) {
+	if(Button(text::getc("pause/continue"),align)) {
 		hide();
 	}
-	if(Button(get_ctext("pause/save_game"),align))
+	if(Button(text::getc("pause/save_game"),align))
 		interface.saver.show(1);
-	if(Button(get_ctext("pause/load_game"),align))
+	if(Button(text::getc("pause/load_game"),align))
 		interface.saver.show(0);
-	if(Button(get_ctext("pause/settings"),align))
+	if(Button(text::getc("pause/settings"),align))
 		interface.settingmanager.show();
-	if(Button(get_ctext("pause/main_menu"),align))
-		OpenPopup(get_ctext("pause/main_menu_title"));
-	if(Button(get_ctext("pause/exit_game"),align))
-		OpenPopup(get_ctext("pause/exit_game_title"));
+	if(Button(text::getc("pause/main_menu"),align))
+		OpenPopup(text::getc("pause/main_menu_title"));
+	if(Button(text::getc("pause/exit_game"),align))
+		OpenPopup(text::getc("pause/exit_game_title"));
 	width=GetWindowContentRegionWidth();
 	SetNextWindowPos(ImVec2(GetIO().DisplaySize.x * 0.5f, GetIO().DisplaySize.y * 0.5f),
 					 ImGuiCond_Always, ImVec2(0.5f,0.5f));
-	if (BeginPopupModal(get_text("pause/main_menu_title").c_str(), NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
-		TextWrapped(get_ctext("pause/main_menu_text"));
+	if (BeginPopupModal(text::get("pause/main_menu_title").c_str(), NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
+		TextWrapped(text::getc("pause/main_menu_text"));
 		Separator();
 
-		if(Button(get_ctext("common/ok"), ImVec2(120, 0)))
+		if(Button(text::getc("common/ok"), ImVec2(120, 0)))
 			interface.mainmenu.show();
 		SameLine();
-		if (Button(get_ctext("common/cancel"), ImVec2(120, 0))) {
+		if (Button(text::getc("common/cancel"), ImVec2(120, 0))) {
 			CloseCurrentPopup();
 		}
 		EndPopup();
 	}
 	SetNextWindowPos(ImVec2(GetIO().DisplaySize.x * 0.5f, GetIO().DisplaySize.y * 0.5f),
 					 ImGuiCond_Always, ImVec2(0.5f,0.5f));
-	if (BeginPopupModal(get_text("pause/exit_game_title").c_str(), NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
-		TextWrapped(get_ctext("pause/exit_game_text"));
+	if (BeginPopupModal(text::get("pause/exit_game_title").c_str(), NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
+		TextWrapped(text::getc("pause/exit_game_text"));
 		Separator();
 
-		if(Button(get_ctext("common/ok"), ImVec2(120, 0)))
+		if(Button(text::getc("common/ok"), ImVec2(120, 0)))
 			quit();
 		SameLine();
-		if (Button(get_ctext("common/cancel"), ImVec2(120, 0))) {
+		if (Button(text::getc("common/cancel"), ImVec2(120, 0))) {
 			CloseCurrentPopup();
 		}
 		EndPopup();
@@ -293,14 +293,14 @@ void Console::AddLog(string str) {
 }
 void Console::draw() {
 	if(!shown)return;
-	if (!config.apply(get_ctext("console/title"), &shown)) {
+	if (!config.apply(text::getc("console/title"), &shown)) {
 		End();
 		return;
 	}
 	const float footer_height_to_reserve = GetStyle().ItemSpacing.y + GetFrameHeightWithSpacing();
 	BeginChild("ScrollingRegion", ImVec2(0, -footer_height_to_reserve), false, ImGuiWindowFlags_HorizontalScrollbar);
 	if (BeginPopupContextWindow()) {
-		if (Selectable(get_ctext("console/clear")))
+		if (Selectable(text::getc("console/clear")))
 			ClearLog();
 		EndPopup();
 	}
@@ -315,7 +315,7 @@ void Console::draw() {
 			color = ImVec4(0.7, 0.7f, 0.7f, 1.0f);
 		else if (item.find("> ") == 0)
 			color = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
-		else if (item.find("\t\t- ") == 0 || item.find(get_text("console/matches"))!=item.npos)
+		else if (item.find("\t\t- ") == 0 || item.find(text::get("console/matches"))!=item.npos)
 			color = ImVec4(1.0f, 1.0f, 0.0f, 1.0f);
 		else
 			color = ImVec4(0.0f, 1.0f, 0.0f, 1.0f);
@@ -331,7 +331,7 @@ void Console::draw() {
 	Separator();
 	bool reclaim_focus = false;
 	ImGuiInputTextFlags input_text_flags = ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_CallbackCompletion | ImGuiInputTextFlags_CallbackHistory;
-	if (InputText(get_ctext("console/input"), InputBuf, IM_ARRAYSIZE(InputBuf), input_text_flags, &Console::TextEditCallbackStub, (void*)this)) {
+	if (InputText(text::getc("console/input"), InputBuf, IM_ARRAYSIZE(InputBuf), input_text_flags, &Console::TextEditCallbackStub, (void*)this)) {
 		string s = InputBuf;
 		trim(s);
 		if (s[0]) ExecCommand(s);
@@ -388,7 +388,7 @@ int Console::TextEditCallback(ImGuiInputTextCallbackData* data) {
 			data->DeleteChars(s1-s2,s2);
 			data->InsertChars(s1-s2,candidates[0].c_str());
 		} else if(candidates.size()) {
-			AddLog("\t\t"+get_text("console/matches"));
+			AddLog("\t\t"+text::get("console/matches"));
 			for (int i = 0; i < candidates.size(); i++)
 				AddLog("\t\t- "+candidates[i]);
 		}
@@ -450,7 +450,7 @@ void Vec::load(XMLNode l) {
 void SaverLoader::draw() {
 	if(!shown)return;
 	SetNextWindowSize(ImVec2(520, 300), ImGuiCond_FirstUseEver);
-	if (!config.apply(get_ctext(mode?"saveload/save_title":"saveload/load_title"), &shown)) {
+	if (!config.apply(text::getc(mode?"saveload/save_title":"saveload/load_title"), &shown)) {
 		End();
 		return;
 	}
@@ -465,15 +465,15 @@ void SaverLoader::draw() {
 	}
 	EndChild();
 	bool press=0;
-	if((mode && Button(get_ctext("saveload/save")))||
-			(!mode &&Button(get_ctext("saveload/load"))))press=1;
+	if((mode && Button(text::getc("saveload/save")))||
+			(!mode &&Button(text::getc("saveload/load"))))press=1;
 	SameLine();
-	if(Button(get_ctext("saveload/delete"))) {
+	if(Button(text::getc("saveload/delete"))) {
 		remove((saves+selected+".xml").c_str());
 		update_cache();
 	}
 	SameLine();
-	if(Button(get_ctext("common/cancel")))hide();
+	if(Button(text::getc("common/cancel")))hide();
 	SameLine();
 	if(InputText("",selected,64,ImGuiInputTextFlags_EnterReturnsTrue) || press) {
 		if(strlen(selected) && string(selected)!=string("settings")) {
@@ -513,25 +513,25 @@ void SaverLoader::hide() {
 
 void SettingManager::draw() {
 	if(!shown)return;
-	if(!config.apply(get_ctext("settings/title"), &shown)) {
+	if(!config.apply(text::getc("settings/title"), &shown)) {
 		End();
 		return;
 	}
-	ImGui::BeginChild(get_ctext("settings/title"), ImVec2(0, -ImGui::GetFrameHeightWithSpacing()),true);
-	Text(get_ctext("settings/graphics"));
+	ImGui::BeginChild(text::getc("settings/title"), ImVec2(0, -ImGui::GetFrameHeightWithSpacing()),true);
+	Text(text::getc("settings/graphics"));
 	int size_input[2]= {set.SW,set.SH};
-	if(InputInt2(get_ctext("settings/window_size"),size_input))
+	if(InputInt2(text::getc("settings/window_size"),size_input))
 		restart=true;
 	set.SW=size_input[0];
 	set.SH=size_input[1];
-	if(Checkbox(get_ctext("settings/fullscreen"),&set.fullscreen))
+	if(Checkbox(text::getc("settings/fullscreen"),&set.fullscreen))
 		restart=true;
-	Text(get_ctext("settings/sound"));
-	SliderInt(get_ctext("settings/sound_volume"),&set.sound_volume,0,100,"%d%%");
-	SliderInt(get_ctext("settings/music_volume"),&set.music_volume,0,100,"%d%%");
-	InputInt(get_ctext("settings/sound_freq"),&set.sound_freq,100,1000);
-	Text(get_ctext("settings/game"));
-	if (ImGui::BeginCombo(get_ctext("settings/language"),set.language.c_str())) {
+	Text(text::getc("settings/sound"));
+	SliderInt(text::getc("settings/sound_volume"),&set.sound_volume,0,100,"%d%%");
+	SliderInt(text::getc("settings/music_volume"),&set.music_volume,0,100,"%d%%");
+	InputInt(text::getc("settings/sound_freq"),&set.sound_freq,100,1000);
+	Text(text::getc("settings/game"));
+	if (ImGui::BeginCombo(text::getc("settings/language"),set.language.c_str())) {
 		for (int q = 0; q<languages.size(); q++) {
 			const bool is_selected = (set.language==languages[q]);
 			if (ImGui::Selectable(languages[q].c_str(),is_selected))
@@ -543,24 +543,24 @@ void SettingManager::draw() {
 	}
 
 	EndChild();
-	if(Button(get_ctext("common/ok"))) {
+	if(Button(text::getc("common/ok"))) {
 		if(restart)
-			OpenPopup(get_text("settings/restart_title").c_str());
+			OpenPopup(text::get("settings/restart_title").c_str());
 		else
 			apply();
 	}
 	SameLine();
-	if(Button(get_ctext("common/cancel")))
+	if(Button(text::getc("common/cancel")))
 		hide();
 	SetNextWindowPos(ImVec2(GetIO().DisplaySize.x * 0.5f, GetIO().DisplaySize.y * 0.5f),
 					 ImGuiCond_Always, ImVec2(0.5f,0.5f));
-	if (BeginPopupModal(get_text("settings/restart_title").c_str(), NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
-		TextWrapped(get_ctext("settings/restart_text"));
+	if (BeginPopupModal(text::get("settings/restart_title").c_str(), NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
+		TextWrapped(text::getc("settings/restart_text"));
 		Separator();
-		if(Button(get_ctext("common/ok"), ImVec2(120, 0)))
+		if(Button(text::getc("common/ok"), ImVec2(120, 0)))
 			apply();
 		SameLine();
-		if (Button(get_ctext("common/cancel"), ImVec2(120, 0)))
+		if (Button(text::getc("common/cancel"), ImVec2(120, 0)))
 			CloseCurrentPopup();
 		EndPopup();
 	}
@@ -636,8 +636,7 @@ void GameInterface::load_config() {
 		XMLNode text=node.getChildNode("text");
 		load_font(font,text,"color",SH);
 	}
-	borders.load(node.getChildNode("border"));
-	borders.stabilize(SH);
+	load_value(node,"border",borders);
 }
 void GameInterface::draw() {
 	if(!shown)return;
@@ -648,16 +647,16 @@ void GameInterface::draw() {
 		if(get_entity("player"))
 			health=get_entity("player")->health;
 		FC_Draw(font,ren,borders.left,SH-borders.bottom-h,"%s %d %s",
-				get_ctext("game_interface/health_prev"),
+				text::getc("game_interface/health_prev"),
 				health,
-				get_ctext("game_interface/health")).w;
+				text::getc("game_interface/health")).w;
 	}
 	if(get_entity("player")) {
 		auto draw_bullets=[=](string id,string str,uint8_t layer) {
 			FC_DrawAlign(font,ren,SW-borders.left,SH-borders.top-layer*h,
-						 FC_ALIGN_RIGHT,"%s %d/%d %s",get_ctext(str+"_prev"),
+						 FC_ALIGN_RIGHT,"%s %d/%d %s",text::getc(str+"_prev"),
 						 bullets[id].count,bullets[id].max,
-						 get_ctext(str));
+						 text::getc(str));
 		};
 		uint8_t layer=0;
 		if(bullets[get_entity("player")->weapon.bullet2].max>0 &&
@@ -676,7 +675,7 @@ void MainMenu::draw() {
 		void(*func)();
 	} buttons[]= {
 		{
-			get_text("main_menu/new_game"),[]() {
+			text::get("main_menu/new_game"),[]() {
 				load_level(interface.levelchooser.get_first_level(),true);
 				interface.mainmenu.hide();
 				interface.levelchooser.hide();
@@ -684,22 +683,22 @@ void MainMenu::draw() {
 			}
 		},
 		{
-			get_text("main_menu/choose_level"),[]() {
+			text::get("main_menu/choose_level"),[]() {
 				interface.levelchooser.show();
 			}
 		},
 		{
-			get_text("main_menu/load_game"),[]() {
+			text::get("main_menu/load_game"),[]() {
 				interface.saver.show(0);
 			}
 		},
 		{
-			get_text("main_menu/settings"),[]() {
+			text::get("main_menu/settings"),[]() {
 				interface.settingmanager.show();
 			}
 		},
 		{
-			get_text("main_menu/exit_game"),[]() {
+			text::get("main_menu/exit_game"),[]() {
 				quit();
 			}
 		}
@@ -739,8 +738,7 @@ void MainMenu::load_config() {
 		title=load_texture(str);
 		textures.erase(str);
 	}
-	borders.load(node.getChildNode("border"));
-	borders.stabilize(SH);
+	load_value(node,"border",borders);
 }
 MainMenu::~MainMenu() {
 	if(title)
@@ -820,7 +818,7 @@ void LevelChooser::save() {
 void LevelChooser::draw() {
 	if(!shown)return;
 	SetNextWindowSize(ImVec2(520, 300), ImGuiCond_FirstUseEver);
-	if (!config.apply(get_ctext("levelchooser/title"), &shown)) {
+	if (!config.apply(text::getc("levelchooser/title"), &shown)) {
 		End();
 		return;
 	}
@@ -839,14 +837,14 @@ void LevelChooser::draw() {
 		}
 	}
 	EndChild();
-	if(Button(get_ctext("levelchooser/load"))) {
+	if(Button(text::getc("levelchooser/load"))) {
 		interface.mainmenu.hide();
 		interface.levelchooser.hide();
 		interface.pause.hide();
 		load_level(levels[selected].id,true);
 	}
 	SameLine();
-	if(Button(get_ctext("common/cancel")))hide();
+	if(Button(text::getc("common/cancel")))hide();
 	SameLine();
 
 	End();
