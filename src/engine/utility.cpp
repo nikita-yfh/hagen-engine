@@ -178,6 +178,10 @@ bool load_value(XMLNode node, const char *name,Rect4 &value) {
 };
 
 
+float load_scaled_float(XMLNode node, const char *name,float &value){
+
+}
+
 void save_value(XMLNode node, const char *name,b2Vec2 &value) {
 	XMLNode value_n=node.addChild(name);
 	value_n.addAttribute("x",value.x);

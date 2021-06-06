@@ -15,21 +15,23 @@ void add_tip_color(float x,float y,string text,Color color);
 void add_tip(float x,float y,string text);
 void add_tip_color_time(float x,float y,string text,Color color,float time);
 void add_tip_time(float x,float y,string text,float time);
+void add_subtitles(string text,float time);
+void add_subtitles_color(string text,float time,Color color);
 void load_config();
 void draw();
 void update();
-struct Text{
+struct Subtitles{
+	void set(string text,float time,Color color);
 	string text;
 	Color color;
 	float timer;
 };
 
-struct Tip : Text{
-	Tip(float x,float y,string text,Color color);
-	Tip(float x,float y,string text);
-	Tip(float x,float y,string text,Color color,float time);
-	Tip(float x,float y,string text,float time);
+struct Tip{
 	void set(float x,float y,string text,Color color,float time);
 	b2Vec2 pos;
+	string text;
+	Color color;
+	float timer;
 };
 };
