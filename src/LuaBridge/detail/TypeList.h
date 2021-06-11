@@ -25,8 +25,8 @@
 
 #pragma once
 
-#include <LuaBridge/detail/Config.h>
-#include <LuaBridge/detail/Stack.h>
+#include "detail/Config.h"
+#include "detail/Stack.h"
 
 #include <string>
 #include <typeinfo>

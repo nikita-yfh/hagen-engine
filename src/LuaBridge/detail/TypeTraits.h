@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include <LuaBridge/detail/Config.h>
+#include "detail/Config.h"
 
 #include <string>
 

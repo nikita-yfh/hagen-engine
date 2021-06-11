@@ -41,14 +41,6 @@ vector<string>list_files(string dir);
 void info_log(string text);
 void warning_log(string text);
 void error_log(string text);
-template<typename ... Args>
-string format(const string& format, Args ... args) {
-	int size_s = snprintf( nullptr, 0, format.c_str(), args ... ) + 1;
-	if( size_s <= 0 ) {
-		throw runtime_error( "Error during formatting." );
-	}
-	auto size = static_cast<size_t>( size_s );
-	auto buf = make_unique<char[]>( size );
-	snprintf( buf.get(), size, format.c_str(), args ... );
-	return string( buf.get(), buf.get() + size - 1 );
-}
+string format(const string fmt, ...);
+
+float abs(float val);

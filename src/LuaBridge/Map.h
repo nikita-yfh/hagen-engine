@@ -4,8 +4,8 @@
 
 #pragma once
 
-#include <LuaBridge/detail/Stack.h>
-#include <LuaBridge/detail/dump.h>
+#include "detail/Stack.h"
+#include "detail/dump.h"
 
 #include <map>
 

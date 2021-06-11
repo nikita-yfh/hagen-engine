@@ -241,7 +241,7 @@ void Pause::draw() {
 	SetNextWindowPos(ImVec2(GetIO().DisplaySize.x * 0.5f, GetIO().DisplaySize.y * 0.5f),
 					 ImGuiCond_Always, ImVec2(0.5f,0.5f));
 	if (BeginPopupModal(text::get("pause/main_menu_title").c_str(), NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
-		TextWrapped(text::getc("pause/main_menu_text"));
+		TextWrapped("%s",text::getc("pause/main_menu_text"));
 		Separator();
 
 		if(Button(text::getc("common/ok"), ImVec2(120, 0)))
@@ -255,7 +255,7 @@ void Pause::draw() {
 	SetNextWindowPos(ImVec2(GetIO().DisplaySize.x * 0.5f, GetIO().DisplaySize.y * 0.5f),
 					 ImGuiCond_Always, ImVec2(0.5f,0.5f));
 	if (BeginPopupModal(text::get("pause/exit_game_title").c_str(), NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
-		TextWrapped(text::getc("pause/exit_game_text"));
+		TextWrapped("%s",text::getc("pause/exit_game_text"));
 		Separator();
 
 		if(Button(text::getc("common/ok"), ImVec2(120, 0)))
@@ -319,7 +319,7 @@ void Console::draw() {
 		else
 			color = ImVec4(0.0f, 1.0f, 0.0f, 1.0f);
 		PushStyleColor(ImGuiCol_Text, color);
-		TextWrapped(item.c_str());
+		TextWrapped("%s",item.c_str());
 		PopStyleColor();
 	}
 	if(GetScrollY() >= GetScrollMaxY() && ScrollToBottom)
@@ -517,7 +517,7 @@ void SettingManager::draw() {
 		return;
 	}
 	ImGui::BeginChild(text::getc("settings/title"), ImVec2(0, -ImGui::GetFrameHeightWithSpacing()),true);
-	Text(text::getc("settings/graphics"));
+	Text("%s",text::getc("settings/graphics"));
 	int size_input[2]= {set.SW,set.SH};
 	if(InputInt2(text::getc("settings/window_size"),size_input))
 		restart=true;
@@ -525,11 +525,11 @@ void SettingManager::draw() {
 	set.SH=size_input[1];
 	if(Checkbox(text::getc("settings/fullscreen"),&set.fullscreen))
 		restart=true;
-	Text(text::getc("settings/sound"));
+	Text("%s",text::getc("settings/sound"));
 	SliderInt(text::getc("settings/sound_volume"),&set.sound_volume,0,100,"%d%%");
 	SliderInt(text::getc("settings/music_volume"),&set.music_volume,0,100,"%d%%");
 	InputInt(text::getc("settings/sound_freq"),&set.sound_freq,100,1000);
-	Text(text::getc("settings/game"));
+	Text("%s",text::getc("settings/game"));
 	if (ImGui::BeginCombo(text::getc("settings/language"),set.language.c_str())) {
 		for (int q = 0; q<languages.size(); q++) {
 			const bool is_selected = (set.language==languages[q]);
@@ -554,7 +554,7 @@ void SettingManager::draw() {
 	SetNextWindowPos(ImVec2(GetIO().DisplaySize.x * 0.5f, GetIO().DisplaySize.y * 0.5f),
 					 ImGuiCond_Always, ImVec2(0.5f,0.5f));
 	if (BeginPopupModal(text::get("settings/restart_title").c_str(), NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
-		TextWrapped(text::getc("settings/restart_text"));
+		TextWrapped("%s",text::getc("settings/restart_text"));
 		Separator();
 		if(Button(text::getc("common/ok"), ImVec2(120, 0)))
 			apply();

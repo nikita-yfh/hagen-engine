@@ -59,7 +59,7 @@ Selection show(string title, string message, Style style, Buttons buttons) {
 	return getSelection(MessageBox(NULL, message.c_str(), title.c_str(), flags));
 }
 
-#else
+#elif defined (LINUX)
 #include <gtk/gtk.h>
 namespace {
 
@@ -127,6 +127,7 @@ Selection show(string title, string message, Style style, Buttons buttons) {
 
 	return selection;
 }
-
+#else
+Selection show(string title, string message, Style style, Buttons buttons){}
 #endif
 }

@@ -1,6 +1,6 @@
 // https://github.com/vinniefalco/LuaBridge
 // Copyright 2020, Dmitry Tarakanov
-// Copyright 2012, Vinnie Falco <vinnie.falco@gmail.com>
+// Copyright 2012, Vinnie Falco <vinnie.falco@gmail.com"
 // Copyright 2007, Nathan Reed
 // SPDX-License-Identifier: MIT
 
@@ -18,17 +18,17 @@
 #error "Lua headers must be included prior to LuaBridge ones"
 #endif
 
-#include <LuaBridge/detail/CFunctions.h>
-#include <LuaBridge/detail/ClassInfo.h>
-#include <LuaBridge/detail/Constructor.h>
-#include <LuaBridge/detail/FuncTraits.h>
-#include <LuaBridge/detail/Iterator.h>
-#include <LuaBridge/detail/LuaException.h>
-#include <LuaBridge/detail/LuaHelpers.h>
-#include <LuaBridge/detail/LuaRef.h>
-#include <LuaBridge/detail/Namespace.h>
-#include <LuaBridge/detail/Security.h>
-#include <LuaBridge/detail/Stack.h>
-#include <LuaBridge/detail/TypeList.h>
-#include <LuaBridge/detail/TypeTraits.h>
-#include <LuaBridge/detail/Userdata.h>
+#include "detail/CFunctions.h"
+#include "detail/ClassInfo.h"
+#include "detail/Constructor.h"
+#include "detail/FuncTraits.h"
+#include "detail/Iterator.h"
+#include "detail/LuaException.h"
+#include "detail/LuaHelpers.h"
+#include "detail/LuaRef.h"
+#include "detail/Namespace.h"
+#include "detail/Security.h"
+#include "detail/Stack.h"
+#include "detail/TypeList.h"
+#include "detail/TypeTraits.h"
+#include "detail/Userdata.h"

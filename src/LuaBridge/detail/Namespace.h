@@ -6,11 +6,11 @@
 
 #pragma once
 
-#include <LuaBridge/detail/ClassInfo.h>
-#include <LuaBridge/detail/Config.h>
-#include <LuaBridge/detail/LuaException.h>
-#include <LuaBridge/detail/Security.h>
-#include <LuaBridge/detail/TypeTraits.h>
+#include "detail/ClassInfo.h"
+#include "detail/Config.h"
+#include "detail/LuaException.h"
+#include "detail/Security.h"
+#include "detail/TypeTraits.h"
 
 #include <stdexcept>
 #include <string>
