@@ -1,6 +1,7 @@
 #include "camera.hpp"
 #include "sdl.hpp"
 #include "interface.hpp"
+#include "utility.hpp"
 #include <iostream>
 Mouse mouse;
 float cx=0,cy=0;
@@ -60,8 +61,13 @@ float get_angle(float x,float y) {
 	return a;
 }
 bool Mouse::update() {
+#ifdef ANDROID
+	int mx=e.tfinger.x*SW;
+	int my=e.tfinger.y*SH;
+#else
 	int mx=e.button.x;
 	int my=e.button.y;
+#endif
 	if(mx<0||mx>=SW||my<0||my>=SH) {
 		mx=x;
 		my=y;
@@ -70,10 +76,16 @@ bool Mouse::update() {
 		state=2;
 	else if(state==3)
 		state=0;
-	if(e.type==SDL_MOUSEBUTTONDOWN && state!=2) {
-		state=1;
-		b=e.button.button;
-	} else if(e.type==SDL_MOUSEBUTTONUP)
+	if(state!=2){
+		if(e.type==SDL_MOUSEBUTTONDOWN) {
+			state=1;
+			b=e.button.button;
+		}else if(e.type==SDL_FINGERDOWN){
+			state=1;
+			b=1;
+		}
+	}
+	else if((e.type==SDL_MOUSEBUTTONUP || e.type==SDL_FINGERUP) && state !=0)
 		state=3;
 	x=mx;
 	y=my;

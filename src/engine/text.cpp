@@ -11,10 +11,16 @@ Rect4 tips_borders;
 Color subtitles_color;
 Rect4 subtitles_borders;
 Rect4 subtitles_position;
+Subtitles::Subtitles(string text,float time,Color color){
+	set(text,time,color);
+}
 void Subtitles::set(string _text,float _time,Color _color){
 	text=_text;
 	timer=lua::get_time()+_time;
 	color=_color;
+}
+Tip::Tip(float x,float y,string text,Color color,float time){
+	set(x,y,text,color,time);
 }
 void Tip::set(float _x,float _y,string _text,Color _color,float _time){
 	pos={_x,_y};
@@ -70,25 +76,25 @@ void load_config(){
 		XMLNode tips_n=node.getChildNode("subtitles");
 		load_value(tips_n,"color",subtitles_color);
 		load_value(tips_n,"border",subtitles_borders);
-		load_value(tips_n,"position",subtitles_);
+		load_value(tips_n,"position",subtitles_position);
 	}
 
 	info_log("Loaded text config");
 }
 void add_tip_color(float x,float y,string text,Color color){
-	tips.emplace_back(x,y,text,color);
+	tips.emplace_back(x,y,text,color,0);
 }
 void add_tip(float x,float y,string text){
-	tips.emplace_back(x,y,text);
+	tips.emplace_back(x,y,text,FC_GetDefaultColor(font),0);
 }
 void add_tip_color_time(float x,float y,string text,Color color,float time){
 	tips.emplace_back(x,y,text,color,time);
 }
 void add_tip_time(float x,float y,string text,float time){
-	tips.emplace_back(x,y,text,time);
+	tips.emplace_back(x,y,text,FC_GetDefaultColor(font),time);
 }
 void add_subtitles(string text,float time){
-	subtitles.emplace_back(text,time);
+	subtitles.emplace_back(text,time,FC_GetDefaultColor(font));
 }
 void add_subtitles_color(string text,float time,Color color){
 	subtitles.emplace_back(text,time,color);

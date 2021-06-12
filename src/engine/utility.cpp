@@ -2,12 +2,15 @@
 #include "physic.hpp"
 #include "level.hpp"
 #include "render.hpp"
-#include "SDL.h"
-#include "SDL_image.h"
 #include "sdl.hpp"
 #include <stdlib.h>
 #include <fstream>
 #include <cmath>
+#ifdef ANDROID
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <android/log.h>
+#endif
 using namespace std;
 
 b2Body *get_body(string id) {
@@ -247,23 +250,36 @@ vector<string>list_files(string dir) {
 return list;
 }
 string get_time() {
-	int ms=SDL_GetTicks()%1000;
-	int sec=SDL_GetTicks()/1000;
-
-	return format("[ %d.%d ]",sec,ms);
+	return format("[ %.3f ]",SDL_GetTicks()/1000.0f);
 }
+#ifdef ANDROID
+#define TAG "HAGEN"
+#endif
 void info_log(string text) {
-	interface.console.AddLog(get_time()+" [I] "+text);
-	cout<<get_time()<<" [I] "<<text<<endl;
+	string str=get_time()+" [I] "+text;
+	interface.console.AddLog(str);
+	cout<<str<<endl;
+#ifdef ANDROID
+	__android_log_print(ANDROID_LOG_INFO, TAG, "%s\n",str.c_str());
+#endif
 }
 
 void warning_log(string text) {
-	interface.console.AddLog(get_time()+" [W] "+text);
-	cout<<get_time()<<" [W] "<<text<<endl;
+	string str=get_time()+" [W] "+text;
+	interface.console.AddLog(str);
+	cout<<str<<endl;
+#ifdef ANDROID
+	__android_log_print(ANDROID_LOG_WARN, TAG, "%s\n",str.c_str());
+#endif
 }
 void error_log(string text) {
-	interface.console.AddLog(get_time()+" [E] "+text);
-	cout<<get_time()<<" [E] "<<text<<endl;
+	string str=get_time()+" [E] "+text;
+	interface.console.AddLog(str);
+	cout<<str<<endl;
+#ifdef ANDROID
+	__android_log_print(ANDROID_LOG_ERROR, TAG, "%s\n",str.c_str());
+#endif
+
 }
 
 string format(const string fmt, ...) {
@@ -286,7 +302,7 @@ string format(const string fmt, ...) {
     }
     return str;
 }
-float abs(float val){
+float _abs(float val){
     if(val>0)return val;
     return -val;
 }

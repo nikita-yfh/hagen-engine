@@ -9,8 +9,13 @@
 #include "game.hpp"
 #include "text.hpp"
 #include "weapon.hpp"
+#ifdef ANDROID
+string prefix="/sdcard/game/";
+string saves="/sdcard/saves/";
+#else
 string prefix="game/";
 string saves="saves/";
+#endif
 using namespace luabridge;
 
 int main(int argc, char * argv[]) {

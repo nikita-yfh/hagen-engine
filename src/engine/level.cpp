@@ -342,7 +342,7 @@ b2Body* read_body(XMLNode bd,b2Vec2 delta,bool temp) {
 				float yp1=pos.getAttributef("y1");
 				float xp2=pos.getAttributef("x2");
 				float yp2=pos.getAttributef("y2");
-				shape.SetAsBox(abs(xp2-xp1)/2,abs(yp2-yp1)/2,b2Vec2((xp1+xp2)/2,(yp1+yp2)/2),0);
+				shape.SetAsBox(_abs(xp2-xp1)/2,_abs(yp2-yp1)/2,b2Vec2((xp1+xp2)/2,(yp1+yp2)/2),0);
 				fix.shape=&shape;
 				FD_DATA(fix,type)=RECT;
 				body->CreateFixture(&fix);

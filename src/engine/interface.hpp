@@ -4,9 +4,9 @@
 #include "sdl.hpp"
 #include "SDL_FontCache.h"
 #include "main.hpp"
+
 #include "imgui.h"
-#include "imgui_impl_sdl.h"
-#include "imgui_impl_opengl3.h"
+
 using namespace std;
 struct WindowConfig {
 	int width;

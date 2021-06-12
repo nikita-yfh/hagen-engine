@@ -21,6 +21,7 @@ void load_config();
 void draw();
 void update();
 struct Subtitles{
+	Subtitles(string text,float time,Color color);
 	void set(string text,float time,Color color);
 	string text;
 	Color color;
@@ -28,6 +29,7 @@ struct Subtitles{
 };
 
 struct Tip{
+	Tip(float x,float y,string text,Color color,float time);
 	void set(float x,float y,string text,Color color,float time);
 	b2Vec2 pos;
 	string text;

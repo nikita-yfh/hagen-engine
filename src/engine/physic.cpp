@@ -43,7 +43,9 @@ Entity *create_entity_winit(string type,string id) {
 }
 Entity *create_entity(string type,string id,float x,float y) {
 	Entity *ent=new Entity(type,x,y);
+	info_log("LOADED 0");
 	load_entity_textures(ent);
+	info_log("LOADED 1");
 	if(id=="")id=free_entity_id();
 	entities[id]=ent;
 	ent->id=id;

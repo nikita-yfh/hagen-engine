@@ -43,4 +43,4 @@ void warning_log(string text);
 void error_log(string text);
 string format(const string fmt, ...);
 
-float abs(float val);
+float _abs(float val);

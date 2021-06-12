@@ -8,6 +8,24 @@
 #include "weapon.hpp"
 #include "camera.hpp"
 #include "utility.hpp"
+
+#ifdef ANDROID
+#include <GLES2/gl2.h>
+#include "imgui_impl_sdl_es2.h"
+#include "imgui_impl_sdl_es3.h"
+#else
+#include "gl_glcore_3_3.h"
+#include "imgui_impl_sdl_gl3.h"
+#endif
+typedef bool(initImgui_t)(SDL_Window*);
+typedef bool(processEvent_t)(SDL_Event*);
+typedef void(newFrame_t)(SDL_Window*);
+typedef void(shutdown_t)();
+
+static initImgui_t *initImgui;
+static processEvent_t *processEvent;
+static newFrame_t *newFrame;
+static shutdown_t *shutdown;
 using namespace ImGui;
 
 static inline void trim(std::string &s) {
@@ -38,20 +56,35 @@ void Interface::update() {
 		else if(e.key.keysym.sym==SDLK_F9)
 			quickload();
 	}
-	ImGui_ImplSDL2_ProcessEvent(&e);
+	processEvent(&e);
 }
 void Interface::init_imgui() {
 	try {
-		SDL_GLContext& gl_context = ren->context->context;
 		SDL_Window* window = SDL_GetWindowFromID(ren->context->windowID);
 		IMGUI_CHECKVERSION();
 		CreateContext();
 		ImGuiIO& io = GetIO();
 		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard | ImGuiConfigFlags_NoMouseCursorChange;
 		io.IniFilename=nullptr;
-		const char* glsl_version = "#version 120";
-		ImGui_ImplOpenGL3_Init(glsl_version);
-		ImGui_ImplSDL2_InitForOpenGL(window, gl_context);
+#ifdef ANDROID
+		if (ren->renderer->id.major_version==3){
+			initImgui = ImGui_ImplSdlGLES3_Init;
+			processEvent = ImGui_ImplSdlGLES3_ProcessEvent;
+			newFrame = ImGui_ImplSdlGLES3_NewFrame;
+			shutdown = ImGui_ImplSdlGLES3_Shutdown;
+		}else{
+			initImgui = ImGui_ImplSdlGLES2_Init;
+			processEvent = ImGui_ImplSdlGLES2_ProcessEvent;
+			newFrame = ImGui_ImplSdlGLES2_NewFrame;
+			shutdown = ImGui_ImplSdlGLES2_Shutdown;
+		}
+#else
+		initImgui = ImGui_ImplSdlGL3_Init;
+		processEvent = ImGui_ImplSdlGL3_ProcessEvent;
+		newFrame = ImGui_ImplSdlGL3_NewFrame;
+		shutdown = ImGui_ImplSdlGL3_Shutdown;
+#endif
+		initImgui(window);
 		StyleColorsDark();
 		load_imgui_config();
 	} catch(...) {
@@ -181,9 +214,7 @@ void Interface::load_config() {
 	}
 }
 void Interface::draw() {
-	ImGui_ImplOpenGL3_NewFrame();
-	ImGui_ImplSDL2_NewFrame(SDL_GetWindowFromID(ren->context->windowID));
-	NewFrame();
+	newFrame(SDL_GetWindowFromID(ren->context->windowID));
 	mainmenu.draw();
 	game_interface.draw();
 	GPU_Rectangle(ren,-20,-20,100000,100000,SDL_Color{0,0,0,0});
@@ -193,7 +224,7 @@ void Interface::draw() {
 	settingmanager.draw();
 	levelchooser.draw();
 	Render();
-	ImGui_ImplOpenGL3_RenderDrawData(GetDrawData());
+
 }
 void Interface::update_cursor() {
 	if(shown() || mainmenu.shown) {
@@ -711,7 +742,7 @@ void MainMenu::draw() {
 	GPU_BlitScale(title,0,ren,borders.left+image_w/2,borders.top+image_h/2,image_scale,image_scale);
 	for(auto button : buttons) {
 		GPU_Rect rect=GPU_MakeRect(borders.left,pos,FC_GetWidth(font,button.text.c_str()),text_h);
-		if(mouse.in_rect(rect) && !GetIO().WantCaptureMouse) {
+		if(mouse.in_rect(rect)/* && !GetIO().WantCaptureMouse*/) {
 			FC_DrawColor(font,ren,borders.left,pos,active.color(),button.text.c_str());
 			if(mouse.state==1)
 				button.func();

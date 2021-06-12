@@ -82,8 +82,8 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 					f[q*4+2]=(shape->m_vertices[q]-shape->m_vertices[0]).x*(100.0f/tex->w/tex_scale);
 					f[q*4+3]=(shape->m_vertices[q]-shape->m_vertices[0]).y*(100.0f/tex->h/tex_scale);
 				}
-				short unsigned int index[]= {0,1,3,2};
-				GPU_PrimitiveBatch(tex,ren1,GPU_TRIANGLE_STRIP,shape->m_count,f,shape->m_count,index,GPU_BATCH_XY_ST);
+				short unsigned int index[]= {0,1,3,1,2,3};
+				GPU_TriangleBatch(tex,ren1,4,f,6,index,GPU_BATCH_XY_ST);
 			}
 		} else {
 			float x[4];
@@ -124,7 +124,13 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 				f[q*4+1]=f[5];
 				f[q*4+2]=f[6];
 				f[q*4+3]=f[7];
-				GPU_PrimitiveBatch(tex,ren1,GPU_TRIANGLE_FAN,CIRCLE_QUALITY+2,f,CIRCLE_QUALITY+2,0,GPU_BATCH_XY_ST);
+				short unsigned int index[CIRCLE_QUALITY*3];
+				for(int q=0;q<CIRCLE_QUALITY;q++){
+					index[q*3+0]=0;
+					index[q*3+1]=q+1;
+					index[q*3+2]=q+2;
+				}
+				GPU_TriangleBatch(tex,ren1,CIRCLE_QUALITY+2,f,CIRCLE_QUALITY*3,index,GPU_BATCH_XY_ST);
 			}
 		} else {
 			float x=drawx(body->GetPosition().x+rotatex(shape->m_p,a_rad));
@@ -195,8 +201,8 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 			else
 				GPU_SetWrapMode(tex, GPU_WRAP_REPEAT, GPU_WRAP_NONE);
 
-			short unsigned int index[]= {0,1,3,2};
-			GPU_PrimitiveBatch(tex,ren1,GPU_TRIANGLE_STRIP,4,f,4,index,GPU_BATCH_XY_ST);
+			short unsigned int index[]= {0,1,3,1,2,3};
+			GPU_TriangleBatch(tex,ren1,4,f,6,index,GPU_BATCH_XY_ST);
 		} else {
 			float x[4];
 			float y[4];

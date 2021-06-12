@@ -8,8 +8,8 @@ set(SRC_GRP_IMGUI
 )
 
 set(SRC_GRP_IMGUI_SDL2_IMPL
-    examples/imgui_impl_sdl.cpp
-    examples/imgui_impl_opengl3.cpp
+    examples/imgui_impl_sdl_gl3.cpp
+    examples/gl_glcore_3_3.c
 )
 
 set(SRC_GRP_IMGUI_GLEW

@@ -140,7 +140,6 @@ void panic(string message) {
 	error_log(message);
 	dialog::show("Fatal error",message,dialog::Style::Error);
 	quit();
-	exit(1);
 }
 
 void unset_cursor() {
