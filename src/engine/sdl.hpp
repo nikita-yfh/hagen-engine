@@ -8,7 +8,6 @@
 #include "SDL_FontCache.h"
 #include "box2d.h"
 #include "xmlParser.h"
-#define GAME_KEY_COUNT 21
 struct Color {
 	Color();
 	Color(int,int,int);

@@ -123,7 +123,7 @@ rebuild_cache/fast: rebuild_cache
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
-	/usr/bin/ccmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/usr/bin/cmake-gui -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -175,29 +175,29 @@ imgui_sdl2/fast:
 	cd /home/nikita/c++/hagen-engine && $(MAKE) $(MAKESILENT) -f src/imgui/CMakeFiles/imgui_sdl2.dir/build.make src/imgui/CMakeFiles/imgui_sdl2.dir/build
 .PHONY : imgui_sdl2/fast
 
-examples/gl_glcore_3_3.o: examples/gl_glcore_3_3.c.o
-.PHONY : examples/gl_glcore_3_3.o
+examples/imgui_impl_sdl.o: examples/imgui_impl_sdl.cpp.o
+.PHONY : examples/imgui_impl_sdl.o
 
 # target to build an object file
-examples/gl_glcore_3_3.c.o:
-	cd /home/nikita/c++/hagen-engine && $(MAKE) $(MAKESILENT) -f src/imgui/CMakeFiles/imgui_sdl2.dir/build.make src/imgui/CMakeFiles/imgui_sdl2.dir/examples/gl_glcore_3_3.c.o
-.PHONY : examples/gl_glcore_3_3.c.o
+examples/imgui_impl_sdl.cpp.o:
+	cd /home/nikita/c++/hagen-engine && $(MAKE) $(MAKESILENT) -f src/imgui/CMakeFiles/imgui_sdl2.dir/build.make src/imgui/CMakeFiles/imgui_sdl2.dir/examples/imgui_impl_sdl.cpp.o
+.PHONY : examples/imgui_impl_sdl.cpp.o
 
-examples/gl_glcore_3_3.i: examples/gl_glcore_3_3.c.i
-.PHONY : examples/gl_glcore_3_3.i
+examples/imgui_impl_sdl.i: examples/imgui_impl_sdl.cpp.i
+.PHONY : examples/imgui_impl_sdl.i
 
 # target to preprocess a source file
-examples/gl_glcore_3_3.c.i:
-	cd /home/nikita/c++/hagen-engine && $(MAKE) $(MAKESILENT) -f src/imgui/CMakeFiles/imgui_sdl2.dir/build.make src/imgui/CMakeFiles/imgui_sdl2.dir/examples/gl_glcore_3_3.c.i
-.PHONY : examples/gl_glcore_3_3.c.i
+examples/imgui_impl_sdl.cpp.i:
+	cd /home/nikita/c++/hagen-engine && $(MAKE) $(MAKESILENT) -f src/imgui/CMakeFiles/imgui_sdl2.dir/build.make src/imgui/CMakeFiles/imgui_sdl2.dir/examples/imgui_impl_sdl.cpp.i
+.PHONY : examples/imgui_impl_sdl.cpp.i
 
-examples/gl_glcore_3_3.s: examples/gl_glcore_3_3.c.s
-.PHONY : examples/gl_glcore_3_3.s
+examples/imgui_impl_sdl.s: examples/imgui_impl_sdl.cpp.s
+.PHONY : examples/imgui_impl_sdl.s
 
 # target to generate assembly for a file
-examples/gl_glcore_3_3.c.s:
-	cd /home/nikita/c++/hagen-engine && $(MAKE) $(MAKESILENT) -f src/imgui/CMakeFiles/imgui_sdl2.dir/build.make src/imgui/CMakeFiles/imgui_sdl2.dir/examples/gl_glcore_3_3.c.s
-.PHONY : examples/gl_glcore_3_3.c.s
+examples/imgui_impl_sdl.cpp.s:
+	cd /home/nikita/c++/hagen-engine && $(MAKE) $(MAKESILENT) -f src/imgui/CMakeFiles/imgui_sdl2.dir/build.make src/imgui/CMakeFiles/imgui_sdl2.dir/examples/imgui_impl_sdl.cpp.s
+.PHONY : examples/imgui_impl_sdl.cpp.s
 
 examples/imgui_impl_sdl_gl3.o: examples/imgui_impl_sdl_gl3.cpp.o
 .PHONY : examples/imgui_impl_sdl_gl3.o
@@ -356,9 +356,9 @@ help:
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... imgui_sdl2"
-	@echo "... examples/gl_glcore_3_3.o"
-	@echo "... examples/gl_glcore_3_3.i"
-	@echo "... examples/gl_glcore_3_3.s"
+	@echo "... examples/imgui_impl_sdl.o"
+	@echo "... examples/imgui_impl_sdl.i"
+	@echo "... examples/imgui_impl_sdl.s"
 	@echo "... examples/imgui_impl_sdl_gl3.o"
 	@echo "... examples/imgui_impl_sdl_gl3.i"
 	@echo "... examples/imgui_impl_sdl_gl3.s"

@@ -176,7 +176,7 @@ bool load_value(XMLNode node, const char *name,Rect4 &value) {
 	XMLNode value_n=node.getChildNode(name);
 	if(value_n.isEmpty())return 0;
 	value.load(value_n);
-	value.stabilize(SW);
+	value.stabilize(SH);
 	return 1;
 };
 

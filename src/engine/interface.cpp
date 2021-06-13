@@ -8,22 +8,18 @@
 #include "weapon.hpp"
 #include "camera.hpp"
 #include "utility.hpp"
-
+#include "imgui_impl_sdl.h"
 #ifdef ANDROID
 #include <GLES2/gl2.h>
 #include "imgui_impl_sdl_es2.h"
-#include "imgui_impl_sdl_es3.h"
 #else
-#include "gl_glcore_3_3.h"
 #include "imgui_impl_sdl_gl3.h"
 #endif
 typedef bool(initImgui_t)(SDL_Window*);
-typedef bool(processEvent_t)(SDL_Event*);
 typedef void(newFrame_t)(SDL_Window*);
 typedef void(shutdown_t)();
 
 static initImgui_t *initImgui;
-static processEvent_t *processEvent;
 static newFrame_t *newFrame;
 static shutdown_t *shutdown;
 using namespace ImGui;
@@ -42,7 +38,7 @@ void Interface::update() {
 			console.shown=!console.shown;
 			if(!shown())hide();
 			update_cursor();
-		} else if(e.key.keysym.sym==SDLK_ESCAPE) {
+		} else if(e.key.keysym.sym==SDLK_ESCAPE || e.key.keysym.sym==SDLK_AC_BACK) {
 			if(console.shown)
 				console.hide();
 			else if(pause.shown)
@@ -56,7 +52,7 @@ void Interface::update() {
 		else if(e.key.keysym.sym==SDLK_F9)
 			quickload();
 	}
-	processEvent(&e);
+	ImGui_ImplSDL2_ProcessEvent(&e);
 }
 void Interface::init_imgui() {
 	try {
@@ -67,20 +63,11 @@ void Interface::init_imgui() {
 		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard | ImGuiConfigFlags_NoMouseCursorChange;
 		io.IniFilename=nullptr;
 #ifdef ANDROID
-		if (ren->renderer->id.major_version==3){
-			initImgui = ImGui_ImplSdlGLES3_Init;
-			processEvent = ImGui_ImplSdlGLES3_ProcessEvent;
-			newFrame = ImGui_ImplSdlGLES3_NewFrame;
-			shutdown = ImGui_ImplSdlGLES3_Shutdown;
-		}else{
-			initImgui = ImGui_ImplSdlGLES2_Init;
-			processEvent = ImGui_ImplSdlGLES2_ProcessEvent;
-			newFrame = ImGui_ImplSdlGLES2_NewFrame;
-			shutdown = ImGui_ImplSdlGLES2_Shutdown;
-		}
+		initImgui = ImGui_ImplSdlGLES2_Init;
+		newFrame = ImGui_ImplSdlGLES2_NewFrame;
+		shutdown = ImGui_ImplSdlGLES2_Shutdown;
 #else
 		initImgui = ImGui_ImplSdlGL3_Init;
-		processEvent = ImGui_ImplSdlGL3_ProcessEvent;
 		newFrame = ImGui_ImplSdlGL3_NewFrame;
 		shutdown = ImGui_ImplSdlGL3_Shutdown;
 #endif
