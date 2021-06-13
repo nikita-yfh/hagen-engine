@@ -55,31 +55,27 @@ void Interface::update() {
 	ImGui_ImplSDL2_ProcessEvent(&e);
 }
 void Interface::init_imgui() {
-	try {
-		SDL_Window* window = SDL_GetWindowFromID(ren->context->windowID);
-		IMGUI_CHECKVERSION();
-		CreateContext();
-		ImGuiIO& io = GetIO();
-		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard | ImGuiConfigFlags_NoMouseCursorChange;
-		io.IniFilename=nullptr;
+	SDL_Window* window = SDL_GetWindowFromID(ren->context->windowID);
+	IMGUI_CHECKVERSION();
+	CreateContext();
+	ImGuiIO& io = GetIO();
+	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard | ImGuiConfigFlags_NoMouseCursorChange;
+	io.IniFilename=nullptr;
 #ifdef ANDROID
-		initImgui = ImGui_ImplSdlGLES2_Init;
-		newFrame = ImGui_ImplSdlGLES2_NewFrame;
-		shutdown = ImGui_ImplSdlGLES2_Shutdown;
+	initImgui = ImGui_ImplSdlGLES2_Init;
+	newFrame = ImGui_ImplSdlGLES2_NewFrame;
+	shutdown = ImGui_ImplSdlGLES2_Shutdown;
 #else
-		initImgui = ImGui_ImplSdlGL3_Init;
-		newFrame = ImGui_ImplSdlGL3_NewFrame;
-		shutdown = ImGui_ImplSdlGL3_Shutdown;
+	initImgui = ImGui_ImplSdlGL3_Init;
+	newFrame = ImGui_ImplSdlGL3_NewFrame;
+	shutdown = ImGui_ImplSdlGL3_Shutdown;
 #endif
-		initImgui(window);
-		StyleColorsDark();
-		load_imgui_config();
-	} catch(...) {
-		error_log("Error while initing ImGui");
-	}
+	initImgui(window);
+	StyleColorsDark();
+	load_imgui_config();
 }
 void Interface::load_imgui_config() {
-	XMLNode node=XMLNode::openFileHelper((prefix+"config/imgui.xml").c_str(),"imgui");
+	XMLNode node=open_xml((prefix+"config/imgui.xml").c_str(),"imgui");
 	XMLNode text=node.getChildNode("text");
 	if(!text.isEmpty())
 		load_imgui_font(text.getAttribute("name"),text.getAttributef("size"));
@@ -192,13 +188,9 @@ void Interface::load_imgui_font(string name,float size) {
 	GetIO().Fonts->AddFontFromFileTTF((prefix+"fonts/"+name).c_str(), size, &font_config, ranges);
 }
 void Interface::load_config() {
-	try {
-		game_interface.load_config();
-		mainmenu.load_config();
-		info_log("Loaded interface config");
-	} catch(...) {
-		error_log("Error while loading interface config");
-	}
+	game_interface.load_config();
+	mainmenu.load_config();
+	info_log("Loaded interface config");
 }
 void Interface::draw() {
 	newFrame(SDL_GetWindowFromID(ren->context->windowID));
@@ -513,7 +505,6 @@ void SaverLoader::show(bool _mode) {
 }
 void SaverLoader::update_cache() {
 	list=list_files(saves);
-	info_log(to_string(list.size()));
 	for(int q=0; q<list.size(); q++) {
 		string &s=list[q];
 		if(s.find(".")!=string::npos) {
@@ -606,11 +597,12 @@ void SettingManager::apply() {
 }
 void SettingManager::update() {
 	set=settings;
-	languages=list_files(prefix+"locales");
-	for(auto &s : languages) {
-		if(s.find(".")) {
-			s.erase(s.begin()+s.find("."),s.end());
-		}
+	languages.clear();
+	XMLNode node=open_xml((prefix+"config/languages.xml").c_str(),"languages");
+	int count=node.getAttributei("count");
+	for(int q=0;q<count;q++){
+		XMLNode lang=node.getChildNode("language",q);
+		languages.push_back(lang.getAttribute("id"));
 	}
 	restart=false;
 }
@@ -649,7 +641,7 @@ bool WindowConfig::apply(const char* name,bool *shown) {
 
 
 void GameInterface::load_config() {
-	XMLNode node=XMLNode::openFileHelper((prefix+"config/game_interface.xml").c_str(),"game_interface");
+	XMLNode node=open_xml((prefix+"config/game_interface.xml").c_str(),"game_interface");
 	{
 		XMLNode text=node.getChildNode("text");
 		load_font(font,text,"color",SH);
@@ -730,7 +722,7 @@ void MainMenu::draw() {
 	GPU_BlitScale(title,0,ren,borders.left+image_w/2,borders.top+image_h/2,image_scale,image_scale);
 	for(auto button : buttons) {
 		GPU_Rect rect=GPU_MakeRect(borders.left,pos,FC_GetWidth(font,button.text.c_str()),text_h);
-		if(mouse.in_rect(rect)/* && !GetIO().WantCaptureMouse*/) {
+		if(mouse.in_rect(rect) && !GetIO().WantCaptureMouse) {
 			FC_DrawColor(font,ren,borders.left,pos,active.color(),button.text.c_str());
 			if(mouse.state==1)
 				button.func();
@@ -741,7 +733,7 @@ void MainMenu::draw() {
 	}
 }
 void MainMenu::load_config() {
-	XMLNode node=XMLNode::openFileHelper((prefix+"config/main_menu.xml").c_str(),"main_menu");
+	XMLNode node=open_xml((prefix+"config/main_menu.xml").c_str(),"main_menu");
 	{
 		XMLNode text=node.getChildNode("text");
 		load_font(font,text,"inactive",SH);
@@ -797,10 +789,10 @@ void LevelChooser::load() {
 	if(levels.size())return;
 	XMLNode file;
 	try {
-		file=XMLNode::openFileHelper((saves+"levels.xml").c_str(),"levels");
+		file=open_xml((saves+"levels.xml").c_str(),"levels");
 	} catch(...){
 		warning_log("Failed to load "+saves+"levels.xml, restoring default");
-		file=XMLNode::openFileHelper((prefix+"config/levels.xml").c_str(),"levels");
+		file=open_xml((prefix+"config/levels.xml").c_str(),"levels");
 	}
 	int count=file.getAttributei("count");
 	levels.clear();

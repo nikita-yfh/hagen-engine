@@ -1,13 +1,14 @@
 #include "effect.hpp"
 #include "main.hpp"
 #include "xmlParser.h"
+#include "utility.hpp"
 #include "lua.hpp"
 namespace effect {
 Effect::Effect(string name) {
 	load(name);
 }
 void Effect::load(string name) {
-	XMLNode node=XMLNode::openFileHelper((prefix+"effects/"+name+".xml").c_str(),"effect");
+	XMLNode node=open_xml((prefix+"effects/"+name+".xml").c_str(),"effect");
 	period=node.getAttributei("period");
 	anim.resize(node.getAttributei("count"));
 	for(int q=0; q<anim.size(); q++) {

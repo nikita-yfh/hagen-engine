@@ -44,3 +44,5 @@ void error_log(string text);
 string format(const string fmt, ...);
 
 float _abs(float val);
+XMLNode open_xml(const char *path, const char *tag);
+string RWget(const char* filename);

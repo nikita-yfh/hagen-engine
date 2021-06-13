@@ -56,8 +56,7 @@ void clear_loaded_list() {
 	loaded.clear();
 }
 void dofile(string file) {
-	if(!exist_file(file))return;
-	if(luaL_dofile(L, file.c_str())) {
+	if(luaL_dostring(L,RWget(file.c_str()).c_str())){
 		throw string(lua_tostring(L, -1));
 	}
 }

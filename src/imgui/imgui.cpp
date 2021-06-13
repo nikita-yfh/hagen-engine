@@ -853,6 +853,7 @@ CODE
 #else
 #include <stdint.h>     // intptr_t
 #endif
+#include "SDL.h"
 
 #define IMGUI_DEBUG_NAV_SCORING     0
 #define IMGUI_DEBUG_NAV_RECTS       0
@@ -1348,31 +1349,27 @@ void* ImFileLoadToMemory(const char* filename, const char* file_open_mode, size_
 	if (out_file_size)
 		*out_file_size = 0;
 
-	FILE* f;
-	if ((f = ImFileOpen(filename, file_open_mode)) == NULL)
+	SDL_RWops *f=SDL_RWFromFile(filename, file_open_mode);
+	if(f==nullptr)
 		return NULL;
 
-	long file_size_signed;
-	if (fseek(f, 0, SEEK_END) || (file_size_signed = ftell(f)) == -1 || fseek(f, 0, SEEK_SET)) {
-		fclose(f);
-		return NULL;
-	}
+	long file_size_signed=SDL_RWsize(f);
 
 	size_t file_size = (size_t)file_size_signed;
 	void* file_data = ImGui::MemAlloc(file_size + padding_bytes);
 	if (file_data == NULL) {
-		fclose(f);
+		SDL_RWclose(f);
 		return NULL;
 	}
-	if (fread(file_data, 1, file_size, f) != file_size) {
-		fclose(f);
+	if (SDL_RWread(f,file_data, 1, file_size) != file_size) {
+		SDL_RWclose(f);
 		ImGui::MemFree(file_data);
 		return NULL;
 	}
 	if (padding_bytes > 0)
 		memset((void*)(((char*)file_data) + file_size), 0, (size_t)padding_bytes);
 
-	fclose(f);
+	SDL_RWclose(f);
 	if (out_file_size)
 		*out_file_size = file_size;
 

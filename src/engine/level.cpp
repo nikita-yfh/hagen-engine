@@ -10,6 +10,7 @@
 #include "main.hpp"
 #include "camera.hpp"
 #include "effect.hpp"
+#include "text.hpp"
 using namespace std;
 unsigned short int levelw=20;
 unsigned short int levelh=20;
@@ -229,7 +230,7 @@ void save_world_state(string name) {
 	info_log("Saved to "+saves+name+".xml");
 }
 void load_world_state(string name) {
-	XMLNode lvl=XMLNode::openFileHelper((saves+name+".xml").c_str(),"level");
+	XMLNode lvl=open_xml((saves+name+".xml").c_str(),"level");
 	load_level(lvl.getAttribute("name"));
 	{
 		XMLNode time=lvl.getChildNode("time");
@@ -564,9 +565,7 @@ b2Joint *read_joint(XMLNode jn,string &id,b2Vec2 delta,Entity *ent) {
 	return j;
 }
 void open_file(string path) {
-	if(!exist_file(path))
-		throw string("File "+path+" not found");
-	XMLNode lvl=XMLNode::openFileHelper(path.c_str(),"level");
+	XMLNode lvl=open_xml(path.c_str(),"level");
 	world=new b2World(b2Vec2(0,9.8));
 	{
 		//backgroung
@@ -638,6 +637,7 @@ void close_level() {
 	lua::clear_loaded_list();
 	effect::effects.clear();
 	effect::loaded.clear();
+	text::clear_text();
 	if(world)delete world;
 	lua::quit();
 }

@@ -9,7 +9,7 @@ int position_iterations=10;
 using namespace std;
 
 b2Body *create_body_winit(string type,string id) {
-	XMLNode bd=XMLNode::openFileHelper((prefix+"bodies/"+type+".xml").c_str(),"body");
+	XMLNode bd=open_xml((prefix+"bodies/"+type+".xml").c_str(),"body");
 	b2Body *body=read_body(bd, {0,0},1);
 	load_body_textures(body);
 	if(id=="")id=free_id();
@@ -20,7 +20,7 @@ b2Body *create_body_winit(string type,string id) {
 	return body;
 }
 b2Body *create_body(string type,string id,float x,float y) {
-	XMLNode bd=XMLNode::openFileHelper((prefix+"bodies/"+type+".xml").c_str(),"body");
+	XMLNode bd=open_xml((prefix+"bodies/"+type+".xml").c_str(),"body");
 	b2Body *body=read_body(bd, {x,y},1);
 	load_body_textures(body);
 	if(id=="")id=free_id();
@@ -43,9 +43,7 @@ Entity *create_entity_winit(string type,string id) {
 }
 Entity *create_entity(string type,string id,float x,float y) {
 	Entity *ent=new Entity(type,x,y);
-	info_log("LOADED 0");
 	load_entity_textures(ent);
-	info_log("LOADED 1");
 	if(id=="")id=free_entity_id();
 	entities[id]=ent;
 	ent->id=id;

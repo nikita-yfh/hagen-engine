@@ -33,7 +33,7 @@ vector<Subtitles>subtitles;
 map <string,string>texts;
 string get(string id) {
 	if(texts.empty() || texts.find(id)==texts.end()) {
-		XMLNode xml=XMLNode::openFileHelper((prefix+"locales/"+settings.language+".xml").c_str(),"text");
+		XMLNode xml=open_xml((prefix+"locales/"+settings.language+".xml").c_str(),"text");
 		string id1=id;
 		while(id1.find("/")!=id1.npos) {
 			string s(id,0,id1.find("/"));
@@ -53,7 +53,7 @@ const char* getc(string id) {
 	return texts[id].c_str();
 }
 void preload() {
-	XMLNode xml=XMLNode::openFileHelper((prefix+"locales/"+settings.language+".xml").c_str(),"text");
+	XMLNode xml=open_xml((prefix+"locales/"+settings.language+".xml").c_str(),"text");
 	for(int q=0;; q++) {
 		XMLNode node=xml.getChildNode(q);
 		if(node.isEmpty())return;
@@ -61,7 +61,7 @@ void preload() {
 	}
 }
 void load_config(){
-	XMLNode node=XMLNode::openFileHelper((prefix+"config/text.xml").c_str(),"text");
+	XMLNode node=open_xml((prefix+"config/text.xml").c_str(),"text");
 	{
 		XMLNode text=node.getChildNode("text");
 		load_font(font,text,"default",SH);

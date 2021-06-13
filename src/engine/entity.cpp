@@ -6,6 +6,7 @@
 #include "sdl.hpp"
 #include "lua.hpp"
 #include "camera.hpp"
+#include "utility.hpp"
 using namespace std;
 void Weapon::set_texture(string tex) {
 	load_texture(tex);
@@ -17,7 +18,7 @@ string Weapon::get_texture() const {
 Entity::Entity() {};
 Entity::Entity(string _type,float xp,float yp) {
 	type=_type;
-	XMLNode xml=XMLNode::openFileHelper((prefix+"entities/"+type+".xml").c_str(),"physics");
+	XMLNode xml=open_xml((prefix+"entities/"+type+".xml").c_str(),"physics");
 	{
 		//bodies
 		XMLNode bds=xml.getChildNode("bodies");

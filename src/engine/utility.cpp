@@ -108,7 +108,7 @@ bool bigger_angle(b2Vec2 v1,b2Vec2 v2) {
 }
 
 string get_level_name(string name) {
-	XMLNode lvl=XMLNode::openFileHelper((saves+name+".xml").c_str(),"level");
+	XMLNode lvl=open_xml((saves+name+".xml").c_str(),"level");
 	return lvl.getAttribute("name");
 }
 
@@ -179,7 +179,6 @@ bool load_value(XMLNode node, const char *name,Rect4 &value) {
 	value.stabilize(SH);
 	return 1;
 };
-
 
 float load_scaled_float(XMLNode node, const char *name,float &value){
 
@@ -305,5 +304,47 @@ string format(const string fmt, ...) {
 float _abs(float val){
     if(val>0)return val;
     return -val;
+}
+string RWget(const char* filename) {
+	SDL_RWops *rw = SDL_RWFromFile(filename, "rb");
+	if (rw == NULL){
+		warning_log(format("Cannot open %s",filename));
+		return "";
+	}
+	string str;
+
+	Sint64 res_size = SDL_RWsize(rw);
+	char* res = new char[res_size+1];
+
+	Sint64 nb_read_total = 0, nb_read = 1;
+	char* buf = res;
+	while (nb_read_total < res_size && nb_read != 0) {
+		nb_read = SDL_RWread(rw, buf, 1, (res_size - nb_read_total));
+		nb_read_total += nb_read;
+		buf += nb_read;
+	}
+	SDL_RWclose(rw);
+	if (nb_read_total != res_size) {
+		delete res;
+		return "";
+	}
+	res[nb_read_total] = '\0';
+	str=res;
+	delete res;
+	int u[3]={0xEF,0xBB,0xBF};
+	for(int q=0;q<3;q++){
+		if(str[0]==(char)u[q])
+			str.erase(str.begin());
+		else
+			break;
+	}
+	return str;
+}
+XMLNode open_xml(const char *path, const char *tag){
+	XMLResults res;
+	XMLNode node=XMLNode::parseString(RWget(path).c_str(),tag,&res);
+	if(res.error!=XMLError::eXMLErrorNone)
+		panic(format("%s: %s, in line %d, column %d",XMLNode::getError(res.error),path,res.nLine,res.nColumn));
+	return node;
 }
 
