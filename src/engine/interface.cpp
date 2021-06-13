@@ -513,13 +513,14 @@ void SaverLoader::show(bool _mode) {
 }
 void SaverLoader::update_cache() {
 	list=list_files(saves);
+	info_log(to_string(list.size()));
 	for(int q=0; q<list.size(); q++) {
 		string &s=list[q];
-		if(s.find(".")) {
+		if(s.find(".")!=string::npos) {
 			s.erase(s.begin()+s.find("."),s.end());
 		}
 		if(s=="settings" || s=="levels")
-			list.erase(list.begin()+q);
+			list.erase(list.begin()+q--);
 	}
 }
 void SaverLoader::hide() {
