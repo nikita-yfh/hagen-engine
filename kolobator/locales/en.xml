@@ -49,5 +49,20 @@
 <sound_freq value = "Sound frequency" />
 <game value = "Game settings" />
 <language value = "Game language" />
+        <restart_title value = "Restart" />
+        <restart_text value = "You must restart the game to apply the settings" />
 </settings>
+    <main_menu>
+        <new_game value = "Start new game" />
+        <choose_level value = "Level selection" />
+<load_game value = "Continue with save" />
+<settings value = "Settings" />
+<exit_game value = "Exit game" />
+<exit_game_title value = "Exit the game?" />
+<exit_game_text value = "Are you sure you want to exit the game?" />
+    </main_menu>
+    <levelchooser>
+        <title value = "Select level" />
+        <load value = "Load" />
+    </levelchooser>
 </text>

@@ -6,3 +6,11 @@
 	</text>
     <border left="200" right="80" top="0.3" bottom="0.2"/>
 </main_menu>
+<main_menu_android>
+    <title image="title.png" h="94"/>
+    <text name="DroidSans-lite.ttf" size="0.06">
+		<active r="255" g="255" b="0" a="255"/>
+		<inactive r="255" g="255" b="255" a="255"/>
+	</text>
+    <border left="0.3" right="0.1" top="0.2" bottom="0.2"/>
+</main_menu_android>

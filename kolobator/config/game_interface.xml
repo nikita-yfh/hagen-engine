@@ -5,3 +5,9 @@
 	</text>
 	<border left="40" right="40" top="40" bottom="40"/>
 </game_interface>
+<game_interface_android>
+	<text name="20051.ttf" size="0.09">
+		<color r="255" g="255" b="0" a="255"/>
+	</text>
+	<border left="60" right="60" top="60" bottom="60"/>
+</game_interface_android>

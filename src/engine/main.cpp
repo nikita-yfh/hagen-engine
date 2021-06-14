@@ -6,9 +6,11 @@
 #include "box2d.h"
 #include "sdl.hpp"
 #include <cstring>
-#include "game.hpp"
 #include "text.hpp"
 #include "weapon.hpp"
+#include "camera.hpp"
+#include <chrono>
+#include "render.hpp"
 string prefix="game/";
 string saves="saves/";
 using namespace luabridge;
@@ -21,19 +23,34 @@ int main(int argc, char * argv[]) {
 	saves+="/";
 	prefix="";
 #endif
-	try {
-		init();
-	} catch(...) {
-		error_log("Error while init engine");
-		settings.def();
-		settings.save();
-	}
+	init();
 	text::load_config();
 	if(argc>1) load_level(argv[1],true);
 	else
 		interface.mainmenu.show();
-	game();
-	quit();
+	auto time=chrono::high_resolution_clock::now();
+	while(1) {
+		if(lua::need_load.size()) {
+			load_level(lua::need_load,interface.mainmenu.shown);
+			lua::need_load="";
+		}
+		while(SDL_PollEvent(&e)) {
+			if(e.type==SDL_QUIT)
+				quit();
+			interface.update();
+		}
+		mouse.update();
+		if(!interface.shown())
+			lua::gameloop();
+		draw();
+		auto step=chrono::high_resolution_clock::now()-time;
+		time = chrono::high_resolution_clock::now();
+		if(!interface.shown()) {
+			world->Step(chrono::duration_cast<chrono::microseconds>(step).count()/1000000.0f*lua::time_scale,
+						velocity_iterations,position_iterations);
+			update_fluid();
+		}
+	}
 	return 0;
 }
 
@@ -52,11 +69,20 @@ void Settings::save() {
 	sound.addAttribute("frequency",sound_freq);
 	XMLNode game=Main.addChild("game");
 	game.addAttribute("language",language);
-	Main.writeToFile((saves+"settings.xml").c_str());
-	info_log("Saved settings to settings.xml");
+	XMLError e=Main.writeToFile((saves+"settings.xml").c_str());
+	if(e!=XMLError::eXMLErrorNone)
+		panic(format("%s: %s",e,"settings.xml"));
+	else
+		info_log("Saved settings to settings.xml");
 }
 void Settings::load() {
 	XMLNode Main=open_xml((saves+"settings.xml").c_str(),"settings");
+	if(Main.isEmpty()){
+		def();
+		save();
+		load();
+		return;
+	}
 	XMLNode graphics=Main.getChildNode("graphics");
 	SW=graphics.getAttributei("w");
 	SH=graphics.getAttributei("h");

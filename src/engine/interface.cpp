@@ -788,9 +788,8 @@ void LevelChooser::show() {
 void LevelChooser::load() {
 	if(levels.size())return;
 	XMLNode file;
-	try {
-		file=open_xml((saves+"levels.xml").c_str(),"levels");
-	} catch(...){
+	file=open_xml((saves+"levels.xml").c_str(),"levels");
+	if(file.isEmpty()){
 		warning_log("Failed to load "+saves+"levels.xml, restoring default");
 		file=open_xml((prefix+"config/levels.xml").c_str(),"levels");
 	}

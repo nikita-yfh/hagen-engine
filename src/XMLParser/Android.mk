@@ -6,7 +6,7 @@ LOCAL_MODULE := XML
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)
 
-LOCAL_CFLAGS := -fexceptions
+LOCAL_CFLAGS := -fexceptions -O3
 
 LOCAL_SRC_FILES := xmlParser.cpp
 

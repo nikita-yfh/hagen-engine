@@ -8,6 +8,6 @@ LOCAL_C_INCLUDES := $(LOCAL_PATH)
 
 LOCAL_EXPORT_C_INCLUDES += $(LOCAL_C_INCLUDES)
 
-LOCAL_CFLAGS := -frtti -fexceptions
+LOCAL_CFLAGS := -frtti -fexceptions -O3
 
 include $(BUILD_SHARED_LIBRARY)

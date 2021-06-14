@@ -342,9 +342,19 @@ string RWget(const char* filename) {
 }
 XMLNode open_xml(const char *path, const char *tag){
 	XMLResults res;
-	XMLNode node=XMLNode::parseString(RWget(path).c_str(),tag,&res);
+	string str=RWget(path);
+	if(str=="")
+		return XMLNode::emptyNode();
+	XMLNode node;
+#ifdef ANDROID
+	node=XMLNode::parseString(str.c_str(),((string)tag+"_android").c_str(),&res);
+	if(res.error==XMLError::eXMLErrorNone)
+		return node;
+#endif
+	node=XMLNode::parseString(str.c_str(),tag,&res);
 	if(res.error!=XMLError::eXMLErrorNone)
 		panic(format("%s: %s, in line %d, column %d",XMLNode::getError(res.error),path,res.nLine,res.nColumn));
 	return node;
 }
+
 

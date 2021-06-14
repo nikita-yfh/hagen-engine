@@ -7,3 +7,12 @@
 	<console	    width="520" heigth="600" resize="1" collapse="1" move="1" title="1" focus="1" center="1"/>
 	<pause	    	width="-1"  heigth="-1"  resize="0" collapse="0" move="0" title="0" focus="0" center="1"/>
 </imgui>
+<imgui_android>
+	<text name="DroidSans-lite.ttf" size="40"/>
+	<WindowRounding value="10"/>
+	<levelchooser	width="800" heigth="600" resize="1" collapse="1" move="1" title="1" focus="1" center="1"/>
+	<saverloader	width="800" heigth="600" resize="1" collapse="1" move="1" title="1" focus="1" center="1"/>
+	<settings	    width="900" heigth="600" resize="1" collapse="1" move="1" title="1" focus="1" center="1"/>
+	<console	    width="800" heigth="600" resize="1" collapse="1" move="1" title="1" focus="1" center="1"/>
+	<pause	    	width="-1"  heigth="-1"  resize="0" collapse="0" move="0" title="0" focus="0" center="1"/>
+</imgui_android>
