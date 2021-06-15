@@ -41,9 +41,8 @@ void ImGui_ImplSdlGL3_RenderDrawLists(ImDrawData* draw_data) {
 	if (fb_width == 0 || fb_height == 0)
 		return;
 	draw_data->ScaleClipRects(io.DisplayFramebufferScale);
-
 	// Backup GL state
-	GLint last_active_texture;
+	/*GLint last_active_texture;
 	glGetIntegerv(GL_ACTIVE_TEXTURE, &last_active_texture);
 	glActiveTexture(GL_TEXTURE0);
 	GLint last_program;
@@ -67,7 +66,7 @@ void ImGui_ImplSdlGL3_RenderDrawLists(ImDrawData* draw_data) {
 	GLint last_blend_equation_rgb;
 	glGetIntegerv(GL_BLEND_EQUATION_RGB, &last_blend_equation_rgb);
 	GLint last_blend_equation_alpha;
-	glGetIntegerv(GL_BLEND_EQUATION_ALPHA, &last_blend_equation_alpha);
+	glGetIntegerv(GL_BLEND_EQUATION_ALPHA, &last_blend_equation_alpha);*/
 	GLint last_viewport[4];
 	glGetIntegerv(GL_VIEWPORT, last_viewport);
 	GLint last_scissor_box[4];
@@ -122,7 +121,7 @@ void ImGui_ImplSdlGL3_RenderDrawLists(ImDrawData* draw_data) {
 	}
 
 	// Restore modified GL state
-	glUseProgram(last_program);
+	/*glUseProgram(last_program);
 	glBindTexture(GL_TEXTURE_2D, last_texture);
 	glActiveTexture(last_active_texture);
 	glBindVertexArray(last_vertex_array);
@@ -137,7 +136,7 @@ void ImGui_ImplSdlGL3_RenderDrawLists(ImDrawData* draw_data) {
 	if (last_enable_depth_test) glEnable(GL_DEPTH_TEST);
 	else glDisable(GL_DEPTH_TEST);
 	if (last_enable_scissor_test) glEnable(GL_SCISSOR_TEST);
-	else glDisable(GL_SCISSOR_TEST);
+	else glDisable(GL_SCISSOR_TEST);*/
 	glViewport(last_viewport[0], last_viewport[1], (GLsizei)last_viewport[2], (GLsizei)last_viewport[3]);
 	glScissor(last_scissor_box[0], last_scissor_box[1], (GLsizei)last_scissor_box[2], (GLsizei)last_scissor_box[3]);
 }

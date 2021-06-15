@@ -8,4 +8,6 @@ struct Sensor {
 	bool update(float mx,float my);
 };
 
-//extern
+extern vector<Sensor>sensors;
+
+void check_sensors(float x,float y);
