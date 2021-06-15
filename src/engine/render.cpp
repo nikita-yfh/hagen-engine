@@ -125,7 +125,7 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 				f[q*4+2]=f[6];
 				f[q*4+3]=f[7];
 				short unsigned int index[CIRCLE_QUALITY*3];
-				for(int q=0;q<CIRCLE_QUALITY;q++){
+				for(int q=0; q<CIRCLE_QUALITY; q++) {
 					index[q*3+0]=0;
 					index[q*3+1]=q+1;
 					index[q*3+2]=q+2;

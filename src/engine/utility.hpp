@@ -4,6 +4,7 @@
 #include "entity.hpp"
 #include "weapon.hpp"
 #include "interface.hpp"
+#include "sensor.hpp"
 #include <memory>
 #include <string>
 #include <stdexcept>
@@ -29,6 +30,7 @@ bool load_value(XMLNode node, const char *name,b2Transform &value);
 bool load_value(XMLNode node, const char *name,b2Sweep &value);
 bool load_value(XMLNode node, const char *name,Color &value);
 bool load_value(XMLNode node, const char *name,Rect4 &value);
+bool load_value(XMLNode node, const char *name,Sensor &value);
 
 void save_value(XMLNode node, const char *name,b2Vec2 &value);
 void save_value(XMLNode node, const char *name,float &value);
@@ -36,6 +38,7 @@ void save_value(XMLNode node, const char *name,bool &value);
 void save_value(XMLNode node, const char *name,b2Transform &value);
 void save_value(XMLNode node, const char *name,b2Sweep &value);
 void save_value(XMLNode node, const char *name,Color &value);
+float load_scaled_float(XMLNode node, const char *name);
 
 vector<string>list_files(string dir);
 void info_log(string text);

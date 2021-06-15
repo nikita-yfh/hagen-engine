@@ -25,7 +25,6 @@ struct Rect4 {
 	float bottom;
 	float left;
 	float right;
-	void stabilize(float f);
 	void load(XMLNode l);
 };
 struct Vec {

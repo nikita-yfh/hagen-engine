@@ -128,6 +128,6 @@ Selection show(string title, string message, Style style, Buttons buttons) {
 	return selection;
 }
 #else
-Selection show(string title, string message, Style style, Buttons buttons){}
+Selection show(string title, string message, Style style, Buttons buttons) {}
 #endif
 }

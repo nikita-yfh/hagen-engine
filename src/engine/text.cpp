@@ -4,26 +4,26 @@
 #include "utility.hpp"
 #include "camera.hpp"
 #include <iostream>
-namespace text{
+namespace text {
 FC_Font *font;
 Color tips_color;
 Rect4 tips_borders;
 Color subtitles_color;
 Rect4 subtitles_borders;
 Rect4 subtitles_position;
-Subtitles::Subtitles(string text,float time,Color color){
+Subtitles::Subtitles(string text,float time,Color color) {
 	set(text,time,color);
 }
-void Subtitles::set(string _text,float _time,Color _color){
+void Subtitles::set(string _text,float _time,Color _color) {
 	text=_text;
 	timer=lua::get_time()+_time;
 	color=_color;
 }
-Tip::Tip(float x,float y,string text,Color color,float time){
+Tip::Tip(float x,float y,string text,Color color,float time) {
 	set(x,y,text,color,time);
 }
-void Tip::set(float _x,float _y,string _text,Color _color,float _time){
-	pos={_x,_y};
+void Tip::set(float _x,float _y,string _text,Color _color,float _time) {
+	pos= {_x,_y};
 	text=_text;
 	color=_color;
 	timer=lua::get_time()+_time;
@@ -60,7 +60,7 @@ void preload() {
 		texts[node.getName()]=xml.getAttribute("value");
 	}
 }
-void load_config(){
+void load_config() {
 	XMLNode node=open_xml((prefix+"config/text.xml").c_str(),"text");
 	{
 		XMLNode text=node.getChildNode("text");
@@ -81,37 +81,37 @@ void load_config(){
 
 	info_log("Loaded text config");
 }
-void add_tip_color(float x,float y,string text,Color color){
+void add_tip_color(float x,float y,string text,Color color) {
 	tips.emplace_back(x,y,text,color,0);
 }
-void add_tip(float x,float y,string text){
+void add_tip(float x,float y,string text) {
 	tips.emplace_back(x,y,text,FC_GetDefaultColor(font),0);
 }
-void add_tip_color_time(float x,float y,string text,Color color,float time){
+void add_tip_color_time(float x,float y,string text,Color color,float time) {
 	tips.emplace_back(x,y,text,color,time);
 }
-void add_tip_time(float x,float y,string text,float time){
+void add_tip_time(float x,float y,string text,float time) {
 	tips.emplace_back(x,y,text,FC_GetDefaultColor(font),time);
 }
-void add_subtitles(string text,float time){
+void add_subtitles(string text,float time) {
 	subtitles.emplace_back(text,time,FC_GetDefaultColor(font));
 }
-void add_subtitles_color(string text,float time,Color color){
+void add_subtitles_color(string text,float time,Color color) {
 	subtitles.emplace_back(text,time,color);
 }
-void update(){
-	for(int q=0;q<tips.size();q++)
+void update() {
+	for(int q=0; q<tips.size(); q++)
 		if(tips[q].timer<=lua::get_time())
 			tips.erase(tips.begin()+q);
 }
-void clear_text(){
+void clear_text() {
 	tips.clear();
 }
 void clear_locale() {
 	texts.clear();
 }
-void draw(){
-	for(Tip &tip : tips){
+void draw() {
+	for(Tip &tip : tips) {
 		b2Vec2 c=drawv(b2Vec2(tip.pos));
 		b2Vec2 size=b2Vec2(FC_GetWidth(font,tip.text.c_str()),FC_GetLineHeight(font))/2.0f;
 		GPU_RectangleFilled(ren,
@@ -119,7 +119,7 @@ void draw(){
 							c.y-size.y-tips_borders.top,
 							c.x+size.x+tips_borders.right,
 							c.y+size.y+tips_borders.bottom,
-						tips_color.color());
+							tips_color.color());
 		FC_DrawColor(font,ren,c.x-size.x,c.y-size.y,tip.color.color(),tip.text.c_str());
 	}
 }

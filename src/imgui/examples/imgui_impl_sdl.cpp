@@ -209,7 +209,7 @@ static void ImGui_ImplSDL2_UpdateMousePosAndButtons() {
 		// The creation of a new windows at runtime and SDL_CaptureMouse both seems to severely mess up with that, so we retrieve that position globally.
 		if(SDL_GetWindowFlags(g_Window) & SDL_WINDOW_FULLSCREEN==SDL_WINDOW_FULLSCREEN)
 			SDL_GetMouseState(&mx, &my);
-		else{
+		else {
 			int wx, wy;
 			SDL_GetWindowPosition(focused_window, &wx, &wy);
 			SDL_GetGlobalMouseState(&mx, &my);

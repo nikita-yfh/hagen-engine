@@ -66,7 +66,6 @@ void Settings::save() {
 	XMLNode sound=Main.addChild("sound");
 	sound.addAttribute("sound_volume",sound_volume);
 	sound.addAttribute("music_volume",music_volume);
-	sound.addAttribute("frequency",sound_freq);
 	XMLNode game=Main.addChild("game");
 	game.addAttribute("language",language);
 	XMLError e=Main.writeToFile((saves+"settings.xml").c_str());
@@ -77,7 +76,7 @@ void Settings::save() {
 }
 void Settings::load() {
 	XMLNode Main=open_xml((saves+"settings.xml").c_str(),"settings");
-	if(Main.isEmpty()){
+	if(Main.isEmpty()) {
 		def();
 		save();
 		load();
@@ -90,7 +89,6 @@ void Settings::load() {
 	XMLNode sound=Main.getChildNode("sound");
 	sound_volume=sound.getAttributei("sound_volume");
 	music_volume=sound.getAttributei("music_volume");
-	sound_freq=sound.getAttributei("frequency");
 	XMLNode game=Main.getChildNode("game");
 	language=game.getAttribute("language");
 	info_log("Loaded settings from settings.xml successfully");
@@ -104,6 +102,5 @@ void Settings::def() {
 	sound_volume=100;
 	music_volume=100;
 	language="en";
-	sound_freq=22050;
 	info_log("Restored default settings");
 }

@@ -14,7 +14,6 @@ struct Settings {
 	bool fullscreen;
 	int music_volume;
 	int sound_volume;
-	int sound_freq;
 	string language;
 	bool loaded=false;
 };

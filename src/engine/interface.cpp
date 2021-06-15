@@ -433,27 +433,17 @@ void Console::hide() {
 }
 
 
-void Rect4::stabilize(float f) {
-	if(top<1)top*=f;
-	if(left<1)left*=f;
-	if(right<1)right*=f;
-	if(bottom<1)bottom*=f;
-}
 void Rect4::load(XMLNode l) {
-	top=l.getAttributef("top");
-	left=l.getAttributef("left");
-	right=l.getAttributef("right");
-	bottom=l.getAttributef("bottom");
+	top=load_scaled_float(l,"top");
+	left=load_scaled_float(l,"left");
+	right=load_scaled_float(l,"right");
+	bottom=load_scaled_float(l,"bottom");
 }
 
 
-void Vec::stabilize(float f) {
-	if(x<1)x*=f;
-	if(y<1)y*=f;
-}
 void Vec::load(XMLNode l) {
-	x=l.getAttributef("x");
-	y=l.getAttributef("y");
+	x=load_scaled_float(l,"x");
+	y=load_scaled_float(l,"y");
 }
 
 void SaverLoader::draw() {
@@ -538,7 +528,6 @@ void SettingManager::draw() {
 	Text("%s",text::getc("settings/sound"));
 	SliderInt(text::getc("settings/sound_volume"),&set.sound_volume,0,100,"%d%%");
 	SliderInt(text::getc("settings/music_volume"),&set.music_volume,0,100,"%d%%");
-	InputInt(text::getc("settings/sound_freq"),&set.sound_freq,100,1000);
 	Text("%s",text::getc("settings/game"));
 	if (ImGui::BeginCombo(text::getc("settings/language"),set.language.c_str())) {
 		for (int q = 0; q<languages.size(); q++) {
@@ -576,23 +565,12 @@ void SettingManager::draw() {
 	End();
 }
 void SettingManager::apply() {
-	settings=set;
-	settings.save();
+	set.save();
 	if(restart)
 		quit();
-	else {
-		Mix_Quit();
-		int mix_flags=MIX_INIT_MP3|MIX_INIT_MOD;
-		if(Mix_Init(mix_flags)&mix_flags!=mix_flags) {
-			error_log(SDL_GetError());
-			throw string(SDL_GetError());
-		}
-		if(Mix_OpenAudio(settings.sound_freq,AUDIO_S16SYS,2,640)) {
-			error_log(SDL_GetError());
-			throw string(SDL_GetError());
-		}
-		info_log("Music inited succesfully");
-	}
+	else if(settings.language==set.language)
+		text::clear_locale();
+	settings=set;
 	hide();
 }
 void SettingManager::update() {
@@ -600,7 +578,7 @@ void SettingManager::update() {
 	languages.clear();
 	XMLNode node=open_xml((prefix+"config/languages.xml").c_str(),"languages");
 	int count=node.getAttributei("count");
-	for(int q=0;q<count;q++){
+	for(int q=0; q<count; q++) {
 		XMLNode lang=node.getChildNode("language",q);
 		languages.push_back(lang.getAttribute("id"));
 	}
@@ -743,8 +721,7 @@ void MainMenu::load_config() {
 	{
 		XMLNode titlen=node.getChildNode("title");
 		string str=titlen.getAttribute("image");
-		image_h=titlen.getAttributef("h");
-		if(image_h<1)image_h*=SH;
+		image_h=load_scaled_float(titlen,"h");
 		title=load_texture(str);
 		textures.erase(str);
 	}
@@ -766,10 +743,10 @@ void MainMenu::show() {
 }
 
 
-void LevelChooser::open_level(string id){
+void LevelChooser::open_level(string id) {
 	load();
-	for(auto &level :levels){
-		if(level.id==id && level.show){
+	for(auto &level :levels) {
+		if(level.id==id && level.show) {
 			info_log("Opening "+id+" level");
 			level.open=true;
 			save();
@@ -789,7 +766,7 @@ void LevelChooser::load() {
 	if(levels.size())return;
 	XMLNode file;
 	file=open_xml((saves+"levels.xml").c_str(),"levels");
-	if(file.isEmpty()){
+	if(file.isEmpty()) {
 		warning_log("Failed to load "+saves+"levels.xml, restoring default");
 		file=open_xml((prefix+"config/levels.xml").c_str(),"levels");
 	}
@@ -807,7 +784,7 @@ void LevelChooser::load() {
 	save();
 }
 void LevelChooser::save() {
-	try{
+	try {
 		XMLNode file=XMLNode::createXMLTopNode("levels");
 		file.addAttribute("count",levels.size());
 		for(auto &level : levels) {
@@ -818,9 +795,9 @@ void LevelChooser::save() {
 		}
 		file.writeToFile((saves+"levels.xml").c_str());
 		info_log("Saved levels config");
-	}catch(XMLError &er){
+	} catch(XMLError &er) {
 		panic((string)"Cannot write to levels.xml: "+XMLNode::getError(er));
-	}catch(...){
+	} catch(...) {
 		panic("Cannot write to levels.xml");
 	}
 }
@@ -858,7 +835,7 @@ void LevelChooser::draw() {
 
 	End();
 }
-string LevelChooser::get_first_level(){
+string LevelChooser::get_first_level() {
 	load();
 	if(!levels.size())
 		panic("Failed to get first level: level count = 0");

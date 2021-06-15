@@ -176,12 +176,41 @@ bool load_value(XMLNode node, const char *name,Rect4 &value) {
 	XMLNode value_n=node.getChildNode(name);
 	if(value_n.isEmpty())return 0;
 	value.load(value_n);
-	value.stabilize(SH);
 	return 1;
 };
 
-float load_scaled_float(XMLNode node, const char *name,float &value){
+bool is_valid_float(string str) {
+	bool point=0;
+	for(int q=0; q<str.size(); q++) {
+		if(!isdigit(str[q])) {
+			if(point==0&&str[q]=='.')
+				point=1;
+			else
+				return 0;
+		}
+	}
+	return 1;
+}
 
+float load_scaled_float(XMLNode node, const char *name) {
+	string str=node.getAttribute(name);
+	if(str.size()==0)return 0.0f;
+	uint8_t mode=0; //0-none,1-SW,2-SH
+	char e=tolower(str[str.size()-1]);
+
+	if(isdigit(e)||e=='.')mode=0;
+	else if(e=='w')mode=1;
+	else if(e=='h')mode=2;
+	else return 0.0f;
+	if(mode!=0)str.pop_back();
+
+	if(!is_valid_float(str))return 0.0f;
+
+	float f=stof(str);
+
+	if(mode==1)f*=SW;
+	else if(mode==2)f*=SH;
+	return f;
 }
 
 void save_value(XMLNode node, const char *name,b2Vec2 &value) {
@@ -282,32 +311,32 @@ void error_log(string text) {
 }
 
 string format(const string fmt, ...) {
-    int size = ((int)fmt.size()) * 2 + 50;   // Use a rubric appropriate for your code
-    string str;
-    va_list ap;
-    while (1) {     // Maximum two passes on a POSIX system...
-        str.resize(size);
-        va_start(ap, fmt);
-        int n = vsnprintf((char *)str.data(), size, fmt.c_str(), ap);
-        va_end(ap);
-        if (n > -1 && n < size) {  // Everything worked
-            str.resize(n);
-            return str;
-        }
-        if (n > -1)  // Needed size returned
-            size = n + 1;   // For null char
-        else
-            size *= 2;      // Guess at a larger size (OS specific)
-    }
-    return str;
+	int size = ((int)fmt.size()) * 2 + 50;   // Use a rubric appropriate for your code
+	string str;
+	va_list ap;
+	while (1) {     // Maximum two passes on a POSIX system...
+		str.resize(size);
+		va_start(ap, fmt);
+		int n = vsnprintf((char *)str.data(), size, fmt.c_str(), ap);
+		va_end(ap);
+		if (n > -1 && n < size) {  // Everything worked
+			str.resize(n);
+			return str;
+		}
+		if (n > -1)  // Needed size returned
+			size = n + 1;   // For null char
+		else
+			size *= 2;      // Guess at a larger size (OS specific)
+	}
+	return str;
 }
-float _abs(float val){
-    if(val>0)return val;
-    return -val;
+float _abs(float val) {
+	if(val>0)return val;
+	return -val;
 }
 string RWget(const char* filename) {
 	SDL_RWops *rw = SDL_RWFromFile(filename, "rb");
-	if (rw == NULL){
+	if (rw == NULL) {
 		warning_log(format("Cannot open %s",filename));
 		return "";
 	}
@@ -331,8 +360,8 @@ string RWget(const char* filename) {
 	res[nb_read_total] = '\0';
 	str=res;
 	delete res;
-	int u[3]={0xEF,0xBB,0xBF};
-	for(int q=0;q<3;q++){
+	int u[3]= {0xEF,0xBB,0xBF};
+	for(int q=0; q<3; q++) {
 		if(str[0]==(char)u[q])
 			str.erase(str.begin());
 		else
@@ -340,7 +369,7 @@ string RWget(const char* filename) {
 	}
 	return str;
 }
-XMLNode open_xml(const char *path, const char *tag){
+XMLNode open_xml(const char *path, const char *tag) {
 	XMLResults res;
 	string str=RWget(path);
 	if(str=="")

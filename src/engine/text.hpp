@@ -4,7 +4,7 @@
 #include "sdl.hpp"
 #include "b2_math.h"
 using namespace std;
-namespace text{
+namespace text {
 extern string language;
 string get(string id);
 const char* getc(string id);
@@ -20,7 +20,7 @@ void add_subtitles_color(string text,float time,Color color);
 void load_config();
 void draw();
 void update();
-struct Subtitles{
+struct Subtitles {
 	Subtitles(string text,float time,Color color);
 	void set(string text,float time,Color color);
 	string text;
@@ -28,7 +28,7 @@ struct Subtitles{
 	float timer;
 };
 
-struct Tip{
+struct Tip {
 	Tip(float x,float y,string text,Color color,float time);
 	void set(float x,float y,string text,Color color,float time);
 	b2Vec2 pos;

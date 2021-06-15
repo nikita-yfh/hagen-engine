@@ -76,16 +76,15 @@ bool Mouse::update() {
 		state=2;
 	else if(state==3)
 		state=0;
-	if(state!=2 && state !=3){
+	if(state!=2 && state !=3) {
 		if(e.type==SDL_MOUSEBUTTONDOWN) {
 			state=1;
 			b=e.button.button;
-		}else if(e.type==SDL_FINGERDOWN){
+		} else if(e.type==SDL_FINGERDOWN) {
 			state=1;
 			b=1;
 		}
-	}
-	else if((e.type==SDL_MOUSEBUTTONUP || e.type==SDL_FINGERUP) && state !=0)
+	} else if((e.type==SDL_MOUSEBUTTONUP || e.type==SDL_FINGERUP) && state !=0)
 		state=3;
 	x=mx;
 	y=my;

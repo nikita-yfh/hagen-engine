@@ -56,7 +56,7 @@ void clear_loaded_list() {
 	loaded.clear();
 }
 void dofile(string file) {
-	if(luaL_dostring(L,RWget(file.c_str()).c_str())){
+	if(luaL_dostring(L,RWget(file.c_str()).c_str())) {
 		throw string(lua_tostring(L, -1));
 	}
 }
@@ -550,7 +550,7 @@ void init() {
 		"level.init=function() end\n"
 		"level.update=function() end\n"
 		"level.newgame=function()"
-			"Level.newgame()\n"
+		"Level.newgame()\n"
 		"end\n"
 
 		"Body={}\n"

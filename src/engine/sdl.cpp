@@ -31,7 +31,7 @@ Color::Color() {}
 Color::Color(int _r,int _g,int _b,int _a) {
 	set(_r,_g,_b,_a);
 }
-Color::Color(SDL_Color c){
+Color::Color(SDL_Color c) {
 	r=c.r;
 	g=c.g;
 	b=c.b;
@@ -54,14 +54,10 @@ Rect::Rect(float _x,float _y,float _w,float _h) {
 	set(_x,_y,_w,_h);
 }
 void Rect::load(XMLNode node,float f) {
-	x=node.getAttributef("x");
-	y=node.getAttributef("y");
-	w=node.getAttributef("w");
-	h=node.getAttributef("h");
-	if(x<1.0f)x*=f;
-	if(y<1.0f)y*=f;
-	if(w<1.0f)w*=f;
-	if(h<1.0f)h*=f;
+	x=load_scaled_float(node,"x");
+	y=load_scaled_float(node,"x");
+	w=load_scaled_float(node,"w");
+	h=load_scaled_float(node,"h");
 }
 void print_renderer_info(GPU_Renderer *renderer) {
 	GPU_RendererID id = renderer->id;
@@ -106,7 +102,7 @@ void init() {
 		error_log(SDL_GetError());
 		throw string(SDL_GetError());
 	}
-	if(Mix_OpenAudio(settings.sound_freq,AUDIO_S16SYS,2,640)) {
+	if(Mix_OpenAudio(22050,AUDIO_S16SYS,2,640)) {
 		error_log(SDL_GetError());
 		throw string(SDL_GetError());
 	}
@@ -196,8 +192,7 @@ void destroy_all() {
 
 void load_font(FC_Font *&font, XMLNode node,string color,float h) {
 	string font_path=node.getAttribute("name");
-	float size=node.getAttributef("size");
-	if(size<1)size*=h;
+	float size=load_scaled_float(node,"size");
 	font_path=prefix+"fonts/"+font_path;
 	if(font!=0)
 		FC_ClearFont(font);
