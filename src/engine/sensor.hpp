@@ -1,13 +1,33 @@
 #pragma once
+#include <vector>
+#include "xmlParser.h"
+#include "sdl.hpp"
+
+namespace sensors{
 
 struct Sensor {
+	Sensor();
+	Sensor(XMLNode node);
 	GPU_Rect pos;
-	unsigned short key;
-	bool active;
-	bool disabled;
-	bool update(float mx,float my);
+	GPU_Rect image;
+	short key;
+	bool active,pactive;
+	bool enabled;
+	bool update(float x,float y);
+	void draw();
 };
 
 extern vector<Sensor>sensors;
 
-void check_sensors(float x,float y);
+bool update(float x,float y);
+
+void load();
+
+void draw();
+
+void disable();
+void enable();
+
+bool get(short key);
+bool pget(short key);
+};

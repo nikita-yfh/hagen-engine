@@ -21,6 +21,7 @@ b2Vec2 point2_per(b2Vec2 v1,b2Vec2 v2,float width);
 float vec_angle(b2Vec2 p);
 bool bigger_angle(b2Vec2 v1,b2Vec2 v2);
 string get_level_name(string name);
+bool in_rect(float x,float y,GPU_Rect rect);
 
 bool load_value(XMLNode node, const char *name,float &value);
 bool load_value(XMLNode node, const char *name,bool &value);
@@ -30,7 +31,7 @@ bool load_value(XMLNode node, const char *name,b2Transform &value);
 bool load_value(XMLNode node, const char *name,b2Sweep &value);
 bool load_value(XMLNode node, const char *name,Color &value);
 bool load_value(XMLNode node, const char *name,Rect4 &value);
-bool load_value(XMLNode node, const char *name,Sensor &value);
+bool load_value(XMLNode node, const char *name,GPU_Rect &value);
 
 void save_value(XMLNode node, const char *name,b2Vec2 &value);
 void save_value(XMLNode node, const char *name,float &value);
@@ -49,3 +50,5 @@ string format(const string fmt, ...);
 float _abs(float val);
 XMLNode open_xml(const char *path, const char *tag);
 string RWget(const char* filename);
+bool key(short code);
+bool pkey(short code);

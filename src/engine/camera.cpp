@@ -44,13 +44,10 @@ float rotatey(b2Vec2 vec,float a) {
 b2Vec2 rotate(b2Vec2 vec,float a) {
 	return {rotatex(vec,a),rotatey(vec,a)};
 }
-float mouse_angle() {
-	if(interface.mainmenu.shown)return 0.0f;
-	float x=SW/2-mouse.x;
-	float y=SH/2-mouse.y;
-	return get_angle(x,y);
+float mouse_angle(){
+	return mouse.angle;
 }
-float get_angle(float x,float y) {
+float get_angle(float x,float y){
 	float a;
 	if(x>=0)
 		a= M_PI+atan(y/x);
@@ -60,6 +57,12 @@ float get_angle(float x,float y) {
 		a= atan(y/x);
 	return a;
 }
+float Mouse::g_angle() {
+	if(interface.mainmenu.shown)return 0.0f;
+	float px=SW/2-x;
+	float py=SH/2-y;
+	return get_angle(px,py);
+}
 bool Mouse::update() {
 #ifdef ANDROID
 	int mx=e.tfinger.x*SW;
@@ -68,32 +71,36 @@ bool Mouse::update() {
 	int mx=e.button.x;
 	int my=e.button.y;
 #endif
-	if(mx<0||mx>=SW||my<0||my>=SH) {
-		mx=x;
-		my=y;
+	if(mx>=0&&mx<SW&&my>=0&&my<SH) {
+		x=mx;
+		y=my;
 	}
-	if(state==1)
-		state=2;
-	else if(state==3)
-		state=0;
-	if(state!=2 && state !=3) {
+	sensors::update(-1,-1);
+	bool s=(g_state && sensors::update(x,y));
+	if(g_state==1)
+		g_state=2;
+	else if(g_state==3)
+		g_state=0;
+	if(g_state!=2 && g_state !=3) {
 		if(e.type==SDL_MOUSEBUTTONDOWN) {
-			state=1;
+			g_state=1;
 			b=e.button.button;
 		} else if(e.type==SDL_FINGERDOWN) {
-			state=1;
+			g_state=1;
 			b=1;
 		}
-	} else if((e.type==SDL_MOUSEBUTTONUP || e.type==SDL_FINGERUP) && state !=0)
-		state=3;
-	x=mx;
-	y=my;
+	} else if((e.type==SDL_MOUSEBUTTONUP || e.type==SDL_FINGERUP) && g_state !=0)
+		g_state=3;
+	if(!s){
+		state=g_state;
+		angle=g_angle();
+	}else
+		state=0;
+	info_log(format("g:%d:l:%d; b:%d; x:%d:y:%d, mx:%d:my:%d, angle:%g",g_state,state,b,x,y,mx,my,angle));
 	return 0;
 }
-bool Mouse::in_rect(GPU_Rect r) {
-	return r.x<x && r.y<y && r.x+r.w>x && r.y+r.h>y;
-}
 void Mouse::clear() {
+	g_state=0;
 	state=0;
 	b=0;
 }

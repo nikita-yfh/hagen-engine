@@ -8,6 +8,7 @@
 #include "weapon.hpp"
 #include "camera.hpp"
 #include "utility.hpp"
+#include "sensor.hpp"
 #include "imgui_impl_sdl.h"
 #ifdef ANDROID
 #include <GLES2/gl2.h>
@@ -33,12 +34,12 @@ static inline void trim(std::string &s) {
 
 
 void Interface::update() {
-	if(e.type==SDL_KEYDOWN && !mainmenu.shown) {
-		if(e.key.keysym.sym==SDLK_BACKQUOTE) {
+	if(!mainmenu.shown) {
+		if(pkey(SDL_SCANCODE_GRAVE)) {
 			console.shown=!console.shown;
 			if(!shown())hide();
 			update_cursor();
-		} else if(e.key.keysym.sym==SDLK_ESCAPE || e.key.keysym.sym==SDLK_AC_BACK) {
+		} else if(pkey(SDL_SCANCODE_ESCAPE)||pkey(SDL_SCANCODE_AC_BACK)) {
 			if(console.shown)
 				console.hide();
 			else if(pause.shown)
@@ -47,9 +48,9 @@ void Interface::update() {
 				pause.shown=true;
 			if(!shown())hide();
 			update_cursor();
-		} else if(e.key.keysym.sym==SDLK_F5)
+		} else if(pkey(SDL_SCANCODE_F5))
 			quicksave();
-		else if(e.key.keysym.sym==SDLK_F9)
+		else if(pkey(SDL_SCANCODE_F9))
 			quickload();
 	}
 	ImGui_ImplSDL2_ProcessEvent(&e);
@@ -625,6 +626,7 @@ void GameInterface::load_config() {
 		load_font(font,text,"color",SH);
 	}
 	load_value(node,"border",borders);
+	sensors::load();
 }
 void GameInterface::draw() {
 	if(!shown)return;
@@ -653,6 +655,7 @@ void GameInterface::draw() {
 		if(bullets[get_entity("player")->weapon.bullet1].max>0)
 			draw_bullets(get_entity("player")->weapon.bullet1,"game_interface/bullet1",++layer);
 	}
+	sensors::draw();
 }
 
 
@@ -700,7 +703,7 @@ void MainMenu::draw() {
 	GPU_BlitScale(title,0,ren,borders.left+image_w/2,borders.top+image_h/2,image_scale,image_scale);
 	for(auto button : buttons) {
 		GPU_Rect rect=GPU_MakeRect(borders.left,pos,FC_GetWidth(font,button.text.c_str()),text_h);
-		if(mouse.in_rect(rect) && !GetIO().WantCaptureMouse) {
+		if(in_rect(mouse.x,mouse.y,rect) && !GetIO().WantCaptureMouse) {
 			FC_DrawColor(font,ren,borders.left,pos,active.color(),button.text.c_str());
 			if(mouse.state==1)
 				button.func();

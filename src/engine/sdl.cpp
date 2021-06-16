@@ -14,13 +14,17 @@ SDL_Event e;
 int &SW=settings.SW;
 int &SH=settings.SH;
 GPU_Target *ren=0;
-const uint8_t* key=SDL_GetKeyboardState(0);
 using namespace std;
 map<string,GPU_Image*>textures;
 map<string,Mix_Chunk*>sounds;
 SDL_Cursor *cursor=0;
 Mix_Music *music=nullptr;
-
+uint8_t prev_key[SDL_NUM_SCANCODES];
+void copy_prev_key() {
+	for(int q=0;q<SDL_NUM_SCANCODES;q++){
+		prev_key[q]=key(q);
+	}
+}
 void Color::set(int _r,int _g,int _b,int _a) {
 	r=_r;
 	g=_g;
@@ -162,8 +166,9 @@ GPU_Image *load_texture(string str) {
 	if(str.size() && !find_texture(str)) {
 		textures[str]=GPU_LoadImage((prefix+"textures/"+str).c_str());
 		if(!textures[str])
-			throw string(SDL_GetError());
-		info_log("Loaded texture "+str);
+			error_log(SDL_GetError());
+		else
+			info_log("Loaded texture "+str);
 	}
 	return textures[str];
 }

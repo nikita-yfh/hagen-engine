@@ -368,8 +368,7 @@ b2Body* read_body(XMLNode bd,b2Vec2 delta,bool temp) {
 					big[e].x=vec[e].x=point.getAttributef("x");
 					big[e].y=vec[e].y=point.getAttributef("y");
 				}
-
-				Triangulate::Process(vec,result);
+				triangulate::Process(vec,result);
 				for(int q=0; q<result.size(); q+=3) {
 					b2FixtureDef fix2=fix;
 					b2PolygonShape shape;

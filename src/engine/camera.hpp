@@ -19,11 +19,13 @@ b2Vec2 rotate(b2Vec2 vec,float a);
 float mouse_angle();
 float get_angle(float x,float y);
 struct Mouse {
+	uint8_t g_state=0;
 	uint8_t state=0;
 	uint8_t b=0;
 	int x,y;
+	float angle;
 	bool update();
-	bool in_rect(GPU_Rect rect);
 	void clear();
+	float g_angle();
 };
 extern Mouse mouse;

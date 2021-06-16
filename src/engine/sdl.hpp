@@ -8,6 +8,8 @@
 #include "SDL_FontCache.h"
 #include "box2d.h"
 #include "xmlParser.h"
+void copy_prev_key();
+extern uint8_t prev_key[SDL_NUM_SCANCODES];
 struct Color {
 	Color();
 	Color(int,int,int);
@@ -25,7 +27,6 @@ struct Rect : GPU_Rect {
 };
 extern SDL_Event e;
 extern GPU_Target *ren;
-extern const uint8_t *key;
 extern int &SW;
 extern int &SH;
 void init();

@@ -7,7 +7,9 @@
 
 static const float EPSILON=0.0000000001f;
 
-float Triangulate::Area(const Vector2dVector &contour) {
+namespace triangulate{
+
+float Area(const Vector2dVector &contour) {
 
 	int n = contour.size();
 
@@ -23,7 +25,7 @@ float Triangulate::Area(const Vector2dVector &contour) {
   InsideTriangle decides if a point P is Inside of the triangle
   defined by A, B, C.
 */
-bool Triangulate::InsideTriangle(float Ax, float Ay,
+bool InsideTriangle(float Ax, float Ay,
 								 float Bx, float By,
 								 float Cx, float Cy,
 								 float Px, float Py)
@@ -52,7 +54,7 @@ bool Triangulate::InsideTriangle(float Ax, float Ay,
 	return ((aCROSSbp >= 0.0f) && (bCROSScp >= 0.0f) && (cCROSSap >= 0.0f));
 };
 
-bool Triangulate::Snip(const Vector2dVector &contour,int u,int v,int w,int n,int *V) {
+bool Snip(const Vector2dVector &contour,int u,int v,int w,int n,int *V) {
 	int p;
 	float Ax, Ay, Bx, By, Cx, Cy, Px, Py;
 
@@ -77,7 +79,7 @@ bool Triangulate::Snip(const Vector2dVector &contour,int u,int v,int w,int n,int
 	return true;
 }
 
-bool Triangulate::Process(const Vector2dVector &contour,Vector2dVector &result) {
+bool Process(const Vector2dVector &contour,Vector2dVector &result) {
 	/* allocate and initialize list of Vertices in polygon */
 
 	int n = contour.size();
@@ -142,3 +144,5 @@ bool Triangulate::Process(const Vector2dVector &contour,Vector2dVector &result) 
 
 	return true;
 }
+
+};

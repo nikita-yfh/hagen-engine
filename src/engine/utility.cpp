@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <fstream>
 #include <cmath>
+#include "sensor.hpp"
 #ifdef ANDROID
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -179,6 +180,16 @@ bool load_value(XMLNode node, const char *name,Rect4 &value) {
 	return 1;
 };
 
+bool load_value(XMLNode node, const char *name,GPU_Rect &value) {
+	XMLNode value_n=node.getChildNode(name);
+	if(value_n.isEmpty())return 0;
+	value.x=load_scaled_float(value_n,"x");
+	value.y=load_scaled_float(value_n,"y");
+	value.w=load_scaled_float(value_n,"w");
+	value.h=load_scaled_float(value_n,"h");
+	return 1;
+};
+
 bool is_valid_float(string str) {
 	bool point=0;
 	for(int q=0; q<str.size(); q++) {
@@ -192,24 +203,39 @@ bool is_valid_float(string str) {
 	return 1;
 }
 
-float load_scaled_float(XMLNode node, const char *name) {
+float load_scaled_float(XMLNode node, const char *name) {	//грузит число из строки с дополнительными фичами
 	string str=node.getAttribute(name);
-	if(str.size()==0)return 0.0f;
-	uint8_t mode=0; //0-none,1-SW,2-SH
-	char e=tolower(str[str.size()-1]);
+	if(str.size()==0)return 0.0f;//строка не может быть пустой
+	uint8_t mode1=0; //0-none,1-SW,2-SH, умножение на SW или SH, типа 0.5w
+	uint8_t mode2=0; //0-none,1-SW,2-SH, вычитание числа из SW или SH, типа w-200
+	char e=tolower(str[str.size()-1]);	//последний символ
 
-	if(isdigit(e)||e=='.')mode=0;
-	else if(e=='w')mode=1;
-	else if(e=='h')mode=2;
+	if(isdigit(e)||e=='.')mode1=0;
+	else if(e=='w')mode1=1;
+	else if(e=='h')mode1=2;
 	else return 0.0f;
-	if(mode!=0)str.pop_back();
 
-	if(!is_valid_float(str))return 0.0f;
+	char b=tolower(str[0]);//первый символ
+	if(isdigit(b)||b=='.')mode2=0;
+	else{
+		if(str.size()<3)return 0.0f;
+		if(b=='w')mode2=1;
+		else if(b=='h')mode2=2;
+		else return 0.0f;
+		if(str[1]!='-')return 0.0f; //второй символ должен быть минусом
+	}
+	if(mode1!=0)str.pop_back();//удаляю символы после числа
+	if(mode2!=0)str.erase(str.begin(),str.begin()+2);//удаляю символы перед числом
+
+	if(!is_valid_float(str))return 0.0f;//это нормальное число?
 
 	float f=stof(str);
 
-	if(mode==1)f*=SW;
-	else if(mode==2)f*=SH;
+	if(mode1==1)f*=SW;
+	else if(mode1==2)f*=SH;
+	if(mode2==1)f=SW-f;
+	else if(mode2==2)f=SH-f;
+
 	return f;
 }
 
@@ -386,4 +412,12 @@ XMLNode open_xml(const char *path, const char *tag) {
 	return node;
 }
 
-
+bool in_rect(float x,float y,GPU_Rect r) {
+	return r.x<x && r.y<y && r.x+r.w>x && r.y+r.h>y;
+}
+bool key(short code){
+	return SDL_GetKeyboardState(0)[code] || sensors::get(code);
+}
+bool pkey(short code){
+	return (!prev_key[code] && SDL_GetKeyboardState(0)[code]) || sensors::pget(code);
+}

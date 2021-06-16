@@ -16,7 +16,6 @@
 #include <Map.h>
 using namespace luabridge;
 using namespace std;
-uint8_t prev_key[SDL_NUM_SCANCODES];
 namespace lua {
 lua_State *L;
 string need_load;
@@ -198,9 +197,6 @@ int fire3(Entity *ent) {
 int fire4(Entity *ent) {
 	return getGlobal(L,ent->weapon.name.c_str())["fire4"](&ent->weapon,ent);
 }
-void copy_prev_key() {
-	memcpy(prev_key,SDL_GetKeyboardState(0),SDL_NUM_SCANCODES);
-}
 void gameloop() {
 	text::update();
 	getGlobal(L,"Level")["update"]();
@@ -209,7 +205,6 @@ void gameloop() {
 	update_bodies();
 	update_intervals();
 	effect::update();
-	copy_prev_key();
 }
 short get_scancode(string k) {
 	if(k=="up")		return SDL_SCANCODE_W;
@@ -228,6 +223,11 @@ short get_scancode(string k) {
 	if(k=="8")		return SDL_SCANCODE_8;
 	if(k=="9")		return SDL_SCANCODE_9;
 	if(k=="0")		return SDL_SCANCODE_0;
+	if(k=="esc")	return SDL_SCANCODE_ESCAPE;
+	if(k=="console")return SDL_SCANCODE_GRAVE;
+	if(k=="qsave")	return SDL_SCANCODE_F5;
+	if(k=="qload")	return SDL_SCANCODE_F9;
+	if(k=="back")	return SDL_SCANCODE_AC_BACK;
 	return -1;
 }
 void create_body_userdata(b2Body *b) {
@@ -247,7 +247,7 @@ void create_userdata() {
 bool get_key(string k) {
 	if(interface.mainmenu.shown)return 0;
 	short r=get_scancode(k);
-	if(r!=-1)return key[r];
+	if(r!=-1)return key(r);
 	else {
 		if(k=="fire1" || k=="fire")
 			return mouse.state==2&&mouse.b==SDL_BUTTON_LEFT;
@@ -258,7 +258,7 @@ bool get_key(string k) {
 bool get_press_key(string k) {
 	if(interface.mainmenu.shown)return 0;
 	short r=get_scancode(k);
-	if(r!=-1)return (key[r] && !prev_key[r]);
+	if(r!=-1)return (key(r) && !prev_key[r]);
 	else {
 		if(k=="fire1" || k=="fire")
 			return mouse.state==1&&mouse.b==SDL_BUTTON_LEFT;
@@ -269,7 +269,7 @@ bool get_press_key(string k) {
 bool get_release_key(string k) {
 	if(interface.mainmenu.shown)return 0;
 	short r=get_scancode(k);
-	if(r!=-1)return (!key[r] && prev_key[r]);
+	if(r!=-1)return (!key(r) && prev_key[r]);
 	else {
 		if(k=="fire1" || k=="fire")
 			return mouse.state==3&&mouse.b==SDL_BUTTON_LEFT;

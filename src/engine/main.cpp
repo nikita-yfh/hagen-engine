@@ -34,7 +34,8 @@ int main(int argc, char * argv[]) {
 			load_level(lua::need_load,interface.mainmenu.shown);
 			lua::need_load="";
 		}
-		while(SDL_PollEvent(&e)) {
+		copy_prev_key();
+		while(SDL_PollEvent(&e)){
 			if(e.type==SDL_QUIT)
 				quit();
 			interface.update();
