@@ -13,6 +13,10 @@ function kolobator.update(a)
 		graphics.effect("big_blood",a.x,a.y)
 		return true
 	end
+	a.weapon.angle=game.camera.angle
+	if(game.camera.locked) then
+		game.camera.center_body(a:body("body"))
+	end
 	if(game.press_key("jump")) then kolobator.jump=true end
 	if(game.release_key("jump")) then kolobator.jump=false end
 	if(game.key("left") and b.vx>-kolobator.speed and game.interval(20)) then
@@ -61,10 +65,6 @@ function kolobator.update(a)
 		elseif(game.key("fire2")) then
 			bullet(b2):del(a:fire4())
 		end
-	end
-	a.weapon.angle=game.camera.angle
-	if(game.camera.locked) then
-		game.camera.center_body(a:body("body"))
 	end
 	if(a.weapon.angle>math.pi*0.5 and a.weapon.angle<math.pi*1.5) then
 		b:set_texture("body_fixture","kolobator2.png")

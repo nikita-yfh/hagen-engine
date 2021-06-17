@@ -63,6 +63,9 @@ float Mouse::g_angle() {
 	float py=SH/2-y;
 	return get_angle(px,py);
 }
+namespace lua{
+bool get_press_key(string k);
+};
 bool Mouse::update() {
 #ifdef ANDROID
 	int mx=e.tfinger.x*SW;
@@ -71,10 +74,6 @@ bool Mouse::update() {
 	int mx=e.button.x;
 	int my=e.button.y;
 #endif
-	if(mx>=0&&mx<SW&&my>=0&&my<SH) {
-		x=mx;
-		y=my;
-	}
 	if(g_state==1)
 		g_state=2;
 	else if(g_state==3)
@@ -87,14 +86,23 @@ bool Mouse::update() {
 			g_state=1;
 			b=1;
 		}
-	} else if((e.type==SDL_MOUSEBUTTONUP || e.type==SDL_FINGERUP) && g_state !=0)
+	} else if((e.type==SDL_MOUSEBUTTONUP || e.type==SDL_FINGERUP) && g_state !=0){
 		g_state=3;
-	if(sensors::update(x,y,g_state)){//если нажал на какую-то сенсорную кнопку
-		state=0;
-	}else{
-		state=g_state;
-		angle=g_angle();
+		sensor_press=0;
 	}
+	if(sensors::update(mx,my,g_state) && g_state==1)//если нажал на какую-то сенсорную кнопку
+		sensor_press=1;
+	if(!sensor_press && g_state!=3){
+		state=g_state;
+		if((e.type==SDL_MOUSEMOTION||e.type==SDL_FINGERMOTION) || g_state==1){
+			if(mx>=0&&mx<SW&&my>=0&&my<SH) {
+				x=mx;
+				y=my;
+				angle=g_angle();
+			}
+		}
+	}
+	info_log(format("g:%d,l:%d,     angle:%g,    x:%d,y:%d, lua:%d",g_state,state,angle,x,y,lua::get_press_key("fire1")));
 	return 0;
 }
 void Mouse::clear() {

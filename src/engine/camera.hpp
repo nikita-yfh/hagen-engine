@@ -21,11 +21,16 @@ float get_angle(float x,float y);
 struct Mouse {
 	uint8_t g_state=0;
 	uint8_t state=0;
+	//0-ничего
+	//1-нажатие
+	//2-удерживание
+	//3-отпускание
 	uint8_t b=0;
 	int x,y;
 	float angle;
 	bool update();
 	void clear();
 	float g_angle();
+	bool sensor_press=0;
 };
 extern Mouse mouse;

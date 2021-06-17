@@ -5,7 +5,6 @@
 #include "lua.hpp"
 namespace sensors{
 vector<Sensor>sensors;
-Sensor none;
 Sensor::Sensor(){
 	pos={0,0,0,0};
 	image={0,0,0,0};
@@ -28,8 +27,9 @@ void Sensor::draw(){
 bool Sensor::update(int x,int y,uint8_t state){
 	pactive=active;
 	bool r=in_rect(x,y,pos);
-	active=state && r;
-	return r;
+	if(state!=2)
+		active=(state==1) && r;
+	return active;
 }
 void load(){
 	XMLNode Main=open_xml((prefix+"config/sensors.xml").c_str(),"sensors");
@@ -41,6 +41,8 @@ Sensor &find(short key){
 	for(auto &sensor : sensors)
 		if(sensor.key==key)
 			return sensor;
+	static Sensor none;
+	none=Sensor();
 	return none;
 }
 Sensor &find(string key){
