@@ -705,7 +705,7 @@ void MainMenu::draw() {
 		GPU_Rect rect=GPU_MakeRect(borders.left,pos,FC_GetWidth(font,button.text.c_str()),text_h);
 		if(in_rect(mouse.x,mouse.y,rect) && !GetIO().WantCaptureMouse) {
 			FC_DrawColor(font,ren,borders.left,pos,active.color(),button.text.c_str());
-			if(mouse.state==1)
+			if(mouse.g_state==1)
 				button.func();
 		} else {
 			FC_DrawColor(font,ren,borders.left,pos,inactive.color(),button.text.c_str());

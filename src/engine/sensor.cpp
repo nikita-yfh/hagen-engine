@@ -25,10 +25,11 @@ void Sensor::draw(){
 	if(!enabled)return;
 	GPU_BlitRect(textures["sensors.png"],&image,ren,&pos);
 }
-bool Sensor::update(float x,float y){
+bool Sensor::update(int x,int y,uint8_t state){
 	pactive=active;
-	active=in_rect(x,y,pos);
-	return active;
+	bool r=in_rect(x,y,pos);
+	active=state && r;
+	return r;
 }
 void load(){
 	XMLNode Main=open_xml((prefix+"config/sensors.xml").c_str(),"sensors");
@@ -51,11 +52,9 @@ void draw(){
 	for(auto &sensor : sensors)
 		sensor.draw();
 }
-bool update(float x,float y){
-	if(!interface.game_interface.shown || interface.mainmenu.shown)
-		return 0;
+bool update(int x,int y,uint8_t state){
 	for(auto &sensor : sensors)
-		if(sensor.enabled && sensor.update(x,y))
+		if(sensor.enabled && sensor.update(x,y,state))
 			return 1;
 	return 0;
 }

@@ -75,8 +75,6 @@ bool Mouse::update() {
 		x=mx;
 		y=my;
 	}
-	sensors::update(-1,-1);
-	bool s=(g_state && sensors::update(x,y));
 	if(g_state==1)
 		g_state=2;
 	else if(g_state==3)
@@ -91,12 +89,12 @@ bool Mouse::update() {
 		}
 	} else if((e.type==SDL_MOUSEBUTTONUP || e.type==SDL_FINGERUP) && g_state !=0)
 		g_state=3;
-	if(!s){
+	if(sensors::update(x,y,g_state)){//если нажал на какую-то сенсорную кнопку
+		state=0;
+	}else{
 		state=g_state;
 		angle=g_angle();
-	}else
-		state=0;
-	info_log(format("g:%d:l:%d; b:%d; x:%d:y:%d, mx:%d:my:%d, angle:%g",g_state,state,b,x,y,mx,my,angle));
+	}
 	return 0;
 }
 void Mouse::clear() {

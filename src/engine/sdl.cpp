@@ -20,7 +20,7 @@ map<string,Mix_Chunk*>sounds;
 SDL_Cursor *cursor=0;
 Mix_Music *music=nullptr;
 uint8_t prev_key[SDL_NUM_SCANCODES];
-void copy_prev_key() {
+void copy_prev_key() {//для определения нажатий
 	for(int q=0;q<SDL_NUM_SCANCODES;q++){
 		prev_key[q]=key(q);
 	}

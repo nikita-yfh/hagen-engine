@@ -13,13 +13,13 @@ struct Sensor {
 	short key;
 	bool active,pactive;
 	bool enabled;
-	bool update(float x,float y);
+	bool update(int x,int y,uint8_t state);
 	void draw();
 };
 
 extern vector<Sensor>sensors;
 
-bool update(float x,float y);
+bool update(int x,int y,uint8_t state);
 
 void load();
 
