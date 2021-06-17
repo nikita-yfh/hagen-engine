@@ -206,30 +206,6 @@ void gameloop() {
 	update_intervals();
 	effect::update();
 }
-short get_scancode(string k) {
-	if(k=="up")		return SDL_SCANCODE_W;
-	if(k=="down")	return SDL_SCANCODE_S;
-	if(k=="left")	return SDL_SCANCODE_A;
-	if(k=="right")	return SDL_SCANCODE_D;
-	if(k=="jump")	return SDL_SCANCODE_SPACE;
-	if(k=="action")	return SDL_SCANCODE_E;
-	if(k=="1")		return SDL_SCANCODE_1;
-	if(k=="2")		return SDL_SCANCODE_2;
-	if(k=="3")		return SDL_SCANCODE_3;
-	if(k=="4")		return SDL_SCANCODE_4;
-	if(k=="5")		return SDL_SCANCODE_5;
-	if(k=="6")		return SDL_SCANCODE_6;
-	if(k=="7")		return SDL_SCANCODE_7;
-	if(k=="8")		return SDL_SCANCODE_8;
-	if(k=="9")		return SDL_SCANCODE_9;
-	if(k=="0")		return SDL_SCANCODE_0;
-	if(k=="esc")	return SDL_SCANCODE_ESCAPE;
-	if(k=="console")return SDL_SCANCODE_GRAVE;
-	if(k=="qsave")	return SDL_SCANCODE_F5;
-	if(k=="qload")	return SDL_SCANCODE_F9;
-	if(k=="back")	return SDL_SCANCODE_AC_BACK;
-	return -1;
-}
 void create_body_userdata(b2Body *b) {
 	b->SetLuaUserData(new LuaRef(newTable(L)));
 }

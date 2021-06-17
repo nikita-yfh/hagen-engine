@@ -27,7 +27,6 @@ int fire1(Entity *ent);
 int fire2(Entity *ent);
 int fire3(Entity *ent);
 int fire4(Entity *ent);
-short get_scancode(string k);
 void create_entity_userdata(Entity *e);
 void create_body_userdata(b2Body *b);
 void init_main_menu();

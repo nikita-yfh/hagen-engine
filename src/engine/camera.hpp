@@ -16,21 +16,3 @@ int drawiy(float dy);
 float rotatex(b2Vec2 vec,float a);
 float rotatey(b2Vec2 vec,float a);
 b2Vec2 rotate(b2Vec2 vec,float a);
-float mouse_angle();
-float get_angle(float x,float y);
-struct Mouse {
-	uint8_t g_state=0;
-	uint8_t state=0;
-	//0-ничего
-	//1-нажатие
-	//2-удерживание
-	//3-отпускание
-	uint8_t b=0;
-	int x,y;
-	float angle;
-	bool update();
-	void clear();
-	float g_angle();
-	bool sensor_press=0;
-};
-extern Mouse mouse;

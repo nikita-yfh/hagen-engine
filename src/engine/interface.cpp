@@ -8,7 +8,7 @@
 #include "weapon.hpp"
 #include "camera.hpp"
 #include "utility.hpp"
-#include "sensor.hpp"
+#include "input.hpp"
 #include "imgui_impl_sdl.h"
 #ifdef ANDROID
 #include <GLES2/gl2.h>
@@ -626,7 +626,7 @@ void GameInterface::load_config() {
 		load_font(font,text,"color",SH);
 	}
 	load_value(node,"border",borders);
-	sensors::load();
+	sensor::load();
 }
 void GameInterface::draw() {
 	if(!shown)return;
@@ -655,7 +655,7 @@ void GameInterface::draw() {
 		if(bullets[get_entity("player")->weapon.bullet1].max>0)
 			draw_bullets(get_entity("player")->weapon.bullet1,"game_interface/bullet1",++layer);
 	}
-	sensors::draw();
+	sensor::draw();
 }
 
 

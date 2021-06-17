@@ -37,7 +37,7 @@ set(LEVEL_EDIROR_HEADERS
 )
 
 set(ENGINE_SOURCES
-        src/engine/sensor.cpp
+        src/engine/input.cpp
         src/engine/shader.cpp
         src/engine/effect.cpp
         src/engine/dialog.cpp
@@ -112,7 +112,7 @@ set(ENGINE_SOURCES
         src/box2d/rope/b2_rope.cpp
 )
 set(ENGINE_HEADERS
-        src/engine/sensor.hpp
+        src/engine/input.hpp
         src/engine/shader.hpp
         src/engine/effect.hpp
         src/engine/main.hpp

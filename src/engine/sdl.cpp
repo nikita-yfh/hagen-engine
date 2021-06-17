@@ -10,7 +10,6 @@
 #include <string>
 #include "shader.hpp"
 #include "render.hpp"
-SDL_Event e;
 int &SW=settings.SW;
 int &SH=settings.SH;
 GPU_Target *ren=0;
@@ -19,12 +18,6 @@ map<string,GPU_Image*>textures;
 map<string,Mix_Chunk*>sounds;
 SDL_Cursor *cursor=0;
 Mix_Music *music=nullptr;
-uint8_t prev_key[SDL_NUM_SCANCODES];
-void copy_prev_key() {//для определения нажатий
-	for(int q=0;q<SDL_NUM_SCANCODES;q++){
-		prev_key[q]=key(q);
-	}
-}
 void Color::set(int _r,int _g,int _b,int _a) {
 	r=_r;
 	g=_g;

@@ -6,7 +6,6 @@
 #include <stdlib.h>
 #include <fstream>
 #include <cmath>
-#include "sensor.hpp"
 #ifdef ANDROID
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -414,10 +413,4 @@ XMLNode open_xml(const char *path, const char *tag) {
 
 bool in_rect(float x,float y,GPU_Rect r) {
 	return r.x<x && r.y<y && r.x+r.w>x && r.y+r.h>y;
-}
-bool key(short code){
-	return SDL_GetKeyboardState(0)[code] || sensors::get(code);
-}
-bool pkey(short code){
-	return (!prev_key[code] && SDL_GetKeyboardState(0)[code]) || sensors::pget(code);
 }

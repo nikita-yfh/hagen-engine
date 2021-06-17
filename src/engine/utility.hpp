@@ -4,7 +4,7 @@
 #include "entity.hpp"
 #include "weapon.hpp"
 #include "interface.hpp"
-#include "sensor.hpp"
+#include "input.hpp"
 #include <memory>
 #include <string>
 #include <stdexcept>
@@ -50,5 +50,4 @@ string format(const string fmt, ...);
 float _abs(float val);
 XMLNode open_xml(const char *path, const char *tag);
 string RWget(const char* filename);
-bool key(short code);
-bool pkey(short code);
+
