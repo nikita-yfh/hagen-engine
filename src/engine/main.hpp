@@ -9,6 +9,16 @@ extern string saves;
 #define TOUCH
 #endif
 
+#ifdef ANDROID
+#ifndef TAG
+#define TAG "HAGEN"
+#endif
+#endif
+
+#ifndef LOG_MAX
+#define LOG_MAX 100
+#endif
+
 struct Settings {
 	void save();
 	void load();

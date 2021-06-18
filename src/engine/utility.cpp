@@ -305,11 +305,6 @@ return list;
 string get_time() {
 	return format("[ %.3f ]",SDL_GetTicks()/1000.0f);
 }
-#ifdef ANDROID
-#ifndef TAG
-#define TAG "HAGEN"
-#endif
-#endif
 void info_log(string text) {
 	string str=get_time()+" [I] "+text;
 	interface.console.AddLog(str);

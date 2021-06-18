@@ -54,6 +54,7 @@ void Interface::update() {
 			quickload();
 	}
 	ImGui_ImplSDL2_ProcessEvent(&e);
+	console.update();
 }
 void Interface::init_imgui() {
 	SDL_Window* window = SDL_GetWindowFromID(ren->context->windowID);
@@ -295,10 +296,10 @@ Console::~Console() {
 	ClearLog();
 }
 void  Console::ClearLog() {
-	Items.clear();
+	items.clear();
 }
 void Console::AddLog(string str) {
-	Items.push_back(str+"\n");
+	items.push_back(str+"\n");
 	ScrollToBottom=true;
 }
 void Console::draw() {
@@ -315,7 +316,7 @@ void Console::draw() {
 		EndPopup();
 	}
 	PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(4, 1));
-	for (string item : Items) {
+	for (string item : items) {
 		if (!Filter.PassFilter(item.c_str()))
 			continue;
 		ImVec4 color;
@@ -432,7 +433,10 @@ void Console::show() {
 void Console::hide() {
 	shown=false;
 }
-
+void Console::update() {
+	if(items.size()>LOG_MAX)
+		items.erase(items.begin()+LOG_MAX,items.end());
+}
 
 void Rect4::load(XMLNode l) {
 	top=load_scaled_float(l,"top");

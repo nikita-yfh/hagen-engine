@@ -36,7 +36,7 @@ struct Vec {
 struct Console {
 	bool shown=false;
 	char                  InputBuf[256];
-	vector<string>     	  Items;
+	vector<string>     	  items;
 	vector<string>        History;
 	int                   HistoryPos = -1;    // -1: new line, 0..History.Size-1 browsing history.
 	ImGuiTextFilter       Filter;
@@ -53,6 +53,7 @@ struct Console {
 	WindowConfig config;
 	void show();
 	void hide();
+	void update();
 };
 struct GameInterface {
 	bool shown=true;
