@@ -115,28 +115,28 @@ bool Mouse::update() {
 	int mx=e.button.x;
 	int my=e.button.y;
 #endif
-	if(g_state==1)
-		g_state=2;
-	else if(g_state==3)
-		g_state=0;
-	if(g_state!=2 && g_state !=3) {
-		if(e.type==SDL_MOUSEBUTTONDOWN) {
-			g_state=1;
+	if(g_state==Down)
+		g_state=Press;
+	else if(g_state==Down)
+		g_state=None;
+	if(g_state!=Press && g_state !=Up) {
+		if(e.type==SDL_MOUSEBUTTONDOWN) {//Нажатие кнопки мыши
+			g_state=Down;
 			b=e.button.button;
-		} else if(e.type==SDL_FINGERDOWN) {
-			g_state=1;
-			b=1;
+		} else if(e.type==SDL_FINGERDOWN) {//нажатие пальцем
+			g_state=Down;
+			b=1;//при нажатии пальцем всегда эмуляция ЛКМ
 		}
-	} else if((e.type==SDL_MOUSEBUTTONUP || e.type==SDL_FINGERUP) && g_state !=0){
-		g_state=3;
+	} else if((e.type==SDL_MOUSEBUTTONUP || e.type==SDL_FINGERUP) && g_state !=None){//Поднятие пальца/кнопки мыши
+		g_state=Up;
 		sensor_press=0;
 	}
-	if(sensor::update(mx,my,g_state) && g_state==1)//если нажал на какую-то сенсорную кнопку
+	if(sensor::update(mx,my,g_state) && g_state==Down)//если нажал на какую-то сенсорную кнопку
 		sensor_press=1;
-	if(!sensor_press && g_state!=3){
+	if(!sensor_press && g_state!=Up){//если не нажат сенсор
 		state=g_state;
-		if((e.type==SDL_MOUSEMOTION||e.type==SDL_FINGERMOTION) || g_state==1){
-			if(mx>=0&&mx<SW&&my>=0&&my<SH) {
+		if((e.type==SDL_MOUSEMOTION||e.type==SDL_FINGERMOTION) || g_state==Down){//Можно изменять координаты и угол только при движении/нажатии
+			if(mx>=0&&mx<SW&&my>=0&&my<SH) {//если курсор/палец в пределах экрана
 				x=mx;
 				y=my;
 				angle=g_angle();

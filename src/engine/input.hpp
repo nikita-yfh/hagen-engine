@@ -13,12 +13,14 @@ short get_scancode(string k);
 float mouse_angle();
 
 struct Mouse {
+	enum{
+		None,
+		Down,
+		Press,
+		Up
+	};
 	uint8_t g_state=0;
 	uint8_t state=0;
-	//0-ничего
-	//1-нажатие
-	//2-удерживание
-	//3-отпускание
 	uint8_t b=0;
 	int x,y;
 	float angle;
