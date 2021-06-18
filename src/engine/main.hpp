@@ -5,6 +5,10 @@ extern string prefix;
 extern string saves;
 #define TYPE(a,b) (static_cast<a>(b))
 
+#ifdef ANDROID
+#define TOUCH
+#endif
+
 struct Settings {
 	void save();
 	void load();

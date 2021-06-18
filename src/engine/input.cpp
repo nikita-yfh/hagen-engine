@@ -34,6 +34,44 @@ short get_scancode(string k) {
 	if(k=="back")	return SDL_SCANCODE_AC_BACK;
 	return -1;
 }
+
+bool down(){
+	return e.type==SDL_MOUSEBUTTONDOWN || e.type==SDL_FINGERDOWN;
+}
+bool up(){
+	return e.type==SDL_MOUSEBUTTONUP || e.type==SDL_FINGERUP;
+}
+bool motion(){
+	return e.type==SDL_MOUSEMOTION || e.type==SDL_FINGERMOTION;
+}
+uint16_t fid(){
+#ifdef TOUCH
+	return e.tfinger.fingerId;
+#else
+	return e.button.which;
+#endif
+}
+uint8_t button(){
+#ifdef TOUCH
+	return 1;
+#else
+	return e.button.button;
+#endif
+}
+int pressx(){
+#ifdef TOUCH
+	return e.tfinger.x*SW;
+#else
+	return e.button.x;
+#endif
+}
+int pressy(){
+#ifdef TOUCH
+	return e.tfinger.y*SH;
+#else
+	return e.button.y;
+#endif
+}
 vector<Sensor>sensors;
 Sensor::Sensor(){
 	pos={0,0,0,0};
@@ -42,6 +80,7 @@ Sensor::Sensor(){
 	active=false;
 	pactive=false;
 	key=-1;
+	id=-1;
 }
 Sensor::Sensor(XMLNode node){
 	load_value(node,"position",pos);
@@ -49,16 +88,24 @@ Sensor::Sensor(XMLNode node){
 	enabled=node.getAttributei("enabled");
 	string k_id=node.getAttribute("key");
 	key=get_scancode(k_id);
+	id=-1;
+	active=false;
+	pactive=false;
 }
 void Sensor::draw(){
 	if(!enabled)return;
 	GPU_BlitRect(textures["sensors.png"],&image,ren,&pos);
 }
-bool Sensor::update(int x,int y,uint8_t state){
+bool Sensor::update(){
 	pactive=active;
-	bool r=in_rect(x,y,pos);
-	if(state!=2)
-		active=(state==1) && r;
+	bool r=in_rect(pressx(),pressy(),pos);
+	if(up() && id==fid()){
+		active=0;
+		id=-1;
+	}else if(down() && r){
+		id=fid();
+		active=1;
+	}
 	return active;
 }
 namespace sensor{
@@ -85,11 +132,12 @@ void draw(){
 	for(auto &sensor : sensors)
 		sensor.draw();
 }
-bool update(int x,int y,uint8_t state){
+bool update(){
+	bool ok=0;
 	for(auto &sensor : sensors)
-		if(sensor.enabled && sensor.update(x,y,state))
-			return 1;
-	return 0;
+		if(sensor.enabled && sensor.update())
+			ok=1;
+	return ok;
 }
 bool get(short key){
 	return find(key).active;
@@ -108,34 +156,26 @@ float Mouse::g_angle() {
 	return get_angle(px,py);
 }
 bool Mouse::update() {
-#ifdef ANDROID
-	int mx=e.tfinger.x*SW;
-	int my=e.tfinger.y*SH;
-#else
-	int mx=e.button.x;
-	int my=e.button.y;
-#endif
+	int mx=pressx();
+	int my=pressy();
+
 	if(g_state==Down)
 		g_state=Press;
-	else if(g_state==Down)
+	else if(g_state==Up)
 		g_state=None;
-	if(g_state!=Press && g_state !=Up) {
-		if(e.type==SDL_MOUSEBUTTONDOWN) {//Нажатие кнопки мыши
-			g_state=Down;
-			b=e.button.button;
-		} else if(e.type==SDL_FINGERDOWN) {//нажатие пальцем
-			g_state=Down;
-			b=1;//при нажатии пальцем всегда эмуляция ЛКМ
-		}
-	} else if((e.type==SDL_MOUSEBUTTONUP || e.type==SDL_FINGERUP) && g_state !=None){//Поднятие пальца/кнопки мыши
+
+	if(g_state!=Press && g_state !=Up && down()) {//Нажатие пальцем/кнопкой мыши
+		b=button();
+		g_state=Down;
+	} else if(up() && g_state !=None){//Поднятие пальца/кнопки мыши
 		g_state=Up;
 		sensor_press=0;
 	}
-	if(sensor::update(mx,my,g_state) && g_state==Down)//если нажал на какую-то сенсорную кнопку
+	if(sensor::update() && g_state==Down)//если нажал на какую-то сенсорную кнопку
 		sensor_press=1;
 	if(!sensor_press && g_state!=Up){//если не нажат сенсор
 		state=g_state;
-		if((e.type==SDL_MOUSEMOTION||e.type==SDL_FINGERMOTION) || g_state==Down){//Можно изменять координаты и угол только при движении/нажатии
+		if(motion() || g_state==Down){//Можно изменять координаты и угол только при движении/нажатии
 			if(mx>=0&&mx<SW&&my>=0&&my<SH) {//если курсор/палец в пределах экрана
 				x=mx;
 				y=my;
@@ -143,7 +183,6 @@ bool Mouse::update() {
 			}
 		}
 	}
-	//info_log(format("g:%d,l:%d,     angle:%g,    x:%d,y:%d, lua:%d",g_state,state,angle,x,y,lua::get_press_key("fire1")));
 	return 0;
 }
 void Mouse::clear() {
