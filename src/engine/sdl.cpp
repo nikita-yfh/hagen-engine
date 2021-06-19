@@ -56,7 +56,7 @@ void Rect::load(XMLNode node,float f) {
 	w=load_scaled_float(node,"w");
 	h=load_scaled_float(node,"h");
 }
-void print_renderer_info(GPU_Renderer *renderer) {
+static void print_renderer_info(GPU_Renderer *renderer) {
 	GPU_RendererID id = renderer->id;
 
 	info_log(format("Using renderer: %s (%d.%d)", id.name, id.major_version, id.minor_version));

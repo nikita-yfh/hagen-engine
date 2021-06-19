@@ -218,11 +218,11 @@ static b2Vec2 compute_centroid(std::vector<b2Vec2> vs, float& area) {
 	return c;
 }
 
-bool inside(b2Vec2 cp1, b2Vec2 cp2, b2Vec2 p) {
+static bool inside(b2Vec2 cp1, b2Vec2 cp2, b2Vec2 p) {
 	return (cp2.x-cp1.x)*(p.y-cp1.y) > (cp2.y-cp1.y)*(p.x-cp1.x);
 }
 
-b2Vec2 intersection(b2Vec2 cp1, b2Vec2 cp2, b2Vec2 s, b2Vec2 e) {
+static b2Vec2 intersection(b2Vec2 cp1, b2Vec2 cp2, b2Vec2 s, b2Vec2 e) {
 	b2Vec2 dc( cp1.x - cp2.x, cp1.y - cp2.y );
 	b2Vec2 dp( s.x - e.x, s.y - e.y );
 	float n1 = cp1.x * cp2.y - cp1.y * cp2.x;
@@ -231,7 +231,7 @@ b2Vec2 intersection(b2Vec2 cp1, b2Vec2 cp2, b2Vec2 s, b2Vec2 e) {
 	return b2Vec2( (n1*dp.x - n2*dc.x) * n3, (n1*dp.y - n2*dc.y) * n3);
 }
 
-vector<b2Vec2>create_polygon(b2Fixture *fixture) {
+static vector<b2Vec2>create_polygon(b2Fixture *fixture) {
 	b2CircleShape *shape=TYPE(b2CircleShape*,fixture->GetShape());
 	vector<b2Vec2>vec;
 	for(int q=0; q<CIRCLE_QUALITY; q++) {
@@ -242,7 +242,7 @@ vector<b2Vec2>create_polygon(b2Fixture *fixture) {
 	return vec;
 }
 
-bool find_intersection_of_fixtures(b2Fixture* fA, b2Fixture* fB, std::vector<b2Vec2>& output) {
+static bool find_intersection_of_fixtures(b2Fixture* fA, b2Fixture* fB, std::vector<b2Vec2>& output) {
 	if ((fA->GetShape()->GetType() != b2Shape::e_polygon &&
 			fA->GetShape()->GetType() != b2Shape::e_circle) ||
 			(fB->GetShape()->GetType() != b2Shape::e_polygon &&

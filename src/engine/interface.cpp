@@ -216,7 +216,7 @@ void Interface::update_cursor() {
 	}
 }
 bool Interface::shown() {
-	return console.shown || pause.shown;
+	return console.shown || pause.shown || settingmanager.shown || levelchooser.shown || saver.shown;
 }
 void Interface::hide() {
 	lua::prev_time=SDL_GetTicks();
@@ -250,30 +250,26 @@ void Pause::draw() {
 	if(Button(text::getc("pause/exit_game"),align))
 		OpenPopup(text::getc("pause/exit_game_title"));
 	width=GetWindowContentRegionWidth();
-	SetNextWindowPos(ImVec2(GetIO().DisplaySize.x * 0.5f, GetIO().DisplaySize.y * 0.5f),
-					 ImGuiCond_Always, ImVec2(0.5f,0.5f));
 	if (BeginPopupModal(text::get("pause/main_menu_title").c_str(), NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
-		TextWrapped("%s",text::getc("pause/main_menu_text"));
+		Text("%s",text::getc("pause/main_menu_text"));
 		Separator();
 
-		if(Button(text::getc("common/ok"), ImVec2(120, 0)))
+		if(Button(text::getc("common/ok")))
 			interface.mainmenu.show();
 		SameLine();
-		if (Button(text::getc("common/cancel"), ImVec2(120, 0))) {
+		if (Button(text::getc("common/cancel"))) {
 			CloseCurrentPopup();
 		}
 		EndPopup();
 	}
-	SetNextWindowPos(ImVec2(GetIO().DisplaySize.x * 0.5f, GetIO().DisplaySize.y * 0.5f),
-					 ImGuiCond_Always, ImVec2(0.5f,0.5f));
 	if (BeginPopupModal(text::get("pause/exit_game_title").c_str(), NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
-		TextWrapped("%s",text::getc("pause/exit_game_text"));
+		Text("%s",text::getc("pause/exit_game_text"));
 		Separator();
 
-		if(Button(text::getc("common/ok"), ImVec2(120, 0)))
+		if(Button(text::getc("common/ok")))
 			quit();
 		SameLine();
-		if (Button(text::getc("common/cancel"), ImVec2(120, 0))) {
+		if (Button(text::getc("common/cancel"))) {
 			CloseCurrentPopup();
 		}
 		EndPopup();
@@ -555,15 +551,13 @@ void SettingManager::draw() {
 	SameLine();
 	if(Button(text::getc("common/cancel")))
 		hide();
-	SetNextWindowPos(ImVec2(GetIO().DisplaySize.x * 0.5f, GetIO().DisplaySize.y * 0.5f),
-					 ImGuiCond_Always, ImVec2(0.5f,0.5f));
 	if (BeginPopupModal(text::get("settings/restart_title").c_str(), NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
-		TextWrapped("%s",text::getc("settings/restart_text"));
+		Text("%s",text::getc("settings/restart_text"));
 		Separator();
-		if(Button(text::getc("common/ok"), ImVec2(120, 0)))
+		if(Button(text::getc("common/ok")))
 			apply();
 		SameLine();
-		if (Button(text::getc("common/cancel"), ImVec2(120, 0)))
+		if (Button(text::getc("common/cancel")))
 			CloseCurrentPopup();
 		EndPopup();
 	}
@@ -630,7 +624,9 @@ void GameInterface::load_config() {
 		load_font(font,text,"color",SH);
 	}
 	load_value(node,"border",borders);
+#ifdef TOUCH
 	sensor::load();
+#endif
 }
 void GameInterface::draw() {
 	if(!shown)return;
@@ -659,7 +655,9 @@ void GameInterface::draw() {
 		if(bullets[get_entity("player")->weapon.bullet1].max>0)
 			draw_bullets(get_entity("player")->weapon.bullet1,"game_interface/bullet1",++layer);
 	}
+#ifdef TOUCH
 	sensor::draw();
+#endif
 }
 
 
@@ -707,9 +705,9 @@ void MainMenu::draw() {
 	GPU_BlitScale(title,0,ren,borders.left+image_w/2,borders.top+image_h/2,image_scale,image_scale);
 	for(auto button : buttons) {
 		GPU_Rect rect=GPU_MakeRect(borders.left,pos,FC_GetWidth(font,button.text.c_str()),text_h);
-		if(in_rect(mouse.x,mouse.y,rect) && !GetIO().WantCaptureMouse) {
+		if(in_rect(mouse.x,mouse.y,rect)) {
 			FC_DrawColor(font,ren,borders.left,pos,active.color(),button.text.c_str());
-			if(mouse.g_state==1)
+			if(mouse.state==1)
 				button.func();
 		} else {
 			FC_DrawColor(font,ren,borders.left,pos,inactive.color(),button.text.c_str());

@@ -30,7 +30,7 @@ bool get_interval(unsigned int ms) {
 	}
 	return 0;
 }
-void update_intervals() {
+static void update_intervals() {
 	for(auto &t : timers) {
 		if(get_time()-t.second>t.first/time_scale)
 			t.second=get_time();
@@ -44,17 +44,17 @@ float get_time() {
 	return game_time;
 }
 //НАЧАЛО КОСТЫЛЕЙ И ОСНОВНЫХ ПРИЧИН БАГОВ
-void set_mask(Color c) {
+static void set_mask(Color c) {
 	scene_mask=c;
 }
-void print(LuaRef r) {
+static void print(LuaRef r) {
 	interface.console.AddLog(r.tostring());
 	cout<<r.tostring()<<endl;
 }
 void clear_loaded_list() {
 	loaded.clear();
 }
-void dofile(string file) {
+static void dofile(string file) {
 	if(luaL_dostring(L,RWget(file.c_str()).c_str())) {
 		throw string(lua_tostring(L, -1));
 	}
@@ -93,15 +93,15 @@ vector<string>get_table_keys(string name) {
 	return keys;
 }
 
-void dostring(string text) {
+static void dostring(string text) {
 	if(luaL_dostring(L, text.c_str())) {
 		throw string(lua_tostring(L, -1));
 	}
 }
-void doscript(string file) {
+static void doscript(string file) {
 	dofile(prefix+file+".lua");
 }
-void level(string str) {
+static void level(string str) {
 	need_load=str;
 }
 void init_body(b2Body *body,bool ex) {
@@ -119,13 +119,13 @@ void init_body(b2Body *body,bool ex) {
 			getGlobal(L,B_DATA(body,script).c_str())["init"](body);
 	}
 }
-void init_bodies() {
+static void init_bodies() {
 	for(auto body : bodies) {
 		init_body(body.second);
 	}
 }
 
-void update_bodies() {
+static void update_bodies() {
 	for(auto body : bodies) {
 		if(B_DATA(body.second,script).size()) {
 			if(getGlobal(L,B_DATA(body.second,script).c_str())["update"](body.second)) {
@@ -150,7 +150,7 @@ void init_entity(Entity *entity,bool ex) {
 		getGlobal(L,"Entity")["init"](entity);
 	}
 }
-void init_entities() {
+static void init_entities() {
 	for(auto entity : entities)
 		init_entity(entity.second);
 }
@@ -169,7 +169,7 @@ void init_weapon(Entity *entity,bool ex) {
 		loaded.emplace_back(entity->weapon.name);
 	}
 }
-void update_entities() {
+static void update_entities() {
 	for(auto entity : entities) {
 		if(entity.second) {
 			if(getGlobal(L,"Entity")["update"](entity.second)||
@@ -214,13 +214,13 @@ void create_entity_userdata(Entity *e) {
 	for(auto b : e->bodies)
 		create_body_userdata(b.second);
 }
-void create_userdata() {
+static void create_userdata() {
 	for(auto b : bodies)
 		create_body_userdata(b.second);
 	for(auto e : entities)
 		create_entity_userdata(e.second);
 }
-bool get_key(string k) {
+static bool get_key(string k) {
 	if(interface.mainmenu.shown)return 0;
 	short r=get_scancode(k);
 	if(r!=-1)return key(r);
@@ -231,7 +231,7 @@ bool get_key(string k) {
 	}
 	return 0;
 }
-bool get_press_key(string k) {
+static bool get_press_key(string k) {
 	if(interface.mainmenu.shown)return 0;
 	short r=get_scancode(k);
 	if(r!=-1)return (key(r) && !prev_key[r]);
@@ -242,7 +242,7 @@ bool get_press_key(string k) {
 	}
 	return 0;
 }
-bool get_release_key(string k) {
+static bool get_release_key(string k) {
 	if(interface.mainmenu.shown)return 0;
 	short r=get_scancode(k);
 	if(r!=-1)return (!key(r) && prev_key[r]);
@@ -253,7 +253,7 @@ bool get_release_key(string k) {
 	}
 	return 0;
 }
-void bind() {
+static void bind() {
 #define KEY(key) SDL_GetKeyboardState(key)
 	getGlobalNamespace(L)
 	.beginClass<Color>("Color")

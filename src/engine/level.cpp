@@ -20,7 +20,7 @@ map<string,Entity*>entities;
 string background;
 string levelname;
 b2World *world=0;
-void save_body_state(XMLNode bd,b2Body *body) {
+static void save_body_state(XMLNode bd,b2Body *body) {
 	bd.addAttribute("id",body->GetID());
 	bd.addAttribute("script",body->GetUserData()->script);
 	bd.addAttribute("created",body->GetUserData()->created);
@@ -36,7 +36,7 @@ void save_body_state(XMLNode bd,b2Body *body) {
 	save_value(bd,"sleep_time",body->m_sleepTime);
 	save_value(bd,"sweep",body->m_sweep);
 }
-void load_body_state(XMLNode bd,b2Body *body) {
+static void load_body_state(XMLNode bd,b2Body *body) {
 	XMLNode val=bd.getChildNode("userdata");
 	if(body->m_userData->lua_userdata)
 		delete body->m_userData->lua_userdata;
@@ -51,12 +51,12 @@ void load_body_state(XMLNode bd,b2Body *body) {
 	load_value(bd,"sleep_time",body->m_sleepTime);
 	load_value(bd,"sweep",body->m_sweep);
 }
-void save_bodies_state(XMLNode bds,map<string,b2Body*>&bodies) {
+static void save_bodies_state(XMLNode bds,map<string,b2Body*>&bodies) {
 	bds.addAttribute("count",bodies.size());
 	for(auto &body : bodies)
 		save_body_state(bds.addChild("body"),body.second);
 }
-void load_bodies_state(XMLNode bds,map<string,b2Body*>&bodies) {
+static void load_bodies_state(XMLNode bds,map<string,b2Body*>&bodies) {
 	string s=bds.getAttribute("count");
 	vector<string>loaded;
 	int count=bds.getAttributei("count");
@@ -86,7 +86,7 @@ void load_bodies_state(XMLNode bds,map<string,b2Body*>&bodies) {
 		erased=0;
 	}
 }
-void save_entities_state(XMLNode bds,map<string,Entity*>&entities) {
+static void save_entities_state(XMLNode bds,map<string,Entity*>&entities) {
 	bds.addAttribute("count",entities.size());
 	for(auto &entity : entities) {
 		XMLNode en=bds.addChild("entity");
@@ -112,7 +112,7 @@ void save_entities_state(XMLNode bds,map<string,Entity*>&entities) {
 		save_bodies_state(en.addChild("bodies"),ent->bodies);
 	}
 }
-void load_entities_state(XMLNode ens,map<string,Entity*>&entities) {
+static void load_entities_state(XMLNode ens,map<string,Entity*>&entities) {
 	int count=ens.getAttributei("count");
 	vector<string>loaded;
 	for(int q=0; q<count; q++) {
@@ -159,7 +159,7 @@ void load_entities_state(XMLNode ens,map<string,Entity*>&entities) {
 		erased=0;
 	}
 }
-void save_values_state(XMLNode data) {
+static void save_values_state(XMLNode data) {
 	int count=0;
 	for(string &str : lua::loaded) {
 		if(lua::is_filled(luabridge::getGlobal(lua::L,str.c_str()))) {
@@ -171,7 +171,7 @@ void save_values_state(XMLNode data) {
 	}
 	data.addAttribute("count",count);
 }
-void load_values_state(XMLNode data) {
+static void load_values_state(XMLNode data) {
 	int count=data.getAttributei("count");
 	for(int q=0; q<count; q++) {
 		XMLNode bd=data.getChildNode("value",q);
@@ -179,7 +179,7 @@ void load_values_state(XMLNode data) {
 		luabridge::getGlobal(lua::L,str.c_str())=lua::load_luaref(bd);
 	}
 }
-void save_bullets_state(XMLNode bls) {
+static void save_bullets_state(XMLNode bls) {
 	int count=0;
 	for(auto &b : bullets) {
 		if(b.first!="") {
@@ -192,7 +192,7 @@ void save_bullets_state(XMLNode bls) {
 	}
 	bls.addAttribute("count",count);
 }
-void load_bullets_state(XMLNode bls) {
+static void load_bullets_state(XMLNode bls) {
 	int count=bls.getAttributei("count");
 	for(int q=0; q<count; q++) {
 		XMLNode bl=bls.getChildNode("bullet",q);
@@ -447,7 +447,7 @@ b2Body* read_body(XMLNode bd,b2Vec2 delta,bool temp) {
 	}
 	return body;
 }
-void set_bds(b2JointDef *j,XMLNode &node,string id1,string id2,Entity *ent=0) {
+static void set_bds(b2JointDef *j,XMLNode &node,string id1,string id2,Entity *ent=0) {
 	if(id1==id2)throw string("body \"" + id1 + "\"cannot be declared twice");
 	if(ent) {
 		j->bodyA=ent->get_body(id1);

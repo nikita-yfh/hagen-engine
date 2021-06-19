@@ -1,8 +1,9 @@
 #include "input.hpp"
-#include "main.hpp"
 #include "utility.hpp"
+#include "interface.hpp"
 
 SDL_Event e;
+
 uint8_t prev_key[SDL_NUM_SCANCODES];
 void copy_prev_key() {//для определения нажатий
 	for(int q=0;q<SDL_NUM_SCANCODES;q++){
@@ -35,42 +36,34 @@ short get_scancode(string k) {
 	return -1;
 }
 
-bool down(){
+static bool down(){
 	return e.type==SDL_MOUSEBUTTONDOWN || e.type==SDL_FINGERDOWN;
 }
-bool up(){
+static bool up(){
 	return e.type==SDL_MOUSEBUTTONUP || e.type==SDL_FINGERUP;
 }
-bool motion(){
+static bool motion(){
 	return e.type==SDL_MOUSEMOTION || e.type==SDL_FINGERMOTION;
 }
-uint16_t fid(){
 #ifdef TOUCH
+static uint16_t fid(){
 	return e.tfinger.fingerId;
-#else
-	return e.button.which;
-#endif
 }
-uint8_t button(){
-#ifdef TOUCH
-	return 1;
-#else
-	return e.button.button;
-#endif
+static int get_num_fingers(){
+	return SDL_GetNumTouchFingers(e.tfinger.touchId);
 }
-int pressx(){
-#ifdef TOUCH
-	return e.tfinger.x*SW;
-#else
-	return e.button.x;
-#endif
+static SDL_Finger* get_finger(int n){
+	return SDL_GetTouchFinger(e.tfinger.touchId, n);
 }
-int pressy(){
-#ifdef TOUCH
-	return e.tfinger.y*SH;
-#else
-	return e.button.y;
-#endif
+static bool in_rect(GPU_Rect rect){
+	int numfingers = get_num_fingers();
+	for (int i = 0; i < numfingers; i++){
+		SDL_Finger *finger =get_finger(i);
+		if (finger->id == e.tfinger.fingerId)
+			if(in_rect(finger->x*SW,finger->y*SH,rect))
+				return 1;
+	}
+	return 0;
 }
 vector<Sensor>sensors;
 Sensor::Sensor(){
@@ -98,7 +91,7 @@ void Sensor::draw(){
 }
 bool Sensor::update(){
 	pactive=active;
-	bool r=in_rect(pressx(),pressy(),pos);
+	bool r=in_rect(pos);
 	if(up() && id==fid()){
 		active=0;
 		id=-1;
@@ -106,9 +99,10 @@ bool Sensor::update(){
 		id=fid();
 		active=1;
 	}
-	return active;
+	return id==fid();
 }
 namespace sensor{
+static bool enabled=false;
 void load(){
 	XMLNode Main=open_xml((prefix+"config/sensors.xml").c_str(),"sensors");
 	int count=Main.getAttributei("count");
@@ -127,16 +121,21 @@ Sensor &find(string key){
 	return find(get_scancode(key));
 }
 void draw(){
-	if(sensors.size())
-		load_texture("sensors.png"); //общая текстура сенсорных кнопок
-	for(auto &sensor : sensors)
-		sensor.draw();
+	if(enabled){
+		if(sensors.size())
+			load_texture("sensors.png"); //общая текстура сенсорных кнопок
+		for(auto &sensor : sensors)
+			sensor.draw();
+	}
 }
 bool update(){
 	bool ok=0;
-	for(auto &sensor : sensors)
-		if(sensor.enabled && sensor.update())
-			ok=1;
+	enabled=!interface.mainmenu.shown;
+	if(enabled){
+		for(auto &sensor : sensors)
+			if(sensor.enabled && sensor.update())
+				ok=1;
+	}
 	return ok;
 }
 bool get(short key){
@@ -146,6 +145,7 @@ bool pget(short key){
 	return find(key).active && !find(key).pactive;
 }
 };
+#endif
 float mouse_angle(){
 	return mouse.angle;
 }
@@ -155,47 +155,65 @@ float Mouse::g_angle() {
 	float py=SH/2-y;
 	return get_angle(px,py);
 }
-bool Mouse::update() {
-	int mx=pressx();
-	int my=pressy();
-
-	if(g_state==Down)
-		g_state=Press;
-	else if(g_state==Up)
-		g_state=None;
-
-	if(g_state!=Press && g_state !=Up && down()) {//Нажатие пальцем/кнопкой мыши
-		b=button();
-		g_state=Down;
-	} else if(up() && g_state !=None){//Поднятие пальца/кнопки мыши
-		g_state=Up;
-		sensor_press=0;
+void Mouse::update() {
+	if(state==Down)
+		state=Press;
+	else if(state==Up)
+		state=None;
+#ifdef TOUCH
+	if(!sensor::update() && state!=Press && state !=Up && down()) {//Нажатие пальцем
+		b=1;
+		state=Down;
+		id=fid();
+	} else if(up() && state !=None && id==fid()){//Поднятие пальца
+		state=Up;
+		id=-1;
 	}
-	if(sensor::update() && g_state==Down)//если нажал на какую-то сенсорную кнопку
-		sensor_press=1;
-	if(!sensor_press && g_state!=Up){//если не нажат сенсор
-		state=g_state;
-		if(motion() || g_state==Down){//Можно изменять координаты и угол только при движении/нажатии
-			if(mx>=0&&mx<SW&&my>=0&&my<SH) {//если курсор/палец в пределах экрана
-				x=mx;
-				y=my;
-				angle=g_angle();
-			}
+
+	int numfingers = get_num_fingers();
+	for (int i = 0; i < numfingers; i++){
+		SDL_Finger *f =get_finger(i);
+		if (f->id == id){
+			x=f->x*SW;
+			y=f->y*SH;
+			angle=g_angle();
 		}
 	}
-	return 0;
+#else
+	if(state!=Press && state !=Up && down()) {//Нажатие кнопкой мыши
+		b=e.button.button;
+		state=Down;
+	} else if(up() && state !=None)//Поднятие кнопки мыши
+		state=Up;
+	int mx=0;int my=0;
+	SDL_GetMouseState(&mx,&my);
+	if(mx>=0&&mx<SW&&my>=0&&my<SH) {//если курсор/палец в пределах экрана
+		x=mx;
+		y=my;
+		angle=g_angle();
+	}
+#endif
 }
 void Mouse::clear() {
-	g_state=0;
 	state=0;
 	b=0;
+#ifdef TOUCH
+	id=-1;
+#endif
 }
-
 bool key(short code){
-	return SDL_GetKeyboardState(0)[code] || sensor::get(code);
+	return SDL_GetKeyboardState(0)[code]
+#ifdef TOUCH
+	|| sensor::get(code)
+#endif
+;
 }
 bool pkey(short code){
-	return (!prev_key[code] && SDL_GetKeyboardState(0)[code]) || sensor::pget(code);
+	return (!prev_key[code] && SDL_GetKeyboardState(0)[code])
+#ifdef TOUCH
+	|| sensor::pget(code)
+#endif
+;
 }
 
 float get_angle(float x,float y){

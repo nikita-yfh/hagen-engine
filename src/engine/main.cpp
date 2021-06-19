@@ -38,9 +38,9 @@ int main(int argc, char * argv[]) {
 		while(SDL_PollEvent(&e)){
 			if(e.type==SDL_QUIT)
 				quit();
-			interface.update();
 		}
 		mouse.update();
+		interface.update();
 		if(!interface.shown())
 			lua::gameloop();
 		draw();

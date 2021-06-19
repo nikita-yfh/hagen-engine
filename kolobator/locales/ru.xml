@@ -26,10 +26,10 @@
 		<settings value="Настройки"/>
 		<main_menu value="Выйти в меню"/>
 		<main_menu_title value="Выйти в меню?"/>
-		<main_menu_text value="Не сохраненный игровой прогресс будет утерян!"/>
+		<main_menu_text value="Не сохраненный игровой&#xA;прогресс будет утерян!"/>
 		<exit_game value="Выйти из игры"/>
 		<exit_game_title value="Выйти из игры?"/>
-		<exit_game_text value="Не сохраненный игровой прогресс будет утерян!"/>
+		<exit_game_text value="Не сохраненный игровой&#xA;прогресс будет утерян!"/>
 	</pause>
 	<saveload>
 		<save_title value="Сохранить игру"/>
@@ -50,7 +50,7 @@
 		<game value="Настройки игры"/>
 		<language value="Язык игры"/>
         <restart_title value="Перезагрузить"/>
-        <restart_text value="Для применения настроек необходимо перезагрузить игру"/>
+        <restart_text value="Для применения настроек&#xA;необходимо перезагрузить игру"/>
 	</settings>
     <main_menu>
         <new_game value="Начать новую игру"/>
@@ -58,8 +58,6 @@
 		<load_game value="Продолжить с сохранения"/>
 		<settings value="Настройки"/>
 		<exit_game value="Выйти из игры"/>
-		<exit_game_title value="Выйти из игры?"/>
-		<exit_game_text value="Ты точно хочешь выйти из игры?"/>
     </main_menu>
     <levelchooser>
         <title value="Выбрать уровень"/>

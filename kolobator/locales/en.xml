@@ -58,8 +58,6 @@
 <load_game value = "Continue with save" />
 <settings value = "Settings" />
 <exit_game value = "Exit game" />
-<exit_game_title value = "Exit the game?" />
-<exit_game_text value = "Are you sure you want to exit the game?" />
     </main_menu>
     <levelchooser>
         <title value = "Select level" />

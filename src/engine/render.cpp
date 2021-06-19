@@ -28,10 +28,10 @@ void init_target() {
 void delete_target() {
 	GPU_FreeImage(img1);
 }
-void draw_mask() {
+static void draw_mask() {
 	GPU_RectangleFilled(ren,0,0,SW,SH,scene_mask.color());
 }
-void draw_bgr() {
+static void draw_bgr() {
 	if(!background.size())return;
 	enable_shader(background);
 	GPU_Image *image=textures[background];
@@ -44,7 +44,7 @@ void draw_bgr() {
 	}
 	disable_shaders();
 }
-void fixture_draw(b2Body *body,b2Fixture *fix) {
+static void fixture_draw(b2Body *body,b2Fixture *fix) {
 	float a_rad=body->GetAngle();
 	float a_deg=a_rad*(180/3.14);
 	GPU_Image *tex=0;
@@ -218,14 +218,14 @@ void fixture_draw(b2Body *body,b2Fixture *fix) {
 	}
 	disable_shaders();
 }
-void draw_bodies(uint8_t pos) {
+static void draw_bodies(uint8_t pos) {
 	for(auto &body : bodies) {
 		for(b2Fixture *fix=body.second->GetFixtureList(); fix; fix=fix->GetNext()) {
 			if(F_DATA(fix,pos)==pos)fixture_draw(body.second,fix);
 		}
 	}
 }
-void draw_entities(uint8_t pos) {
+static void draw_entities(uint8_t pos) {
 	for(auto &en : entities) {
 		for(auto &body : en.second->bodies) {
 			for(b2Fixture *fix=body.second->GetFixtureList(); fix; fix=fix->GetNext()) {
@@ -246,7 +246,7 @@ void draw_entities(uint8_t pos) {
 		}
 	}
 }
-void draw_effects() {
+static void draw_effects() {
 	for(auto &e : effect::effects) {
 		int frame=max(0,min((int)e.effect->anim.size()-1,int(float(lua::get_time()-e.begin_time)/e.effect->period)));
 		GPU_BlitScale(e.effect->anim[frame],0,ren1,drawx(e.x),drawy(e.y),zoom/100*effect_scale,zoom/100*effect_scale);

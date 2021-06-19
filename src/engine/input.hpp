@@ -2,6 +2,7 @@
 #include <vector>
 #include "xmlParser.h"
 #include "sdl.hpp"
+#include "main.hpp"
 
 extern SDL_Event e;
 
@@ -19,18 +20,20 @@ struct Mouse {
 		Press,
 		Up
 	};
-	uint8_t g_state=0;
 	uint8_t state=0;
 	uint8_t b=0;
 	int x,y;
 	float angle;
-	bool update();
+	void update();
 	void clear();
 	float g_angle();
 	bool sensor_press=0;
+#ifdef TOUCH
+	uint16_t id=-1;
+#endif
 };
 extern Mouse mouse;
-
+#ifdef TOUCH
 struct Sensor {
 	Sensor();
 	Sensor(XMLNode node);
@@ -55,6 +58,7 @@ void draw();
 bool get(short key);
 bool pget(short key);
 };
+#endif
 bool key(short code);
 bool pkey(short code);
 

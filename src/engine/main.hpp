@@ -5,13 +5,16 @@ extern string prefix;
 extern string saves;
 #define TYPE(a,b) (static_cast<a>(b))
 
-#ifdef ANDROID
-#define TOUCH
-#endif
 
 #ifdef ANDROID
 #ifndef TAG
 #define TAG "HAGEN"
+#endif
+#endif
+
+#ifndef TOUCH
+#ifdef ANDROID
+#define TOUCH 1
 #endif
 #endif
 
