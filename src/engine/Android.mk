@@ -12,9 +12,9 @@ LOCAL_SRC_FILES := camera.cpp dialog.cpp effect.cpp entity.cpp interface.cpp lev
 
 LOCAL_SHARED_LIBRARIES := SDL2 SDL2_gpu luajit
 
-LOCAL_STATIC_LIBRARIES := SDL2_mixer SDL2_FC box2d imgui XML
+LOCAL_STATIC_LIBRARIES := box2d imgui XML LuaBridge SDL2_mixer SDL2_FC
 
-LOCAL_CFLAGS := -std=c++11 -fexceptions -DFC_USE_SDL_GPU -O3
+LOCAL_CFLAGS := -std=c++11 -fexceptions -DFC_USE_SDL_GPU -O3 -s -ffunction-sections
 
 LOCAL_LDLIBS := -lGLESv1_CM -lGLESv2 -llog
 

@@ -321,6 +321,8 @@ static void bind() {
 	.addFunction("add_tip_color",&text::add_tip_color)
 	.addFunction("add_tip_time",&text::add_tip_time)
 	.addFunction("add_tip_color_time",&text::add_tip_color_time)
+	.addFunction("add_subtitles",&text::add_subtitles)
+	.addFunction("add_subtitles_color",&text::add_subtitles_color)
 	.endNamespace()
 	.beginNamespace("graphics")
 	.addFunction("set_mask",&set_mask)

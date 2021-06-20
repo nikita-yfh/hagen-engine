@@ -11,6 +11,7 @@
 #include "camera.hpp"
 #include <chrono>
 #include "render.hpp"
+#include "imgui_impl_sdl.h"
 string prefix="game/";
 string saves="saves/";
 using namespace luabridge;
@@ -38,6 +39,7 @@ int main(int argc, char * argv[]) {
 		while(SDL_PollEvent(&e)){
 			if(e.type==SDL_QUIT)
 				quit();
+			interface.update_imgui();
 		}
 		mouse.update();
 		interface.update();

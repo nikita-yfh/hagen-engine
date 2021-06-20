@@ -53,7 +53,6 @@ void Interface::update() {
 		else if(pkey(SDL_SCANCODE_F9))
 			quickload();
 	}
-	ImGui_ImplSDL2_ProcessEvent(&e);
 	console.update();
 }
 void Interface::init_imgui() {
@@ -75,6 +74,9 @@ void Interface::init_imgui() {
 	initImgui(window);
 	StyleColorsDark();
 	load_imgui_config();
+}
+void Interface::update_imgui(){
+	ImGui_ImplSDL2_ProcessEvent(&e);
 }
 void Interface::load_imgui_config() {
 	XMLNode node=open_xml((prefix+"config/imgui.xml").c_str(),"imgui");
@@ -216,7 +218,7 @@ void Interface::update_cursor() {
 	}
 }
 bool Interface::shown() {
-	return console.shown || pause.shown || settingmanager.shown || levelchooser.shown || saver.shown;
+	return console.shown || pause.shown;
 }
 void Interface::hide() {
 	lua::prev_time=SDL_GetTicks();

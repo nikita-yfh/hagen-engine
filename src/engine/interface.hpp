@@ -129,6 +129,7 @@ struct Interface {
 	void init_imgui();
 	void load_imgui_config();
 	void load_imgui_font(string name,float size);
+	void update_imgui();
 	GameInterface game_interface;
 	Console console;
 	SaverLoader saver;
