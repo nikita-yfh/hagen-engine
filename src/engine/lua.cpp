@@ -508,6 +508,7 @@ static void bind() {
 	.addFunction("add_mat3",&Shader::add_mat3)
 	.addFunction("add_mat4",&Shader::add_mat4)
 	.endClass();
+	bind_imgui();
 }
 void init() {
 	copy_prev_key();

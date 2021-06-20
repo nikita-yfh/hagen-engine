@@ -148,3 +148,4 @@ struct Interface {
 	void quickload();
 };
 extern Interface interface;
+void bind_imgui();

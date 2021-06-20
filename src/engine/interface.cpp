@@ -849,3 +849,41 @@ string LevelChooser::get_first_level() {
 	return levels[0].id;
 }
 Interface interface;
+
+
+///////////////////////////////////////////////////////////
+
+struct ImBool{
+	ImBool(bool value){
+		v=value;
+	}
+	bool __call(){
+		return v;
+	}
+	bool v;
+};
+bool ImBegin(const char* name, ImBool* p_open = NULL, ImGuiWindowFlags flags = 0){
+	return Begin(name,&p_open->v,flags);
+}
+using namespace luabridge;
+void bind_imgui(){
+	#define BN .beginNamespace
+	#define EN .endNamespace()
+	#define F .addFunction
+	#define BC .beginClass
+	#define EC .endClass()
+	#define DC .deriveClass
+	#define P .addProperty
+	#define C .addConstructor
+	getGlobalNamespace(lua::L)
+	BC<ImBool>("ImBool")
+	C<void(*)(bool)>()
+	F("__call",&ImBool::__call)
+	P("v",&ImBool::v)
+	EC
+	BN("ImGui")
+	F("GetVersion",GetVersion)
+	F("Begin",&ImBegin)
+	F("End",&End)
+	EN;
+}
