@@ -865,6 +865,42 @@ struct ImBool{
 bool ImBegin(const char* name, ImBool* p_open = NULL, ImGuiWindowFlags flags = 0){
 	return Begin(name,&p_open->v,flags);
 }
+bool ImBeginChild(const char* str_id, float sx=0, float sy=0, bool border = false, ImGuiWindowFlags flags = 0){
+	BeginChild(str_id,ImVec2(sx,sy),border,flags);
+}
+float ImGetWindowPosX(){
+	return GetWindowPos().x;
+}
+float ImGetWindowPosY(){
+	return GetWindowPos().y;
+}
+float ImGetContentRegionMaxX(){
+	return GetContentRegionMax().x;
+}
+float ImGetContentRegionMaxY(){
+	return GetContentRegionMax().y;
+}
+float ImGetContentRegionAvailX(){
+	return GetContentRegionAvail().x;
+}
+float ImGetContentRegionAvailY(){
+	return GetContentRegionAvail().y;
+}
+float ImGetWindowContentRegionMinX(){
+	return GetWindowContentRegionMin().x;
+}
+float ImGetWindowContentRegionMinY(){
+	return GetWindowContentRegionMin().y;
+}
+float ImGetWindowContentRegionMaxX(){
+	return GetWindowContentRegionMax().x;
+}
+float ImGetWindowContentRegionMaxY(){
+	return GetWindowContentRegionMax().y;
+}
+void ImSetNextWindowPos(float x, float y, ImGuiCond cond = 0, float px=0,float py=0) {
+	SetNextWindowPos(ImVec2(x,y),cond,ImVec2(px,py));
+}
 using namespace luabridge;
 void bind_imgui(){
 	#define BN .beginNamespace
@@ -885,5 +921,24 @@ void bind_imgui(){
 	F("GetVersion",GetVersion)
 	F("Begin",&ImBegin)
 	F("End",&End)
+	F("BeginChild",&ImBeginChild)
+	F("EndChild",&EndChild)
+	F("IsWindowAppearing",&IsWindowAppearing)
+	F("IsWindowCollapsed",&IsWindowCollapsed)
+	F("IsWindowFocused",IsWindowFocused)
+	F("IsWindowHovered",IsWindowHovered)
+	F("GetWindowDrawList",GetWindowDrawList)
+	F("GetWindowWidth",GetWindowWidth)
+	F("GetWindowHeight",GetWindowHeight)
+	F("GetContentRegionMaxX",ImGetContentRegionMaxX)
+	F("GetContentRegionMaxY",ImGetContentRegionMaxY)
+	F("GetContentRegionAvailX",ImGetContentRegionAvailX)
+	F("GetContentRegionAvailY",ImGetContentRegionAvailY)
+	F("GetContentRegionAvailWidth",GetContentRegionAvailWidth)
+	F("GetWindowContentRegionMinX",ImGetWindowContentRegionMinX)
+	F("GetWindowContentRegionMinY",ImGetWindowContentRegionMinY)
+	F("GetWindowContentRegionMaxX",ImGetWindowContentRegionMaxX)
+	F("GetWindowContentRegionMaxY",ImGetWindowContentRegionMaxY)
+	F("GetWindowContentRegionWidth",GetWindowContentRegionWidth)
 	EN;
 }

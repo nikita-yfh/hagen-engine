@@ -93,7 +93,7 @@ vector<string>get_table_keys(string name) {
 	return keys;
 }
 
-static void dostring(string text) {
+void dostring(string text) {
 	if(luaL_dostring(L, text.c_str())) {
 		throw string(lua_tostring(L, -1));
 	}
