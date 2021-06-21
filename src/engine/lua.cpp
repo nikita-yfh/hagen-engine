@@ -56,7 +56,7 @@ void clear_loaded_list() {
 }
 static void dofile(string file) {
 	if(luaL_dostring(L,RWget(file.c_str()).c_str())) {
-		throw string(lua_tostring(L, -1));
+		error_log(lua_tostring(L, -1));
 	}
 }
 
@@ -95,7 +95,7 @@ vector<string>get_table_keys(string name) {
 
 void dostring(string text) {
 	if(luaL_dostring(L, text.c_str())) {
-		throw string(lua_tostring(L, -1));
+		error_log(lua_tostring(L, -1));
 	}
 }
 static void doscript(string file) {

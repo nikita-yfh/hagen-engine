@@ -853,14 +853,16 @@ Interface interface;
 
 
 ///////////////////////////////////////////////////////////
-static bool value_b;
+using namespace luabridge;
+static LuaRef *last_value;
 
-static inline bool ImBegin(const char* name, bool o = 0, ImGuiWindowFlags flags = 0) {
-	value_b=o;
-	return Begin(name,&value_b,flags);
+static bool ImBegin(const char* name, bool o = 0, ImGuiWindowFlags flags = 0) {
+	bool ret=Begin(name,&o,flags);
+	(*last_value)=o;
+	return ret;
 }
-static inline bool ImGetBool() {
-	return value_b;
+static inline LuaRef ImGetLast() {
+	return *last_value;
 }
 static inline bool ImBeginChild(const char* str_id, float sx=0, float sy=0, bool border = false, ImGuiWindowFlags flags = 0) {
 	return BeginChild(str_id,ImVec2(sx,sy),border,flags);
@@ -1005,9 +1007,10 @@ static void ImImage(string texture,float x,float y){
 	GPU_Image *tex=load_texture(texture);
 	return Image((void*)GPU_GetTextureHandle(tex),ImVec2(x,y));
 }
-static inline bool ImCheckbox(const char *label,bool v){
-	value_b=v;
-	return Checkbox(label,&value_b);
+static bool ImCheckbox(const char *label,bool v){
+	bool ret=Checkbox(label,&v);
+	(*last_value)=v;
+	return ret;
 }
 static inline void ImProgressBar(float fraction,float x,float y,const char *overlay){
 	ProgressBar(fraction,ImVec2(x,y),overlay);
@@ -1015,10 +1018,24 @@ static inline void ImProgressBar(float fraction,float x,float y,const char *over
 static inline bool ImRadioButton(const char* label, bool active){
 	return RadioButton(label,active);
 }
-using namespace luabridge;
-LuaRef *ImFlags;
+static bool ImDragFloat(const char* label, float v, float v_speed, float v_min, float v_max, const char* format, float power){
+	bool ret=DragFloat(label,&v,v_speed,v_min,v_max,format,power);
+	(*last_value)=v;
+	return ret;
+}
+static bool ImDragFloat2(const char* label,LuaRef v, float v_speed, float v_min, float v_max, const char* format, float power){
+	float vi[2]={v[0],v[1]};
+	bool ret=DragFloat(label,vi,v_speed,v_min,v_max,format,power);
+	(*last_value)=v;
+	v[0]=vi[0];
+	v[1]=vi[1];
+	return ret;
+}
+
+static LuaRef *ImFlags;
 void bind_imgui() {
 	ImFlags=new LuaRef(newTable(lua::L));
+	last_value=new LuaRef(lua::L);
 #define BN .beginNamespace
 #define EN .endNamespace()
 #define F .addFunction
@@ -1036,7 +1053,6 @@ void bind_imgui() {
 	F("End",End)
 	F("BeginChild",ImBeginChild)
 	F("EndChild",EndChild)
-	F("GetBool",ImGetBool)
 	F("IsWindowAppearing",IsWindowAppearing)
 	F("IsWindowCollapsed",IsWindowCollapsed)
 	F("IsWindowFocused",IsWindowFocused)
@@ -1133,9 +1149,12 @@ void bind_imgui() {
 	F("Checkbox",ImCheckbox)
 	F("RadioButton",ImRadioButton)
 	F("ProgressBar",ImProgressBar)
+	F("Bullet",ImGui::Bullet)
 	F("BeginCombo",BeginCombo)
 	F("EndCombo",EndCombo)
-	F("Bullet",ImGui::Bullet)
+	F("DragFloat",ImDragFloat)
+	F("DragFloat2",ImDragFloat2)
+	P("last",ImGetLast)
 	V("Flags",&ImFlags)
 	EN;
 #define ENUM(name,...) "ImGui.Flags." name "={\n" __VA_ARGS__ "}\n"

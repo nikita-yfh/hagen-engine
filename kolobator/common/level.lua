@@ -16,17 +16,18 @@ function Level.init()
     world.velocity_iterations=10
 end
 opened=true
+value=0.5
 function Level.update()
     --local shader=graphics.get_shader("_all")
 	--shader:add_float("time"):set(game.time);
     local shader=graphics.get_shader("water.png")
 	shader:add_float("time"):set(game.time);
 	if(opened) then
-		if(ImGui.Begin("Test",opened,0)) then
-			opened=ImGui.GetBool()
-		end
-		ImGui.Bullet()
+		if(ImGui.Begin("Test",opened,0)) then opened=ImGui.last end
 		ImGui.Text("Hello World!")
+		if(ImGui.DragFloat("t",value,0.1,0,1,"%.3f",0.1)) then
+			value=ImGui.last
+		end
 		ImGui.End()
 	end
 end
