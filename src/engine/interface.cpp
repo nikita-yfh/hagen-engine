@@ -75,8 +75,11 @@ void Interface::init_imgui() {
 	StyleColorsDark();
 	load_imgui_config();
 }
-void Interface::update_imgui(){
+void Interface::update_imgui() {
 	ImGui_ImplSDL2_ProcessEvent(&e);
+}
+void Interface::new_frame() {
+	newFrame(SDL_GetWindowFromID(ren->context->windowID));
 }
 void Interface::load_imgui_config() {
 	XMLNode node=open_xml((prefix+"config/imgui.xml").c_str(),"imgui");
@@ -197,7 +200,6 @@ void Interface::load_config() {
 	info_log("Loaded interface config");
 }
 void Interface::draw() {
-	newFrame(SDL_GetWindowFromID(ren->context->windowID));
 	mainmenu.draw();
 	game_interface.draw();
 	GPU_Rectangle(ren,-20,-20,100000,100000,SDL_Color{0,0,0,0});
@@ -433,7 +435,7 @@ void Console::hide() {
 }
 void Console::update() {
 	if(items.size()>LOG_MAX)
-		items.erase(items.begin()+LOG_MAX,items.end());
+		items.erase(items.begin(),items.end()-LOG_MAX);
 }
 
 void Rect4::load(XMLNode l) {
@@ -511,7 +513,6 @@ void SaverLoader::hide() {
 	list.clear();
 	shown=false;
 }
-
 
 void SettingManager::draw() {
 	if(!shown)return;
@@ -852,79 +853,192 @@ Interface interface;
 
 
 ///////////////////////////////////////////////////////////
+static bool value_b;
 
-struct ImBool{
-	ImBool(bool value){
-		v=value;
-	}
-	bool __call(){
-		return v;
-	}
-	bool v;
-};
-bool ImBegin(const char* name, ImBool* p_open = NULL, ImGuiWindowFlags flags = 0){
-	return Begin(name,&p_open->v,flags);
+static inline bool ImBegin(const char* name, bool o = 0, ImGuiWindowFlags flags = 0) {
+	value_b=o;
+	return Begin(name,&value_b,flags);
 }
-bool ImBeginChild(const char* str_id, float sx=0, float sy=0, bool border = false, ImGuiWindowFlags flags = 0){
-	BeginChild(str_id,ImVec2(sx,sy),border,flags);
+static inline bool ImGetBool() {
+	return value_b;
 }
-float ImGetWindowPosX(){
+static inline bool ImBeginChild(const char* str_id, float sx=0, float sy=0, bool border = false, ImGuiWindowFlags flags = 0) {
+	return BeginChild(str_id,ImVec2(sx,sy),border,flags);
+}
+static inline float ImGetWindowPosX() {
 	return GetWindowPos().x;
 }
-float ImGetWindowPosY(){
+static inline float ImGetWindowPosY() {
 	return GetWindowPos().y;
 }
-float ImGetContentRegionMaxX(){
+static inline float ImGetContentRegionMaxX() {
 	return GetContentRegionMax().x;
 }
-float ImGetContentRegionMaxY(){
+static inline float ImGetContentRegionMaxY() {
 	return GetContentRegionMax().y;
 }
-float ImGetContentRegionAvailX(){
+static inline float ImGetContentRegionAvailX() {
 	return GetContentRegionAvail().x;
 }
-float ImGetContentRegionAvailY(){
+static inline float ImGetContentRegionAvailY() {
 	return GetContentRegionAvail().y;
 }
-float ImGetWindowContentRegionMinX(){
+static inline float ImGetWindowContentRegionMinX() {
 	return GetWindowContentRegionMin().x;
 }
-float ImGetWindowContentRegionMinY(){
+static inline float ImGetWindowContentRegionMinY() {
 	return GetWindowContentRegionMin().y;
 }
-float ImGetWindowContentRegionMaxX(){
+static inline float ImGetWindowContentRegionMaxX() {
 	return GetWindowContentRegionMax().x;
 }
-float ImGetWindowContentRegionMaxY(){
+static inline float ImGetWindowContentRegionMaxY() {
 	return GetWindowContentRegionMax().y;
 }
-void ImSetNextWindowPos(float x, float y, ImGuiCond cond = 0, float px=0,float py=0) {
+static inline void ImSetNextWindowPos(float x,float y,ImGuiCond cond = 0,float px=0,float py=0) {
 	SetNextWindowPos(ImVec2(x,y),cond,ImVec2(px,py));
 }
+static inline void ImSetNextWindowSize(float x,float y,ImGuiCond cond = 0) {
+	SetNextWindowSize(ImVec2(x,y),cond);
+}
+static inline void ImSetNextWindowSizeConstraints(float minx,float miny,float maxx,float maxy) {
+	SetNextWindowSizeConstraints(ImVec2(minx,miny),ImVec2(maxx,maxy));
+}
+static inline void ImSetNextWindowContentSize(float x,float y) {
+	SetNextWindowContentSize(ImVec2(x,y));
+}
+static inline void ImSetWindowPos(float x,float y,ImGuiCond cond = 0) {
+	SetWindowPos(ImVec2(x,y),cond);
+}
+static inline void ImSetWindowSize(float x,float y,ImGuiCond cond = 0) {
+	SetWindowSize(ImVec2(x,y),cond);
+}
+static inline void ImSetWindowCollapsed(bool collapsed, ImGuiCond cond = 0) {
+	SetWindowCollapsed(collapsed,cond);
+}
+static inline void ImSetWindowFocus() {
+	SetWindowFocus();
+}
+static inline void ImSetWindowPosName(const char* name, float x, float y, ImGuiCond cond = 0) {
+	SetWindowPos(name,ImVec2(x,y),cond);
+}
+static inline void ImSetWindowSizeName(const char* name, float x, float y, ImGuiCond cond = 0) {
+	SetWindowSize(name,ImVec2(x,y),cond);
+}
+static inline void ImSetWindowCollapsedName(const char* name, bool collapsed, ImGuiCond cond = 0) {
+	SetWindowCollapsed(name,collapsed,cond);
+}
+static inline void ImSetWindowFocusName(const char* name) {
+	SetWindowFocus(name);
+}
+static inline void ImPushStyleColor(ImGuiCol idx, Color color) {
+	ImVec4 v(color.r,color.g,color.b,color.a);
+	PushStyleColor(idx,v);
+}
+static inline void ImPushStyleVarFloat(ImGuiStyleVar idx, float val) {
+	PushStyleVar(idx,val);
+}
+static inline void ImPushStyleVarVec(ImGuiStyleVar idx, float x,float y) {
+	PushStyleVar(idx,ImVec2(x,y));
+}
+static inline Color ImGetStyleColor(ImGuiCol idx) {
+	ImVec4 v=GetStyleColorVec4(idx);
+	return Color(v.x,v.y,v.z,v.w);
+}
+static inline void ImDummy(float x,float y) {
+	Dummy(ImVec2(x,y));
+}
+static inline void ImSetCursorPos(float x,float y) {
+	SetCursorPos(ImVec2(x,y));
+}
+static inline float ImGetCursorStartPosX() {
+	return GetCursorStartPos().x;
+}
+static inline float ImGetCursorStartPosY() {
+	return GetCursorStartPos().y;
+}
+static inline float ImGetCursorScreenPosX() {
+	return GetCursorScreenPos().x;
+}
+static inline float ImGetCursorScreenPosY() {
+	return GetCursorScreenPos().y;
+}
+static inline void ImSetCursorScreenPos(float x,float y) {
+	SetCursorScreenPos(ImVec2(x,y));
+}
+static inline void ImSetCursorScreenPosX(float x) {
+	SetCursorScreenPos(ImVec2(x,ImGetCursorScreenPosY()));
+}
+static inline void ImSetCursorScreenPosY(float y) {
+	SetCursorScreenPos(ImVec2(ImGetCursorScreenPosX(),y));
+}
+static inline void ImText(const char *text){
+	Text(text);
+}
+static inline void ImTextColored(Color c,const char *text){
+	ImVec4 v(c.r,c.g,c.b,c.a);
+	TextColored(v,text);
+}
+static inline void ImTextDisabled(const char *text){
+	TextDisabled(text);
+}
+static inline void ImTextWrapped(const char *text){
+	TextWrapped(text);
+}
+static inline void ImLabelText(const char *label,const char *text){
+	LabelText(label,text);
+}
+static inline void ImBulletText(const char *text){
+	BulletText(text);
+}
+static inline bool ImButton(const char *label, float x,float y){
+	return Button(label,ImVec2(x,y));
+}
+static inline bool ImInvisibleButton(const char *label, float x,float y){
+	return InvisibleButton(label,ImVec2(x,y));
+}
+static bool ImImageButton(string texture,float x,float y){
+	GPU_Image *tex=load_texture(texture);
+	return ImageButton((void*)GPU_GetTextureHandle(tex),ImVec2(x,y));
+}
+static void ImImage(string texture,float x,float y){
+	GPU_Image *tex=load_texture(texture);
+	return Image((void*)GPU_GetTextureHandle(tex),ImVec2(x,y));
+}
+static inline bool ImCheckbox(const char *label,bool v){
+	value_b=v;
+	return Checkbox(label,&value_b);
+}
+static inline void ImProgressBar(float fraction,float x,float y,const char *overlay){
+	ProgressBar(fraction,ImVec2(x,y),overlay);
+}
+static inline bool ImRadioButton(const char* label, bool active){
+	return RadioButton(label,active);
+}
 using namespace luabridge;
-void bind_imgui(){
-	#define BN .beginNamespace
-	#define EN .endNamespace()
-	#define F .addFunction
-	#define BC .beginClass
-	#define EC .endClass()
-	#define DC .deriveClass
-	#define P .addProperty
-	#define C .addConstructor
+LuaRef *ImFlags;
+void bind_imgui() {
+	ImFlags=new LuaRef(newTable(lua::L));
+#define BN .beginNamespace
+#define EN .endNamespace()
+#define F .addFunction
+#define BC .beginClass
+#define EC .endClass()
+#define DC .deriveClass
+#define P .addProperty
+#define C .addConstructor
+#define V .addVariable
+#define VC(a,b) .addVariable(a,b,0)
 	getGlobalNamespace(lua::L)
-	BC<ImBool>("ImBool")
-	C<void(*)(bool)>()
-	F("__call",&ImBool::__call)
-	P("v",&ImBool::v)
-	EC
 	BN("ImGui")
 	F("GetVersion",GetVersion)
-	F("Begin",&ImBegin)
-	F("End",&End)
-	F("BeginChild",&ImBeginChild)
-	F("EndChild",&EndChild)
-	F("IsWindowAppearing",&IsWindowAppearing)
-	F("IsWindowCollapsed",&IsWindowCollapsed)
+	F("Begin",ImBegin)
+	F("End",End)
+	F("BeginChild",ImBeginChild)
+	F("EndChild",EndChild)
+	F("GetBool",ImGetBool)
+	F("IsWindowAppearing",IsWindowAppearing)
+	F("IsWindowCollapsed",IsWindowCollapsed)
 	F("IsWindowFocused",IsWindowFocused)
 	F("IsWindowHovered",IsWindowHovered)
 	F("GetWindowDrawList",GetWindowDrawList)
@@ -934,11 +1048,290 @@ void bind_imgui(){
 	F("GetContentRegionMaxY",ImGetContentRegionMaxY)
 	F("GetContentRegionAvailX",ImGetContentRegionAvailX)
 	F("GetContentRegionAvailY",ImGetContentRegionAvailY)
-	F("GetContentRegionAvailWidth",GetContentRegionAvailWidth)
 	F("GetWindowContentRegionMinX",ImGetWindowContentRegionMinX)
 	F("GetWindowContentRegionMinY",ImGetWindowContentRegionMinY)
 	F("GetWindowContentRegionMaxX",ImGetWindowContentRegionMaxX)
 	F("GetWindowContentRegionMaxY",ImGetWindowContentRegionMaxY)
 	F("GetWindowContentRegionWidth",GetWindowContentRegionWidth)
+	F("SetNextWindowPos",ImSetNextWindowPos)
+	F("SetNextWindowSize",ImSetNextWindowSize)
+	F("SetNextWindowSizeConstraints",ImSetNextWindowSizeConstraints)
+	F("SetNextWindowContentSize",ImSetNextWindowContentSize)
+	F("SetNextWindowCollapsed",SetNextWindowCollapsed)
+	F("SetNextWindowFocus",SetNextWindowFocus)
+	F("SetNextWindowBgAlpha",SetNextWindowBgAlpha)
+	F("SetWindowPos",ImSetWindowPos)
+	F("SetWindowSize",ImSetWindowSize)
+	F("SetWindowCollapsed",ImSetWindowCollapsed)
+	F("SetWindowFocus",ImSetWindowFocus)
+	F("SetWindowFontScale",SetWindowFontScale)
+	F("GetScrollX",GetScrollX)
+	F("GetScrollY",GetScrollY)
+	F("GetScrollMaxX",GetScrollMaxX)
+	F("GetScrollMaxY",GetScrollMaxY)
+	F("SetScrollX",SetScrollX)
+	F("SetScrollY",SetScrollY)
+	F("SetScrollHere",SetScrollHere)
+	F("SetScrollFromPosY",SetScrollFromPosY)
+	F("PushFont",PushFont)
+	F("PopFont",PopFont)
+	F("PushStyleColor",ImPushStyleColor)
+	F("PopStyleColor",PopStyleColor)
+	F("PushStyleVarFloat",ImPushStyleVarFloat)
+	F("PushStyleVarVec",ImPushStyleVarVec)
+	F("PopStyleVar",PopStyleVar)
+	F("GetStyleColor",ImGetStyleColor)
+	F("GetFont",GetFont)
+	F("GetFontSize",GetFontSize)
+	F("PushItemWidth",PushItemWidth)
+	F("PopItemWidth",PopItemWidth)
+	F("CalcItemWidth",CalcItemWidth)
+	F("PushTextWrapPos",PushTextWrapPos)
+	F("PopTextWrapPos",PopTextWrapPos)
+	F("PushAllowKeyboardFocus",PushAllowKeyboardFocus)
+	F("PopAllowKeyboardFocus",PopAllowKeyboardFocus)
+	F("PushButtonRepeat",PushButtonRepeat)
+	F("PopButtonRepeat",PopButtonRepeat)
+	F("Separator",Separator)
+	F("SameLine",SameLine)
+	F("NewLine",NewLine)
+	F("Spacing",Spacing)
+	F("Dummy",ImDummy)
+	F("Indent",Indent)
+	F("Unindent",Unindent)
+	F("BeginGroup",BeginGroup)
+	F("EndGroup",EndGroup)
+	F("GetCursorPosX",GetCursorPosX)
+	F("GetCursorPosY",GetCursorPosY)
+	F("SetCursorPosX",SetCursorPosX)
+	F("SetCursorPosY",SetCursorPosY)
+	F("SetCursorPos",SetCursorPos)
+	F("GetCursorStartPosX",ImGetCursorStartPosX)
+	F("GetCursorStartPosY",ImGetCursorStartPosY)
+	F("GetCursorScreenPosX",ImGetCursorScreenPosX)
+	F("GetCursorScreenPosY",ImGetCursorScreenPosY)
+	F("SetCursorScreenPosX",ImGetCursorScreenPosX)
+	F("SetCursorScreenPosY",ImGetCursorScreenPosY)
+	F("SetCursorScreenPos",ImSetCursorScreenPos)
+	F("AlignTextToFramePadding",AlignTextToFramePadding)
+	F("GetTextLineHeight",GetTextLineHeight)
+	F("GetTextLineHeightWithSpacing",GetTextLineHeightWithSpacing)
+	F("GetFrameHeight",GetFrameHeight)
+	F("GetFrameHeightWithSpacing",GetFrameHeightWithSpacing)
+	F("Text",ImText)
+	F("TextColored",ImTextColored)
+	F("TextDisabled",ImTextDisabled)
+	F("TextWrapped",ImTextWrapped)
+	F("LabelText",ImLabelText)
+	F("BulletText",ImBulletText)
+	F("Button",ImButton)
+	F("SmallButton",SmallButton)
+	F("InvisibleButton",InvisibleButton)
+	F("ArrowButton",ArrowButton)
+	F("Image",ImImage)
+	F("ImageButton",ImImageButton)
+	F("Checkbox",ImCheckbox)
+	F("RadioButton",ImRadioButton)
+	F("ProgressBar",ImProgressBar)
+	F("BeginCombo",BeginCombo)
+	F("EndCombo",EndCombo)
+	F("Bullet",ImGui::Bullet)
+	V("Flags",&ImFlags)
 	EN;
+#define ENUM(name,...) "ImGui.Flags." name "={\n" __VA_ARGS__ "}\n"
+	lua::dostring(
+		ENUM("Window",
+			 "None						= 0,"
+			 "NoTitleBar				= 2 ^ 0,"
+			 "NoResize					= 2 ^ 1,"
+			 "NoMove					= 2 ^ 2,"
+			 "NoScrollbar				= 2 ^ 3,"
+			 "NoScrollWithMouse			= 2 ^ 4,"
+			 "NoCollapse				= 2 ^ 5,"
+			 "AlwaysAutoResize			= 2 ^ 6,"
+			 "NoSavedSettings			= 2 ^ 8,"
+			 "NoInputs					= 2 ^ 9,"
+			 "MenuBar					= 2 ^ 10,"
+			 "HorizontalScrollbar		= 2 ^ 11,"
+			 "NoFocusOnAppearing		= 2 ^ 12,"
+			 "NoBringToFrontOnFocus		= 2 ^ 13,"
+			 "AlwaysVerticalScrollbar	= 2 ^ 14,"
+			 "AlwaysHorizontalScrollbar	= 2 ^ 15,"
+			 "AlwaysUseWindowPadding	= 2 ^ 16,"
+			 "NoNavInputs				= 2 ^ 18,"
+			 "NoNavFocus				= 2 ^ 19,"
+			 "NoNav						= 786432,"
+			 "NavFlattened				= 2 ^ 23,"
+			)
+		ENUM("InputText",
+			 "None                = 0,"
+			 "CharsDecimal        = 2 ^ 0,"
+			 "CharsHexadecimal    = 2 ^ 1,"
+			 "CharsUppercase      = 2 ^ 2,"
+			 "CharsNoBlank        = 2 ^ 3,"
+			 "AutoSelectAll       = 2 ^ 4,"
+			 "EnterReturnsTrue    = 2 ^ 5,"
+			 "CallbackCompletion  = 2 ^ 6,"
+			 "CallbackHistory     = 2 ^ 7,"
+			 "CallbackAlways      = 2 ^ 8,"
+			 "CallbackCharFilter  = 2 ^ 9,"
+			 "AllowTabInput       = 2 ^ 10,"
+			 "CtrlEnterForNewLine = 2 ^ 11,"
+			 "NoHorizontalScroll  = 2 ^ 12,"
+			 "AlwaysInsertMode    = 2 ^ 13,"
+			 "ReadOnly            = 2 ^ 14,"
+			 "Password            = 2 ^ 15,"
+			 "NoUndoRedo          = 2 ^ 16,"
+			 "CharsScientific     = 2 ^ 17,"
+			 "CallbackResize      = 2 ^ 18,"
+			 "Multiline           = 2 ^ 20"
+			)
+		ENUM("TreeNode",
+			 "None                 = 0,"
+			 "Selected             = 2 ^ 0,"
+			 "Framed               = 2 ^ 1,"
+			 "AllowItemOverlap     = 2 ^ 2,"
+			 "NoTreePushOnOpen     = 2 ^ 3,"
+			 "NoAutoOpenOnLog      = 2 ^ 4,"
+			 "DefaultOpen          = 2 ^ 5,"
+			 "OpenOnDoubleClick    = 2 ^ 6,"
+			 "OpenOnArrow          = 2 ^ 7,"
+			 "Leaf                 = 2 ^ 8,"
+			 "Bullet               = 2 ^ 9,"
+			 "FramePadding         = 2 ^ 10,"
+			 "NavLeftJumpsBackHere = 2 ^ 13,"
+			 "CollapsingHeader     = 26"
+			)
+		ENUM("Selectable",
+			 "None				= 0,"
+			 "DontClosePopups	= 2 ^ 0,"
+			 "SpanAllColumns	= 2 ^ 1,"
+			 "AllowDoubleClick	= 2 ^ 2,"
+			 "Disabled			= 2 ^ 3"
+			)
+		ENUM("Combo",
+			 "None				= 0,"
+			 "PopupAlignLeft	= 2 ^ 0,"
+			 "HeightSmall		= 2 ^ 1,"
+			 "HeightRegular		= 2 ^ 2,"
+			 "HeightLarge		= 2 ^ 3,"
+			 "HeightLargest		= 2 ^ 4,"
+			 "NoArrowButton		= 2 ^ 5,"
+			 "NoPreview			= 2 ^ 6,"
+			 "HeightMask_		= 30"
+			)
+		ENUM("Focused",
+			 "None				= 0,"
+			 "ChildWindows		= 2 ^ 0,"
+			 "RootWindow		= 2 ^ 1,"
+			 "AnyWindow			= 2 ^ 2,"
+			 "RootAndChildWindows = 6"
+			)
+		ENUM("Hovered",
+			"None							= 0,"
+			"ChildWindow					= 2 ^ 0,"
+			"RootWindow						= 2 ^ 1,"
+			"AnyWindow						= 2 ^ 2,"
+			"AllowWhenBlockedByPopup		= 2 ^ 3,"
+			"AllowWhenBlockedByActiveItem	= 2 ^ 5,"
+			"AllowWhenOverlapped			= 2 ^ 6,"
+			"AllowWhenDisabled				= 2 ^ 7,"
+			"RectOnly						= 104,"
+			"RootAndChildWindows			= 3"
+			)
+		ENUM("DragDrop",
+			"None							= 0,"
+			"SourceNoPreviewTooltip			= 2 ^ 0,"
+			"SourceNoDisableHover			= 2 ^ 1,"
+			"SourceNoHoldToOpenOthers		= 2 ^ 2,"
+			"SourceAllowNullID				= 2 ^ 3,"
+			"SourceExtern					= 2 ^ 4,"
+			"SourceAutoExpirePayload		= 2 ^ 5,"
+			"AcceptBeforeDelivery			= 2 ^ 10,"
+			"AcceptNoDrawDefaultRect		= 2 ^ 11,"
+			"AcceptNoPreviewTooltip			= 2 ^ 12,"
+			"AcceptPeekOnly					= 3072"
+			)
+		ENUM("Directory",
+			"None	= -1,"
+			"Left	= 0,"
+			"Right	= 1,"
+			"Up		= 2,"
+			"Down	= 3"
+			)
+		ENUM("Color",
+			"Text					= 0,"
+			"TextDisabled			= 1,"
+			"WindowBg				= 2,"
+			"ChildBg				= 3,"
+			"PopupBg				= 4,"
+			"Border					= 5,"
+			"BorderShadow			= 6,"
+			"FrameBg				= 7,"
+			"FrameBgHovered			= 8,"
+			"FrameBgActive			= 9,"
+			"TitleBg				= 10,"
+			"TitleBgActive			= 11,"
+			"TitleBgCollapsed		= 12,"
+			"MenuBarBg				= 13,"
+			"ScrollbarBg			= 14,"
+			"ScrollbarGrab			= 15,"
+			"ScrollbarGrabHovered	= 16,"
+			"ScrollbarGrabActive	= 17,"
+			"CheckMark				= 18,"
+			"SliderGrab				= 19,"
+			"SliderGrabActive		= 20,"
+			"Button					= 21,"
+			"ButtonHovered			= 22,"
+			"ButtonActive			= 23,"
+			"Header					= 24,"
+			"HeaderHovered			= 25,"
+			"HeaderActive			= 26,"
+			"Separator				= 27,"
+			"SeparatorHovered		= 28,"
+			"SeparatorActive		= 29,"
+			"ResizeGrip				= 30,"
+			"ResizeGripHovered		= 31,"
+			"ResizeGripActive		= 32,"
+			"PlotLines				= 33,"
+			"PlotLinesHovered		= 34,"
+			"PlotHistogram			= 35,"
+			"PlotHistogramHovered	= 36,"
+			"TextSelectedBg			= 37,"
+			"DragDropTarget			= 38,"
+			"NavHighlight			= 39,"
+			"NavWindowingHighlight	= 40,"
+			"NavWindowingDimBg		= 41,"
+			"ModalWindowDimBg		= 42"
+		)
+		ENUM("Style",
+			"Alpha				= 0,"
+			"WindowPadding		= 1,"
+			"WindowRounding		= 2,"
+			"WindowBorderSize	= 3,"
+			"WindowMinSize		= 4,"
+			"WindowTitleAlign	= 5,"
+			"ChildRounding		= 6,"
+			"ChildBorderSize	= 7,"
+			"PopupRounding		= 8,"
+			"PopupBorderSize	= 9,"
+			"FramePadding		= 10,"
+			"FrameRounding		= 11,"
+			"FrameBorderSize	= 12,"
+			"ItemSpacing		= 13,"
+			"ItemInnerSpacing	= 14,"
+			"IndentSpacing		= 15,"
+			"ScrollbarSize		= 16,"
+			"ScrollbarRounding	= 17,"
+			"GrabMinSize		= 18,"
+			"GrabRounding		= 19,"
+			"ButtonTextAlign	= 20"
+			)
+		ENUM("Cond",
+			"Always			= 2 ^ 0,"
+			"Once			= 2 ^ 1,"
+			"FirstUseEver	= 2 ^ 2,"
+			"Appearing		= 2 ^ 3"
+			)
+	);
 }

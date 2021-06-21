@@ -579,7 +579,6 @@ XMLNode XMLNode::openFileHelper(XMLCSTR filename, XMLCSTR tag, XMLError *error, 
 				  ,filename,XMLNode::getError(pResults.error),pResults.nLine,pResults.nColumn,s1,s2,s3);
 		if(error!=0)*error=pResults.error;
 		if(error_str!=0)strcpy(*error_str,message);
-		throw std::runtime_error(message);
 	}
 	return xnode;
 }
@@ -738,17 +737,17 @@ typedef enum XMLStatus {
 XMLError XMLNode::writeToFile(XMLCSTR filename, const char *encoding, char nFormat) const {
 	if (!d) return eXMLErrorNone;
 	FILE *f=xfopen(filename,_CXML("wb"));
-	if (!f) throw eXMLErrorCannotOpenWriteFile;
+	if (!f) return eXMLErrorCannotOpenWriteFile;
 #ifdef _XMLWIDECHAR
 	unsigned char h[2]= { 0xFF, 0xFE };
 	if (!fwrite(h,2,1,f)) {
 		fclose(f);
-		throw eXMLErrorCannotWriteFile;
+		return eXMLErrorCannotWriteFile;
 	}
 	if ((!isDeclaration())&&((d->lpszName)||(!getChildNode().isDeclaration()))) {
 		if (!fwrite(L"<?xml version=\"1.0\" encoding=\"utf-16\"?>\n",sizeof(wchar_t)*40,1,f)) {
 			fclose(f);
-			throw eXMLErrorCannotWriteFile;
+			return eXMLErrorCannotWriteFile;
 		}
 	}
 #else
@@ -758,7 +757,7 @@ XMLError XMLNode::writeToFile(XMLCSTR filename, const char *encoding, char nForm
 			unsigned char h[3]= {0xEF,0xBB,0xBF};
 			if (!fwrite(h,3,1,f)) {
 				fclose(f);
-				throw eXMLErrorCannotWriteFile;
+				return eXMLErrorCannotWriteFile;
 			}
 			encoding="utf-8";
 		} else if (characterEncoding==char_encoding_ShiftJIS) encoding="SHIFT-JIS";
@@ -766,14 +765,14 @@ XMLError XMLNode::writeToFile(XMLCSTR filename, const char *encoding, char nForm
 		if (!encoding) encoding="ISO-8859-1";
 		if (fprintf(f,"<?xml version=\"1.0\" encoding=\"%s\"?>\n",encoding)<0) {
 			fclose(f);
-			throw eXMLErrorCannotWriteFile;
+			return eXMLErrorCannotWriteFile;
 		}
 	} else {
 		if (characterEncoding==char_encoding_UTF8) {
 			unsigned char h[3]= {0xEF,0xBB,0xBF};
 			if (!fwrite(h,3,1,f)) {
 				fclose(f);
-				throw eXMLErrorCannotWriteFile;
+				return eXMLErrorCannotWriteFile;
 			}
 		}
 	}
@@ -783,13 +782,14 @@ XMLError XMLNode::writeToFile(XMLCSTR filename, const char *encoding, char nForm
 	if (!fwrite(t,sizeof(XMLCHAR)*i,1,f)) {
 		free(t);
 		fclose(f);
-		throw eXMLErrorCannotWriteFile;
+		return eXMLErrorCannotWriteFile;
 	}
 	if (fclose(f)!=0) {
 		free(t);
-		throw eXMLErrorCannotWriteFile;
+		return eXMLErrorCannotWriteFile;
 	}
 	free(t);
+	return eXMLErrorNone;
 }
 
 // Duplicate a given string.
@@ -974,7 +974,7 @@ XMLSTR fromXMLString(XMLCSTR s, int lo, XML *pXML) {
 				}
 				while ((*s)&&(*s!=_CXML(';'))&&((lo--)>0)) s++;
 				if (*s!=_CXML(';')) {
-					throw eXMLErrorUnknownCharacterEntity;
+					pXML->error=eXMLErrorUnknownCharacterEntity;
 				}
 				s++;
 				lo--;
@@ -989,7 +989,7 @@ XMLSTR fromXMLString(XMLCSTR s, int lo, XML *pXML) {
 					entity++;
 				} while(entity->s);
 				if (!entity->s) {
-					throw eXMLErrorUnknownCharacterEntity;
+					pXML->error=eXMLErrorUnknownCharacterEntity;
 				}
 			}
 		} else {
@@ -1021,7 +1021,7 @@ XMLSTR fromXMLString(XMLCSTR s, int lo, XML *pXML) {
 						else if ((*ss>=_CXML('a'))&&(*ss<=_CXML('f'))) j=(j<<4)+*ss-_CXML('a')+10;
 						else {
 							free((void*)s);
-							throw eXMLErrorUnknownCharacterEntity;
+							pXML->error=eXMLErrorUnknownCharacterEntity;
 						}
 						ss++;
 					}
@@ -1031,7 +1031,7 @@ XMLSTR fromXMLString(XMLCSTR s, int lo, XML *pXML) {
 						if ((*ss>=_CXML('0'))&&(*ss<=_CXML('9'))) j=(j*10)+*ss-_CXML('0');
 						else {
 							free((void*)s);
-							throw eXMLErrorUnknownCharacterEntity;
+							pXML->error=eXMLErrorUnknownCharacterEntity;
 						}
 						ss++;
 					}
@@ -1488,7 +1488,7 @@ char XMLNode::parseClearTag(void *px, void *_pClear) {
 	}
 
 	// If we failed to find the end tag
-	throw eXMLErrorUnmatchedEndClearTag;
+	return eXMLErrorUnmatchedEndClearTag;
 }
 
 void XMLNode::exactMemory(XMLNodeData *d) {
@@ -1607,7 +1607,7 @@ int XMLNode::ParseXMLElement(void *pa) {
 					// Return an error if we couldn't obtain the next token or
 					// it wasnt text
 					if (xtype != eTokenText) {
-						throw eXMLErrorMissingTagName;
+						return eXMLErrorMissingTagName;
 					}
 
 					// If we found a new element which is the same as this
@@ -1646,7 +1646,7 @@ int XMLNode::ParseXMLElement(void *pa) {
 									// If we are back at the root node then we
 									// have an unmatched end tag
 									if (!d->lpszName) {
-										throw eXMLErrorUnmatchedEndTag;
+										return eXMLErrorUnmatchedEndTag;
 									}
 
 									// If the end tag matches the name of this
@@ -1695,14 +1695,14 @@ int XMLNode::ParseXMLElement(void *pa) {
 
 					// The end tag should be text
 					if (xtype != eTokenText) {
-						throw eXMLErrorMissingEndTagName;
+						return eXMLErrorMissingEndTagName;
 					}
 					lpszTemp = token.pStr;
 
 					// After the end tag we should find a closing tag
 					token = GetNextToken(pXML, &cbToken, &xtype);
 					if (xtype != eTokenCloseTag) {
-						throw eXMLErrorMissingEndTagName;
+						return eXMLErrorMissingEndTagName;
 					}
 					pXML->lpszText=pXML->lpXML+pXML->nIndex;
 
@@ -1712,13 +1712,13 @@ int XMLNode::ParseXMLElement(void *pa) {
 					if (myTagCompare(d->lpszName, lpszTemp) != 0)
 #ifdef STRICT_PARSING
 					{
-						throw eXMLErrorUnmatchedEndTag;
+						return eXMLErrorUnmatchedEndTag;
 						pXML->nIndexMissigEndTag=pXML->nIndex;
 						return FALSE;
 					}
 #else
 					{
-						throw eXMLErrorMissingEndTag;
+						return eXMLErrorMissingEndTag;
 						pXML->nIndexMissigEndTag=pXML->nIndex;
 						pXML->lpEndTag = lpszTemp;
 						pXML->cbEndTag = cbTemp;
@@ -1785,7 +1785,7 @@ int XMLNode::ParseXMLElement(void *pa) {
 					case eTokenEquals:        /* '='            */
 					case eTokenDeclaration:   /* '<?'           */
 					case eTokenClear:
-						throw eXMLErrorUnexpectedToken;
+						return eXMLErrorUnexpectedToken;
 					default:
 						break;
 					}
@@ -1849,7 +1849,7 @@ int XMLNode::ParseXMLElement(void *pa) {
 					case eTokenTagEnd:        /* 'Attribute </'           */
 					case eTokenDeclaration:   /* 'Attribute <?'           */
 					case eTokenClear:
-						throw eXMLErrorUnexpectedToken;
+						return eXMLErrorUnexpectedToken;
 					default:
 						break;
 					}
@@ -1897,7 +1897,7 @@ int XMLNode::ParseXMLElement(void *pa) {
 					case eTokenEquals:          /* 'Attr = ='          */
 					case eTokenDeclaration:     /* 'Attr = <?'         */
 					case eTokenClear:
-						throw eXMLErrorUnexpectedToken;
+						return eXMLErrorUnexpectedToken;
 						break;
 					default:
 						break;
@@ -1909,9 +1909,9 @@ int XMLNode::ParseXMLElement(void *pa) {
 		else {
 			if ((!d->isDeclaration)&&(d->pParent)) {
 #ifdef STRICT_PARSING
-				throw eXMLErrorUnmatchedEndTag;
+				return eXMLErrorUnmatchedEndTag;
 #else
-				throw eXMLErrorMissingEndTag;
+				return eXMLErrorMissingEndTag;
 #endif
 				pXML->nIndexMissigEndTag=pXML->nIndex;
 			}
