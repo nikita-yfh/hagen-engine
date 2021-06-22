@@ -857,82 +857,128 @@ Interface interface;
 using namespace luabridge;
 static LuaRef *last_value;
 static LuaRef *ImFlags;
-static bool ImBegin(const char* name, bool o = 0, ImGuiWindowFlags flags = 0) {
-	bool ret=Begin(name,&o,flags);
-	(*last_value)=o;
-	return ret;
+static int ImBegin(lua_State *L) {
+	int __argi__ = 1;
+	const char* name = lua_tostring(L, __argi__++);
+	bool p_open = lua_isboolean(L, __argi__) ? lua_toboolean(L, __argi__++) : (bool)NULL;
+	ImGuiWindowFlags flags = (ImGuiWindowFlags)luaL_optinteger(L, __argi__++, 0);
+	bool __ret__ = ImGui::Begin(name, &p_open, flags);
+	lua_pushboolean(L, __ret__);
+	lua_pushboolean(L, p_open);
+	return 2;
 }
-static inline LuaRef ImGetLast() {
-	return *last_value;
-}
-static inline bool ImBeginChild(const char* str_id, float sx=0, float sy=0, bool border = false, ImGuiWindowFlags flags = 0) {
-	return BeginChild(str_id,ImVec2(sx,sy),border,flags);
-}
-static inline float ImGetWindowPosX() {
-	return GetWindowPos().x;
-}
-static inline float ImGetWindowPosY() {
-	return GetWindowPos().y;
-}
-static inline float ImGetContentRegionMaxX() {
-	return GetContentRegionMax().x;
-}
-static inline float ImGetContentRegionMaxY() {
-	return GetContentRegionMax().y;
-}
-static inline float ImGetContentRegionAvailX() {
-	return GetContentRegionAvail().x;
-}
-static inline float ImGetContentRegionAvailY() {
-	return GetContentRegionAvail().y;
-}
-static inline float ImGetWindowContentRegionMinX() {
-	return GetWindowContentRegionMin().x;
-}
-static inline float ImGetWindowContentRegionMinY() {
-	return GetWindowContentRegionMin().y;
-}
-static inline float ImGetWindowContentRegionMaxX() {
-	return GetWindowContentRegionMax().x;
-}
-static inline float ImGetWindowContentRegionMaxY() {
-	return GetWindowContentRegionMax().y;
-}
-static inline void ImSetNextWindowPos(float x,float y,ImGuiCond cond = 0,float px=0,float py=0) {
-	SetNextWindowPos(ImVec2(x,y),cond,ImVec2(px,py));
-}
-static inline void ImSetNextWindowSize(float x,float y,ImGuiCond cond = 0) {
-	SetNextWindowSize(ImVec2(x,y),cond);
-}
+static int ImBeginChild(lua_State* L) {
+	int __argi__ = 1;
+	ImGuiID id = (ImGuiID)lua_tointeger(L, __argi__++);
+	ImVec2 size_def = ImVec2(0, 0);
+	ImVec2 size;
+	size.x = (float)luaL_optnumber(L, __argi__, size_def.x);
+	size.y = (float)luaL_optnumber(L, __argi__ + 1, size_def.y);
+	if (size.x != size_def.x || size.y != size_def.y) __argi__ += 2;
+	bool border = lua_isboolean(L, __argi__) ? lua_toboolean(L, __argi__++) : (bool)false;
+	ImGuiWindowFlags flags = (ImGuiWindowFlags)luaL_optinteger(L, __argi__++, 0);
+	bool __ret__ = ImGui::BeginChild(id, size, border, flags);
+	lua_pushboolean(L, __ret__);
+	return 1;
+};
+static int ImGetWindowPos(lua_State* L) {
+	ImVec2 __ret__ = ImGui::GetWindowPos();
+	lua_pushnumber(L, __ret__.x);
+	lua_pushnumber(L, __ret__.y);
+	return 2;
+};
+static int ImGetContentRegionMax(lua_State* L) {
+	ImVec2 __ret__ = ImGui::GetContentRegionMax();
+	lua_pushnumber(L, __ret__.x);
+	lua_pushnumber(L, __ret__.y);
+	return 2;
+};
+
+static int ImGetContentRegionAvail(lua_State* L) {
+	ImVec2 __ret__ = ImGui::GetContentRegionAvail();
+	lua_pushnumber(L, __ret__.x);
+	lua_pushnumber(L, __ret__.y);
+	return 2;
+};
+
+static int ImGetWindowContentRegionMin(lua_State* L) {
+	ImVec2 __ret__ = ImGui::GetWindowContentRegionMin();
+	lua_pushnumber(L, __ret__.x);
+	lua_pushnumber(L, __ret__.y);
+	return 2;
+};
+
+static int ImGetWindowContentRegionMax(lua_State* L) {
+	ImVec2 __ret__ = ImGui::GetWindowContentRegionMax();
+	lua_pushnumber(L, __ret__.x);
+	lua_pushnumber(L, __ret__.y);
+	return 2;
+};
+
+static int ImSetNextWindowPos(lua_State* L) {
+	int __argi__ = 1;
+	ImVec2 pos;
+	pos.x = (float)lua_tonumber(L, __argi__++);
+	pos.y = (float)lua_tonumber(L, __argi__++);
+	ImGuiCond cond = (ImGuiCond)luaL_optinteger(L, __argi__++, 0);
+	ImVec2 pivot_def = ImVec2(0, 0);
+	ImVec2 pivot;
+	pivot.x = (float)luaL_optnumber(L, __argi__, pivot_def.x);
+	pivot.y = (float)luaL_optnumber(L, __argi__ + 1, pivot_def.y);
+	if (pivot.x != pivot_def.x || pivot.y != pivot_def.y) __argi__ += 2;
+	ImGui::SetNextWindowPos(pos, cond, pivot);
+	return 0;
+};
+
+static int ImSetNextWindowSize(lua_State* L) {
+	int __argi__ = 1;
+	ImVec2 size;
+	size.x = (float)lua_tonumber(L, __argi__++);
+	size.y = (float)lua_tonumber(L, __argi__++);
+	ImGuiCond cond = (ImGuiCond)luaL_optinteger(L, __argi__++, 0);
+	ImGui::SetNextWindowSize(size, cond);
+	return 0;
+};
+static int ImSetNextWindowCollapsed(lua_State* L) {
+	int __argi__ = 1;
+	bool collapsed = lua_toboolean(L, __argi__++);
+	ImGuiCond cond = (ImGuiCond)luaL_optinteger(L, __argi__++, 0);
+	ImGui::SetNextWindowCollapsed(collapsed, cond);
+	return 0;
+};
 static inline void ImSetNextWindowSizeConstraints(float minx,float miny,float maxx,float maxy) {
 	SetNextWindowSizeConstraints(ImVec2(minx,miny),ImVec2(maxx,maxy));
 }
 static inline void ImSetNextWindowContentSize(float x,float y) {
 	SetNextWindowContentSize(ImVec2(x,y));
 }
-static inline void ImSetWindowPos(float x,float y,ImGuiCond cond = 0) {
-	SetWindowPos(ImVec2(x,y),cond);
-}
-static inline void ImSetWindowSize(float x,float y,ImGuiCond cond = 0) {
-	SetWindowSize(ImVec2(x,y),cond);
-}
-static inline void ImSetWindowCollapsed(bool collapsed, ImGuiCond cond = 0) {
-	SetWindowCollapsed(collapsed,cond);
-}
+static int ImSetWindowPos(lua_State* L) {
+	int __argi__ = 1;
+	ImVec2 pos;
+	pos.x = (float)lua_tonumber(L, __argi__++);
+	pos.y = (float)lua_tonumber(L, __argi__++);
+	ImGuiCond cond = (ImGuiCond)luaL_optinteger(L, __argi__++, 0);
+	ImGui::SetWindowPos(pos, cond);
+	return 0;
+};
+static int ImSetWindowSize(lua_State* L) {
+	int __argi__ = 1;
+	ImVec2 size;
+	size.x = (float)lua_tonumber(L, __argi__++);
+	size.y = (float)lua_tonumber(L, __argi__++);
+	ImGuiCond cond = (ImGuiCond)luaL_optinteger(L, __argi__++, 0);
+	ImGui::SetWindowSize(size, cond);
+	return 0;
+};
+static int ImSetWindowCollapsed(lua_State* L) {
+	int __argi__ = 1;
+	bool collapsed = lua_toboolean(L, __argi__++);
+	ImGuiCond cond = (ImGuiCond)luaL_optinteger(L, __argi__++, 0);
+	ImGui::SetWindowCollapsed(collapsed, cond);
+	return 0;
+};
 static inline void ImSetWindowFocus() {
 	SetWindowFocus();
-}
-static inline void ImSetWindowPosName(const char* name, float x, float y, ImGuiCond cond = 0) {
-	SetWindowPos(name,ImVec2(x,y),cond);
-}
-static inline void ImSetWindowSizeName(const char* name, float x, float y, ImGuiCond cond = 0) {
-	SetWindowSize(name,ImVec2(x,y),cond);
-}
-static inline void ImSetWindowCollapsedName(const char* name, bool collapsed, ImGuiCond cond = 0) {
-	SetWindowCollapsed(name,collapsed,cond);
-}
-static inline void ImSetWindowFocusName(const char* name) {
-	SetWindowFocus(name);
 }
 static inline void ImPushStyleColor(ImGuiCol idx, Color color) {
 	ImVec4 v(color.r,color.g,color.b,color.a);
@@ -994,12 +1040,29 @@ static inline void ImLabelText(const char *label,const char *text){
 static inline void ImBulletText(const char *text){
 	BulletText("%s",text);
 }
-static inline bool ImButton(const char *label, float x,float y){
-	return Button(label,ImVec2(x,y));
-}
-static inline bool ImInvisibleButton(const char *label, float x,float y){
-	return InvisibleButton(label,ImVec2(x,y));
-}
+static int ImButton(lua_State* L) {
+	int __argi__ = 1;
+	const char* label = lua_tostring(L, __argi__++);
+	ImVec2 size_def = ImVec2(0, 0);
+	ImVec2 size;
+	size.x = (float)luaL_optnumber(L, __argi__, size_def.x);
+	size.y = (float)luaL_optnumber(L, __argi__ + 1, size_def.y);
+	if (size.x != size_def.x || size.y != size_def.y) __argi__ += 2;
+	bool __ret__ = ImGui::Button(label, size);
+	lua_pushboolean(L, __ret__);
+	return 1;
+};
+
+static int ImInvisibleButton(lua_State* L) {
+	int __argi__ = 1;
+	const char* str_id = lua_tostring(L, __argi__++);
+	ImVec2 size;
+	size.x = (float)lua_tonumber(L, __argi__++);
+	size.y = (float)lua_tonumber(L, __argi__++);
+	bool __ret__ = ImGui::InvisibleButton(str_id, size);
+	lua_pushboolean(L, __ret__);
+	return 1;
+};
 static bool ImImageButton(string texture,float x,float y){
 	GPU_Image *tex=load_texture(texture);
 	return ImageButton((void*)GPU_GetTextureHandle(tex),ImVec2(x,y));
@@ -1008,14 +1071,37 @@ static void ImImage(string texture,float x,float y){
 	GPU_Image *tex=load_texture(texture);
 	Image((void*)GPU_GetTextureHandle(tex),ImVec2(x,y));
 }
-static bool ImCheckbox(const char *label,bool v){
-	bool ret=Checkbox(label,&v);
-	(*last_value)=v;
-	return ret;
-}
-static inline void ImProgressBar(float fraction,float x,float y,const char *overlay){
-	ProgressBar(fraction,ImVec2(x,y),overlay);
-}
+static int ImCheckbox(lua_State* L) {
+	int __argi__ = 1;
+	const char* label = lua_tostring(L, __argi__++);
+	bool v = lua_toboolean(L, __argi__++);
+	bool __ret__ = ImGui::Checkbox(label, &v);
+	lua_pushboolean(L, __ret__);
+	lua_pushboolean(L, v);
+	return 2;
+};
+static int ImCheckboxFlags(lua_State* L) {
+	int __argi__ = 1;
+	const char* label = lua_tostring(L, __argi__++);
+	unsigned int flags = (unsigned int)lua_tointeger(L, __argi__++);
+	unsigned int flags_value = (unsigned int)lua_tointeger(L, __argi__++);
+	bool __ret__ = ImGui::CheckboxFlags(label, &flags, flags_value);
+	lua_pushboolean(L, __ret__);
+	return 1;
+};
+
+static int ImProgressBar(lua_State* L) {
+	int __argi__ = 1;
+	float fraction = (float)lua_tonumber(L, __argi__++);
+	ImVec2 size_arg_def = ImVec2(-1, 0);
+	ImVec2 size_arg;
+	size_arg.x = (float)luaL_optnumber(L, __argi__, size_arg_def.x);
+	size_arg.y = (float)luaL_optnumber(L, __argi__ + 1, size_arg_def.y);
+	if (size_arg.x != size_arg_def.x || size_arg.y != size_arg_def.y) __argi__ += 2;
+	const char* overlay = luaL_optstring(L, __argi__++, NULL);
+	ImGui::ProgressBar(fraction, size_arg, overlay);
+	return 0;
+};
 static inline bool ImRadioButton(const char* label, bool active){
 	return RadioButton(label,active);
 }
@@ -1041,11 +1127,6 @@ static bool ImDragFloatN(const char* label,vector<float>vi,float v_speed, float 
 		vi[q]=v[q];
 	(*last_value)=vi;
 	return ret;
-}
-static bool ImDragColor(const char* label,Color *color,float v_speed){
-	assert(color!=0);
-	int v[4]={color->r,color->g,color->b,color->a};
-	return DragInt4(label,v,v_speed,0.0f,255.0f);
 }
 static bool ImSliderFloat(const char* label, float v, float v_min, float v_max, const char* format){
 	bool ret=SliderFloat(label,&v,v_min,v_max,format);
@@ -1074,6 +1155,7 @@ void bind_imgui() {
 #define BN .beginNamespace
 #define EN .endNamespace()
 #define F .addFunction
+#define CF .addCFunction
 #define BC .beginClass
 #define EC .endClass()
 #define DC .deriveClass
@@ -1084,7 +1166,7 @@ void bind_imgui() {
 	getGlobalNamespace(lua::L)
 	BN("ImGui")
 	F("GetVersion",GetVersion)
-	F("Begin",ImBegin)
+	CF("Begin",ImBegin)
 	F("End",End)
 	F("BeginChild",ImBeginChild)
 	F("EndChild",EndChild)
@@ -1095,14 +1177,10 @@ void bind_imgui() {
 	F("GetWindowDrawList",GetWindowDrawList)
 	F("GetWindowWidth",GetWindowWidth)
 	F("GetWindowHeight",GetWindowHeight)
-	F("GetContentRegionMaxX",ImGetContentRegionMaxX)
-	F("GetContentRegionMaxY",ImGetContentRegionMaxY)
-	F("GetContentRegionAvailX",ImGetContentRegionAvailX)
-	F("GetContentRegionAvailY",ImGetContentRegionAvailY)
-	F("GetWindowContentRegionMinX",ImGetWindowContentRegionMinX)
-	F("GetWindowContentRegionMinY",ImGetWindowContentRegionMinY)
-	F("GetWindowContentRegionMaxX",ImGetWindowContentRegionMaxX)
-	F("GetWindowContentRegionMaxY",ImGetWindowContentRegionMaxY)
+	CF("GetContentRegionMax",ImGetContentRegionMax)
+	CF("GetContentRegionAvail",ImGetContentRegionAvail)
+	CF("GetWindowContentRegionMin",ImGetWindowContentRegionMin)
+	CF("GetWindowContentRegionMax",ImGetWindowContentRegionMax)
 	F("GetWindowContentRegionWidth",GetWindowContentRegionWidth)
 	F("SetNextWindowPos",ImSetNextWindowPos)
 	F("SetNextWindowSize",ImSetNextWindowSize)
@@ -1190,11 +1268,8 @@ void bind_imgui() {
 	F("Combo",ImCombo)
 	F("DragValue",ImDragFloat)
 	F("DragValueN",ImDragFloatN)
-	F("DragColor",ImDragColor)
 	F("SliderValue",ImSliderFloat)
 	F("SliderValueN",ImSliderFloatN)
-	F("SliderColor",ImSliderColor)
-	P("last",ImGetLast)
 	V("Flags",&ImFlags)
 	EN;
 #define ENUM(name,...) "ImGui.Flags." name "={\n" __VA_ARGS__ "}\n"
