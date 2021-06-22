@@ -10,6 +10,7 @@
 #include "utility.hpp"
 #include "input.hpp"
 #include "imgui_impl_sdl.h"
+#include "Vector.h"
 #ifdef ANDROID
 #include <GLES2/gl2.h>
 #include "imgui_impl_sdl_es2.h"
@@ -855,7 +856,7 @@ Interface interface;
 ///////////////////////////////////////////////////////////
 using namespace luabridge;
 static LuaRef *last_value;
-
+static LuaRef *ImFlags;
 static bool ImBegin(const char* name, bool o = 0, ImGuiWindowFlags flags = 0) {
 	bool ret=Begin(name,&o,flags);
 	(*last_value)=o;
@@ -975,23 +976,23 @@ static inline void ImSetCursorScreenPosY(float y) {
 	SetCursorScreenPos(ImVec2(ImGetCursorScreenPosX(),y));
 }
 static inline void ImText(const char *text){
-	Text(text);
+	Text("%s",text);
 }
 static inline void ImTextColored(Color c,const char *text){
 	ImVec4 v(c.r,c.g,c.b,c.a);
-	TextColored(v,text);
+	TextColored(v,"%s",text);
 }
 static inline void ImTextDisabled(const char *text){
-	TextDisabled(text);
+	TextDisabled("%s",text);
 }
 static inline void ImTextWrapped(const char *text){
-	TextWrapped(text);
+	TextWrapped("%s",text);
 }
 static inline void ImLabelText(const char *label,const char *text){
-	LabelText(label,text);
+	LabelText(label,"%s",text);
 }
 static inline void ImBulletText(const char *text){
-	BulletText(text);
+	BulletText("%s",text);
 }
 static inline bool ImButton(const char *label, float x,float y){
 	return Button(label,ImVec2(x,y));
@@ -1005,7 +1006,7 @@ static bool ImImageButton(string texture,float x,float y){
 }
 static void ImImage(string texture,float x,float y){
 	GPU_Image *tex=load_texture(texture);
-	return Image((void*)GPU_GetTextureHandle(tex),ImVec2(x,y));
+	Image((void*)GPU_GetTextureHandle(tex),ImVec2(x,y));
 }
 static bool ImCheckbox(const char *label,bool v){
 	bool ret=Checkbox(label,&v);
@@ -1018,21 +1019,55 @@ static inline void ImProgressBar(float fraction,float x,float y,const char *over
 static inline bool ImRadioButton(const char* label, bool active){
 	return RadioButton(label,active);
 }
-static bool ImDragFloat(const char* label, float v, float v_speed, float v_min, float v_max, const char* format, float power){
-	bool ret=DragFloat(label,&v,v_speed,v_min,v_max,format,power);
+static bool ImCombo(const char *label, int item, vector<const char*>items,int height=-1){
+	const char **i=new const char*[items.size()];
+	bool ret=Combo(label,&item,i,items.size(),height);
+	(*last_value)=item;
+	delete[]i;
+	return ret;
+}
+static bool ImDragFloat(const char* label, float v, float v_speed, float v_min, float v_max, const char* format){
+	bool ret=DragFloat(label,&v,v_speed,v_min,v_max,format);
 	(*last_value)=v;
 	return ret;
 }
-static bool ImDragFloat2(const char* label,LuaRef v, float v_speed, float v_min, float v_max, const char* format, float power){
-	float vi[2]={v[0],v[1]};
-	bool ret=DragFloat(label,vi,v_speed,v_min,v_max,format,power);
-	(*last_value)=v;
-	v[0]=vi[0];
-	v[1]=vi[1];
+static bool ImDragFloatN(const char* label,vector<float>vi,float v_speed, float v_min, float v_max, const char* format){
+	assert(vi.size()!=0);
+	float v[4];
+	for(int q=0;q<vi.size();q++)
+		v[q]=vi[q];
+	bool ret=DragScalarN(label, ImGuiDataType_Float, v, vi.size(), v_speed, &v_min, &v_max, format);
+	for(int q=0;q<vi.size();q++)
+		vi[q]=v[q];
+	(*last_value)=vi;
 	return ret;
 }
-
-static LuaRef *ImFlags;
+static bool ImDragColor(const char* label,Color *color,float v_speed){
+	assert(color!=0);
+	int v[4]={color->r,color->g,color->b,color->a};
+	return DragInt4(label,v,v_speed,0.0f,255.0f);
+}
+static bool ImSliderFloat(const char* label, float v, float v_min, float v_max, const char* format){
+	bool ret=SliderFloat(label,&v,v_min,v_max,format);
+	(*last_value)=v;
+	return ret;
+}
+static bool ImSliderFloatN(const char* label,vector<float>vi, float v_min, float v_max, const char* format){
+	assert(vi.size()!=0);
+	float v[4];
+	for(int q=0;q<vi.size();q++)
+		v[q]=vi[q];
+	bool ret=SliderScalarN(label, ImGuiDataType_Float, v, vi.size(), &v_min, &v_max, format);
+	for(int q=0;q<vi.size();q++)
+		vi[q]=v[q];
+	(*last_value)=vi;
+	return ret;
+}
+static bool ImSliderColor(const char* label,Color *color){
+	assert(color!=0);
+	int v[4]={color->r,color->g,color->b,color->a};
+	return SliderInt4(label,v,0.0f,255.0f);
+}
 void bind_imgui() {
 	ImFlags=new LuaRef(newTable(lua::L));
 	last_value=new LuaRef(lua::L);
@@ -1152,8 +1187,13 @@ void bind_imgui() {
 	F("Bullet",ImGui::Bullet)
 	F("BeginCombo",BeginCombo)
 	F("EndCombo",EndCombo)
-	F("DragFloat",ImDragFloat)
-	F("DragFloat2",ImDragFloat2)
+	F("Combo",ImCombo)
+	F("DragValue",ImDragFloat)
+	F("DragValueN",ImDragFloatN)
+	F("DragColor",ImDragColor)
+	F("SliderValue",ImSliderFloat)
+	F("SliderValueN",ImSliderFloatN)
+	F("SliderColor",ImSliderColor)
 	P("last",ImGetLast)
 	V("Flags",&ImFlags)
 	EN;
