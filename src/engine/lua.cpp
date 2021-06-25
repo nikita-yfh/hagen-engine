@@ -55,9 +55,11 @@ void clear_loaded_list() {
 	loaded.clear();
 }
 static void dofile(string file) {
-	if(luaL_dostring(L,RWget(file.c_str()).c_str())) {
+	string s=RWget(file.c_str());
+	if(luaL_dostring(L,s.c_str())) {
 		throw string(lua_tostring(L, -1));
-	}
+	}else if(s.size())
+		info_log("Loaded script "+file);
 }
 
 vector<string>get_table_keys(string name) {
@@ -509,6 +511,19 @@ static void bind() {
 	.addFunction("add_mat4",&Shader::add_mat4)
 	.endClass();
 }
+static vector<string>get_scripts_list(){
+	vector<string>l;
+	XMLNode file=open_xml((prefix+"config/scripts.xml").c_str(),"scripts");
+	int count=file.getAttributei("count");
+	for(int q=0;q<count;q++){
+		XMLNode s=file.getChildNode("script",q);
+		string name=s.getAttribute("name");
+		if(name.find(".")!=string::npos)
+			name.erase(name.begin()+name.find("."),name.end());
+		l.emplace_back(name);
+	}
+	return l;
+}
 void init() {
 	copy_prev_key();
 	mouse.clear();
@@ -556,15 +571,9 @@ void init() {
 		"return child\n"
 		"end\n"
 	);
-	doscript("common/level");
-	doscript("common/entity");
-	doscript("common/weapon");
-	doscript("common/common");
-	loaded.emplace_back("level");
-	loaded.emplace_back("Level");
-	loaded.emplace_back("Entity");
-	loaded.emplace_back("Weapon");
-	loaded.emplace_back("common");
+	vector<string>scripts=get_scripts_list();
+	for(string name : scripts)
+		doscript("scripts/"+name);
 }
 
 void init_main_menu() {
@@ -576,7 +585,6 @@ void init_level(string name,bool n) {
 	init();
 	create_userdata();
 	doscript("levels/"+name);
-	loaded.emplace_back(name);
 	if(n)
 		getGlobal(L,"level")["newgame"]();
 	getGlobal(L,"Level")["init"]();

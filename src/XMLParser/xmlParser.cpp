@@ -790,6 +790,7 @@ XMLError XMLNode::writeToFile(XMLCSTR filename, const char *encoding, char nForm
 		throw eXMLErrorCannotWriteFile;
 	}
 	free(t);
+	return eXMLErrorNone;
 }
 
 // Duplicate a given string.

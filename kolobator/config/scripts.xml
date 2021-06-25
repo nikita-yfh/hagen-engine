@@ -1,0 +1,4 @@
+<scripts count="2">
+	<script name="common.lua"/>
+	<script name="level.lua"/>
+</scripts>

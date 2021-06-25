@@ -1,0 +1,44 @@
+<sensrs count="0"/>
+<sensors count="10">
+   <sensor enabled="1" key="esc">
+        <position x="0.1h" y="0.1h" w="0.15h" h="0.15h"/>
+        <image x="0" y="0" w="50" h="50"/>
+    </sensor>
+    <sensor enabled="1" key="left">
+        <position x="0.1h" y="h-0.3h" w="0.2h" h="0.2h"/>
+        <image x="50" y="0" w="50" h="50"/>
+    </sensor>
+    <sensor enabled="1" key="right">
+        <position x="0.3h" y="h-0.3h" w="0.2h" h="0.2h"/>
+        <image x="100" y="0" w="50" h="50"/>
+    </sensor>
+    <sensor enabled="1" key="jump">
+        <position x="w-0.3h" y="h-0.3h" w="0.2h" h="0.2h"/>
+        <image x="150" y="0" w="50" h="50"/>
+    </sensor>
+    <sensor enabled="1" key="1">
+        <position x="0.4h" y="0.1h" w="0.15h" h="0.15h"/>
+        <image x="0" y="50" w="50" h="50"/>
+    </sensor>
+    <sensor enabled="1" key="2">
+        <position x="0.55h" y="0.1h" w="0.15h" h="0.15h"/>
+        <image x="50" y="50" w="50" h="50"/>
+    </sensor>
+    <sensor enabled="1" key="3">
+        <position x="0.7h" y="0.1h" w="0.15h" h="0.15h"/>
+        <image x="100" y="50" w="50" h="50"/>
+    </sensor>
+    <sensor enabled="1" key="4">
+        <position x="0.85h" y="0.1h" w="0.15h" h="0.15h"/>
+        <image x="150" y="50" w="50" h="50"/>
+    </sensor>
+    <sensor enabled="1" key="qsave">
+        <position x="w-0.25h" y="0.1h" w="0.15h" h="0.15h"/>
+        <image x="200" y="0" w="50" h="50"/>
+    </sensor>
+    <sensor enabled="1" key="qload">
+        <position x="w-0.40h" y="0.1h" w="0.15h" h="0.15h"/>
+        <image x="200" y="50" w="50" h="50"/>
+    </sensor>
+</sensors>
+    

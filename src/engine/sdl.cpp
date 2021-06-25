@@ -161,7 +161,7 @@ GPU_Image *load_texture(string str) {
 		if(!textures[str])
 			error_log(SDL_GetError());
 		else
-			info_log("Loaded texture "+str);
+			info_log("Loaded texture "+prefix+"textures/"+str);
 	}
 	return textures[str];
 }
