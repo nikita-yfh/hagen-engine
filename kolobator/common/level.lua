@@ -16,7 +16,6 @@ function Level.update()
 	if(opened) then
 		_,opened=ImGui.Begin("Test",opened,0)
 		ImGui.Text("Hello World!")
-		ImGui.ListBox("list box",0,{"item1","item2"})
 		ImGui.End()
 	end
 end
