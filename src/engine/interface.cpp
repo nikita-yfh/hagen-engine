@@ -667,9 +667,10 @@ void GameInterface::draw() {
 
 void MainMenu::draw() {
 	if(!shown)return;
-	struct {
+	static struct {
 		string text;
 		void(*func)();
+		bool active=false;
 	} buttons[]= {
 		{
 			text::get("main_menu/new_game"),[]() {
@@ -700,32 +701,44 @@ void MainMenu::draw() {
 			}
 		}
 	};
-	uint16_t text_h=FC_GetLineHeight(font);
-	uint16_t pos=SH-borders.bottom-text_h*sizeof(buttons)/sizeof(*buttons);
-
+	//uint16_t text_h=FC_GetLineHeight(font);
+	//uint16_t pos=SH-borders.bottom-text_h*sizeof(buttons)/sizeof(*buttons);
+	SetNextWindowBgAlpha(0.0f);
 	float image_scale=image_h/title->h;
 
 	float image_w=image_scale*title->w;
 	GPU_BlitScale(title,0,ren,borders.left+image_w/2,borders.top+image_h/2,image_scale,image_scale);
-	for(auto button : buttons) {
-		GPU_Rect rect=GPU_MakeRect(borders.left,pos,FC_GetWidth(font,button.text.c_str()),text_h);
-		if(in_rect(mouse.x,mouse.y,rect)) {
-			FC_DrawColor(font,ren,borders.left,pos,active.color(),button.text.c_str());
-			if(mouse.state==1)
-				button.func();
-		} else {
-			FC_DrawColor(font,ren,borders.left,pos,inactive.color(),button.text.c_str());
-		}
-		pos+=text_h;
+	SetNextWindowPos({borders.left,SH-borders.bottom},ImGuiCond_FirstUseEver,{0,1});
+	Begin("mainmenu",0,ImGuiWindowFlags_NoMove|ImGuiWindowFlags_NoResize|ImGuiWindowFlags_NoTitleBar|ImGuiWindowFlags_NoBringToFrontOnFocus);
+	for(auto &button : buttons) {
+		//GPU_Rect rect=GPU_MakeRect(borders.left,pos,FC_GetWidth(font,button.text.c_str()),text_h);
+		//if(in_rect(mouse.x,mouse.y,rect)) {
+
+			//FC_DrawColor(font,ren,borders.left,pos,active.color(),button.text.c_str());
+			//if(mouse.state==1)
+				//button.func();
+		//} else {
+			//FC_DrawColor(font,ren,borders.left,pos,inactive.color(),button.text.c_str());
+		//}
+		//pos+=text_h;
+		if(button.active)
+			TextDisabled("%s",button.text.c_str());
+		else
+			Text("%s",button.text.c_str());
+		button.active=IsItemHovered();
+		if(IsItemClicked())
+			button.func();
+
 	}
+	End();
 }
 void MainMenu::load_config() {
 	XMLNode node=open_xml((prefix+"config/main_menu.xml").c_str(),"main_menu");
 	{
 		XMLNode text=node.getChildNode("text");
 		load_font(font,text,"inactive",SH);
-		load_value(text,"active",active);
-		load_value(text,"inactive",inactive);
+		//load_value(text,"active",active);
+		//load_value(text,"inactive",inactive);
 	}
 	{
 		XMLNode titlen=node.getChildNode("title");
@@ -871,7 +884,6 @@ static vector<const char*> luaval_to_vector_string(lua_State *L,int n) {
 	}
 	return vec;
 }
-
 static int ImBegin(lua_State *L) {
 	int argi = 1;
 	const char* name = lua_tostring(L, argi++);
@@ -908,28 +920,24 @@ static int ImGetContentRegionMax(lua_State *L) {
 	lua_pushnumber(L, ret.y);
 	return 2;
 };
-
 static int ImGetContentRegionAvail(lua_State *L) {
 	ImVec2 ret = GetContentRegionAvail();
 	lua_pushnumber(L, ret.x);
 	lua_pushnumber(L, ret.y);
 	return 2;
 };
-
 static int ImGetWindowContentRegionMin(lua_State *L) {
 	ImVec2 ret = GetWindowContentRegionMin();
 	lua_pushnumber(L, ret.x);
 	lua_pushnumber(L, ret.y);
 	return 2;
 };
-
 static int ImGetWindowContentRegionMax(lua_State *L) {
 	ImVec2 ret = GetWindowContentRegionMax();
 	lua_pushnumber(L, ret.x);
 	lua_pushnumber(L, ret.y);
 	return 2;
 };
-
 static int ImSetNextWindowPos(lua_State *L) {
 	int argi = 1;
 	ImVec2 pos;
@@ -944,7 +952,11 @@ static int ImSetNextWindowPos(lua_State *L) {
 	SetNextWindowPos(pos, cond, pivot);
 	return 0;
 };
-
+static int ImSetNextWindowPosCenter(lua_State *L) {
+	ImGuiCond cond = (ImGuiCond)luaL_optinteger(L, 1, 0);
+	SetNextWindowPosCenter(cond);
+	return 0;
+};
 static int ImSetNextWindowSize(lua_State *L) {
 	int argi = 1;
 	ImVec2 size;
@@ -1021,7 +1033,6 @@ static int ImGetCursorStartPos(lua_State* L) {
 	lua_pushnumber(L, ret.y);
 	return 2;
 };
-
 static int ImGetCursorScreenPos(lua_State* L) {
 	ImVec2 ret = GetCursorScreenPos();
 	lua_pushnumber(L, ret.x);
@@ -1077,7 +1088,6 @@ static int ImButton(lua_State *L) {
 	lua_pushboolean(L, ret);
 	return 1;
 };
-
 static int ImInvisibleButton(lua_State *L) {
 	int argi = 1;
 	const char* str_id = lua_tostring(L, argi++);
@@ -1145,7 +1155,6 @@ static int ImCheckboxFlags(lua_State *L) {
 	lua_pushboolean(L, ret);
 	return 1;
 };
-
 static int ImProgressBar(lua_State *L) {
 	int argi = 1;
 	float fraction = (float)lua_tonumber(L, argi++);
@@ -1205,7 +1214,6 @@ static int ImDragFloat(lua_State *L) {
 	lua_pushnumber(L, v);
 	return 2;
 };
-
 static int ImDragFloat2(lua_State *L) {
 	int argi = 1;
 	const char* label = lua_tostring(L, argi++);
@@ -1223,7 +1231,6 @@ static int ImDragFloat2(lua_State *L) {
 	lua_pushnumber(L, v[1]);
 	return 3;
 };
-
 static int ImDragFloat3(lua_State *L) {
 	int argi = 1;
 	const char* label = lua_tostring(L, argi++);
@@ -1243,7 +1250,6 @@ static int ImDragFloat3(lua_State *L) {
 	lua_pushnumber(L, v[2]);
 	return 4;
 };
-
 static int ImDragFloat4(lua_State *L) {
 	int argi = 1;
 	const char* label = lua_tostring(L, argi++);
@@ -1265,7 +1271,6 @@ static int ImDragFloat4(lua_State *L) {
 	lua_pushnumber(L, v[3]);
 	return 5;
 };
-
 static int ImDragFloatRange2(lua_State *L) {
 	int argi = 1;
 	const char* label = lua_tostring(L, argi++);
@@ -1283,7 +1288,6 @@ static int ImDragFloatRange2(lua_State *L) {
 	lua_pushnumber(L, v_current_max);
 	return 3;
 };
-
 static int ImDragInt(lua_State *L) {
 	int argi = 1;
 	const char* label = lua_tostring(L, argi++);
@@ -1297,7 +1301,6 @@ static int ImDragInt(lua_State *L) {
 	lua_pushinteger(L, v);
 	return 2;
 };
-
 static int ImDragInt2(lua_State *L) {
 	int argi = 1;
 	const char* label = lua_tostring(L, argi++);
@@ -1314,7 +1317,6 @@ static int ImDragInt2(lua_State *L) {
 	lua_pushinteger(L, v[1]);
 	return 3;
 };
-
 static int ImDragInt3(lua_State *L) {
 	int argi = 1;
 	const char* label = lua_tostring(L, argi++);
@@ -1333,7 +1335,6 @@ static int ImDragInt3(lua_State *L) {
 	lua_pushinteger(L, v[2]);
 	return 4;
 };
-
 static int ImDragInt4(lua_State *L) {
 	int argi = 1;
 	const char* label = lua_tostring(L, argi++);
@@ -1354,7 +1355,6 @@ static int ImDragInt4(lua_State *L) {
 	lua_pushinteger(L, v[3]);
 	return 5;
 };
-
 static int ImDragIntRange2(lua_State *L) {
 	int argi = 1;
 	const char* label = lua_tostring(L, argi++);
@@ -1371,7 +1371,6 @@ static int ImDragIntRange2(lua_State *L) {
 	lua_pushinteger(L, v_current_max);
 	return 3;
 };
-
 static int ImSliderFloat(lua_State *L) {
 	int argi = 1;
 	const char* label = lua_tostring(L, argi++);
@@ -1385,7 +1384,6 @@ static int ImSliderFloat(lua_State *L) {
 	lua_pushnumber(L, v);
 	return 2;
 };
-
 static int ImSliderFloat2(lua_State *L) {
 	int argi = 1;
 	const char* label = lua_tostring(L, argi++);
@@ -1402,7 +1400,6 @@ static int ImSliderFloat2(lua_State *L) {
 	lua_pushnumber(L, v[1]);
 	return 3;
 };
-
 static int ImSliderFloat3(lua_State *L) {
 	int argi = 1;
 	const char* label = lua_tostring(L, argi++);
@@ -1421,7 +1418,6 @@ static int ImSliderFloat3(lua_State *L) {
 	lua_pushnumber(L, v[2]);
 	return 4;
 };
-
 static int ImSliderFloat4(lua_State *L) {
 	int argi = 1;
 	const char* label = lua_tostring(L, argi++);
@@ -1442,7 +1438,6 @@ static int ImSliderFloat4(lua_State *L) {
 	lua_pushnumber(L, v[3]);
 	return 5;
 };
-
 static int ImSliderAngle(lua_State *L) {
 	int argi = 1;
 	const char* label = lua_tostring(L, argi++);
@@ -1454,7 +1449,6 @@ static int ImSliderAngle(lua_State *L) {
 	lua_pushnumber(L, v_rad);
 	return 2;
 };
-
 static int ImSliderInt(lua_State *L) {
 	int argi = 1;
 	const char* label = lua_tostring(L, argi++);
@@ -1467,7 +1461,6 @@ static int ImSliderInt(lua_State *L) {
 	lua_pushinteger(L, v);
 	return 2;
 };
-
 static int ImSliderInt2(lua_State *L) {
 	int argi = 1;
 	const char* label = lua_tostring(L, argi++);
@@ -1483,7 +1476,6 @@ static int ImSliderInt2(lua_State *L) {
 	lua_pushinteger(L, v[1]);
 	return 3;
 };
-
 static int ImSliderInt3(lua_State *L) {
 	int argi = 1;
 	const char* label = lua_tostring(L, argi++);
@@ -1501,7 +1493,6 @@ static int ImSliderInt3(lua_State *L) {
 	lua_pushinteger(L, v[2]);
 	return 4;
 };
-
 static int ImSliderInt4(lua_State *L) {
 	int argi = 1;
 	const char* label = lua_tostring(L, argi++);
@@ -1552,7 +1543,6 @@ static int ImVSliderInt(lua_State *L) {
 	lua_pushinteger(L, v);
 	return 2;
 };
-
 static int ImInputText(lua_State *L) {
 	int argi = 1;
 	const char* label = lua_tostring(L, argi++);
@@ -1899,7 +1889,6 @@ static int ImBeginPopupContextWindow(lua_State* L) {
 	lua_pushboolean(L, ret);
 	return 1;
 };
-
 static int ImBeginPopupContextVoid(lua_State* L) {
 	int argi = 1;
 	const char* str_id = luaL_optstring(L, argi++, NULL);
@@ -1908,7 +1897,6 @@ static int ImBeginPopupContextVoid(lua_State* L) {
 	lua_pushboolean(L, ret);
 	return 1;
 };
-
 static int ImBeginPopupModal(lua_State* L) {
 	int argi = 1;
 	const char* name = lua_tostring(L, argi++);
@@ -1929,7 +1917,6 @@ static int ImMenuItem(lua_State* L) {
 	lua_pushboolean(L, ret);
 	return 1;
 };
-
 static int ImMenuItem2(lua_State* L) {
 	int argi = 1;
 	const char* label = lua_tostring(L, argi++);
@@ -1964,7 +1951,6 @@ static int ImGetColumnWidth(lua_State* L) {
 	lua_pushnumber(L, ret);
 	return 1;
 };
-
 static int ImGetColumnOffset(lua_State* L) {
 	int argi = 1;
 	int column_index = (int)luaL_optinteger(L, argi++, -1);
@@ -2010,14 +1996,12 @@ static int ImGetItemRectMin(lua_State* L) {
 	lua_pushnumber(L, ret.y);
 	return 2;
 };
-
 static int ImGetItemRectMax(lua_State* L) {
 	ImVec2 ret = GetItemRectMax();
 	lua_pushnumber(L, ret.x);
 	lua_pushnumber(L, ret.y);
 	return 2;
 };
-
 static int ImGetItemRectSize(lua_State* L) {
 	ImVec2 ret = GetItemRectSize();
 	lua_pushnumber(L, ret.x);
@@ -2033,7 +2017,6 @@ static int ImIsRectVisible(lua_State* L) {
 	lua_pushboolean(L, ret);
 	return 1;
 };
-
 static int ImIsRectVisible2(lua_State* L) {
 	int argi = 1;
 	ImVec2 rect_min;
@@ -2111,6 +2094,7 @@ void bind_imgui() {
 	F("GetWindowContentRegionMax",ImGetWindowContentRegionMax)
 	F("GetWindowContentRegionWidth",GetWindowContentRegionWidth)
 	F("SetNextWindowPos",ImSetNextWindowPos)
+	F("SetNextWindowPosCenter",ImSetNextWindowPosCenter)
 	F("SetNextWindowSize",ImSetNextWindowSize)
 	F("SetNextWindowSizeConstraints",ImSetNextWindowSizeConstraints)
 	F("SetNextWindowContentSize",ImSetNextWindowContentSize)

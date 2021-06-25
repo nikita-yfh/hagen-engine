@@ -117,8 +117,8 @@ struct MainMenu {
 	void draw();
 	void load_config();
 	FC_Font *font;
-	Color active;
-	Color inactive;
+	//Color active;
+	//Color inactive;
 	GPU_Image *title=nullptr;
 	Rect4 borders;
 	float image_h;

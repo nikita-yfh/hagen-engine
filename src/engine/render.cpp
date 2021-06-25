@@ -14,7 +14,6 @@
 #include "text.hpp"
 using namespace std;
 Color scene_mask(0,0,0,0);
-bool show_textures=1;
 float tex_scale=1.0f;
 float weapon_scale=1.0f;
 float effect_scale=1.0f;
@@ -48,8 +47,7 @@ static void fixture_draw(b2Body *body,b2Fixture *fix) {
 	float a_rad=body->GetAngle();
 	float a_deg=a_rad*(180/3.14);
 	GPU_Image *tex=0;
-	if(show_textures)
-		tex=find_texture(F_DATA(fix,texture));
+	tex=find_texture(F_DATA(fix,texture));
 
 	if(F_DATA(fix,expand) && tex)
 		GPU_SetWrapMode(tex, GPU_WRAP_NONE, GPU_WRAP_NONE);
@@ -232,7 +230,7 @@ static void draw_entities(uint8_t pos) {
 				if(F_DATA(fix,pos)==pos)fixture_draw(body.second,fix);
 			}
 		}
-		if(pos==3 && en.second->weapon.texture!="" && show_textures) {
+		if(pos==3 && en.second->weapon.texture!="") {
 			enable_shader(en.second->weapon.texture);
 			float size_y=weapon_scale;
 			if(en.second->weapon.angle>0.5*M_PI&&en.second->weapon.angle<1.5*M_PI)

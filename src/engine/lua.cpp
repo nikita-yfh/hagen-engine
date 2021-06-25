@@ -57,7 +57,7 @@ void clear_loaded_list() {
 static void dofile(string file) {
 	string s=RWget(file.c_str());
 	if(luaL_dostring(L,s.c_str())) {
-		throw string(lua_tostring(L, -1));
+		panic(string(lua_tostring(L, -1)));
 	}else if(s.size())
 		info_log("Loaded script "+file);
 }
@@ -330,7 +330,6 @@ static void bind() {
 	.addFunction("set_mask",&set_mask)
 	.addFunction("preload",&load_texture)	//загрузка текстуры. Позволяет избежать фризов в игре, если все загрузить сразу
 	.addFunction("texture",&find_texture)	//текстура по ID
-	.addProperty("show_textures",&show_textures)	//показывать ли текстуры. не знаю для чего это зожет пригодиться
 	.addFunction("effect",&effect::create)	//создание граффического эффекта в заданных координатах.
 	.addFunction("set_texture_shader",&set_texture_shader)
 	.addFunction("get_shader",&get_shader)

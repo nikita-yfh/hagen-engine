@@ -9,15 +9,9 @@ function Level.init()
     world.position_iterations=10
     world.velocity_iterations=10
 end
-opened=true
 function Level.update()
     local shader=graphics.get_shader("water.png")
 	shader:add_float("time"):set(game.time);
-	if(opened) then
-		_,opened=ImGui.Begin("Test",opened,0)
-		ImGui.Text("Hello World!")
-		ImGui.End()
-	end
 end
 function Level.newgame()
 	if(entity("player")) then player:set_weapon("knife") end
