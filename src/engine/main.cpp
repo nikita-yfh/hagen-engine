@@ -41,6 +41,7 @@ int main(int argc, char * argv[]) {
 				quit();
 			interface.update_imgui();
 		}
+		interface.new_frame();
 		mouse.update();
 		interface.update();
 		if(!interface.shown())

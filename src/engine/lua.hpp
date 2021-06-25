@@ -40,4 +40,5 @@ extern vector<string>loaded;
 void save_luaref(XMLNode n,LuaRef value);
 LuaRef load_luaref(XMLNode n);
 bool is_filled(LuaRef value);
+void dostring(string text);
 };

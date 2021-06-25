@@ -7,6 +7,9 @@
 
 #include <exception>
 #include <string>
+#ifdef LUABRIDGE_DISABLE_EXCEPTIONS
+void panic(std::string message);
+#endif
 
 namespace luabridge {
 
@@ -46,7 +49,11 @@ public:
     template<class Exception>
     static void Throw(Exception e)
     {
+#ifdef LUABRIDGE_DISABLE_EXCEPTIONS
+        panic(e.what());
+#else
         throw e;
+#endif
     }
 
     //----------------------------------------------------------------------------

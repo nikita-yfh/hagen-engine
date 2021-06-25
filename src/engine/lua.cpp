@@ -95,9 +95,9 @@ vector<string>get_table_keys(string name) {
 	return keys;
 }
 
-static void dostring(string text) {
+void dostring(string text) {
 	if(luaL_dostring(L, text.c_str())) {
-		throw string(lua_tostring(L, -1));
+		error_log(lua_tostring(L, -1));
 	}
 }
 static void doscript(string file) {
@@ -510,6 +510,7 @@ static void bind() {
 	.addFunction("add_mat3",&Shader::add_mat3)
 	.addFunction("add_mat4",&Shader::add_mat4)
 	.endClass();
+	bind_imgui();
 }
 static vector<string>get_scripts_list(){
 	vector<string>l;

@@ -146,5 +146,7 @@ struct Interface {
 	int prev_time;
 	void quicksave();
 	void quickload();
+	void new_frame();
 };
 extern Interface interface;
+void bind_imgui();
