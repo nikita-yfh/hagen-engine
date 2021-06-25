@@ -10,14 +10,13 @@ function Level.init()
     world.velocity_iterations=10
 end
 opened=true
-table={0,0,4,5}
 function Level.update()
     local shader=graphics.get_shader("water.png")
 	shader:add_float("time"):set(game.time);
 	if(opened) then
-		if(ImGui.Begin("Test",opened,0)) then opened=ImGui.last end
+		_,opened=ImGui.Begin("Test",opened,0)
 		ImGui.Text("Hello World!")
-		if(ImGui.SliderValueN("t",table,0,100,"%.0f %%")) then table=ImGui.last end
+		ImGui.ListBox("list box",0,{"item1","item2"})
 		ImGui.End()
 	end
 end
