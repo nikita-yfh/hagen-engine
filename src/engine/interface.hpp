@@ -116,7 +116,7 @@ struct MainMenu {
 	bool shown=false;
 	void draw();
 	void load_config();
-	FC_Font *font;
+	ImFont *font;
 	//Color active;
 	//Color inactive;
 	GPU_Image *title=nullptr;
@@ -128,7 +128,7 @@ struct MainMenu {
 struct Interface {
 	void init_imgui();
 	void load_imgui_config();
-	void load_imgui_font(string name,float size);
+	ImFont *load_imgui_font(string name,float size);
 	void update_imgui();
 	GameInterface game_interface;
 	Console console;

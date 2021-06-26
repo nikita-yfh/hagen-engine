@@ -104,8 +104,8 @@ void init() {
 		throw string(SDL_GetError());
 	}
 	info_log("Music inited succesfully");
-	interface.load_config();
 	interface.init_imgui();
+	interface.load_config();
 	info_log("ImGui inited succesfully");
 	interface.update_cursor();
 }
@@ -157,11 +157,12 @@ void set_center_cursor(string name) {
 }
 GPU_Image *load_texture(string str) {
 	if(str.size() && !find_texture(str)) {
-		textures[str]=GPU_LoadImage((prefix+"textures/"+str).c_str());
+		string path= (prefix+"textures/"+str);
+		textures[str]=GPU_LoadImage(path.c_str());
 		if(!textures[str])
 			error_log(SDL_GetError());
 		else
-			info_log("Loaded texture "+prefix+"textures/"+str);
+			info_log("Loaded texture "+path);
 	}
 	return textures[str];
 }

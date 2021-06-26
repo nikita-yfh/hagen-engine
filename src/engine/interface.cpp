@@ -26,7 +26,7 @@ static newFrame_t *newFrame;
 static shutdown_t *shutdown;
 using namespace ImGui;
 
-static inline void trim(std::string &s) {
+static void trim(std::string &s) {
 	while(s[0]==' ')
 		s.erase(s.begin());
 	while(s[s.size()-1]==' ')
@@ -182,7 +182,8 @@ void Interface::load_imgui_config() {
 	saver.config.load(node.getChildNode("saverloader"));
 	levelchooser.config.load(node.getChildNode("levelchooser"));
 }
-void Interface::load_imgui_font(string name,float size) {
+ImFont *Interface::load_imgui_font(string name,float size) {
+	name = (prefix+"fonts/"+name);
 	ImFontConfig font_config;
 	font_config.OversampleH = 1;
 	font_config.OversampleV = 1;
@@ -193,7 +194,9 @@ void Interface::load_imgui_font(string name,float size) {
 		0x0400, 0x044F,
 		0,
 	};
-	GetIO().Fonts->AddFontFromFileTTF((prefix+"fonts/"+name).c_str(), size, &font_config, ranges);
+	ImFont *font=GetIO().Fonts->AddFontFromFileTTF(name.c_str(), size, &font_config, ranges);
+	info_log("Loaded font "+name);
+	return font;
 }
 void Interface::load_config() {
 	game_interface.load_config();
@@ -210,7 +213,6 @@ void Interface::draw() {
 	settingmanager.draw();
 	levelchooser.draw();
 	Render();
-
 }
 void Interface::update_cursor() {
 	if(shown() || mainmenu.shown) {
@@ -736,7 +738,8 @@ void MainMenu::load_config() {
 	XMLNode node=open_xml((prefix+"config/main_menu.xml").c_str(),"main_menu");
 	{
 		XMLNode text=node.getChildNode("text");
-		load_font(font,text,"inactive",SH);
+		font=interface.load_imgui_font(text.getAttribute("name"),text.getAttributef("size"));
+		//load_font(font,text,"inactive",SH);
 		//load_value(text,"active",active);
 		//load_value(text,"inactive",inactive);
 	}
@@ -2062,6 +2065,9 @@ static int ImBeginChildFrame(lua_State* L) {
 	lua_pushboolean(L, ret);
 	return 1;
 };
+static ImFont *ImLoadFont(string name,float size) {
+	return interface.load_imgui_font(name,size);
+}
 void bind_imgui() {
 	ImFlags=new LuaRef(newTable(lua::L));
 #define BN .beginNamespace
@@ -2076,6 +2082,8 @@ void bind_imgui() {
 #define VC(a,b) .addVariable(a,b,0)
 	getGlobalNamespace(lua::L)
 	BN("ImGui")
+	BC<ImFont>("Font")
+	EC
 	F("GetVersion",GetVersion)
 	F("Begin",ImBegin)
 	F("End",End)
@@ -2284,6 +2292,7 @@ void bind_imgui() {
 	F("EndChildFrame",EndChildFrame)
 	F("GetClipboardText",GetClipboardText)
 	F("SetClipboardText",SetClipboardText)
+	F("LoadFont",ImLoadFont)
 	P("Flags",&ImFlags)
 	EN;
 #define ENUM(name,...) "ImGui.Flags." name "={\n" __VA_ARGS__ "}\n"
