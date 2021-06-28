@@ -71,6 +71,15 @@ int main(int argc, char * argv[]) {
 	return 0;
 }
 
+static void mkdir(const char* path){
+	char s[1024];
+	sprintf(s,"mkdir %s",path);
+	if(system(s))
+		error_log(format("Error while creating directory %s",path));
+	else
+		info_log(format("Created directory %s",path));
+}
+
 
 Settings settings;
 
@@ -94,6 +103,7 @@ void Settings::save() {
 void Settings::load() {
 	XMLNode Main=open_xml((saves+"settings.xml").c_str(),"settings");
 	if(Main.isEmpty()) {
+		mkdir(saves.c_str());
 		def();
 		save();
 		load();
