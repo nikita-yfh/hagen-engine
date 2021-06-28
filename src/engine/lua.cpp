@@ -48,8 +48,7 @@ static void set_mask(Color c) {
 	scene_mask=c;
 }
 static void print(LuaRef r) {
-	interface.console.AddLog(r.tostring());
-	cout<<r.tostring()<<endl;
+	info_log(r.tostring());
 }
 void clear_loaded_list() {
 	loaded.clear();
