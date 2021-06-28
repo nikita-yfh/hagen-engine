@@ -20,7 +20,7 @@ public:
 private:
     struct Settings
     {
-        Settings() : hideMetatables(true) {}
+        Settings() : hideMetatables(false) {}
 
         bool hideMetatables;
     };

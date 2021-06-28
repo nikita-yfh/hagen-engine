@@ -169,9 +169,6 @@ static void save_values_state(XMLNode data) {
 			count++;
 		}
 	}
-	XMLNode v=data.addChild("value");
-	v.addAttribute("name","_G");
-	lua::save_luaref(v,luabridge::getGlobal(lua::L,"_G"));
 	data.addAttribute("count",count);
 }
 static void load_values_state(XMLNode data) {

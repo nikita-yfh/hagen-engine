@@ -11,6 +11,7 @@ function Level.init()
 	if(entity("player")) then
 		camera_focus="player" --направляю камеру на ГГ, если он есть
 	end
+	print(jit.os)
 end
 function Level.update()
     local shader=graphics.get_shader("water.png")
