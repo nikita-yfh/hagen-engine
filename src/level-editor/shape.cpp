@@ -36,7 +36,7 @@ BiSymmetrical::BiSymmetrical(b2Vec2 _pos,float _r) {
 	r=_r;
 }
 bool BiSymmetrical::drag(float xp,float yp,int dr) {
-	if(!shows[layer])return 0;
+
 	if(!shows[3+parent(id)->type])return 0;
 	if(dr==0) {
 		if(touch(pos+b2Vec2(r,0), {xp,yp}))	point_ch=2;
@@ -173,7 +173,7 @@ string Circle::name() {
 }
 
 bool BiPoints::drag(float xp,float yp,int dr) {
-	if(!shows[layer])return 0;
+
 	if(!shows[3+parent(id)->type])return 0;
 	if(dr==0) {
 		if(touch(p1, {xp,yp}))	point_ch=1;
@@ -315,7 +315,7 @@ Polygon::Polygon(std::vector<b2Vec2>p) {
 	ex=0;
 }
 bool Polygon::drag(float xp,float yp,int dr) {
-	if(!shows[layer])return 0;
+
 	if(!shows[3+parent(id)->type])return 0;
 	if(dr==0) {
 		for(int q=0; q<size(); q++) {
@@ -467,7 +467,7 @@ Cover::Cover(std::vector<b2Vec2>p,float _w) {
 	w=_w;
 }
 bool Cover::drag(float xp,float yp,int dr) {
-	if(!shows[layer])return 0;
+
 	if(!shows[3+parent(id)->type])return 0;
 	if(dr==0) {
 		for(int q=0; q<size(); q++) {
@@ -653,25 +653,24 @@ void Physic::init(GtkWidget *table) {
 	a1=gtk_adjustment_new(0,0,DENSITY_MAX,		DENSITY_STEP,		DENSITY_STEP,0);
 	a2=gtk_adjustment_new(0,0,FRICTION_MAX,		FRICTION_STEP,		FRICTION_STEP,0);
 	a3=gtk_adjustment_new(0,0,RESTITUTION_MAX,	RESTITUTION_STEP,	RESTITUTION_STEP,0);
+	a4=gtk_adjustment_new(0,-128,127,1,1,0);
 	p1=gtk_spin_button_new(GTK_ADJUSTMENT(a1),0,4);
 	p2=gtk_spin_button_new(GTK_ADJUSTMENT(a2),0,4);
 	p3=gtk_spin_button_new(GTK_ADJUSTMENT(a3),0,4);
+	p4=gtk_spin_button_new(GTK_ADJUSTMENT(a4),0,0);
 	t1=gtk_label_new("Density");
 	t2=gtk_label_new("Friction");
 	t3=gtk_label_new("Restitution");
 	t4=gtk_label_new("Collision category");
+	t5=gtk_label_new("Layer");
 	text=gtk_label_new("Texture");
 	expand=gtk_check_button_new_with_label("Expand texture");
 	entry=gtk_entry_new();
 	combo=gtk_combo_box_new_text();
-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo),"Background");
-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo),"Background physic");
 	gtk_combo_box_append_text(GTK_COMBO_BOX(combo),"Physic");
-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo),"Foreground physic");
+	gtk_combo_box_append_text(GTK_COMBO_BOX(combo),"Sensor");
 	gtk_combo_box_append_text(GTK_COMBO_BOX(combo),"Liquid");
-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo),"Foreground");
-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo),"None");
-	gtk_combo_box_set_active(GTK_COMBO_BOX(combo),2);
+	gtk_combo_box_set_active(GTK_COMBO_BOX(combo),0);
 	c_category=gtk_combo_box_new_text();
 	for(int q=0; q<16; q++) {
 		gtk_combo_box_append_text(GTK_COMBO_BOX(c_category),to_str(q).c_str());
@@ -687,6 +686,8 @@ void Physic::init(GtkWidget *table) {
 	ins_text(table,text,cur_table_string);
 	ins_widget(table,entry,cur_table_string++);
 	ins_widget2(table,expand,cur_table_string++);
+	ins_text(table,t5,cur_table_string);
+	ins_widget(table,p4,cur_table_string++);
 	ins_widget2(table,combo,cur_table_string++);
 	ins_widget2(table,t4,cur_table_string++);
 	ins_widget2(table,c_category,cur_table_string++);
@@ -704,7 +705,8 @@ void Physic::update(Physic *p) {
 	gtk_adjustment_set_value(GTK_ADJUSTMENT(a1),p->density);
 	gtk_adjustment_set_value(GTK_ADJUSTMENT(a2),p->friction);
 	gtk_adjustment_set_value(GTK_ADJUSTMENT(a3),p->restitution);
-	gtk_combo_box_set_active(GTK_COMBO_BOX(combo),p->layer);
+	gtk_adjustment_set_value(GTK_ADJUSTMENT(a4),p->layer);
+	gtk_combo_box_set_active(GTK_COMBO_BOX(combo),p->sn);
 	gtk_combo_box_set_active(GTK_COMBO_BOX(c_category),p->category);
 	gtk_entry_set_text(GTK_ENTRY(entry),p->texture.c_str());
 	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(expand),p->ex);
@@ -716,7 +718,8 @@ void Physic::update1() {
 	p->friction=gtk_adjustment_get_value(GTK_ADJUSTMENT(a2));
 	p->restitution=gtk_adjustment_get_value(GTK_ADJUSTMENT(a3));
 	gtk_widget_queue_draw(drawable);
-	p->layer=gtk_combo_box_get_active(GTK_COMBO_BOX(combo));
+	p->sn=gtk_combo_box_get_active(GTK_COMBO_BOX(combo));
+	p->layer=gtk_adjustment_get_value(GTK_ADJUSTMENT(a4));
 	p->category=gtk_combo_box_get_active(GTK_COMBO_BOX(c_category));
 	string str=gtk_entry_get_text(GTK_ENTRY(entry));
 	p->ex=gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(expand));
@@ -736,10 +739,12 @@ void Physic::show() {
 	gtk_widget_show(p1);
 	gtk_widget_show(p2);
 	gtk_widget_show(p3);
+	gtk_widget_show(p4);
 	gtk_widget_show(t1);
 	gtk_widget_show(t2);
 	gtk_widget_show(t3);
 	gtk_widget_show(t4);
+	gtk_widget_show(t5);
 	gtk_widget_show(combo);
 	gtk_widget_show(text);
 	gtk_widget_show(entry);
@@ -752,10 +757,12 @@ void Physic::hide() {
 	gtk_widget_hide(p1);
 	gtk_widget_hide(p2);
 	gtk_widget_hide(p3);
+	gtk_widget_hide(p4);
 	gtk_widget_hide(t1);
 	gtk_widget_hide(t2);
 	gtk_widget_hide(t3);
 	gtk_widget_hide(t4);
+	gtk_widget_hide(t5);
 	gtk_widget_hide(combo);
 	gtk_widget_hide(text);
 	gtk_widget_hide(entry);

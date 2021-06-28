@@ -300,7 +300,7 @@ void create_menu() {
 	GtkAccelGroup *accel_group;
 	accel_group = gtk_accel_group_new();
 	menu = gtk_item_factory_new(GTK_TYPE_MENU_BAR, "<menu>", accel_group);
-	gtk_item_factory_create_items(menu, 36, menu_items, NULL);
+	gtk_item_factory_create_items(menu, 37, menu_items, NULL);
 	gtk_window_add_accel_group(GTK_WINDOW(window),accel_group);
 	gtk_box_pack_start(GTK_BOX(box_v), gtk_item_factory_get_widget(menu, "<menu>"), FALSE, FALSE, 0);
 	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(menu, "/View/Static bodies")),1);

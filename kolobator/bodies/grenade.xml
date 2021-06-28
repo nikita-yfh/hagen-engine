@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <body type="dynamic" script="grenade" shapes="1">
 	<physic angular_damping="0" linear_damping="0"  bullet="1" fixed_rotation="0" gravity_scale="1"/>
-	<shape id="_Rect1" type="Rect" pos="physic" texture="bullets/grenade.png" expand="1">
+	<shape id="_Rect1" type="Rect" layer="0" sensor="0" texture="bullets/grenade.png" expand="1">
 		<position x1="-0.06" y1="-0.0105" x2="0.06" y2="0.0105"/>
 		<physic density="3000" friction="0.3" restitution="0"/>
 		<collision category="2" mask="65533"/>

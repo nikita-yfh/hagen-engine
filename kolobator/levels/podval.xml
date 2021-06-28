@@ -4,7 +4,7 @@
 	<bodies count="2">
 		<body x="19.4464" y="8.46429" id="allwall" type="static" script="" shapes="2">
 			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
-			<shape id="_Polygon1" type="Polygon" pos="f_physic" texture="black.png" expand="0">
+			<shape id="_Polygon1" type="Polygon" layer="0" sensor="0" texture="black.png" expand="0">
 				<position point_count="56">
 					<point x="8.05355" y="-5.46429"/>
 					<point x="-17.9464" y="-5.46429"/>
@@ -66,7 +66,7 @@
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
 			</shape>
-			<shape id="_Rect1" type="Rect" pos="background" texture="podval_wall.png" expand="0">
+			<shape id="_Rect1" type="Rect" layer="-100" sensor="1" texture="podval_wall.png" expand="0">
 				<position x1="-14.4464" y1="-0.46428" x2="5.55356" y2="2.03571"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
@@ -74,7 +74,7 @@
 		</body>
 		<body x="9" y="9.5" id="_Body1" type="dynamic" script="w_knife" shapes="1">
 			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
-			<shape id="_Rect2" type="Rect" pos="physic" texture="weapon/knife.png" expand="1">
+			<shape id="_Rect2" type="Rect"  layer="0" sensor="0"  texture="weapon/knife.png" expand="1">
 				<position x1="-0.175" y1="-0.0225" x2="0.175" y2="0.0225"/>
 				<physic density="3000" friction="0.3" restitution="0"/>
 				<collision category="1" mask="65533"/>

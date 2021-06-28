@@ -289,19 +289,8 @@ b2Body* read_body(XMLNode bd,b2Vec2 delta,bool temp) {
 		FD_DATA(fix,texture)	=sh.getAttribute("texture");
 		FD_DATA(fix,expand)		=sh.getAttributei("expand");
 		FD_DATA(fix,id)			=sh.getAttribute("id");
-		{
-			//pos
-			string str=sh.getAttribute("pos");
-			if(str=="background")			FD_DATA(fix,pos)=TBGR;
-			else if(str=="b_physic")		FD_DATA(fix,pos)=TPHS1;
-			else if(str=="physic")			FD_DATA(fix,pos)=TPHS2;
-			else if(str=="f_physic")		FD_DATA(fix,pos)=TPHS3;
-			else if(str=="foreground")		FD_DATA(fix,pos)=TFGR;
-			else if(str=="liquid")			FD_DATA(fix,pos)=TLIQUID;
-			else if(str=="none")			FD_DATA(fix,pos)=TNONE;
-			fix.isSensor=(FD_DATA(fix,pos)==TBGR||FD_DATA(fix,pos)>=TFGR);
-			if(FD_DATA(fix,pos)==TLIQUID)fix.isSensor=2;
-		}
+		FD_DATA(fix,layer)=sh.getAttributei("layer");
+		fix.isSensor=sh.getAttributei("sensor");
 		{
 			//physic
 			XMLNode phs=sh.getChildNode("physic");

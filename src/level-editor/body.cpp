@@ -181,32 +181,8 @@ void Body::save(XMLNode &parent,bool p) {
 		sh.addAttribute("id",shape->id);
 		sh.addAttribute("type",shape->name());
 		{
-			//pos
-			string type;
-			switch(shape->layer) {
-			case TBGR:
-				type="background";
-				break;
-			case TPHS1:
-				type="b_physic";
-				break;
-			case TPHS2:
-				type="physic";
-				break;
-			case TPHS3:
-				type="f_physic";
-				break;
-			case TFGR:
-				type="foreground";
-				break;
-			case TLIQUID:
-				type="liquid";
-				break;
-			case TNONE:
-				type="none";
-				break;
-			}
-			sh.addAttribute("pos",type.c_str());
+			sh.addAttribute("layer",(int)shape->layer);
+			sh.addAttribute("sensor",(int)shape->sn);
 			sh.addAttribute("texture",shape->texture.c_str());
 			sh.addAttribute("expand",shape->ex);
 		}
@@ -332,16 +308,8 @@ void Body::load(XMLNode &node,bool p) {
 		shp->id     =sh.getAttribute("id");
 		shp->texture=sh.getAttribute("texture");
 		shp->ex		=sh.getAttributei("expand");
-		{
-			string str=sh.getAttribute("pos");
-			if(str=="background")		shp->layer=TBGR;
-			else if(str=="b_physic")	shp->layer=TPHS1;
-			else if(str=="physic")		shp->layer=TPHS2;
-			else if(str=="f_physic")	shp->layer=TPHS3;
-			else if(str=="foreground")	shp->layer=TFGR;
-			else if(str=="liquid")		shp->layer=TLIQUID;
-			else if(str=="none")		shp->layer=TNONE;
-		}
+		shp->layer  =sh.getAttributei("layer");
+		shp->sn     =sh.getAttributei("sensor");
 		{
 			//physic
 			XMLNode phs=sh.getChildNode("physic");

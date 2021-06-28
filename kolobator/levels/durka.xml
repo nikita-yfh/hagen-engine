@@ -3,28 +3,28 @@
 	<background img="backgrounds/default.png"/>
 	<bodies count="27">
 		<body x="34.053" y="18.625" id="wall" type="static" script="" shapes="6">
-			<physic  angular_damping="0" linear_damping="0" bullet="0" fixed_rotation="0" gravity_scale="1"/>
-			<shape id="_Rect1" type="Rect" pos="physic" texture="durka_wall.png" expand="0">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
+			<shape id="_Rect1" type="Rect" layer="0" sensor="0" texture="durka_wall.png" expand="0">
 				<position x1="-20.053" y1="0.375" x2="-34.053" y2="2.37499"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
 			</shape>
-			<shape id="_Rect2" type="Rect" pos="physic" texture="durka_wall.png" expand="0">
+			<shape id="_Rect2" type="Rect" layer="0" sensor="0" texture="durka_wall.png" expand="0">
 				<position x1="-34.053" y1="2.37504" x2="-16.553" y2="11.3749"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
 			</shape>
-			<shape id="_Rect3" type="Rect" pos="physic" texture="durka_wall.png" expand="0">
-				<position x1="-4.05339" y1="11.3749" x2="-16.553" y2="2.37499"/>
+			<shape id="_Rect3" type="Rect" layer="0" sensor="0" texture="durka_wall.png" expand="0">
+				<position x1="-4.0534" y1="11.3749" x2="-16.553" y2="2.37499"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
 			</shape>
-			<shape id="_Rect9" type="Rect" pos="physic" texture="def.png" expand="0">
+			<shape id="_Rect9" type="Rect" layer="0" sensor="0" texture="def.png" expand="0">
 				<position x1="45.9471" y1="5.375" x2="29.4471" y2="2.37506"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
 			</shape>
-			<shape id="_Polygon1" type="Polygon" pos="physic" texture="durka_wall.png" expand="0">
+			<shape id="_Polygon1" type="Polygon" layer="0" sensor="0" texture="durka_wall.png" expand="0">
 				<position point_count="22">
 					<point x="-34.053" y="-18.625"/>
 					<point x="-34.053" y="-0.125"/>
@@ -34,10 +34,10 @@
 					<point x="-12.5533" y="-8.62491"/>
 					<point x="-27.053" y="-8.62491"/>
 					<point x="-27.053" y="-17.625"/>
-					<point x="5.94659" y="-17.625"/>
-					<point x="5.94659" y="-15.625"/>
-					<point x="-6.05344" y="-15.625"/>
-					<point x="-6.05344" y="-10.125"/>
+					<point x="5.94658" y="-17.625"/>
+					<point x="5.94658" y="-15.625"/>
+					<point x="-6.05345" y="-15.625"/>
+					<point x="-6.05345" y="-10.125"/>
 					<point x="-11.0533" y="-10.125"/>
 					<point x="-11.0533" y="-15.625"/>
 					<point x="-26.053" y="-15.625"/>
@@ -52,215 +52,215 @@
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
 			</shape>
-			<shape id="_Rect4" type="Rect" pos="physic" texture="def.png" expand="0">
+			<shape id="_Rect4" type="Rect" layer="0" sensor="0" texture="def.png" expand="0">
 				<position x1="29.4471" y1="-18.625" x2="45.9471" y2="-0.124916"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
 			</shape>
 		</body>
 		<body x="17.75" y="19.75" id="door" type="kinematic" script="" shapes="1">
-			<physic  angular_damping="0" linear_damping="0" bullet="0" fixed_rotation="0" gravity_scale="1"/>
-			<shape id="_Rect5" type="Rect" pos="b_physic" texture="wooden_box.png" expand="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
+			<shape id="_Rect5" type="Rect" layer="-1" sensor="0" texture="wooden_box.png" expand="1">
 				<position x1="-0.75" y1="-1.25" x2="0.75" y2="1.25"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
 			</shape>
 		</body>
 		<body x="7" y="18.75" id="bullet_sensor" type="static" script="" shapes="1">
-			<physic  angular_damping="0" linear_damping="0" bullet="0" fixed_rotation="0" gravity_scale="1"/>
-			<shape id="_Rect7" type="Rect" pos="foreground" texture="def.png" expand="0">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
+			<shape id="_Rect7" type="Rect" layer="2" sensor="1" texture="def.png" expand="0">
 				<position x1="-7" y1="0.25" x2="7" y2="-0.25"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
 			</shape>
 		</body>
 		<body x="55" y="30" id="_end" type="static" script="" shapes="1">
-			<physic  angular_damping="0" linear_damping="0" bullet="0" fixed_rotation="0" gravity_scale="1"/>
-			<shape id="_Line3" type="Line" pos="physic" texture="" expand="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
+			<shape id="_Line3" type="Line" layer="0" sensor="0" texture="" expand="1">
 				<position x1="-25" y1="0" x2="25" y2="0"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
 			</shape>
 		</body>
 		<body x="31.5" y="21.25" id="platform" type="kinematic" script="" shapes="1">
-			<physic  angular_damping="0" linear_damping="0" bullet="0" fixed_rotation="0" gravity_scale="1"/>
-			<shape id="_Rect8" type="Rect" pos="physic" texture="def.png" expand="0">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
+			<shape id="_Rect8" type="Rect" layer="0" sensor="0" texture="def.png" expand="0">
 				<position x1="-1" y1="-0.25" x2="1" y2="0.25"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
 			</shape>
 		</body>
 		<body x="36.625" y="2.875" id="_Body1" type="dynamic" script="box_27mm_5" shapes="1">
-			<physic angular_damping="0" linear_damping="0"  bullet="0" fixed_rotation="0" gravity_scale="1"/>
-			<shape id="_Rect10" type="Rect" pos="b_physic" texture="durka_wall.png" expand="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
+			<shape id="_Rect10" type="Rect" layer="-1" sensor="0" texture="durka_wall.png" expand="1">
 				<position x1="0.125" y1="-0.125" x2="-0.125" y2="0.125"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65533"/>
 			</shape>
 		</body>
 		<body x="36.375" y="2.875" id="_Body2" type="dynamic" script="box_27mm_5" shapes="1">
-			<physic  angular_damping="0" linear_damping="0" bullet="0" fixed_rotation="0" gravity_scale="1"/>
-			<shape id="_Rect11" type="Rect" pos="b_physic" texture="durka_wall.png" expand="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
+			<shape id="_Rect11" type="Rect" layer="-1" sensor="0" texture="durka_wall.png" expand="1">
 				<position x1="0.125" y1="-0.125" x2="-0.125" y2="0.125"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65533"/>
 			</shape>
 		</body>
 		<body x="36.5" y="2.625" id="_Body3" type="dynamic" script="box_27mm_5" shapes="1">
-			<physic angular_damping="0" linear_damping="0"  bullet="0" fixed_rotation="0" gravity_scale="1"/>
-			<shape id="_Rect12" type="Rect" pos="b_physic" texture="durka_wall.png" expand="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
+			<shape id="_Rect12" type="Rect" layer="-1" sensor="0" texture="durka_wall.png" expand="1">
 				<position x1="0.125" y1="-0.125" x2="-0.125" y2="0.125"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65533"/>
 			</shape>
 		</body>
 		<body x="36.125" y="2.875" id="_Body4" type="dynamic" script="box_27mm_5" shapes="1">
-			<physic angular_damping="0" linear_damping="0"  bullet="0" fixed_rotation="0" gravity_scale="1"/>
-			<shape id="_Rect13" type="Rect" pos="b_physic" texture="durka_wall.png" expand="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
+			<shape id="_Rect13" type="Rect" layer="-1" sensor="0" texture="durka_wall.png" expand="1">
 				<position x1="0.125" y1="-0.125" x2="-0.125" y2="0.125"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65533"/>
 			</shape>
 		</body>
 		<body x="36.25" y="2.625" id="_Body5" type="dynamic" script="box_27mm_5" shapes="1">
-			<physic  angular_damping="0" linear_damping="0" bullet="0" fixed_rotation="0" gravity_scale="1"/>
-			<shape id="_Rect14" type="Rect" pos="b_physic" texture="durka_wall.png" expand="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
+			<shape id="_Rect14" type="Rect" layer="-1" sensor="0" texture="durka_wall.png" expand="1">
 				<position x1="0.125" y1="-0.125" x2="-0.125" y2="0.125"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65533"/>
 			</shape>
 		</body>
 		<body x="36.875" y="2.875" id="_Body7" type="dynamic" script="box_27mm_5" shapes="1">
-			<physic  angular_damping="0" linear_damping="0" bullet="0" fixed_rotation="0" gravity_scale="1"/>
-			<shape id="_Rect16" type="Rect" pos="b_physic" texture="durka_wall.png" expand="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
+			<shape id="_Rect16" type="Rect" layer="-1" sensor="0" texture="durka_wall.png" expand="1">
 				<position x1="0.125" y1="-0.125" x2="-0.125" y2="0.125"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65533"/>
 			</shape>
 		</body>
 		<body x="36.75" y="2.625" id="_Body8" type="dynamic" script="box_27mm_5" shapes="1">
-			<physic  angular_damping="0" linear_damping="0" bullet="0" fixed_rotation="0" gravity_scale="1"/>
-			<shape id="_Rect17" type="Rect" pos="b_physic" texture="durka_wall.png" expand="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
+			<shape id="_Rect17" type="Rect" layer="-1" sensor="0" texture="durka_wall.png" expand="1">
 				<position x1="0.125" y1="-0.125" x2="-0.125" y2="0.125"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65533"/>
 			</shape>
 		</body>
 		<body x="32.5" y="2.875" id="_Body6" type="dynamic" script="health_20" shapes="1">
-			<physic angular_damping="0" linear_damping="0"  bullet="0" fixed_rotation="0" gravity_scale="1"/>
-			<shape id="_Rect15" type="Rect" pos="physic" texture="health.png" expand="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
+			<shape id="_Rect15" type="Rect" layer="0" sensor="0" texture="health.png" expand="1">
 				<position x1="0.125" y1="-0.125" x2="-0.125" y2="0.125"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="2" mask="65533"/>
 			</shape>
 		</body>
 		<body x="32.75" y="2.875" id="_Body9" type="dynamic" script="health_20" shapes="1">
-			<physic angular_damping="0" linear_damping="0"  bullet="0" fixed_rotation="0" gravity_scale="1"/>
-			<shape id="_Rect18" type="Rect" pos="physic" texture="health.png" expand="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
+			<shape id="_Rect18" type="Rect" layer="0" sensor="0" texture="health.png" expand="1">
 				<position x1="0.125" y1="-0.125" x2="-0.125" y2="0.125"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="2" mask="65533"/>
 			</shape>
 		</body>
 		<body x="33" y="2.875" id="_Body10" type="dynamic" script="health_20" shapes="1">
-			<physic  angular_damping="0" linear_damping="0" bullet="0" fixed_rotation="0" gravity_scale="1"/>
-			<shape id="_Rect19" type="Rect" pos="physic" texture="health.png" expand="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
+			<shape id="_Rect19" type="Rect" layer="0" sensor="0" texture="health.png" expand="1">
 				<position x1="0.125" y1="-0.125" x2="-0.125" y2="0.125"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="2" mask="65533"/>
 			</shape>
 		</body>
 		<body x="33.25" y="2.875" id="_Body11" type="dynamic" script="health_20" shapes="1">
-			<physic  angular_damping="0" linear_damping="0" bullet="0" fixed_rotation="0" gravity_scale="1"/>
-			<shape id="_Rect20" type="Rect" pos="physic" texture="health.png" expand="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
+			<shape id="_Rect20" type="Rect" layer="0" sensor="0" texture="health.png" expand="1">
 				<position x1="0.125" y1="-0.125" x2="-0.125" y2="0.125"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="2" mask="65533"/>
 			</shape>
 		</body>
 		<body x="33.5" y="2.875" id="_Body12" type="dynamic" script="health_20" shapes="1">
-			<physic  angular_damping="0" linear_damping="0" bullet="0" fixed_rotation="0" gravity_scale="1"/>
-			<shape id="_Rect21" type="Rect" pos="physic" texture="health.png" expand="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
+			<shape id="_Rect21" type="Rect" layer="0" sensor="0" texture="health.png" expand="1">
 				<position x1="0.125" y1="-0.125" x2="-0.125" y2="0.125"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="2" mask="65533"/>
 			</shape>
 		</body>
 		<body x="33.375" y="2.625" id="_Body13" type="dynamic" script="health_20" shapes="1">
-			<physic  angular_damping="0" linear_damping="0" bullet="0" fixed_rotation="0" gravity_scale="1"/>
-			<shape id="_Rect22" type="Rect" pos="physic" texture="health.png" expand="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
+			<shape id="_Rect22" type="Rect" layer="0" sensor="0" texture="health.png" expand="1">
 				<position x1="0.125" y1="-0.125" x2="-0.125" y2="0.125"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="2" mask="65533"/>
 			</shape>
 		</body>
 		<body x="32.75" y="2.625" id="_Body14" type="dynamic" script="health_20" shapes="1">
-			<physic  angular_damping="0" linear_damping="0" bullet="0" fixed_rotation="0" gravity_scale="1"/>
-			<shape id="_Rect23" type="Rect" pos="physic" texture="health.png" expand="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
+			<shape id="_Rect23" type="Rect" layer="0" sensor="0" texture="health.png" expand="1">
 				<position x1="0.125" y1="-0.125" x2="-0.125" y2="0.125"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="2" mask="65533"/>
 			</shape>
 		</body>
 		<body x="33" y="2.625" id="_Body15" type="dynamic" script="health_20" shapes="1">
-			<physic angular_damping="0" linear_damping="0"  bullet="0" fixed_rotation="0" gravity_scale="1"/>
-			<shape id="_Rect24" type="Rect" pos="physic" texture="health.png" expand="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
+			<shape id="_Rect24" type="Rect" layer="0" sensor="0" texture="health.png" expand="1">
 				<position x1="0.125" y1="-0.125" x2="-0.125" y2="0.125"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="2" mask="65533"/>
 			</shape>
 		</body>
 		<body x="17.25" y="14.875" id="_Body16" type="dynamic" script="health_20" shapes="1">
-			<physic angular_damping="0" linear_damping="0"  bullet="0" fixed_rotation="0" gravity_scale="1"/>
-			<shape id="_Rect25" type="Rect" pos="physic" texture="health.png" expand="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
+			<shape id="_Rect25" type="Rect" layer="0" sensor="0" texture="health.png" expand="1">
 				<position x1="0.125" y1="-0.125" x2="-0.125" y2="0.125"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="2" mask="65533"/>
 			</shape>
 		</body>
 		<body x="18" y="14.875" id="_Body17" type="dynamic" script="health_20" shapes="1">
-			<physic  angular_damping="0" linear_damping="0" bullet="0" fixed_rotation="0" gravity_scale="1"/>
-			<shape id="_Rect26" type="Rect" pos="physic" texture="health.png" expand="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
+			<shape id="_Rect26" type="Rect" layer="0" sensor="0" texture="health.png" expand="1">
 				<position x1="0.125" y1="-0.125" x2="-0.125" y2="0.125"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="2" mask="65533"/>
 			</shape>
 		</body>
 		<body x="17.5" y="14.25" id="_Body18" type="dynamic" script="health_20" shapes="1">
-			<physic angular_damping="0" linear_damping="0"  bullet="0" fixed_rotation="0" gravity_scale="1"/>
-			<shape id="_Rect27" type="Rect" pos="physic" texture="health.png" expand="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
+			<shape id="_Rect27" type="Rect" layer="0" sensor="0" texture="health.png" expand="1">
 				<position x1="0.125" y1="-0.125" x2="-0.125" y2="0.125"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="2" mask="65533"/>
 			</shape>
 		</body>
 		<body x="17" y="14.5" id="_Body19" type="dynamic" script="health_20" shapes="1">
-			<physic  angular_damping="0" linear_damping="0" bullet="0" fixed_rotation="0" gravity_scale="1"/>
-			<shape id="_Rect28" type="Rect" pos="physic" texture="health.png" expand="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
+			<shape id="_Rect28" type="Rect" layer="0" sensor="0" texture="health.png" expand="1">
 				<position x1="0.125" y1="-0.125" x2="-0.125" y2="0.125"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="2" mask="65533"/>
 			</shape>
 		</body>
 		<body x="18.25" y="14.25" id="_Body20" type="dynamic" script="health_20" shapes="1">
-			<physic  angular_damping="0" linear_damping="0" bullet="0" fixed_rotation="0" gravity_scale="1"/>
-			<shape id="_Rect29" type="Rect" pos="physic" texture="health.png" expand="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
+			<shape id="_Rect29" type="Rect" layer="0" sensor="0" texture="health.png" expand="1">
 				<position x1="0.25" y1="-0.25" x2="-0.25" y2="0.25"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="2" mask="65533"/>
 			</shape>
 		</body>
 		<body x="17.75" y="14.625" id="_Body21" type="dynamic" script="health_20" shapes="1">
-			<physic  angular_damping="0" linear_damping="0" bullet="0" fixed_rotation="0" gravity_scale="1"/>
-			<shape id="_Rect30" type="Rect" pos="physic" texture="health.png" expand="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
+			<shape id="_Rect30" type="Rect" layer="0" sensor="0" texture="health.png" expand="1">
 				<position x1="0.125" y1="-0.125" x2="-0.125" y2="0.125"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="2" mask="65533"/>
 			</shape>
 		</body>
 		<body x="16.625" y="14.625" id="_Body28" type="dynamic" script="health_20" shapes="1">
-			<physic  angular_damping="0" linear_damping="0" bullet="0" fixed_rotation="0" gravity_scale="1"/>
-			<shape id="_Rect37" type="Rect" pos="physic" texture="health.png" expand="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
+			<shape id="_Rect37" type="Rect" layer="0" sensor="0" texture="health.png" expand="1">
 				<position x1="0.125" y1="-0.125" x2="-0.125" y2="0.125"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="2" mask="65533"/>

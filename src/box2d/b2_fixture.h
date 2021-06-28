@@ -36,7 +36,7 @@ class b2Fixture;
 struct b2FixtureData {
 	std::string texture;
 	std::string id;
-	uint8_t pos;
+	int8_t layer;
 	uint8_t type;
 	bool expand;
 };

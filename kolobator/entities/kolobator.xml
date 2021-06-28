@@ -3,7 +3,7 @@
 	<bodies count="2">
 		<body x="0.00638709" y="-0.0306129" id="body" type="dynamic" script="" shapes="1">
 			<physic  angular_damping="0" linear_damping="0" bullet="0" fixed_rotation="1" gravity_scale="1"/>
-			<shape id="body_fixture" type="Polygon" pos="physic" texture="kolobator1.png" expand="1">
+			<shape id="body_fixture" type="Polygon" layer="0" sensor="0" texture="kolobator1.png" expand="1">
 				<position point_count="31">
 					<point x="0.0146129" y="-0.138387"/>
 					<point x="0.0416129" y="-0.132387"/>
@@ -43,7 +43,7 @@
 		</body>
 		<body x="0" y="0.12" id="wheel" type="dynamic" script="" shapes="1">
 			<physic angular_damping="15" linear_damping="0"  bullet="0" fixed_rotation="0" gravity_scale="1"/>
-			<shape id="_Circle3" type="Circle" pos="b_physic" texture="wheel.png" expand="1">
+			<shape id="_Circle3" type="Circle" layer="-1" sensor="0" texture="wheel.png" expand="1">
 				<position x="0" y="0" r="0.085"/>
 				<physic density="5000" friction="10" restitution="0"/>
 				<collision category="1" mask="65533"/>

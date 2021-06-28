@@ -216,21 +216,21 @@ static void fixture_draw(b2Body *body,b2Fixture *fix) {
 	}
 	disable_shaders();
 }
-static void draw_bodies(uint8_t pos) {
+static void draw_bodies(int8_t pos) {
 	for(auto &body : bodies) {
 		for(b2Fixture *fix=body.second->GetFixtureList(); fix; fix=fix->GetNext()) {
-			if(F_DATA(fix,pos)==pos)fixture_draw(body.second,fix);
+			if(F_DATA(fix,layer)==pos)fixture_draw(body.second,fix);
 		}
 	}
 }
-static void draw_entities(uint8_t pos) {
+static void draw_entities(int8_t pos) {
 	for(auto &en : entities) {
 		for(auto &body : en.second->bodies) {
 			for(b2Fixture *fix=body.second->GetFixtureList(); fix; fix=fix->GetNext()) {
-				if(F_DATA(fix,pos)==pos)fixture_draw(body.second,fix);
+				if(F_DATA(fix,layer)==pos)fixture_draw(body.second,fix);
 			}
 		}
-		if(pos==3 && en.second->weapon.texture!="") {
+		if(pos==1 && en.second->weapon.texture!="") {
 			enable_shader(en.second->weapon.texture);
 			float size_y=weapon_scale;
 			if(en.second->weapon.angle>0.5*M_PI&&en.second->weapon.angle<1.5*M_PI)
@@ -254,8 +254,7 @@ void draw() {
 	GPU_Clear(ren);
 	GPU_Clear(ren1);
 	draw_bgr();
-
-	for(int q=0; q<6; q++) {
+	for(int q=-128; q<128; q++) {
 		draw_bodies(q);
 		draw_entities(q);
 	}

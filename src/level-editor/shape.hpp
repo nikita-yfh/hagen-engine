@@ -7,14 +7,15 @@ struct Physic : Object {
 	float density=1000.0f;
 	float restitution=0.0f;
 	float friction=0.3f;
-	uint8_t layer=2;
+	int8_t layer=0;
+	uint8_t sn=0;
 	bool ex=1;
 	std::string texture="";
 	unsigned short category=0;
 	unsigned short mask=0xFFFF;
-	static GtkWidget	*p1, *p2, *p3, *t1, *t2, *t3, *t4, *combo, *entry,
+	static GtkWidget	*p1, *p2, *p3, *p4, *t1, *t2, *t3, *t4, *t5, *combo, *entry,
 			  *text, *expand, *set_but, *c_category;
-	static GtkObject *a1, *a2, *a3;
+	static GtkObject *a1, *a2, *a3, *a4;
 	static void init(GtkWidget*);
 	static void show();
 	static void hide();
