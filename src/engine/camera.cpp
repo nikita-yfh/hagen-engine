@@ -6,7 +6,6 @@
 Mouse mouse;
 float cx=0,cy=0;
 float zoom=100;
-bool camera_locked=1;
 void center_body(b2Body *body) {
 	center(body->GetX(),body->GetY());
 }

@@ -1,16 +1,10 @@
 <main_menu>
     <title image="title.png" h="47"/>
-    <text name="DroidSans-lite.ttf" size="0.02h">
-		<active r="255" g="255" b="0" a="255"/>
-		<inactive r="255" g="255" b="255" a="255"/>
-	</text>
+    <text name="DroidSans-lite.ttf" size="0.02h"/>
     <border left="200" right="80" top="0.3h" bottom="0.2h"/>
 </main_menu>
 <main_menu_android>
     <title image="title.png" h="94"/>
-    <text name="DroidSans-lite.ttf" size="0.06h">
-		<active r="255" g="255" b="0" a="255"/>
-		<inactive r="255" g="255" b="255" a="255"/>
-	</text>
+    <text name="DroidSans-lite.ttf" size="0.06h"/>
     <border left="0.3h" right="0.1h" top="0.2h" bottom="0.2h"/>
 </main_menu_android>

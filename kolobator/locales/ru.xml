@@ -63,4 +63,5 @@
         <title value="Выбрать уровень"/>
         <load value="Загрузить"/>
     </levelchooser>
+	<put_knife value="Нажми E, чтобы поднять нож"/>
 </text>

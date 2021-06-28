@@ -1,6 +1,6 @@
 <levels count="5">
 	<level id="podval" open="1" show="1"/>
-	<level id="ground1" open="0" show="1"/>
+	<level id="ground1" open="1" show="1"/>
 	<level id="ground2" open="0" show="1"/>
 	<level id="ground3" open="0" show="1"/>
 	<level id="ground4" open="0" show="1"/>

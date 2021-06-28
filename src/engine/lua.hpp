@@ -18,7 +18,7 @@ extern lua_State *L;
 bool get_interval(unsigned int ms);
 void gameloop();
 void init_level(string,bool n=false);
-void quit();
+void close();
 void init_weapon(Entity *entity,bool ex=1);
 void init_body(b2Body *body,bool ex=1);
 void init_entity(Entity *entity,bool ex=1);

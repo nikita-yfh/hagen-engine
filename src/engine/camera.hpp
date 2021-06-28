@@ -5,7 +5,6 @@ extern float cx,cy;
 extern float zoom;
 void center(float x,float y);
 void center_body(b2Body *body);
-extern bool camera_locked;
 float worldx(float dx);
 float worldy(float dy);
 float drawx(float wx);

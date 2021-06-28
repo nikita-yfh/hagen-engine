@@ -88,7 +88,7 @@ struct SettingManager {
 	Settings set;
 	vector<string>languages;
 	WindowConfig config;
-	bool restart=false;
+	bool restart_f=false;
 	void apply();
 	void show();
 	void hide();

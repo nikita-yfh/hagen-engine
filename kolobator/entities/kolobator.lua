@@ -14,9 +14,6 @@ function kolobator.update(a)
 		return true
 	end
 	a.weapon.angle=game.camera.angle
-	if(game.camera.locked) then
-		game.camera.center_body(a:body("body"))
-	end
 	if(game.press_key("jump")) then kolobator.jump=true end
 	if(game.release_key("jump")) then kolobator.jump=false end
 	if(game.key("left") and b.vx>-kolobator.speed and game.interval(20)) then
@@ -41,29 +38,23 @@ function kolobator.update(a)
 			kolobator.jump=false
 		end
 	end
-	if(game.key("1")) then 
-		a:set_weapon("knife")
-	elseif(game.key("2")) then
-		a:set_weapon("pistol")
-	elseif(game.key("3")) then
-		a:set_weapon("ak47")
-	elseif(game.key("4")) then
-		a:set_weapon("rg6")
+	if(a.userdata.weapons) then
+		if(a.userdata.weapons["knife"] and game.key("1")) then 
+			a:set_weapon("knife")
+		elseif(a.userdata.weapons["pistol"] and game.key("2")) then
+			a:set_weapon("pistol")
+		elseif(a.userdata.weapons["ak47"] and game.key("3")) then
+			a:set_weapon("ak47")
+		elseif(a.userdata.weapons["rg6"] and game.key("4")) then
+			a:set_weapon("rg6")
+		end
 	end
 	local b1=a.weapon.bullet1;
-	local b2=a.weapon.bullet2;
-	if(b1=="" or bullet(b1).count ~= 0) then
+	if(a.weapon.name ~= "" and b1=="" or bullet(b1).count ~= 0) then
 		if(game.press_key("fire1")) then
 			bullet(b1):del(a:fire1())
 		elseif(game.key("fire1")) then
 			bullet(b1):del(a:fire2())
-		end
-	end
-	if(b2== "" or bullet(b2).count ~= 0) then
-		if(game.press_key("fire2")) then
-			bullet(b2):del(a:fire3())
-		elseif(game.key("fire2")) then
-			bullet(b2):del(a:fire4())
 		end
 	end
 	if(a.weapon.angle>math.pi*0.5 and a.weapon.angle<math.pi*1.5) then
@@ -71,6 +62,5 @@ function kolobator.update(a)
 	else
 		b:set_texture("body_fixture","kolobator1.png")
 	end
-    text.add_tip(a.x,a.y-0.5,"Это Колобатор.")
 	return false
 end

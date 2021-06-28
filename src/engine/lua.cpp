@@ -258,6 +258,8 @@ static bool get_release_key(string k) {
 static void bind() {
 #define KEY(key) SDL_GetKeyboardState(key)
 	getGlobalNamespace(L)
+	.addFunction("exit",quit)
+	.addFunction("restart",restart)
 	.beginClass<Color>("Color")
 	.addConstructor<void(*)(uint8_t,uint8_t,uint8_t,uint8_t)>()
 	.addProperty("r",&Color::r)
@@ -307,7 +309,6 @@ static void bind() {
 	.addProperty("zoom",&zoom)
 	.addFunction("center",&center)	//центрирование камеры на координаты уровня
 	.addFunction("center_body",&center_body)	//центрирование камеры на тело
-	.addProperty("locked",&camera_locked)	//блокировка камеры. если заблокирована то двигается на главным героем и двигать нельзя.
 	.addProperty("angle",&mouse_angle)	//угол поворота мыши относительно центра экрана
 	.endNamespace()
 	.addProperty("time",&get_time)		//количество миллисекунд со старта уровня
@@ -592,7 +593,7 @@ void init_level(string name,bool n) {
 	init_entities();
 	init_bodies();
 }
-void quit() {
+void close() {
 	if(L)lua_close(L);
 }
 void save_luaref(XMLNode n,LuaRef value) { //сохраняет в XMLNode переменную

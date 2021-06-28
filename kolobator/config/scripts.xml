@@ -1,4 +1,5 @@
-<scripts count="2">
+<scripts count="3">
 	<script name="common.lua"/>
 	<script name="level.lua"/>
+	<script name="entity.lua"/>
 </scripts>

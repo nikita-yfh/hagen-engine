@@ -3,6 +3,7 @@
 using namespace std;
 extern string prefix;
 extern string saves;
+extern string program_name;
 #define TYPE(a,b) (static_cast<a>(b))
 
 

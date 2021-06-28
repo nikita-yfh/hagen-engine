@@ -169,6 +169,9 @@ static void save_values_state(XMLNode data) {
 			count++;
 		}
 	}
+	XMLNode v=data.addChild("value");
+	v.addAttribute("name","_G");
+	lua::save_luaref(v,luabridge::getGlobal(lua::L,"_G"));
 	data.addAttribute("count",count);
 }
 static void load_values_state(XMLNode data) {
@@ -220,7 +223,6 @@ void save_world_state(string name) {
 		cam.addAttribute("x",cx);
 		cam.addAttribute("y",cy);
 		cam.addAttribute("zoom",zoom);
-		cam.addAttribute("locked",camera_locked);
 	}
 	save_bodies_state(lvl.addChild("bodies"),bodies);
 	save_entities_state(lvl.addChild("entities"),entities);
@@ -249,7 +251,6 @@ void load_world_state(string name) {
 		cx=cam.getAttributef("x");
 		cy=cam.getAttributef("y");
 		zoom=cam.getAttributef("zoom");
-		camera_locked=cam.getAttribute("locked");
 	}
 	load_bodies_state(lvl.getChildNode("bodies"),bodies);
 	load_entities_state(lvl.getChildNode("entities"),entities);
@@ -625,7 +626,7 @@ void open_file(string path) {
 	load_textures();
 }
 void close_level() {
-	destroy_all();
+	destroy_textures();
 	for(auto &j : joints)
 		world->DestroyJoint(j.second);
 	for(auto &b : bodies)
@@ -638,7 +639,7 @@ void close_level() {
 	effect::loaded.clear();
 	text::clear_text();
 	if(world)delete world;
-	lua::quit();
+	lua::close();
 }
 void load_level(string name,bool n) {
 	info_log("Level: "+name);

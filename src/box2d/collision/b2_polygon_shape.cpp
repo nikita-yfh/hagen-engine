@@ -103,7 +103,7 @@ static b2Vec2 ComputeCentroid(const b2Vec2* vs, int32 count) {
 	}
 
 	// Centroid
-	b2Assert(area > b2_epsilon);
+	//b2Assert(area > b2_epsilon);
 	c = (1.0f / area) * c + s;
 	return c;
 }

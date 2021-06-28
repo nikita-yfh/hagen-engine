@@ -527,11 +527,11 @@ void SettingManager::draw() {
 	Text("%s",text::getc("settings/graphics"));
 	int size_input[2]= {set.SW,set.SH};
 	if(InputInt2(text::getc("settings/window_size"),size_input))
-		restart=true;
+		restart_f=true;
 	set.SW=size_input[0];
 	set.SH=size_input[1];
 	if(Checkbox(text::getc("settings/fullscreen"),&set.fullscreen))
-		restart=true;
+		restart_f=true;
 	Text("%s",text::getc("settings/sound"));
 	SliderInt(text::getc("settings/sound_volume"),&set.sound_volume,0,100,"%d%%");
 	SliderInt(text::getc("settings/music_volume"),&set.music_volume,0,100,"%d%%");
@@ -549,7 +549,7 @@ void SettingManager::draw() {
 
 	EndChild();
 	if(Button(text::getc("common/ok"))) {
-		if(restart)
+		if(restart_f)
 			OpenPopup(text::get("settings/restart_title").c_str());
 		else
 			apply();
@@ -571,9 +571,9 @@ void SettingManager::draw() {
 }
 void SettingManager::apply() {
 	set.save();
-	if(restart)
-		quit();
-	else if(settings.language==set.language)
+	if(restart_f)
+		restart();
+	else if(settings.language!=set.language)
 		text::clear_locale();
 	settings=set;
 	hide();
@@ -587,7 +587,7 @@ void SettingManager::update() {
 		XMLNode lang=node.getChildNode("language",q);
 		languages.push_back(lang.getAttribute("id"));
 	}
-	restart=false;
+	restart_f=false;
 }
 void SettingManager::show() {
 	shown=true;
@@ -672,7 +672,7 @@ void MainMenu::draw() {
 	static struct {
 		string text;
 		void(*func)();
-		bool active=false;
+		bool active;
 	} buttons[]= {
 		{
 			text::get("main_menu/new_game"),[]() {
@@ -680,27 +680,27 @@ void MainMenu::draw() {
 				interface.mainmenu.hide();
 				interface.levelchooser.hide();
 				interface.pause.hide();
-			}
+			},0
 		},
 		{
 			text::get("main_menu/choose_level"),[]() {
 				interface.levelchooser.show();
-			}
+			},0
 		},
 		{
 			text::get("main_menu/load_game"),[]() {
 				interface.saver.show(0);
-			}
+			},0
 		},
 		{
 			text::get("main_menu/settings"),[]() {
 				interface.settingmanager.show();
-			}
+			},0
 		},
 		{
 			text::get("main_menu/exit_game"),[]() {
 				quit();
-			}
+			},0
 		}
 	};
 	//uint16_t text_h=FC_GetLineHeight(font);
@@ -712,10 +712,10 @@ void MainMenu::draw() {
 	GPU_BlitScale(title,0,ren,borders.left+image_w/2,borders.top+image_h/2,image_scale,image_scale);
 	SetNextWindowPos({borders.left,SH-borders.bottom},ImGuiCond_FirstUseEver,{0,1});
 	Begin("mainmenu",0,ImGuiWindowFlags_NoMove|ImGuiWindowFlags_NoResize|ImGuiWindowFlags_NoTitleBar|ImGuiWindowFlags_NoBringToFrontOnFocus);
+	PushFont(font);
 	for(auto &button : buttons) {
 		//GPU_Rect rect=GPU_MakeRect(borders.left,pos,FC_GetWidth(font,button.text.c_str()),text_h);
 		//if(in_rect(mouse.x,mouse.y,rect)) {
-
 			//FC_DrawColor(font,ren,borders.left,pos,active.color(),button.text.c_str());
 			//if(mouse.state==1)
 				//button.func();
@@ -732,16 +732,15 @@ void MainMenu::draw() {
 			button.func();
 
 	}
+	PopFont();
 	End();
 }
 void MainMenu::load_config() {
 	XMLNode node=open_xml((prefix+"config/main_menu.xml").c_str(),"main_menu");
 	{
 		XMLNode text=node.getChildNode("text");
-		font=interface.load_imgui_font(text.getAttribute("name"),text.getAttributef("size"));
-		//load_font(font,text,"inactive",SH);
-		//load_value(text,"active",active);
-		//load_value(text,"inactive",inactive);
+		float size=load_scaled_float(text,"size");
+		font=interface.load_imgui_font(text.getAttribute("name"),size);
 	}
 	{
 		XMLNode titlen=node.getChildNode("title");
@@ -1865,7 +1864,7 @@ static int ImBeginMenu(lua_State* L) {
 	return 1;
 };
 static void ImSetTooltip(const char *text){
-	SetTooltip(text);
+	SetTooltip("%s",text);
 }
 static int ImBeginPopup(lua_State* L) {
 	int argi = 1;

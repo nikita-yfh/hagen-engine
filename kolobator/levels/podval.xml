@@ -1,27 +1,83 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <level w="40" h="20">
 	<background img="backgrounds/default.png"/>
-	<bodies count="1">
-		<body x="20.875" y="9.125" id="allwall" type="static" script="" shapes="2">
+	<bodies count="2">
+		<body x="19.4464" y="8.46429" id="allwall" type="static" script="" shapes="2">
 			<physic bullet="0" fixed_rotation="0" gravity_scale="1"/>
-			<shape id="_Polygon1" type="Polygon" pos="physic" texture="wooden_box.png" expand="0">
-				<position point_count="8">
-					<point x="33.125" y="-8.625"/>
-					<point x="-26.875" y="-8.625"/>
-					<point x="-26.875" y="7.875"/>
-					<point x="33.125" y="7.875"/>
-					<point x="33.125" y="1.375"/>
-					<point x="-15.875" y="1.375"/>
-					<point x="-15.875" y="-1.125"/>
-					<point x="33.125" y="-1.125"/>
+			<shape id="_Polygon1" type="Polygon" pos="f_physic" texture="black.png" expand="0">
+				<position point_count="56">
+					<point x="8.05355" y="-5.46429"/>
+					<point x="-17.9464" y="-5.46429"/>
+					<point x="-17.9464" y="8.03571"/>
+					<point x="9.05355" y="8.03571"/>
+					<point x="9.05355" y="-3.96429"/>
+					<point x="8.80355" y="-3.96429"/>
+					<point x="8.80355" y="-3.71429"/>
+					<point x="8.55355" y="-3.71429"/>
+					<point x="8.55355" y="-3.46429"/>
+					<point x="8.30355" y="-3.46429"/>
+					<point x="8.30355" y="-3.21429"/>
+					<point x="8.05355" y="-3.21429"/>
+					<point x="8.05355" y="-2.96429"/>
+					<point x="7.80355" y="-2.96429"/>
+					<point x="7.80355" y="-2.71429"/>
+					<point x="7.55355" y="-2.71429"/>
+					<point x="7.55355" y="-2.46429"/>
+					<point x="7.30355" y="-2.46429"/>
+					<point x="7.30355" y="-2.21429"/>
+					<point x="7.05355" y="-2.21429"/>
+					<point x="7.05355" y="-1.96429"/>
+					<point x="6.80355" y="-1.96429"/>
+					<point x="6.80355" y="-1.71429"/>
+					<point x="6.55355" y="-1.71429"/>
+					<point x="6.55355" y="-1.46429"/>
+					<point x="6.30355" y="-1.46429"/>
+					<point x="6.30355" y="-1.21429"/>
+					<point x="6.05355" y="-1.21429"/>
+					<point x="6.05355" y="-0.964281"/>
+					<point x="5.80355" y="-0.964281"/>
+					<point x="5.80355" y="-0.714281"/>
+					<point x="5.55355" y="-0.714281"/>
+					<point x="5.55355" y="-0.464281"/>
+					<point x="5.30355" y="-0.464281"/>
+					<point x="5.30355" y="-0.214281"/>
+					<point x="5.05355" y="-0.214281"/>
+					<point x="5.05355" y="0.0357189"/>
+					<point x="4.80355" y="0.0357189"/>
+					<point x="4.80355" y="0.285719"/>
+					<point x="4.55356" y="0.285719"/>
+					<point x="4.55356" y="0.535719"/>
+					<point x="4.30356" y="0.535719"/>
+					<point x="4.30356" y="0.785719"/>
+					<point x="4.05356" y="0.785719"/>
+					<point x="4.05356" y="1.03571"/>
+					<point x="3.80356" y="1.03571"/>
+					<point x="3.80356" y="1.28571"/>
+					<point x="3.55356" y="1.28571"/>
+					<point x="3.55356" y="1.53571"/>
+					<point x="3.30356" y="1.53571"/>
+					<point x="3.30356" y="1.78571"/>
+					<point x="3.05356" y="1.78571"/>
+					<point x="3.05356" y="2.03571"/>
+					<point x="-14.4464" y="2.03571"/>
+					<point x="-14.4464" y="-0.464281"/>
+					<point x="3.05355" y="-0.464281"/>
 				</position>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
 			</shape>
 			<shape id="_Rect1" type="Rect" pos="background" texture="podval_wall.png" expand="0">
-				<position x1="-15.875" y1="-1.125" x2="4.125" y2="1.375"/>
+				<position x1="-14.4464" y1="-0.464281" x2="5.55356" y2="2.03571"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
+			</shape>
+		</body>
+		<body x="9" y="9.5" id="_Body1" type="dynamic" script="w_knife" shapes="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1"/>
+			<shape id="_Rect2" type="Rect" pos="physic" texture="weapon/knife.png" expand="1">
+				<position x1="-0.175" y1="-0.0225" x2="0.175" y2="0.0225"/>
+				<physic density="3000" friction="0.3" restitution="0"/>
+				<collision category="1" mask="65533"/>
 			</shape>
 		</body>
 	</bodies>

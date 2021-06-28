@@ -112,20 +112,33 @@ void init() {
 GPU_Image *find_texture(string id) {
 	return textures[id];
 }
+
+void destroy_textures() {
+	for(auto &t : textures)
+		GPU_FreeImage(t.second);
+	textures.clear();
+}
+
+void destroy_all() {
+	delete_target();
+	GPU_Quit();
+	Mix_CloseAudio();
+	Mix_Quit();
+	SDL_Quit();
+	destroy_textures();
+	effect::effects.clear();
+	effect::loaded.clear();
+	close_level();
+}
 void quit() {
-	try {
-		delete_target();
-		GPU_Quit();
-		Mix_CloseAudio();
-		Mix_Quit();
-		SDL_Quit();
-		textures.clear();
-		effect::effects.clear();
-		effect::loaded.clear();
-		close_level();
-	} catch(...) {
-		exit(1);
-	}
+	destroy_all();
+	exit(1);
+}
+void restart() {
+	destroy_all();
+#ifndef ANDROID
+	system(program_name.c_str());
+#endif
 	exit(1);
 }
 void panic(string message) {
@@ -182,11 +195,6 @@ void load_textures() {
 	for(auto ent : entities)
 		load_entity_textures(ent.second);
 	load_texture(background);
-}
-void destroy_all() {
-	for(auto &t : textures)
-		GPU_FreeImage(t.second);
-	textures.clear();
 }
 
 void load_font(FC_Font *&font, XMLNode node,string color,float h) {

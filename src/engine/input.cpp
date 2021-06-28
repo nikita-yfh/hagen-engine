@@ -16,6 +16,7 @@ short get_scancode(string k) {
 	if(k=="down")	return SDL_SCANCODE_S;
 	if(k=="left")	return SDL_SCANCODE_A;
 	if(k=="right")	return SDL_SCANCODE_D;
+	if(k=="action")	return SDL_SCANCODE_E;
 	if(k=="jump")	return SDL_SCANCODE_SPACE;
 	if(k=="action")	return SDL_SCANCODE_E;
 	if(k=="1")		return SDL_SCANCODE_1;

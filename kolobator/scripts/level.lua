@@ -1,5 +1,5 @@
 function Level.init()
-	local shader=Shader("common.vert","water.frag")
+	local shader=Shader("common.vert","water.frag") --шейдер воды
 	shader:add_tex("tex1"):set("diplacement.png");
     graphics.set_texture_shader("water.png",shader)
     graphics.texture_scale=0.5
@@ -8,17 +8,14 @@ function Level.init()
     game.camera.zoom=200
     world.position_iterations=10
     world.velocity_iterations=10
+	if(entity("player")) then
+		camera_focus="player" --направляю камеру на ГГ, если он есть
+	end
 end
 function Level.update()
     local shader=graphics.get_shader("water.png")
 	shader:add_float("time"):set(game.time);
 end
 function Level.newgame()
-	if(entity("player")) then player:set_weapon("knife") end
-	bullet("9mm").count=30
-	bullet("9mm").max=30
-	bullet("762").count=50
-	bullet("762").max=50
-	bullet("grenade").count=6
-	bullet("grenade").max=6
+	player.userdata.weapons={}
 end

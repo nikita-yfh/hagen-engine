@@ -14,11 +14,22 @@
 #include "imgui_impl_sdl.h"
 string prefix="game/";
 string saves="saves/";
+string program_name;
 using namespace luabridge;
+
+static void collectargs(int argc, char * argv[]){
+	for(int q=0;q<argc;q++){
+		program_name += argv[q];
+		program_name += " ";
+	}
+	if(argc>1)levelname=argv[1];
+	if(argc>2)prefix=argv[2];
+
+}
 
 int main(int argc, char * argv[]) {
 	info_log("Welcome to Hagen Engine!");
-	if(argc>2)prefix=argv[2];
+	collectargs(argc,argv);
 #ifdef ANDROID
 	saves=SDL_AndroidGetInternalStoragePath();
 	saves+="/";
@@ -26,7 +37,8 @@ int main(int argc, char * argv[]) {
 #endif
 	init();
 	text::load_config();
-	if(argc>1) load_level(argv[1],true);
+	if(levelname.size())
+		load_level(levelname,true);
 	else
 		interface.mainmenu.show();
 	auto time=chrono::high_resolution_clock::now();
