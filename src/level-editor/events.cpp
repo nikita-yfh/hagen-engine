@@ -366,13 +366,11 @@ void rem_but() {
 	gtk_widget_queue_draw(drawable);
 }
 void views_set() {
-	shows[0]=(GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(menu, "/View/Background layer"))->active);
-	shows[1]=(GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(menu, "/View/Physic layer"))->active);
-	shows[2]=(GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(menu, "/View/Foreground layer"))->active);
-	shows[3]=(GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(menu, "/View/Static bodies"))->active);
-	shows[4]=(GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(menu, "/View/Dynamic bodies"))->active);
-	shows[5]=(GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(menu, "/View/Kinematic bodies"))->active);
-	shows[6]=(GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(menu, "/View/Joints"))->active);
+	shows[0]=(GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(menu, "/View/Static bodies"))->active);
+	shows[1]=(GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(menu, "/View/Dynamic bodies"))->active);
+	shows[2]=(GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(menu, "/View/Kinematic bodies"))->active);
+	shows[3]=(GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(menu, "/View/Joints"))->active);
+	shows[4]=(GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(menu, "/View/Entities"))->active);
 	gtk_widget_queue_draw(drawable);
 }
 void fullscreen_invert() {

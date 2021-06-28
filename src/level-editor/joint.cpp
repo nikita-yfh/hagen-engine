@@ -148,7 +148,7 @@ void WeldJoint::init(GtkWidget *table) {
 	g_signal_connect(G_OBJECT(pd),"value_changed",update1,0);
 }
 void WeldJoint::draw(cairo_t *cr) {
-	if(!shows[6])return;
+	if(!shows[3])return;
 	draw_lines(cr);
 	draw_drag_joint_rect(cr, {x,y},selected&&point_ch);
 	cairo_set_source_rgb(cr,BLACK);
@@ -191,7 +191,7 @@ string WeldJoint::name() {
 	return "WeldJoint";
 }
 bool WeldJoint::drag(float xp,float yp,int dr) {
-	if(!shows[6])return 0;
+	if(!shows[3])return 0;
 	if(dr==0 && touch({x,y}, {xp,yp})) {
 		hide_all();
 		vupdate();
@@ -308,7 +308,7 @@ void RevoluteJoint::init(GtkWidget *table) {
 	g_signal_connect(G_OBJECT(sm),"toggled",update1,0);
 }
 void RevoluteJoint::draw(cairo_t *cr) {
-	if(!shows[6])return;
+	if(!shows[3])return;
 	draw_lines(cr);
 	draw_drag_joint_rect(cr, {x,y},selected&&point_ch);
 	cairo_set_source_rgb(cr,BLACK);
@@ -329,7 +329,7 @@ void RevoluteJoint::draw(cairo_t *cr) {
 	}
 }
 bool RevoluteJoint::drag(float xp,float yp,int dr) {
-	if(!shows[6])return 0;
+	if(!shows[3])return 0;
 	if(dr==0 && touch({x,y}, {xp,yp})) {
 		hide_all();
 		vupdate();
@@ -438,7 +438,7 @@ void PrismaticJoint::init(GtkWidget *table) {
 	g_signal_connect(G_OBJECT(sm),"toggled",update1,0);
 }
 void PrismaticJoint::draw(cairo_t *cr) {
-	if(!shows[6])return;
+	if(!shows[3])return;
 	draw_lines(cr);
 	draw_drag_joint_rect(cr, {x,y},selected&&point_ch==1);
 	cairo_set_source_rgb(cr,BLACK);
@@ -458,7 +458,7 @@ void PrismaticJoint::draw(cairo_t *cr) {
 	}
 }
 bool PrismaticJoint::drag(float xp,float yp,int dr) {
-	if(!shows[6])return 0;
+	if(!shows[3])return 0;
 	if(dr==0) {
 		if(touch({x,y}, {xp,yp}))
 			point_ch=1;
@@ -614,7 +614,7 @@ bool DistanceJoint::create(float xp,float yp,int dr) {
 	return 0;
 }
 void DistanceJoint::draw(cairo_t *cr) {
-	if(!shows[6])return;
+	if(!shows[3])return;
 	draw_drag_joint_rect(cr, {x1,y1},selected&&point_ch==1);
 	draw_drag_joint_rect(cr, {x2,y2},selected&&point_ch==2);
 	cairo_move_to(cr,drawx(x1),drawy(y1));
@@ -633,7 +633,7 @@ void DistanceJoint::draw(cairo_t *cr) {
 	draw_lines(cr);
 }
 bool DistanceJoint::drag(float xp,float yp,int dr) {
-	if(!shows[6])return 0;
+	if(!shows[3])return 0;
 	if(dr==0) {
 		if(touch({x1,y1}, {xp,yp}))	point_ch=1;
 		else	if(touch({x2,y2}, {xp,yp}))	point_ch=2;
@@ -835,7 +835,7 @@ bool PulleyJoint::create(float xp,float yp,int dr) {
 	return 0;
 }
 void PulleyJoint::draw(cairo_t *cr) {
-	if(!shows[6])return;
+	if(!shows[3])return;
 	draw_drag_joint_rect(cr, {x1,y1},selected&&point_ch==1);
 	draw_drag_joint_rect(cr, {x3,y3},selected&&point_ch==3);
 	if(x4>-1000) {
@@ -853,7 +853,7 @@ void PulleyJoint::draw(cairo_t *cr) {
 	draw_lines(cr);
 }
 bool PulleyJoint::drag(float xp,float yp,int dr) {
-	if(!shows[6])return 0;
+	if(!shows[3])return 0;
 	if(dr==0) {
 		if(touch({x1,y1}, {xp,yp}))	point_ch=1;
 		else	if(touch({x2,y2}, {xp,yp}))	point_ch=2;

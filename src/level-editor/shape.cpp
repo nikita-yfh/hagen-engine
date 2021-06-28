@@ -142,8 +142,8 @@ Square::Square(b2Vec2 _pos,float rp) {
 	r=rp;
 }
 void Square::draw(cairo_t *cr) {
-	if(!shows[layer])return;
-	if(!shows[3+parent(id)->type])return;
+
+	if(!shows[parent(id)->type])return;
 	draw_drag_rect(cr,pos,selected&&point_ch==1);
 	draw_drag_rect(cr,pos+b2Vec2(r,0),selected&&point_ch==2);
 	set_shape_color(cr,parent(id)->type);
@@ -159,8 +159,8 @@ string Square::name() {
 	return "Square";
 }
 void Circle::draw(cairo_t *cr) {
-	if(!shows[layer])return;
-	if(!shows[3+parent(id)->type])return;
+
+	if(!shows[parent(id)->type])return;
 	draw_drag_rect(cr,pos,selected&&point_ch==1);
 	draw_drag_rect(cr,pos+b2Vec2(r,0),selected&&point_ch==2);
 	set_shape_color(cr,parent(id)->type);
@@ -298,8 +298,8 @@ string Rect::name() {
 	return "Rect";
 }
 void Rect::draw(cairo_t *cr) {
-	if(!shows[layer])return;
-	if(!shows[3+parent(id)->type])return;
+
+	if(!shows[parent(id)->type])return;
 	draw_drag_rect(cr,p1,selected&&point_ch==1);
 	draw_drag_rect(cr,p2,selected&&point_ch==2);
 	set_shape_color(cr,parent(id)->type);
@@ -380,8 +380,8 @@ bool Polygon::create(float xp,float yp,int dr) {
 }
 
 void Polygon::draw(cairo_t *cr) {
-	if(!shows[layer])return;
-	if(!shows[3+parent(id)->type])return;
+
+	if(!shows[parent(id)->type])return;
 	for(int q=0; q<size(); q++) {
 		draw_drag_rect(cr,points[q],selected&&point_ch==(q+1));
 		draw_drag_rect(cr,(points[(q+1)%size()]+points[q])/2,0);
@@ -532,8 +532,8 @@ bool Cover::create(float xp,float yp,int dr) {
 }
 
 void Cover::draw(cairo_t *cr) {
-	if(!shows[layer])return;
-	if(!shows[3+parent(id)->type])return;
+
+	if(!shows[parent(id)->type])return;
 	for(int q=0; q<size(); q++) {
 		draw_drag_rect(cr,points[q],selected&&point_ch==(q+1));
 		if(q!=0)
@@ -637,8 +637,8 @@ Line::Line(b2Vec2 _p1,b2Vec2 _p2) {
 	p2=_p2;
 }
 void Line::draw(cairo_t *cr) {
-	if(!shows[layer])return;
-	if(!shows[3+parent(id)->type])return;
+
+	if(!shows[parent(id)->type])return;
 	draw_drag_rect(cr,p1,selected&&point_ch==1);
 	draw_drag_rect(cr,p2,selected&&point_ch==2);
 	set_shape_color(cr,parent(id)->type);

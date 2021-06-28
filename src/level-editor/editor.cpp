@@ -34,7 +34,7 @@ GtkTreeStore
 GtkCellRenderer
 *text_ren;
 string save_path="";
-bool shows[7]= {1,1,1,1,1,1,1};
+bool shows[5]= {1,1,1,1,1};
 bool cam_lock=1;
 bool save_ph=0;
 void newl() {
@@ -273,13 +273,11 @@ void create_menu() {
 		{"/View/Zoom in",					"KP_Add",				zoom_plus,			0,	"<StockItem>",	"gtk-zoom-in"},
 		{"/View/Zoom out",					"KP_Subtract",			zoom_minus,			0,	"<StockItem>",	"gtk-zoom-out"},
 		{"/View/Zoom normal",				"<control>0",			zoom_normal,		0,	"<StockItem>",	"gtk-zoom-100"},
-		{"/View/Background layer",			"<control>B",			views_set,			0,	"<ToggleItem>"},
-		{"/View/Physic layer",				"<control>P",			views_set,			0,	"<ToggleItem>"},
-		{"/View/Foreground layer",			"<control>F",			views_set,			0,	"<ToggleItem>"},
 		{"/View/Static bodies",				"",						views_set,			0,	"<ToggleItem>"},
 		{"/View/Dynamic bodies",			"",						views_set,			0,	"<ToggleItem>"},
 		{"/View/Kinematic bodies",			"",						views_set,			0,	"<ToggleItem>"},
 		{"/View/Joints",					"<control>J",			views_set,			0,	"<ToggleItem>"},
+		{"/View/Entities",					"<control>E",			views_set,			0,	"<ToggleItem>"},
 		{"/Tools/View",						"<control>W",			L(change_tool(0);)},
 		{"/Tools/Move",						"<control>M",			L(change_tool(1);)},
 		{"/Tools/Shapes/Polygon",			"<control>1",			L(change_tool(2);)},
@@ -302,16 +300,14 @@ void create_menu() {
 	GtkAccelGroup *accel_group;
 	accel_group = gtk_accel_group_new();
 	menu = gtk_item_factory_new(GTK_TYPE_MENU_BAR, "<menu>", accel_group);
-	gtk_item_factory_create_items(menu, 39, menu_items, NULL);
+	gtk_item_factory_create_items(menu, 36, menu_items, NULL);
 	gtk_window_add_accel_group(GTK_WINDOW(window),accel_group);
 	gtk_box_pack_start(GTK_BOX(box_v), gtk_item_factory_get_widget(menu, "<menu>"), FALSE, FALSE, 0);
-	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(menu, "/View/Background layer")),1);
-	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(menu, "/View/Physic layer")),1);
-	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(menu, "/View/Foreground layer")),1);
 	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(menu, "/View/Static bodies")),1);
 	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(menu, "/View/Dynamic bodies")),1);
 	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(menu, "/View/Kinematic bodies")),1);
 	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(menu, "/View/Joints")),1);
+	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(menu, "/View/Entities")),1);
 	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(menu, "/Editor/Lock level")),1);
 }
 void create_tree_view() {

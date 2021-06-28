@@ -259,6 +259,7 @@ Point::Point(b2Vec2 _pos,string text) {
 	id=text;
 }
 void Point::draw(cairo_t *cr) {
+	if(!shows[4])return;
 	draw_drag_rect(cr,pos,selected&&point_ch);
 	cairo_set_source_rgb(cr,BLACK);
 	cairo_rectangle(cr,drawx(pos.x)-1,drawy(pos.y)-1,3,3);
