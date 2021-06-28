@@ -43,6 +43,7 @@ int main(int argc, char * argv[]) {
 		interface.mainmenu.show();
 	auto time=chrono::high_resolution_clock::now();
 	while(1) {
+		int t=SDL_GetTicks();
 		if(lua::need_load.size()) {
 			load_level(lua::need_load,interface.mainmenu.shown);
 			lua::need_load="";

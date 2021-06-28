@@ -5,6 +5,7 @@
 #include <iostream>
 Mouse mouse;
 float cx=0,cy=0;
+float ix=0,iy=0;
 float zoom=100;
 void center_body(b2Body *body) {
 	center(body->GetX(),body->GetY());
@@ -12,6 +13,13 @@ void center_body(b2Body *body) {
 void center(float x,float y) {
 	cx=x-SW/2/zoom;
 	cy=y-SH/2/zoom;
+}
+void center_input_body(b2Body *body) {
+	center(body->GetX(),body->GetY());
+}
+void center_input(float x,float y) {
+	ix=x-SW/2/zoom;
+	iy=y-SH/2/zoom;
 }
 float worldx(float dx) {
 	return dx/zoom+cx;

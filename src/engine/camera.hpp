@@ -2,9 +2,12 @@
 #include "box2d.h"
 #include "sdl.hpp"
 extern float cx,cy;
+extern float ix,iy;
 extern float zoom;
 void center(float x,float y);
 void center_body(b2Body *body);
+void center_input(float x,float y);
+void center_input_body(b2Body *body);
 float worldx(float dx);
 float worldy(float dy);
 float drawx(float wx);

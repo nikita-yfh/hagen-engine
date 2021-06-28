@@ -306,9 +306,13 @@ static void bind() {
 	.beginNamespace("camera")
 	.addProperty("x",&cx)
 	.addProperty("y",&cy)
+	.addProperty("ix",&ix)
+	.addProperty("iy",&iy)
 	.addProperty("zoom",&zoom)
 	.addFunction("center",&center)	//центрирование камеры на координаты уровня
 	.addFunction("center_body",&center_body)	//центрирование камеры на тело
+	.addFunction("center_input",&center_input)
+	.addFunction("center_input_body",&center_input_body)
 	.addProperty("angle",&mouse_angle)	//угол поворота мыши относительно центра экрана
 	.endNamespace()
 	.addProperty("time",&get_time)		//количество миллисекунд со старта уровня

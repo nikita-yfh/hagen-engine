@@ -14,6 +14,7 @@ function kolobator.update(a)
 		return true
 	end
 	a.weapon.angle=game.camera.angle
+	game.camera.center_input(a.x,a.y)
 	if(game.press_key("jump")) then kolobator.jump=true end
 	if(game.release_key("jump")) then kolobator.jump=false end
 	if(game.key("left") and b.vx>-kolobator.speed and game.interval(20)) then

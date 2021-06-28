@@ -80,7 +80,11 @@ void init() {
 	}
 	info_log("SDL inited succesfully");
 	settings.load();
+#ifdef ANDROID
+	GPU_SetPreInitFlags(GPU_INIT_ENABLE_VSYNC);
+#else
 	GPU_SetPreInitFlags(GPU_INIT_DISABLE_VSYNC);
+#endif
 	ren=GPU_Init(settings.SW,settings.SH,settings.fullscreen?SDL_WINDOW_FULLSCREEN:0);
 	if(!ren) {
 		GPU_ErrorObject error=GPU_PopErrorCode();

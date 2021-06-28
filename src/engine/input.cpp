@@ -1,6 +1,7 @@
 #include "input.hpp"
 #include "utility.hpp"
 #include "interface.hpp"
+#include "camera.hpp"
 
 SDL_Event e;
 
@@ -152,8 +153,9 @@ float mouse_angle(){
 }
 float Mouse::g_angle() {
 	if(interface.mainmenu.shown)return 0.0f;
-	float px=SW/2-x;
-	float py=SH/2-y;
+	info_log(format("cx:%g cy:%g x:%g y:%g",ix,iy,cx,cy));
+	float px=SW/2+(ix-cx)*zoom-x;
+	float py=SH/2+(iy-cy)*zoom-y;
 	return get_angle(px,py);
 }
 void Mouse::update() {
