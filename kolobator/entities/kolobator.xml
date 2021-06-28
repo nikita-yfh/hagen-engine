@@ -1,48 +1,48 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <physics>
 	<bodies count="2">
-		<body x="0.00641946" y="-0.0311613" id="body" type="dynamic" script="" shapes="1">
-			<physic bullet="0" fixed_rotation="1" gravity_scale="1"/>
+		<body x="0.00638709" y="-0.0306129" id="body" type="dynamic" script="" shapes="1">
+			<physic  angular_damping="0" linear_damping="0" bullet="0" fixed_rotation="1" gravity_scale="1"/>
 			<shape id="body_fixture" type="Polygon" pos="physic" texture="kolobator1.png" expand="1">
 				<position point_count="31">
-					<point x="0.0145805" y="-0.137839"/>
-					<point x="0.0415805" y="-0.131839"/>
-					<point x="0.0675805" y="-0.121839"/>
-					<point x="0.0945805" y="-0.105839"/>
-					<point x="0.118581" y="-0.0848387"/>
-					<point x="0.129581" y="-0.0708387"/>
-					<point x="0.143581" y="-0.0498387"/>
-					<point x="0.152581" y="-0.0288387"/>
-					<point x="0.161581" y="0.000161314"/>
-					<point x="0.163581" y="0.0261613"/>
-					<point x="0.161581" y="0.0581613"/>
-					<point x="0.154581" y="0.0871613"/>
-					<point x="0.143581" y="0.111161"/>
-					<point x="0.129581" y="0.133161"/>
-					<point x="0.104581" y="0.160161"/>
-					<point x="0.0765805" y="0.173161"/>
-					<point x="-0.0884195" y="0.172161"/>
-					<point x="-0.116419" y="0.161161"/>
-					<point x="-0.141419" y="0.134161"/>
-					<point x="-0.158419" y="0.106161"/>
-					<point x="-0.169419" y="0.0791613"/>
-					<point x="-0.175419" y="0.0451613"/>
-					<point x="-0.175419" y="0.0121613"/>
-					<point x="-0.169419" y="-0.0168387"/>
-					<point x="-0.158419" y="-0.0448387"/>
-					<point x="-0.145419" y="-0.0668387"/>
-					<point x="-0.126419" y="-0.0888387"/>
-					<point x="-0.100419" y="-0.110839"/>
-					<point x="-0.0714195" y="-0.125839"/>
-					<point x="-0.0444195" y="-0.134839"/>
-					<point x="-0.0174195" y="-0.138839"/>
+					<point x="0.0146129" y="-0.138387"/>
+					<point x="0.0416129" y="-0.132387"/>
+					<point x="0.0676129" y="-0.122387"/>
+					<point x="0.0946129" y="-0.106387"/>
+					<point x="0.118613" y="-0.0853871"/>
+					<point x="0.129613" y="-0.0713871"/>
+					<point x="0.143613" y="-0.0503871"/>
+					<point x="0.152613" y="-0.0293871"/>
+					<point x="0.161613" y="-0.000387097"/>
+					<point x="0.163613" y="0.0256129"/>
+					<point x="0.161613" y="0.0576129"/>
+					<point x="0.154613" y="0.0866129"/>
+					<point x="0.143613" y="0.110613"/>
+					<point x="0.129613" y="0.132613"/>
+					<point x="0.104613" y="0.159613"/>
+					<point x="0.0736129" y="0.180613"/>
+					<point x="-0.0863871" y="0.180613"/>
+					<point x="-0.116387" y="0.160613"/>
+					<point x="-0.141387" y="0.133613"/>
+					<point x="-0.158387" y="0.105613"/>
+					<point x="-0.169387" y="0.0786129"/>
+					<point x="-0.175387" y="0.0446129"/>
+					<point x="-0.175387" y="0.0116129"/>
+					<point x="-0.169387" y="-0.0173871"/>
+					<point x="-0.158387" y="-0.0453871"/>
+					<point x="-0.145387" y="-0.0673871"/>
+					<point x="-0.126387" y="-0.0893871"/>
+					<point x="-0.100387" y="-0.111387"/>
+					<point x="-0.0713871" y="-0.126387"/>
+					<point x="-0.0443871" y="-0.135387"/>
+					<point x="-0.0173871" y="-0.139387"/>
 				</position>
 				<physic density="3000" friction="0.3" restitution="0"/>
 				<collision category="1" mask="65533"/>
 			</shape>
 		</body>
 		<body x="0" y="0.12" id="wheel" type="dynamic" script="" shapes="1">
-			<physic bullet="0" fixed_rotation="0" gravity_scale="1"/>
+			<physic angular_damping="15" linear_damping="0"  bullet="0" fixed_rotation="0" gravity_scale="1"/>
 			<shape id="_Circle3" type="Circle" pos="b_physic" texture="wheel.png" expand="1">
 				<position x="0" y="0" r="0.085"/>
 				<physic density="5000" friction="10" restitution="0"/>

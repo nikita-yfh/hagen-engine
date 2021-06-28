@@ -271,6 +271,8 @@ b2Body* read_body(XMLNode bd,b2Vec2 delta,bool temp) {
 		def.fixedRotation=phs.getAttributei("fixed_rotation");
 		def.bullet=phs.getAttributei("bullet");
 		def.gravityScale=phs.getAttributef("gravity_scale");
+		def.angularDamping=phs.getAttributef("angular_damping");
+		def.linearDamping=phs.getAttributef("linear_damping");
 	}
 	{
 		string str=bd.getAttribute("type");

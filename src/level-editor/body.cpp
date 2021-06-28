@@ -18,6 +18,10 @@ void Body::show() {
 	gtk_widget_show(cr);
 	gtk_widget_show(cb);
 	gtk_widget_show(tt);
+	gtk_widget_show(tad);
+	gtk_widget_show(tld);
+	gtk_widget_show(pad);
+	gtk_widget_show(pld);
 	gtk_widget_show(en_script);
 }
 void Body::hide() {
@@ -32,6 +36,10 @@ void Body::hide() {
 	gtk_widget_hide(cr);
 	gtk_widget_hide(cb);
 	gtk_widget_hide(tt);
+	gtk_widget_hide(tad);
+	gtk_widget_hide(tld);
+	gtk_widget_hide(pad);
+	gtk_widget_hide(pld);
 	gtk_widget_hide(en_script);
 }
 Body::~Body() {
@@ -60,11 +68,17 @@ void Body::init(GtkWidget *table) {
 	ax=gtk_adjustment_new(0,0,level.w,grid,grid,0);
 	ay=gtk_adjustment_new(0,0,level.h,grid,grid,0);
 	as=gtk_adjustment_new(1.0,0,1000,0.1,0.1,0);
+	aad=gtk_adjustment_new(0,0,1000000,0.1,0.1,0);
+	ald=gtk_adjustment_new(0,0,1000000,0.1,0.1,0);
 	px=gtk_spin_button_new(GTK_ADJUSTMENT(ax),0,4);
 	py=gtk_spin_button_new(GTK_ADJUSTMENT(ay),0,4);
 	ps=gtk_spin_button_new(GTK_ADJUSTMENT(as),0,4);
+	pad=gtk_spin_button_new(GTK_ADJUSTMENT(aad),0,4);
+	pld=gtk_spin_button_new(GTK_ADJUSTMENT(ald),0,4);
 	tx=gtk_label_new("X");
 	ty=gtk_label_new("Y");
+	tad=gtk_label_new("Angular\ndamping");
+	tld=gtk_label_new("Linear\ndamping");
 	ts=gtk_label_new("Gravity\nscale");
 	cb=gtk_check_button_new_with_label("Bullet");
 	cr=gtk_check_button_new_with_label("Fixed rotate");
@@ -87,9 +101,15 @@ void Body::init(GtkWidget *table) {
 	ins_widget2(table,cr,cur_table_string++);
 	ins_text(table,tt,cur_table_string);
 	ins_widget(table,en_script,cur_table_string++);
+	ins_text	(table,tad,cur_table_string);
+	ins_widget	(table,pad,cur_table_string++);
+	ins_text	(table,tld,cur_table_string);
+	ins_widget	(table,pld,cur_table_string++);
 
 	g_signal_connect(G_OBJECT(px),"value_changed",update1,0);
 	g_signal_connect(G_OBJECT(py),"value_changed",update1,0);
+	g_signal_connect(G_OBJECT(pld),"value_changed",update1,0);
+	g_signal_connect(G_OBJECT(pad),"value_changed",update1,0);
 	g_signal_connect(G_OBJECT(ps),"value_changed",update1,0);
 	g_signal_connect(G_OBJECT(cr),"toggled",update1,0);
 	g_signal_connect(G_OBJECT(cb),"toggled",update1,0);
@@ -100,6 +120,8 @@ void Body::update(Body *l) {
 	gtk_combo_box_set_active(GTK_COMBO_BOX(combo),l->type);
 	gtk_adjustment_configure(GTK_ADJUSTMENT(ax),l->mean().x,0,level.w,grid,0,0);
 	gtk_adjustment_configure(GTK_ADJUSTMENT(ay),l->mean().y,0,level.h,grid,0,0);
+	gtk_adjustment_configure(GTK_ADJUSTMENT(aad),l->angular_damping,0,1000000,0.1,0,0);
+	gtk_adjustment_configure(GTK_ADJUSTMENT(ald),l->linear_damping, 0,1000000,0.1,0,0);
 	gtk_adjustment_configure(GTK_ADJUSTMENT(as),l->gravity_scale,0,1000,0.1,0.1,0);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(cb),l->bullet);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(cr),l->fixed_rot);
@@ -115,6 +137,8 @@ void Body::update1() {
 	p->fixed_rot=gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(cr));
 	p->gravity_scale=gtk_adjustment_get_value(GTK_ADJUSTMENT(as));
 	p->script=gtk_entry_get_text(GTK_ENTRY(en_script));
+	p->angular_damping=gtk_adjustment_get_value(GTK_ADJUSTMENT(aad));
+	p->linear_damping=gtk_adjustment_get_value(GTK_ADJUSTMENT(ald));
 	gtk_widget_queue_draw(drawable);
 }
 void Body::save(XMLNode &parent,bool p) {
@@ -130,6 +154,8 @@ void Body::save(XMLNode &parent,bool p) {
 		phs.addAttribute("bullet",bullet);
 		phs.addAttribute("fixed_rotation",fixed_rot);
 		phs.addAttribute("gravity_scale",gravity_scale);
+		phs.addAttribute("angular_damping",angular_damping);
+		phs.addAttribute("linear_damping",linear_damping);
 	}
 	{
 		//type
@@ -243,6 +269,8 @@ void Body::load(XMLNode &node,bool p) {
 		gravity_scale=phs.getAttributef("gravity_scale");
 		x=node.getAttributef("x");
 		y=node.getAttributef("y");
+		angular_damping=phs.getAttributef("angular_damping");
+		linear_damping=phs.getAttributef("linear_damping");
 	}
 	{
 		string str=node.getAttribute("type");

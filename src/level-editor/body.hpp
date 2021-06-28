@@ -10,11 +10,13 @@ struct Body : Object {
 	bool fixed_rot=0;
 	bool bullet=0;
 	float gravity_scale=1.0f;
+	float angular_damping=0.0f;
+	float linear_damping=0.0f;
 	bool drag(float xp,float yp,int dr);
 	std::string name();
 	std::string script="";
-	static GtkWidget *combo, *px, *py, *ps, *tx, *ty, *ts, *cb, *cr, *tt, *en_script;
-	static GtkObject *ax, *ay, *as;
+	static GtkWidget *combo, *px, *py, *ps, *tx, *ty, *ts, *cb, *cr, *tt, *en_script, *pad, *pld, *tad, *tld;
+	static GtkObject *ax, *ay, *as, *aad, *ald;
 	static void init(GtkWidget*);
 	static void show();
 	static void hide();
