@@ -116,8 +116,10 @@ void init_body(b2Body *body,bool ex) {
 			doscript("bodies/"+B_DATA(body,script));
 			loaded.emplace_back(B_DATA(body,script));
 		}
-		if(ex)
+		if(ex){
+			getGlobal(L,"Body")["init"](body);
 			getGlobal(L,B_DATA(body,script).c_str())["init"](body);
+		}
 	}
 }
 static void init_bodies() {
@@ -129,7 +131,8 @@ static void init_bodies() {
 static void update_bodies() {
 	for(auto body : bodies) {
 		if(B_DATA(body.second,script).size()) {
-			if(getGlobal(L,B_DATA(body.second,script).c_str())["update"](body.second)) {
+			if(getGlobal(L,"Body")["update"](body.second)||
+					getGlobal(L,B_DATA(body.second,script).c_str())["update"](body.second)) {
 				destroy_body(body.second);
 				return;
 			}
@@ -147,8 +150,8 @@ void init_entity(Entity *entity,bool ex) {
 		loaded.emplace_back(entity->type);
 	}
 	if(ex) {
-		getGlobal(L,entity->type.c_str())["init"](entity);
 		getGlobal(L,"Entity")["init"](entity);
+		getGlobal(L,entity->type.c_str())["init"](entity);
 	}
 }
 static void init_entities() {

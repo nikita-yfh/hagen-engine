@@ -10,13 +10,15 @@ function knife.fire1(w,e)
 	e.userdata.knife_timer=game.time
 	local mas={}
 	mas[e.id]=1
-	world.raycast_callbacks(e.x,e.y,1.5,function(en,d)
+	world.raycast_callbacks(e.x,e.y,0.35,function(en,d)
 		if(mas[en.id]==nil) then
 			graphics.effect("blood",en.x,en.y)
 			en:harm(5)
 			mas[en.id]=true
 		end
-	end,nil)
+	end,function(b,d)
+		crash(b,5)
+	end)
 	return 0
 end
 

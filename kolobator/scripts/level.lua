@@ -6,8 +6,8 @@ function Level.init()
     graphics.weapon_scale=0.5
     graphics.effect_scale=0.5
     game.camera.zoom=200
-    world.position_iterations=10
-    world.velocity_iterations=10
+    world.position_iterations=100
+    world.velocity_iterations=100
 	if(entity("player")) then
 		camera_focus="player" --направляю камеру на ГГ, если он есть
 	end

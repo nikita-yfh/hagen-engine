@@ -102,7 +102,7 @@ static void fixture_draw(b2Body *body,b2Fixture *fix) {
 				GPU_BlitTransformX(tex,0,ren1,
 								   drawx(body->GetPosition().x),drawy(body->GetPosition().y),
 								   (0.5+shape->m_p.x/shape->m_radius/2.0)*tex->w,
-								   (0.5+shape->m_p.y/shape->m_radius/2.0)*tex->h,a_deg+180,
+								   (0.5+shape->m_p.y/shape->m_radius/2.0)*tex->h,a_deg,
 								   zoom*shape->m_radius*2/tex->w,
 								   zoom*shape->m_radius*2/tex->h);
 			} else {

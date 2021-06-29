@@ -98,16 +98,27 @@ void explosion(float x,float y,float radius,float power) {
 
 void raycast_callbacks(float x,float y,float radius,luabridge::LuaRef c_entity, luabridge::LuaRef c_body) {
 	b2Vec2 center(x,y);
+	vector<Entity*>entities_p;
+	vector<b2Body*>bodies_p;
 	for (int i = 0; i < num_rays; i++) {
 		float angle = (i / (float)num_rays) * M_PI * 2;
 		b2Vec2 rayDir( sinf(angle), cosf(angle) );
 		b2Vec2 rayEnd = center + radius * rayDir;
 		RayCastClosestCallback callback;
 		world->RayCast(&callback, center, rayEnd);
-		if ( callback.body ) {
+		bool ok=1;
+		for(b2Body *b : bodies_p)
+			if(callback.body==b)ok=0;
+		if (ok && callback.body) {
+			bodies_p.push_back(callback.body);
 			Entity *ent=whois(callback.body);
-			if(ent && c_entity.isFunction())
+			bool ok=1;
+			for(Entity *e : entities_p)
+				if(ent==e)ok=0;
+			if(ok && ent && c_entity.isFunction()){
 				c_entity(ent,sqrt((callback.m_point-center).Length()));
+				entities_p.push_back(ent);
+			}
 			if(c_body.isFunction())
 				c_body(callback.body,sqrt((callback.m_point-center).Length()));
 		}

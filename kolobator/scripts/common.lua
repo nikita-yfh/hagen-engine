@@ -14,3 +14,8 @@ end
 function init_main_menu()
     loadlevel("ground1")
 end
+function crash(body,value)
+	if(body.userdata.health) then
+		body.userdata.health=body.userdata.health-value
+	end
+end
