@@ -8,7 +8,7 @@
 using namespace std;
 int cur_table_string=0;
 GtkObject	*Point::ax, *Point::ay,
-			*BiPoints::ax1, *BiPoints::ax2, *BiPoints::ay1, *BiPoints::ay2,
+			*BiPoints::ax1, *BiPoints::ax2, *BiPoints::ay1, *BiPoints::ay2, *BiPoints::aw, *BiPoints::ah,
 			*BiSymmetrical::ax, *BiSymmetrical::ay, *BiSymmetrical::ar,
 			*Physic::a1, *Physic::a2, *Physic::a3, *Physic::a4,
 			*Body::ax, *Body::ay, *Body::as, *Body::aad, *Body::ald,
@@ -25,8 +25,8 @@ GtkObject	*Point::ax, *Point::ay,
 			*PulleyJoint::ax3, *PulleyJoint::ax4, *PulleyJoint::ay3, *PulleyJoint::ay4,
 			*PulleyJoint::ar;
 
-GtkWidget	*BiPoints::px1, *BiPoints::px2, *BiPoints::py1, *BiPoints::py2,
-			*BiPoints::tx1, *BiPoints::tx2, *BiPoints::ty1, *BiPoints::ty2,
+GtkWidget	*BiPoints::px1, *BiPoints::px2, *BiPoints::py1, *BiPoints::py2, *BiPoints::pw, *BiPoints::ph,
+			*BiPoints::tx1, *BiPoints::tx2, *BiPoints::ty1, *BiPoints::ty2, *BiPoints::tw, *BiPoints::th,
 			*Physic::combo, *Physic::text, *Physic::entry, *Physic::expand, *Physic::p4, *Physic::t5,
 			*BiSymmetrical::pr, *BiSymmetrical::tr,
 			*BiSymmetrical::py, *BiSymmetrical::px, *BiSymmetrical::tx, *BiSymmetrical::ty,
@@ -188,7 +188,7 @@ void Object::update(Object *p) {
 }
 void Object::update1() {
 	Object *p=TYPE(Object*,get_selected_object());
-	if(!p || point_ch)return;
+	if(!p || point_ch || block)return;
 	string t=gtk_entry_get_text(GTK_ENTRY(entry));
 	vector<Object*> vec=get_all();
 	if(t=="") {
@@ -272,7 +272,7 @@ void Point::draw(cairo_t *cr) {
 bool Point::drag(float xp,float yp,int dr) {
 	if(dr==0 && touch(pos, {xp,yp})) {
 		hide_all();
-		vupdate();
+
 		point_ch=1;
 		return 1;
 	} else if(dr==1&&point_ch==1) {
@@ -326,7 +326,7 @@ void Point::update(Point *p) {
 }
 void Point::update1() {
 	Point *p=TYPE(Point*,get_selected_object());
-	if(!p || point_ch)return;
+	if(!p || point_ch || block)return;
 	p->pos.x=gtk_adjustment_get_value(GTK_ADJUSTMENT(ax));
 	p->pos.y=gtk_adjustment_get_value(GTK_ADJUSTMENT(ay));
 	gtk_widget_queue_draw(drawable);
@@ -366,7 +366,7 @@ void Entity::update(Entity *p) {
 }
 void Entity::update1() {
 	Entity *p=TYPE(Entity*,get_selected_object());
-	if(!p || point_ch)return;
+	if(!p || point_ch || block)return;
 	p->type=gtk_entry_get_text(GTK_ENTRY(entry));
 }
 void Entity::vupdate() {

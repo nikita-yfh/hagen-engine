@@ -42,8 +42,13 @@ void newl() {
 		delete level.joints[q];
 	for(int q=0; q<level.bodies.size(); q++)
 		delete level.bodies[q];
-	level.joints.resize(0);
-	level.bodies.resize(0);
+	for(int q=0; q<level.entities.size(); q++)
+		delete level.entities[q];
+	level.joints.clear();
+	level.bodies.clear();
+	level.entities.clear();
+	gtk_widget_queue_draw(drawable);
+	fill_shapes();
 }
 void run_callback(void*) {
 	string name=save_path;

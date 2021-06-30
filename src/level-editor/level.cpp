@@ -1,5 +1,6 @@
 #include "level.hpp"
 #include "utils.hpp"
+#include "editor.hpp"
 using namespace std;
 extern bool save_ph;
 Level level;
@@ -76,12 +77,13 @@ bool Level::open_file(string path) {
 			bodies[q]->load(bd,1);
 		}
 	}
+	for(int q=0; q<entities.size(); q++) {
+		delete entities[q];
+	}
+	entities.clear();
 	if(all) {
 		//entities
 		XMLNode ens=lvl.getChildNode("entities");
-		for(int q=0; q<entities.size(); q++) {
-			delete entities[q];
-		}
 		entities.resize(ens.getAttributei("count"));
 		for(int q=0; q<entities.size(); q++) {
 			XMLNode en=ens.getChildNode("entity",q);
@@ -96,6 +98,8 @@ bool Level::open_file(string path) {
 	save_ph=!all;
 	load_joints(lvl);
 	hide_all();
+	gtk_widget_queue_draw(drawable);
+	fill_shapes();
 	return 0;
 }
 void Level::save_joints(XMLNode &lvl) {

@@ -28,7 +28,7 @@ void Joint::update(Joint *p) {
 }
 void Joint::update1() {
 	Joint *p=TYPE(Joint*,get_selected_object());
-	if(!p || point_ch)return;
+	if(!p || point_ch || block)return;
 	p->id1=gtk_entry_get_text(GTK_ENTRY(p1));
 	p->id2=gtk_entry_get_text(GTK_ENTRY(p2));
 	p->collide=gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(c_collide));
@@ -89,7 +89,7 @@ void PointJoint::update(PointJoint *p) {
 }
 void PointJoint::update1() {
 	PointJoint *p=TYPE(PointJoint*,get_selected_object());
-	if(!p || point_ch)return;
+	if(!p || point_ch || block)return;
 	p->x=gtk_adjustment_get_value(GTK_ADJUSTMENT(ax));
 	p->y=gtk_adjustment_get_value(GTK_ADJUSTMENT(ay));
 	gtk_widget_queue_draw(drawable);
@@ -175,7 +175,7 @@ void WeldJoint::update(WeldJoint *p) {
 }
 void WeldJoint::update1() {
 	WeldJoint *p=TYPE(WeldJoint*,get_selected_object());
-	if(!p || point_ch)return;
+	if(!p || point_ch || block)return;
 	p->stiffness=gtk_adjustment_get_value(GTK_ADJUSTMENT(as));
 	p->damping=gtk_adjustment_get_value(GTK_ADJUSTMENT(ad));
 	gtk_widget_queue_draw(drawable);
@@ -194,7 +194,7 @@ bool WeldJoint::drag(float xp,float yp,int dr) {
 	if(!shows[3])return 0;
 	if(dr==0 && touch({x,y}, {xp,yp})) {
 		hide_all();
-		vupdate();
+
 		point_ch=1;
 		return 1;
 	} else if(dr==1&&point_ch==1) {
@@ -261,7 +261,7 @@ void GearJoint::update(GearJoint *p) {
 }
 void GearJoint::update1() {
 	GearJoint *p=TYPE(GearJoint*,get_selected_object());
-	if(!p || point_ch)return;
+	if(!p || point_ch || block)return;
 	p->ratio=gtk_adjustment_get_value(GTK_ADJUSTMENT(ar));
 	gtk_widget_queue_draw(drawable);
 }
@@ -332,7 +332,7 @@ bool RevoluteJoint::drag(float xp,float yp,int dr) {
 	if(!shows[3])return 0;
 	if(dr==0 && touch({x,y}, {xp,yp})) {
 		hide_all();
-		vupdate();
+
 		point_ch=1;
 		return 1;
 	} else if(dr==1&&point_ch==1) {
@@ -379,7 +379,7 @@ void RevoluteJoint::update(RevoluteJoint *p) {
 }
 void RevoluteJoint::update1() {
 	RevoluteJoint *p=TYPE(RevoluteJoint*,get_selected_object());
-	if(!p || point_ch)return;
+	if(!p || point_ch || block)return;
 	p->lower=gtk_adjustment_get_value(GTK_ADJUSTMENT(al));
 	p->upper=gtk_adjustment_get_value(GTK_ADJUSTMENT(au));
 	p->speed=gtk_adjustment_get_value(GTK_ADJUSTMENT(as));
@@ -468,7 +468,7 @@ bool PrismaticJoint::drag(float xp,float yp,int dr) {
 			point_ch=3;
 		else return 0;
 		hide_all();
-		vupdate();
+
 		return 1;
 	} else if(dr==1) {
 		if(point_ch==1) {
@@ -527,7 +527,7 @@ void PrismaticJoint::update(PrismaticJoint *p) {
 }
 void PrismaticJoint::update1() {
 	PrismaticJoint *p=TYPE(PrismaticJoint*,get_selected_object());
-	if(!p || point_ch)return;
+	if(!p || point_ch || block)return;
 	p->lower=gtk_adjustment_get_value(GTK_ADJUSTMENT(al));
 	p->upper=gtk_adjustment_get_value(GTK_ADJUSTMENT(au));
 	p->speed=gtk_adjustment_get_value(GTK_ADJUSTMENT(as));
@@ -639,7 +639,7 @@ bool DistanceJoint::drag(float xp,float yp,int dr) {
 		else	if(touch({x2,y2}, {xp,yp}))	point_ch=2;
 		else return 0;
 		hide_all();
-		vupdate();
+
 		return 1;
 	} else if(dr==1&&point_ch) {
 		if(point_ch==1) {
@@ -704,7 +704,7 @@ void DistanceJoint::update(DistanceJoint *p) {
 }
 void DistanceJoint::update1() {
 	DistanceJoint *p=TYPE(DistanceJoint*,get_selected_object());
-	if(!p || point_ch)return;
+	if(!p || point_ch || block)return;
 	p->x1=gtk_adjustment_get_value(GTK_ADJUSTMENT(ax1));
 	p->y1=gtk_adjustment_get_value(GTK_ADJUSTMENT(ay1));
 	p->x2=gtk_adjustment_get_value(GTK_ADJUSTMENT(ax2));
@@ -861,7 +861,7 @@ bool PulleyJoint::drag(float xp,float yp,int dr) {
 		else	if(touch({x4,y4}, {xp,yp}))	point_ch=4;
 		else return 0;
 		hide_all();
-		vupdate();
+
 		return 1;
 	} else if(dr==1&&point_ch) {
 		if(point_ch==1) {
@@ -942,7 +942,7 @@ void PulleyJoint::update(PulleyJoint *p) {
 void PulleyJoint::update1() {
 	if(block)return;
 	PulleyJoint *p=TYPE(PulleyJoint*,get_selected_object());
-	if(!p || point_ch)return;
+	if(!p || point_ch || block)return;
 	p->x1=gtk_adjustment_get_value(GTK_ADJUSTMENT(ax1));
 	p->y1=gtk_adjustment_get_value(GTK_ADJUSTMENT(ay1));
 	p->x2=gtk_adjustment_get_value(GTK_ADJUSTMENT(ax2));

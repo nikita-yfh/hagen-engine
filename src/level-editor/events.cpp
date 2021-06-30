@@ -132,15 +132,15 @@ bool create_shapes(int x,int y,int mouse) {
 	} else if(mouse==2 && create_status) {
 		Object *obj=get_selected_object();
 		if(!obj)return 0;
-		block=1;
-		obj->vupdate();
-		block=0;
 		if(!obj->create(dragx(x),dragy(y),2)) {
 			create_status=0;
 			if(obj->create(dragx(x),dragy(y),3)) {
 				hide_all();
 				rem_but();
 			}
+			block=1;
+			obj->vupdate();
+			block=0;
 		}
 	} else if(mouse==3) {
 		if(create_status) {
@@ -344,7 +344,9 @@ void add_but() {
 		level.bodies.push_back(b);
 		fill_shapes();
 		select_tree_view(b->id);
+		block=1;
 		b->vupdate();
+		block=0;
 	}
 	gtk_widget_destroy(dialog);
 	key_state=0;
@@ -401,7 +403,9 @@ void paste() {
 		level.bodies.push_back(s);
 		fill_shapes();
 		select_tree_view(s->id);
+		block=1;
 		s->vupdate();
+		block=0;
 		create_status=3;
 	}
 	f.close();

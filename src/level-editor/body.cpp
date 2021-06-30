@@ -129,7 +129,7 @@ void Body::update(Body *l) {
 }
 void Body::update1() {
 	Body *p=TYPE(Body*,get_selected_object());
-	if(!p || point_ch)return;
+	if(!p || point_ch || block)return;
 	p->type=gtk_combo_box_get_active(GTK_COMBO_BOX(combo));
 	p->setpos(gtk_adjustment_get_value(GTK_ADJUSTMENT(ax)),
 			  gtk_adjustment_get_value(GTK_ADJUSTMENT(ay)));

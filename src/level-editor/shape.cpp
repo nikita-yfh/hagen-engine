@@ -43,7 +43,7 @@ bool BiSymmetrical::drag(float xp,float yp,int dr) {
 		else	if(touch(pos, {xp,yp}))	point_ch=1;
 		else return 0;
 		hide_all();
-		vupdate();
+
 		return 1;
 	} else if(dr==1&&point_ch) {
 		if(point_ch==1) {
@@ -122,7 +122,7 @@ void BiSymmetrical::update(BiSymmetrical *p) {
 }
 void BiSymmetrical::update1() {
 	BiSymmetrical *p=TYPE(BiSymmetrical*,get_selected_object());
-	if(!p || point_ch)return;
+	if(!p || point_ch || block)return;
 	p->pos.x=gtk_adjustment_get_value(GTK_ADJUSTMENT(ax));
 	p->pos.y=gtk_adjustment_get_value(GTK_ADJUSTMENT(ay));
 	p->r=gtk_adjustment_get_value(GTK_ADJUSTMENT(ar));
@@ -178,9 +178,10 @@ bool BiPoints::drag(float xp,float yp,int dr) {
 	if(dr==0) {
 		if(touch(p1, {xp,yp}))	point_ch=1;
 		else	if(touch(p2, {xp,yp}))	point_ch=2;
+		else	if(touch((p1+p2)/2, {xp,yp}))	point_ch=3;
 		else return 0;
 		hide_all();
-		vupdate();
+
 		return 1;
 	} else if(dr==1&&point_ch) {
 		if(point_ch==1) {
@@ -189,6 +190,10 @@ bool BiPoints::drag(float xp,float yp,int dr) {
 		} else if(point_ch==2) {
 			p2.x=to_grid(xp);
 			p2.y=to_grid(yp);
+		} else if(point_ch==3) {
+			b2Vec2 delta=b2Vec2(to_grid(xp),to_grid(yp))-(p1+p2)/2;
+			p1+=delta;
+			p2+=delta;
 		}
 		return 1;
 	} else if(dr==2)point_ch=0;
@@ -222,14 +227,20 @@ void BiPoints::init(GtkWidget *table) {
 	ay1=gtk_adjustment_new(0,0,level.h,grid,grid,0);
 	ax2=gtk_adjustment_new(0,0,level.w,grid,grid,0);
 	ay2=gtk_adjustment_new(0,0,level.h,grid,grid,0);
+	aw=gtk_adjustment_new(0,-level.w,level.w,grid,grid,0);
+	ah=gtk_adjustment_new(0,-level.h,level.h,grid,grid,0);
 	px1=gtk_spin_button_new(GTK_ADJUSTMENT(ax1),0,4);
 	py1=gtk_spin_button_new(GTK_ADJUSTMENT(ay1),0,4);
 	px2=gtk_spin_button_new(GTK_ADJUSTMENT(ax2),0,4);
 	py2=gtk_spin_button_new(GTK_ADJUSTMENT(ay2),0,4);
+	pw=gtk_spin_button_new(GTK_ADJUSTMENT(aw),0,4);
+	ph=gtk_spin_button_new(GTK_ADJUSTMENT(ah),0,4);
 	tx1=gtk_label_new("X1");
 	ty1=gtk_label_new("Y1");
 	tx2=gtk_label_new("X2");
 	ty2=gtk_label_new("Y2");
+	tw=gtk_label_new("Width ");
+	th=gtk_label_new("Height");
 	ins_text(table,tx1,cur_table_string);
 	ins_widget(table,px1,cur_table_string++);
 	ins_text(table,ty1,cur_table_string);
@@ -238,12 +249,18 @@ void BiPoints::init(GtkWidget *table) {
 	ins_widget(table,px2,cur_table_string++);
 	ins_text(table,ty2,cur_table_string);
 	ins_widget(table,py2,cur_table_string++);
+	ins_text(table,tw,cur_table_string);
+	ins_widget(table,pw,cur_table_string++);
+	ins_text(table,th,cur_table_string);
+	ins_widget(table,ph,cur_table_string++);
 
 
 	g_signal_connect(G_OBJECT(px1),"value_changed",update1,0);
 	g_signal_connect(G_OBJECT(py1),"value_changed",update1,0);
 	g_signal_connect(G_OBJECT(px2),"value_changed",update1,0);
 	g_signal_connect(G_OBJECT(py2),"value_changed",update1,0);
+	g_signal_connect(G_OBJECT(pw),"value_changed",update1,0);
+	g_signal_connect(G_OBJECT(ph),"value_changed",update1,0);
 
 }
 
@@ -257,6 +274,10 @@ void BiPoints::show() {
 	gtk_widget_show(ty1);
 	gtk_widget_show(tx2);
 	gtk_widget_show(ty2);
+	gtk_widget_show(tw);
+	gtk_widget_show(th);
+	gtk_widget_show(pw);
+	gtk_widget_show(ph);
 }
 void BiPoints::hide() {
 	Physic::hide();
@@ -268,20 +289,42 @@ void BiPoints::hide() {
 	gtk_widget_hide(ty1);
 	gtk_widget_hide(tx2);
 	gtk_widget_hide(ty2);
+	gtk_widget_hide(tw);
+	gtk_widget_hide(th);
+	gtk_widget_hide(pw);
+	gtk_widget_hide(ph);
 }
 void BiPoints::update(BiPoints *p) {
 	gtk_adjustment_configure(GTK_ADJUSTMENT(ax1),p->p1.x,0,level.w,grid,0,0);
 	gtk_adjustment_configure(GTK_ADJUSTMENT(ay1),p->p1.y,0,level.h,grid,0,0);
 	gtk_adjustment_configure(GTK_ADJUSTMENT(ax2),p->p2.x,0,level.w,grid,0,0);
 	gtk_adjustment_configure(GTK_ADJUSTMENT(ay2),p->p2.y,0,level.h,grid,0,0);
+	gtk_adjustment_configure(GTK_ADJUSTMENT(aw),p->p2.x-p->p1.x,-level.w,level.w,grid,0,0);
+	gtk_adjustment_configure(GTK_ADJUSTMENT(ah),p->p2.y-p->p1.y,-level.h,level.h,grid,0,0);
 }
+#include <iostream>
 void BiPoints::update1() {
 	BiPoints *p=TYPE(BiPoints*,get_selected_object());
-	if(!p || point_ch)return;
-	p->p1.x=gtk_adjustment_get_value(GTK_ADJUSTMENT(ax1));
-	p->p1.y=gtk_adjustment_get_value(GTK_ADJUSTMENT(ay1));
-	p->p2.x=gtk_adjustment_get_value(GTK_ADJUSTMENT(ax2));
-	p->p2.y=gtk_adjustment_get_value(GTK_ADJUSTMENT(ay2));
+	if(!p || point_ch || block)return;
+	b2Vec2 d1={
+		gtk_adjustment_get_value(GTK_ADJUSTMENT(ax1)),
+		gtk_adjustment_get_value(GTK_ADJUSTMENT(ay1))
+	};
+	b2Vec2 d2={
+		gtk_adjustment_get_value(GTK_ADJUSTMENT(ax2)),
+		gtk_adjustment_get_value(GTK_ADJUSTMENT(ay2))
+	};
+	b2Vec2 s={
+		gtk_adjustment_get_value(GTK_ADJUSTMENT(aw)),
+		gtk_adjustment_get_value(GTK_ADJUSTMENT(ah))
+	};
+	if(d2-d1!=p->p2-p->p1){
+		std::cout<<"a\n";
+		p->p1=d1;p->p2=d2;
+	}else if(s!=p->p2-p->p1){
+		std::cout<<"b\n";
+		p->p2=p->p1+s;
+	}
 	gtk_widget_queue_draw(drawable);
 }
 void BiPoints::vupdate() {
@@ -302,6 +345,7 @@ void Rect::draw(cairo_t *cr) {
 	if(!shows[parent(id)->type])return;
 	draw_drag_rect(cr,p1,selected&&point_ch==1);
 	draw_drag_rect(cr,p2,selected&&point_ch==2);
+	draw_drag_rect(cr,(p1+p2)/2,selected&&point_ch==3);
 	set_shape_color(cr,parent(id)->type);
 	cairo_rectangle(cr,drawx(p1.x),drawy(p1.y),(p2-p1).x*zoom,(p2-p1).y*zoom);
 	cairo_stroke_preserve(cr);
@@ -322,14 +366,14 @@ bool Polygon::drag(float xp,float yp,int dr) {
 			if(touch(points[q], {xp,yp})) {
 				point_ch=q+1;
 				hide_all();
-				vupdate();
+
 				return 1;
 			}
 			if(touch((points[(q+1)%size()]+points[q])/2, {xp,yp})) {
 				points.insert(points.begin()+q+1, {to_grid(xp),to_grid(yp)});
 				point_ch=q+2;
 				hide_all();
-				vupdate();
+
 				return 1;
 			}
 		}
@@ -437,7 +481,7 @@ void Polygon::update(Polygon *p) {
 void Polygon::update1() {
 	if(block)return;
 	Polygon *p=TYPE(Polygon*,get_selected_object());
-	if(!p || point_ch)return;
+	if(!p || point_ch || block)return;
 	float xp=gtk_adjustment_get_value(GTK_ADJUSTMENT(ax));
 	float yp=gtk_adjustment_get_value(GTK_ADJUSTMENT(ay));
 	b2Vec2 vec=p->mean();
@@ -474,14 +518,14 @@ bool Cover::drag(float xp,float yp,int dr) {
 			if(touch(points[q], {xp,yp})) {
 				point_ch=q+1;
 				hide_all();
-				vupdate();
+
 				return 1;
 			}
 			if(touch((points[(q+1)%size()]+points[q])/2, {xp,yp})) {
 				points.insert(points.begin()+q+1, {to_grid(xp),to_grid(yp)});
 				point_ch=q+2;
 				hide_all();
-				vupdate();
+
 				return 1;
 			}
 		}
@@ -610,7 +654,7 @@ void Cover::update(Cover *p) {
 void Cover::update1() {
 	if(block)return;
 	Cover *p=TYPE(Cover*,get_selected_object());
-	if(!p || point_ch)return;
+	if(!p || point_ch || block)return;
 	float xp=gtk_adjustment_get_value(GTK_ADJUSTMENT(ax));
 	float yp=gtk_adjustment_get_value(GTK_ADJUSTMENT(ay));
 	p->w=gtk_adjustment_get_value(GTK_ADJUSTMENT(ad));
@@ -713,7 +757,7 @@ void Physic::update(Physic *p) {
 }
 void Physic::update1() {
 	Physic *p=TYPE(Physic*,get_selected_object());
-	if(!p || point_ch)return;
+	if(!p || point_ch || block)return;
 	p->density=gtk_adjustment_get_value(GTK_ADJUSTMENT(a1));
 	p->friction=gtk_adjustment_get_value(GTK_ADJUSTMENT(a2));
 	p->restitution=gtk_adjustment_get_value(GTK_ADJUSTMENT(a3));

@@ -61,8 +61,8 @@ struct BiPoints : Physic {
 	bool drag(float xp,float yp,int dr);
 	bool create(float xp,float yp,int dr);
 	std::vector<b2Vec2*> get_points();
-	static GtkWidget *px1, *px2, *py1, *py2, *tx1, *tx2, *ty1, *ty2;
-	static GtkObject *ax1, *ax2, *ay1, *ay2;
+	static GtkWidget *px1, *px2, *py1, *py2, *tx1, *tx2, *ty1, *ty2, *pw, *ph, *tw, *th;
+	static GtkObject *ax1, *ax2, *ay1, *ay2, *aw, *ah;
 	static void init(GtkWidget*);
 	static void show();
 	static void hide();
