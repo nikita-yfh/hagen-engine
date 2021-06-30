@@ -8,6 +8,8 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY bin)
 add_definitions(-DFC_USE_SDL_GPU -DLUABRIDGE_DISABLE_EXCEPTIONS)
 set(CMAKE_CXX_STANDART 11)
 
+option(EXT_LUAJIT "External LuaJit" OFF)
+
 set(LEVEL_EDITOR_SOURCES
         src/level-editor/main.cpp
         src/level-editor/object.cpp
@@ -175,6 +177,12 @@ set(ENGINE_HEADERS
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(SDL REQUIRED sdl2 SDL2_ttf SDL2_mixer)
 pkg_check_modules(GTK REQUIRED gtk+-2.0)
+if(EXT_LUAJIT)
+	pkg_check_modules(LUA REQUIRED luajit)
+	include_directories(${LUA_INCLUDE_DIRS})
+else()
+	add_subdirectory("src/LuaJIT-cmake")
+endif()
 include_directories(
         ${SDL_INCLUDE_DIRS}
         ${GTK_INCLUDE_DIRS}
@@ -193,21 +201,24 @@ include_directories(
 
 add_executable(${ENGINE} ${ENGINE_SOURCES} ${ENGINE_HEADERS})
 add_executable(${LEVEL_EDITOR} ${LEVEL_EDITOR_SOURCES} ${LEVEL_EDITOR_HEADERS})
-add_subdirectory("src/LuaJIT-cmake")
 add_subdirectory("src/sdl-gpu")
 add_subdirectory("src/imgui")
 
 
 target_link_libraries (${ENGINE}
-        ${SDL_LIBRARIES}
-        ${IMGUI_LIBRARIES}
-		liblua-static		
-        SDL_gpu_shared
-        imgui_sdl2
+	${SDL_LIBRARIES}
+	${IMGUI_LIBRARIES}
+	SDL_gpu_shared
+	imgui_sdl2
 )
+if(EXT_LUAJIT)
+	target_link_libraries(${ENGINE} ${LUA_LIBRARIES})
+else()
+	target_link_libraries(${ENGINE} liblua-static)
+endif()
 if(UNIX)
-        target_link_libraries (${ENGINE} ${GTK_LIBRARIES})
+	target_link_libraries (${ENGINE} ${GTK_LIBRARIES})
 endif()
 target_link_libraries (${LEVEL_EDITOR}
-        ${GTK_LIBRARIES}
+	${GTK_LIBRARIES}
 )
