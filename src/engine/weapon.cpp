@@ -72,7 +72,7 @@ void explosion_callbacks(float x,float y,float radius,float power,luabridge::Lua
 		b2Vec2 rayEnd = center + radius * rayDir;
 		RayCastClosestCallback callback;
 		world->RayCast(&callback, center, rayEnd);
-		if ( callback.body ) {
+		if (callback.body) {
 			applyBlastImpulse(callback.body, center, callback.m_point, (power / (float)num_rays));
 			Entity *ent=whois(callback.body);
 			if(ent && c_entity.isFunction())
