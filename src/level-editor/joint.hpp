@@ -45,7 +45,7 @@ struct GearJoint : Joint {
 	static void update (GearJoint *p);
 	static void update1();
 	void vupdate();
-	std::string name();
+	std::string name() const;
 };
 struct WeldJoint : PointJoint {
 	WeldJoint() {}
@@ -61,7 +61,7 @@ struct WeldJoint : PointJoint {
 	static void update (WeldJoint *p);
 	static void update1();
 	void vupdate();
-	std::string name();
+	std::string name() const;
 };
 struct RevoluteJoint : PointJoint {
 	RevoluteJoint() {}
@@ -81,7 +81,7 @@ struct RevoluteJoint : PointJoint {
 	static void update (RevoluteJoint *p);
 	static void update1();
 	void vupdate();
-	std::string name();
+	std::string name() const;
 };
 struct DistanceJoint : Joint {
 	DistanceJoint() {}
@@ -101,7 +101,7 @@ struct DistanceJoint : Joint {
 	static void update (DistanceJoint *p);
 	static void update1();
 	void vupdate();
-	std::string name();
+	std::string name() const;
 	void draw_lines(cairo_t *cr);
 };
 struct PulleyJoint : Joint {
@@ -121,7 +121,7 @@ struct PulleyJoint : Joint {
 	static void update (PulleyJoint *p);
 	static void update1();
 	void vupdate();
-	std::string name();
+	std::string name() const;
 	void draw_lines(cairo_t *cr);
 };
 struct PrismaticJoint : PointJoint {
@@ -143,5 +143,5 @@ struct PrismaticJoint : PointJoint {
 	static void update (PrismaticJoint *p);
 	static void update1();
 	void vupdate();
-	std::string name();
+	std::string name() const;
 };

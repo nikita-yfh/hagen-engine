@@ -411,3 +411,10 @@ XMLNode open_xml(const char *path, const char *tag) {
 bool in_rect(float x,float y,GPU_Rect r) {
 	return r.x<x && r.y<y && r.x+r.w>x && r.y+r.h>y;
 }
+float deg(float v){
+	return v/M_PI*180.0f;
+}
+
+float rad(float v){
+	return v*M_PI/180.0f;
+}

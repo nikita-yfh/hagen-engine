@@ -312,10 +312,12 @@ b2Body* read_body(XMLNode bd,b2Vec2 delta,bool temp) {
 			if(str=="Square") {
 				b2PolygonShape shape;
 				float r=pos.getAttributef("r");
+				float a=pos.getAttributef("angle");
 				shape.SetAsBox(r,r,b2Vec2(
 								   pos.getAttributef("x"),
-								   pos.getAttributef("y")),0);
+								   pos.getAttributef("y")),a);
 				fix.shape=&shape;
+				FD_DATA(fix,angle)=a;
 				FD_DATA(fix,type)=SQUARE;
 				body->CreateFixture(&fix);
 			} else if(str=="Circle") {
@@ -323,18 +325,22 @@ b2Body* read_body(XMLNode bd,b2Vec2 delta,bool temp) {
 				shape.m_radius=pos.getAttributef("r");
 				shape.m_p.Set( pos.getAttributef("x"),
 							   pos.getAttributef("y"));
+				float a=pos.getAttributef("angle");
 				fix.shape=&shape;
 				FD_DATA(fix,type)=CIRCLE;
+				FD_DATA(fix,angle)=a;
 				body->CreateFixture(&fix);
 			} else if(str=="Rect") {
 				b2PolygonShape shape;
-				float xp1=pos.getAttributef("x1");
-				float yp1=pos.getAttributef("y1");
-				float xp2=pos.getAttributef("x2");
-				float yp2=pos.getAttributef("y2");
-				shape.SetAsBox(_abs(xp2-xp1)/2,_abs(yp2-yp1)/2,b2Vec2((xp1+xp2)/2,(yp1+yp2)/2),0);
+				float x=pos.getAttributef("x");
+				float y=pos.getAttributef("y");
+				float w=pos.getAttributef("w");
+				float h=pos.getAttributef("h");
+				float a=pos.getAttributef("angle");
+				shape.SetAsBox(w/2,h/2,b2Vec2(x,y),a);
 				fix.shape=&shape;
 				FD_DATA(fix,type)=RECT;
+				FD_DATA(fix,angle)=a;
 				body->CreateFixture(&fix);
 			} else if(str=="Line") {
 				b2EdgeShape shape;

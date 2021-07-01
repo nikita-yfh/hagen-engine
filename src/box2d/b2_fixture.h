@@ -39,6 +39,7 @@ struct b2FixtureData {
 	int8_t layer;
 	uint8_t type;
 	bool expand;
+	float angle=0.0f;
 };
 /// This holds contact filtering data.
 struct b2Filter {

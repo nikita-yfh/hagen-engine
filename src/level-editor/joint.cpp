@@ -187,7 +187,7 @@ void WeldJoint::vupdate() {
 	Joint::update(this);
 	Object::update(this);
 }
-string WeldJoint::name() {
+string WeldJoint::name() const {
 	return "WeldJoint";
 }
 bool WeldJoint::drag(float xp,float yp,int dr) {
@@ -271,7 +271,7 @@ void GearJoint::vupdate() {
 	Joint::update(this);
 	Object::update(this);
 }
-string GearJoint::name() {
+string GearJoint::name() const {
 	return "GearJoint";
 }
 void RevoluteJoint::init(GtkWidget *table) {
@@ -395,7 +395,7 @@ void RevoluteJoint::vupdate() {
 	Joint::update(this);
 	Object::update(this);
 }
-string RevoluteJoint::name() {
+string RevoluteJoint::name() const {
 	return "RevoluteJoint";
 }
 void PrismaticJoint::init(GtkWidget *table) {
@@ -544,7 +544,7 @@ void PrismaticJoint::vupdate() {
 	Joint::update(this);
 	Object::update(this);
 }
-string PrismaticJoint::name() {
+string PrismaticJoint::name() const {
 	return "PrismaticJoint";
 }
 void DistanceJoint::init(GtkWidget *table) {
@@ -721,7 +721,7 @@ void DistanceJoint::vupdate() {
 	Joint::update(this);
 	Object::update(this);
 }
-string DistanceJoint::name() {
+string DistanceJoint::name() const {
 	return "DistanceJoint";
 }
 void DistanceJoint::draw_lines(cairo_t* cr) {
@@ -959,7 +959,7 @@ void PulleyJoint::vupdate() {
 	Joint::update(this);
 	Object::update(this);
 }
-string PulleyJoint::name() {
+string PulleyJoint::name() const {
 	return "PulleyJoint";
 }
 void PulleyJoint::draw_lines(cairo_t* cr) {

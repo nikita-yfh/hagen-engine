@@ -13,7 +13,7 @@ struct Body : Object {
 	float angular_damping=0.0f;
 	float linear_damping=0.0f;
 	bool drag(float xp,float yp,int dr);
-	std::string name();
+	std::string name() const;
 	std::string script="";
 	static GtkWidget *combo, *px, *py, *ps, *tx, *ty, *ts, *cb, *cr, *tt, *en_script, *pad, *pld, *tad, *tld;
 	static GtkObject *ax, *ay, *as, *aad, *ald;

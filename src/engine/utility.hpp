@@ -50,4 +50,5 @@ string format(const string fmt, ...);
 float _abs(float val);
 XMLNode open_xml(const char *path, const char *tag);
 string RWget(const char* filename);
-
+float deg(float v);
+float rad(float v);

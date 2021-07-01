@@ -121,3 +121,10 @@ b2Vec2 bis(b2Vec2 v1,b2Vec2 v2,float length) {
 
 	return sum;
 }
+b2Vec2 rotate(b2Vec2 o,b2Vec2 a,float angle){
+	b2Vec2 vec(a-o);
+	return o+b2Vec2(
+		vec.x*cos(angle)-vec.y*sin(angle),
+		vec.y*cos(angle)+vec.x*sin(angle)
+	);
+}

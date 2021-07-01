@@ -54,7 +54,7 @@ bool Body::drag(float xp,float yp,int dr) {
 	}
 	return 0;
 }
-string Body::name() {
+string Body::name() const {
 	return "Body";
 }
 void Body::vupdate() {
@@ -195,13 +195,20 @@ void Body::save(XMLNode &parent,bool p) {
 				pos.addAttribute("x",c->pos.x-d.x);
 				pos.addAttribute("y",c->pos.y-d.y);
 				pos.addAttribute("r",c->r);
-			} else if(shape->name()=="Rect" ||
-					  shape->name()=="Line") {
-				BiPoints *rect=TYPE(BiPoints*,shape);
-				pos.addAttribute("x1",rect->p1.x-d.x);
-				pos.addAttribute("y1",rect->p1.y-d.y);
-				pos.addAttribute("x2",rect->p2.x-d.x);
-				pos.addAttribute("y2",rect->p2.y-d.y);
+				pos.addAttribute("angle",c->angle);
+			} else if(shape->name()=="Line"){
+				Line *line=TYPE(Line*,shape);
+				pos.addAttribute("x1",line->p1.x-d.x);
+				pos.addAttribute("y1",line->p1.y-d.y);
+				pos.addAttribute("x2",line->p2.x-d.x);
+				pos.addAttribute("y2",line->p2.y-d.y);
+			} else if(shape->name()=="Rect"){
+				Rect *rect=TYPE(Rect*,shape);
+				pos.addAttribute("x",rect->pos.x-d.x);
+				pos.addAttribute("y",rect->pos.y-d.y);
+				pos.addAttribute("w",rect->size.x);
+				pos.addAttribute("h",rect->size.y);
+				pos.addAttribute("angle",rect->angle);
 			} else if(shape->name()=="Polygon") {
 				Polygon *poly=TYPE(Polygon*,shape);
 				pos.addAttribute("point_count",poly->size());
@@ -268,22 +275,33 @@ void Body::load(XMLNode &node,bool p) {
 				shp=new Square({pos.getAttributef("x")+x,
 								pos.getAttributef("y")+y},
 							   pos.getAttributef("r"));
+				TYPE(Square*,shp)->angle=pos.getAttributef("angle");
 			} else if(str=="Circle") {
 				shp=new Circle({pos.getAttributef("x")+x,
 								pos.getAttributef("y")+y},
 							   pos.getAttributef("r"));
+				TYPE(Circle*,shp)->angle=pos.getAttributef("angle");
 			} else if(str=="Rect") {
-				shp=new Rect({pos.getAttributef("x1")+x,
-				pos.getAttributef("y1")+y}, {
-					pos.getAttributef("x2")+x,
-					pos.getAttributef("y2")+y
-				});
+				shp=new Rect;
+				TYPE(Rect*,shp)->pos={
+					pos.getAttributef("x")+x,
+					pos.getAttributef("y")+y
+				};
+				TYPE(Rect*,shp)->size={
+					pos.getAttributef("w"),
+					pos.getAttributef("h")
+				};
+				TYPE(Rect*,shp)->angle=pos.getAttributef("angle");
 			} else if(str=="Line") {
-				shp=new Line({pos.getAttributef("x1")+x,
-				pos.getAttributef("y1")+y}, {
+				shp=new Line;
+				TYPE(Line*,shp)->p1={
+					pos.getAttributef("x1")+x,
+					pos.getAttributef("y1")+y
+				};
+				TYPE(Line*,shp)->p2={
 					pos.getAttributef("x2")+x,
 					pos.getAttributef("y2")+y
-				});
+				};
 			} else if(str=="Polygon") {
 				int c=pos.getAttributei("point_count");
 				vector<b2Vec2>p(c);

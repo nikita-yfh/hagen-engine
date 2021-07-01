@@ -24,7 +24,17 @@ struct Physic : Object {
 	void vupdate();
 	void save(XMLNode &parent,b2Vec2 pos);
 };
-struct BiSymmetrical : Physic {
+struct Rotatable{
+	static GtkWidget *ta, *pa;
+	static GtkObject *aa;
+	float angle=0.0f;
+	static void init(GtkWidget*);
+	static void show();
+	static void hide();
+	static void update (Rotatable *p);
+	static void update1();
+};
+struct BiSymmetrical : Physic,Rotatable {
 	BiSymmetrical() {}
 	BiSymmetrical(b2Vec2,float);
 	bool drag(float xp,float yp,int dr);
@@ -45,36 +55,47 @@ struct Square : BiSymmetrical {
 	Square() {}
 	Square(b2Vec2,float);
 	void draw(cairo_t *cr);
-	std::string name();
+	std::string name() const;
 };
 struct Circle : BiSymmetrical {
 	Circle() {}
 	Circle(b2Vec2,float);
 	void draw(cairo_t *cr);
-	std::string name();
+	std::string name() const;
 };
-struct BiPoints : Physic {
-	BiPoints() {}
-	BiPoints(b2Vec2,b2Vec2);
+struct Line : Physic{
 	b2Vec2 p1;
 	b2Vec2 p2;
 	bool drag(float xp,float yp,int dr);
+	void draw(cairo_t *cr);
+	std::string name() const;
 	bool create(float xp,float yp,int dr);
 	std::vector<b2Vec2*> get_points();
-	static GtkWidget *px1, *px2, *py1, *py2, *tx1, *tx2, *ty1, *ty2, *pw, *ph, *tw, *th;
-	static GtkObject *ax1, *ax2, *ay1, *ay2, *aw, *ah;
+	static GtkWidget *px1, *px2, *py1, *py2, *tx1, *tx2, *ty1, *ty2;
+	static GtkObject *ax1, *ax2, *ay1, *ay2;
 	static void init(GtkWidget*);
 	static void show();
 	static void hide();
-	static void update (BiPoints *p);
+	static void update (Line *p);
 	static void update1();
 	void vupdate();
 };
-struct Rect : BiPoints {
-	Rect() {}
-	Rect(b2Vec2,b2Vec2);
+struct Rect : Physic,Rotatable {
+	b2Vec2 pos;
+	b2Vec2 size;
+	bool drag(float xp,float yp,int dr);
 	void draw(cairo_t *cr);
-	std::string name();
+	std::string name() const;
+	bool create(float xp,float yp,int dr);
+	std::vector<b2Vec2*> get_points();
+	static GtkWidget *px, *py, *pw, *ph, *tx, *ty, *tw, *th;
+	static GtkObject *ax, *ay, *aw, *ah;
+	static void init(GtkWidget*);
+	static void show();
+	static void hide();
+	static void update (Rect *p);
+	static void update1();
+	void vupdate();
 };
 struct Polygon : Physic {
 	Polygon();
@@ -92,7 +113,7 @@ struct Polygon : Physic {
 	static void update (Polygon *p);
 	static void update1();
 	void vupdate();
-	std::string name();
+	std::string name() const;
 	int size();
 };
 struct Cover : Physic {
@@ -112,12 +133,6 @@ struct Cover : Physic {
 	static void update (Cover *p);
 	static void update1();
 	void vupdate();
-	std::string name();
+	std::string name() const;
 	int size();
-};
-struct Line : BiPoints {
-	Line() {}
-	Line(b2Vec2,b2Vec2);
-	void draw(cairo_t *cr);
-	std::string name();
 };

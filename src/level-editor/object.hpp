@@ -22,7 +22,7 @@ struct Object {
 	static void hide();
 	static void update (Object *p);
 	static void update1();
-	virtual std::string name();
+	virtual std::string name() const;
 	virtual bool del(float xp,float yp,int dr);
 	virtual b2Vec2 mean() ;
 };
@@ -53,7 +53,7 @@ struct Point:Object {
 	static void update (Point *p);
 	static void update1();
 	void vupdate();
-	std::string name();
+	std::string name() const;
 };
 
 struct Entity : Point {
@@ -67,5 +67,5 @@ struct Entity : Point {
 	static void update (Entity *p);
 	static void update1();
 	void vupdate();
-	std::string name();
+	std::string name() const;
 };

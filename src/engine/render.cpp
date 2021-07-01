@@ -45,7 +45,7 @@ static void draw_bgr() {
 }
 static void fixture_draw(b2Body *body,b2Fixture *fix) {
 	float a_rad=body->GetAngle();
-	float a_deg=a_rad*(180/3.14);
+	float a_deg=deg(a_rad);
 	GPU_Image *tex=0;
 	tex=find_texture(F_DATA(fix,texture));
 
@@ -62,23 +62,22 @@ static void fixture_draw(b2Body *body,b2Fixture *fix) {
 	case SQUARE: {
 		b2PolygonShape *shape=(b2PolygonShape*)fix->GetShape();
 		if(tex) {
-			float w=shape->m_vertices[2].x-shape->m_vertices[0].x;
-			float h=shape->m_vertices[2].y-shape->m_vertices[0].y;
+			float w=(shape->m_vertices[1]-shape->m_vertices[0]).Length();
+			float h=(shape->m_vertices[3]-shape->m_vertices[0]).Length();
 			if(F_DATA(fix,expand)) {
-				GPU_BlitTransformX(tex,0,ren1,
-								   drawx(body->GetPosition().x),drawy(body->GetPosition().y),
-								   (0.5-shape->m_centroid.x/w)*tex->w,
-								   (0.5-shape->m_centroid.y/h)*tex->h,a_deg,
-								   zoom*w/tex->w,
-								   zoom*h/tex->h);
+				b2Vec2 v=body->GetPosition()+rotate(shape->m_centroid,a_rad);
+				GPU_BlitTransform(tex,0,ren1,
+					drawx(v.x),drawy(v.y),
+					a_deg+deg(F_DATA(fix,angle)),
+					zoom*w/tex->w,zoom*h/tex->h);
 			} else {
 				float f[16];
 				for(int q=0; q<shape->m_count; q++) {
 					b2Vec2 v(shape->m_vertices[q].x,shape->m_vertices[q].y);
 					f[q*4]=drawx(body->GetPosition().x+rotatex(v,a_rad));
 					f[q*4+1]=drawy(body->GetPosition().y+rotatey(v,a_rad));
-					f[q*4+2]=(shape->m_vertices[q]-shape->m_vertices[0]).x*(100.0f/tex->w/tex_scale);
-					f[q*4+3]=(shape->m_vertices[q]-shape->m_vertices[0]).y*(100.0f/tex->h/tex_scale);
+					f[q*4+2]=rotatex(shape->m_vertices[q]-shape->m_vertices[0],-F_DATA(fix,angle))*(100.0f/tex->w/tex_scale);
+					f[q*4+3]=rotatey(shape->m_vertices[q]-shape->m_vertices[0],-F_DATA(fix,angle))*(100.0f/tex->h/tex_scale);
 				}
 				short unsigned int index[]= {0,1,3,1,2,3};
 				GPU_TriangleBatch(tex,ren1,4,f,6,index,GPU_BATCH_XY_ST);
@@ -99,12 +98,12 @@ static void fixture_draw(b2Body *body,b2Fixture *fix) {
 		b2CircleShape *shape=(b2CircleShape*)fix->GetShape();
 		if(tex) {
 			if(F_DATA(fix,expand)) {
-				GPU_BlitTransformX(tex,0,ren1,
-								   drawx(body->GetPosition().x),drawy(body->GetPosition().y),
-								   (0.5+shape->m_p.x/shape->m_radius/2.0)*tex->w,
-								   (0.5+shape->m_p.y/shape->m_radius/2.0)*tex->h,a_deg,
-								   zoom*shape->m_radius*2/tex->w,
-								   zoom*shape->m_radius*2/tex->h);
+				b2Vec2 v=body->GetPosition()+rotate(shape->m_p,a_rad);
+				GPU_BlitTransform(tex,0,ren1,
+					drawx(v.x),drawy(v.y),
+					a_deg+F_DATA(fix,angle)/M_PI*180.0f,
+					zoom*shape->m_radius*2/tex->w,
+					zoom*shape->m_radius*2/tex->h);
 			} else {
 				float f[(CIRCLE_QUALITY+2)*4];
 				int q;
@@ -115,8 +114,8 @@ static void fixture_draw(b2Body *body,b2Fixture *fix) {
 								   shape->m_p.y+sin(2*M_PI/(CIRCLE_QUALITY)*q)*shape->m_radius);
 					f[q*4+0]=drawx(body->GetPosition().x+rotatex(v,a_rad));
 					f[q*4+1]=drawy(body->GetPosition().y+rotatey(v,a_rad));
-					f[q*4+2]=(v.x-shape->m_p.x-shape->m_radius)*(100.0f/tex->w/tex_scale);
-					f[q*4+3]=(v.y-shape->m_p.y-shape->m_radius)*(100.0f/tex->h/tex_scale);
+					f[q*4+2]=rotatex(v-shape->m_p-b2Vec2(shape->m_radius,shape->m_radius),-F_DATA(fix,angle))*(100.0f/tex->w/tex_scale);
+					f[q*4+3]=rotatey(v-shape->m_p-b2Vec2(shape->m_radius,shape->m_radius),-F_DATA(fix,angle))*(100.0f/tex->h/tex_scale);
 				}
 				f[q*4+0]=f[4];
 				f[q*4+1]=f[5];

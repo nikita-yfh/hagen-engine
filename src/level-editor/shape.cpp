@@ -39,7 +39,7 @@ bool BiSymmetrical::drag(float xp,float yp,int dr) {
 
 	if(!shows[3+parent(id)->type])return 0;
 	if(dr==0) {
-		if(touch(pos+b2Vec2(r,0), {xp,yp}))	point_ch=2;
+		if(touch(rotate(pos,pos+b2Vec2(r,0),angle), {xp,yp}))	point_ch=2;
 		else	if(touch(pos, {xp,yp}))	point_ch=1;
 		else return 0;
 		hide_all();
@@ -136,18 +136,22 @@ void BiSymmetrical::vupdate() {
 	update(this);
 	Physic::update(this);
 	Object::update(this);
+	Rotatable::update(this);
 }
 Square::Square(b2Vec2 _pos,float rp) {
 	pos=_pos;
 	r=rp;
 }
 void Square::draw(cairo_t *cr) {
-
 	if(!shows[parent(id)->type])return;
 	draw_drag_rect(cr,pos,selected&&point_ch==1);
-	draw_drag_rect(cr,pos+b2Vec2(r,0),selected&&point_ch==2);
+	draw_drag_rect(cr,rotate(pos,pos+b2Vec2(r,0),angle),selected&&point_ch==2);
 	set_shape_color(cr,parent(id)->type);
-	cairo_rectangle(cr,drawx(pos.x-r),drawy(pos.y-r),drawx(r*2)-cx,drawy(r*2)-cy);
+	cairo_translate(cr,drawx(pos.x),drawy(pos.y));
+	cairo_rotate(cr,angle);
+	cairo_rectangle(cr,-r*zoom,-r*zoom,r*2*zoom,r*2*zoom);
+	cairo_rotate(cr,-angle);
+	cairo_translate(cr,-drawx(pos.x),-drawy(pos.y));
 	cairo_stroke_preserve(cr);
 	cairo_fill(cr);
 }
@@ -155,24 +159,23 @@ Circle::Circle(b2Vec2 _pos,float rp) {
 	pos=_pos;
 	r=rp;
 }
-string Square::name() {
+string Square::name() const {
 	return "Square";
 }
 void Circle::draw(cairo_t *cr) {
-
 	if(!shows[parent(id)->type])return;
 	draw_drag_rect(cr,pos,selected&&point_ch==1);
-	draw_drag_rect(cr,pos+b2Vec2(r,0),selected&&point_ch==2);
+	draw_drag_rect(cr,rotate(pos,pos+b2Vec2(r,0),angle),selected&&point_ch==2);
 	set_shape_color(cr,parent(id)->type);
 	cairo_arc(cr,drawx(pos.x),drawy(pos.y),r*zoom,0,2*M_PI);
 	cairo_stroke_preserve(cr);
 	cairo_fill(cr);
 }
-string Circle::name() {
+string Circle::name() const {
 	return "Circle";
 }
 
-bool BiPoints::drag(float xp,float yp,int dr) {
+bool Line::drag(float xp,float yp,int dr) {
 
 	if(!shows[3+parent(id)->type])return 0;
 	if(dr==0) {
@@ -198,16 +201,11 @@ bool BiPoints::drag(float xp,float yp,int dr) {
 		return 1;
 	} else if(dr==2)point_ch=0;
 	else if(dr==3)vupdate();
-	else if(dr==4) {
-		if(name()=="Rect")
-			return abs((p1.x+p2.x)/2-xp)<=abs(p1.y-p2.y)/2
-				   && abs((p1.y+p2.y)/2-yp)<=abs(p1.y-p2.y)/2;
-		else
-			return 0;
-	}
+	else if(dr==4)
+		return 0;
 	return 0;
 }
-bool BiPoints::create(float xp,float yp,int dr) {
+bool Line::create(float xp,float yp,int dr) {
 	if(dr==0) {
 		p1.x=p2.x=to_grid(xp);
 		p1.y=p2.y=to_grid(yp);
@@ -219,28 +217,22 @@ bool BiPoints::create(float xp,float yp,int dr) {
 	}
 	return 0;
 }
-vector<b2Vec2*> BiPoints::get_points() {
+vector<b2Vec2*> Line::get_points() {
 	return {&p1,&p2};
 }
-void BiPoints::init(GtkWidget *table) {
+void Line::init(GtkWidget *table) {
 	ax1=gtk_adjustment_new(0,0,level.w,grid,grid,0);
 	ay1=gtk_adjustment_new(0,0,level.h,grid,grid,0);
 	ax2=gtk_adjustment_new(0,0,level.w,grid,grid,0);
 	ay2=gtk_adjustment_new(0,0,level.h,grid,grid,0);
-	aw=gtk_adjustment_new(0,-level.w,level.w,grid,grid,0);
-	ah=gtk_adjustment_new(0,-level.h,level.h,grid,grid,0);
 	px1=gtk_spin_button_new(GTK_ADJUSTMENT(ax1),0,4);
 	py1=gtk_spin_button_new(GTK_ADJUSTMENT(ay1),0,4);
 	px2=gtk_spin_button_new(GTK_ADJUSTMENT(ax2),0,4);
 	py2=gtk_spin_button_new(GTK_ADJUSTMENT(ay2),0,4);
-	pw=gtk_spin_button_new(GTK_ADJUSTMENT(aw),0,4);
-	ph=gtk_spin_button_new(GTK_ADJUSTMENT(ah),0,4);
 	tx1=gtk_label_new("X1");
 	ty1=gtk_label_new("Y1");
 	tx2=gtk_label_new("X2");
 	ty2=gtk_label_new("Y2");
-	tw=gtk_label_new("Width ");
-	th=gtk_label_new("Height");
 	ins_text(table,tx1,cur_table_string);
 	ins_widget(table,px1,cur_table_string++);
 	ins_text(table,ty1,cur_table_string);
@@ -249,22 +241,15 @@ void BiPoints::init(GtkWidget *table) {
 	ins_widget(table,px2,cur_table_string++);
 	ins_text(table,ty2,cur_table_string);
 	ins_widget(table,py2,cur_table_string++);
-	ins_text(table,tw,cur_table_string);
-	ins_widget(table,pw,cur_table_string++);
-	ins_text(table,th,cur_table_string);
-	ins_widget(table,ph,cur_table_string++);
 
 
 	g_signal_connect(G_OBJECT(px1),"value_changed",update1,0);
 	g_signal_connect(G_OBJECT(py1),"value_changed",update1,0);
 	g_signal_connect(G_OBJECT(px2),"value_changed",update1,0);
 	g_signal_connect(G_OBJECT(py2),"value_changed",update1,0);
-	g_signal_connect(G_OBJECT(pw),"value_changed",update1,0);
-	g_signal_connect(G_OBJECT(ph),"value_changed",update1,0);
 
 }
-
-void BiPoints::show() {
+void Line::show() {
 	Physic::show();
 	gtk_widget_show(px1);
 	gtk_widget_show(py1);
@@ -274,12 +259,8 @@ void BiPoints::show() {
 	gtk_widget_show(ty1);
 	gtk_widget_show(tx2);
 	gtk_widget_show(ty2);
-	gtk_widget_show(tw);
-	gtk_widget_show(th);
-	gtk_widget_show(pw);
-	gtk_widget_show(ph);
 }
-void BiPoints::hide() {
+void Line::hide() {
 	Physic::hide();
 	gtk_widget_hide(px1);
 	gtk_widget_hide(py1);
@@ -289,67 +270,169 @@ void BiPoints::hide() {
 	gtk_widget_hide(ty1);
 	gtk_widget_hide(tx2);
 	gtk_widget_hide(ty2);
-	gtk_widget_hide(tw);
-	gtk_widget_hide(th);
-	gtk_widget_hide(pw);
-	gtk_widget_hide(ph);
 }
-void BiPoints::update(BiPoints *p) {
+void Line::update(Line *p) {
 	gtk_adjustment_configure(GTK_ADJUSTMENT(ax1),p->p1.x,0,level.w,grid,0,0);
 	gtk_adjustment_configure(GTK_ADJUSTMENT(ay1),p->p1.y,0,level.h,grid,0,0);
 	gtk_adjustment_configure(GTK_ADJUSTMENT(ax2),p->p2.x,0,level.w,grid,0,0);
 	gtk_adjustment_configure(GTK_ADJUSTMENT(ay2),p->p2.y,0,level.h,grid,0,0);
-	gtk_adjustment_configure(GTK_ADJUSTMENT(aw),p->p2.x-p->p1.x,-level.w,level.w,grid,0,0);
-	gtk_adjustment_configure(GTK_ADJUSTMENT(ah),p->p2.y-p->p1.y,-level.h,level.h,grid,0,0);
 }
-#include <iostream>
-void BiPoints::update1() {
-	BiPoints *p=TYPE(BiPoints*,get_selected_object());
+void Line::update1() {
+	Line *p=TYPE(Line*,get_selected_object());
 	if(!p || point_ch || block)return;
-	b2Vec2 d1={
-		gtk_adjustment_get_value(GTK_ADJUSTMENT(ax1)),
-		gtk_adjustment_get_value(GTK_ADJUSTMENT(ay1))
-	};
-	b2Vec2 d2={
-		gtk_adjustment_get_value(GTK_ADJUSTMENT(ax2)),
-		gtk_adjustment_get_value(GTK_ADJUSTMENT(ay2))
-	};
-	b2Vec2 s={
-		gtk_adjustment_get_value(GTK_ADJUSTMENT(aw)),
-		gtk_adjustment_get_value(GTK_ADJUSTMENT(ah))
-	};
-	if(d2-d1!=p->p2-p->p1){
-		std::cout<<"a\n";
-		p->p1=d1;p->p2=d2;
-	}else if(s!=p->p2-p->p1){
-		std::cout<<"b\n";
-		p->p2=p->p1+s;
-	}
+	p->p1.x=gtk_adjustment_get_value(GTK_ADJUSTMENT(ax1));
+	p->p1.y=gtk_adjustment_get_value(GTK_ADJUSTMENT(ay1));
+	p->p2.x=gtk_adjustment_get_value(GTK_ADJUSTMENT(ax2));
+	p->p2.y=gtk_adjustment_get_value(GTK_ADJUSTMENT(ay2));
 	gtk_widget_queue_draw(drawable);
 }
-void BiPoints::vupdate() {
+void Line::vupdate() {
 	show();
 	update(this);
 	Physic::update(this);
 	Object::update(this);
 }
-Rect::Rect(b2Vec2 _p1,b2Vec2 _p2) {
-	p1=_p1;
-	p2=_p2;
-}
-string Rect::name() {
-	return "Rect";
-}
-void Rect::draw(cairo_t *cr) {
-
+void Line::draw(cairo_t *cr) {
 	if(!shows[parent(id)->type])return;
 	draw_drag_rect(cr,p1,selected&&point_ch==1);
 	draw_drag_rect(cr,p2,selected&&point_ch==2);
-	draw_drag_rect(cr,(p1+p2)/2,selected&&point_ch==3);
 	set_shape_color(cr,parent(id)->type);
-	cairo_rectangle(cr,drawx(p1.x),drawy(p1.y),(p2-p1).x*zoom,(p2-p1).y*zoom);
+	cairo_move_to(cr,drawx(p1.x),drawy(p1.y));
+	cairo_line_to(cr,drawx(p2.x),drawy(p2.y));
+	cairo_stroke(cr);
+}
+string Line::name() const {
+	return "Line";
+}
+bool Rect::drag(float xp,float yp,int dr) {
+	if(!shows[3+parent(id)->type])return 0;
+	if(dr==0) {
+		if(touch(rotate(pos,pos+size/2,angle), {xp,yp}))	point_ch=1;
+		else	if(touch(pos, {xp,yp}))	point_ch=2;
+		else return 0;
+		hide_all();
+
+		return 1;
+	} else if(dr==1&&point_ch) {
+		if(point_ch==1) {
+			size.x=abs(to_grid(rotate(pos,{xp,yp},-angle).x)-pos.x)*2;
+			size.y=abs(to_grid(rotate(pos,{xp,yp},-angle).y)-pos.y)*2;
+		} else if(point_ch==2) {
+			pos.x=to_grid(xp);
+			pos.y=to_grid(yp);
+		}
+		return 1;
+	} else if(dr==2)point_ch=0;
+	else if(dr==3)vupdate();
+	else if(dr==4)
+		return xp>=pos.x&&xp<=pos.x+size.x&&yp>=pos.y&&yp<=pos.y+size.y;
+	return 0;
+}
+bool Rect::create(float xp,float yp,int dr) {
+	if(dr==0) {
+		pos.x=to_grid(xp);
+		pos.y=to_grid(yp);
+		size.SetZero();
+	} else if(dr==1) {
+		size.x=abs(to_grid(rotate(pos,{xp,yp},-angle).x)-pos.x)*2;
+		size.y=abs(to_grid(rotate(pos,{xp,yp},-angle).y)-pos.y)*2;
+	} else if(dr==3) {
+		if(size.x==0||size.y==0)return 1;
+	}
+	return 0;
+}
+vector<b2Vec2*> Rect::get_points() {
+	return {&pos};
+}
+
+void Rect::init(GtkWidget *table) {
+	ax=gtk_adjustment_new(0,0,level.w,grid,grid,0);
+	ay=gtk_adjustment_new(0,0,level.h,grid,grid,0);
+	aw=gtk_adjustment_new(0,0,level.w,grid,grid,0);
+	ah=gtk_adjustment_new(0,0,level.h,grid,grid,0);
+	px=gtk_spin_button_new(GTK_ADJUSTMENT(ax),0,4);
+	py=gtk_spin_button_new(GTK_ADJUSTMENT(ay),0,4);
+	pw=gtk_spin_button_new(GTK_ADJUSTMENT(aw),0,4);
+	ph=gtk_spin_button_new(GTK_ADJUSTMENT(ah),0,4);
+	tx=gtk_label_new("X");
+	ty=gtk_label_new("Y");
+	tw=gtk_label_new("Width ");
+	th=gtk_label_new("Height");
+	ins_text(table,tx,cur_table_string);
+	ins_widget(table,px,cur_table_string++);
+	ins_text(table,ty,cur_table_string);
+	ins_widget(table,py,cur_table_string++);
+	ins_text(table,tw,cur_table_string);
+	ins_widget(table,pw,cur_table_string++);
+	ins_text(table,th,cur_table_string);
+	ins_widget(table,ph,cur_table_string++);
+
+
+	g_signal_connect(G_OBJECT(px),"value_changed",update1,0);
+	g_signal_connect(G_OBJECT(py),"value_changed",update1,0);
+	g_signal_connect(G_OBJECT(pw),"value_changed",update1,0);
+	g_signal_connect(G_OBJECT(ph),"value_changed",update1,0);
+
+}
+void Rect::show() {
+	Physic::show();
+	gtk_widget_show(px);
+	gtk_widget_show(py);
+	gtk_widget_show(tx);
+	gtk_widget_show(ty);
+	gtk_widget_show(tw);
+	gtk_widget_show(th);
+	gtk_widget_show(pw);
+	gtk_widget_show(ph);
+}
+void Rect::hide() {
+	Physic::hide();
+	gtk_widget_hide(px);
+	gtk_widget_hide(py);
+	gtk_widget_hide(tx);
+	gtk_widget_hide(ty);
+	gtk_widget_hide(tw);
+	gtk_widget_hide(th);
+	gtk_widget_hide(pw);
+	gtk_widget_hide(ph);
+}
+void Rect::update(Rect *p) {
+	gtk_adjustment_configure(GTK_ADJUSTMENT(ax),p->pos.x,0,level.w,grid,0,0);
+	gtk_adjustment_configure(GTK_ADJUSTMENT(ay),p->pos.y,0,level.h,grid,0,0);
+	gtk_adjustment_configure(GTK_ADJUSTMENT(aw),p->size.x,-level.w,level.w,grid,0,0);
+	gtk_adjustment_configure(GTK_ADJUSTMENT(ah),p->size.y,-level.h,level.h,grid,0,0);
+}
+void Rect::update1() {
+	Rect *p=TYPE(Rect*,get_selected_object());
+	if(!p || point_ch || block)return;
+	p->pos.x=gtk_adjustment_get_value(GTK_ADJUSTMENT(ax));
+	p->pos.y=gtk_adjustment_get_value(GTK_ADJUSTMENT(ay));
+	p->size.x=gtk_adjustment_get_value(GTK_ADJUSTMENT(aw));
+	p->size.y=gtk_adjustment_get_value(GTK_ADJUSTMENT(ah));
+	gtk_widget_queue_draw(drawable);
+}
+void Rect::vupdate() {
+	show();
+	update(this);
+	Physic::update(this);
+	Object::update(this);
+	Rotatable::update(this);
+}
+void Rect::draw(cairo_t *cr) {
+	if(!shows[parent(id)->type])return;
+	draw_drag_rect(cr,pos,selected&&point_ch==1);
+	draw_drag_rect(cr,rotate(pos,pos+size/2,angle),selected&&point_ch==2);
+	set_shape_color(cr,parent(id)->type);
+	cairo_translate(cr,drawx(pos.x),drawy(pos.y));
+	cairo_rotate(cr,angle);
+	cairo_rectangle(cr,-size.x/2*zoom,-size.y/2*zoom,size.x*zoom,size.y*zoom);
+	cairo_rotate(cr,-angle);
+	cairo_translate(cr,-drawx(pos.x),-drawy(pos.y));
 	cairo_stroke_preserve(cr);
 	cairo_fill(cr);
+}
+string Rect::name() const {
+	return "Rect";
 }
 Polygon::Polygon() {
 	ex=0;
@@ -496,7 +579,7 @@ void Polygon::vupdate() {
 	Physic::update(this);
 	Object::update(this);
 }
-string Polygon::name() {
+string Polygon::name() const {
 	return "Polygon";
 }
 int Polygon::size() {
@@ -670,29 +753,13 @@ void Cover::vupdate() {
 	Physic::update(this);
 	Object::update(this);
 }
-string Cover::name() {
+string Cover::name() const {
 	return "Cover";
 }
 int Cover::size() {
 	return points.size();
 }
-Line::Line(b2Vec2 _p1,b2Vec2 _p2) {
-	p1=_p1;
-	p2=_p2;
-}
-void Line::draw(cairo_t *cr) {
 
-	if(!shows[parent(id)->type])return;
-	draw_drag_rect(cr,p1,selected&&point_ch==1);
-	draw_drag_rect(cr,p2,selected&&point_ch==2);
-	set_shape_color(cr,parent(id)->type);
-	cairo_move_to(cr,drawx(p1.x),drawy(p1.y));
-	cairo_line_to(cr,drawx(p2.x),drawy(p2.y));
-	cairo_stroke(cr);
-}
-string Line::name() {
-	return "Line";
-}
 void Physic::init(GtkWidget *table) {
 	a1=gtk_adjustment_new(0,0,DENSITY_MAX,		DENSITY_STEP,		DENSITY_STEP,0);
 	a2=gtk_adjustment_new(0,0,FRICTION_MAX,		FRICTION_STEP,		FRICTION_STEP,0);
@@ -716,9 +783,8 @@ void Physic::init(GtkWidget *table) {
 	gtk_combo_box_append_text(GTK_COMBO_BOX(combo),"Liquid");
 	gtk_combo_box_set_active(GTK_COMBO_BOX(combo),0);
 	c_category=gtk_combo_box_new_text();
-	for(int q=0; q<16; q++) {
+	for(int q=0; q<16; q++)
 		gtk_combo_box_append_text(GTK_COMBO_BOX(c_category),to_str(q).c_str());
-	}
 	gtk_combo_box_set_active(GTK_COMBO_BOX(c_category),0);
 	set_but=gtk_button_new_with_label("Set collision mask");
 	ins_text(table,t1,cur_table_string);
@@ -780,6 +846,7 @@ void Physic::update1() {
 }
 void Physic::show() {
 	Object::show();
+	Rotatable::show();
 	gtk_widget_show(p1);
 	gtk_widget_show(p2);
 	gtk_widget_show(p3);
@@ -798,6 +865,7 @@ void Physic::show() {
 }
 void Physic::hide() {
 	Object::hide();
+	Rotatable::hide();
 	gtk_widget_hide(p1);
 	gtk_widget_hide(p2);
 	gtk_widget_hide(p3);
@@ -818,6 +886,36 @@ void Physic::vupdate() {
 	show();
 	update(this);
 	Object::update(this);
+}
+
+
+void Rotatable::init(GtkWidget *table) {
+	aa=gtk_adjustment_new(0,0,M_PI*2,M_PI/12,0,0);
+	pa=gtk_spin_button_new(GTK_ADJUSTMENT(aa),0,4);
+	ta=gtk_label_new("Angle");
+	ins_text(table,ta,cur_table_string);
+	ins_widget(table,pa,cur_table_string++);
+	g_signal_connect(G_OBJECT(pa),"value_changed",update1,0);
+}
+void Rotatable::update(Rotatable *p) {
+	gtk_adjustment_set_value(GTK_ADJUSTMENT(aa),p->angle);
+}
+void Rotatable::update1() {
+	Physic *t=TYPE(Physic*,get_selected_object());
+	if(!t || point_ch || block)return;
+	if(t->name()=="Square"||t->name()=="Circle")
+		TYPE(BiSymmetrical*,t)->angle=gtk_adjustment_get_value(GTK_ADJUSTMENT(aa));
+	else if(t->name()=="Rect")
+		TYPE(Rect*,t)->angle=gtk_adjustment_get_value(GTK_ADJUSTMENT(aa));
+	gtk_widget_queue_draw(drawable);
+}
+void Rotatable::show() {
+	gtk_widget_show(ta);
+	gtk_widget_show(pa);
+}
+void Rotatable::hide() {
+	gtk_widget_hide(ta);
+	gtk_widget_hide(pa);
 }
 
 

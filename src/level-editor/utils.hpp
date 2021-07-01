@@ -41,3 +41,4 @@ std::string to_str(T val) {
 	return str.str();
 }
 b2Vec2 bis(b2Vec2 v1,b2Vec2 v2,float length);
+b2Vec2 rotate(b2Vec2 o,b2Vec2 a,float angle);

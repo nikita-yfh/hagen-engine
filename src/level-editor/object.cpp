@@ -8,9 +8,10 @@
 using namespace std;
 int cur_table_string=0;
 GtkObject	*Point::ax, *Point::ay,
-			*BiPoints::ax1, *BiPoints::ax2, *BiPoints::ay1, *BiPoints::ay2, *BiPoints::aw, *BiPoints::ah,
+			*Line::ax1, *Line::ax2, *Line::ay1, *Line::ay2,
+			*Rect::ax,  *Rect::ay,  *Rect::aw,  *Rect::ah,
 			*BiSymmetrical::ax, *BiSymmetrical::ay, *BiSymmetrical::ar,
-			*Physic::a1, *Physic::a2, *Physic::a3, *Physic::a4,
+			*Physic::a1, *Physic::a2, *Physic::a3, *Physic::a4, *Rotatable::aa,
 			*Body::ax, *Body::ay, *Body::as, *Body::aad, *Body::ald,
 			*Polygon::ax, *Polygon::ay,*Cover::ax, *Cover::ay, *Cover::ad,
 			*PointJoint::ax, *PointJoint::ay,
@@ -25,13 +26,15 @@ GtkObject	*Point::ax, *Point::ay,
 			*PulleyJoint::ax3, *PulleyJoint::ax4, *PulleyJoint::ay3, *PulleyJoint::ay4,
 			*PulleyJoint::ar;
 
-GtkWidget	*BiPoints::px1, *BiPoints::px2, *BiPoints::py1, *BiPoints::py2, *BiPoints::pw, *BiPoints::ph,
-			*BiPoints::tx1, *BiPoints::tx2, *BiPoints::ty1, *BiPoints::ty2, *BiPoints::tw, *BiPoints::th,
+GtkWidget	*Line::px1, *Line::px2, *Line::py1, *Line::py2,
+			*Line::tx1, *Line::tx2, *Line::ty1, *Line::ty2,
+			*Rect::px, *Rect::py, *Rect::pw, *Rect::ph,
+			*Rect::tx, *Rect::ty, *Rect::tw, *Rect::th,
 			*Physic::combo, *Physic::text, *Physic::entry, *Physic::expand, *Physic::p4, *Physic::t5,
 			*BiSymmetrical::pr, *BiSymmetrical::tr,
 			*BiSymmetrical::py, *BiSymmetrical::px, *BiSymmetrical::tx, *BiSymmetrical::ty,
 			*Point::py, *Point::px, *Point::tx, *Point::ty, *Body::tt, *Body::en_script,
-			*Physic::p1, *Physic::p2, *Physic::p3, *Physic::t1, *Physic::t2, *Physic::t3,
+			*Physic::p1, *Physic::p2, *Physic::p3, *Physic::t1, *Physic::t2, *Physic::t3, *Rotatable::ta, *Rotatable::pa,
 			*Physic::set_but, *Physic::c_category, *Physic::t4, *Object::text, *Object::entry,
 			*Body::combo, *Body::px, *Body::py, *Body::tx, *Body::ty, *Body::ps, *Body::cb, *Body::cr, *Body::ts,
 			*Body::pad,*Body::pld,*Body::tad,*Body::tld,
@@ -61,8 +64,10 @@ GtkWidget	*BiPoints::px1, *BiPoints::px2, *BiPoints::py1, *BiPoints::py2, *BiPoi
 void hide_all() {
 	Object::hide();
 	Point::hide();
-	BiPoints::hide();
+	Line::hide();
+	Rect::hide();
 	Physic::hide();
+	Rotatable::hide();
 	BiSymmetrical::hide();
 	Polygon::hide();
 	Cover::hide();
@@ -80,8 +85,10 @@ void hide_all() {
 void create_all(GtkWidget *prop_table) {
 	Object::init(prop_table);
 	Point::init(prop_table);
-	BiPoints::init(prop_table);
+	Line::init(prop_table);
+	Rect::init(prop_table);
 	Physic::init(prop_table);
+	Rotatable::init(prop_table);
 	BiSymmetrical::init(prop_table);
 	Polygon::init(prop_table);
 	Cover::init(prop_table);
@@ -226,7 +233,7 @@ bool Object::del(float xp,float yp,int dr) {
 vector<b2Vec2*> Object::get_points() {
 	return {};
 }
-string Object::name() {
+string Object::name() const {
 	return "Unknown";
 }
 
@@ -341,7 +348,7 @@ void Point::vupdate() {
 	update(this);
 	Object::update(this);
 }
-string Point::name() {
+string Point::name() const {
 	return "Point";
 }
 void Entity::init(GtkWidget *table) {
@@ -375,6 +382,6 @@ void Entity::vupdate() {
 	Point::update(this);
 	Object::update(this);
 }
-string Entity::name() {
+string Entity::name() const {
 	return "Entity";
 }
