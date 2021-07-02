@@ -716,6 +716,7 @@ static vector<string>get_scripts_list(){
 	return l;
 }
 void init() {
+	close();
 	copy_prev_key();
 	mouse.clear();
 	prev_time=SDL_GetTicks();
@@ -724,7 +725,12 @@ void init() {
 	luaL_openlibs(L);
 	bind();
 	dostring(
-		"player=entity('player')\n"
+		"setmetatable(_G, {\n"
+			"__newindex = function(array, index, value)\n"
+				"rawset(array, index, value)\n"
+				"print('NEW: value='..tostring(value)..';index='..index)\n"
+			"end\n"
+		"})\n"
 		"Level={}\n"
 		"Level.init=function() end\n"
 		"Level.update=function() end\n"
@@ -785,6 +791,7 @@ void init_level(string name,bool n) {
 }
 void close() {
 	if(L)lua_close(L);
+	L=nullptr;
 }
 void save_luaref(XMLNode n,LuaRef value) { //сохраняет в XMLNode переменную
 	if(!is_filled(value))return;
@@ -807,15 +814,16 @@ void save_luaref(XMLNode n,LuaRef value) { //сохраняет в XMLNode пе�
 		while(lua_next(L,-2)!=0) {
 			LuaRef key=LuaRef::fromStack(L,-2);
 			LuaRef val=LuaRef::fromStack(L,-1);
+			lua_pop(L,1);
 			if((key.isString() || key.isNumber()) && is_filled(val)) {
 				XMLNode child=n.addChild("value");
 				child.addAttribute("name",key.cast<string>());
 				save_luaref(child,val);
 				count++;
 			}
-			lua_pop(L,1);
 		}
 		n.addAttribute("count",count);
+		lua_pop(L, 1);
 	}
 }
 LuaRef load_luaref(XMLNode n) { //Загружает переменную из XMLNode
@@ -842,6 +850,8 @@ LuaRef load_luaref(XMLNode n) { //Загружает переменную из X
 	return newTable(L);
 }
 bool is_filled(LuaRef value) {
+	return true;
+	bool ok=0;
 	if(value.isBool()||value.isNumber()||value.isString())
 		return true;
 	if(value.isTable()) {
@@ -850,11 +860,12 @@ bool is_filled(LuaRef value) {
 		while(lua_next(L,-2)!=0) {
 			LuaRef key=LuaRef::fromStack(L,-2);
 			LuaRef val=LuaRef::fromStack(L,-1);
-			if((key.isString() || key.isNumber())&&is_filled(val))
-				return true;
+			if((key.isString() || key.isNumber())&&(value.isBool()||value.isNumber()||value.isString()||value.isTable()))
+				ok=1;
 			lua_pop(L,1);
+
 		}
 	}
-	return false;
+	return ok;
 }
 };

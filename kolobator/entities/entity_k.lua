@@ -12,7 +12,7 @@ function entity_k.update(a)
 		graphics.effect("big_blood",a.x,a.y)
 		return 1
 	else
-		if(entity("player")~=nil and math.abs(player.x-a.x)<3) then
+		if(player and math.abs(player.x-a.x)<3) then
 			if(player.x+2<a.x and b.vx>-entity_k.speed and game.interval(20)) then
 				j.motor=1
 				j.motor_speed=-entity_k.motor_speed

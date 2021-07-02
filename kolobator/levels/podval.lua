@@ -10,7 +10,7 @@ function level.update()
 	graphics.rect(math.random(0,100),math.random(0,100),math.random(0,100),math.random(0,100),Color(math.random(0,255),math.random(0,255),math.random(0,255),255),b)
 	graphics.framebuffer(nil)
 	camera_focus=""
-	if(entity("player")) then
+	if(player) then
 		game.camera.center(player.x,9.25)
 	end
 end

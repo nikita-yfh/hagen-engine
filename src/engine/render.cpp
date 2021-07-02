@@ -86,7 +86,6 @@ static void fixture_draw(b2Body *body,b2Fixture *fix) {
 			float x[4];
 			float y[4];
 			for(int q=0; q<4; q++) {
-				info_log(format("%g %g",body->GetPosition().x,body->GetPosition().y));
 				x[q]=drawx(body->GetPosition().x+rotatex(shape->m_vertices[q],a_rad));
 				y[q]=drawy(body->GetPosition().y+rotatey(shape->m_vertices[q],a_rad));
 			}
