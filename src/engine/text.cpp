@@ -20,13 +20,24 @@ void Tip::set(float _x,float _y,string _text,Color _color,float _time) {
 	color=_color;
 	timer=lua::get_time()+_time;
 }
-
-Subtitles::Subtitles(string text,Color color) {
-	set(text,color);
+void Tip::draw(){
+	b2Vec2 c=drawv(b2Vec2(pos));
+	b2Vec2 size=b2Vec2(FC_GetWidth(font,text.c_str()),FC_GetLineHeight(font))/2.0f;
+	GPU_RectangleFilled(ren,
+						c.x-size.x-tips_borders.left,
+						c.y-size.y-tips_borders.top,
+						c.x+size.x+tips_borders.right,
+						c.y+size.y+tips_borders.bottom,
+						tips_color.color());
+	FC_DrawColor(font,ren,c.x-size.x,c.y-size.y,color.color(),text.c_str());
 }
-void Subtitles::set(string _text,Color _color){
+Subtitles::Subtitles(string text,Color color,float time) {
+	set(text,color,time);
+}
+void Subtitles::set(string _text,Color _color,float time){
 	text=_text;
 	color=_color;
+	timer=lua::get_time()+time;
 }
 vector<Tip>tips;
 vector<Subtitles>subtitles;
@@ -81,28 +92,39 @@ void load_config() {
 
 	info_log("Loaded text config");
 }
-void add_tip_color(float x,float y,string text,Color color) {
-	add_tip_color_time(x,y,text,FC_GetDefaultColor(font),0);
+Color defcolor(){
+	return Color(FC_GetDefaultColor(font));
 }
-void add_tip(float x,float y,string text) {
-	add_tip_color_time(x,y,text,FC_GetDefaultColor(font),0);
+int add_tip(lua_State *L){
+	float x=luabridge::Stack<float>::get(L,1);
+	float y=luabridge::Stack<float>::get(L,2);
+	string text=luabridge::Stack<string>::get(L,3);
+	if(lua_gettop(L)>3){
+		Color color=luabridge::Stack<Color>::get(L,4);
+		float time=luaL_optnumber(L, 5, 0.0f);
+		tips.emplace_back(x,y,text,color,time);
+	}else
+		tips.emplace_back(x,y,text,FC_GetDefaultColor(font),0);
+	return 0;
 }
-void add_tip_color_time(float x,float y,string text,Color color,float time) {
-	tips.emplace_back(x,y,text,color,time);
-}
-void add_tip_time(float x,float y,string text,float time) {
-	add_tip_color_time(x,y,text,FC_GetDefaultColor(font),time);
-}
-void add_subtitles(string text) {
-	add_subtitles_color(text,subtitles_color);
-}
-void add_subtitles_color(string text,Color color) {
-	subtitles.emplace_back(text,color);
+int add_subtitles(lua_State *L){
+	string text=luabridge::Stack<string>::get(L,1);
+	float time=luabridge::Stack<float>::get(L,2);
+	if(lua_gettop(L)>2){
+		Color color=luabridge::Stack<Color>::get(L,3);
+		subtitles.emplace_back(text,color,time);
+	}else
+		subtitles.emplace_back(text,FC_GetDefaultColor(font),time);
+	return 0;
 }
 void update() {
 	for(int q=0; q<tips.size(); q++)
 		if(tips[q].timer<=lua::get_time())
 			tips.erase(tips.begin()+q);
+	for(int q=0; q<subtitles.size(); q++)
+		if(subtitles[q].timer<=lua::get_time())
+			subtitles.erase(subtitles.begin(),subtitles.begin()+q);
+
 }
 void clear_text() {
 	tips.clear();
@@ -111,16 +133,11 @@ void clear_locale() {
 	texts.clear();
 }
 void draw() {
-	for(Tip &tip : tips) {
-		b2Vec2 c=drawv(b2Vec2(tip.pos));
-		b2Vec2 size=b2Vec2(FC_GetWidth(font,tip.text.c_str()),FC_GetLineHeight(font))/2.0f;
-		GPU_RectangleFilled(ren,
-							c.x-size.x-tips_borders.left,
-							c.y-size.y-tips_borders.top,
-							c.x+size.x+tips_borders.right,
-							c.y+size.y+tips_borders.bottom,
-							tips_color.color());
-		FC_DrawColor(font,ren,c.x-size.x,c.y-size.y,tip.color.color(),tip.text.c_str());
-	}
+	for(Tip &tip : tips)
+		tip.draw();
+	/*float h=subtitles_borders.bottom;
+	for(int q=tips.size()-1;q>=0;q--){
+
+	}*/
 }
 }

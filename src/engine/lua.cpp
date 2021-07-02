@@ -322,16 +322,13 @@ static void bind() {
 	.addFunction("press_key",&get_press_key)	//когда клавишу только нажимают
 	.addFunction("release_key",&get_release_key)	//когда клавишу отпускают
 	.addFunction("interval",&get_interval)	//интервал для какого то действия. Возвращает 1 если время прошло.
-	.addProperty("bodies",&bodies)	//типо все тела на уровне возвращает
+	.addProperty("bodies",&bodies)	//типа все тела на уровне возвращает
 	.endNamespace()
 	.beginNamespace("text")
 	.addFunction("get",&text::get)
 	.addFunction("add_tip",&text::add_tip)
-	.addFunction("add_tip_color",&text::add_tip_color)
-	.addFunction("add_tip_time",&text::add_tip_time)
-	.addFunction("add_tip_color_time",&text::add_tip_color_time)
 	.addFunction("add_subtitles",&text::add_subtitles)
-	.addFunction("add_subtitles_color",&text::add_subtitles_color)
+	.addFunction("defcolor",&text::defcolor)
 	.endNamespace()
 	.beginNamespace("graphics")
 	.addFunction("set_mask",&set_mask)

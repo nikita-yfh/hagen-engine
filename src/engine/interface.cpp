@@ -649,7 +649,7 @@ void GameInterface::draw() {
 	}
 	if(get_entity("player")) {
 		auto draw_bullets=[=](string id,string str,uint8_t layer) {
-			FC_DrawAlign(font,ren,SW-borders.left,SH-borders.top-layer*h,
+			FC_DrawAlign(font,ren,SW-borders.left,SH-borders.bottom-layer*h,
 						 FC_ALIGN_RIGHT,"%s %d/%d %s",text::getc(str+"_prev"),
 						 bullets[id].count,bullets[id].max,
 						 text::getc(str));
