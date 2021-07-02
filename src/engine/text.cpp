@@ -11,6 +11,7 @@ Rect4 tips_borders;
 Color subtitles_color;
 Rect4 subtitles_borders;
 Rect4 subtitles_position;
+float subtitles_max_height;
 Tip::Tip(float x,float y,string text,Color color,float time) {
 	set(x,y,text,color,time);
 }
@@ -88,6 +89,7 @@ void load_config() {
 		load_value(tips_n,"color",subtitles_color);
 		load_value(tips_n,"border",subtitles_borders);
 		load_value(tips_n,"position",subtitles_position);
+		load_value(tips_n,"max_height",subtitles_max_height);
 	}
 
 	info_log("Loaded text config");
@@ -135,9 +137,15 @@ void clear_locale() {
 void draw() {
 	for(Tip &tip : tips)
 		tip.draw();
-	/*float h=subtitles_borders.bottom;
-	for(int q=tips.size()-1;q>=0;q--){
-
-	}*/
+	float h=subtitles_borders.bottom;
+	for(int q=subtitles.size()-1;q>=0;q--){
+		float w=SW-subtitles_borders.left-subtitles_borders.right;
+		h+=FC_GetColumnHeight(font,w,subtitles[q].text.c_str());
+		FC_DrawColumnColor(font,ren,subtitles_borders.left,h,w,subtitles[q].color.color(),subtitles[q].text.c_str());
+		if(q != subtitles.size()-1 && h-subtitles_borders.bottom > subtitles_max_height){
+			subtitles.erase(subtitles.begin(),subtitles.begin()+q);
+			break;
+		}
+	}
 }
 }

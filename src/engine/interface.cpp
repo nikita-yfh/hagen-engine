@@ -546,7 +546,8 @@ void SettingManager::draw() {
 		}
 		EndCombo();
 	}
-
+	if(set.language!=settings.language)
+		restart_f=true;
 	EndChild();
 	if(Button(text::getc("common/ok"))) {
 		if(restart_f)

@@ -43,6 +43,157 @@ static void update_intervals() {
 float get_time() {
 	return game_time;
 }
+
+int draw_rect(lua_State *L){
+	float x1=Stack<float>::get(L,1);
+	float y1=Stack<float>::get(L,2);
+	float x2=Stack<float>::get(L,3);
+	float y2=Stack<float>::get(L,4);
+	Color color=Stack<Color>::get(L,5);
+	bool fill=false;
+	float round=0.0f;
+	if(lua_gettop(L)>5)
+		fill=Stack<bool>::get(L,6);
+	if(lua_gettop(L)>6)
+		round=Stack<float>::get(L,7);
+	if(fill)
+		GPU_RectangleRoundFilled(ren,x1,y1,x2,y2,round,color.color());
+	else
+		GPU_RectangleRound(ren,x1,y1,x2,y2,round,color.color());
+	return 0;
+}
+static vector<float> luaval_to_vector_float(lua_State *L,int n) {
+	vector<float>vec;
+	int len = lua_objlen(L,n);
+	for (int i=1; i <= len; i++) {
+		lua_pushinteger(L,i);
+		lua_gettable(L,n);
+		float v= lua_tonumber(L,-1);
+		if (v)
+			vec.push_back(v);
+		lua_pop(L,1);
+	}
+	return vec;
+}
+int draw_polygon(lua_State *L){
+	vector<float>vec=luaval_to_vector_float(L,1);
+	Color color=Stack<Color>::get(L,2);
+	bool fill=false;
+	if(lua_gettop(L)>2)
+		fill=Stack<bool>::get(L,3);
+	if(fill)
+		GPU_PolygonFilled(ren,vec.size(),vec.data(),color.color());
+	else
+		GPU_Polygon(ren,vec.size(),vec.data(),color.color());
+	return 0;
+}
+int draw_polyline(lua_State *L){
+	vector<float>vec=luaval_to_vector_float(L,1);
+	Color color=Stack<Color>::get(L,2);
+	bool close=false;
+	if(lua_gettop(L)>2)
+		close=Stack<bool>::get(L,3);
+	GPU_Polyline(ren,vec.size(),vec.data(),color.color(),close);
+	return 0;
+}
+int draw_tri(lua_State *L){
+	float x1=Stack<float>::get(L,1);
+	float y1=Stack<float>::get(L,2);
+	float x2=Stack<float>::get(L,3);
+	float y2=Stack<float>::get(L,4);
+	float x3=Stack<float>::get(L,5);
+	float y3=Stack<float>::get(L,6);
+	Color color=Stack<Color>::get(L,7);
+	bool fill=false;
+	if(lua_gettop(L)>7)
+		fill=Stack<bool>::get(L,8);
+	if(fill)
+		GPU_TriFilled(ren,x1,y1,x2,y2,x3,y3,color.color());
+	else
+		GPU_Tri(ren,x1,y1,x2,y2,x3,y3,color.color());
+	return 0;
+}
+int draw_sector(lua_State *L){
+	float x=Stack<float>::get(L,1);
+	float y=Stack<float>::get(L,2);
+	float r1=Stack<float>::get(L,3);
+	float r2=Stack<float>::get(L,4);
+	float a1=Stack<float>::get(L,5);
+	float a2=Stack<float>::get(L,6);
+	Color color=Stack<Color>::get(L,7);
+	bool fill=false;
+	if(lua_gettop(L)>7)
+		fill=Stack<bool>::get(L,8);
+	if(fill)
+		GPU_SectorFilled(ren,x,y,r1,r2,a1,a2,color.color());
+	else
+		GPU_Sector(ren,x,y,r1,r2,a1,a2,color.color());
+	return 0;
+}
+int draw_ellipse(lua_State *L){
+	float x=Stack<float>::get(L,1);
+	float y=Stack<float>::get(L,2);
+	float r1=Stack<float>::get(L,3);
+	float r2=Stack<float>::get(L,4);
+	float a=Stack<float>::get(L,5);
+	Color color=Stack<Color>::get(L,6);
+	bool fill=false;
+	if(lua_gettop(L)>6)
+		fill=Stack<bool>::get(L,7);
+	if(fill)
+		GPU_EllipseFilled(ren,x,y,r1,r2,a,color.color());
+	else
+		GPU_Ellipse(ren,x,y,r1,r2,a,color.color());
+	return 0;
+}
+int draw_circle(lua_State *L){
+	float x=Stack<float>::get(L,1);
+	float y=Stack<float>::get(L,2);
+	float r=Stack<float>::get(L,3);
+	Color color=Stack<Color>::get(L,4);
+	bool fill=false;
+	if(lua_gettop(L)>4)
+		fill=Stack<bool>::get(L,5);
+	if(fill)
+		GPU_CircleFilled(ren,x,y,r,color.color());
+	else
+		GPU_Circle(ren,x,y,r,color.color());
+	return 0;
+}
+
+int draw_arc(lua_State *L){
+	float x=Stack<float>::get(L,1);
+	float y=Stack<float>::get(L,2);
+	float r=Stack<float>::get(L,3);
+	float a1=Stack<float>::get(L,4);
+	float a2=Stack<float>::get(L,5);
+	Color color=Stack<Color>::get(L,6);
+	bool fill=false;
+	if(lua_gettop(L)>6)
+		fill=Stack<bool>::get(L,7);
+	if(fill)
+		GPU_ArcFilled(ren,x,y,r,a1,a2,color.color());
+	else
+		GPU_Arc(ren,x,y,r,a1,a2,color.color());
+	return 0;
+}
+
+int draw_line(lua_State *L){
+	float x1=Stack<float>::get(L,1);
+	float y1=Stack<float>::get(L,2);
+	float x2=Stack<float>::get(L,3);
+	float y2=Stack<float>::get(L,4);
+	Color color=Stack<Color>::get(L,5);
+	GPU_Line(ren,x1,y1,x2,y2,color.color());
+	return 0;
+}
+int draw_pixel(lua_State *L){
+	float x=Stack<float>::get(L,1);
+	float y=Stack<float>::get(L,2);
+	Color color=Stack<Color>::get(L,3);
+	GPU_Pixel(ren,x,y,color.color());
+	return 0;
+}
 //НАЧАЛО КОСТЫЛЕЙ И ОСНОВНЫХ ПРИЧИН БАГОВ
 static void set_mask(Color c) {
 	scene_mask=c;
