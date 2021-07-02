@@ -21,11 +21,11 @@ GPU_Image *img1;
 GPU_Target *ren1;
 void init_target() {
 	img1=GPU_CreateImage(SW,SH,GPU_FORMAT_RGBA);
-	GPU_LoadTarget(img1);
-	ren1=img1->target;
+	ren1=GPU_LoadTarget(img1);
 }
 void delete_target() {
 	GPU_FreeImage(img1);
+	GPU_FreeTarget(ren1);
 }
 static void draw_mask() {
 	GPU_RectangleFilled(ren,0,0,SW,SH,scene_mask.color());
@@ -265,5 +265,7 @@ void draw() {
 	text::draw();
 	draw_mask();
 	interface.draw();
+}
+void flip(){
 	GPU_Flip(ren);
 }

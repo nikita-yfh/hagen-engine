@@ -90,7 +90,13 @@ protected:
     }
 
 private:
-    static int throwAtPanic(lua_State* L) { throw LuaException(L, -1); }
+    static int throwAtPanic(lua_State* L) {
+#ifdef LUABRIDGE_DISABLE_EXCEPTIONS
+        panic(LuaException(L, -1).what());
+#else
+        throw LuaException(L, -1);
+#endif
+    }
 };
 
 //----------------------------------------------------------------------------

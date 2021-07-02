@@ -118,8 +118,13 @@ GPU_Image *find_texture(string id) {
 }
 
 void destroy_textures() {
-	for(auto &t : textures)
-		GPU_FreeImage(t.second);
+	for(auto &t : textures){
+		if(t.second){
+			if(t.second->target)
+				GPU_FreeTarget(t.second->target);
+			GPU_FreeImage(t.second);
+		}
+	}
 	textures.clear();
 }
 
