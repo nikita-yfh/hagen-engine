@@ -288,7 +288,6 @@ void init_body(b2Body *body,bool ex) {
 		if(!ok) {
 			luaL_dostring(L,(B_DATA(body,script)+"=extend(Body)\n").c_str());
 			doscript("bodies/"+B_DATA(body,script));
-			loaded.emplace_back(B_DATA(body,script));
 		}
 		if(ex){
 			getGlobal(L,"Body")["init"](body);
@@ -321,7 +320,6 @@ void init_entity(Entity *entity,bool ex) {
 	if(!ok) {
 		luaL_dostring(L,(entity->type+"=extend(Entity)\n").c_str());
 		doscript("entities/"+entity->type);
-		loaded.emplace_back(entity->type);
 	}
 	if(ex) {
 		getGlobal(L,"Entity")["init"](entity);
@@ -333,6 +331,7 @@ static void init_entities() {
 		init_entity(entity.second);
 }
 void init_weapon(Entity *entity,bool ex) {
+	if(entity->weapon.name.size()==0)return;
 	bool ok=0;
 	for(string l : loaded)
 		if(entity->weapon.name==l)
@@ -344,7 +343,6 @@ void init_weapon(Entity *entity,bool ex) {
 	if(ex) {
 		getGlobal(L,"Weapon")["init"](&entity->weapon,entity);
 		getGlobal(L,entity->weapon.name.c_str())["init"](&entity->weapon,entity);
-		loaded.emplace_back(entity->weapon.name);
 	}
 }
 static void update_entities() {
@@ -431,10 +429,23 @@ static bool get_release_key(string k) {
 	}
 	return 0;
 }
+static int add_loaded(lua_State *L){
+	assert(lua_gettop(L)==1);
+	LuaRef value=LuaRef::fromStack(L,1);
+	if(value.isNumber()||value.isString()){
+		string s=value.tostring();
+		for(string l : loaded)
+			if(l==s)
+				return 0;
+		loaded.emplace_back(s);
+	}
+	return 0;
+}
 static void bind() {
 #define KEY(key) SDL_GetKeyboardState(key)
 	getGlobalNamespace(L)
 	.addFunction("exit",quit)
+	.addFunction("__add_loaded",add_loaded)
 	.addFunction("restart",restart)
 	.beginClass<Color>("Color")
 	.addConstructor<void(*)(uint8_t,uint8_t,uint8_t,uint8_t)>()
@@ -728,7 +739,7 @@ void init() {
 		"setmetatable(_G, {\n"
 			"__newindex = function(array, index, value)\n"
 				"rawset(array, index, value)\n"
-				"print('NEW: value='..tostring(value)..';index='..index)\n"
+				"__add_loaded(index)\n"
 			"end\n"
 		"})\n"
 		"Level={}\n"
@@ -850,7 +861,6 @@ LuaRef load_luaref(XMLNode n) { //Загружает переменную из X
 	return newTable(L);
 }
 bool is_filled(LuaRef value) {
-	return true;
 	bool ok=0;
 	if(value.isBool()||value.isNumber()||value.isString())
 		return true;
@@ -860,11 +870,11 @@ bool is_filled(LuaRef value) {
 		while(lua_next(L,-2)!=0) {
 			LuaRef key=LuaRef::fromStack(L,-2);
 			LuaRef val=LuaRef::fromStack(L,-1);
-			if((key.isString() || key.isNumber())&&(value.isBool()||value.isNumber()||value.isString()||value.isTable()))
+			if((key.isString() || key.isNumber())&&is_filled(val))
 				ok=1;
 			lua_pop(L,1);
-
 		}
+		lua_pop(L,1);
 	}
 	return ok;
 }
