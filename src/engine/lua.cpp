@@ -44,6 +44,20 @@ float get_time() {
 	return game_time;
 }
 
+#if defined(ANDROID)
+static const char* os="Android";
+#elif defined(__linux__)
+static const char* os="Linux";
+#elif defined(_WIN32)
+static const char* os="Windows";
+#elif defined(__APPLE__)
+static const char* os="MacOS";
+#elif defined(__unix__)
+static const char* os="Unix";
+#else
+static const char* os="Unknown";
+#endif
+
 static GPU_Target *target;
 
 static vector<float> luaval_to_vector_float(lua_State *L,int n) {
@@ -58,6 +72,35 @@ static vector<float> luaval_to_vector_float(lua_State *L,int n) {
 		lua_pop(L,1);
 	}
 	return vec;
+}
+static float get_ddpi(){
+	float f;
+	if(SDL_GetDisplayDPI(0,&f,0,0))
+		panic(SDL_GetError());
+	return f;
+}
+static float get_vdpi(){
+	float f;
+	if(SDL_GetDisplayDPI(0,0,0,&f))
+		panic(SDL_GetError());
+	return f;
+}
+static float get_hdpi(){
+	float f;
+	if(SDL_GetDisplayDPI(0,0,&f,0))
+		panic(SDL_GetError());
+	return f;
+}
+static float get_dpi(){
+	float f1,f2;
+	if(SDL_GetDisplayDPI(0,0,&f1,&f2))
+		panic(SDL_GetError());
+	return (f1+f2)/2.0f;
+}
+static float get_refresh_rate(){
+	SDL_DisplayMode mode;
+	SDL_GetCurrentDisplayMode(0,&mode);
+	return mode.refresh_rate;
 }
 static int draw_rect(lua_State *L){
 	float x1=Stack<float>::get(L,1);
@@ -447,6 +490,7 @@ static void bind() {
 	.addFunction("exit",quit)
 	.addFunction("__add_loaded",add_loaded)
 	.addFunction("restart",restart)
+	.addProperty("os",&os,0)
 	.beginClass<Color>("Color")
 	.addConstructor<void(*)(uint8_t,uint8_t,uint8_t,uint8_t)>()
 	.addProperty("r",&Color::r)
@@ -528,6 +572,11 @@ static void bind() {
 	.beginNamespace("display")
 	.addProperty("w",&SW,0)
 	.addProperty("h",&SH,0)
+	.addProperty("dpi",&get_dpi)
+	.addProperty("ddpi",&get_ddpi)
+	.addProperty("vdpi",&get_vdpi)
+	.addProperty("hdpi",&get_hdpi)
+	.addProperty("refresh_rate",&get_refresh_rate)
 	.endNamespace()
 	.addFunction("rect",&draw_rect)
 	.addFunction("polygon",&draw_polygon)
