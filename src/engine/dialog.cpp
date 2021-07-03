@@ -157,7 +157,7 @@ SDL_MessageBoxButtonData getButton(int flags,Selection sel,const char *text){
 Selection show(string title, string message, Style style, Buttons buttons) {
 	SDL_Window *w=SDL_GetWindowFromID(ren->context->windowID);
 	SDL_MessageBoxData data;
-	data.flags=getMessageType(style)|SDL_MESSAGEBOX_BUTTONS_LEFT_TO_RIGHT;
+	data.flags=getMessageType(style);
 	data.window=w;
 	data.title=title.c_str();
 	data.message=message.c_str();
