@@ -132,21 +132,21 @@ void Shader::load(string v_str, string f_str) {
 	v = GPU_LoadShader(GPU_VERTEX_SHADER, v_str.c_str());
 
 	if (!v)
-		error_log((string)"Failed to load vertex shader: "+GPU_GetShaderMessage());
+		panic((string)"Failed to load vertex shader: "+GPU_GetShaderMessage());
 	else
 		info_log("Loaded vertex shader");
 
 	f = GPU_LoadShader(GPU_FRAGMENT_SHADER, f_str.c_str());
 
 	if (!f)
-		error_log((string)"Failed to load fragment shader: "+GPU_GetShaderMessage());
+		panic((string)"Failed to load fragment shader: "+GPU_GetShaderMessage());
 	else
 		info_log("Loaded fragment shader");
 
 	l = GPU_LinkShaders(v, f);
 
 	if (!l)
-		error_log((string)"Failed to link shader program: "+GPU_GetShaderMessage());
+		panic((string)"Failed to link shader program: "+GPU_GetShaderMessage());
 	else
 		info_log("Linked shader program");
 

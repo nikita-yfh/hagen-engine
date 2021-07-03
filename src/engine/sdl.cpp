@@ -75,7 +75,7 @@ static void print_renderer_info(GPU_Renderer *renderer) {
 }
 void init() {
 	if(SDL_Init(SDL_INIT_EVERYTHING)) {
-		error_log(SDL_GetError());
+		panic(SDL_GetError());
 		throw string(SDL_GetError());
 	}
 	info_log("SDL inited succesfully");
@@ -89,7 +89,7 @@ void init() {
 	if(!ren) {
 		GPU_ErrorObject error=GPU_PopErrorCode();
 		string str=(string)"In function "+error.function+": "+error.details;
-		error_log(str);
+		panic(str);
 		throw string(error.details);
 	}
 	init_target();
@@ -100,11 +100,11 @@ void init() {
 
 	int mix_flags=MIX_INIT_MP3|MIX_INIT_MOD;
 	if(Mix_Init(mix_flags)&mix_flags!=mix_flags) {
-		error_log(SDL_GetError());
+		panic(SDL_GetError());
 		throw string(SDL_GetError());
 	}
 	if(Mix_OpenAudio(22050,AUDIO_S16SYS,2,640)) {
-		error_log(SDL_GetError());
+		panic(SDL_GetError());
 		throw string(SDL_GetError());
 	}
 	info_log("Music inited succesfully");

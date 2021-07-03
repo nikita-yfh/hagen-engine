@@ -26,7 +26,7 @@ static void collectargs(int argc, char * argv[]){
 	if(argc>2)prefix=argv[2];
 
 }
-
+#include "dialog.hpp"
 int main(int argc, char * argv[]) {
 	info_log("Welcome to Hagen Engine!");
 	collectargs(argc,argv);
@@ -80,7 +80,7 @@ static void mkdir(const char* path){
 	char s[1024];
 	sprintf(s,"mkdir %s",path);
 	if(system(s))
-		error_log(format("Error while creating directory %s",path));
+		panic(format("Error while creating directory %s",path));
 	else
 		info_log(format("Created directory %s",path));
 }

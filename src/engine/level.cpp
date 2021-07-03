@@ -560,6 +560,8 @@ b2Joint *read_joint(XMLNode jn,string &id,b2Vec2 delta,Entity *ent) {
 }
 void open_file(string path) {
 	XMLNode lvl=open_xml(path.c_str(),"level");
+	if(lvl.isEmpty())
+		panic("Cannot open level "+path);
 	world=new b2World(b2Vec2(0,9.8));
 	{
 		//backgroung

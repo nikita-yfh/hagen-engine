@@ -313,7 +313,7 @@ vector<string>get_table_keys(string name) {
 
 void dostring(string text) {
 	if(luaL_dostring(L, text.c_str())) {
-		error_log(lua_tostring(L, -1));
+		panic(lua_tostring(L, -1));
 	}
 }
 static void doscript(string file) {

@@ -1,6 +1,7 @@
 #include "dialog.hpp"
+#include "sdl.hpp"
 namespace dialog {
-#ifdef WIN32
+#ifdef _WIN32
 #include <windows.h>
 
 namespace {
@@ -59,7 +60,7 @@ Selection show(string title, string message, Style style, Buttons buttons) {
 	return getSelection(MessageBox(NULL, message.c_str(), title.c_str(), flags));
 }
 
-#elif defined (LINUX)
+#elif defined (__linux__) && !defined(ANDROID)
 #include <gtk/gtk.h>
 namespace {
 
@@ -128,6 +129,63 @@ Selection show(string title, string message, Style style, Buttons buttons) {
 	return selection;
 }
 #else
-Selection show(string title, string message, Style style, Buttons buttons) {}
+namespace {
+
+int getMessageType(Style style) {
+	switch (style) {
+	case Style::Info:
+		return SDL_MESSAGEBOX_INFORMATION;
+	case Style::Warning:
+		return SDL_MESSAGEBOX_WARNING;
+	case Style::Error:
+		return SDL_MESSAGEBOX_ERROR;
+	default:
+		return SDL_MESSAGEBOX_INFORMATION;
+	}
+}
+
+SDL_MessageBoxButtonData getButton(int flags,Selection sel,const char *text){
+	SDL_MessageBoxButtonData d;
+	d.buttonid=(int)sel;
+	d.flags=flags;
+	d.text=text;
+	return d;
+}
+
+} // namespace
+
+Selection show(string title, string message, Style style, Buttons buttons) {
+	SDL_Window *w=SDL_GetWindowFromID(ren->context->windowID);
+	SDL_MessageBoxData data;
+	data.flags=getMessageType(style)|SDL_MESSAGEBOX_BUTTONS_LEFT_TO_RIGHT;
+	data.window=w;
+	data.title=title.c_str();
+	data.message=message.c_str();
+	data.colorScheme=nullptr;
+	switch(buttons){
+	case Buttons::OKCancel:{
+		data.buttons=new SDL_MessageBoxButtonData[2]{
+			getButton(SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT,Selection::OK,"OK"),
+			getButton(SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT,Selection::Cancel,"Cancel")};
+		data.numbuttons=2;
+		}break;
+	case Buttons::YesNo:{
+		data.buttons=new SDL_MessageBoxButtonData[2]{
+			getButton(SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT,Selection::Yes,"Yes"),
+			getButton(SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT,Selection::No,"No")};
+		data.numbuttons=2;
+		}break;
+	default:{
+		data.buttons=new SDL_MessageBoxButtonData[1]{
+			getButton(SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT,Selection::OK,"OK")};
+		data.numbuttons=1;
+		}break;
+	}
+	int button;
+	if(SDL_ShowMessageBox(&data,&button))
+		button=(int)Selection::OK;
+	delete[]data.buttons;
+	return (Selection)button;
+}
 #endif
 }
