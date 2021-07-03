@@ -487,10 +487,12 @@ static int add_loaded(lua_State *L){
 static void bind() {
 #define KEY(key) SDL_GetKeyboardState(key)
 	getGlobalNamespace(L)
+	.beginNamespace("system")
 	.addFunction("exit",quit)
 	.addFunction("__add_loaded",add_loaded)
 	.addFunction("restart",restart)
 	.addProperty("os",&os,0)
+	.endNamespace()
 	.beginClass<Color>("Color")
 	.addConstructor<void(*)(uint8_t,uint8_t,uint8_t,uint8_t)>()
 	.addProperty("r",&Color::r)
@@ -788,7 +790,7 @@ void init() {
 		"setmetatable(_G, {\n"
 			"__newindex = function(array, index, value)\n"
 				"rawset(array, index, value)\n"
-				"__add_loaded(index)\n"
+				"system.__add_loaded(index)\n"
 			"end\n"
 		"})\n"
 		"Level={}\n"
