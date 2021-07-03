@@ -805,6 +805,7 @@ void Physic::init(GtkWidget *table) {
 	g_signal_connect(G_OBJECT(p1),"value_changed",update1,0);
 	g_signal_connect(G_OBJECT(p2),"value_changed",update1,0);
 	g_signal_connect(G_OBJECT(p3),"value_changed",update1,0);
+	g_signal_connect(G_OBJECT(p4),"value_changed",update1,0);
 	g_signal_connect(G_OBJECT(combo),"changed",update1,0);
 	g_signal_connect(G_OBJECT(c_category),"changed",update1,0);
 	g_signal_connect(G_OBJECT(entry),"notify::text",update1,0);
