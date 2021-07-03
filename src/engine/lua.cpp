@@ -322,6 +322,9 @@ static void doscript(string file) {
 static void level(string str) {
 	need_load=str;
 }
+static void load(string str) {
+	need_load="[LOAD]"+str;
+}
 void init_body(b2Body *body,bool ex) {
 	if(B_DATA(body,script).size()) {
 		bool ok=0;
@@ -554,6 +557,8 @@ static void bind() {
 	.addFunction("release_key",&get_release_key)	//когда клавишу отпускают
 	.addFunction("interval",&get_interval)	//интервал для какого то действия. Возвращает 1 если время прошло.
 	.addProperty("bodies",&bodies)	//типа все тела на уровне возвращает
+	.addFunction("save",&save_world_state)
+	.addFunction("load",&load)
 	.endNamespace()
 	.beginNamespace("text")
 	.addFunction("get",&text::get)

@@ -45,7 +45,11 @@ int main(int argc, char * argv[]) {
 	while(1) {
 		int t=SDL_GetTicks();
 		if(lua::need_load.size()) {
-			load_level(lua::need_load,interface.mainmenu.shown);
+			if(lua::need_load.find("[LOAD]")==0){
+				lua::need_load.erase(lua::need_load.begin(),lua::need_load.begin()+6);
+				load_world_state(lua::need_load);
+			}else
+				load_level(lua::need_load,interface.mainmenu.shown);
 			lua::need_load="";
 		}
 		copy_prev_key();
