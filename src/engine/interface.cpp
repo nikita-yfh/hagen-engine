@@ -26,14 +26,6 @@ static newFrame_t *newFrame;
 static shutdown_t *shutdown;
 using namespace ImGui;
 
-static void trim(std::string &s) {
-	while(s[0]==' ')
-		s.erase(s.begin());
-	while(s[s.size()-1]==' ')
-		s.erase(s.end());
-}
-
-
 void Interface::update() {
 	if(!mainmenu.shown) {
 		if(pkey(SDL_SCANCODE_GRAVE)) {

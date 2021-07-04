@@ -418,3 +418,11 @@ float deg(float v){
 float rad(float v){
 	return v*M_PI/180.0f;
 }
+
+void trim(std::string &s) {
+	while(s[0]==' ')
+		s.erase(s.begin());
+	while(s[s.size()-1]==' ')
+		s.erase(s.end());
+}
+

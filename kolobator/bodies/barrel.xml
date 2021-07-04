@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<body type="dynamic" script="" shapes="1">
+	<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
+	<shape id="_Polygon2" type="Polygon" layer="0" sensor="0" texture="barrel.png" expand="1">
+		<position point_count="8">
+			<point x="-0.224999" y="-0.320001"/>
+			<point x="0.225" y="-0.320001"/>
+			<point x="0.395" y="-0.25"/>
+			<point x="0.395" y="0.25"/>
+			<point x="0.225" y="0.32"/>
+			<point x="-0.224999" y="0.32"/>
+			<point x="-0.395" y="0.25"/>
+			<point x="-0.395" y="-0.25"/>
+		</position>
+		<physic density="1500" friction="0.5" restitution="0"/>
+		<collision category="0" mask="65535"/>
+	</shape>
+</body>

@@ -100,7 +100,7 @@ bool create_shapes(int x,int y,int mouse) {
 			} else create_status=1;
 			if(tool_ch<8)
 				cr->shapes.push_back((Physic*)obj);
-			else if(tool_ch<13)
+			else if(tool_ch<14)
 				level.joints.push_back((Joint*)obj);
 			else
 				level.entities.push_back((Entity*)obj);

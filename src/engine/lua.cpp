@@ -326,18 +326,55 @@ static void load(string str) {
 	need_load="[LOAD]"+str;
 }
 void init_body(b2Body *body,bool ex) {
-	if(B_DATA(body,script).size()) {
+	string &exec=B_DATA(body,script);
+	trim(exec);
+	if(exec.size()) {
+		string args;
+		if(exec.find("(")!=string::npos&&exec.find(")")!=string::npos){
+			args.assign(exec,exec.find("(")+1,exec.find(")")-exec.find("(")-1);
+			exec.assign(exec,0,exec.find("("));
+			trim(exec);
+		}
 		bool ok=0;
 		for(string l : loaded)
-			if(B_DATA(body,script)==l)
+			if(exec==l)
 				ok=1;
+		vector<LuaRef>lua_args;
+
+		char *str=strdup(args.c_str());
+		char * pch = strtok (str,",");
+
+		while (pch != NULL){
+			string d=pch;
+			if(!d.size())break;
+			if(d=="nil")
+				lua_args.push_back(LuaRef(L));
+			else if(d.size()>=2&&d.find("\"")==0&&d.rfind("\"")==d.size()-1){
+				d.erase(d.begin());
+				d.erase(d.end()-1);
+				lua_args.push_back(LuaRef(L,d));
+			}else if(is_valid_float(d))
+				lua_args.push_back(LuaRef(L,stof(d)));
+			else break;
+			pch = strtok (NULL, " ,");
+		}
+		free(str);
 		if(!ok) {
-			luaL_dostring(L,(B_DATA(body,script)+"=extend(Body)\n").c_str());
-			doscript("bodies/"+B_DATA(body,script));
+			dostring(exec+"=extend(Body)\n");
+			doscript("bodies/"+exec);
 		}
 		if(ex){
-			getGlobal(L,"Body")["init"](body);
-			getGlobal(L,B_DATA(body,script).c_str())["init"](body);
+			auto exec_func=[&](){
+				Stack<b2Body*>::push(L, body);
+				for(LuaRef val : lua_args)
+					Stack<LuaRef>::push(L, val);
+				LuaException::pcall(L, lua_args.size()+1, 1);
+				LuaRef::fromStack(L);
+			};
+			getGlobal(L,"Body")["init"].push(L);
+			exec_func();
+			getGlobal(L,exec.c_str())["init"].push(L);
+			exec_func();
 		}
 	}
 }

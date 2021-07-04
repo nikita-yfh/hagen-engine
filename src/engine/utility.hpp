@@ -52,3 +52,8 @@ XMLNode open_xml(const char *path, const char *tag);
 string RWget(const char* filename);
 float deg(float v);
 float rad(float v);
+
+bool is_valid_float(string str);
+
+void trim(std::string &s);
+
