@@ -2,12 +2,12 @@
 <body type="static" script="" shapes="2">
 	<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
 	<shape id="_Rect1" type="Rect" layer="100" sensor="1" texture="table2.png" expand="1">
-		<position x="0" y="0.185" w="1.46" h="0.62" angle="0"/>
+		<position x="-4.76837e-07" y="0.18125" w="1.46" h="0.62" angle="0"/>
 		<physic density="1000" friction="0.2" restitution="0"/>
 		<collision category="0" mask="65535"/>
 	</shape>
 	<shape id="_Rect2" type="Rect" layer="0" sensor="0" texture="table1.png" expand="1">
-		<position x="0" y="-0.184999" w="1.46" h="0.13" angle="0"/>
+		<position x="0" y="-0.181251" w="1.46" h="0.105" angle="0"/>
 		<physic density="1000" friction="0.3" restitution="0"/>
 		<collision category="0" mask="65535"/>
 	</shape>

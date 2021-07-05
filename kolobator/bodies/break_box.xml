@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<body type="dynamic" script="break_box" shapes="1">
-	<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
-	<shape id="_Square1" type="Square" layer="0" sensor="0" texture="wooden_box.png" expand="1">
-		<position x="0" y="0" r="0.17"/>
-		<physic density="2500" friction="0.3" restitution="0"/>
-		<collision category="0" mask="65535"/>
-	</shape>
-</body>

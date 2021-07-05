@@ -1,47 +1,46 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <level w="40" h="20">
 	<background img="backgrounds/default.png"/>
-	<bodies count="7">
-		<body x="20.2941" y="9.58823" id="allwall" type="static" script="" shapes="1">
+	<bodies count="10">
+		<body x="12.4375" y="9.6875" id="allwall" type="static" script="" shapes="1">
 			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
 			<shape id="_Polygon1" type="Polygon" layer="0" sensor="0" texture="black.png" expand="0">
-				<position point_count="17">
-					<point x="7.70588" y="-6.58823"/>
-					<point x="-18.7941" y="-6.58823"/>
-					<point x="-18.7941" y="6.91177"/>
-					<point x="7.70588" y="6.91177"/>
-					<point x="7.70588" y="-0.0882378"/>
-					<point x="4.45588" y="-0.0882378"/>
-					<point x="4.45588" y="0.161762"/>
-					<point x="4.20588" y="0.161762"/>
-					<point x="4.20588" y="0.411762"/>
-					<point x="3.95588" y="0.411762"/>
-					<point x="3.95588" y="0.661762"/>
-					<point x="3.70588" y="0.661762"/>
-					<point x="3.70588" y="0.911762"/>
-					<point x="-15.2941" y="0.911762"/>
-					<point x="-15.2941" y="-1.58824"/>
-					<point x="4.70588" y="-1.58823"/>
-					<point x="7.70588" y="-1.58823"/>
+				<position point_count="16">
+					<point x="5.3125" y="-6.6875"/>
+					<point x="-10.9375" y="-6.6875"/>
+					<point x="-10.9375" y="6.8125"/>
+					<point x="5.3125" y="6.8125"/>
+					<point x="5.3125" y="-0.187497"/>
+					<point x="2.3125" y="-0.187497"/>
+					<point x="2.3125" y="0.0625029"/>
+					<point x="2.0625" y="0.0625029"/>
+					<point x="2.0625" y="0.312503"/>
+					<point x="1.8125" y="0.312503"/>
+					<point x="1.8125" y="0.562503"/>
+					<point x="1.5625" y="0.562503"/>
+					<point x="1.5625" y="0.812503"/>
+					<point x="-7.4375" y="0.812495"/>
+					<point x="-7.4375" y="-1.68751"/>
+					<point x="5.3125" y="-1.6875"/>
 				</position>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
 			</shape>
 		</body>
-		<body x="5.73" y="10.005" id="table" type="static" script="" shapes="2">
+		<body x="5.73" y="10.0088" id="table" type="static" script="" shapes="2">
 			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
 			<shape id="_Rect1" type="Rect" layer="100" sensor="1" texture="table2.png" expand="1">
-				<position x="0" y="0.185" w="1.46" h="0.62" angle="0"/>
+				<position x="0" y="0.181251" w="1.46" h="0.62" angle="0"/>
 				<physic density="1000" friction="0.2" restitution="0"/>
 				<collision category="0" mask="65535"/>
 			</shape>
 			<shape id="_Rect2" type="Rect" layer="0" sensor="0" texture="table1.png" expand="1">
-				<position x="0" y="-0.184999" w="1.46" h="0.13" angle="0"/>
+				<position x="4.76837e-07" y="-0.18125" w="1.46" h="0.105" angle="0"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
 			</shape>
 		</body>
-		<body x="7.504" y="8.907" id="knife" type="dynamic" script="w_knife(1)" shapes="1">
+		<body x="7.5" y="8.907" id="knife" type="dynamic" script="w_knife(1)" shapes="1">
 			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
 			<shape id="_Rect4" type="Rect" layer="0" sensor="0" texture="weapon/knife.png" expand="1">
 				<position x="0" y="0" w="0.35" h="0.045" angle="0"/>
@@ -49,17 +48,17 @@
 				<collision category="1" mask="65533"/>
 			</shape>
 		</body>
-		<body x="15" y="9.25" id="fon" type="static" script="" shapes="1">
+		<body x="11.375" y="9.25" id="fon" type="static" script="" shapes="1">
 			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
-			<shape id="_Rect11" type="Rect" layer="-100" sensor="1" texture="podval_wall.png" expand="1">
-				<position x="0" y="0" w="20" h="2.5" angle="0"/>
+			<shape id="_Rect11" type="Rect" layer="-100" sensor="1" texture="podval_wall.png" expand="0">
+				<position x="0" y="0" w="12.75" h="2.5" angle="0"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
 			</shape>
 		</body>
-		<body x="25" y="8.75" id="_end" type="static" script="" shapes="1">
+		<body x="15" y="8.75" id="_end" type="static" script="" shapes="1">
 			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
-			<shape id="_Line1" type="Line" layer="0" sensor="1" texture="" expand="1">
+			<shape id="_Line1" type="Line" layer="-128" sensor="1" texture="" expand="1">
 				<position x1="0" y1="-0.75" x2="0" y2="0.75"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
@@ -67,7 +66,7 @@
 		</body>
 		<body x="7.75" y="10.25" id="box" type="dynamic" script="" shapes="1">
 			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="1" linear_damping="0"/>
-			<shape id="_Square1" type="Square" layer="0" sensor="0" texture="unbreakable_box.png" expand="1">
+			<shape id="_Square1" type="Square" layer="0" sensor="0" texture="box1.png" expand="1">
 				<position x="0" y="0" r="0.25" angle="0"/>
 				<physic density="2000" friction="0.6" restitution="0"/>
 				<collision category="0" mask="65535"/>
@@ -80,8 +79,37 @@
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
 			</shape>
-			<shape id="_Rect3" type="Rect" layer="-50" sensor="1" texture="shelf2.png" expand="1">
+			<shape id="_Rect5" type="Rect" layer="-50" sensor="1" texture="shelf2.png" expand="1">
 				<position x="0" y="0.0450001" w="1" h="0.13" angle="0"/>
+				<physic density="1000" friction="0.3" restitution="0"/>
+				<collision category="0" mask="65535"/>
+			</shape>
+		</body>
+		<body x="9.625" y="9" id="shelf2" type="static" script="" shapes="2">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
+			<shape id="_Rect6" type="Rect" layer="0" sensor="0" texture="shelf1.png" expand="1">
+				<position x="0" y="-0.0450001" w="1" h="0.05" angle="0"/>
+				<physic density="1000" friction="0.3" restitution="0"/>
+				<collision category="0" mask="65535"/>
+			</shape>
+			<shape id="_Rect6" type="Rect" layer="-50" sensor="1" texture="shelf2.png" expand="1">
+				<position x="0" y="0.0450001" w="1" h="0.13" angle="0"/>
+				<physic density="1000" friction="0.3" restitution="0"/>
+				<collision category="0" mask="65535"/>
+			</shape>
+		</body>
+		<body x="10.75" y="10.25" id="box1" type="dynamic" script="" shapes="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
+			<shape id="_Rect7" type="Rect" layer="0" sensor="0" texture="box1_big.png" expand="1">
+				<position x="0" y="0" w="1" h="0.5" angle="0"/>
+				<physic density="2000" friction="0.6" restitution="0"/>
+				<collision category="0" mask="65535"/>
+			</shape>
+		</body>
+		<body x="5.6305" y="8.8875" id="t1" type="static" script="" shapes="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
+			<shape id="_Line2" type="Line" layer="-128" sensor="1" texture="" expand="1">
+				<position x1="0.6305" y1="0.8875" x2="-0.6305" y2="-0.887501"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
 			</shape>
@@ -89,7 +117,7 @@
 	</bodies>
 	<entities count="1">
 		<entity id="player" type="kolobator">
-			<position x="5.474" y="9.557"/>
+			<position x="5.5" y="9.557"/>
 		</entity>
 	</entities>
 	<joints count="0"/>

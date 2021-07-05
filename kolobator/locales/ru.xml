@@ -64,4 +64,8 @@
         <load value="Загрузить"/>
     </levelchooser>
 	<put_knife value="Нажми E, чтобы поднять нож"/>
+	<podval>
+		<sleep value="Test test test test test test test"/>
+		<wake_up value="Test2"/>
+	</podval>
 </text>

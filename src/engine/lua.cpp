@@ -680,6 +680,7 @@ static void bind() {
 	.addProperty("bodies",&bodies)	//типа все тела на уровне возвращает
 	.addFunction("save",&save_world_state)
 	.addFunction("load",&load)
+	.addProperty("interface",&interface.game_interface.shown)
 	.endNamespace()
 	.beginNamespace("text")
 	.addFunction("get",&text::get)
