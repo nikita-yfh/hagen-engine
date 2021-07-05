@@ -4,7 +4,7 @@ function knife.init(w,e)
 	w.texture="weapon/knife.png"
 end
 function knife.fire1(w,e)
-	if(e.userdata.knife_timer~=nil and game.time-e.userdata.knife_timer < math.pi*100) then 
+	if(e.userdata.knife_timer~=nil and game.time-e.userdata.knife_timer < math.pi*50) then 
 		return 0
 	end
 	e.userdata.knife_timer=game.time
@@ -25,6 +25,6 @@ end
 function knife.update(w,e)
 	if(e.userdata.knife_timer~=nil) then
 		local val=(game.time-e.userdata.knife_timer)/100;
-		w.dx=0.2-math.sin(math.min(math.pi,val))*0.2
+		w.dx=0.2-math.sin(math.min(math.pi,val*1.5))*0.2
 	end
 end

@@ -249,7 +249,7 @@ static void draw_effects() {
 		GPU_BlitScale(e.effect->anim[frame],0,ren1,drawx(e.x),drawy(e.y),zoom/100*effect_scale,zoom/100*effect_scale);
 	}
 }
-void draw() {
+void draw1() {
 	GPU_Clear(ren);
 	GPU_Clear(ren1);
 	draw_bgr();
@@ -260,11 +260,11 @@ void draw() {
 	draw_effects();
 	enable_shader("_all");
 	GPU_Blit(img1,0,ren,SW/2,SH/2);
+}
+void draw2(){
 	disable_shaders();
 	text::draw();
 	draw_mask();
 	interface.draw();
-}
-void flip(){
 	GPU_Flip(ren);
 }

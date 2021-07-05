@@ -90,7 +90,6 @@ void init() {
 		GPU_ErrorObject error=GPU_PopErrorCode();
 		string str=(string)"In function "+error.function+": "+error.details;
 		panic(str);
-		throw string(error.details);
 	}
 	init_target();
 	info_log("Renderer created succesfully");

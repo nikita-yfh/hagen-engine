@@ -336,12 +336,16 @@ void add_but() {
 			b->type=gtk_combo_box_get_active(GTK_COMBO_BOX(combo));
 		} else {
 			b->template_open(tmp);
-			b->resolve_names();
+			b->id=gtk_entry_get_text(GTK_ENTRY(entry));
 			create_status=3;
 		}
 		unselect_all_shapes();
 		b->selected=1;
 		level.bodies.push_back(b);
+		if(tmp.size()) {
+			b->resolve_names();
+			b->id=gtk_entry_get_text(GTK_ENTRY(entry));
+		}
 		fill_shapes();
 		select_tree_view(b->id);
 		block=1;

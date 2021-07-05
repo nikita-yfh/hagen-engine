@@ -61,10 +61,10 @@ int main(int argc, char * argv[]) {
 		interface.new_frame();
 		mouse.update();
 		interface.update();
+		draw1();
 		if(!interface.shown())
 			lua::gameloop();
-		draw();
-		flip();
+		draw2();
 		auto step=chrono::high_resolution_clock::now()-time;
 		time = chrono::high_resolution_clock::now();
 		if(!interface.shown() && lua::time_scale) {
