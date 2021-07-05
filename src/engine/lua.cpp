@@ -325,6 +325,40 @@ static void level(string str) {
 static void load(string str) {
 	need_load="[LOAD]"+str;
 }
+int parse_string(vector<LuaRef>&vals,string str){
+	string buf;
+	auto done=[&](string &buf,bool s){
+		if(s) vals.push_back(LuaRef(L,buf));
+		else
+		buf.clear();
+	};
+	uint8_t mode=1;
+	for(char c : str){
+		if(c=='"'||c=='\''){
+			if(mode==2)mode=3;
+			else if(mode==4){
+				done(buf,1);
+				mode=3;
+			}else if(mode==1)mode=2;
+			else return 1;
+		}else if(mode==2 || mode==4){
+			mode=4;
+			buf.push_back(c);
+		}else if(mode==3) mode=1;
+		else if(mode==0 || mode==1){
+			if(c==' ' || c==','){
+				if(mode==0)done(buf,0);
+				mode=1;
+			}else{
+				buf.push_back(c);
+				mode=0;
+			}
+		}else return 1;
+	}
+	if(mode==0)done(buf,0);
+	else if(mode!=3)return 1;
+	return 0;
+}
 void init_body(b2Body *body,bool ex) {
 	string &exec=B_DATA(body,script);
 	trim(exec);
