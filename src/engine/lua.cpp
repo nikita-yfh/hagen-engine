@@ -325,19 +325,38 @@ static void level(string str) {
 static void load(string str) {
 	need_load="[LOAD]"+str;
 }
-int parse_string(vector<LuaRef>&vals,string str){
+static int parse_string(vector<LuaRef>&vals,string &exec){
+	trim(exec);
+	string args;
+	if(exec.find("(")!=string::npos&&exec.find(")")!=string::npos){
+		args.assign(exec,exec.find("(")+1,exec.find(")")-exec.find("(")-1);
+		exec.assign(exec,0,exec.find("("));
+		trim(exec);
+	}else return 0;
 	string buf;
 	auto done=[&](string &buf,bool s){
 		if(s) vals.push_back(LuaRef(L,buf));
-		else
+		else{
+			if(is_valid_float(buf))
+				vals.push_back(LuaRef(L,stof(buf)));
+			else if(buf=="nil")
+				vals.push_back(LuaRef(L));
+			else if(buf=="false")
+				vals.push_back(LuaRef(L,false));
+			else if(buf=="true")
+				vals.push_back(LuaRef(L,false));
+			else return 1;
+		}
 		buf.clear();
+		return 0;
 	};
 	uint8_t mode=1;
-	for(char c : str){
+	for(char c : args){
 		if(c=='"'||c=='\''){
 			if(mode==2)mode=3;
 			else if(mode==4){
-				done(buf,1);
+				if(done(buf,1))
+					return 1;
 				mode=3;
 			}else if(mode==1)mode=2;
 			else return 1;
@@ -347,7 +366,8 @@ int parse_string(vector<LuaRef>&vals,string str){
 		}else if(mode==3) mode=1;
 		else if(mode==0 || mode==1){
 			if(c==' ' || c==','){
-				if(mode==0)done(buf,0);
+				if(mode==0 && done(buf,1))
+					return 1;
 				mode=1;
 			}else{
 				buf.push_back(c);
@@ -355,61 +375,38 @@ int parse_string(vector<LuaRef>&vals,string str){
 			}
 		}else return 1;
 	}
-	if(mode==0)done(buf,0);
+	if(mode==0 && done(buf,0))
+		return 1;
 	else if(mode!=3)return 1;
 	return 0;
 }
+static bool unique(string &exec){
+	for(string l : loaded)
+		if(exec==l)
+			return 0;
+	return 1;
+}
 void init_body(b2Body *body,bool ex) {
 	string &exec=B_DATA(body,script);
-	trim(exec);
-	if(exec.size()) {
-		string args;
-		if(exec.find("(")!=string::npos&&exec.find(")")!=string::npos){
-			args.assign(exec,exec.find("(")+1,exec.find(")")-exec.find("(")-1);
-			exec.assign(exec,0,exec.find("("));
-			trim(exec);
-		}
-		bool ok=0;
-		for(string l : loaded)
-			if(exec==l)
-				ok=1;
-		vector<LuaRef>lua_args;
-
-		char *str=strdup(args.c_str());
-		char * pch = strtok (str,",");
-
-		while (pch != NULL){
-			string d=pch;
-			if(!d.size())break;
-			if(d=="nil")
-				lua_args.push_back(LuaRef(L));
-			else if(d.size()>=2&&d.find("\"")==0&&d.rfind("\"")==d.size()-1){
-				d.erase(d.begin());
-				d.erase(d.end()-1);
-				lua_args.push_back(LuaRef(L,d));
-			}else if(is_valid_float(d))
-				lua_args.push_back(LuaRef(L,stof(d)));
-			else break;
-			pch = strtok (NULL, " ,");
-		}
-		free(str);
-		if(!ok) {
-			dostring(exec+"=extend(Body)\n");
-			doscript("bodies/"+exec);
-		}
-		if(ex){
-			auto exec_func=[&](){
-				Stack<b2Body*>::push(L, body);
-				for(LuaRef val : lua_args)
-					Stack<LuaRef>::push(L, val);
-				LuaException::pcall(L, lua_args.size()+1, 1);
-				LuaRef::fromStack(L);
-			};
-			getGlobal(L,"Body")["init"].push(L);
-			exec_func();
-			getGlobal(L,exec.c_str())["init"].push(L);
-			exec_func();
-		}
+	if(!exec.size()) return;
+	vector<LuaRef>lua_args;
+	parse_string(lua_args,exec);
+	if(unique(exec)) {
+		dostring(exec+"=extend(Body)\n");
+		doscript("bodies/"+exec);
+	}
+	if(ex){
+		auto exec_func=[&](){
+			Stack<b2Body*>::push(L, body);
+			for(LuaRef val : lua_args)
+				Stack<LuaRef>::push(L, val);
+			LuaException::pcall(L, lua_args.size()+1, 1);
+			LuaRef::fromStack(L);
+		};
+		getGlobal(L,"Body")["init"].push(L);
+		exec_func();
+		getGlobal(L,exec.c_str())["init"].push(L);
+		exec_func();
 	}
 }
 static void init_bodies() {
@@ -430,17 +427,26 @@ static void update_bodies() {
 	}
 }
 void init_entity(Entity *entity,bool ex) {
-	bool ok=0;
-	for(string l : loaded)
-		if(entity->type==l)
-			ok=1;
-	if(!ok) {
+	string &exec=entity->type;
+	if(!exec.size())return;
+	vector<LuaRef>lua_args;
+	parse_string(lua_args,exec);
+	if(unique(exec)) {
 		luaL_dostring(L,(entity->type+"=extend(Entity)\n").c_str());
 		doscript("entities/"+entity->type);
 	}
 	if(ex) {
-		getGlobal(L,"Entity")["init"](entity);
-		getGlobal(L,entity->type.c_str())["init"](entity);
+		auto exec_func=[&](){
+			Stack<Entity*>::push(L, entity);
+			for(LuaRef val : lua_args)
+				Stack<LuaRef>::push(L, val);
+			LuaException::pcall(L, lua_args.size()+1, 1);
+			LuaRef::fromStack(L);
+		};
+		getGlobal(L,"Entity")["init"].push(L);
+		exec_func();
+		getGlobal(L,exec.c_str())["init"].push(L);
+		exec_func();
 	}
 }
 static void init_entities() {
@@ -448,18 +454,27 @@ static void init_entities() {
 		init_entity(entity.second);
 }
 void init_weapon(Entity *entity,bool ex) {
-	if(entity->weapon.name.size()==0)return;
-	bool ok=0;
-	for(string l : loaded)
-		if(entity->weapon.name==l)
-			ok=1;
-	if(!ok) {
-		luaL_dostring(L,(entity->weapon.name+"=extend(Weapon)").c_str());
-		doscript("weapon/"+entity->weapon.name);
+	string &exec=entity->weapon.name;
+	if(!exec.size())return;
+	vector<LuaRef>lua_args;
+	parse_string(lua_args,exec);
+	if(unique(exec)) {
+		luaL_dostring(L,(exec+"=extend(Weapon)").c_str());
+		doscript("weapon/"+exec);
 	}
 	if(ex) {
-		getGlobal(L,"Weapon")["init"](&entity->weapon,entity);
-		getGlobal(L,entity->weapon.name.c_str())["init"](&entity->weapon,entity);
+		auto exec_func=[&](){
+			Stack<Weapon*>::push(L, &entity->weapon);
+			Stack<Entity*>::push(L, entity);
+			for(LuaRef val : lua_args)
+				Stack<LuaRef>::push(L, val);
+			LuaException::pcall(L, lua_args.size()+2, 1);
+			LuaRef::fromStack(L);
+		};
+		getGlobal(L,"Weapon")["init"].push(L);
+		exec_func();
+		getGlobal(L,exec.c_str())["init"].push(L);
+		exec_func();
 	}
 }
 static void update_entities() {
