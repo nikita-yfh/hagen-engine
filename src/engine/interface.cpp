@@ -863,7 +863,6 @@ Interface interface;
 
 ///////////////////////////////////////////////////////////
 using namespace luabridge;
-static LuaRef *ImFlags;
 
 static vector<const char*> luaval_to_vector_string(lua_State *L,int n) {
 	vector<const char*>vec;
@@ -2059,7 +2058,6 @@ static ImFont *ImLoadFont(string name,float size) {
 	return interface.load_imgui_font(name,size);
 }
 void bind_imgui() {
-	ImFlags=new LuaRef(newTable(lua::L));
 #define BN .beginNamespace
 #define EN .endNamespace()
 #define F .addFunction
@@ -2067,13 +2065,12 @@ void bind_imgui() {
 #define EC .endClass()
 #define DC .deriveClass
 #define P .addProperty
-#define C .addConstructor
+#define C .addConstant
 #define V .addVariable
 #define VC(a,b) .addVariable(a,b,0)
 	getGlobalNamespace(lua::L)
 	BN("ImGui")
-	BC<ImFont>("Font")
-	EC
+	BC<ImFont>("Font") EC
 	F("GetVersion",GetVersion)
 	F("Begin",ImBegin)
 	F("End",End)
@@ -2283,189 +2280,183 @@ void bind_imgui() {
 	F("GetClipboardText",GetClipboardText)
 	F("SetClipboardText",SetClipboardText)
 	F("LoadFont",ImLoadFont)
-	P("Flags",&ImFlags)
+	BN("WindowFlags")
+	C("None",					ImGuiWindowFlags_None)
+	C("NoTitleBar",				ImGuiWindowFlags_NoTitleBar)
+	C("NoResize",				ImGuiWindowFlags_NoResize)
+	C("NoMove",					ImGuiWindowFlags_NoMove)
+	C("NoScrollbar",			ImGuiWindowFlags_NoScrollbar)
+	C("NoScrollWithMouse",		ImGuiWindowFlags_NoScrollWithMouse)
+	C("NoCollapse",				ImGuiWindowFlags_NoCollapse)
+	C("AlwaysAutoResize",		ImGuiWindowFlags_AlwaysAutoResize)
+	C("NoSavedSettings",		ImGuiWindowFlags_NoSavedSettings)
+	C("NoInputs",				ImGuiWindowFlags_NoInputs)
+	C("MenuBar",				ImGuiWindowFlags_MenuBar)
+	C("HorizontalScrollbar",	ImGuiWindowFlags_HorizontalScrollbar)
+	C("NoFocusOnAppearing",		ImGuiWindowFlags_NoFocusOnAppearing)
+	C("NoBringToFrontOnFocus",	ImGuiWindowFlags_NoBringToFrontOnFocus)
+	C("AlwaysVerticalScrollbar",ImGuiWindowFlags_AlwaysVerticalScrollbar)
+	C("AlwaysHorizontalScrollbar",ImGuiWindowFlags_AlwaysHorizontalScrollbar)
+	C("AlwaysUseWindowPadding",	ImGuiWindowFlags_AlwaysUseWindowPadding)
+	C("NoNavInputs",			ImGuiWindowFlags_NoNavInputs)
+	C("NoNav",					ImGuiWindowFlags_NoNav)
+	C("NoFlattened",			ImGuiWindowFlags_NavFlattened)
+	EN
+	BN("InputTextFlags")
+	C("None"                ,ImGuiInputTextFlags_None)
+	C("CharsDecimal"        ,ImGuiInputTextFlags_CharsDecimal)
+	C("CharsHexadecimal"    ,ImGuiInputTextFlags_CharsHexadecimal)
+	C("CharsUppercase"      ,ImGuiInputTextFlags_CharsUppercase)
+	C("CharsNoBlank"        ,ImGuiInputTextFlags_CharsNoBlank)
+	C("AutoSelectAll"       ,ImGuiInputTextFlags_AutoSelectAll)
+	C("EnterReturnsTrue"    ,ImGuiInputTextFlags_EnterReturnsTrue)
+	C("CallbackCompletion"  ,ImGuiInputTextFlags_CallbackCompletion)
+	C("CallbackHistory"     ,ImGuiInputTextFlags_CallbackHistory)
+	C("CallbackAlways"      ,ImGuiInputTextFlags_CallbackAlways)
+	C("CallbackCharFilter"  ,ImGuiInputTextFlags_CallbackCharFilter)
+	C("AllowTabInput"       ,ImGuiInputTextFlags_AllowTabInput)
+	C("CtrlEnterForNewLine" ,ImGuiInputTextFlags_CtrlEnterForNewLine)
+	C("NoHorizontalScroll"  ,ImGuiInputTextFlags_NoHorizontalScroll)
+	C("AlwaysInsertMode"    ,ImGuiInputTextFlags_AlwaysInsertMode)
+	C("ReadOnly"            ,ImGuiInputTextFlags_ReadOnly)
+	C("Password"            ,ImGuiInputTextFlags_Password)
+	C("NoUndoRedo"          ,ImGuiInputTextFlags_NoUndoRedo)
+	C("CharsScientific"     ,ImGuiInputTextFlags_CharsScientific)
+	C("CallbackResize"      ,ImGuiInputTextFlags_CallbackResize)
+	C("Multiline"           ,ImGuiInputTextFlags_Multiline)
+	EN
+	BN("TreeNodeFlags")
+	C("None"                 ,ImGuiTreeNodeFlags_None)
+	C("Selected"             ,ImGuiTreeNodeFlags_Selected)
+	C("Framed"               ,ImGuiTreeNodeFlags_Framed)
+	C("AllowItemOverlap"     ,ImGuiTreeNodeFlags_AllowItemOverlap)
+	C("NoTreePushOnOpen"     ,ImGuiTreeNodeFlags_NoTreePushOnOpen)
+	C("NoAutoOpenOnLog"      ,ImGuiTreeNodeFlags_NoAutoOpenOnLog)
+	C("DefaultOpen"          ,ImGuiTreeNodeFlags_DefaultOpen)
+	C("OpenOnDoubleClick"    ,ImGuiTreeNodeFlags_OpenOnDoubleClick)
+	C("OpenOnArrow"          ,ImGuiTreeNodeFlags_OpenOnArrow)
+	C("Leaf"                 ,ImGuiTreeNodeFlags_Leaf)
+	C("Bullet"               ,ImGuiTreeNodeFlags_Bullet)
+	C("FramePadding"         ,ImGuiTreeNodeFlags_FramePadding)
+	C("NavLeftJumpsBackHere" ,ImGuiTreeNodeFlags_NavLeftJumpsBackHere)
+	C("CollapsingHeader "    ,ImGuiTreeNodeFlags_CollapsingHeader)
+	EN
+	BN("SelectableFlags")
+	C("None"			,ImGuiSelectableFlags_None)
+	C("DontClosePopups"	,ImGuiSelectableFlags_DontClosePopups)
+	C("SpanAllColumns"	,ImGuiSelectableFlags_SpanAllColumns)
+	C("AllowDoubleClick",ImGuiSelectableFlags_AllowDoubleClick)
+	C("Disabled"		,ImGuiSelectableFlags_Disabled)
+	EN
+	BN("ComboFlags")
+	C("None",			ImGuiComboFlags_None)
+	C("PopupAlignLeft",	ImGuiComboFlags_PopupAlignLeft)
+	C("HeightSmall",	ImGuiComboFlags_HeightSmall)
+	C("HeightRegular",	ImGuiComboFlags_HeightRegular)
+	C("HeightLarge",	ImGuiComboFlags_HeightLarge)
+	C("HeightLargest",	ImGuiComboFlags_HeightLargest)
+	C("NoArrowButton",	ImGuiComboFlags_NoArrowButton)
+	C("NoPreview",		ImGuiComboFlags_NoPreview)
+	C("HeightMask_",	ImGuiComboFlags_HeightMask_)
+	EN
+	BN("FocusedFlags")
+	C("None",ImGuiFocusedFlags_None)
+	C("ChildWindows",		ImGuiFocusedFlags_ChildWindows)
+	C("RootWindow",			ImGuiFocusedFlags_RootWindow)
+	C("AnyWindow",			ImGuiFocusedFlags_AnyWindow)
+	C("RootAndChildWindows",ImGuiFocusedFlags_RootAndChildWindows)
+	EN
+	BN("HoveredFlags")
+	C("None",ImGuiHoveredFlags_None)
+	C("ChildWindows",					ImGuiHoveredFlags_ChildWindows)
+	C("RootWindow",						ImGuiHoveredFlags_RootWindow)
+	C("AnyWindow",						ImGuiHoveredFlags_AnyWindow)
+	C("AllowWhenBlockedByPopup",		ImGuiHoveredFlags_AllowWhenBlockedByPopup)
+	C("AllowWhenBlockedByActiveItem",	ImGuiHoveredFlags_AllowWhenBlockedByActiveItem)
+	C("AllowWhenOverlapped",			ImGuiHoveredFlags_AllowWhenOverlapped)
+	C("AllowWhenDisabled",				ImGuiHoveredFlags_AllowWhenDisabled)
+	C("RectOnly",						ImGuiHoveredFlags_RectOnly)
+	C("RootAndChildWindows",			ImGuiHoveredFlags_RootAndChildWindows)
+	BN("Dir")
+	C("None",	ImGuiDir_None)
+	C("Left",	ImGuiDir_Left)
+	C("Right",	ImGuiDir_Right)
+	C("Up",		ImGuiDir_Up)
+	C("Down",	ImGuiDir_Down)
+	EN
+	BN("Col")
+	C("Text"				,ImGuiCol_Text)
+	C("TextDisabled"		,ImGuiCol_TextDisabled)
+	C("WindowBg"			,ImGuiCol_WindowBg)
+	C("ChildBg"				,ImGuiCol_ChildBg)
+	C("PopupBg"				,ImGuiCol_PopupBg)
+	C("Border"				,ImGuiCol_Border)
+	C("BorderShadow"		,ImGuiCol_BorderShadow)
+	C("FrameBg"				,ImGuiCol_FrameBg)
+	C("FrameBgHovered"		,ImGuiCol_FrameBgHovered)
+	C("FrameBgActive"		,ImGuiCol_FrameBgActive)
+	C("TitleBg"				,ImGuiCol_TitleBg)
+	C("TitleBgActive"		,ImGuiCol_TitleBgActive)
+	C("TitleBgCollapsed"	,ImGuiCol_TitleBgCollapsed)
+	C("MenuBarBg"			,ImGuiCol_MenuBarBg)
+	C("ScrollbarBg"			,ImGuiCol_ScrollbarBg)
+	C("ScrollbarGrab"		,ImGuiCol_ScrollbarGrab)
+	C("ScrollbarGrabHovered",ImGuiCol_ScrollbarGrabHovered)
+	C("ScrollbarGrabActive"	,ImGuiCol_ScrollbarGrabActive)
+	C("CheckMark"			,ImGuiCol_CheckMark)
+	C("SliderGrab"			,ImGuiCol_SliderGrab)
+	C("SliderGrabActive"	,ImGuiCol_SliderGrabActive)
+	C("Button"				,ImGuiCol_Button)
+	C("ButtonHovered"		,ImGuiCol_ButtonHovered)
+	C("ButtonActive"		,ImGuiCol_ButtonActive)
+	C("Header"				,ImGuiCol_Header)
+	C("HeaderHovered"		,ImGuiCol_HeaderHovered)
+	C("HeaderActive"		,ImGuiCol_HeaderActive)
+	C("Separator"			,ImGuiCol_Separator)
+	C("SeparatorHovered"	,ImGuiCol_SeparatorHovered)
+	C("SeparatorActive"		,ImGuiCol_SeparatorActive)
+	C("ResizeGrip"			,ImGuiCol_ResizeGrip)
+	C("ResizeGripHovered"	,ImGuiCol_ResizeGripHovered)
+	C("ResizeGripActive"	,ImGuiCol_ResizeGripActive)
+	C("PlotLines"			,ImGuiCol_PlotLines)
+	C("PlotLinesHovered"	,ImGuiCol_PlotLinesHovered)
+	C("PlotHistogram"		,ImGuiCol_PlotHistogram)
+	C("PlotHistogramHovered",ImGuiCol_PlotHistogramHovered)
+	C("TextSelectedBg"		,ImGuiCol_TextSelectedBg)
+	C("DragDropTarget"		,ImGuiCol_DragDropTarget)
+	C("NavHighlight"		,ImGuiCol_NavHighlight)
+	C("NavWindowingHighlight",ImGuiCol_NavWindowingHighlight)
+	C("NavWindowingDimBg"	,ImGuiCol_NavWindowingDimBg)
+	C("ModalWindowDimBg"	,ImGuiCol_ModalWindowDimBg)
+	EN
+	BN("StyleVar")
+	C("Alpha"				,ImGuiStyleVar_Alpha)
+	C("WindowPadding"		,ImGuiStyleVar_WindowPadding)
+	C("WindowRounding"		,ImGuiStyleVar_WindowRounding)
+	C("WindowBorderSize"	,ImGuiStyleVar_WindowBorderSize)
+	C("WindowMinSize"		,ImGuiStyleVar_WindowMinSize)
+	C("WindowTitleAlign"	,ImGuiStyleVar_WindowTitleAlign)
+	C("ChildRounding"		,ImGuiStyleVar_ChildRounding)
+	C("ChildBorderSize"		,ImGuiStyleVar_ChildBorderSize)
+	C("PopupRounding"		,ImGuiStyleVar_PopupRounding)
+	C("PopupBorderSize"		,ImGuiStyleVar_PopupBorderSize)
+	C("FramePadding"		,ImGuiStyleVar_FramePadding)
+	C("FrameRounding"		,ImGuiStyleVar_FrameRounding)
+	C("FrameBorderSize"		,ImGuiStyleVar_FrameBorderSize)
+	C("ItemSpacing"			,ImGuiStyleVar_ItemSpacing)
+	C("ItemInnerSpacing"	,ImGuiStyleVar_ItemInnerSpacing)
+	C("IndentSpacing"		,ImGuiStyleVar_IndentSpacing)
+	C("ScrollbarSize"		,ImGuiStyleVar_ScrollbarSize)
+	C("ScrollbarRounding"	,ImGuiStyleVar_ScrollbarRounding)
+	C("GrabMinSize"			,ImGuiStyleVar_GrabMinSize)
+	C("GrabRounding"		,ImGuiStyleVar_GrabRounding)
+	C("ButtonTextAlign"		,ImGuiStyleVar_ButtonTextAlign)
+	EN
+	BN("Cond")
+	C("Always",			ImGuiCond_Always)
+	C("Once",			ImGuiCond_Once)
+	C("FirstUseEver",	ImGuiCond_FirstUseEver)
+	C("Appearing",		ImGuiCond_Appearing)
+	EN
 	EN;
-#define ENUM(name,...) "ImGui.Flags." name "={\n" __VA_ARGS__ "}\n"
-	lua::dostring(
-		ENUM("Window",
-			 "None						= 0,"
-			 "NoTitleBar				= 2 ^ 0,"
-			 "NoResize					= 2 ^ 1,"
-			 "NoMove					= 2 ^ 2,"
-			 "NoScrollbar				= 2 ^ 3,"
-			 "NoScrollWithMouse			= 2 ^ 4,"
-			 "NoCollapse				= 2 ^ 5,"
-			 "AlwaysAutoResize			= 2 ^ 6,"
-			 "NoSavedSettings			= 2 ^ 8,"
-			 "NoInputs					= 2 ^ 9,"
-			 "MenuBar					= 2 ^ 10,"
-			 "HorizontalScrollbar		= 2 ^ 11,"
-			 "NoFocusOnAppearing		= 2 ^ 12,"
-			 "NoBringToFrontOnFocus		= 2 ^ 13,"
-			 "AlwaysVerticalScrollbar	= 2 ^ 14,"
-			 "AlwaysHorizontalScrollbar	= 2 ^ 15,"
-			 "AlwaysUseWindowPadding	= 2 ^ 16,"
-			 "NoNavInputs				= 2 ^ 18,"
-			 "NoNavFocus				= 2 ^ 19,"
-			 "NoNav						= 786432,"
-			 "NavFlattened				= 2 ^ 23,"
-			)
-		ENUM("InputText",
-			 "None                = 0,"
-			 "CharsDecimal        = 2 ^ 0,"
-			 "CharsHexadecimal    = 2 ^ 1,"
-			 "CharsUppercase      = 2 ^ 2,"
-			 "CharsNoBlank        = 2 ^ 3,"
-			 "AutoSelectAll       = 2 ^ 4,"
-			 "EnterReturnsTrue    = 2 ^ 5,"
-			 "CallbackCompletion  = 2 ^ 6,"
-			 "CallbackHistory     = 2 ^ 7,"
-			 "CallbackAlways      = 2 ^ 8,"
-			 "CallbackCharFilter  = 2 ^ 9,"
-			 "AllowTabInput       = 2 ^ 10,"
-			 "CtrlEnterForNewLine = 2 ^ 11,"
-			 "NoHorizontalScroll  = 2 ^ 12,"
-			 "AlwaysInsertMode    = 2 ^ 13,"
-			 "ReadOnly            = 2 ^ 14,"
-			 "Password            = 2 ^ 15,"
-			 "NoUndoRedo          = 2 ^ 16,"
-			 "CharsScientific     = 2 ^ 17,"
-			 "CallbackResize      = 2 ^ 18,"
-			 "Multiline           = 2 ^ 20"
-			)
-		ENUM("TreeNode",
-			 "None                 = 0,"
-			 "Selected             = 2 ^ 0,"
-			 "Framed               = 2 ^ 1,"
-			 "AllowItemOverlap     = 2 ^ 2,"
-			 "NoTreePushOnOpen     = 2 ^ 3,"
-			 "NoAutoOpenOnLog      = 2 ^ 4,"
-			 "DefaultOpen          = 2 ^ 5,"
-			 "OpenOnDoubleClick    = 2 ^ 6,"
-			 "OpenOnArrow          = 2 ^ 7,"
-			 "Leaf                 = 2 ^ 8,"
-			 "Bullet               = 2 ^ 9,"
-			 "FramePadding         = 2 ^ 10,"
-			 "NavLeftJumpsBackHere = 2 ^ 13,"
-			 "CollapsingHeader     = 26"
-			)
-		ENUM("Selectable",
-			 "None				= 0,"
-			 "DontClosePopups	= 2 ^ 0,"
-			 "SpanAllColumns	= 2 ^ 1,"
-			 "AllowDoubleClick	= 2 ^ 2,"
-			 "Disabled			= 2 ^ 3"
-			)
-		ENUM("Combo",
-			 "None				= 0,"
-			 "PopupAlignLeft	= 2 ^ 0,"
-			 "HeightSmall		= 2 ^ 1,"
-			 "HeightRegular		= 2 ^ 2,"
-			 "HeightLarge		= 2 ^ 3,"
-			 "HeightLargest		= 2 ^ 4,"
-			 "NoArrowButton		= 2 ^ 5,"
-			 "NoPreview			= 2 ^ 6,"
-			 "HeightMask_		= 30"
-			)
-		ENUM("Focused",
-			 "None				= 0,"
-			 "ChildWindows		= 2 ^ 0,"
-			 "RootWindow		= 2 ^ 1,"
-			 "AnyWindow			= 2 ^ 2,"
-			 "RootAndChildWindows = 6"
-			)
-		ENUM("Hovered",
-			 "None							= 0,"
-			 "ChildWindow					= 2 ^ 0,"
-			 "RootWindow						= 2 ^ 1,"
-			 "AnyWindow						= 2 ^ 2,"
-			 "AllowWhenBlockedByPopup		= 2 ^ 3,"
-			 "AllowWhenBlockedByActiveItem	= 2 ^ 5,"
-			 "AllowWhenOverlapped			= 2 ^ 6,"
-			 "AllowWhenDisabled				= 2 ^ 7,"
-			 "RectOnly						= 104,"
-			 "RootAndChildWindows			= 3"
-			)
-		ENUM("Directory",
-			 "None	= -1,"
-			 "Left	= 0,"
-			 "Right	= 1,"
-			 "Up		= 2,"
-			 "Down	= 3"
-			)
-		ENUM("Color",
-			 "Text					= 0,"
-			 "TextDisabled			= 1,"
-			 "WindowBg				= 2,"
-			 "ChildBg				= 3,"
-			 "PopupBg				= 4,"
-			 "Border					= 5,"
-			 "BorderShadow			= 6,"
-			 "FrameBg				= 7,"
-			 "FrameBgHovered			= 8,"
-			 "FrameBgActive			= 9,"
-			 "TitleBg				= 10,"
-			 "TitleBgActive			= 11,"
-			 "TitleBgCollapsed		= 12,"
-			 "MenuBarBg				= 13,"
-			 "ScrollbarBg			= 14,"
-			 "ScrollbarGrab			= 15,"
-			 "ScrollbarGrabHovered	= 16,"
-			 "ScrollbarGrabActive	= 17,"
-			 "CheckMark				= 18,"
-			 "SliderGrab				= 19,"
-			 "SliderGrabActive		= 20,"
-			 "Button					= 21,"
-			 "ButtonHovered			= 22,"
-			 "ButtonActive			= 23,"
-			 "Header					= 24,"
-			 "HeaderHovered			= 25,"
-			 "HeaderActive			= 26,"
-			 "Separator				= 27,"
-			 "SeparatorHovered		= 28,"
-			 "SeparatorActive		= 29,"
-			 "ResizeGrip				= 30,"
-			 "ResizeGripHovered		= 31,"
-			 "ResizeGripActive		= 32,"
-			 "PlotLines				= 33,"
-			 "PlotLinesHovered		= 34,"
-			 "PlotHistogram			= 35,"
-			 "PlotHistogramHovered	= 36,"
-			 "TextSelectedBg			= 37,"
-			 "DragDropTarget			= 38,"
-			 "NavHighlight			= 39,"
-			 "NavWindowingHighlight	= 40,"
-			 "NavWindowingDimBg		= 41,"
-			 "ModalWindowDimBg		= 42"
-			)
-		ENUM("Style",
-			 "Alpha				= 0,"
-			 "WindowPadding		= 1,"
-			 "WindowRounding		= 2,"
-			 "WindowBorderSize	= 3,"
-			 "WindowMinSize		= 4,"
-			 "WindowTitleAlign	= 5,"
-			 "ChildRounding		= 6,"
-			 "ChildBorderSize	= 7,"
-			 "PopupRounding		= 8,"
-			 "PopupBorderSize	= 9,"
-			 "FramePadding		= 10,"
-			 "FrameRounding		= 11,"
-			 "FrameBorderSize	= 12,"
-			 "ItemSpacing		= 13,"
-			 "ItemInnerSpacing	= 14,"
-			 "IndentSpacing		= 15,"
-			 "ScrollbarSize		= 16,"
-			 "ScrollbarRounding	= 17,"
-			 "GrabMinSize		= 18,"
-			 "GrabRounding		= 19,"
-			 "ButtonTextAlign	= 20"
-			)
-		ENUM("Cond",
-			 "Always			= 2 ^ 0,"
-			 "Once			= 2 ^ 1,"
-			 "FirstUseEver	= 2 ^ 2,"
-			 "Appearing		= 2 ^ 3"
-			)
-	);
 }
