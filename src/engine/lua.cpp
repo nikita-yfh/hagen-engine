@@ -734,6 +734,9 @@ static void bind() {
 	.addFunction("get_pixel",get_pixel)
 	.addFunction("set_texture_color",set_color)
 	.addFunction("unset_texture_color",unset_color)
+	.addFunction("copy_texture",GPU_CopyImage)
+	.addFunction("set_blending",GPU_SetBlending)
+	.addFunction("get_blending",GPU_GetBlending)
 	.addProperty("line_thickness",GPU_GetLineThickness,set_line_thickness)
 	.endNamespace()
 	.beginNamespace("music")
@@ -988,10 +991,10 @@ void init_level(string name,bool n) {
 	doscript("levels/"+name);
 	if(n)
 		getGlobal(L,"level")["newgame"]();
-	getGlobal(L,"Level")["init"]();
-	getGlobal(L,"level")["init"]();
 	init_entities();
 	init_bodies();
+	getGlobal(L,"Level")["init"]();
+	getGlobal(L,"level")["init"]();
 }
 void close() {
 	if(L)lua_close(L);

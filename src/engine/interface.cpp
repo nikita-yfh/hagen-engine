@@ -1095,8 +1095,7 @@ static int ImInvisibleButton(lua_State *L) {
 };
 static int ImImageButton(lua_State *L){
 	int argi=1;
-	const char* texture=lua_tostring(L,argi++);
-	GPU_Image *tex=load_texture(texture);
+	GPU_Image *tex=Stack<GPU_Image*>::get(L,argi++);
 	ImVec2 size(
 		luaL_optnumber(L,argi++,tex->w),
 		luaL_optnumber(L,argi++,tex->h)
@@ -1115,8 +1114,7 @@ static int ImImageButton(lua_State *L){
 }
 static int ImImage(lua_State *L){
 	int argi=1;
-	const char* texture=lua_tostring(L,argi++);
-	GPU_Image *tex=load_texture(texture);
+	GPU_Image *tex=Stack<GPU_Image*>::get(L,argi++);
 	ImVec2 size(
 		luaL_optnumber(L,argi++,tex->w),
 		luaL_optnumber(L,argi++,tex->h)
