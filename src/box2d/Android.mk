@@ -10,7 +10,7 @@ LOCAL_SRC_FILES := rope/b2_rope.cpp collision/b2_edge_shape.cpp collision/b2_cha
 
 LOCAL_STATIC_LIBRARIES :=  LuaBridge
 
-LOCAL_SHARED_LIBRARIES := luajit
+LOCAL_SHARED_LIBRARIES := lua
 
 LOCAL_EXPORT_C_INCLUDES += $(LOCAL_C_INCLUDES)
 
