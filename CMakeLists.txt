@@ -47,6 +47,7 @@ set(ENGINE_SOURCES
         src/engine/utility.cpp
         src/engine/entity.cpp
         src/engine/lua.cpp
+        src/engine/lua_draw.cpp
         src/engine/physic.cpp
         src/engine/level.cpp
         src/engine/render.cpp
@@ -124,6 +125,7 @@ set(ENGINE_HEADERS
         src/engine/utility.hpp
         src/engine/entity.hpp
         src/engine/lua.hpp
+        src/engine/lua_draw.hpp
         src/engine/physic.hpp
         src/engine/sdl.hpp
         src/engine/camera.hpp

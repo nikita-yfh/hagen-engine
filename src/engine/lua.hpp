@@ -35,6 +35,7 @@ extern int prev_time;
 extern float game_time;
 extern float time_scale;
 vector<string>get_table_keys(string name);
+vector<float> luaval_to_vector_float(lua_State *L,int n);
 extern vector<string>loaded;
 
 void save_luaref(XMLNode n,LuaRef value);
