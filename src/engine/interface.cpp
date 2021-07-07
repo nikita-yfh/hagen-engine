@@ -196,9 +196,8 @@ void Interface::load_config() {
 	info_log("Loaded interface config");
 }
 void Interface::draw() {
-	mainmenu.draw();
-	game_interface.draw();
 	GPU_Rectangle(ren,-20,-20,100000,100000,SDL_Color{0,0,0,0});
+	mainmenu.draw();
 	console.draw();
 	pause.draw();
 	saver.draw();

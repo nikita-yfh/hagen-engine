@@ -1,4 +1,5 @@
 #include "lua.hpp"
+#include "lua_draw.hpp"
 #include "physic.hpp"
 #include "render.hpp"
 #include "camera.hpp"
@@ -500,6 +501,8 @@ static void bind() {
 	.addProperty("state",&mouse.state,0)
 	.endNamespace()
 	.beginNamespace("graphics")
+	.addFunction("drawx",&drawx)
+	.addFunction("drawy",&drawy)
 	.addFunction("set_mask",&set_mask)
 	.addFunction("preload",&load_texture)	//загрузка текстуры. Позволяет избежать фризов в игре, если все загрузить сразу
 	.addFunction("texture",&find_texture)	//текстура по ID
@@ -645,6 +648,7 @@ static void bind() {
 	.endClass()
 	.deriveClass<GLSLtex,GLSLtype>("GLSLtex")	//текстура
 	.addFunction("set",&GLSLtex::set)
+	.addFunction("set_tex",&GLSLtex::set_tex)
 	.addProperty("value",&GLSLtex::tex)
 	.endClass()
 	.deriveClass<GLSLvec2,GLSLtype>("GLSLvec2")	//двумерный вектор
@@ -688,6 +692,7 @@ static void bind() {
 	.addFunction("add_mat4",&Shader::add_mat4)
 	.endClass();
 	bind_imgui();
+	bind_graphics();
 }
 static vector<string>get_scripts_list(){
 	vector<string>l;

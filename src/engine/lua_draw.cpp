@@ -3,8 +3,8 @@
 using namespace lua;
 using namespace luabridge;
 using namespace std;
-
-static GPU_Target **target=&ren;
+extern GPU_Target *ren1;
+static GPU_Target **target=&ren1;
 
 static int draw_rect(lua_State *L){
 	Color color=Stack<Color>::get(L,1);
@@ -199,9 +199,59 @@ static int unset_color(lua_State *L){
 	GPU_UnsetColor(image);
 	return 0;
 }
+static int blit(lua_State *L){
+	GPU_Image *image=Stack<GPU_Image*>::get(L,1);
+	float x=Stack<float>::get(L,2);
+	float y=Stack<float>::get(L,3);
+	float angle=0.0f;
+	float scalex=1.0f,scaley=1.0f;
+	float pivotx=0.5f,pivoty=0.5f;
+	if(lua_gettop(L)>3)
+		angle=Stack<float>::get(L,4);
+	if(lua_gettop(L)>4){
+		scalex=Stack<float>::get(L,5);
+		scaley=Stack<float>::get(L,6);
+	}
+	if(lua_gettop(L)>6){
+		pivotx=Stack<float>::get(L,7);
+		pivoty=Stack<float>::get(L,8);
+	}
+	GPU_BlitTransformX(image,0,*target,x,y,pivotx,pivoty,angle,scalex,scaley);
+	return 0;
+}
+static int blit_rect(lua_State *L){
+	GPU_Image *image=Stack<GPU_Image*>::get(L,1);
+	float x=Stack<float>::get(L,2);
+	float y=Stack<float>::get(L,3);
+	GPU_Rect rect=GPU_MakeRect(
+		Stack<float>::get(L,4),
+		Stack<float>::get(L,5),
+		Stack<float>::get(L,6),
+		Stack<float>::get(L,7)
+	);
+	float angle=0.0f;
+	float scalex=1.0f,scaley=1.0f;
+	float pivotx=0.5f,pivoty=0.5f;
+	if(lua_gettop(L)>7)
+		angle=Stack<float>::get(L,8);
+	if(lua_gettop(L)>8){
+		scalex=Stack<float>::get(L,9);
+		scaley=Stack<float>::get(L,10);
+	}
+	if(lua_gettop(L)>10){
+		pivotx=Stack<float>::get(L,11);
+		pivoty=Stack<float>::get(L,12);
+	}
+	GPU_BlitTransformX(image,&rect,*target,x,y,pivotx,pivoty,angle,scalex,scaley);
+	return 0;
+}
+static void clear(){
+	GPU_Clear(*target);
+}
 void bind_graphics(){
 	getGlobalNamespace(L)
 	.beginNamespace("graphics")
+	.addFunction("clear",&clear)
 	.addFunction("rect",&draw_rect)
 	.addFunction("polygon",&draw_polygon)
 	.addFunction("polyline",&draw_polyline)
@@ -226,6 +276,8 @@ void bind_graphics(){
 	.addFunction("copy_texture",GPU_CopyImage)
 	.addFunction("set_blending",GPU_SetBlending)
 	.addFunction("get_blending",GPU_GetBlending)
+	.addFunction("blit",blit)
+	.addFunction("blit_rect",blit_rect)
 	.addProperty("line_thickness",GPU_GetLineThickness,set_line_thickness)
 	.endNamespace();
 }

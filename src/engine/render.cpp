@@ -249,6 +249,7 @@ static void draw_effects() {
 		GPU_BlitScale(e.effect->anim[frame],0,ren1,drawx(e.x),drawy(e.y),zoom/100*effect_scale,zoom/100*effect_scale);
 	}
 }
+#include <GL/glew.h>
 void draw1() {
 	GPU_Clear(ren);
 	GPU_Clear(ren1);
@@ -258,12 +259,13 @@ void draw1() {
 		draw_entities(q);
 	}
 	draw_effects();
-	enable_shader("_all");
-	GPU_Blit(img1,0,ren,SW/2,SH/2);
 }
 void draw2(){
+	enable_shader("_all");
+	GPU_Blit(img1,0,ren,SW/2,SH/2);
 	disable_shaders();
 	text::draw();
+	interface.game_interface.draw();
 	draw_mask();
 	interface.draw();
 	GPU_Flip(ren);
