@@ -1168,6 +1168,7 @@ public:
     template<class T>
     Namespace& addConstant(char const* name, T value)
     {
+        std::string c=typeid(T).name();
         if (m_stackSize == 1)
         {
             throw std::logic_error("addConstant () called on global namespace");

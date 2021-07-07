@@ -2065,7 +2065,7 @@ void bind_imgui() {
 #define EC .endClass()
 #define DC .deriveClass
 #define P .addProperty
-#define C .addConstant
+#define C(a,b) .addConstant(a,(int)(b))
 #define V .addVariable
 #define VC(a,b) .addVariable(a,b,0)
 	getGlobalNamespace(lua::L)
