@@ -43,7 +43,6 @@ int main(int argc, char * argv[]) {
 		interface.mainmenu.show();
 	auto time=chrono::high_resolution_clock::now();
 	while(1) {
-		int t=SDL_GetTicks();
 		if(lua::need_load.size()) {
 			if(lua::need_load.find("[LOAD]")==0){
 				lua::need_load.erase(lua::need_load.begin(),lua::need_load.begin()+6);
@@ -62,9 +61,6 @@ int main(int argc, char * argv[]) {
 		mouse.update();
 		interface.update();
 		draw1();
-		if(!interface.shown())
-			lua::gameloop();
-		draw2();
 		auto step=chrono::high_resolution_clock::now()-time;
 		time = chrono::high_resolution_clock::now();
 		if(!interface.shown() && lua::time_scale) {
@@ -72,6 +68,9 @@ int main(int argc, char * argv[]) {
 						velocity_iterations,position_iterations);
 			update_fluid();
 		}
+		if(!interface.shown())
+			lua::gameloop();
+		draw2();
 	}
 	return 0;
 }

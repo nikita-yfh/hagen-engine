@@ -249,7 +249,6 @@ static void draw_effects() {
 		GPU_BlitScale(e.effect->anim[frame],0,ren1,drawx(e.x),drawy(e.y),zoom/100*effect_scale,zoom/100*effect_scale);
 	}
 }
-#include <GL/glew.h>
 void draw1() {
 	GPU_Clear(ren);
 	GPU_Clear(ren1);
