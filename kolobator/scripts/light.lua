@@ -13,18 +13,36 @@ light.add=function(x,y,texture,radius)
 	l.y=y
 	l.texture=texture
 	l.radius=radius
+	l.angle=0
+	table.insert(light.lights,l)
+end
+light.add_body=function(body,texture,radius)
+	graphics.preload(texture)
+	local l={}
+	l.body=body.id
+	l.texture=texture
+	l.radius=radius
 	table.insert(light.lights,l)
 end
 light.render=function()
 	graphics.set_target(light.tex)
 	graphics.clear()
-	for _,l in pairs(light.lights) do
+	for index,l in pairs(light.lights) do
 		local tex=graphics.texture(l.texture)
 		local scale=l.radius/tex.w*game.camera.zoom*2
-		graphics.blit(tex,
-						graphics.drawx(l.x)-tex.w/2*scale,
-						graphics.drawy(l.y)-tex.h/2*scale,
-						0,scale,scale)
+		if(l.body) then
+			local b=body(l.body)
+			if(not b) then light.lights[index]=nil end
+			graphics.blit(tex,
+						graphics.drawx(b.x),
+						graphics.drawy(b.y),
+						b.angle/math.pi*180,scale,scale)
+		else
+			graphics.blit(tex,
+						graphics.drawx(l.x),
+						graphics.drawy(l.y),
+						l.angle/math.pi*180,scale,scale)
+		end
 	end
 	graphics.unset_target()
 end

@@ -205,7 +205,7 @@ static int blit(lua_State *L){
 	float y=Stack<float>::get(L,3);
 	float angle=0.0f;
 	float scalex=1.0f,scaley=1.0f;
-	float pivotx=0.5f,pivoty=0.5f;
+	float pivotx=image->w*image->anchor_x,pivoty=image->h*image->anchor_y;
 	if(lua_gettop(L)>3)
 		angle=Stack<float>::get(L,4);
 	if(lua_gettop(L)>4){
@@ -231,7 +231,7 @@ static int blit_rect(lua_State *L){
 	);
 	float angle=0.0f;
 	float scalex=1.0f,scaley=1.0f;
-	float pivotx=0.5f,pivoty=0.5f;
+	float pivotx=rect.w*image->anchor_x,pivoty=rect.h*image->anchor_y;
 	if(lua_gettop(L)>7)
 		angle=Stack<float>::get(L,8);
 	if(lua_gettop(L)>8){

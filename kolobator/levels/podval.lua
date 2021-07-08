@@ -1,6 +1,6 @@
 function level.init()
 	light.init()
-	light.add(11,8.25,"light1.png",50)
+	light.add_body(body("lamp"),"light1.png",50)
 	game.camera.zoom = math.floor(graphics.display.h / 3.5)
 end
 local state=false

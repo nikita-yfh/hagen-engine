@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <level w="40" h="20">
 	<background img="backgrounds/default.png"/>
-	<bodies count="11">
-		<body x="12.4375" y="9.6875" id="allwall" type="static" script="" shapes="1">
+	<bodies count="19">
+		<body x="12.4374" y="9.6875" id="allwall" type="static" script="" shapes="1">
 			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
 			<shape id="_Polygon1" type="Polygon" layer="0" sensor="0" texture="black.png" expand="0">
 				<position point_count="16">
@@ -12,14 +12,14 @@
 					<point x="5.3125" y="6.8125"/>
 					<point x="5.3125" y="-0.187497"/>
 					<point x="2.3125" y="-0.187497"/>
-					<point x="2.3125" y="0.0625029"/>
-					<point x="2.0625" y="0.0625029"/>
-					<point x="2.0625" y="0.312503"/>
-					<point x="1.8125" y="0.312503"/>
-					<point x="1.8125" y="0.562503"/>
-					<point x="1.5625" y="0.562503"/>
-					<point x="1.5625" y="0.812503"/>
-					<point x="-7.4375" y="0.812495"/>
+					<point x="2.3125" y="0.062501"/>
+					<point x="2.0625" y="0.062501"/>
+					<point x="2.0625" y="0.312501"/>
+					<point x="1.8125" y="0.312501"/>
+					<point x="1.8125" y="0.562501"/>
+					<point x="1.5625" y="0.562501"/>
+					<point x="1.5625" y="0.812501"/>
+					<point x="-7.4375" y="0.812501"/>
 					<point x="-7.4375" y="-1.68751"/>
 					<point x="5.3125" y="-1.6875"/>
 				</position>
@@ -122,11 +122,116 @@
 				<collision category="0" mask="65535"/>
 			</shape>
 		</body>
+		<body x="9.5" y="8.25" id="lamp" type="dynamic" script="" shapes="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="1" linear_damping="1"/>
+			<shape id="_Rect9" type="Rect" layer="0" sensor="0" texture="lamp.png" expand="1">
+				<position x="0" y="0" w="0.05" h="0.1" angle="0"/>
+				<physic density="1000" friction="0.3" restitution="0"/>
+				<collision category="0" mask="65535"/>
+			</shape>
+		</body>
+		<body x="9.5" y="8.01" id="_Body2" type="dynamic" script="" shapes="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
+			<shape id="_Rect10" type="Rect" layer="0" sensor="0" texture="black.png" expand="1">
+				<position x="0" y="0" w="0.0200005" h="0.039999" angle="0"/>
+				<physic density="1000" friction="0.3" restitution="0"/>
+				<collision category="0" mask="65535"/>
+			</shape>
+		</body>
+		<body x="9.5" y="8.04" id="_Body3" type="dynamic" script="" shapes="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
+			<shape id="_Rect12" type="Rect" layer="0" sensor="0" texture="black.png" expand="1">
+				<position x="0" y="0" w="0.0200005" h="0.039999" angle="0"/>
+				<physic density="1000" friction="0.3" restitution="0"/>
+				<collision category="0" mask="65535"/>
+			</shape>
+		</body>
+		<body x="9.5" y="8.07" id="_Body4" type="dynamic" script="" shapes="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
+			<shape id="_Rect13" type="Rect" layer="0" sensor="0" texture="black.png" expand="1">
+				<position x="0" y="0" w="0.0200005" h="0.039999" angle="0"/>
+				<physic density="1000" friction="0.3" restitution="0"/>
+				<collision category="0" mask="65535"/>
+			</shape>
+		</body>
+		<body x="9.5" y="8.1" id="_Body5" type="dynamic" script="" shapes="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
+			<shape id="_Rect14" type="Rect" layer="0" sensor="0" texture="black.png" expand="1">
+				<position x="0" y="0" w="0.0200005" h="0.039999" angle="0"/>
+				<physic density="1000" friction="0.3" restitution="0"/>
+				<collision category="0" mask="65535"/>
+			</shape>
+		</body>
+		<body x="9.5" y="8.13" id="_Body6" type="dynamic" script="" shapes="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
+			<shape id="_Rect15" type="Rect" layer="0" sensor="0" texture="black.png" expand="1">
+				<position x="0" y="0" w="0.0200005" h="0.039999" angle="0"/>
+				<physic density="1000" friction="0.3" restitution="0"/>
+				<collision category="0" mask="65535"/>
+			</shape>
+		</body>
+		<body x="9.5" y="8.16" id="_Body7" type="dynamic" script="" shapes="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
+			<shape id="_Rect16" type="Rect" layer="0" sensor="0" texture="black.png" expand="1">
+				<position x="0" y="0" w="0.0200005" h="0.039999" angle="0"/>
+				<physic density="1000" friction="0.3" restitution="0"/>
+				<collision category="0" mask="65535"/>
+			</shape>
+		</body>
+		<body x="9.5" y="8.19" id="_Body8" type="dynamic" script="" shapes="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
+			<shape id="_Rect17" type="Rect" layer="0" sensor="0" texture="black.png" expand="1">
+				<position x="0" y="0" w="0.0200005" h="0.0400009" angle="0"/>
+				<physic density="1000" friction="0.3" restitution="0"/>
+				<collision category="0" mask="65535"/>
+			</shape>
+		</body>
 	</bodies>
 	<entities count="1">
 		<entity id="player" type="kolobator">
 			<position x="5.5" y="9.557"/>
 		</entity>
 	</entities>
-	<joints count="0"/>
+	<joints count="8">
+		<joint type="RevoluteJoint" id="_RevoluteJoint1">
+			<connected collide="0" id1="allwall" id2="_Body2"/>
+			<position x="9.5" y="7.995"/>
+			<physic limit="0" motor="0"/>
+		</joint>
+		<joint type="RevoluteJoint" id="_RevoluteJoint2">
+			<connected collide="0" id1="_Body2" id2="_Body3"/>
+			<position x="9.5" y="8.025"/>
+			<physic limit="0" motor="0"/>
+		</joint>
+		<joint type="RevoluteJoint" id="_RevoluteJoint3">
+			<connected collide="0" id1="_Body3" id2="_Body4"/>
+			<position x="9.5" y="8.055"/>
+			<physic limit="0" motor="0"/>
+		</joint>
+		<joint type="RevoluteJoint" id="_RevoluteJoint4">
+			<connected collide="0" id1="_Body4" id2="_Body5"/>
+			<position x="9.5" y="8.085"/>
+			<physic limit="0" motor="0"/>
+		</joint>
+		<joint type="RevoluteJoint" id="_RevoluteJoint5">
+			<connected collide="0" id1="_Body5" id2="_Body6"/>
+			<position x="9.5" y="8.115"/>
+			<physic limit="0" motor="0"/>
+		</joint>
+		<joint type="RevoluteJoint" id="_RevoluteJoint6">
+			<connected collide="0" id1="_Body6" id2="_Body7"/>
+			<position x="9.5" y="8.145"/>
+			<physic limit="0" motor="0"/>
+		</joint>
+		<joint type="RevoluteJoint" id="_RevoluteJoint7">
+			<connected collide="0" id1="_Body7" id2="_Body8"/>
+			<position x="9.5" y="8.175"/>
+			<physic limit="0" motor="0"/>
+		</joint>
+		<joint type="RevoluteJoint" id="_RevoluteJoint8">
+			<connected collide="0" id1="_Body8" id2="lamp"/>
+			<position x="9.5" y="8.205"/>
+			<physic limit="0" motor="0"/>
+		</joint>
+	</joints>
 </level>
