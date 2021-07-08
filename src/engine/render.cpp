@@ -60,7 +60,6 @@ static void fixture_draw(b2Body *body,b2Fixture *fix) {
 	switch(F_DATA(fix,type)) {
 	case RECT:
 	case SQUARE: {
-		info_log()
 		b2PolygonShape *shape=(b2PolygonShape*)fix->GetShape();
 		if(tex) {
 			float w=(shape->m_vertices[1]-shape->m_vertices[0]).Length();
