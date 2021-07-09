@@ -702,6 +702,7 @@ void MainMenu::draw() {
 
 	float image_w=image_scale*title->w;
 	GPU_BlitScale(title,0,ren,borders.left+image_w/2,borders.top+image_h/2,image_scale,image_scale);
+	GPU_Rectangle(ren,-20,-20,100000,100000,SDL_Color{0,0,0,0});
 	SetNextWindowPos({borders.left,SH-borders.bottom},ImGuiCond_FirstUseEver,{0,1});
 	Begin("mainmenu",0,ImGuiWindowFlags_NoMove|ImGuiWindowFlags_NoResize|ImGuiWindowFlags_NoTitleBar|ImGuiWindowFlags_NoBringToFrontOnFocus);
 	PushFont(font);

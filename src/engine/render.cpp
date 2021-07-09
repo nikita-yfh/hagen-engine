@@ -13,7 +13,6 @@
 #include "shader.hpp"
 #include "text.hpp"
 using namespace std;
-Color scene_mask(0,0,0,0);
 float tex_scale=1.0f;
 float weapon_scale=1.0f;
 float effect_scale=1.0f;
@@ -26,9 +25,6 @@ void init_target() {
 void delete_target() {
 	GPU_FreeImage(img1);
 	GPU_FreeTarget(ren1);
-}
-static void draw_mask() {
-	GPU_RectangleFilled(ren,0,0,SW,SH,scene_mask.color());
 }
 static void draw_bgr() {
 	if(!background.size())return;
@@ -265,7 +261,6 @@ void draw2(){
 	disable_shaders();
 	text::draw();
 	interface.game_interface.draw();
-	draw_mask();
 	interface.draw();
 	GPU_Flip(ren);
 }

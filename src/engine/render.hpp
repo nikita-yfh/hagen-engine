@@ -7,7 +7,6 @@ extern float weapon_scale;
 extern float effect_scale;
 void draw1();
 void draw2();
-extern Color scene_mask;
 extern bool show_textures;
 void init_target();
 void delete_target();

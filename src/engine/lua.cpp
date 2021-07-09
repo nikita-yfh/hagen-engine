@@ -102,9 +102,6 @@ static float get_refresh_rate(){
 	return mode.refresh_rate;
 }
 //НАЧАЛО КОСТЫЛЕЙ И ОСНОВНЫХ ПРИЧИН БАГОВ
-static void set_mask(Color c) {
-	scene_mask=c;
-}
 static void print(LuaRef r) {
 	info_log(r.tostring());
 }
@@ -503,7 +500,6 @@ static void bind() {
 	.beginNamespace("graphics")
 	.addFunction("drawx",&drawx)
 	.addFunction("drawy",&drawy)
-	.addFunction("set_mask",&set_mask)
 	.addFunction("preload",&load_texture)	//загрузка текстуры. Позволяет избежать фризов в игре, если все загрузить сразу
 	.addFunction("texture",&find_texture)	//текстура по ID
 	.addFunction("effect",&effect::create)	//создание граффического эффекта в заданных координатах.
