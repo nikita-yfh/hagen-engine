@@ -37,7 +37,6 @@ function subtitles(str)
 		end
 	end
 	local time=counter*subtitles_time
-	print('Subtitles time: '..time..' '..str)
 	text.add_subtitles(str,time)
 	return time
 end

@@ -504,6 +504,7 @@ static void bind() {
 	.addFunction("texture",&find_texture)	//текстура по ID
 	.addFunction("effect",&effect::create)	//создание граффического эффекта в заданных координатах.
 	.addFunction("set_texture_shader",&set_texture_shader)
+	.addFunction("unset_texture_shader",&unset_texture_shader)
 	.addFunction("get_shader",&get_shader)
 	.addProperty("texture_scale",&tex_scale)
 	.addProperty("weapon_scale",&weapon_scale)

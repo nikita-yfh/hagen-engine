@@ -210,6 +210,9 @@ Shader *get_shader(string id) {
 void set_texture_shader(string id,Shader shader) {
 	shaders[id]=shader;
 }
+void unset_texture_shader(string id) {
+	shaders.erase(id);
+}
 void enable_shader(string id) {
 	if(shaders.find(id)!=shaders.end())
 		shaders[id].enable();
