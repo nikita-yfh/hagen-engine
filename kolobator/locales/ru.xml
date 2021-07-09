@@ -64,6 +64,7 @@
         <load value="Загрузить"/>
     </levelchooser>
 	<put_knife value="Нажми E, чтобы поднять нож"/>
+	<poweron value="Нажми E, чтобы включить свет"/>
 	<podval>
 		<sleep value="Test test test test test test test"/>
 		<wake_up value="Test2"/>

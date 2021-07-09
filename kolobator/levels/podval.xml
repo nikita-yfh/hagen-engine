@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <level w="40" h="20">
 	<background img="backgrounds/default.png"/>
-	<bodies count="19">
+	<bodies count="20">
 		<body x="12.4374" y="9.6875" id="allwall" type="static" script="" shapes="1">
 			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
 			<shape id="_Polygon1" type="Polygon" layer="0" sensor="0" texture="black.png" expand="0">
@@ -122,7 +122,7 @@
 				<collision category="0" mask="65535"/>
 			</shape>
 		</body>
-		<body x="9.5" y="8.25" id="lamp" type="dynamic" script="light(&quot;light1.png&quot;,50)" shapes="1">
+		<body x="9.5" y="8.25" id="lamp" type="dynamic" script="light(&quot;light/1.png&quot;,50)" shapes="1">
 			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="1" linear_damping="1"/>
 			<shape id="_Rect9" type="Rect" layer="0" sensor="0" texture="lamp.png" expand="1">
 				<position x="0" y="0" w="0.05" h="0.1" angle="0"/>
@@ -182,6 +182,14 @@
 			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
 			<shape id="_Rect17" type="Rect" layer="0" sensor="0" texture="black.png" expand="1">
 				<position x="0" y="0" w="0.0200005" h="0.0400009" angle="0"/>
+				<physic density="1000" friction="0.3" restitution="0"/>
+				<collision category="0" mask="65535"/>
+			</shape>
+		</body>
+		<body x="7.05" y="9.76" id="power" type="static" script="light(&quot;light/2.png&quot;,0.08)" shapes="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
+			<shape id="_Rect18" type="Rect" layer="0" sensor="1" texture="poweroff.png" expand="1">
+				<position x="0" y="0" w="0.08" h="0.08" angle="0"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
 			</shape>
