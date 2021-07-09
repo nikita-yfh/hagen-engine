@@ -8,10 +8,12 @@ function level.init()
 	game.interface=false
 	sub_time1=game.time+subtitles(text.get("podval/sleep"))
 end
-local power_state=false
-local sleep_sub_time=0
-local sleep_timer=0
-local sleep_stage=0
+power_state=false
+sleep_sub_time=0
+sleep_timer=0
+sleep_stage=0
+poweron=false
+sub_knife=false
 function level.update()
 	camera_focus=""
 	game.camera.center(player.x,9.25)
@@ -25,6 +27,8 @@ function level.update()
 				Light.lights["lamp"].enabled=true
 				power_state=true
 				b:set_texture("b","poweron")
+				subtitles(text.get("podval/poweron"))
+				poweron=true
 			end
 		end
 	end
@@ -47,5 +51,9 @@ function level.update()
 				subtitles(text.get("podval/wake_up1"))
 			end
 		end
+	end
+	if(not sub_knife and poweron and world.eb_all_collide(player,body("t1"))) then
+		subtitles(text.get("podval/knife_see"))
+		sub_knife=true
 	end
 end

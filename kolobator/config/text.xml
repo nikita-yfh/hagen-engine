@@ -11,6 +11,7 @@
         <color r="0" g="0" b="0" a="80"/>
         <border left="15" right="15" top="10" bottom="10" rounding="20"/>
 		<max_height value="0.3h"/>
+		<separator value="40"/>
     </subtitles>
 </text>
 <text_android>
@@ -26,5 +27,6 @@
         <color r="0" g="0" b="0" a="80"/>
         <border left="15" right="15" top="10" bottom="10" rounding="20"/>
 		<max_height value="0.3h"/>
+		<separator value="80"/>
     </subtitles>
 </text_android>

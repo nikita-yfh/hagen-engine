@@ -106,14 +106,6 @@
 				<collision category="0" mask="65535"/>
 			</shape>
 		</body>
-		<body x="5.6305" y="8.8875" id="t1" type="static" script="" shapes="1">
-			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
-			<shape id="_Line2" type="Line" layer="-128" sensor="1" texture="" expand="1">
-				<position x1="0.6305" y1="0.887501" x2="-0.6305" y2="-0.8875"/>
-				<physic density="1000" friction="0.3" restitution="0"/>
-				<collision category="0" mask="65535"/>
-			</shape>
-		</body>
 		<body x="10.75" y="9.75" id="_Body1" type="dynamic" script="" shapes="1">
 			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
 			<shape id="_Rect8" type="Rect" layer="0" sensor="0" texture="box1_big.png" expand="1">
@@ -186,10 +178,18 @@
 				<collision category="0" mask="65535"/>
 			</shape>
 		</body>
-		<body x="7.05" y="9.76" id="power" type="static" script="light(&quot;light/2.png&quot;,0.08)" shapes="1">
+		<body x="6" y="9.5" id="power" type="static" script="light(&quot;light/2.png&quot;,0.08)" shapes="1">
 			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
 			<shape id="_Rect18" type="Rect" layer="0" sensor="1" texture="poweroff.png" expand="1">
 				<position x="0" y="0" w="0.08" h="0.08" angle="0"/>
+				<physic density="1000" friction="0.3" restitution="0"/>
+				<collision category="0" mask="65535"/>
+			</shape>
+		</body>
+		<body x="7.5" y="9.75" id="t1" type="static" script="" shapes="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
+			<shape id="_Line2" type="Line" layer="-128" sensor="1" texture="" expand="1">
+				<position x1="0" y1="-0.75" x2="0" y2="0.75"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
 			</shape>

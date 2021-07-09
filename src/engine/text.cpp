@@ -11,8 +11,9 @@ static Rect4 tips_borders;
 static Color subtitles_color;
 static Rect4 subtitles_borders;
 static Rect4 subtitles_position;
-float subtitles_max_height;
-float subtitles_rounding;
+static float subtitles_separator;
+static float subtitles_max_height;
+static float subtitles_rounding;
 Tip::Tip(float x,float y,string text,Color color,float time) {
 	set(x,y,text,color,time);
 }
@@ -91,6 +92,7 @@ void load_config() {
 		subtitles_rounding=load_scaled_float(tips_n.getChildNode("border"),"rounding");
 		load_value(tips_n,"position",subtitles_position);
 		subtitles_max_height=load_scaled_float(tips_n.getChildNode("max_height"),"value");
+		subtitles_separator=load_scaled_float(tips_n.getChildNode("separator"),"value");
 	}
 
 	info_log("Loaded text config");
@@ -150,17 +152,17 @@ void draw() {
 				subtitles.erase(subtitles.begin(),subtitles.begin()+q+1);
 				break;
 			}else
-				h+=dh;
+				h+=(dh+subtitles_separator);
 		}
 		GPU_RectangleRoundFilled(ren,
 			subtitles_position.left-subtitles_borders.left,
-			SH-subtitles_position.bottom+subtitles_borders.bottom,
+			SH-subtitles_position.bottom+subtitles_borders.bottom-subtitles_separator,
 			SW-subtitles_position.right+subtitles_borders.right,
 			SH-subtitles_position.bottom-subtitles_borders.top-h,
 			subtitles_rounding,subtitles_color.color());
 		h=0.0f;
 		for(int q=subtitles.size()-1;q>=0;q--){
-			h+=FC_GetColumnHeight(font,w,subtitles[q].text.c_str());
+			h+=FC_GetColumnHeight(font,w,subtitles[q].text.c_str())+subtitles_separator;
 			FC_DrawColumnColor(font,ren,subtitles_position.left,SH-subtitles_position.bottom-h,w,
 				subtitles[q].color.color(),subtitles[q].text.c_str());
 		}
