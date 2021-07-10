@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <level w="40" h="20">
 	<background img="backgrounds/default.png"/>
-	<bodies count="29">
+	<bodies count="31">
 		<body x="10.9473" y="9.76316" id="allwall" type="static" script="" shapes="1">
 			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
 			<shape id="_Polygon1" type="Polygon" layer="0" sensor="0" texture="black.png" expand="0">
@@ -10,19 +10,19 @@
 					<point x="-9.44738" y="-6.76316"/>
 					<point x="-9.44738" y="6.73684"/>
 					<point x="6.80262" y="6.73684"/>
-					<point x="6.80262" y="-0.263155"/>
-					<point x="3.80262" y="-0.263155"/>
-					<point x="3.80262" y="-0.0131569"/>
-					<point x="3.55262" y="-0.0131569"/>
-					<point x="3.55262" y="0.236843"/>
-					<point x="3.30262" y="0.236843"/>
-					<point x="3.30262" y="0.486843"/>
-					<point x="3.05262" y="0.486843"/>
-					<point x="3.05262" y="0.736843"/>
-					<point x="-5.94738" y="0.736843"/>
-					<point x="-8.94728" y="0.736842"/>
-					<point x="-8.94728" y="0.236842"/>
-					<point x="-5.94728" y="0.236842"/>
+					<point x="6.80262" y="-0.263154"/>
+					<point x="3.80262" y="-0.263154"/>
+					<point x="3.80262" y="-0.0131559"/>
+					<point x="3.55262" y="-0.0131559"/>
+					<point x="3.55262" y="0.236844"/>
+					<point x="3.30262" y="0.236844"/>
+					<point x="3.30262" y="0.486844"/>
+					<point x="3.05262" y="0.486844"/>
+					<point x="3.05262" y="0.736844"/>
+					<point x="-5.94738" y="0.736844"/>
+					<point x="-8.94728" y="0.736843"/>
+					<point x="-8.94728" y="0.236843"/>
+					<point x="-5.94728" y="0.236843"/>
 					<point x="-5.94738" y="-1.76317"/>
 					<point x="6.80262" y="-1.76316"/>
 				</position>
@@ -271,6 +271,22 @@
 			<shape id="_Square8" type="Square" layer="0" sensor="0" texture="box2.png" expand="1">
 				<position x="0" y="0" r="0.25" angle="0"/>
 				<physic density="900" friction="0.6" restitution="0"/>
+				<collision category="0" mask="65535"/>
+			</shape>
+		</body>
+		<body x="12.5" y="9.25" id="t2" type="static" script="" shapes="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
+			<shape id="_Line3" type="Line" layer="-128" sensor="1" texture="" expand="1">
+				<position x1="0" y1="-1.25" x2="0" y2="1.25"/>
+				<physic density="1000" friction="0.3" restitution="0"/>
+				<collision category="0" mask="65535"/>
+			</shape>
+		</body>
+		<body x="11.5" y="9.25" id="t3" type="static" script="" shapes="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
+			<shape id="_Line4" type="Line" layer="-128" sensor="1" texture="" expand="1">
+				<position x1="0" y1="-1.25" x2="0" y2="1.25"/>
+				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
 			</shape>
 		</body>

@@ -16,7 +16,18 @@ poweron=false
 function level.update()
 	camera_focus=""
 	game.camera.center(player.x,9.25)
-	level_trigger(body("_end"),"ground1")
+	if(not end_timer and player and world.eb_all_collide(player,body("_end"))) then
+		if(power_state) then
+			end_timer=game.time+subtitles(text.get("podval/normal_end"))
+		else
+			end_timer=game.time+subtitles(text.get("podval/dark_end"))
+		end
+		player.userdata.move=false
+		game.interface=false
+	end
+	if(end_timer and game.time>end_timer) then
+		loadlevel("ground1")
+	end
 	if(not power_state) then
 		if(world.eb_all_collide(player,body("power"))) then
 			local b=body("power")
@@ -51,10 +62,19 @@ function level.update()
 			end
 		end
 	end
-	if(not sub_knife and poweron and world.eb_all_collide(player,body("t1"))) then
-		subtitles(text.get("podval/knife_see"))
-		world.destroy_body(body("t1"))
+	if(world.eb_all_collide(player,body("t2"))) then
+		if(body("knife")) then
+			subtitles(text.get("podval/knife_need"))
+		else
+			subtitles(text.get("podval/boxes"))
+		end
+		world.destroy_body(body("t2"))
 	end
+	if(world.eb_all_collide(player,body("t3")) and body("knife")) then
+		subtitles(text.get("podval/knife_not_get"))
+		world.destroy_body(body("t3"))
+	end
+	subtitles_trigger(body("t1"),text.get("podval/knife_see"))
 	if(world.eb_all_collide(entity("player"),body("knife"))) then
 		text.add_tip(body("knife").x,body("knife").y-1,text.get("knife_tip"))
 		if(game.press_key("action")) then

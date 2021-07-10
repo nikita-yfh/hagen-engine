@@ -10,7 +10,7 @@
         <position left="0.25w" right="0.25w" top="0" bottom="0.08h"/>
         <color r="0" g="0" b="0" a="80"/>
         <border left="15" right="15" top="10" bottom="10" rounding="20"/>
-		<max_height value="0.3h"/>
+		<max_height value="0"/>
 		<separator value="40"/>
     </subtitles>
 </text>
@@ -26,7 +26,7 @@
         <position left="0.28w" right="0.25w" top="0" bottom="0.05h"/>
         <color r="0" g="0" b="0" a="80"/>
         <border left="15" right="15" top="10" bottom="10" rounding="20"/>
-		<max_height value="0.3h"/>
+		<max_height value="0"/>
 		<separator value="80"/>
     </subtitles>
 </text_android>
