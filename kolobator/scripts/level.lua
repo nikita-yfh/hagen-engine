@@ -7,8 +7,8 @@ function Level.init()
     graphics.effect_scale=0.5
     game.camera.zoom=200
     if(system.os=="Android") then
-		world.position_iterations=8
-		world.velocity_iterations=8
+		world.position_iterations=18
+		world.velocity_iterations=18
 	else
 		world.position_iterations=100
 		world.velocity_iterations=100

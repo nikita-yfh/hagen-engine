@@ -13,7 +13,6 @@ sleep_sub_time=0
 sleep_timer=0
 sleep_stage=0
 poweron=false
-sub_knife=false
 function level.update()
 	camera_focus=""
 	game.camera.center(player.x,9.25)
@@ -45,7 +44,7 @@ function level.update()
 			Light.draw=true
 			player.userdata.move=true
 			game.interface=true
-			if(sleep_time==4) then
+			if(sleep_stage==4) then
 				subtitles(text.get("podval/wake_up2"))
 			else
 				subtitles(text.get("podval/wake_up1"))
@@ -54,6 +53,15 @@ function level.update()
 	end
 	if(not sub_knife and poweron and world.eb_all_collide(player,body("t1"))) then
 		subtitles(text.get("podval/knife_see"))
-		sub_knife=true
+		world.destroy_body(body("t1"))
+	end
+	if(world.eb_all_collide(entity("player"),body("knife"))) then
+		text.add_tip(body("knife").x,body("knife").y-1,text.get("knife_tip"))
+		if(game.press_key("action")) then
+			entity("player").userdata.weapons["knife"]=true
+			entity("player"):set_weapon("knife")
+			world.destroy_body(body("knife"))
+			subtitles(text.get("podval/knife_get"))
+		end
 	end
 end

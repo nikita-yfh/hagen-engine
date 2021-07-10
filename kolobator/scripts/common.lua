@@ -1,4 +1,4 @@
-subtitles_time=300
+subtitles_time=200
 if(entity('player')) then
 	player=entity('player')
 end

@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<body type="dynamic" script="w_knife" shapes="1">
-	<physic  angular_damping="0" linear_damping="0" bullet="0" fixed_rotation="0" gravity_scale="1"/>
-	<shape id="_Rect1" type="Rect" layer="0" sensor="0" texture="weapon/knife.png" expand="1">
-		<position x="-0" y="0" w="0.35" h="0.045"/>
-		<physic density="3000" friction="0.3" restitution="0"/>
-		<collision category="1" mask="65533"/>
-	</shape>
-</body>

@@ -197,6 +197,9 @@ void Interface::load_config() {
 }
 void Interface::draw() {
 	GPU_Rectangle(ren,-20,-20,100000,100000,SDL_Color{0,0,0,0});
+#ifdef TOUCH
+	sensor::draw();
+#endif
 	mainmenu.draw();
 	console.draw();
 	pause.draw();
@@ -653,9 +656,6 @@ void GameInterface::draw() {
 		if(bullets[get_entity("player")->weapon.bullet1].max>0)
 			draw_bullets(get_entity("player")->weapon.bullet1,"game_interface/bullet1",++layer);
 	}
-#ifdef TOUCH
-	sensor::draw();
-#endif
 }
 
 
