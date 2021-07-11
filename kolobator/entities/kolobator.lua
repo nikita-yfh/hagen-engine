@@ -8,6 +8,9 @@ function kolobator.init(a)
 	a.userdata.move=true
 end
 function kolobator.update(a)
+	if(game.press_key("5")) then
+		graphics.effect("ch",player.x,player.y)
+	end
 	local j=a:joint("joint")
 	local b=a:body("body")
 	if(a.health==0) then
@@ -55,9 +58,9 @@ function kolobator.update(a)
 			end
 		end
 		if(a.weapon.angle>math.pi*0.5 and a.weapon.angle<math.pi*1.5) then
-			b:set_texture("body_fixture","kolobator2.png")
+			b:fixture("body_fixture").texture="kolobator2.png"
 		else
-			b:set_texture("body_fixture","kolobator1.png")
+			b:fixture("body_fixture").texture="kolobator1.png"
 		end
 	else stop=true end
 	if(stop) then

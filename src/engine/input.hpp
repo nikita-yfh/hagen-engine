@@ -28,6 +28,7 @@ struct Mouse {
 	void clear();
 	float g_angle();
 	bool sensor_press=0;
+	void update1();
 #ifdef TOUCH
 	uint16_t id=-1;
 #endif

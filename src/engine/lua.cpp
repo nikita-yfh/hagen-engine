@@ -411,6 +411,24 @@ static int add_loaded(lua_State *L){
 	}
 	return 0;
 }
+
+struct RayCastCallback : public b2RayCastCallback {
+	LuaRef *callback;
+	float ReportFixture(b2Fixture* fixture, const b2Vec2& point, const b2Vec2& normal, float fraction) override {
+		assert(callback->isFunction());
+		(*callback)(fixture,point.x,point.y,normal.x,normal.y,fraction);
+	}
+	RayCastCallback(LuaRef value){
+		callback=new LuaRef(value);
+	}
+	~RayCastCallback(){
+		delete callback;
+	}
+};
+void raycast(float x1,float y1,float x2,float y2,LuaRef callback) {
+	RayCastCallback c(callback);
+	world->RayCast(&c, {x1,x2},{x2,y2});
+}
 static void bind() {
 #define KEY(key) SDL_GetKeyboardState(key)
 	getGlobalNamespace(L)
@@ -461,6 +479,7 @@ static void bind() {
 	.addProperty("time_scale",&time_scale)		//скорость игры. по умолчанию 1
 	.addProperty("position_iterations",&position_iterations)	//точность физики
 	.addProperty("velocity_iterations",&velocity_iterations)	//точность физики
+	.addFunction("raycast",&raycast)
 	.endNamespace()
 	.beginNamespace("game")
 	.beginNamespace("camera")
@@ -530,6 +549,18 @@ static void bind() {
 	.addFunction("play_without_save",&play_ws_sound)
 	.addFunction("play_distance",&play_distance_sound)
 	.endNamespace()
+	.beginClass<b2Fixture>("Fixture")
+	.addProperty("body",&b2Fixture::m_body,0)
+	.addProperty("friction",&b2Fixture::GetFriction,&b2Fixture::SetFriction)
+	.addProperty("density",&b2Fixture::GetDensity,&b2Fixture::SetDensity)
+	.addProperty("restitution",&b2Fixture::GetRestitution,&b2Fixture::SetRestitution)
+	.addProperty("mode",&b2Fixture::IsSensor,&b2Fixture::SetSensor)
+	.addProperty("id",&b2Fixture::GetID,&b2Fixture::SetID)
+	.addProperty("texture",&b2Fixture::GetTexture,&b2Fixture::SetTexture)
+	.addProperty("angle",&b2Fixture::GetAngle,&b2Fixture::SetAngle)
+	.addProperty("expand",&b2Fixture::IsExpand,&b2Fixture::SetExpand)
+	.addProperty("layer",&b2Fixture::GetLayer,&b2Fixture::SetLayer)
+	.endClass()
 	.beginClass<b2Joint>("Joint")
 	.addProperty("a",&b2Joint::m_bodyA,0)
 	.addProperty("b",&b2Joint::m_bodyB,0)
@@ -555,10 +586,18 @@ static void bind() {
 	.addProperty("max_length",&b2Joint::GetMaxLength,&b2Joint::SetMaxLength)
 	.addProperty("id",&b2Joint::GetID)
 	.endClass()
+	.beginNamespace("body_type")
+	.addConstant("static",(int)b2_staticBody)
+	.addConstant("kinematic",(int)b2_kinematicBody)
+	.addConstant("dynamic",(int)b2_dynamicBody)
+	.endNamespace()
 	.beginClass<b2Body>("Body")
 	.addProperty("x",&b2Body::GetX,&b2Body::SetX)
 	.addProperty("y",&b2Body::GetY,&b2Body::SetY)
 	.addProperty("angle",&b2Body::GetAngle,&b2Body::SetAngle)
+	.addProperty("awake",&b2Body::IsAwake,&b2Body::SetAwake)
+	.addProperty("enabled",&b2Body::IsEnabled,&b2Body::SetEnabled)
+	.addProperty("bullet",&b2Body::IsBullet,&b2Body::SetBullet)
 	.addProperty("vangle",&b2Body::GetAngularVelocity,&b2Body::SetAngularVelocity)
 	.addProperty("vx",&b2Body::GetLinearVelocityX,&b2Body::SetLinearVelocityX)
 	.addProperty("vy",&b2Body::GetLinearVelocityY,&b2Body::SetLinearVelocityY)
@@ -566,19 +605,24 @@ static void bind() {
 	.addProperty("gravity_scale",&b2Body::GetGravityScale, &b2Body::SetGravityScale)
 	.addProperty("mass",&b2Body::GetMass)
 	.addProperty("inertia",&b2Body::GetInertia)
+	.addProperty("type",&b2Body::GetType,&b2Body::SetType)
 	.addProperty("enabled",&b2Body::IsEnabled,&b2Body::SetEnabled)
 	.addProperty("fixed_angle",&b2Body::IsFixedRotation,&b2Body::SetFixedRotation)
 	.addProperty("awake",&b2Body::IsAwake,&b2Body::SetAwake)
 	.addProperty("id",&b2Body::GetID)
 	.addProperty("bullet",&b2Body::IsBullet,&b2Body::SetBullet)
+	.addFunction("advance",&b2Body::Advance)
+	.addFunction("reset_mass_data",&b2Body::ResetMassData)
+	.addProperty("linear_damping",&b2Body::GetLinearDamping,&b2Body::SetLinearDamping)
+	.addProperty("angular_damping",&b2Body::GetAngularDamping,&b2Body::SetAngularDamping)
 	.addFunction("apply_force",&b2Body::Force)
 	.addFunction("apply_center_force",&b2Body::CenterForce)
 	.addFunction("apply_torque",&b2Body::Torque)
 	.addFunction("apply_impulse",&b2Body::Impulse)
 	.addFunction("apply_center_impulse",&b2Body::CenterImpulse)
 	.addFunction("apply_angular_impulse",&b2Body::AngularImpulse)
-	.addFunction("set_texture",&b2Body::SetTexture)
 	.addProperty("userdata",&b2Body::GetLuaUserData,&b2Body::SetLuaUserData)
+	.addFunction("fixture",&b2Body::GetFixture)
 	.endClass()
 	.beginClass<Entity>("Entity")
 	.addProperty("x",&Entity::getx,&Entity::setx)

@@ -125,7 +125,7 @@ public:
 	const b2Shape* GetShape() const;
 
 	/// Set if this fixture is a sensor.
-	void SetSensor(bool sensor);
+	void SetSensor(uint8_t sensor);
 
 	/// Is this fixture a sensor (non-solid)?
 	/// @return the true if the shape is a sensor.
@@ -204,6 +204,16 @@ public:
 	void Dump(int32 bodyIndex);
 
 
+	inline void SetID(std::string id){GetUserData()->id=id;}
+	inline std::string GetID()const{return GetUserData()->id;}
+	inline void SetTexture(std::string tex){GetUserData()->texture=tex;}
+	inline std::string GetTexture()const{return GetUserData()->texture;}
+	inline void SetLayer(int8_t l){GetUserData()->layer=l;}
+	inline int8_t GetLayer()const{return GetUserData()->layer;}
+	inline void SetExpand(bool e){GetUserData()->expand=e;}
+	inline bool IsExpand()const{return GetUserData()->expand;}
+	inline void SetAngle(float a){GetUserData()->angle=a;}
+	inline float GetAngle()const{return GetUserData()->angle;}
 
 	friend class b2Body;
 	friend class b2World;

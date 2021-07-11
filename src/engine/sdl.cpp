@@ -81,7 +81,7 @@ void init() {
 	info_log("SDL inited succesfully");
 	settings.load();
 #ifdef ANDROID
-	GPU_SetPreInitFlags(GPU_INIT_ENABLE_VSYNC);
+	//GPU_SetPreInitFlags(GPU_INIT_ENABLE_VSYNC);
 #else
 	GPU_SetPreInitFlags(GPU_INIT_DISABLE_VSYNC);
 #endif

@@ -494,10 +494,10 @@ void b2Body::Dump() {
 	}
 	b2Dump("}\n");
 }
-
-void b2Body::SetTexture(std::string fix, std::string tex) {
+b2Fixture *b2Body::GetFixture(std::string id){
 	for(b2Fixture *f=GetFixtureList(); f; f=f->GetNext()) {
-		if(f->GetUserData()->id==fix)
-			f->GetUserData()->texture=tex;
+		if(f->GetUserData()->id==id)
+			return f;
 	}
+	return nullptr;
 }

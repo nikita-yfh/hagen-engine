@@ -196,7 +196,7 @@ void Interface::load_config() {
 	info_log("Loaded interface config");
 }
 void Interface::draw() {
-	GPU_Rectangle(ren,-20,-20,100000,100000,SDL_Color{0,0,0,0});
+	GPU_Rectangle(ren,-20,-20,-10,-10,SDL_Color{0,0,0,0});
 #ifdef TOUCH
 	sensor::draw();
 #endif

@@ -410,6 +410,8 @@ public:
 	b2Fixture* GetFixtureList();
 	const b2Fixture* GetFixtureList() const;
 
+	b2Fixture *GetFixture(std::string id);
+
 	/// Get the list of all joints attached to this body.
 	b2JointEdge* GetJointList();
 	const b2JointEdge* GetJointList() const;
@@ -436,7 +438,6 @@ public:
 
 	/// Dump this body to a file
 	void Dump();
-	void SetTexture(std::string fix, std::string tex);
 
 	std::string GetID() const;
 

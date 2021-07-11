@@ -132,7 +132,6 @@ void draw(){
 }
 bool update(){
 	bool ok=0;
-	enabled=!interface.mainmenu.shown;
 	if(enabled){
 		for(auto &sensor : sensors)
 			if(sensor.enabled && sensor.update())
@@ -157,28 +156,35 @@ float Mouse::g_angle() {
 	float py=SH/2+(iy-cy)*zoom-y;
 	return get_angle(px,py);
 }
+void Mouse::update1() {
+#ifdef TOUCH
+	sensor::enabled=!interface.mainmenu.shown;
+#endif
+}
 void Mouse::update() {
 	if(state==Down)
 		state=Press;
 	else if(state==Up)
 		state=None;
 #ifdef TOUCH
-	if(!sensor::update() && state!=Press && state !=Up && down()) {//Нажатие пальцем
-		b=1;
-		state=Down;
-		id=fid();
-	} else if(up() && state !=None && id==fid()){//Поднятие пальца
-		state=Up;
-		id=-1;
-	}
+	if(e.type==SDL_FINGERDOWN || e.type==SDL_FINGERMOTION || e.type==SDL_FINGERUP){
+		if(!sensor::update() && state!=Press && state !=Up && down()) {//Нажатие пальцем
+			b=1;
+			state=Down;
+			id=fid();
+		} else if(up() && state !=None && id==fid()){//Поднятие пальца
+			state=Up;
+			id=-1;
+		}
 
-	int numfingers = get_num_fingers();
-	for (int i = 0; i < numfingers; i++){
-		SDL_Finger *f =get_finger(i);
-		if (f->id == id){
-			x=f->x*SW;
-			y=f->y*SH;
-			angle=g_angle();
+		int numfingers = get_num_fingers();
+		for (int i = 0; i < numfingers; i++){
+			SDL_Finger *f =get_finger(i);
+			if (f->id == id){
+				x=f->x*SW;
+				y=f->y*SH;
+				angle=g_angle();
+			}
 		}
 	}
 #else

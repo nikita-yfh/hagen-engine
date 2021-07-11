@@ -36,7 +36,8 @@ function level.update()
 				Light.lights["power"].enabled=false
 				Light.lights["lamp"].enabled=true
 				power_state=true
-				b:set_texture("b","poweron")
+				graphics.preload("poweron")
+				b:fixture("b").texture="poweron"
 				subtitles(text.get("podval/poweron"))
 				poweron=true
 			end

@@ -1,0 +1,11 @@
+<effect period="20" count="9">
+	<texture name="ch/1.png"/>
+	<texture name="ch/2.png"/>
+	<texture name="ch/3.png"/>
+	<texture name="ch/4.png"/>
+	<texture name="ch/5.png"/>
+	<texture name="ch/6.png"/>
+	<texture name="ch/7.png"/>
+	<texture name="ch/8.png"/>
+	<texture name="ch/9.png"/>
+</effect>
