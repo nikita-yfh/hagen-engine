@@ -204,7 +204,7 @@ static int parse_string(vector<LuaRef>&vals,string &exec){
 		}else if(mode==3) mode=1;
 		else if(mode==0 || mode==1){
 			if(c==' ' || c==','){
-				if(mode==0 && done(buf,1))
+				if(mode==0 && done(buf,0))
 					return 1;
 				mode=1;
 			}else{
@@ -416,7 +416,7 @@ struct RayCastCallback : public b2RayCastCallback {
 	LuaRef *callback;
 	float ReportFixture(b2Fixture* fixture, const b2Vec2& point, const b2Vec2& normal, float fraction) override {
 		assert(callback->isFunction());
-		(*callback)(fixture,point.x,point.y,normal.x,normal.y,fraction);
+		return (*callback)(fixture,point.x,point.y,normal.x,normal.y,fraction);
 	}
 	RayCastCallback(LuaRef value){
 		callback=new LuaRef(value);
@@ -427,7 +427,7 @@ struct RayCastCallback : public b2RayCastCallback {
 };
 void raycast(float x1,float y1,float x2,float y2,LuaRef callback) {
 	RayCastCallback c(callback);
-	world->RayCast(&c, {x1,x2},{x2,y2});
+	world->RayCast(&c, {x1,y1},{x2,y2});
 }
 static void bind() {
 #define KEY(key) SDL_GetKeyboardState(key)

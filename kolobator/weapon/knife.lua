@@ -4,21 +4,21 @@ function knife.init(w,e)
 	w.texture="weapon/knife.png"
 end
 function knife.fire1(w,e)
-	if(e.userdata.knife_timer~=nil and game.time-e.userdata.knife_timer < math.pi*50) then 
+	if(e.userdata.knife_timer~=nil and game.time-e.userdata.knife_timer < math.pi*50) then
 		return 0
 	end
 	e.userdata.knife_timer=game.time
-	local mas={}
-	mas[e.id]=1
-	world.raycast_callbacks(e.x,e.y,0.35,function(en,d)
-		if(mas[en.id]==nil) then
-			graphics.effect("blood",en.x,en.y)
-			en:harm(5)
-			mas[en.id]=true
-		end
-	end,function(b,d)
-		crash(b,5)
-	end)
+	local length=0.3
+	local body=false
+	local point={}
+	local x,y=e.x+math.cos(e.weapon.angle)*length,e.y+math.sin(e.weapon.angle)*length
+	world.raycast(e.x,e.y,x,y,
+			function(fixture,px,py,nx,ny,fraction)
+				body=fixture.body
+				point.x,point.y=px,py
+				return fraction
+			end)
+	if(body) then crash(body,point.x,point.y,5) end
 	return 0
 end
 

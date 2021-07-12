@@ -17,9 +17,16 @@ end
 function init_main_menu()
     loadlevel('ground1')
 end
-function crash(body,value)
+function crash(body,x,y,value)
+	local e=world.who(body)
+	if(e) then
+		e:harm(value)
+	end
 	if(body.userdata.health) then
 		body.userdata.health=body.userdata.health-value
+	end
+	if(body.userdata.effect) then
+		graphics.effect(body.userdata.effect,x,y)
 	end
 end
 function subtitles(str)
