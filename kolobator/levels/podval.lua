@@ -36,14 +36,14 @@ function level.update()
 				Light.lights["power"].enabled=false
 				Light.lights["lamp"].enabled=true
 				power_state=true
-				graphics.preload("poweron")
-				b:fixture("b").texture="poweron"
+				graphics.preload("poweron.png")
+				b:fixture("b").texture="poweron.png"
 				subtitles(text.get("podval/poweron"))
 				poweron=true
 			end
 		end
 	end
-	if(sub_time1>=0) then-- and game.time>sub_time1) then
+	if(sub_time1>=0 and game.time>sub_time1) then
 		text.add_tip(player.x,player.y,text.get("podval/wake_tip"))
 		if(sleep_timer==0)then sleep_timer=game.time end
 		if(sleep_stage<4 and game.time>sleep_timer+15000) then

@@ -57,11 +57,10 @@ int main(int argc, char * argv[]) {
 			if(e.type==SDL_QUIT)
 				quit();
 			mouse.update();
+			interface.update();
+			interface.update_imgui();
 		}
-		interface.update_imgui();
 		interface.new_frame();
-		mouse.update1();
-		interface.update();
 		draw1();
 		auto step=chrono::high_resolution_clock::now()-time;
 		time = chrono::high_resolution_clock::now();

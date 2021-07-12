@@ -14,6 +14,8 @@ function knife.fire1(w,e)
 	local x,y=e.x+math.cos(e.weapon.angle)*length,e.y+math.sin(e.weapon.angle)*length
 	world.raycast(e.x,e.y,x,y,
 			function(fixture,px,py,nx,ny,fraction)
+				local e2=world.who(fixture.body)
+				if(e2 and e2.id==e.id) then return -1 end
 				body=fixture.body
 				point.x,point.y=px,py
 				return fraction

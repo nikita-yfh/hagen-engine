@@ -10,6 +10,9 @@ void copy_prev_key() {//для определения нажатий
 	for(int q=0;q<SDL_NUM_SCANCODES;q++){
 		prev_key[q]=key(q);
 	}
+#ifdef TOUCH
+	sensor::update1();
+#endif
 }
 
 short get_scancode(string k) {
@@ -91,8 +94,10 @@ void Sensor::draw(){
 	if(!enabled)return;
 	GPU_BlitRect(textures["sensors.png"],&image,ren,&pos);
 }
-bool Sensor::update(){
+void Sensor::update1(){
 	pactive=active;
+}
+bool Sensor::update(){
 	bool r=in_rect(pos);
 	if(up() && id==fid()){
 		active=0;
@@ -139,6 +144,11 @@ bool update(){
 	}
 	return ok;
 }
+void update1(){
+	sensor::enabled=!interface.mainmenu.shown;
+	for(auto &sensor : sensors)
+		sensor.update1();
+}
 bool get(short key){
 	return find(key).active;
 }
@@ -155,11 +165,6 @@ float Mouse::g_angle() {
 	float px=SW/2+(ix-cx)*zoom-x;
 	float py=SH/2+(iy-cy)*zoom-y;
 	return get_angle(px,py);
-}
-void Mouse::update1() {
-#ifdef TOUCH
-	sensor::enabled=!interface.mainmenu.shown;
-#endif
 }
 void Mouse::update() {
 	if(state==Down)

@@ -23,9 +23,6 @@ function Level.update()
     local shader=graphics.get_shader("water.png")
 	shader:add_float("time"):set(game.time);
 	Light.render()
-	if(game.press_key("left")) then print("P") end
-	if(game.key("left")) then print("\tK") end
-	if(game.release_key("left")) then print("\t\tR") end
 end
 function Level.newgame()
 	player.userdata.weapons={}
