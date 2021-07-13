@@ -18,6 +18,7 @@ function Level.init()
 	end
 	Light.init()
 	Light.disable()
+	Light.draw=false
 end
 function Level.update()
     local shader=graphics.get_shader("water.png")

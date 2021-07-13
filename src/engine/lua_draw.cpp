@@ -31,18 +31,18 @@ static int draw_polygon(lua_State *L){
 	if(lua_gettop(L)>2)
 		fill=Stack<bool>::get(L,3);
 	if(fill)
-		GPU_PolygonFilled(*target,vec.size(),vec.data(),color.color());
+		GPU_PolygonFilled(*target,vec.size()/2,vec.data(),color.color());
 	else
-		GPU_Polygon(*target,vec.size(),vec.data(),color.color());
+		GPU_Polygon(*target,vec.size()/2,vec.data(),color.color());
 	return 0;
 }
 static int draw_polyline(lua_State *L){
-	vector<float>vec=luaval_to_vector_float(L,1);
-	Color color=Stack<Color>::get(L,2);
+	Color color=Stack<Color>::get(L,1);
+	vector<float>vec=luaval_to_vector_float(L,2);
 	bool close=false;
 	if(lua_gettop(L)>2)
 		close=Stack<bool>::get(L,3);
-	GPU_Polyline(*target,vec.size(),vec.data(),color.color(),close);
+	GPU_Polyline(*target,vec.size()/2,vec.data(),color.color(),close);
 	return 0;
 }
 static int draw_tri(lua_State *L){
@@ -137,9 +137,9 @@ static int draw_line(lua_State *L){
 	return 0;
 }
 static int draw_pixel(lua_State *L){
-	float x=Stack<float>::get(L,1);
-	float y=Stack<float>::get(L,2);
-	Color color=Stack<Color>::get(L,3);
+	Color color=Stack<Color>::get(L,1);
+	float x=Stack<float>::get(L,2);
+	float y=Stack<float>::get(L,3);
 	GPU_Pixel(*target,x,y,color.color());
 	return 0;
 }

@@ -66,8 +66,7 @@ vector<float> luaval_to_vector_float(lua_State *L,int n) {
 		lua_pushinteger(L,i);
 		lua_gettable(L,n);
 		float v= lua_tonumber(L,-1);
-		if (v)
-			vec.push_back(v);
+		vec.push_back(v);
 		lua_pop(L,1);
 	}
 	return vec;
@@ -550,6 +549,7 @@ static void bind() {
 	.addFunction("play_distance",&play_distance_sound)
 	.endNamespace()
 	.beginClass<b2Fixture>("Fixture")
+	.addProperty("layer",&b2Fixture::GetLayer,&b2Fixture::SetLayer)
 	.addProperty("body",&b2Fixture::m_body,0)
 	.addProperty("friction",&b2Fixture::GetFriction,&b2Fixture::SetFriction)
 	.addProperty("density",&b2Fixture::GetDensity,&b2Fixture::SetDensity)
@@ -559,7 +559,6 @@ static void bind() {
 	.addProperty("texture",&b2Fixture::GetTexture,&b2Fixture::SetTexture)
 	.addProperty("angle",&b2Fixture::GetAngle,&b2Fixture::SetAngle)
 	.addProperty("expand",&b2Fixture::IsExpand,&b2Fixture::SetExpand)
-	.addProperty("layer",&b2Fixture::GetLayer,&b2Fixture::SetLayer)
 	.endClass()
 	.beginClass<b2Joint>("Joint")
 	.addProperty("a",&b2Joint::m_bodyA,0)

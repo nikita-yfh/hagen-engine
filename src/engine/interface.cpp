@@ -888,6 +888,13 @@ static int ImBegin(lua_State *L) {
 	lua_pushboolean(L, p_open);
 	return 2;
 }
+static int ImSameLine(lua_State *L) {
+	int argi = 1;
+	float pos = luaL_optnumber(L, argi++, 0.0f);
+	float spacing = luaL_optnumber(L, argi++, -1.0f);
+	SameLine(pos,spacing);
+	return 0;
+}
 static int ImBeginChild(lua_State *L) {
 	int argi = 1;
 	ImGuiID id = (ImGuiID)lua_tointeger(L, argi++);
@@ -2129,7 +2136,7 @@ void bind_imgui() {
 	F("PushButtonRepeat",PushButtonRepeat)
 	F("PopButtonRepeat",PopButtonRepeat)
 	F("Separator",Separator)
-	F("SameLine",SameLine)
+	F("SameLine",ImSameLine)
 	F("NewLine",NewLine)
 	F("Spacing",Spacing)
 	F("Dummy",ImDummy)

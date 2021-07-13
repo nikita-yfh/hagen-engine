@@ -41,6 +41,7 @@ Light.render=function()
 	graphics.set_target(Light.tex)
 	graphics.clear()
 	if(Light.draw) then
+		graphics.set_target(Light.tex)
 		graphics.rect(Light.bgr,0,0,graphics.display.w,graphics.display.h,1)
 		for index,l in pairs(Light.lights) do
 			local tex=graphics.texture(l.texture)
@@ -61,6 +62,23 @@ Light.render=function()
 				end
 			end
 		end
+		--[[graphics.set_target(Light.shadow)
+		graphics.clear()
+		local a=player
+		local xp,yp=false,false
+		for i=0,math.pi*2+math.pi/160,math.pi/160 do
+			local x,y=a.x+math.cos(i)*20,a.y+math.sin(i)*20
+			world.raycast(a.x,a.y,x,y,
+				function(fixture,px,py,nx,ny,f)
+					if(world.who(fixture.body) or fixture.mode~=0) then return -1 end
+					x,y=px,py
+					return f
+				end)
+			if(xp and yp) then
+				graphics.triangle(Color(255,255,255,255),graphics.drawx(a.x),graphics.drawy(a.y),graphics.drawx(xp),graphics.drawy(yp),graphics.drawx(x),graphics.drawy(y),1)
+			end
+			xp,yp=x,y
+		end]]
 	end
 	graphics.unset_target()
 end
