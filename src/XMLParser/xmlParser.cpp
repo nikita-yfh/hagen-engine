@@ -2674,6 +2674,19 @@ XMLNode XMLNode::getChildNode(XMLCSTR name, int *j) const {
 	return emptyXMLNode;
 }
 
+int XMLNode::getChildNodeCount(XMLCSTR name) const {
+	if (!d) return 0;
+	int i=0;
+	while(!getChildNode(name,&i).isEmpty());
+	return i;
+}
+int XMLNode::getChildNodeCount() const {
+	if (!d) return 0;
+	int i=0;
+	while(!getChildNode(i++).isEmpty());
+	return i;
+}
+
 XMLNode XMLNode::getChildNode(XMLCSTR name, int j) const {
 	if (!d) return emptyXMLNode;
 	if (j>=0) {

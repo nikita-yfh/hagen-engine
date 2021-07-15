@@ -1,4 +1,5 @@
-<scripts count="5">
+<scripts count="6">
+	<script name="interface/pause.lua"/>
 	<script name="common.lua"/>
 	<script name="light.lua"/>
 	<script name="level.lua"/>

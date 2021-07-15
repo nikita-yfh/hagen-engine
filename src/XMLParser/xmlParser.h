@@ -231,6 +231,8 @@ public:
 	XMLNode getChildNode(int i=0) const;                           ///< return ith child node
 	XMLNode getChildNode(XMLCSTR name, int i)  const;              ///< return ith child node with specific name (return an empty node if failing). If i==-1, this returns the last XMLNode with the given name.
 	XMLNode getChildNode(XMLCSTR name, int *i=NULL) const;         ///< return next child node with specific name (return an empty node if failing)
+	int getChildNodeCount(XMLCSTR name) const;
+	int getChildNodeCount() const;
 	XMLNode getChildNodeWithAttribute(XMLCSTR tagName,
 									  XMLCSTR attributeName,
 									  XMLCSTR attributeValue=NULL,

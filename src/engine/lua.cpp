@@ -428,6 +428,14 @@ void raycast(float x1,float y1,float x2,float y2,LuaRef callback) {
 	RayCastCallback c(callback);
 	world->RayCast(&c, {x1,y1},{x2,y2});
 }
+static void save_file(const char *str,const char *path){
+	SDL_RWops *rw = SDL_RWFromFile(str, "w");
+	if(rw != NULL) {
+		size_t len = SDL_strlen(str);
+		SDL_RWwrite(rw, str, 1, len);
+		SDL_RWclose(rw);
+	}
+}
 static void bind() {
 #define KEY(key) SDL_GetKeyboardState(key)
 	getGlobalNamespace(L)
@@ -436,6 +444,12 @@ static void bind() {
 	.addFunction("__add_loaded",add_loaded)
 	.addFunction("restart",restart)
 	.addProperty("os",&os,0)
+	.endNamespace()
+	.beginNamespace("file")
+	.addFunction("open",RWget)
+	.addFunction("save",save_file)
+	.addProperty("data_dir",&prefix,0)
+	.addProperty("saves_dir",&saves,0)
 	.endNamespace()
 	.beginClass<Color>("Color")
 	.addConstructor<void(*)(uint8_t,uint8_t,uint8_t,uint8_t)>()

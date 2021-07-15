@@ -879,10 +879,9 @@ static vector<const char*> luaval_to_vector_string(lua_State *L,int n) {
 	return vec;
 }
 static int ImBegin(lua_State *L) {
-	int argi = 1;
-	const char* name = lua_tostring(L, argi++);
-	bool p_open = lua_isboolean(L, argi) ? lua_toboolean(L, argi++) : (bool)NULL;
-	ImGuiWindowFlags flags = (ImGuiWindowFlags)luaL_optinteger(L, argi++, 0);
+	const char* name = lua_tostring(L, 1);
+	bool p_open = lua_isboolean(L, 2) ? lua_toboolean(L, 2) : false;
+	ImGuiWindowFlags flags = (ImGuiWindowFlags)luaL_optinteger(L, 3, 0);
 	bool ret = Begin(name, &p_open, flags);
 	lua_pushboolean(L, ret);
 	lua_pushboolean(L, p_open);
@@ -2384,6 +2383,7 @@ void bind_imgui() {
 	C("AllowWhenDisabled",				ImGuiHoveredFlags_AllowWhenDisabled)
 	C("RectOnly",						ImGuiHoveredFlags_RectOnly)
 	C("RootAndChildWindows",			ImGuiHoveredFlags_RootAndChildWindows)
+	EN
 	BN("Dir")
 	C("None",	ImGuiDir_None)
 	C("Left",	ImGuiDir_Left)
