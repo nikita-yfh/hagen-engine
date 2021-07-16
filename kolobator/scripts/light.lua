@@ -1,7 +1,7 @@
 Light={lights={};bgr=Color(0,0,0,0),draw=true}
 Light.init=function()
 	Light.tex=graphics.create_texture(graphics.display.w,graphics.display.h)
-	local shader=Shader("common.vert","light.frag")
+	local shader=graphics.Shader("common.vert","light.frag")
 	shader:add_tex("light"):set_tex(Light.tex);
 	graphics.set_texture_shader("_all",shader)
 	Light.shader=shader

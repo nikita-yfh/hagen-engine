@@ -1,5 +1,9 @@
-#include "lua.hpp"
-#include "sdl.hpp"
+#include "lua_draw.hpp"
+#include "camera.hpp"
+#include "effect.hpp"
+#include "shader.hpp"
+#include "main.hpp"
+#include "render.hpp"
 using namespace lua;
 using namespace luabridge;
 using namespace std;
@@ -143,14 +147,14 @@ static int draw_pixel(lua_State *L){
 	GPU_Pixel(*target,x,y,color.color());
 	return 0;
 }
-static GPU_Image* create_texture(int x,int y){
-	return GPU_CreateImage(x,y,GPU_FORMAT_RGBA);
+static Texture* create_texture(int x,int y){
+	return (Texture*)GPU_CreateImage(x,y,GPU_FORMAT_RGBA);
 }
 static int set_target(lua_State *L){
 	if(lua_isnil(L,1))
 		target=&ren;
 	else{
-		GPU_Image *image=Stack<GPU_Image*>::get(L,1);
+		GPU_Image *image=(Texture*)(GPU_Image*)Stack<Texture*>::get(L,1);
 		if(image->target==0)
 			GPU_LoadTarget(image);
 		target=&image->target;
@@ -161,10 +165,10 @@ static int unset_target(lua_State *L){
 	target=&ren;
 	return 0;
 }
-static void bind_texture(GPU_Image *tex,string s){
+static void bind_texture(Texture *tex,string s){
 	if(textures[s])
 		GPU_FreeImage(textures[s]);
-	textures[s]=tex;
+	textures[s]=(GPU_Image*)tex;
 }
 static void set_line_thickness(float thickness){
 	GPU_SetLineThickness(thickness);
@@ -185,7 +189,7 @@ static void unset_clip(){
 	GPU_UnsetClip(*target);
 }
 static int set_color(lua_State *L){
-	GPU_Image *image=Stack<GPU_Image*>::get(L,1);
+	GPU_Image *image=(GPU_Image*)Stack<Texture*>::get(L,1);
 	if(lua_isnil(L,2))
 		GPU_UnsetColor(image);
 	else{
@@ -200,7 +204,7 @@ static int unset_color(lua_State *L){
 	return 0;
 }
 static int blit(lua_State *L){
-	GPU_Image *image=Stack<GPU_Image*>::get(L,1);
+	GPU_Image *image=Stack<Texture*>::get(L,1);
 	float x=Stack<float>::get(L,2);
 	float y=Stack<float>::get(L,3);
 	float angle=0.0f;
@@ -220,7 +224,7 @@ static int blit(lua_State *L){
 	return 0;
 }
 static int blit_rect(lua_State *L){
-	GPU_Image *image=Stack<GPU_Image*>::get(L,1);
+	GPU_Image *image=(GPU_Image*)Stack<Texture*>::get(L,1);
 	float x=Stack<float>::get(L,2);
 	float y=Stack<float>::get(L,3);
 	GPU_Rect rect=GPU_MakeRect(
@@ -255,9 +259,199 @@ static int get_default_anchor(lua_State *L){
 	push(L,y);
 	return 2;
 }
+
+uint16_t Texture::GetW()const{return w;}
+uint16_t Texture::GetH()const{return h;}
+uint16_t Texture::GetTexW()const{return texture_w;}
+uint16_t Texture::GetTexH()const{return texture_h;}
+int Texture::GetSnapMode()const{return snap_mode;}
+void Texture::SetSnapMode(int v){GPU_SetSnapMode(this,(GPU_SnapEnum)v);}
+BlendModeWrapper Texture::GetBlendMode()const{return *((BlendModeWrapper*)(&blend_mode));}
+void Texture::SetBlendMode(BlendModeWrapper v){
+	GPU_BlendMode b=*((GPU_BlendMode*)(&v));
+    GPU_SetBlendFunction(this, b.source_color, b.dest_color, b.source_alpha, b.dest_alpha);
+    GPU_SetBlendEquation(this, b.color_equation, b.alpha_equation);
+}
+int Texture::GetBytesPerPixel()const{return bytes_per_pixel;}
+int Texture::GetRefCount()const{return refcount;}
+int Texture::GetNumLayers()const{return num_layers;}
+bool Texture::UseBlending()const{return use_blending;}
+void Texture::SetBlending(bool v){GPU_SetBlending(this,v);}
+bool Texture::IsAlias()const{return is_alias;}
+bool Texture::HasMipmaps()const{return has_mipmaps;}
+bool Texture::UsingVirtualResolution()const{return using_virtual_resolution;}
+int Texture::GetFilterMode()const{return filter_mode;}
+void Texture::SetFilterMode(int v){GPU_SetImageFilter(this,(GPU_FilterEnum)v);}
+int Texture::GetWrapModeX()const{return wrap_mode_x;}
+int Texture::GetWrapModeY()const{return wrap_mode_y;}
+void Texture::SetWrapModeX(int v){GPU_SetWrapMode(this,(GPU_WrapEnum)v,wrap_mode_y);}
+void Texture::SetWrapModeY(int v){GPU_SetWrapMode(this,wrap_mode_x,(GPU_WrapEnum)v);}
+float Texture::GetAnchorX()const{return anchor_x;}
+float Texture::GetAnchorY()const{return anchor_y;}
+void Texture::SetAnchorX(float v){GPU_SetAnchor(this,v,anchor_y);}
+void Texture::SetAnchorY(float v){GPU_SetAnchor(this,anchor_x,v);}
+
+int BlendModeWrapper::GetSC()const{return source_color;}
+int BlendModeWrapper::GetSA()const{return source_alpha;}
+int BlendModeWrapper::GetDC()const{return dest_color;}
+int BlendModeWrapper::GetDA()const{return dest_alpha;}
+int BlendModeWrapper::GetCE()const{return color_equation;}
+int BlendModeWrapper::GetAE()const{return alpha_equation;}
+void BlendModeWrapper::SetSC(int v){source_color=(GPU_BlendFuncEnum)v;}
+void BlendModeWrapper::SetSA(int v){source_alpha=(GPU_BlendFuncEnum)v;}
+void BlendModeWrapper::SetDC(int v){dest_color=(GPU_BlendFuncEnum)v;}
+void BlendModeWrapper::SetDA(int v){dest_alpha=(GPU_BlendFuncEnum)v;}
+void BlendModeWrapper::SetCE(int v){color_equation=(GPU_BlendEqEnum)v;}
+void BlendModeWrapper::SetAE(int v){alpha_equation=(GPU_BlendEqEnum)v;}
+
+static Texture *find_tex(string str){
+	if(textures.find(str)==textures.end())
+		return 0;
+	return (Texture*)textures[str];
+}
+static Texture *load_tex(string str){
+	return (Texture*)load_texture(str);
+}
+static float get_ddpi(){
+	float f;
+	if(SDL_GetDisplayDPI(0,&f,0,0))
+		panic(SDL_GetError());
+	return f;
+}
+static float get_vdpi(){
+	float f;
+	if(SDL_GetDisplayDPI(0,0,0,&f))
+		panic(SDL_GetError());
+	return f;
+}
+static float get_hdpi(){
+	float f;
+	if(SDL_GetDisplayDPI(0,0,&f,0))
+		panic(SDL_GetError());
+	return f;
+}
+static float get_dpi(){
+	float f1,f2;
+	if(SDL_GetDisplayDPI(0,0,&f1,&f2))
+		panic(SDL_GetError());
+	return (f1+f2)/2.0f;
+}
+static float get_refresh_rate(){
+	SDL_DisplayMode mode;
+	SDL_GetCurrentDisplayMode(0,&mode);
+	return mode.refresh_rate;
+}
 void bind_graphics(){
 	getGlobalNamespace(L)
 	.beginNamespace("graphics")
+	.beginClass<GLSLtype>("GLSLtype")	//базовый тип GLSL
+	.addFunction("update",&GLSLtype::update)
+	.addProperty("location",&GLSLtype::loc,0)
+	.endClass()
+	.deriveClass<GLSLfloat,GLSLtype>("GLSLfloat")
+	.addFunction("set",&GLSLfloat::set)
+	.addProperty("value",&GLSLfloat::value)
+	.endClass()
+	.deriveClass<GLSLint,GLSLtype>("GLSLint")
+	.addFunction("set",&GLSLint::set)
+	.addProperty("value",&GLSLint::value)
+	.endClass()
+	.deriveClass<GLSLuint,GLSLtype>("GLSLuint")
+	.addFunction("set",&GLSLuint::set)
+	.addProperty("value",&GLSLuint::value)
+	.endClass()
+	.deriveClass<GLSLtex,GLSLtype>("GLSLtex")	//текстура
+	.addFunction("set",&GLSLtex::set)
+	.addFunction("set_tex",&GLSLtex::set_tex)
+	.addProperty("value",&GLSLtex::tex)
+	.endClass()
+	.deriveClass<GLSLvec2,GLSLtype>("GLSLvec2")	//двумерный вектор
+	.addFunction("set",&GLSLvec2::set)
+	.addProperty("x",&GLSLvec2::x)
+	.addProperty("y",&GLSLvec2::y)
+	.addProperty("r",&GLSLvec2::x)
+	.addProperty("g",&GLSLvec2::y)
+	.endClass()
+	.deriveClass<GLSLvec3,GLSLtype>("GLSLvec3")	//трехмерный вектор
+	.addFunction("set",&GLSLvec3::set)
+	.addProperty("x",&GLSLvec3::x)
+	.addProperty("y",&GLSLvec3::y)
+	.addProperty("z",&GLSLvec3::z)
+	.addProperty("r",&GLSLvec3::x)
+	.addProperty("g",&GLSLvec3::y)
+	.addProperty("b",&GLSLvec3::z)
+	.endClass()
+	.deriveClass<GLSLvec4,GLSLtype>("GLSLvec4")	//четырехмерный вектор
+	.addFunction("set",&GLSLvec4::set)
+	.addProperty("x",&GLSLvec4::x)
+	.addProperty("y",&GLSLvec4::y)
+	.addProperty("z",&GLSLvec4::z)
+	.addProperty("w",&GLSLvec4::w)
+	.addProperty("r",&GLSLvec4::x)
+	.addProperty("g",&GLSLvec4::y)
+	.addProperty("b",&GLSLvec4::z)
+	.addProperty("a",&GLSLvec4::w)
+	.endClass()
+	.beginClass<Shader>("Shader")
+	.addConstructor <void (*) (string,string)> ()
+	.addFunction("add_tex",&Shader::add_tex)
+	.addFunction("add_float",&Shader::add_float)
+	.addFunction("add_int",&Shader::add_int)
+	.addFunction("add_uint",&Shader::add_uint)
+	.addFunction("add_vec2",&Shader::add_vec2)
+	.addFunction("add_vec3",&Shader::add_vec3)
+	.addFunction("add_vec4",&Shader::add_vec4)
+	.addFunction("add_mat2",&Shader::add_mat2)
+	.addFunction("add_mat3",&Shader::add_mat3)
+	.addFunction("add_mat4",&Shader::add_mat4)
+	.endClass()
+	.beginNamespace("display")
+	.addProperty("w",&SW,0)
+	.addProperty("h",&SH,0)
+	.addProperty("dpi",&get_dpi)
+	.addProperty("ddpi",&get_ddpi)
+	.addProperty("vdpi",&get_vdpi)
+	.addProperty("hdpi",&get_hdpi)
+	.addProperty("refresh_rate",&get_refresh_rate)
+	.endNamespace()
+	.addFunction("drawx",&drawx)
+	.addFunction("drawy",&drawy)
+	.addFunction("preload",&load_tex)	//загрузка текстуры. Позволяет избежать фризов в игре, если все загрузить сразу
+	.addFunction("texture",&find_tex)	//текстура по ID
+	.addFunction("effect",&effect::create)	//создание граффического эффекта в заданных координатах.
+	.addFunction("set_texture_shader",&set_texture_shader)
+	.addFunction("unset_texture_shader",&unset_texture_shader)
+	.addFunction("get_shader",&get_shader)
+	.addProperty("texture_scale",&tex_scale)
+	.addProperty("weapon_scale",&weapon_scale)
+	.addProperty("effect_scale",&effect_scale)
+	.beginClass<Texture>("Texture")
+	.addProperty("w",&Texture::GetW)
+	.addProperty("h",&Texture::GetH)
+	.addProperty("tex_w",&Texture::GetTexW)
+	.addProperty("tex_h",&Texture::GetTexH)
+	.addProperty("wrap_x",&Texture::GetWrapModeX,&Texture::SetWrapModeX)
+	.addProperty("wrap_y",&Texture::GetWrapModeY,&Texture::SetWrapModeY)
+	.addProperty("anchor_x",&Texture::GetAnchorX,&Texture::SetAnchorX)
+	.addProperty("anchor_y",&Texture::GetAnchorY,&Texture::SetAnchorY)
+	.addProperty("blend_mode",&Texture::GetBlendMode,&Texture::SetBlendMode)
+	.addProperty("filter",&Texture::GetFilterMode,&Texture::SetFilterMode)
+	.addProperty("blending",&Texture::UseBlending,&Texture::SetBlending)
+	.addProperty("bytes_per_pixel",&Texture::GetBytesPerPixel)
+	.addProperty("has_mipmap",&Texture::HasMipmaps)
+	.addProperty("is_alias",&Texture::IsAlias)
+	.addProperty("num_layers",&Texture::GetNumLayers)
+	.addProperty("refcount",&Texture::GetRefCount)
+	.addProperty("use_virtual_resolution",&Texture::UsingVirtualResolution)
+	.endClass()
+	.beginClass<BlendModeWrapper>("BlendMode")
+	.addProperty("source_color",&BlendModeWrapper::GetSC,&BlendModeWrapper::SetSC)
+	.addProperty("source_alpha",&BlendModeWrapper::GetSA,&BlendModeWrapper::SetSA)
+	.addProperty("dest_color",&BlendModeWrapper::GetDC,&BlendModeWrapper::SetDC)
+	.addProperty("dest_alpha",&BlendModeWrapper::GetDA,&BlendModeWrapper::SetDA)
+	.addProperty("color_eq",&BlendModeWrapper::GetCE,&BlendModeWrapper::SetCE)
+	.addProperty("alpha_eq",&BlendModeWrapper::GetAE,&BlendModeWrapper::SetAE)
+	.endClass()
 	.addFunction("clear",&clear)
 	.addFunction("rect",&draw_rect)
 	.addFunction("polygon",&draw_polygon)

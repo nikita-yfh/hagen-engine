@@ -1,5 +1,5 @@
 function Level.init()
-	local shader=Shader("common.vert","water.frag") --шейдер воды
+	local shader=graphics.Shader("common.vert","water.frag") --шейдер воды
 	shader:add_tex("tex1"):set("diplacement.png");
     graphics.set_texture_shader("water.png",shader)
     graphics.texture_scale=0.5

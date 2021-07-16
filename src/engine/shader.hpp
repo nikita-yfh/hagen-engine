@@ -1,5 +1,6 @@
 #pragma once
 #include "sdl.hpp"
+#include "lua_draw.hpp"
 #include <string>
 #include <vector>
 #include <map>
@@ -69,7 +70,7 @@ struct GLSLtex : GLSLtype {
 	GPU_Image *tex=nullptr;
 	void update();
 	void set(string name);
-	void set_tex(GPU_Image *tex);
+	void set_tex(Texture *tex);
 	~GLSLtex();
 };
 class Shader {

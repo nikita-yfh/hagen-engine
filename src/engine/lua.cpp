@@ -4,14 +4,13 @@
 #include "render.hpp"
 #include "camera.hpp"
 #include "entity.hpp"
+#include "effect.hpp"
 #include "level.hpp"
 #include "sdl.hpp"
 #include "utility.hpp"
 #include "text.hpp"
-#include "effect.hpp"
 #include "main.hpp"
 #include "interface.hpp"
-#include "shader.hpp"
 #include <detail/Userdata.h>
 #include <algorithm>
 #include <Map.h>
@@ -70,35 +69,6 @@ vector<float> luaval_to_vector_float(lua_State *L,int n) {
 		lua_pop(L,1);
 	}
 	return vec;
-}
-static float get_ddpi(){
-	float f;
-	if(SDL_GetDisplayDPI(0,&f,0,0))
-		panic(SDL_GetError());
-	return f;
-}
-static float get_vdpi(){
-	float f;
-	if(SDL_GetDisplayDPI(0,0,0,&f))
-		panic(SDL_GetError());
-	return f;
-}
-static float get_hdpi(){
-	float f;
-	if(SDL_GetDisplayDPI(0,0,&f,0))
-		panic(SDL_GetError());
-	return f;
-}
-static float get_dpi(){
-	float f1,f2;
-	if(SDL_GetDisplayDPI(0,0,&f1,&f2))
-		panic(SDL_GetError());
-	return (f1+f2)/2.0f;
-}
-static float get_refresh_rate(){
-	SDL_DisplayMode mode;
-	SDL_GetCurrentDisplayMode(0,&mode);
-	return mode.refresh_rate;
 }
 //НАЧАЛО КОСТЫЛЕЙ И ОСНОВНЫХ ПРИЧИН БАГОВ
 static void print(LuaRef r) {
@@ -529,28 +499,6 @@ static void bind() {
 	.addProperty("button",&mouse.b,0)
 	.addProperty("state",&mouse.state,0)
 	.endNamespace()
-	.beginNamespace("graphics")
-	.addFunction("drawx",&drawx)
-	.addFunction("drawy",&drawy)
-	.addFunction("preload",&load_texture)	//загрузка текстуры. Позволяет избежать фризов в игре, если все загрузить сразу
-	.addFunction("texture",&find_texture)	//текстура по ID
-	.addFunction("effect",&effect::create)	//создание граффического эффекта в заданных координатах.
-	.addFunction("set_texture_shader",&set_texture_shader)
-	.addFunction("unset_texture_shader",&unset_texture_shader)
-	.addFunction("get_shader",&get_shader)
-	.addProperty("texture_scale",&tex_scale)
-	.addProperty("weapon_scale",&weapon_scale)
-	.addProperty("effect_scale",&effect_scale)
-	.beginNamespace("display")
-	.addProperty("w",&SW,0)
-	.addProperty("h",&SH,0)
-	.addProperty("dpi",&get_dpi)
-	.addProperty("ddpi",&get_ddpi)
-	.addProperty("vdpi",&get_vdpi)
-	.addProperty("hdpi",&get_hdpi)
-	.addProperty("refresh_rate",&get_refresh_rate)
-	.endNamespace()
-	.endNamespace()
 	.beginNamespace("music")
 	.addFunction("play",&play_music)
 	.addFunction("stop",&stop_music)
@@ -669,10 +617,6 @@ static void bind() {
 	.addFunction("del",&Bullet::del)
 	.addFunction("full",&Bullet::full)
 	.endClass()
-	.beginClass<GPU_Image>("Texture")
-	.addProperty("w",&GPU_Image::w,0)
-	.addProperty("h",&GPU_Image::h,0)
-	.endClass()
 	.beginClass<Weapon>("Weapon")
 	.addProperty("dx",&Weapon::dx)
 	.addProperty("dy",&Weapon::dy)
@@ -683,67 +627,6 @@ static void bind() {
 	.addProperty("point_x",&Weapon::point_x)
 	.addProperty("point_y",&Weapon::point_y)
 	.addProperty("angle",&Weapon::angle)
-	.endClass()
-	.beginClass<GLSLtype>("GLSLtype")	//базовый тип GLSL
-	.addFunction("update",&GLSLtype::update)
-	.addProperty("location",&GLSLtype::loc,0)
-	.endClass()
-	.deriveClass<GLSLfloat,GLSLtype>("GLSLfloat")
-	.addFunction("set",&GLSLfloat::set)
-	.addProperty("value",&GLSLfloat::value)
-	.endClass()
-	.deriveClass<GLSLint,GLSLtype>("GLSLint")
-	.addFunction("set",&GLSLint::set)
-	.addProperty("value",&GLSLint::value)
-	.endClass()
-	.deriveClass<GLSLuint,GLSLtype>("GLSLuint")
-	.addFunction("set",&GLSLuint::set)
-	.addProperty("value",&GLSLuint::value)
-	.endClass()
-	.deriveClass<GLSLtex,GLSLtype>("GLSLtex")	//текстура
-	.addFunction("set",&GLSLtex::set)
-	.addFunction("set_tex",&GLSLtex::set_tex)
-	.addProperty("value",&GLSLtex::tex)
-	.endClass()
-	.deriveClass<GLSLvec2,GLSLtype>("GLSLvec2")	//двумерный вектор
-	.addFunction("set",&GLSLvec2::set)
-	.addProperty("x",&GLSLvec2::x)
-	.addProperty("y",&GLSLvec2::y)
-	.addProperty("r",&GLSLvec2::x)
-	.addProperty("g",&GLSLvec2::y)
-	.endClass()
-	.deriveClass<GLSLvec3,GLSLtype>("GLSLvec3")	//трехмерный вектор
-	.addFunction("set",&GLSLvec3::set)
-	.addProperty("x",&GLSLvec3::x)
-	.addProperty("y",&GLSLvec3::y)
-	.addProperty("z",&GLSLvec3::z)
-	.addProperty("r",&GLSLvec3::x)
-	.addProperty("g",&GLSLvec3::y)
-	.addProperty("b",&GLSLvec3::z)
-	.endClass()
-	.deriveClass<GLSLvec4,GLSLtype>("GLSLvec4")	//четырехмерный вектор
-	.addFunction("set",&GLSLvec4::set)
-	.addProperty("x",&GLSLvec4::x)
-	.addProperty("y",&GLSLvec4::y)
-	.addProperty("z",&GLSLvec4::z)
-	.addProperty("w",&GLSLvec4::w)
-	.addProperty("r",&GLSLvec4::x)
-	.addProperty("g",&GLSLvec4::y)
-	.addProperty("b",&GLSLvec4::z)
-	.addProperty("a",&GLSLvec4::w)
-	.endClass()
-	.beginClass<Shader>("Shader")
-	.addConstructor <void (*) (string,string)> ()
-	.addFunction("add_tex",&Shader::add_tex)
-	.addFunction("add_float",&Shader::add_float)
-	.addFunction("add_int",&Shader::add_int)
-	.addFunction("add_uint",&Shader::add_uint)
-	.addFunction("add_vec2",&Shader::add_vec2)
-	.addFunction("add_vec3",&Shader::add_vec3)
-	.addFunction("add_vec4",&Shader::add_vec4)
-	.addFunction("add_mat2",&Shader::add_mat2)
-	.addFunction("add_mat3",&Shader::add_mat3)
-	.addFunction("add_mat4",&Shader::add_mat4)
 	.endClass();
 	bind_imgui();
 	bind_graphics();
