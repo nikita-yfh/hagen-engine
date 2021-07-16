@@ -10,6 +10,7 @@ void copy_prev_key() {//для определения нажатий
 	for(int q=0;q<SDL_NUM_SCANCODES;q++){
 		prev_key[q]=key(q);
 	}
+	mouse.update1();
 #ifdef TOUCH
 	sensor::update1();
 #endif
@@ -167,10 +168,6 @@ float Mouse::g_angle() {
 	return get_angle(px,py);
 }
 void Mouse::update() {
-	if(state==Down)
-		state=Press;
-	else if(state==Up)
-		state=None;
 #ifdef TOUCH
 	if(e.type==SDL_FINGERDOWN || e.type==SDL_FINGERMOTION || e.type==SDL_FINGERUP){
 		if(!sensor::update() && state!=Press && state !=Up && down()) {//Нажатие пальцем
@@ -203,9 +200,15 @@ void Mouse::update() {
 	if(mx>=0&&mx<SW&&my>=0&&my<SH) {//если курсор/палец в пределах экрана
 		x=mx;
 		y=my;
-		angle=g_angle();
 	}
 #endif
+}
+void Mouse::update1(){
+	if(state==Down)
+		state=Press;
+	else if(state==Up)
+		state=None;
+	angle=g_angle();
 }
 void Mouse::clear() {
 	state=0;

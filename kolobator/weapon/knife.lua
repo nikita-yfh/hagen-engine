@@ -7,6 +7,7 @@ function knife.fire1(w,e)
 	if(e.userdata.knife_timer~=nil and game.time-e.userdata.knife_timer < math.pi*50) then
 		return 0
 	end
+	play("knife.flac",e.x,e.y)
 	e.userdata.knife_timer=game.time
 	local length=0.3
 	local body=false

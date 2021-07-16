@@ -25,6 +25,7 @@ struct Mouse {
 	int x,y;
 	float angle;
 	void update();
+	void update1();
 	void clear();
 	float g_angle();
 	bool sensor_press=0;

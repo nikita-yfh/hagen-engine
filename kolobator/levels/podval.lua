@@ -13,6 +13,7 @@ sleep_sub_time=0
 sleep_timer=0
 sleep_stage=0
 poweron=false
+break_lamp=false
 function level.update()
 	camera_focus=""
 	game.camera.center(player.x,9.25)
@@ -39,6 +40,7 @@ function level.update()
 				graphics.preload("poweron.png")
 				b:fixture("b").texture="poweron.png"
 				subtitles(text.get("podval/poweron"))
+				sound.play("poweron.flac")
 				poweron=true
 			end
 		end
@@ -74,6 +76,10 @@ function level.update()
 	if(world.eb_all_collide(player,body("t3")) and body("knife")) then
 		subtitles(text.get("podval/knife_not_get"))
 		world.destroy_body(body("t3"))
+	end
+	if(not break_lamp and not body("lamp")) then
+		subtitles(text.get("podval/cut_wire"))
+		break_lamp=true
 	end
 	subtitles_trigger(body("t1"),text.get("podval/knife_see"))
 	if(world.eb_all_collide(entity("player"),body("knife"))) then
