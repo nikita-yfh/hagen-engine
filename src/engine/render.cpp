@@ -16,6 +16,11 @@ using namespace std;
 float tex_scale=1.0f;
 float weapon_scale=1.0f;
 float effect_scale=1.0f;
+#ifdef DEBUG
+const bool debug=true;
+#else
+const bool debug=false;
+#endif
 GPU_Image *img1;
 GPU_Target *ren1;
 void init_target() {
@@ -78,7 +83,7 @@ static void fixture_draw(b2Body *body,b2Fixture *fix) {
 				short unsigned int index[]= {0,1,3,1,2,3};
 				GPU_TriangleBatch(tex,ren1,4,f,6,index,GPU_BATCH_XY_ST);
 			}
-		} else {
+		} else if(debug){
 			float x[4];
 			float y[4];
 			for(int q=0; q<4; q++) {
@@ -125,7 +130,7 @@ static void fixture_draw(b2Body *body,b2Fixture *fix) {
 				}
 				GPU_TriangleBatch(tex,ren1,CIRCLE_QUALITY+2,f,CIRCLE_QUALITY*3,index,GPU_BATCH_XY_ST);
 			}
-		} else {
+		} else  if(debug){
 			float x=drawx(body->GetPosition().x+rotatex(shape->m_p,a_rad));
 			float y=drawy(body->GetPosition().y+rotatey(shape->m_p,a_rad));
 			float xp=x+(zoom*shape->m_radius)*cos(a_rad);
@@ -136,12 +141,14 @@ static void fixture_draw(b2Body *body,b2Fixture *fix) {
 	}
 	break;
 	case LINE: {
-		b2EdgeShape *shape=(b2EdgeShape*)fix->GetShape();
-		float x1=drawix(body->GetPosition().x+rotatex(shape->m_vertex1,a_rad));
-		float y1=drawiy(body->GetPosition().y+rotatey(shape->m_vertex1,a_rad));
-		float x2=drawix(body->GetPosition().x+rotatex(shape->m_vertex2,a_rad));
-		float y2=drawiy(body->GetPosition().y+rotatey(shape->m_vertex2,a_rad));
-		GPU_Line(ren1,x1,y1,x2,y2, {255,255,255,255});
+		if(debug){
+			b2EdgeShape *shape=(b2EdgeShape*)fix->GetShape();
+			float x1=drawix(body->GetPosition().x+rotatex(shape->m_vertex1,a_rad));
+			float y1=drawiy(body->GetPosition().y+rotatey(shape->m_vertex1,a_rad));
+			float x2=drawix(body->GetPosition().x+rotatex(shape->m_vertex2,a_rad));
+			float y2=drawiy(body->GetPosition().y+rotatey(shape->m_vertex2,a_rad));
+			GPU_Line(ren1,x1,y1,x2,y2, {255,255,255,255});
+		}
 	}
 	break;
 	case POLYGON: {
@@ -164,7 +171,7 @@ static void fixture_draw(b2Body *body,b2Fixture *fix) {
 				f[q*4+3]=(v-minv).y/(F_DATA(fix,expand)?(maxv-minv).y:(tex->h/100.0*tex_scale));
 			}
 			GPU_TriangleBatch(tex,ren1,3,f,3,0,GPU_BATCH_XY_ST);
-		} else {
+		} else if(debug){
 			float f[6];
 			for(int q=0; q<3; q++) {
 				b2Vec2 v(shape->m_vertices[q].x,shape->m_vertices[q].y);
@@ -196,7 +203,7 @@ static void fixture_draw(b2Body *body,b2Fixture *fix) {
 
 			short unsigned int index[]= {0,1,3,1,2,3};
 			GPU_TriangleBatch(tex,ren1,4,f,6,index,GPU_BATCH_XY_ST);
-		} else {
+		} else if(debug){
 			float x[4];
 			float y[4];
 			for(int q=0; q<4; q++) {

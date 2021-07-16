@@ -9,12 +9,17 @@
 				<collision category="1" mask="65533"/>
 			</shape>
 		</body>
-		<body x="0" y="0.12" id="wheel" type="dynamic" script="" shapes="1">
+		<body x="0" y="0.12" id="wheel" type="dynamic" script="" shapes="2">
 			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="15" linear_damping="0"/>
 			<shape id="_Circle3" type="Circle" layer="-1" sensor="0" texture="wheel.png" expand="1">
-				<position x="0" y="0" r="0.085" angle="0"/>
+				<position x="0" y="-7.45058e-09" r="0.085" angle="0"/>
 				<physic density="5000" friction="5" restitution="0"/>
 				<collision category="1" mask="65533"/>
+			</shape>
+			<shape id="_Circle1" type="Circle" layer="-128" sensor="1" texture="none." expand="1">
+				<position x="0" y="0" r="0.108" angle="0"/>
+				<physic density="1000" friction="0.3" restitution="0"/>
+				<collision category="0" mask="65535"/>
 			</shape>
 		</body>
 	</bodies>
