@@ -74,10 +74,8 @@ static void print_renderer_info(GPU_Renderer *renderer) {
 	info_log("Shader language: "+languages[renderer->shader_language]);
 }
 void init() {
-	if(SDL_Init(SDL_INIT_EVERYTHING)) {
+	if(SDL_Init(SDL_INIT_EVERYTHING))
 		panic(SDL_GetError());
-		throw string(SDL_GetError());
-	}
 	info_log("SDL inited succesfully");
 	settings.load();
 #ifdef ANDROID

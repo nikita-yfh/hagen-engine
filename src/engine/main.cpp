@@ -36,6 +36,7 @@ int main(int argc, char * argv[]) {
 	prefix="";
 #endif
 	init();
+	lua::init();
 	text::load_config();
 	if(levelname.size())
 		load_level(levelname,true);
@@ -108,7 +109,9 @@ void Settings::save() {
 void Settings::load() {
 	XMLNode Main=open_xml((saves+"settings.xml").c_str(),"settings");
 	if(Main.isEmpty()) {
+#ifndef ANDROID
 		mkdir(saves.c_str());
+#endif
 		def();
 		save();
 		load();

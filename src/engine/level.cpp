@@ -258,7 +258,7 @@ void load_world_state(string name) {
 b2Body* read_body(XMLNode bd,b2Vec2 delta,bool temp) {
 	int shapes_count=bd.getAttributei("shapes");
 	if(shapes_count==0)
-		throw string("Body \""+(string)bd.getAttribute("id")+"\" is empty");
+		panic("Body \""+(string)bd.getAttribute("id")+"\" is empty");
 	b2BodyDef def;
 	b2Body *body;
 	def.userData=new b2BodyData;
@@ -623,10 +623,6 @@ void open_file(string path) {
 }
 void close_level() {
 	destroy_textures();
-	for(auto &j : joints)
-		world->DestroyJoint(j.second);
-	for(auto &b : bodies)
-		world->DestroyBody(b.second);
 	joints.clear();
 	bodies.clear();
 	entities.clear();
@@ -635,7 +631,6 @@ void close_level() {
 	effect::loaded.clear();
 	text::clear_text();
 	if(world)delete world;
-	lua::close();
 }
 void load_level(string name,bool n) {
 	info_log("Level: "+name);

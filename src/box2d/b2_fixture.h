@@ -36,7 +36,7 @@ class b2Fixture;
 struct b2FixtureData {
 	std::string texture;
 	std::string id;
-	int8_t layer;
+	int layer;
 	uint8_t type;
 	bool expand;
 	float angle=0.0f;
@@ -208,8 +208,8 @@ public:
 	inline std::string GetID()const{return GetUserData()->id;}
 	inline void SetTexture(std::string tex){GetUserData()->texture=tex;}
 	inline std::string GetTexture()const{return GetUserData()->texture;}
-	inline void SetLayer(int8_t l){GetUserData()->layer=l;}
-	inline int8_t GetLayer()const{return GetUserData()->layer;}
+	inline void SetLayer(int l){GetUserData()->layer=l;}
+	inline int GetLayer()const{return GetUserData()->layer;}
 	inline void SetExpand(bool e){GetUserData()->expand=e;}
 	inline bool IsExpand()const{return GetUserData()->expand;}
 	inline void SetAngle(float a){GetUserData()->angle=a;}

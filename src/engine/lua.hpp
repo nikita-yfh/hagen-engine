@@ -20,6 +20,7 @@ bool get_interval(unsigned int ms);
 void gameloop();
 void init_level(string,bool n=false);
 void close();
+void init();
 void init_weapon(Entity *entity,bool ex=1);
 void init_body(b2Body *body,bool ex=1);
 void init_entity(Entity *entity,bool ex=1);

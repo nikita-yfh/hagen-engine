@@ -53,16 +53,16 @@ function level.update()
 			sleep_stage=sleep_stage+1
 			sleep_sub_time=game.time+subtitles(text.get("podval/no_wake"..sleep_stage))
 		end
-		if(game.press_key("action") or (sleep_stage==4 and game.time>sleep_sub_time)) then
-			sub_time1=-1
-			Light.draw=true
-			player.userdata.move=true
-			game.interface=true
-			if(sleep_stage==4) then
-				subtitles(text.get("podval/wake_up2"))
-			else
-				subtitles(text.get("podval/wake_up1"))
-			end
+	end
+	if(sub_time1>=0 and game.press_key("action") or (sleep_stage==4 and game.time>sleep_sub_time)) then
+		sub_time1=-1
+		Light.draw=true
+		player.userdata.move=true
+		game.interface=true
+		if(sleep_stage==4) then
+			subtitles(text.get("podval/wake_up2"))
+		else
+			subtitles(text.get("podval/wake_up1"))
 		end
 	end
 	if(world.eb_all_collide(player,body("t2"))) then

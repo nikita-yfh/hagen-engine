@@ -645,7 +645,6 @@ static vector<string>get_scripts_list(){
 	return l;
 }
 void init() {
-	close();
 	copy_prev_key();
 	mouse.clear();
 	prev_time=SDL_GetTicks();
@@ -654,12 +653,26 @@ void init() {
 	luaL_openlibs(L);
 	bind();
 	dostring(
+		"function extend(parent)\n"
+		"local child = {}\n"
+		"setmetatable(child,{__index = parent})\n"
+		"return child\n"
+		"end\n"
+
 		"setmetatable(_G, {\n"
 			"__newindex = function(array, index, value)\n"
 				"rawset(array, index, value)\n"
 				"system.__add_loaded(index)\n"
 			"end\n"
 		"})\n"
+
+	);
+}
+void load_scripts(){
+	for(string l : loaded)
+		getGlobal(L,l.c_str())=nullptr;
+	loaded.clear();
+	dostring(
 		"Level={}\n"
 		"Level.init=function() end\n"
 		"Level.update=function() end\n"
@@ -690,28 +703,21 @@ void init() {
 		"Entity.update=function() end\n"
 		"Entity.collide_body = function() end\n"
 		"Entity.collide_entity=function() end\n"
-
-		"function extend(parent)\n"
-		"local child = {}\n"
-		"setmetatable(child,{__index = parent})\n"
-		"return child\n"
-		"end\n"
 	);
 	vector<string>scripts=get_scripts_list();
 	for(string name : scripts)
 		doscript("scripts/"+name);
 }
-
 void init_main_menu() {
-	init();
+	load_scripts();
 	getGlobal(L,"init_main_menu")();
 }
 
-void init_level(string name,bool n) {
-	init();
+void init_level(string name,bool new_game) {
+	load_scripts();
 	create_userdata();
 	doscript("levels/"+name);
-	if(n)
+	if(new_game)
 		getGlobal(L,"level")["newgame"]();
 	init_entities();
 	init_bodies();
