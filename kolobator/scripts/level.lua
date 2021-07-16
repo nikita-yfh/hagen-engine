@@ -19,9 +19,6 @@ function Level.init()
 	Light.init()
 	Light.disable()
 	Light.draw=false
-	bullet("grenade").max=6
-	bullet("9mm").max=30
-	bullet("762").max=50
 end
 function Level.update()
     local shader=graphics.get_shader("water.png")
@@ -29,5 +26,8 @@ function Level.update()
 	Light.render()
 end
 function Level.newgame()
-	player.userdata.weapons={}
+	weapon={__keep=true;}
+	bullet("grenade").max=6
+	bullet("9mm").max=30
+	bullet("762").max=50
 end

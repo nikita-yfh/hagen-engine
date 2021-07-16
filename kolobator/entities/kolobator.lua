@@ -38,14 +38,14 @@ function kolobator.update(a)
 			j.motor_speed=0
 			j.max_torque=30000
 		else stop=true end
-		if(a.userdata.weapons) then
-			if(a.userdata.weapons["knife"] and game.key("1")) then
+		if(weapon) then
+			if(weapon["knife"] and game.key("1")) then
 				a:set_weapon("knife")
-			elseif(a.userdata.weapons["pistol"] and game.key("2")) then
+			elseif(weapon["pistol"] and game.key("2")) then
 				a:set_weapon("pistol")
-			elseif(a.userdata.weapons["ak47"] and game.key("3")) then
+			elseif(weapon["ak47"] and game.key("3")) then
 				a:set_weapon("ak47")
-			elseif(a.userdata.weapons["rg6"] and game.key("4")) then
+			elseif(weapon["rg6"] and game.key("4")) then
 				a:set_weapon("rg6")
 			end
 		end

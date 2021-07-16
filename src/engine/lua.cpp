@@ -670,7 +670,8 @@ void init() {
 }
 void load_scripts(){
 	for(string l : loaded)
-		getGlobal(L,l.c_str())=nullptr;
+		if(getGlobal(L,l.c_str())["__keep"].cast<bool>()!=true)
+			getGlobal(L,l.c_str())=nullptr;
 	loaded.clear();
 	dostring(
 		"Level={}\n"
@@ -717,8 +718,10 @@ void init_level(string name,bool new_game) {
 	load_scripts();
 	create_userdata();
 	doscript("levels/"+name);
-	if(new_game)
+	if(new_game){
+		getGlobal(L,"Level")["newgame"]();
 		getGlobal(L,"level")["newgame"]();
+	}
 	init_entities();
 	init_bodies();
 	getGlobal(L,"Level")["init"]();

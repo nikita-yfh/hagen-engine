@@ -85,7 +85,7 @@ function level.update()
 	if(world.eb_all_collide(entity("player"),body("knife"))) then
 		text.add_tip(body("knife").x,body("knife").y-1,text.get("knife_tip"))
 		if(game.press_key("action")) then
-			entity("player").userdata.weapons["knife"]=true
+			weapon["knife"]=true
 			entity("player"):set_weapon("knife")
 			world.destroy_body(body("knife"))
 			subtitles(text.get("podval/knife_get"))
