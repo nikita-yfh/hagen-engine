@@ -670,8 +670,8 @@ void init() {
 }
 void load_scripts(){
 	for(string l : loaded)
-		if(getGlobal(L,l.c_str())["__keep"].cast<bool>()!=true)
-			getGlobal(L,l.c_str())=nullptr;
+		if(getGlobal(L,l.c_str()).isTable() && getGlobal(L,l.c_str())["__keep"].isNil())
+			getGlobal(L,l.c_str())=LuaRef(L);
 	loaded.clear();
 	dostring(
 		"Level={}\n"

@@ -150,7 +150,7 @@ void restart() {
 void panic(string message) {
 	error_log(message);
 	dialog::show("Fatal error",message,dialog::Style::Error);
-	quit();
+	//quit();
 }
 
 void unset_cursor() {
