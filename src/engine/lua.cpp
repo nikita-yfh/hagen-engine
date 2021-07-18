@@ -349,7 +349,7 @@ static bool get_key(string k) {
 static bool get_press_key(string k) {
 	if(interface.mainmenu.shown)return 0;
 	short r=get_scancode(k);
-	if(r!=-1)return (key(r) && !prev_key[r]);
+	if(r!=-1)return pkey(r);
 	else {
 		if(k=="fire1" || k=="fire")
 			return mouse.state==1&&mouse.b==SDL_BUTTON_LEFT;
@@ -360,7 +360,7 @@ static bool get_press_key(string k) {
 static bool get_release_key(string k) {
 	if(interface.mainmenu.shown)return 0;
 	short r=get_scancode(k);
-	if(r!=-1)return (!key(r) && prev_key[r]);
+	if(r!=-1)return rkey(r);
 	else {
 		if(k=="fire1" || k=="fire")
 			return mouse.state==3&&mouse.b==SDL_BUTTON_LEFT;

@@ -8,7 +8,7 @@ SDL_Event e;
 uint8_t prev_key[SDL_NUM_SCANCODES];
 void copy_prev_key() {//для определения нажатий
 	for(int q=0;q<SDL_NUM_SCANCODES;q++){
-		prev_key[q]=key(q);
+		prev_key[q]=SDL_GetKeyboardState(0)[q];
 	}
 	mouse.update1();
 #ifdef TOUCH
@@ -156,6 +156,9 @@ bool get(short key){
 bool pget(short key){
 	return find(key).active && !find(key).pactive;
 }
+bool rget(short key){
+	return !find(key).active && find(key).pactive;
+}
 };
 #endif
 float mouse_angle(){
@@ -228,6 +231,13 @@ bool pkey(short code){
 	return (!prev_key[code] && SDL_GetKeyboardState(0)[code])
 #ifdef TOUCH
 	|| sensor::pget(code)
+#endif
+;
+}
+bool rkey(short code){
+	return (prev_key[code] && !SDL_GetKeyboardState(0)[code])
+#ifdef TOUCH
+	|| sensor::rget(code)
 #endif
 ;
 }

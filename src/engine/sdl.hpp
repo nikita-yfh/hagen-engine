@@ -30,7 +30,7 @@ void init();
 void quit();
 void restart();
 void panic(string message);
-GPU_Image *find_texture(string id);
+GPU_Image *find_texture(string &id);
 extern map<string,GPU_Image*>textures;
 void set_cursor(string name);
 void unset_cursor();

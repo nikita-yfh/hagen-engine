@@ -44,6 +44,9 @@ static void draw_bgr() {
 	}
 	disable_shaders();
 }
+static inline bool in_range(float val,float a,float b){
+	return val>a && val<b;
+}
 static void fixture_draw(b2Body *body,b2Fixture *fix) {
 	float a_rad=body->GetAngle();
 	float a_deg=deg(a_rad);
@@ -57,7 +60,6 @@ static void fixture_draw(b2Body *body,b2Fixture *fix) {
 
 	if(tex)
 		enable_shader(F_DATA(fix,texture));
-
 	switch(F_DATA(fix,type)) {
 	case RECT:
 	case SQUARE: {
@@ -152,6 +154,7 @@ static void fixture_draw(b2Body *body,b2Fixture *fix) {
 	}
 	break;
 	case POLYGON: {
+		int t=SDL_GetTicks();
 		b2PolygonShape *shape=(b2PolygonShape*)fix->GetShape();
 		if(tex) {
 			b2Vec2 maxv(-100000,-100000),minv(100000,100000);
@@ -163,13 +166,17 @@ static void fixture_draw(b2Body *body,b2Fixture *fix) {
 				minv.y=min(v.y,minv.y);
 			}
 			float f[12];
+			bool ok=0;
 			for(int q=0; q<3; q++) {
 				b2Vec2 v(shape->m_vertices[q].x,shape->m_vertices[q].y);
 				f[q*4]=drawx(body->GetPosition().x+rotatex(v,a_rad));
 				f[q*4+1]=drawy(body->GetPosition().y+rotatey(v,a_rad));
 				f[q*4+2]=(v-minv).x/(F_DATA(fix,expand)?(maxv-minv).x:(tex->w/100.0*tex_scale));
 				f[q*4+3]=(v-minv).y/(F_DATA(fix,expand)?(maxv-minv).y:(tex->h/100.0*tex_scale));
+				if(in_range(f[q*4],0,SW) ||
+					in_range(f[q*4+1],0,SH))ok=1;
 			}
+			if(!ok)break;
 			GPU_TriangleBatch(tex,ren1,3,f,3,0,GPU_BATCH_XY_ST);
 		} else if(debug){
 			float f[6];

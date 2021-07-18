@@ -79,7 +79,7 @@ void init() {
 	info_log("SDL inited succesfully");
 	settings.load();
 #ifdef ANDROID
-	//GPU_SetPreInitFlags(GPU_INIT_ENABLE_VSYNC);
+	GPU_SetPreInitFlags(GPU_INIT_ENABLE_VSYNC);
 #else
 	GPU_SetPreInitFlags(GPU_INIT_DISABLE_VSYNC);
 #endif
@@ -110,7 +110,7 @@ void init() {
 	info_log("ImGui inited succesfully");
 	interface.update_cursor();
 }
-GPU_Image *find_texture(string id) {
+GPU_Image *find_texture(string &id) {
 	return textures[id];
 }
 
@@ -150,7 +150,7 @@ void restart() {
 void panic(string message) {
 	error_log(message);
 	dialog::show("Fatal error",message,dialog::Style::Error);
-	//quit();
+	quit();
 }
 
 void unset_cursor() {

@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<body type="dynamic" shapes="1" script="bullet_9mm">
-	<physic angular_damping="0" linear_damping="0"  bullet="1" fixed_rotation="0" gravity_scale="1"/>
+<body type="dynamic" script="bullet_9mm" shapes="1">
+	<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
 	<shape id="_Rect1" type="Rect" layer="0" sensor="0" texture="bullets/9mm.png" expand="1">
-		<position x="0" y1="0" w="0.05" h="0.018"/>
+		<position x="0" y="0" w="0.05" h="0.018" angle="0"/>
 		<physic density="1332" friction="0.3" restitution="0"/>
 		<collision category="2" mask="65533"/>
 	</shape>

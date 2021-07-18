@@ -8,9 +8,6 @@ function kolobator.init(a)
 	a.userdata.move=true
 end
 function kolobator.update(a)
-	if(game.press_key("5")) then
-		graphics.effect("ch",player.x,player.y)
-	end
 	local j=a:joint("joint")
 	local b=a:body("body")
 	if(a.health==0) then
@@ -38,6 +35,10 @@ function kolobator.update(a)
 			j.motor_speed=0
 			j.max_torque=30000
 		else stop=true end
+		if(kolobator.jump==true and world.lb_collide(a:body("wheel"))) then
+			b:apply_center_impulse(0,-kolobator.jump_impulse)
+			kolobator.jump=false
+		end
 		if(weapon) then
 			if(weapon["knife"] and game.key("1")) then
 				a:set_weapon("knife")
@@ -66,10 +67,6 @@ function kolobator.update(a)
 	if(stop) then
 		j.motor=0
 		j.max_torque=0
-		if(kolobator.jump==true and world.lb_collide(a:body("wheel"))) then
-			b:apply_center_impulse(0,-kolobator.jump_impulse)
-			kolobator.jump=false
-		end
 	end
 	return false
 end

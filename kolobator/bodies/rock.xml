@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<body type="dynamic" script="" shapes="1">
+	<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
+	<shape id="_Polygon6" type="Polygon" layer="0" sensor="0" texture="rock.png" expand="1">
+		<position point_count="36">
+			<point x="-0.0311117" y="-0.47375"/>
+			<point x="-0.102113" y="-0.47375"/>
+			<point x="-0.178113" y="-0.449751"/>
+			<point x="-0.246112" y="-0.408751"/>
+			<point x="-0.306113" y="-0.375751"/>
+			<point x="-0.357112" y="-0.31375"/>
+			<point x="-0.416114" y="-0.24775"/>
+			<point x="-0.466113" y="-0.171751"/>
+			<point x="-0.507113" y="-0.0717506"/>
+			<point x="-0.526113" y="0.0262499"/>
+			<point x="-0.517112" y="0.10825"/>
+			<point x="-0.501113" y="0.185249"/>
+			<point x="-0.460113" y="0.270249"/>
+			<point x="-0.406112" y="0.34225"/>
+			<point x="-0.331113" y="0.411249"/>
+			<point x="-0.246112" y="0.465249"/>
+			<point x="-0.140113" y="0.50425"/>
+			<point x="-0.0171137" y="0.516249"/>
+			<point x="0.0818872" y="0.505249"/>
+			<point x="0.176887" y="0.47425"/>
+			<point x="0.254888" y="0.428249"/>
+			<point x="0.327888" y="0.364249"/>
+			<point x="0.398887" y="0.281249"/>
+			<point x="0.439887" y="0.18825"/>
+			<point x="0.467887" y="0.0882492"/>
+			<point x="0.469888" y="-0.0287504"/>
+			<point x="0.471887" y="0.0162487"/>
+			<point x="0.471887" y="0.0162487"/>
+			<point x="0.444888" y="-0.0597506"/>
+			<point x="0.422887" y="-0.11075"/>
+			<point x="0.392886" y="-0.17275"/>
+			<point x="0.354888" y="-0.262751"/>
+			<point x="0.278888" y="-0.31575"/>
+			<point x="0.179887" y="-0.378751"/>
+			<point x="0.0948877" y="-0.42475"/>
+			<point x="0.0238867" y="-0.45075"/>
+		</position>
+		<physic density="8000" friction="0.5" restitution="0"/>
+		<collision category="0" mask="65535"/>
+	</shape>
+</body>

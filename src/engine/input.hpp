@@ -60,9 +60,11 @@ void draw();
 
 bool get(short key);
 bool pget(short key);
+bool rget(short key);
 };
 #endif
 bool key(short code);
 bool pkey(short code);
+bool rkey(short code);
 
 float get_angle(float x,float y);

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <level w="40" h="20">
 	<background img="backgrounds/default.png"/>
-	<bodies count="31">
+	<bodies count="32">
 		<body x="10.9473" y="9.76316" id="allwall" type="static" script="" shapes="1">
 			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
 			<shape id="_Polygon1" type="Polygon" layer="0" sensor="0" texture="black.png" expand="0">
@@ -10,19 +10,19 @@
 					<point x="-9.44738" y="-6.76316"/>
 					<point x="-9.44738" y="6.73684"/>
 					<point x="6.80262" y="6.73684"/>
-					<point x="6.80262" y="-0.263154"/>
-					<point x="3.80262" y="-0.263154"/>
-					<point x="3.80262" y="-0.0131559"/>
-					<point x="3.55262" y="-0.0131559"/>
-					<point x="3.55262" y="0.236844"/>
-					<point x="3.30262" y="0.236844"/>
-					<point x="3.30262" y="0.486844"/>
-					<point x="3.05262" y="0.486844"/>
-					<point x="3.05262" y="0.736844"/>
-					<point x="-5.94738" y="0.736844"/>
-					<point x="-8.94728" y="0.736843"/>
-					<point x="-8.94728" y="0.236843"/>
-					<point x="-5.94728" y="0.236843"/>
+					<point x="6.80262" y="-0.263152"/>
+					<point x="3.80262" y="-0.263152"/>
+					<point x="3.80262" y="-0.013154"/>
+					<point x="3.55262" y="-0.013154"/>
+					<point x="3.55262" y="0.236846"/>
+					<point x="3.30262" y="0.236846"/>
+					<point x="3.30262" y="0.486846"/>
+					<point x="3.05262" y="0.486846"/>
+					<point x="3.05262" y="0.736846"/>
+					<point x="-5.94738" y="0.736846"/>
+					<point x="-8.94728" y="0.736845"/>
+					<point x="-8.94728" y="0.236845"/>
+					<point x="-5.94728" y="0.236845"/>
 					<point x="-5.94738" y="-1.76317"/>
 					<point x="6.80262" y="-1.76316"/>
 				</position>
@@ -33,12 +33,12 @@
 		<body x="5.73" y="10.0088" id="table" type="static" script="breakable(100,&quot;ch&quot;,&quot;box_crash.flac&quot;)" shapes="2">
 			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
 			<shape id="_Rect1" type="Rect" layer="100" sensor="1" texture="table2.png" expand="1">
-				<position x="0" y="0.181251" w="1.46" h="0.62" angle="0"/>
+				<position x="-4.76837e-07" y="0.18125" w="1.46" h="0.62" angle="0"/>
 				<physic density="1000" friction="0.2" restitution="0"/>
 				<collision category="0" mask="65535"/>
 			</shape>
 			<shape id="_Rect2" type="Rect" layer="0" sensor="0" texture="table1.png" expand="1">
-				<position x="4.76837e-07" y="-0.18125" w="1.46" h="0.105" angle="0"/>
+				<position x="0" y="-0.181251" w="1.46" h="0.105" angle="0"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
 			</shape>
@@ -286,6 +286,27 @@
 			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
 			<shape id="_Line4" type="Line" layer="-128" sensor="1" texture="" expand="1">
 				<position x1="0" y1="-1.25" x2="0" y2="1.25"/>
+				<physic density="1000" friction="0.3" restitution="0"/>
+				<collision category="0" mask="65535"/>
+			</shape>
+		</body>
+		<body x="9.49167" y="8.75583" id="hammer" type="dynamic" script="" shapes="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
+			<shape id="_Polygon3" type="Polygon" layer="0" sensor="0" texture="hammer.png" expand="0">
+				<position point_count="12">
+					<point x="0.198334" y="0.0141659"/>
+					<point x="-0.00166607" y="0.0141659"/>
+					<point x="-0.00166607" y="0.0841665"/>
+					<point x="-0.0616665" y="0.0841665"/>
+					<point x="-0.0616665" y="0.0141659"/>
+					<point x="-0.0716658" y="0.0141659"/>
+					<point x="-0.0716658" y="-0.0158339"/>
+					<point x="-0.0616665" y="-0.0158339"/>
+					<point x="-0.0616665" y="-0.0808334"/>
+					<point x="-0.00166607" y="-0.0808334"/>
+					<point x="-0.00166607" y="-0.0158339"/>
+					<point x="0.198334" y="-0.0158339"/>
+				</position>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
 			</shape>

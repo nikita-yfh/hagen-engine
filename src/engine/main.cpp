@@ -63,6 +63,7 @@ int main(int argc, char * argv[]) {
 		}
 		interface.new_frame();
 		draw1();
+		//info_log(format("DRAW1: %d",SDL_GetTicks()-t));
 		auto step=chrono::high_resolution_clock::now()-time;
 		time = chrono::high_resolution_clock::now();
 		if(!interface.shown() && lua::time_scale) {
