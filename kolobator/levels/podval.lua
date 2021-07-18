@@ -1,5 +1,5 @@
 function level.init()
-	game.camera.zoom = math.floor(graphics.display.h / 3.5)
+	--game.camera.zoom = math.floor(graphics.display.h / 3.5)
 	Light.enable()
 	Light.set_background(Color(255,255,255,50))
 	Light.lights["lamp"].enabled=false

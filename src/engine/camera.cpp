@@ -3,7 +3,6 @@
 #include "interface.hpp"
 #include "utility.hpp"
 #include <iostream>
-Mouse mouse;
 float cx=0,cy=0;
 float ix=0,iy=0;
 float zoom=100;

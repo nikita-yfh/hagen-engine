@@ -20,27 +20,27 @@
         <image x="0" y="100" w="50" h="50"/>
     </sensor>
     <sensor enabled="1" key="1">
-        <position x="0.4h" y="0.1h" w="0.15h" h="0.15h"/>
+        <position x="0.3h" y="0.1h" w="0.1h" h="0.1h"/>
         <image x="0" y="50" w="50" h="50"/>
     </sensor>
     <sensor enabled="1" key="2">
-        <position x="0.55h" y="0.1h" w="0.15h" h="0.15h"/>
+        <position x="0.4h" y="0.1h" w="0.1h" h="0.1h"/>
         <image x="50" y="50" w="50" h="50"/>
     </sensor>
     <sensor enabled="1" key="3">
-        <position x="0.7h" y="0.1h" w="0.15h" h="0.15h"/>
+        <position x="0.5h" y="0.1h" w="0.1h" h="0.1h"/>
         <image x="100" y="50" w="50" h="50"/>
     </sensor>
     <sensor enabled="1" key="4">
-        <position x="0.85h" y="0.1h" w="0.15h" h="0.15h"/>
+        <position x="0.6h" y="0.1h" w="0.1h" h="0.1h"/>
         <image x="150" y="50" w="50" h="50"/>
     </sensor>
     <sensor enabled="1" key="qsave">
-        <position x="w-0.25h" y="0.1h" w="0.15h" h="0.15h"/>
+        <position x="w-0.2h" y="0.1h" w="0.1h" h="0.1h"/>
         <image x="200" y="0" w="50" h="50"/>
     </sensor>
     <sensor enabled="1" key="qload">
-        <position x="w-0.40h" y="0.1h" w="0.15h" h="0.15h"/>
+        <position x="w-0.3h" y="0.1h" w="0.1h" h="0.1h"/>
         <image x="200" y="50" w="50" h="50"/>
     </sensor>
 </sensors>

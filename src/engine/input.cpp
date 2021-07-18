@@ -4,6 +4,7 @@
 #include "camera.hpp"
 
 SDL_Event e;
+Mouse mouse;
 
 uint8_t prev_key[SDL_NUM_SCANCODES];
 void copy_prev_key() {//для определения нажатий
