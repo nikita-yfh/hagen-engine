@@ -7,5 +7,5 @@ function lamp.init(body)
 	end
 end
 function lamp.update(body)
-	breakable.update(body)
+	return breakable.update(body)
 end

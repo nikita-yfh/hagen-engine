@@ -1,5 +1,4 @@
 function level.init()
-	--game.camera.zoom = math.floor(graphics.display.h / 3.5)
 	Light.enable()
 	Light.set_background(Color(255,255,255,50))
 	Light.lights["lamp"].enabled=false
@@ -25,7 +24,6 @@ function level.update()
 			end_timer=game.time+subtitles(text.get("podval/dark_end"))
 		end
 		player.userdata.move=false
-		game.interface=false
 	end
 	if(end_timer and game.time>end_timer) then
 		loadlevel("ground1")
@@ -59,7 +57,6 @@ function level.update()
 		sub_time1=-1
 		Light.draw=true
 		player.userdata.move=true
-		game.interface=true
 		if(sleep_stage==4) then
 			subtitles(text.get("podval/wake_up2"))
 		else

@@ -172,8 +172,13 @@ static void fixture_draw(b2Body *body,b2Fixture *fix) {
 				b2Vec2 v(shape->m_vertices[q].x,shape->m_vertices[q].y);
 				f[q*4]=drawx(body->GetPosition().x+rotatex(v,a_rad));
 				f[q*4+1]=drawy(body->GetPosition().y+rotatey(v,a_rad));
-				f[q*4+2]=(v-minv).x/(F_DATA(fix,expand)?(maxv-minv).x:(tex->w/100.0*tex_scale));
-				f[q*4+3]=(v-minv).y/(F_DATA(fix,expand)?(maxv-minv).y:(tex->h/100.0*tex_scale));
+				if(F_DATA(fix,expand)){
+					f[q*4+2]=(v-minv).x/(maxv-minv).x;
+					f[q*4+3]=(v-minv).y/(maxv-minv).y;
+				}else{
+					f[q*4+2]=v.x/(tex->w/100.0*tex_scale);
+					f[q*4+3]=v.y/(tex->h/100.0*tex_scale);
+				}
 			}
 			GPU_TriangleBatch(tex,ren1,3,f,3,0,GPU_BATCH_XY_ST);
 		} else if(debug){

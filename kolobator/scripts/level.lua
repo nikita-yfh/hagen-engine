@@ -5,6 +5,7 @@ function Level.init()
     graphics.texture_scale=0.5
     graphics.weapon_scale=0.5
     graphics.effect_scale=0.5
+    game.interface=true
     game.camera.zoom=200
     if(system.os=="Android") then
 		world.position_iterations=18
