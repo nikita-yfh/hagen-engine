@@ -68,6 +68,7 @@ int main(int argc, char * argv[]) {
 			world->Step(chrono::duration_cast<chrono::microseconds>(step).count()/1000000.0f*lua::time_scale,
 						velocity_iterations,position_iterations);
 			update_fluid();
+			update_bodies();
 		}
 		if(!interface.shown())
 			lua::gameloop();

@@ -696,8 +696,6 @@ void MainMenu::draw() {
 			},0
 		}
 	};
-	//uint16_t text_h=FC_GetLineHeight(font);
-	//uint16_t pos=SH-borders.bottom-text_h*sizeof(buttons)/sizeof(*buttons);
 	SetNextWindowBgAlpha(0.0f);
 	float image_scale=image_h/title->h;
 
@@ -708,15 +706,6 @@ void MainMenu::draw() {
 	Begin("mainmenu",0,ImGuiWindowFlags_NoMove|ImGuiWindowFlags_NoResize|ImGuiWindowFlags_NoTitleBar|ImGuiWindowFlags_NoBringToFrontOnFocus);
 	PushFont(font);
 	for(auto &button : buttons) {
-		//GPU_Rect rect=GPU_MakeRect(borders.left,pos,FC_GetWidth(font,button.text.c_str()),text_h);
-		//if(in_rect(mouse.x,mouse.y,rect)) {
-			//FC_DrawColor(font,ren,borders.left,pos,active.color(),button.text.c_str());
-			//if(mouse.state==1)
-				//button.func();
-		//} else {
-			//FC_DrawColor(font,ren,borders.left,pos,inactive.color(),button.text.c_str());
-		//}
-		//pos+=text_h;
 		if(button.active)
 			TextDisabled("%s",button.text.c_str());
 		else

@@ -6,3 +6,6 @@ function lamp.init(body)
 		Light.lights[body.id]=nil
 	end
 end
+function lamp.update(body)
+	breakable.update(body)
+end

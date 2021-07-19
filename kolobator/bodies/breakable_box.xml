@@ -1,8 +1,27 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<body type="dynamic" script="breakable(15,&quot;ch&quot;,&quot;box_crash.flac&quot;)" shapes="1">
+<body type="dynamic" script="breakable(15,&quot;ch&quot;,&quot;box_crash.flac&quot;)" shapes="2">
 	<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
-	<shape id="_Square2" type="Square" layer="0" sensor="0" texture="box2.png" expand="1">
-		<position x="0" y="0" r="0.25" angle="0"/>
+	<shape id="_Polygon6" type="Polygon" layer="0" sensor="0" texture="none." expand="0">
+		<position point_count="13">
+			<point x="-0.24731" y="-0.202694"/>
+			<point x="-0.24731" y="0.297306"/>
+			<point x="0.252714" y="0.297316"/>
+			<point x="0.25269" y="-0.202694"/>
+			<point x="0.0526981" y="-0.2027"/>
+			<point x="0.0526896" y="-0.192694"/>
+			<point x="0.242688" y="-0.192694"/>
+			<point x="0.242688" y="0.287308"/>
+			<point x="-0.237311" y="0.287308"/>
+			<point x="-0.237311" y="-0.192694"/>
+			<point x="0.0426912" y="-0.192694"/>
+			<point x="0.0426989" y="-0.2027"/>
+			<point x="-0.24731" y="-0.202694"/>
+		</position>
+		<physic density="0" friction="0.3" restitution="0"/>
+		<collision category="0" mask="65535"/>
+	</shape>
+	<shape id="_Square1" type="Square" layer="0" sensor="1" texture="box2.png" expand="1">
+		<position x="0.00269032" y="0.0473061" r="0.25" angle="0"/>
 		<physic density="900" friction="0.6" restitution="0"/>
 		<collision category="0" mask="65535"/>
 	</shape>

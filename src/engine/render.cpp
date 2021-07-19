@@ -48,6 +48,7 @@ static inline bool in_range(float val,float a,float b){
 	return val>a && val<b;
 }
 static void fixture_draw(b2Body *body,b2Fixture *fix) {
+	if(!on_screen_f(fix))return;
 	float a_rad=body->GetAngle();
 	float a_deg=deg(a_rad);
 	GPU_Image *tex=0;
@@ -137,7 +138,8 @@ static void fixture_draw(b2Body *body,b2Fixture *fix) {
 			float y=drawy(body->GetPosition().y+rotatey(shape->m_p,a_rad));
 			float xp=x+(zoom*shape->m_radius)*cos(a_rad);
 			float yp=y+(zoom*shape->m_radius)*sin(a_rad);
-			GPU_Circle(ren1,x,y,shape->m_radius*zoom, {255,255,255,255});
+			float r=shape->m_radius*zoom;
+			GPU_Circle(ren1,x,y,r, {255,255,255,255});
 			GPU_Line(ren1,x,y,xp,yp, {255,255,255,255});
 		}
 	}
@@ -166,17 +168,13 @@ static void fixture_draw(b2Body *body,b2Fixture *fix) {
 				minv.y=min(v.y,minv.y);
 			}
 			float f[12];
-			bool ok=0;
 			for(int q=0; q<3; q++) {
 				b2Vec2 v(shape->m_vertices[q].x,shape->m_vertices[q].y);
 				f[q*4]=drawx(body->GetPosition().x+rotatex(v,a_rad));
 				f[q*4+1]=drawy(body->GetPosition().y+rotatey(v,a_rad));
 				f[q*4+2]=(v-minv).x/(F_DATA(fix,expand)?(maxv-minv).x:(tex->w/100.0*tex_scale));
 				f[q*4+3]=(v-minv).y/(F_DATA(fix,expand)?(maxv-minv).y:(tex->h/100.0*tex_scale));
-				if(in_range(f[q*4],0,SW) ||
-					in_range(f[q*4+1],0,SH))ok=1;
 			}
-			if(!ok)break;
 			GPU_TriangleBatch(tex,ren1,3,f,3,0,GPU_BATCH_XY_ST);
 		} else if(debug){
 			float f[6];
@@ -193,6 +191,7 @@ static void fixture_draw(b2Body *body,b2Fixture *fix) {
 		b2PolygonShape *shape=(b2PolygonShape*)fix->GetShape();
 		if(tex) {
 			float f[16];
+			bool ok=0;
 			for(int q=0; q<4; q++) {
 				b2Vec2 v(shape->m_vertices[q].x,shape->m_vertices[q].y);
 				f[q*4]=drawx(body->GetPosition().x+rotatex(v,a_rad));
@@ -202,7 +201,10 @@ static void fixture_draw(b2Body *body,b2Fixture *fix) {
 					f[q*4+3]=(shape->big_polygon[q].y!=0);
 				else
 					f[q*4+3]=shape->big_polygon[q].y/(tex->h/100.0f*tex_scale);
+				if(in_range(f[q*4],0,SW) ||
+					in_range(f[q*4+1],0,SH))ok=1;
 			}
+			if(!ok)break;
 			if(F_DATA(fix,expand))
 				GPU_SetWrapMode(tex, GPU_WRAP_NONE, GPU_WRAP_NONE);
 			else

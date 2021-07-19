@@ -14,6 +14,7 @@ sleep_timer=0
 sleep_stage=0
 poweron=false
 break_lamp=false
+knife_get=false
 function level.update()
 	camera_focus=""
 	game.camera.center(player.x,9.25)
@@ -73,22 +74,16 @@ function level.update()
 		end
 		world.destroy_body(body("t2"))
 	end
-	if(world.eb_all_collide(player,body("t3")) and body("knife")) then
-		subtitles(text.get("podval/knife_not_get"))
-		world.destroy_body(body("t3"))
+	if(body("knife")) then
+		subtitles_trigger(body("t3"),text.get("podval/knife_not_get"))
+	end
+	if(not knife_get and not body("knife")) then
+		subtitles(text.get("podval/knife_get"))
+		knife_get=true
 	end
 	if(not break_lamp and not body("lamp")) then
 		subtitles(text.get("podval/cut_wire"))
 		break_lamp=true
 	end
 	subtitles_trigger(body("t1"),text.get("podval/knife_see"))
-	if(world.eb_all_collide(entity("player"),body("knife"))) then
-		text.add_tip(body("knife").x,body("knife").y-1,text.get("knife_tip"))
-		if(game.press_key("action")) then
-			weapon["knife"]=true
-			entity("player"):set_weapon("knife")
-			world.destroy_body(body("knife"))
-			subtitles(text.get("podval/knife_get"))
-		end
-	end
 end

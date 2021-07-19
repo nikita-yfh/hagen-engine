@@ -563,6 +563,7 @@ void open_file(string path) {
 	if(lvl.isEmpty())
 		panic("Cannot open level "+path);
 	world=new b2World(b2Vec2(0,9.8));
+	init_bodies();
 	{
 		//backgroung
 		XMLNode bgr=lvl.getChildNode("background");

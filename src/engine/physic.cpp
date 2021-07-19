@@ -4,6 +4,7 @@
 #include "sdl.hpp"
 #include "main.hpp"
 #include "lua.hpp"
+#include "camera.hpp"
 int velocity_iterations=10;
 int position_iterations=10;
 using namespace std;
@@ -335,6 +336,35 @@ void update_fluid() {
 		}
 	}
 }
-
-
-
+b2Body *screen;
+void update_bodies(){
+	b2PolygonShape *shape=(b2PolygonShape*)screen->GetFixtureList()->GetShape();
+	shape->SetAsBox(SW/zoom/2,SH/zoom/2);
+	screen->SetTransform({worldx(SW/2),worldy(SH/2)},screen->GetAngle());
+}
+void init_bodies(){
+	b2BodyDef body;
+	body.type=b2_dynamicBody;
+	body.position.Set(worldx(SW/2),worldy(SH/2));
+	screen=world->CreateBody(&body);
+	b2PolygonShape shape;
+	shape.SetAsBox(SW/zoom/2,SH/zoom/2);
+	b2FixtureDef def;
+	def.isSensor=1;
+	def.shape=&shape;
+	screen->CreateFixture(&def);
+}
+bool on_screen_b(b2Body *b){
+	for(b2ContactEdge *c=b->GetContactList(); c; c=c->next) {
+		if(c->contact->IsTouching() &&c->other==screen)
+			return true;
+	}
+	return false;
+}
+bool on_screen_f(b2Fixture *f){
+	for(b2ContactEdge *c=screen->GetContactList(); c; c=c->next) {
+		b2Contact *cont=c->contact;
+		if((cont->m_fixtureA==f || cont->m_fixtureB==f))return true;
+	}
+	return false;
+}

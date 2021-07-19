@@ -60,3 +60,7 @@ b2Body *lb_all_collide(b2Body *body);
 b2Body *le_all_collide(Entity *e);
 Entity *sb_all_collide(b2Body *body);
 void update_fluid();
+void update_bodies();
+void init_bodies();
+bool on_screen_b(b2Body *b);
+bool on_screen_f(b2Fixture *f);
