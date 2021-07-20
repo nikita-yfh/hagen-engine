@@ -59,6 +59,9 @@ bool	ee_all_collide(Entity *e1,Entity *e2);
 b2Body *lb_all_collide(b2Body *body);
 b2Body *le_all_collide(Entity *e);
 Entity *sb_all_collide(b2Body *body);
+
+extern b2Body *screen;
+
 void update_fluid();
 void update_bodies();
 void init_bodies();

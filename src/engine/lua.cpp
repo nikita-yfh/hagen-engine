@@ -406,6 +406,45 @@ static void save_file(const char *str,const char *path){
 		SDL_RWclose(rw);
 	}
 }
+static int get_fixture_list(lua_State *L){
+	b2Body *b=Stack<b2Body*>::get(L,1);
+	if(!b)return 0;
+	LuaRef r=newTable(L);
+	for(b2Fixture *f=b->GetFixtureList();f;f=f->GetNext())
+		r[f->m_userData->id]=f;
+	r.push(L);
+	return 1;
+}
+static int get_contact_list_e(lua_State *L){
+	Entity *e=Stack<Entity*>::get(L,1);
+	LuaRef r=newTable(L);
+	int i=1;
+	for(auto &b : e->bodies)
+		for(b2ContactEdge *e=b.second->GetContactList();e;e=e->next)
+			if(e->contact->IsTouching() && e->contact->m_fixtureA->m_body!=screen  && e->contact->m_fixtureB->m_body!=screen)
+				r[i++]=e->contact;
+	r.push(L);
+	return 1;
+}
+static int get_contact_list_a(lua_State *L){
+	LuaRef r=newTable(L);
+	int i=1;
+		for(b2Contact *c=world->GetContactList();c;c=c->m_next)
+			if(c->IsTouching() && c->m_fixtureA->m_body!=screen  && c->m_fixtureB->m_body!=screen)
+				r[i++]=c;
+	r.push(L);
+	return 1;
+}
+static int get_contact_list_b(lua_State *L){
+	b2Body *b=Stack<b2Body*>::get(L,1);
+	LuaRef r=newTable(L);
+	int i=1;
+	for(b2ContactEdge *e=b->GetContactList();e;e=e->next)
+		if(e->contact->IsTouching() && e->contact->m_fixtureA->m_body!=screen  && e->contact->m_fixtureB->m_body!=screen)
+			r[i++]=e->contact;
+	r.push(L);
+	return 1;
+}
 static void bind() {
 #define KEY(key) SDL_GetKeyboardState(key)
 	getGlobalNamespace(L)
@@ -436,6 +475,10 @@ static void bind() {
 	.addFunction("print",&print)
 	.addFunction("loadlevel",&level)	//мгновенно грузит уровень
 	.beginNamespace("world")
+	.addFunction("fixtures",&get_fixture_list)
+	.addFunction("contacts_b",&get_contact_list_b)
+	.addFunction("contacts_e",&get_contact_list_e)
+	.addFunction("contacts_a",&get_contact_list_a)
 	.addFunction("who",&whois)	//принимает тело, возвращает сущность
 	.addFunction("set_gravity",&set_gravity)	//глобальная гравитация. по умолчанию (0,-9.8)
 	.addFunction("create_body",&create_body)	//создать тело по шаблону
@@ -510,6 +553,15 @@ static void bind() {
 	.addFunction("play_without_save",&play_ws_sound)
 	.addFunction("play_distance",&play_distance_sound)
 	.endNamespace()
+	.beginClass<b2Contact>("Contact")
+	.addProperty("fixture1",&b2Contact::GetFixtureA)
+	.addProperty("fixture2",&b2Contact::GetFixtureB)
+	.addProperty("friction",&b2Contact::GetFriction)
+	.addProperty("restitution",&b2Contact::GetRestitution)
+	.addProperty("tangent_speed",&b2Contact::GetTangentSpeed)
+	.addProperty("enabled",&b2Contact::IsEnabled)
+	.addProperty("touching",&b2Contact::IsTouching)
+	.endClass()
 	.beginClass<b2Fixture>("Fixture")
 	.addProperty("layer",&b2Fixture::GetLayer,&b2Fixture::SetLayer)
 	.addProperty("body",&b2Fixture::m_body,0)

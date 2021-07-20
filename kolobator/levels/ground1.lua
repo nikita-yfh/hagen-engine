@@ -2,9 +2,6 @@ function level.newgame()
 	weapon["knife"]=true
 	if(player) then player:set_weapon("knife") end
 	graphics.preload("ground_dark.png")
-	graphics.preload("meme_arrow/1.png")
-	graphics.preload("meme_arrow/2.png")
-	graphics.preload("meme_arrow/3.png")
 end
 function level.update()
 	if(world.eb_all_collide(player,body("nora"))) then

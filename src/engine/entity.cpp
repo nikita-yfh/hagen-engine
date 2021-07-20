@@ -150,3 +150,4 @@ float Entity::get_vx() const {
 float Entity::get_vy() const {
 	return get_first()->GetLinearVelocityY();
 }
+

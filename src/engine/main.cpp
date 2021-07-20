@@ -44,6 +44,7 @@ int main(int argc, char * argv[]) {
 		interface.mainmenu.show();
 	auto time=chrono::high_resolution_clock::now();
 	while(1) {
+		int t=SDL_GetTicks();
 		if(lua::need_load.size()) {
 			if(lua::need_load.find("[LOAD]")==0){
 				lua::need_load.erase(lua::need_load.begin(),lua::need_load.begin()+6);
@@ -57,9 +58,9 @@ int main(int argc, char * argv[]) {
 			if(e.type==SDL_QUIT)
 				quit();
 			mouse.update();
-			interface.update();
 			interface.update_imgui();
 		}
+		interface.update();
 		interface.new_frame();
 		draw1();
 		auto step=chrono::high_resolution_clock::now()-time;

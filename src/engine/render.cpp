@@ -176,8 +176,8 @@ static void fixture_draw(b2Body *body,b2Fixture *fix) {
 					f[q*4+2]=(v-minv).x/(maxv-minv).x;
 					f[q*4+3]=(v-minv).y/(maxv-minv).y;
 				}else{
-					f[q*4+2]=v.x/(tex->w/100.0*tex_scale);
-					f[q*4+3]=v.y/(tex->h/100.0*tex_scale);
+					f[q*4+2]=(v-minv).x/(tex->w/100.0*tex_scale);
+					f[q*4+3]=(v-minv).y/(tex->h/100.0*tex_scale);
 				}
 			}
 			GPU_TriangleBatch(tex,ren1,3,f,3,0,GPU_BATCH_XY_ST);

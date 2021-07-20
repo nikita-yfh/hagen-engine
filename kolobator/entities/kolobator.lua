@@ -1,7 +1,7 @@
 function kolobator.init(a)
 	graphics.preload("kolobator1.png")
 	graphics.preload("kolobator2.png")
-	kolobator.speed=15
+	kolobator.speed=2.3
 	kolobator.motor_speed=30
 	kolobator.jump_impulse=1350
 	kolobator.jump=0
@@ -24,12 +24,12 @@ function kolobator.update(a)
 			j.motor=1
 			j.motor_speed=-kolobator.motor_speed
 			j.max_torque=30000
-			b:apply_center_impulse(-6,0)
+			b:apply_center_impulse(-30,0)
 		elseif(game.key("right") and b.vx<kolobator.speed and game.interval(20)) then
 			j.motor=1
 			j.motor_speed=kolobator.motor_speed
 			j.max_torque=30000
-			b:apply_center_impulse(6,0)
+			b:apply_center_impulse(30,0)
 		elseif(game.key("down")) then
 			j.motor=1
 			j.motor_speed=0

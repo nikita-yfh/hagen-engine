@@ -62,3 +62,4 @@ struct Entity {
 	void focus_on_entity(Entity *e);
 	void focus_on_body(b2Body *b);
 };
+
