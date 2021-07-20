@@ -2,278 +2,287 @@
 <level w="100" h="30">
 	<background img="backgrounds/sky.png"/>
 	<bodies count="32">
-		<body x="22.9355" y="17.0485" id="ground" type="static" script="" shapes="2">
+		<body x="22.5014" y="17.0039" id="ground" type="static" script="" shapes="2">
 			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
 			<shape id="_Polygon1" type="Polygon" layer="0" sensor="0" texture="ground.png" expand="0">
-				<position point_count="227">
-					<point x="-32.9356" y="12.9515"/>
-					<point x="77.0645" y="12.9515"/>
-					<point x="77.0645" y="-1.54851"/>
-					<point x="75.1825" y="-1.59251"/>
-					<point x="74.2305" y="-1.69951"/>
-					<point x="73.4255" y="-1.71573"/>
-					<point x="71.7865" y="-1.65972"/>
-					<point x="68.9255" y="-1.88172"/>
-					<point x="65.0085" y="-2.52074"/>
-					<point x="62.4534" y="-2.96575"/>
-					<point x="61.2445" y="-3.09874"/>
-					<point x="59.7944" y="-3.07875"/>
-					<point x="58.6344" y="-2.97874"/>
-					<point x="57.1944" y="-2.74873"/>
-					<point x="55.6944" y="-2.32873"/>
-					<point x="54.3424" y="-1.85472"/>
-					<point x="52.7585" y="-1.60472"/>
-					<point x="51.5444" y="-1.52872"/>
-					<point x="50.0944" y="-1.85872"/>
-					<point x="49.1944" y="-2.22872"/>
-					<point x="47.6544" y="-2.83873"/>
-					<point x="46.3776" y="-3.01777"/>
-					<point x="44.1966" y="-2.77551"/>
-					<point x="42.2054" y="-2.17373"/>
-					<point x="40.6345" y="-1.89151"/>
-					<point x="39.2675" y="-1.81475"/>
-					<point x="37.1385" y="-2.08551"/>
-					<point x="36.0156" y="-2.27051"/>
-					<point x="34.7985" y="-2.4935"/>
-					<point x="33.6975" y="-2.4765"/>
-					<point x="32.1225" y="-2.1995"/>
-					<point x="30.9615" y="-2.0835"/>
-					<point x="30.2535" y="-2.0565"/>
-					<point x="30.9485" y="-1.70645"/>
-					<point x="31.6605" y="-1.35945"/>
-					<point x="32.4795" y="-0.880508"/>
-					<point x="33.2505" y="-0.505508"/>
-					<point x="33.8295" y="-0.233509"/>
-					<point x="34.5135" y="0.0254917"/>
-					<point x="35.0665" y="0.196491"/>
-					<point x="36.1274" y="0.595491"/>
-					<point x="36.8955" y="0.884531"/>
-					<point x="37.1625" y="0.867531"/>
-					<point x="37.2485" y="0.512535"/>
-					<point x="37.4105" y="0.243536"/>
-					<point x="37.7035" y="0.00253487"/>
-					<point x="38.1495" y="-0.128466"/>
-					<point x="38.6455" y="-0.164509"/>
-					<point x="39.2735" y="-0.164509"/>
-					<point x="39.5325" y="-0.0555096"/>
-					<point x="39.7244" y="0.580492"/>
-					<point x="39.6495" y="1.27649"/>
-					<point x="39.4575" y="1.47449"/>
-					<point x="38.6195" y="1.5315"/>
-					<point x="37.8135" y="2.1085"/>
-					<point x="37.2244" y="2.6155"/>
-					<point x="36.4604" y="3.08549"/>
-					<point x="35.5945" y="3.3855"/>
-					<point x="34.7845" y="3.6645"/>
-					<point x="33.9464" y="3.8785"/>
-					<point x="33.1235" y="4.06149"/>
-					<point x="31.6595" y="4.45749"/>
-					<point x="29.8204" y="5.21049"/>
-					<point x="28.5505" y="5.6545"/>
-					<point x="27.0645" y="5.9515"/>
-					<point x="24.0645" y="5.9515"/>
-					<point x="24.0645" y="3.9515"/>
-					<point x="27.0645" y="3.9515"/>
-					<point x="27.5805" y="3.81853"/>
-					<point x="28.0985" y="3.71353"/>
-					<point x="29.0635" y="3.41853"/>
-					<point x="30.0044" y="3.13653"/>
-					<point x="30.9304" y="2.83953"/>
-					<point x="31.8794" y="2.50153"/>
-					<point x="32.0245" y="2.37852"/>
-					<point x="31.9915" y="2.03553"/>
-					<point x="32.0615" y="1.63953"/>
-					<point x="32.2275" y="1.42653"/>
-					<point x="32.5745" y="1.39153"/>
-					<point x="33.0375" y="1.43653"/>
-					<point x="33.4044" y="1.50652"/>
-					<point x="33.6264" y="1.68253"/>
-					<point x="33.6515" y="2.08553"/>
-					<point x="33.6215" y="2.42253"/>
-					<point x="33.5205" y="2.74952"/>
-					<point x="33.0625" y="2.89053"/>
-					<point x="32.4895" y="2.95053"/>
-					<point x="32.0645" y="2.95152"/>
-					<point x="31.0414" y="3.27052"/>
-					<point x="30.2194" y="3.52153"/>
-					<point x="29.4395" y="3.77752"/>
-					<point x="29.0315" y="3.91153"/>
-					<point x="28.6345" y="4.04053"/>
-					<point x="28.2504" y="4.17453"/>
-					<point x="27.8015" y="4.32553"/>
-					<point x="27.4115" y="4.37753"/>
-					<point x="27.0645" y="4.45152"/>
-					<point x="27.0645" y="5.4515"/>
-					<point x="28.4125" y="5.1605"/>
-					<point x="29.9505" y="4.6695"/>
-					<point x="30.8265" y="4.3095"/>
-					<point x="32.0265" y="3.94353"/>
-					<point x="32.4985" y="3.77349"/>
-					<point x="33.3255" y="3.55254"/>
-					<point x="34.0315" y="3.39549"/>
-					<point x="34.7545" y="3.2115"/>
-					<point x="35.5055" y="2.9445"/>
-					<point x="36.2815" y="2.6635"/>
-					<point x="36.9505" y="2.3345"/>
-					<point x="37.5424" y="1.8515"/>
-					<point x="38.0645" y="1.4515"/>
-					<point x="36.8525" y="1.3175"/>
-					<point x="36.1585" y="1.1075"/>
-					<point x="34.6954" y="0.520491"/>
-					<point x="33.9905" y="0.275492"/>
-					<point x="33.4485" y="0.0194912"/>
-					<point x="33.0265" y="-0.170509"/>
-					<point x="32.6145" y="-0.376509"/>
-					<point x="31.9275" y="-0.726509"/>
-					<point x="31.2684" y="-1.07945"/>
-					<point x="30.7935" y="-1.34145"/>
-					<point x="30.1845" y="-1.66451"/>
-					<point x="29.8765" y="-1.8745"/>
-					<point x="29.6075" y="-2.01151"/>
-					<point x="28.9014" y="-1.91346"/>
-					<point x="28.1755" y="-1.94951"/>
-					<point x="27.6514" y="-1.92846"/>
-					<point x="27.0394" y="-1.96251"/>
-					<point x="26.3734" y="-1.88646"/>
-					<point x="25.4645" y="-1.79246"/>
-					<point x="24.3225" y="-1.65846"/>
-					<point x="23.5645" y="-1.54846"/>
-					<point x="22.0215" y="-1.28051"/>
-					<point x="21.2575" y="-1.14651"/>
-					<point x="20.3255" y="-1.07052"/>
-					<point x="19.3985" y="-1.03551"/>
-					<point x="18.6895" y="-1.04842"/>
-					<point x="18.3145" y="-1.04852"/>
-					<point x="18.1735" y="0.967512"/>
-					<point x="17.9815" y="2.16453"/>
-					<point x="17.9775" y="3.62452"/>
-					<point x="18.0235" y="4.91052"/>
-					<point x="18.0385" y="5.99753"/>
-					<point x="17.5704" y="7.24753"/>
-					<point x="17.3604" y="7.63053"/>
-					<point x="16.8545" y="8.26053"/>
-					<point x="16.2865" y="8.53153"/>
-					<point x="15.5954" y="8.55654"/>
-					<point x="14.7684" y="8.50754"/>
-					<point x="14.2865" y="8.39554"/>
-					<point x="13.9105" y="8.03448"/>
-					<point x="13.5645" y="7.45154"/>
-					<point x="13.4844" y="6.87752"/>
-					<point x="13.4475" y="5.75353"/>
-					<point x="13.4555" y="4.43653"/>
-					<point x="13.3955" y="3.20554"/>
-					<point x="13.5495" y="2.33652"/>
-					<point x="13.5315" y="1.39552"/>
-					<point x="13.6364" y="0.511518"/>
-					<point x="13.6195" y="-0.225483"/>
-					<point x="13.5925" y="-0.818481"/>
-					<point x="13.5645" y="-1.04852"/>
-					<point x="12.9395" y="-1.04842"/>
-					<point x="11.9645" y="-0.687437"/>
-					<point x="11.1745" y="-0.530436"/>
-					<point x="10.2624" y="-0.480524"/>
-					<point x="8.59556" y="-0.431524"/>
-					<point x="6.84256" y="-0.604525"/>
-					<point x="5.05766" y="-0.680525"/>
-					<point x="3.66959" y="-0.764524"/>
-					<point x="2.10159" y="-0.752523"/>
-					<point x="0.758589" y="-0.599524"/>
-					<point x="-0.935482" y="-0.54851"/>
-					<point x="-1.25638" y="-0.28948"/>
-					<point x="-1.77538" y="0.0275631"/>
-					<point x="-2.46838" y="0.413563"/>
-					<point x="-3.30958" y="0.930481"/>
-					<point x="-4.43737" y="1.28057"/>
-					<point x="-5.34851" y="1.58054"/>
-					<point x="-5.9264" y="1.71158"/>
-					<point x="-6.93138" y="1.76958"/>
-					<point x="-7.36638" y="1.76958"/>
-					<point x="-7.53938" y="1.78257"/>
-					<point x="-7.83951" y="1.75654"/>
-					<point x="-7.98438" y="1.72958"/>
-					<point x="-8.05851" y="1.62154"/>
-					<point x="-8.08638" y="1.44057"/>
-					<point x="-8.00638" y="1.05357"/>
-					<point x="-7.78538" y="0.893572"/>
-					<point x="-7.35338" y="0.799572"/>
-					<point x="-6.99038" y="0.829561"/>
-					<point x="-6.62152" y="1.10254"/>
-					<point x="-6.40039" y="1.20658"/>
-					<point x="-6.00951" y="1.20554"/>
-					<point x="-5.6344" y="1.09457"/>
-					<point x="-5.21139" y="1.01756"/>
-					<point x="-4.90939" y="0.890562"/>
-					<point x="-4.45537" y="0.767561"/>
-					<point x="-4.00138" y="0.609564"/>
-					<point x="-3.57337" y="0.395563"/>
-					<point x="-3.26238" y="0.303564"/>
-					<point x="-2.55738" y="-0.0224361"/>
-					<point x="-2.11438" y="-0.272436"/>
-					<point x="-1.68548" y="-0.54851"/>
-					<point x="-4.42541" y="-0.477524"/>
-					<point x="-4.97558" y="-0.51852"/>
-					<point x="-5.81558" y="-0.528519"/>
-					<point x="-6.42558" y="-0.548519"/>
-					<point x="-8.43554" y="-0.548481"/>
-					<point x="-9.99558" y="-0.65852"/>
-					<point x="-10.4555" y="-0.81852"/>
-					<point x="-11.5555" y="-1.37852"/>
-					<point x="-11.8655" y="-1.52852"/>
-					<point x="-12.1855" y="-1.68852"/>
-					<point x="-12.6855" y="-1.95852"/>
-					<point x="-13.1855" y="-2.24852"/>
-					<point x="-13.6755" y="-2.47852"/>
-					<point x="-14.1555" y="-2.71852"/>
-					<point x="-14.7455" y="-2.91852"/>
-					<point x="-15.4355" y="-3.04852"/>
-					<point x="-15.9355" y="-3.04851"/>
-					<point x="-19.4355" y="-3.04851"/>
-					<point x="-19.4355" y="0.951471"/>
-					<point x="-23.4355" y="0.951471"/>
-					<point x="-25.4355" y="0.951471"/>
-					<point x="-21.4355" y="-3.04851"/>
-					<point x="-32.9356" y="-3.04851"/>
+				<position point_count="236">
+					<point x="-32.5015" y="12.9961"/>
+					<point x="77.4986" y="12.9961"/>
+					<point x="77.4986" y="-1.50395"/>
+					<point x="75.6166" y="-1.54795"/>
+					<point x="74.6646" y="-1.65495"/>
+					<point x="73.8596" y="-1.67117"/>
+					<point x="72.2206" y="-1.61516"/>
+					<point x="69.3596" y="-1.83716"/>
+					<point x="65.4426" y="-2.47618"/>
+					<point x="62.8875" y="-2.92119"/>
+					<point x="61.6786" y="-3.05418"/>
+					<point x="60.2285" y="-3.03419"/>
+					<point x="59.0685" y="-2.93418"/>
+					<point x="57.6285" y="-2.70417"/>
+					<point x="56.1285" y="-2.28417"/>
+					<point x="54.7765" y="-1.81016"/>
+					<point x="53.1926" y="-1.56016"/>
+					<point x="51.9785" y="-1.48416"/>
+					<point x="50.5285" y="-1.81416"/>
+					<point x="49.6285" y="-2.18416"/>
+					<point x="48.0885" y="-2.79417"/>
+					<point x="46.8117" y="-2.97321"/>
+					<point x="44.6307" y="-2.73095"/>
+					<point x="42.6395" y="-2.12917"/>
+					<point x="41.0686" y="-1.84695"/>
+					<point x="39.7016" y="-1.77019"/>
+					<point x="37.5726" y="-2.04095"/>
+					<point x="36.4497" y="-2.22595"/>
+					<point x="35.2326" y="-2.44894"/>
+					<point x="34.1316" y="-2.43194"/>
+					<point x="32.5566" y="-2.15494"/>
+					<point x="31.3956" y="-2.03894"/>
+					<point x="30.6876" y="-2.01194"/>
+					<point x="31.3826" y="-1.66189"/>
+					<point x="32.0946" y="-1.31489"/>
+					<point x="32.9136" y="-0.835945"/>
+					<point x="33.6846" y="-0.460945"/>
+					<point x="34.2636" y="-0.188946"/>
+					<point x="34.9476" y="0.070055"/>
+					<point x="35.5006" y="0.241055"/>
+					<point x="36.5615" y="0.640055"/>
+					<point x="37.3296" y="0.929094"/>
+					<point x="37.5966" y="0.912094"/>
+					<point x="37.6826" y="0.557098"/>
+					<point x="37.8446" y="0.288099"/>
+					<point x="38.1376" y="0.0470982"/>
+					<point x="38.5836" y="-0.0839024"/>
+					<point x="39.0796" y="-0.119946"/>
+					<point x="39.7076" y="-0.119946"/>
+					<point x="39.9666" y="-0.0109463"/>
+					<point x="40.1585" y="0.625055"/>
+					<point x="40.0836" y="1.32105"/>
+					<point x="39.8916" y="1.51905"/>
+					<point x="39.0536" y="1.57606"/>
+					<point x="38.2476" y="2.15306"/>
+					<point x="37.6585" y="2.66006"/>
+					<point x="36.8945" y="3.13005"/>
+					<point x="36.0286" y="3.43006"/>
+					<point x="35.2186" y="3.70906"/>
+					<point x="34.3805" y="3.92306"/>
+					<point x="33.5576" y="4.10605"/>
+					<point x="32.0936" y="4.50205"/>
+					<point x="30.2545" y="5.25505"/>
+					<point x="28.9846" y="5.69906"/>
+					<point x="27.4986" y="5.99606"/>
+					<point x="24.4986" y="5.99606"/>
+					<point x="24.4986" y="3.99606"/>
+					<point x="27.4986" y="3.99606"/>
+					<point x="28.0146" y="3.86309"/>
+					<point x="28.5326" y="3.75809"/>
+					<point x="29.4976" y="3.46309"/>
+					<point x="30.4385" y="3.18109"/>
+					<point x="31.3645" y="2.88409"/>
+					<point x="32.3135" y="2.54609"/>
+					<point x="32.4586" y="2.42308"/>
+					<point x="32.4256" y="2.08009"/>
+					<point x="32.4956" y="1.68409"/>
+					<point x="32.6616" y="1.47109"/>
+					<point x="33.0086" y="1.43609"/>
+					<point x="33.4716" y="1.48109"/>
+					<point x="33.8385" y="1.55108"/>
+					<point x="34.0605" y="1.72709"/>
+					<point x="34.0856" y="2.13009"/>
+					<point x="34.0556" y="2.46709"/>
+					<point x="33.9546" y="2.79408"/>
+					<point x="33.4966" y="2.93509"/>
+					<point x="32.9236" y="2.99509"/>
+					<point x="32.4986" y="2.99608"/>
+					<point x="31.4755" y="3.31508"/>
+					<point x="30.6535" y="3.56609"/>
+					<point x="29.8736" y="3.82208"/>
+					<point x="29.4656" y="3.95609"/>
+					<point x="29.0686" y="4.08509"/>
+					<point x="28.6845" y="4.21909"/>
+					<point x="28.2356" y="4.37009"/>
+					<point x="27.8456" y="4.42209"/>
+					<point x="27.4986" y="4.49608"/>
+					<point x="27.4986" y="5.49606"/>
+					<point x="28.8466" y="5.20506"/>
+					<point x="30.3846" y="4.71406"/>
+					<point x="31.2606" y="4.35406"/>
+					<point x="32.4606" y="3.98809"/>
+					<point x="32.9326" y="3.81805"/>
+					<point x="33.7596" y="3.5971"/>
+					<point x="34.4656" y="3.44005"/>
+					<point x="35.1886" y="3.25606"/>
+					<point x="35.9396" y="2.98906"/>
+					<point x="36.7156" y="2.70806"/>
+					<point x="37.3846" y="2.37906"/>
+					<point x="37.9765" y="1.89606"/>
+					<point x="38.4986" y="1.49606"/>
+					<point x="37.2866" y="1.36206"/>
+					<point x="36.5926" y="1.15206"/>
+					<point x="35.1295" y="0.565054"/>
+					<point x="34.4246" y="0.320055"/>
+					<point x="33.8826" y="0.0640545"/>
+					<point x="33.4606" y="-0.125946"/>
+					<point x="33.0486" y="-0.331945"/>
+					<point x="32.3616" y="-0.681946"/>
+					<point x="31.7025" y="-1.03489"/>
+					<point x="31.2276" y="-1.29689"/>
+					<point x="30.6186" y="-1.61995"/>
+					<point x="30.3106" y="-1.82994"/>
+					<point x="30.0416" y="-1.96695"/>
+					<point x="29.3355" y="-1.8689"/>
+					<point x="28.6096" y="-1.90495"/>
+					<point x="28.0855" y="-1.8839"/>
+					<point x="27.4735" y="-1.91795"/>
+					<point x="26.8075" y="-1.8419"/>
+					<point x="25.8986" y="-1.7479"/>
+					<point x="24.7566" y="-1.6139"/>
+					<point x="23.9986" y="-1.5039"/>
+					<point x="22.4556" y="-1.23595"/>
+					<point x="21.6916" y="-1.10195"/>
+					<point x="20.7596" y="-1.02596"/>
+					<point x="19.8326" y="-0.990946"/>
+					<point x="19.1236" y="-1.00386"/>
+					<point x="18.7486" y="-1.00396"/>
+					<point x="18.6076" y="1.01208"/>
+					<point x="18.4156" y="2.20909"/>
+					<point x="18.4116" y="3.66908"/>
+					<point x="18.4576" y="4.95508"/>
+					<point x="18.4726" y="6.04209"/>
+					<point x="18.0045" y="7.29209"/>
+					<point x="17.7945" y="7.67509"/>
+					<point x="17.2886" y="8.30509"/>
+					<point x="16.7206" y="8.57609"/>
+					<point x="16.0295" y="8.6011"/>
+					<point x="15.2025" y="8.5521"/>
+					<point x="14.7206" y="8.4401"/>
+					<point x="14.3446" y="8.07904"/>
+					<point x="13.9986" y="7.4961"/>
+					<point x="13.9185" y="6.92208"/>
+					<point x="13.8816" y="5.79809"/>
+					<point x="13.8896" y="4.48109"/>
+					<point x="13.8296" y="3.2501"/>
+					<point x="13.9836" y="2.38108"/>
+					<point x="13.9656" y="1.44008"/>
+					<point x="14.0705" y="0.556082"/>
+					<point x="14.0536" y="-0.18092"/>
+					<point x="14.0266" y="-0.773918"/>
+					<point x="13.9986" y="-1.00396"/>
+					<point x="13.3736" y="-1.00386"/>
+					<point x="12.3986" y="-0.642874"/>
+					<point x="11.6086" y="-0.485872"/>
+					<point x="10.6965" y="-0.435961"/>
+					<point x="9.0297" y="-0.386961"/>
+					<point x="7.2767" y="-0.559961"/>
+					<point x="5.4918" y="-0.635962"/>
+					<point x="4.10373" y="-0.719961"/>
+					<point x="2.53573" y="-0.70796"/>
+					<point x="1.19273" y="-0.55496"/>
+					<point x="-0.287361" y="-0.402935"/>
+					<point x="-0.440361" y="-0.416937"/>
+					<point x="-0.482361" y="-0.449936"/>
+					<point x="-0.501362" y="-0.503937"/>
+					<point x="-1.12036" y="-0.260937"/>
+					<point x="-2.09036" y="0.260063"/>
+					<point x="-3.19036" y="0.767063"/>
+					<point x="-4.11636" y="1.29906"/>
+					<point x="-4.91437" y="1.6251"/>
+					<point x="-5.49226" y="1.75614"/>
+					<point x="-6.49724" y="1.81414"/>
+					<point x="-6.93224" y="1.81414"/>
+					<point x="-7.10524" y="1.82713"/>
+					<point x="-7.40537" y="1.8011"/>
+					<point x="-7.55024" y="1.77414"/>
+					<point x="-7.62437" y="1.6661"/>
+					<point x="-7.65224" y="1.48513"/>
+					<point x="-7.57224" y="1.09813"/>
+					<point x="-7.35124" y="0.938135"/>
+					<point x="-6.91924" y="0.844135"/>
+					<point x="-6.55624" y="0.874125"/>
+					<point x="-6.18738" y="1.1471"/>
+					<point x="-5.96625" y="1.25114"/>
+					<point x="-5.57537" y="1.2501"/>
+					<point x="-5.20026" y="1.13913"/>
+					<point x="-4.77725" y="1.06212"/>
+					<point x="-4.47525" y="0.935125"/>
+					<point x="-4.11536" y="0.751064"/>
+					<point x="-3.72736" y="0.575064"/>
+					<point x="-3.31136" y="0.350063"/>
+					<point x="-3.06136" y="0.231064"/>
+					<point x="-2.36836" y="-0.127935"/>
+					<point x="-0.96236" y="-0.883936"/>
+					<point x="-0.388361" y="-0.975937"/>
+					<point x="-0.297361" y="-1.12794"/>
+					<point x="-0.243361" y="-1.19294"/>
+					<point x="-0.229361" y="-1.21494"/>
+					<point x="-0.234362" y="-1.23694"/>
+					<point x="-0.251362" y="-1.25394"/>
+					<point x="-1.75036" y="-1.15894"/>
+					<point x="-2.50136" y="-1.00394"/>
+					<point x="-4.03936" y="-0.537935"/>
+					<point x="-4.54144" y="-0.473957"/>
+					<point x="-5.38144" y="-0.483955"/>
+					<point x="-5.99144" y="-0.503956"/>
+					<point x="-8.0014" y="-0.503918"/>
+					<point x="-9.56144" y="-0.613956"/>
+					<point x="-10.0214" y="-0.773956"/>
+					<point x="-11.1214" y="-1.33396"/>
+					<point x="-11.4314" y="-1.48396"/>
+					<point x="-11.7514" y="-1.64396"/>
+					<point x="-12.2514" y="-1.91396"/>
+					<point x="-12.7514" y="-2.20396"/>
+					<point x="-13.2414" y="-2.43396"/>
+					<point x="-13.7214" y="-2.67396"/>
+					<point x="-14.3114" y="-2.87396"/>
+					<point x="-15.0014" y="-3.00396"/>
+					<point x="-15.5014" y="-3.00395"/>
+					<point x="-19.0014" y="-3.00395"/>
+					<point x="-19.0014" y="0.996035"/>
+					<point x="-23.0014" y="0.996035"/>
+					<point x="-25.0014" y="0.996035"/>
+					<point x="-21.0014" y="-3.00395"/>
+					<point x="-32.5015" y="-3.00395"/>
 				</position>
 				<physic density="1000" friction="0.8" restitution="0"/>
 				<collision category="0" mask="65535"/>
 			</shape>
 			<shape id="_Polygon2" type="Polygon" layer="0" sensor="0" texture="black.png" expand="0">
 				<position point_count="35">
-					<point x="-19.4355" y="-3.04851"/>
-					<point x="-19.9355" y="-3.04851"/>
-					<point x="-19.9355" y="-2.79851"/>
-					<point x="-20.1855" y="-2.79851"/>
-					<point x="-20.1855" y="-2.54851"/>
-					<point x="-20.4355" y="-2.54851"/>
-					<point x="-20.4355" y="-2.29851"/>
-					<point x="-20.6855" y="-2.29851"/>
-					<point x="-20.6855" y="-2.04851"/>
-					<point x="-20.9355" y="-2.04851"/>
-					<point x="-20.9355" y="-1.79851"/>
-					<point x="-21.1855" y="-1.79851"/>
-					<point x="-21.1855" y="-1.54851"/>
-					<point x="-21.4355" y="-1.54851"/>
-					<point x="-21.4355" y="-1.29851"/>
-					<point x="-21.6855" y="-1.29851"/>
-					<point x="-21.6855" y="-1.04852"/>
-					<point x="-21.9355" y="-1.04852"/>
-					<point x="-21.9355" y="-0.798525"/>
-					<point x="-22.1855" y="-0.798525"/>
-					<point x="-22.1855" y="-0.548525"/>
-					<point x="-22.4355" y="-0.548525"/>
-					<point x="-22.4355" y="-0.298525"/>
-					<point x="-22.6855" y="-0.298525"/>
-					<point x="-22.6855" y="-0.0485249"/>
-					<point x="-22.9355" y="-0.0485249"/>
-					<point x="-22.9355" y="0.201477"/>
-					<point x="-23.1855" y="0.201477"/>
-					<point x="-23.1855" y="0.451477"/>
-					<point x="-23.4355" y="0.451477"/>
-					<point x="-23.4355" y="0.701471"/>
-					<point x="-23.6855" y="0.701471"/>
-					<point x="-23.6855" y="0.951471"/>
-					<point x="-23.4355" y="0.951471"/>
-					<point x="-19.4355" y="0.951471"/>
+					<point x="-19.0014" y="-3.00395"/>
+					<point x="-19.5014" y="-3.00395"/>
+					<point x="-19.5014" y="-2.75395"/>
+					<point x="-19.7514" y="-2.75395"/>
+					<point x="-19.7514" y="-2.50395"/>
+					<point x="-20.0014" y="-2.50395"/>
+					<point x="-20.0014" y="-2.25395"/>
+					<point x="-20.2514" y="-2.25395"/>
+					<point x="-20.2514" y="-2.00395"/>
+					<point x="-20.5014" y="-2.00395"/>
+					<point x="-20.5014" y="-1.75395"/>
+					<point x="-20.7514" y="-1.75395"/>
+					<point x="-20.7514" y="-1.50395"/>
+					<point x="-21.0014" y="-1.50395"/>
+					<point x="-21.0014" y="-1.25395"/>
+					<point x="-21.2514" y="-1.25395"/>
+					<point x="-21.2514" y="-1.00396"/>
+					<point x="-21.5014" y="-1.00396"/>
+					<point x="-21.5014" y="-0.753962"/>
+					<point x="-21.7514" y="-0.753962"/>
+					<point x="-21.7514" y="-0.503962"/>
+					<point x="-22.0014" y="-0.503962"/>
+					<point x="-22.0014" y="-0.253962"/>
+					<point x="-22.2514" y="-0.253962"/>
+					<point x="-22.2514" y="-0.00396156"/>
+					<point x="-22.5014" y="-0.00396156"/>
+					<point x="-22.5014" y="0.24604"/>
+					<point x="-22.7514" y="0.24604"/>
+					<point x="-22.7514" y="0.49604"/>
+					<point x="-23.0014" y="0.49604"/>
+					<point x="-23.0014" y="0.746035"/>
+					<point x="-23.2514" y="0.746035"/>
+					<point x="-23.2514" y="0.996035"/>
+					<point x="-23.0014" y="0.996035"/>
+					<point x="-19.0014" y="0.996035"/>
 				</position>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
@@ -292,28 +301,39 @@
 				<collision category="0" mask="65535"/>
 			</shape>
 		</body>
-		<body x="12.3211" y="15.5123" id="grass" type="static" script="" shapes="1">
+		<body x="18.4217" y="15.9794" id="grass" type="static" script="" shapes="2">
 			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
-			<shape id="_Cover1" type="Cover" layer="-2" sensor="1" texture="grass1.png" expand="0">
-				<position point_count="18" width="0.2">
-					<point x="-8.32111" y="-1.51228"/>
-					<point x="-4.82111" y="-1.51228"/>
-					<point x="-4.13111" y="-1.38228"/>
-					<point x="-3.54111" y="-1.18228"/>
-					<point x="-3.06111" y="-0.942276"/>
-					<point x="-2.57111" y="-0.712275"/>
-					<point x="-2.07111" y="-0.422275"/>
-					<point x="-1.57111" y="-0.152276"/>
-					<point x="-1.25111" y="0.00772381"/>
-					<point x="-0.941114" y="0.157724"/>
-					<point x="0.158884" y="0.717726"/>
-					<point x="0.618884" y="0.877726"/>
-					<point x="2.17889" y="0.987722"/>
-					<point x="4.18889" y="0.987722"/>
-					<point x="4.79889" y="1.00772"/>
-					<point x="5.63889" y="1.01772"/>
-					<point x="6.18889" y="1.05772"/>
-					<point x="8.50889" y="0.998728"/>
+			<shape id="_Cover1" type="Cover" layer="2" sensor="1" texture="grass1.png" expand="0">
+				<position point_count="20" width="0.2">
+					<point x="-14.4217" y="-1.97935"/>
+					<point x="-10.9217" y="-1.97935"/>
+					<point x="-10.2317" y="-1.84935"/>
+					<point x="-9.64175" y="-1.64935"/>
+					<point x="-9.16175" y="-1.40934"/>
+					<point x="-8.67175" y="-1.17934"/>
+					<point x="-8.17175" y="-0.889343"/>
+					<point x="-7.67175" y="-0.619345"/>
+					<point x="-7.35175" y="-0.459345"/>
+					<point x="-7.04175" y="-0.309344"/>
+					<point x="-5.94175" y="0.250658"/>
+					<point x="-5.48175" y="0.410658"/>
+					<point x="-3.92175" y="0.520653"/>
+					<point x="-1.91175" y="0.520653"/>
+					<point x="-1.30175" y="0.540651"/>
+					<point x="-0.461748" y="0.550652"/>
+					<point x="0.0402641" y="0.486633"/>
+					<point x="1.57826" y="0.0206318"/>
+					<point x="2.32926" y="-0.134367"/>
+					<point x="3.82826" y="-0.229368"/>
+				</position>
+				<physic density="1000" friction="0.3" restitution="0"/>
+				<collision category="0" mask="65535"/>
+			</shape>
+			<shape id="_Cover2" type="Cover" layer="2" sensor="1" texture="grass1.png" expand="0">
+				<position point_count="3" width="0.18">
+					<point x="3.79226" y="0.621634"/>
+					<point x="5.27226" y="0.469633"/>
+					<point x="6.61526" y="0.316633"/>
 				</position>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
@@ -438,18 +458,19 @@
 				<collision category="0" mask="65535"/>
 			</shape>
 		</body>
-		<body x="15.535" y="18.4262" id="pistol" type="dynamic" script="weapon_all(&quot;pistol&quot;,nil,&quot;bullet_box.flac&quot;))" shapes="1">
+		<body x="15.0767" y="18.3811" id="pistol" type="dynamic" script="weapon_all(&quot;pistol&quot;,nil,&quot;bullet_box.flac&quot;))" shapes="1">
 			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
 			<shape id="_Polygon4" type="Polygon" layer="-2" sensor="0" texture="weapon/pistol.png" expand="1">
-				<position point_count="8">
-					<point x="-0.0749989" y="-0.0762501"/>
-					<point x="-0.0749989" y="-0.0262489"/>
-					<point x="-0.0549994" y="-0.00625038"/>
-					<point x="-0.0749989" y="0.11375"/>
-					<point x="-0.0249987" y="0.11375"/>
-					<point x="-0.00499916" y="-0.00625038"/>
-					<point x="0.154999" y="-0.0362492"/>
-					<point x="0.154999" y="-0.0762501"/>
+				<position point_count="9">
+					<point x="-0.0666666" y="-0.0811176"/>
+					<point x="-0.0666666" y="-0.0311165"/>
+					<point x="-0.0466671" y="-0.0111179"/>
+					<point x="-0.0666676" y="0.0389347"/>
+					<point x="-0.0666666" y="0.108883"/>
+					<point x="-0.0166664" y="0.108883"/>
+					<point x="0.00333309" y="-0.0111179"/>
+					<point x="0.163331" y="-0.0411167"/>
+					<point x="0.163331" y="-0.0811176"/>
 				</position>
 				<physic density="4000" friction="0.3" restitution="0"/>
 				<collision category="2" mask="65533"/>
@@ -463,34 +484,34 @@
 				<collision category="0" mask="65535"/>
 			</shape>
 		</body>
-		<body x="15.6473" y="18.5027" id="_Body1" type="dynamic" script="breakable(15,&quot;ch&quot;,&quot;box_crash.flac&quot;)" shapes="2">
+		<body x="15.1873" y="18.4427" id="_Body1" type="dynamic" script="breakable(15,&quot;ch&quot;,&quot;box_crash.flac&quot;)" shapes="2">
 			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
 			<shape id="_Polygon6" type="Polygon" layer="0" sensor="0" texture="none." expand="0">
 				<position point_count="13">
-					<point x="-0.24731" y="-0.202694"/>
-					<point x="-0.24731" y="0.297306"/>
-					<point x="0.252714" y="0.297316"/>
-					<point x="0.25269" y="-0.202694"/>
-					<point x="0.0526981" y="-0.2027"/>
-					<point x="0.0526896" y="-0.192694"/>
-					<point x="0.242688" y="-0.192694"/>
-					<point x="0.242688" y="0.287308"/>
-					<point x="-0.237311" y="0.287308"/>
-					<point x="-0.237311" y="-0.192694"/>
-					<point x="0.0426912" y="-0.192694"/>
-					<point x="0.0426989" y="-0.2027"/>
-					<point x="-0.24731" y="-0.202694"/>
+					<point x="-0.247309" y="-0.202692"/>
+					<point x="-0.247309" y="0.297308"/>
+					<point x="0.252716" y="0.297318"/>
+					<point x="0.252693" y="-0.202692"/>
+					<point x="0.0526991" y="-0.202698"/>
+					<point x="0.0526915" y="-0.192692"/>
+					<point x="0.242688" y="-0.192692"/>
+					<point x="0.242688" y="0.28731"/>
+					<point x="-0.23731" y="0.28731"/>
+					<point x="-0.23731" y="-0.192692"/>
+					<point x="0.0426922" y="-0.192692"/>
+					<point x="0.0426998" y="-0.202698"/>
+					<point x="-0.247309" y="-0.202692"/>
 				</position>
 				<physic density="0" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
 			</shape>
 			<shape id="_Square1" type="Square" layer="0" sensor="1" texture="box2.png" expand="1">
-				<position x="0.00269032" y="0.0473061" r="0.25" angle="0"/>
+				<position x="0.00269127" y="0.047308" r="0.25" angle="0"/>
 				<physic density="900" friction="0.6" restitution="0"/>
 				<collision category="0" mask="65535"/>
 			</shape>
 		</body>
-		<body x="15.75" y="18.7" id="_Body7" type="dynamic" script="bullet_box(&quot;9mm&quot;,15)" shapes="1">
+		<body x="15.28" y="18.61" id="_Body7" type="dynamic" script="bullet_box(&quot;9mm&quot;,15)" shapes="1">
 			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
 			<shape id="_Rect15" type="Rect" layer="-2" sensor="0" texture="bullet_box.png" expand="1">
 				<position x="0" y="0" w="0.2" h="0.14" angle="0"/>
@@ -561,24 +582,24 @@
 			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
 			<shape id="_Polygon8" type="Polygon" layer="0" sensor="0" texture="none." expand="0">
 				<position point_count="12">
-					<point x="-0.252079" y="-0.2125"/>
-					<point x="-0.252079" y="0.2875"/>
-					<point x="0.247921" y="0.2875"/>
-					<point x="0.247921" y="-0.2125"/>
-					<point x="0.0229225" y="-0.2125"/>
-					<point x="0.0229225" y="-0.1625"/>
-					<point x="0.197922" y="-0.1625"/>
-					<point x="0.197922" y="0.237499"/>
-					<point x="-0.20208" y="0.237499"/>
-					<point x="-0.20208" y="-0.1625"/>
-					<point x="-0.00207901" y="-0.1625"/>
-					<point x="-0.00207901" y="-0.2125"/>
+					<point x="-0.252083" y="-0.2125"/>
+					<point x="-0.252083" y="0.2875"/>
+					<point x="0.247917" y="0.2875"/>
+					<point x="0.247917" y="-0.2125"/>
+					<point x="0.0229187" y="-0.2125"/>
+					<point x="0.0229187" y="-0.1625"/>
+					<point x="0.197918" y="-0.1625"/>
+					<point x="0.197918" y="0.237499"/>
+					<point x="-0.202084" y="0.237499"/>
+					<point x="-0.202084" y="-0.1625"/>
+					<point x="-0.00208282" y="-0.1625"/>
+					<point x="-0.00208282" y="-0.2125"/>
 				</position>
 				<physic density="0" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
 			</shape>
 			<shape id="_Square3" type="Square" layer="0" sensor="1" texture="box2.png" expand="1">
-				<position x="-0.00207901" y="0.0375004" r="0.25" angle="0"/>
+				<position x="-0.00208282" y="0.0375004" r="0.25" angle="0"/>
 				<physic density="900" friction="0.6" restitution="0"/>
 				<collision category="0" mask="65535"/>
 			</shape>
@@ -603,24 +624,24 @@
 			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
 			<shape id="_Polygon9" type="Polygon" layer="0" sensor="0" texture="none." expand="0">
 				<position point_count="12">
-					<point x="-0.252083" y="-0.212502"/>
-					<point x="-0.252083" y="0.287498"/>
-					<point x="0.247917" y="0.287498"/>
-					<point x="0.247917" y="-0.212502"/>
-					<point x="0.0229149" y="-0.212502"/>
-					<point x="0.0229149" y="-0.1625"/>
-					<point x="0.197914" y="-0.1625"/>
-					<point x="0.197914" y="0.237499"/>
-					<point x="-0.202084" y="0.237499"/>
-					<point x="-0.202084" y="-0.1625"/>
-					<point x="-0.00208282" y="-0.1625"/>
-					<point x="-0.00208282" y="-0.212502"/>
+					<point x="-0.252087" y="-0.2125"/>
+					<point x="-0.252087" y="0.2875"/>
+					<point x="0.247913" y="0.2875"/>
+					<point x="0.247913" y="-0.2125"/>
+					<point x="0.0229111" y="-0.2125"/>
+					<point x="0.0229111" y="-0.162498"/>
+					<point x="0.19791" y="-0.162498"/>
+					<point x="0.19791" y="0.237501"/>
+					<point x="-0.202087" y="0.237501"/>
+					<point x="-0.202087" y="-0.162498"/>
+					<point x="-0.00208664" y="-0.162498"/>
+					<point x="-0.00208664" y="-0.2125"/>
 				</position>
 				<physic density="0" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
 			</shape>
 			<shape id="_Square4" type="Square" layer="0" sensor="1" texture="box2.png" expand="1">
-				<position x="-0.00208282" y="0.0374985" r="0.25" angle="0"/>
+				<position x="-0.00208664" y="0.0375004" r="0.25" angle="0"/>
 				<physic density="900" friction="0.6" restitution="0"/>
 				<collision category="0" mask="65535"/>
 			</shape>
@@ -645,38 +666,30 @@
 		<body x="10.901" y="14.5605" id="tree" type="static" script="" shapes="2">
 			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
 			<shape id="_Rect13" type="Rect" layer="-50" sensor="1" texture="trees/1.png" expand="1">
-				<position x="4.61" y="0.704499" w="2" h="2.5" angle="6.12201e-07"/>
+				<position x="4.61" y="0.7045" w="2" h="2.5" angle="6.12201e-07"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
 			</shape>
 			<shape id="_Rect21" type="Rect" layer="-50" sensor="1" texture="trees/1_stumb.png" expand="1">
-				<position x="-4.61" y="-0.7045" w="0.57" h="0.28" angle="0"/>
+				<position x="-4.61" y="-0.704499" w="0.57" h="0.28" angle="0"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
 			</shape>
 		</body>
-		<body x="18" y="17.75" id="nora" type="static" script="" shapes="1">
+		<body x="17.9891" y="17.5998" id="nora" type="static" script="" shapes="1">
 			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
 			<shape id="fg" type="Polygon" layer="-128" sensor="1" texture="" expand="0">
 				<position point_count="9">
-					<point x="3.25" y="-1.25"/>
-					<point x="-0.5" y="0.25"/>
-					<point x="-1.5" y="0.25"/>
-					<point x="-2.5" y="0"/>
-					<point x="-3.25" y="0.25"/>
-					<point x="-3.25" y="1.25"/>
-					<point x="0" y="1.25"/>
-					<point x="3.75" y="-0.75"/>
-					<point x="4" y="-1.25"/>
+					<point x="4.12389" y="-1.57178"/>
+					<point x="3.54989" y="-1.47978"/>
+					<point x="-0.489113" y="0.400221"/>
+					<point x="-1.48911" y="0.400221"/>
+					<point x="-2.48911" y="0.150221"/>
+					<point x="-3.23911" y="0.400221"/>
+					<point x="-3.23911" y="1.40022"/>
+					<point x="-0.739113" y="1.40022"/>
+					<point x="4.01089" y="-1.09978"/>
 				</position>
-				<physic density="1000" friction="0.3" restitution="0"/>
-				<collision category="0" mask="65535"/>
-			</shape>
-		</body>
-		<body x="18.5" y="16.25" id="bush" type="static" script="" shapes="1">
-			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
-			<shape id="_Rect22" type="Rect" layer="50" sensor="1" texture="bush/1.png" expand="1">
-				<position x="0" y="0" w="1.05" h="0.75" angle="0"/>
 				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
 			</shape>
@@ -704,6 +717,14 @@
 			<shape id="_Square2" type="Square" layer="0" sensor="1" texture="box2.png" expand="1">
 				<position x="-0.00208282" y="0.0374985" r="0.25" angle="0"/>
 				<physic density="900" friction="0.6" restitution="0"/>
+				<collision category="0" mask="65535"/>
+			</shape>
+		</body>
+		<body x="15.78" y="18.48" id="sack" type="static" script="" shapes="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
+			<shape id="_Rect22" type="Rect" layer="-25" sensor="1" texture="sack.png" expand="1">
+				<position x="0" y="0" w="0.555" h="0.715" angle="0"/>
+				<physic density="1000" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
 			</shape>
 		</body>
