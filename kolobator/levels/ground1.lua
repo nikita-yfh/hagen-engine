@@ -25,5 +25,14 @@ function level.update()
 	else
 		body("nora3"):fixture("fg3").layer=127
 		body("nora3"):fixture("fg3").texture="ground.png"
+
+	end
+
+	if(world.eb_all_collide(player,body("nora4"))) then
+		body("nora4"):fixture("fg4").layer=-128
+		body("nora4"):fixture("fg4").texture="ground_dark.png"
+	else
+		body("nora4"):fixture("fg4").layer=127
+		body("nora4"):fixture("fg4").texture="ground.png"
 	end
 end
