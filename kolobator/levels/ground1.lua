@@ -11,4 +11,10 @@ function level.update()
 		body("nora"):fixture("fg").layer=127
 		body("nora"):fixture("fg").texture="ground.png"
 	end
+	if(subtitles_trigger(body("plata_01"),text.get("ground1/art_find"))) then
+		modules["mpz"]=true
+	end
+	if(subtitles_trigger(body("plata_01"),text.get("ground1/art_find"))) then
+		modules["mpz"]=true
+	end
 end

@@ -26,4 +26,5 @@ function Level.newgame()
 	bullet("grenade").max=6
 	bullet("9mm").max=30
 	bullet("762").max=50
+	modules={__keep=true;}
 end

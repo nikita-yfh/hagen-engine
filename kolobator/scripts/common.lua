@@ -51,5 +51,7 @@ function subtitles_trigger(body,name)
 	if(player and world.eb_all_collide(player,body)) then
 		subtitles(name)
 		world.destroy_body(body);
+		return true
 	end
+	return false
 end
