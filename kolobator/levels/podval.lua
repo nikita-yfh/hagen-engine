@@ -74,9 +74,6 @@ function level.update()
 	if(body("knife")) then
 		subtitles_trigger(body("t3"),text.get("podval/knife_not_get"))
 	end
-	if(subtitles_trigger(body("mpz"),text.get("podval/mp3_find"))) then
-		modules["mpz"]=true
-	end
 	if(not knife_get and not body("knife")) then
 		subtitles(text.get("podval/knife_get"))
 		knife_get=true
