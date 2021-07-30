@@ -17,7 +17,7 @@
 				<collision category="1" mask="65535"/>
 			</shape>
 			<shape id="_Circle1" type="Circle" layer="-128" sensor="1" texture="none." expand="1">
-				<position x="0" y="0" r="0.108" angle="0"/>
+				<position x="0" y="0" r="0.104" angle="0"/>
 				<physic density="1" friction="0.3" restitution="0"/>
 				<collision category="0" mask="65535"/>
 			</shape>

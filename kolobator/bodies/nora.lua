@@ -4,6 +4,7 @@ function nora.init(body,fixture)
 	graphics.preload("ground.png")
 end
 function nora.update(body)
+	if(not player) then return end
 	if(world.eb_all_collide(player,body)) then
 		body:fixture(body.userdata.fixture).layer=-128
 		body:fixture(body.userdata.fixture).texture="ground_dark.png"

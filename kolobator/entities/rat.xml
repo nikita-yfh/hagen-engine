@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<physics>
+	<bodies count="3">
+		<body x="0" y="0" id="body" type="dynamic" script="" shapes="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
+			<shape id="body_fixture" type="Rect" layer="0" sensor="1" texture="rat/2.png" expand="1">
+				<position x="0" y="0" w="0.5" h="0.12" angle="0"/>
+				<physic density="4" friction="0.3" restitution="0"/>
+				<collision category="0" mask="65535"/>
+			</shape>
+		</body>
+		<body x="-0.171" y="0" id="wheel" type="dynamic" script="" shapes="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
+			<shape id="_Circle1" type="Circle" layer="0" sensor="0" texture="" expand="1">
+				<position x="0" y="0" r="0.06" angle="0"/>
+				<physic density="1000" friction="4.25" restitution="0"/>
+				<collision category="1" mask="65533"/>
+			</shape>
+		</body>
+		<body x="0" y="0" id="wheel1" type="dynamic" script="" shapes="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
+			<shape id="_Circle2" type="Circle" layer="0" sensor="0" texture="" expand="1">
+				<position x="0" y="0" r="0.06" angle="0"/>
+				<physic density="1000" friction="0.3" restitution="0"/>
+				<collision category="1" mask="65533"/>
+			</shape>
+		</body>
+	</bodies>
+	<joints count="2">
+		<joint type="RevoluteJoint" id="joint">
+			<connected collide="0" id1="body" id2="wheel"/>
+			<position x="-0.171" y="0"/>
+			<physic limit="0" motor="0"/>
+		</joint>
+		<joint type="RevoluteJoint" id="_RevoluteJoint1">
+			<connected collide="0" id1="body" id2="wheel1"/>
+			<position x="0" y="-0"/>
+			<physic limit="0" motor="0"/>
+		</joint>
+	</joints>
+</physics>
