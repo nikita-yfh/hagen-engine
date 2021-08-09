@@ -6,6 +6,9 @@ or world.lb_collide(a) or a.userdata.create_time+5000 < game.time)then
 		function(e,d)
 			e:harm(5/d)
 			if(e.health<0) then e.health=0 end
+		end,
+		function(b,d)
+			crash(b,b.x,b.y,5/d)
 		end)
 		graphics.effect("explosion",a.x,a.y)
 		play("boom.flac",a.x,a.y)

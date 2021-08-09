@@ -4,8 +4,8 @@ function module.init(body,ref,subtitles)
 end
 function module.update(body)
 	if(world.eb_all_collide(player,body)) then
-		print(subtitles(text.get(body.userdata.subtitles)))
 		modules[body.userdata.ref]=true
+		subtitles(text.get(body.userdata.subtitles))
 		return true
 	end
 	return false

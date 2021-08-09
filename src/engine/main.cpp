@@ -44,7 +44,6 @@ int main(int argc, char * argv[]) {
 		interface.mainmenu.show();
 	auto time=chrono::high_resolution_clock::now();
 	while(1) {
-		int t=SDL_GetTicks();
 		if(lua::need_load.size()) {
 			if(lua::need_load.find("[LOAD]")==0){
 				lua::need_load.erase(lua::need_load.begin(),lua::need_load.begin()+6);

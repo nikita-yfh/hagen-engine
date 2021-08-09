@@ -9,7 +9,7 @@ function knife.fire1(w,e)
 	end
 	play("knife.flac",e.x,e.y)
 	e.userdata.knife_timer=game.time
-	local length=0.3
+	local length=0.4
 	local body=false
 	local point={}
 	local x,y=e.x+math.cos(e.weapon.angle)*length,e.y+math.sin(e.weapon.angle)*length
@@ -17,6 +17,7 @@ function knife.fire1(w,e)
 			function(fixture,px,py,nx,ny,fraction)
 				local e2=world.who(fixture.body)
 				if(e2 and e2.id==e.id) then return -1 end
+				if(not e2 and fixture.mode==1) then return -1 end
 				body=fixture.body
 				point.x,point.y=px,py
 				return fraction

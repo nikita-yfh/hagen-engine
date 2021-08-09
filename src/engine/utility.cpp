@@ -306,8 +306,12 @@ string get_time() {
 	return format("[ %.3f ]",SDL_GetTicks()/1000.0f);
 }
 void info_log(string text) {
+#ifdef __unix__
+	string str=get_time()+" \033[0;32m[I] "+text+"\033[0m";
+#else
 	string str=get_time()+" [I] "+text;
-	interface.console.AddLog(str);
+#endif
+	interface.console.AddLog(get_time()+" [I] "+text);
 	cout<<str<<endl;
 #ifdef ANDROID
 	__android_log_print(ANDROID_LOG_INFO, TAG, "%s\n",str.c_str());
@@ -315,16 +319,24 @@ void info_log(string text) {
 }
 
 void warning_log(string text) {
+#ifdef __unix__
+	string str=get_time()+" \033[0;33m[W] "+text+"\033[0m";
+#else
 	string str=get_time()+" [W] "+text;
-	interface.console.AddLog(str);
+#endif
+	interface.console.AddLog(get_time()+" [I] "+text);
 	cout<<str<<endl;
 #ifdef ANDROID
 	__android_log_print(ANDROID_LOG_WARN, TAG, "%s\n",str.c_str());
 #endif
 }
 void error_log(string text) {
+#ifdef __unix__
+	string str=get_time()+" \033[0;31m[E] "+text+"\033[0m";
+#else
 	string str=get_time()+" [E] "+text;
-	interface.console.AddLog(str);
+#endif
+	interface.console.AddLog(get_time()+" [I] "+text);
 	cout<<str<<endl;
 #ifdef ANDROID
 	__android_log_print(ANDROID_LOG_ERROR, TAG, "%s\n",str.c_str());

@@ -17,10 +17,19 @@ end
 function init_main_menu()
     loadlevel('ground1')
 end
+function crash_e(e,x,y,value)
+	e:harm(value)
+	if(e.userdata.effect) then
+		graphics.effect(e.userdata.effect,x,y)
+	end
+end
 function crash(body,x,y,value)
 	local e=world.who(body)
 	if(e) then
 		e:harm(value)
+		if(e.userdata.effect) then
+			graphics.effect(e.userdata.effect,x,y)
+		end
 	end
 	if(body.userdata.health) then
 		body.userdata.health=body.userdata.health-value

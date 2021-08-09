@@ -18,8 +18,12 @@ function level.update()
 	camera_focus=""
 	game.camera.center(player.x,9.25)
 	if(not end_timer and player and world.eb_all_collide(player,body("_end"))) then
-		if(power_state) then
-			end_timer=game.time+subtitles(text.get("podval/normal_end"))
+		if(poweron) then
+			if(knife_get) then
+				end_timer=game.time+subtitles(text.get("podval/normal_end"))
+			else
+				end_timer=game.time+subtitles(text.get("podval/notknife_end"))
+			end
 		else
 			end_timer=game.time+subtitles(text.get("podval/dark_end"))
 		end
@@ -34,13 +38,17 @@ function level.update()
 			text.add_tip(b.x,b.y-0.3,text.get("podval/poweron_tip"))
 			if(game.press_key("action")) then
 				Light.lights["power"].enabled=false
-				Light.lights["lamp"].enabled=true
-				power_state=true
+				if(body("lamp")) then
+					Light.lights["lamp"].enabled=true
+					subtitles(text.get("podval/poweron"))
+					power_state=true
+					poweron=true
+				else
+					subtitles(text.get("podval/poweron_dark"))
+				end
 				graphics.preload("poweron.png")
 				b:fixture("b").texture="poweron.png"
-				subtitles(text.get("podval/poweron"))
 				sound.play("poweron.flac")
-				poweron=true
 			end
 		end
 	end
@@ -79,7 +87,11 @@ function level.update()
 		knife_get=true
 	end
 	if(not break_lamp and not body("lamp")) then
-		subtitles(text.get("podval/cut_wire"))
+		if(poweron) then
+			subtitles(text.get("podval/cut_wire"))
+		else
+			subtitles(text.get("podval/cut_wire_dark"))
+		end
 		break_lamp=true
 	end
 	subtitles_trigger(body("t1"),text.get("podval/knife_see"))

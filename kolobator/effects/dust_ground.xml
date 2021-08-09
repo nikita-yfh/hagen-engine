@@ -1,0 +1,18 @@
+<effect period="15" count="16">
+	<texture name="dust_ground/1.png"/>
+	<texture name="dust_ground/2.png"/>
+	<texture name="dust_ground/3.png"/>
+	<texture name="dust_ground/4.png"/>
+	<texture name="dust_ground/5.png"/>
+	<texture name="dust_ground/6.png"/>
+	<texture name="dust_ground/7.png"/>
+	<texture name="dust_ground/8.png"/>
+	<texture name="dust_ground/9.png"/>
+	<texture name="dust_ground/10.png"/>
+	<texture name="dust_ground/11.png"/>
+	<texture name="dust_ground/12.png"/>
+	<texture name="dust_ground/13.png"/>
+	<texture name="dust_ground/14.png"/>
+	<texture name="dust_ground/15.png"/>
+	<texture name="dust_ground/16.png"/>
+</effect>

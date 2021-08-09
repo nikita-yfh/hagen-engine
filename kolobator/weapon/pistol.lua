@@ -4,10 +4,11 @@ function pistol.init(w,e)
 	w.bullet1="9mm"
 	w.texture="weapon/pistol.png"
 end
-function pistol.fire1(w,e)
+function pistol.fire2(w,e)
+	if(not game.interval(17)) then   return 0 end 
 	local bullet=world.create_bullet(e,"bullet_9mm",100)
 	bullet.userdata.create_time=game.time
 	bullet.userdata.entity=e.id
 	play("shot.flac",e.x,e.y)
-	return 1
+	return 0
 end
