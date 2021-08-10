@@ -44,8 +44,8 @@ function kolobator.update(a)
 				a:set_weapon("knife")
 			elseif(weapon["pistol"] and game.key("2")) then
 				a:set_weapon("pistol")
-			elseif(weapon["ak47"] and game.key("3")) then
-				a:set_weapon("ak47")
+			elseif(weapon["mv25"] and game.key("3")) then
+				a:set_weapon("mv25")
 			elseif(weapon["rg6"] and game.key("4")) then
 				a:set_weapon("rg6")
 			end
