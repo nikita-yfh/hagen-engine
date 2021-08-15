@@ -26,4 +26,5 @@ function level.update()
 			end 
 		end
 	end
+	level_trigger(body("_end"),"ground2")
 end

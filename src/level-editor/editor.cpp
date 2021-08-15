@@ -330,6 +330,7 @@ void create_tree_view() {
 
 void create_tools() {
 	tools=gtk_toolbar_new();
+	gtk_box_pack_start(GTK_BOX(box_v),tools,0,1,0);
 	gtk_toolbar_set_style(GTK_TOOLBAR(tools),GTK_TOOLBAR_ICONS);
 	gtk_toolbar_insert_stock(GTK_TOOLBAR(tools),"gtk-new",			"New level","",				newl,	0,-1);
 	gtk_toolbar_insert_stock(GTK_TOOLBAR(tools),"gtk-open",			"Open existing level","",	open,	0,-1);
@@ -354,7 +355,6 @@ void create_tools() {
 	tool[12]=	NEW_TOOLRB(tools,tool[11],	0,0,0,"gear.png",		L(block=1; change_tool(12); block=0;));
 	tool[13]=	NEW_TOOLRB(tools,tool[12],	0,0,0,"distance.png",	L(block=1; change_tool(13); block=0;));
 	tool[14]=	NEW_TOOLRB(tools,tool[13],	0,0,0,"entity.png",		L(block=1; change_tool(14); block=0;));
-	gtk_box_pack_start(GTK_BOX(box_v),tools,0,1,0);
 }
 void create_buttons() {
 	buttons=gtk_toolbar_new();

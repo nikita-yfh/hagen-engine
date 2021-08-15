@@ -21,11 +21,9 @@ function Level.update()
 	Light.render()
 end
 function Level.newgame()
-	weapon={__keep=true;rg6=true}
+	weapon={__keep=true}
 	bullet("grenade").max=6
 	bullet("9mm").max=30
 	bullet("762").max=50
-	
-	bullet("grenade").count=6
 	modules={__keep=true;}
 end

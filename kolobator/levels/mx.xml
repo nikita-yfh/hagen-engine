@@ -1,0 +1,366 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<level w="100" h="30">
+	<background img="backgrounds/sky.png"/>
+	<bodies count="15">
+		<body x="40.5902" y="14.1734" id="ground" type="static" script="breakable(nil,&quot;dust_ground&quot;)" shapes="3">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
+			<shape id="_Polygon1" type="Polygon" layer="-100" sensor="0" texture="ground.png" expand="0">
+				<position point_count="69">
+					<point x="59.4098" y="15.8266"/>
+					<point x="59.4098" y="-1.67346"/>
+					<point x="25.8798" y="0.0165787"/>
+					<point x="14.5798" y="1.49658"/>
+					<point x="8.90979" y="1.32663"/>
+					<point x="3.42983" y="1.16658"/>
+					<point x="-2.47208" y="1.28271"/>
+					<point x="-3.42417" y="1.1757"/>
+					<point x="-4.22917" y="1.15948"/>
+					<point x="-5.86817" y="1.21551"/>
+					<point x="-8.59017" y="-0.173461"/>
+					<point x="-11.0901" y="-0.173461"/>
+					<point x="-11.0001" y="0.706538"/>
+					<point x="-10.9701" y="1.60654"/>
+					<point x="-10.9701" y="2.35654"/>
+					<point x="-10.8602" y="3.04658"/>
+					<point x="-10.8502" y="3.51658"/>
+					<point x="-10.8402" y="3.88658"/>
+					<point x="-10.9202" y="4.45658"/>
+					<point x="-11.1802" y="4.87658"/>
+					<point x="-11.5302" y="5.14658"/>
+					<point x="-11.9802" y="5.39658"/>
+					<point x="-12.4302" y="5.50658"/>
+					<point x="-13.0902" y="5.57658"/>
+					<point x="-13.9002" y="5.50658"/>
+					<point x="-14.6202" y="5.21658"/>
+					<point x="-15.0502" y="4.83658"/>
+					<point x="-15.1102" y="4.29658"/>
+					<point x="-15.1102" y="3.68658"/>
+					<point x="-15.1001" y="3.01654"/>
+					<point x="-15.2001" y="2.36654"/>
+					<point x="-15.1701" y="1.58654"/>
+					<point x="-15.1301" y="0.906539"/>
+					<point x="-15.0901" y="-0.173461"/>
+					<point x="-16.4102" y="-0.223501"/>
+					<point x="-17.8604" y="-0.203531"/>
+					<point x="-19.0203" y="-0.103532"/>
+					<point x="-20.4603" y="0.126498"/>
+					<point x="-21.5102" y="0.316588"/>
+					<point x="-22.5102" y="0.596589"/>
+					<point x="-23.3802" y="0.766589"/>
+					<point x="-24.2402" y="0.946589"/>
+					<point x="-25.4002" y="1.05659"/>
+					<point x="-26.6202" y="0.896588"/>
+					<point x="-28.1402" y="0.306588"/>
+					<point x="-29.1922" y="-0.066411"/>
+					<point x="-30.4222" y="-0.617412"/>
+					<point x="-31.3402" y="-0.882411"/>
+					<point x="-32.2942" y="-0.877412"/>
+					<point x="-33.0542" y="-0.566411"/>
+					<point x="-34.0552" y="-0.00541115"/>
+					<point x="-33.6483" y="0.0945787"/>
+					<point x="-33.2613" y="0.135579"/>
+					<point x="-32.8542" y="0.128579"/>
+					<point x="-32.5742" y="0.104579"/>
+					<point x="-32.3042" y="-0.0254211"/>
+					<point x="-32.1703" y="-0.165421"/>
+					<point x="-31.9512" y="-0.275421"/>
+					<point x="-31.6162" y="-0.295411"/>
+					<point x="-31.3122" y="-0.162421"/>
+					<point x="-31.1922" y="0.0325785"/>
+					<point x="-31.1792" y="0.302579"/>
+					<point x="-31.3223" y="0.531579"/>
+					<point x="-31.7602" y="0.733579"/>
+					<point x="-32.7172" y="0.648579"/>
+					<point x="-34.5902" y="0.326579"/>
+					<point x="-36.0903" y="0.826678"/>
+					<point x="-43.0902" y="0.826579"/>
+					<point x="-43.0902" y="15.8266"/>
+				</position>
+				<physic density="1000" friction="0.8" restitution="0"/>
+				<collision category="0" mask="65535"/>
+			</shape>
+			<shape id="_Polygon6" type="Polygon" layer="0" sensor="0" texture="kamen.png" expand="0">
+				<position point_count="26">
+					<point x="7.13982" y="1.27658"/>
+					<point x="9.40979" y="1.32663"/>
+					<point x="7.40979" y="1.32663"/>
+					<point x="8.40979" y="1.32663"/>
+					<point x="6.90979" y="1.32663"/>
+					<point x="9.40979" y="1.32663"/>
+					<point x="7.40979" y="1.32663"/>
+					<point x="9.40979" y="0.826629"/>
+					<point x="8.90979" y="-0.173371"/>
+					<point x="8.40979" y="-0.173371"/>
+					<point x="7.39982" y="0.646579"/>
+					<point x="7.58983" y="0.156579"/>
+					<point x="7.73982" y="-0.293422"/>
+					<point x="7.86982" y="-0.613421"/>
+					<point x="7.97982" y="-0.883422"/>
+					<point x="8.18982" y="-1.25342"/>
+					<point x="8.40979" y="-1.17337"/>
+					<point x="8.90979" y="-1.67337"/>
+					<point x="9.26983" y="-1.42342"/>
+					<point x="9.47982" y="-1.19342"/>
+					<point x="9.62982" y="-0.823421"/>
+					<point x="9.76983" y="-0.343421"/>
+					<point x="9.90983" y="0.176579"/>
+					<point x="10.0998" y="0.686579"/>
+					<point x="10.3098" y="1.36658"/>
+					<point x="9.40979" y="1.32663"/>
+				</position>
+				<physic density="1000" friction="0.3" restitution="0"/>
+				<collision category="0" mask="65535"/>
+			</shape>
+			<shape id="_Polygon7" type="Polygon" layer="-2" sensor="0" texture="box2.png" expand="0">
+				<position point_count="14">
+					<point x="9.65986" y="-1.45337"/>
+					<point x="9.65986" y="-2.45337"/>
+					<point x="7.90986" y="-2.45337"/>
+					<point x="7.90986" y="-1.95337"/>
+					<point x="7.65986" y="-1.95337"/>
+					<point x="7.65986" y="-2.70337"/>
+					<point x="8.78486" y="-3.70337"/>
+					<point x="9.90986" y="-2.70337"/>
+					<point x="9.90986" y="-1.20337"/>
+					<point x="9.26986" y="-1.20337"/>
+					<point x="8.90986" y="-1.28337"/>
+					<point x="8.40986" y="-1.20337"/>
+					<point x="7.65986" y="-1.20337"/>
+					<point x="7.65986" y="-1.45337"/>
+				</position>
+				<physic density="1000" friction="0.3" restitution="0"/>
+				<collision category="0" mask="65535"/>
+			</shape>
+		</body>
+		<body x="16.5" y="5.625" id="barrier" type="static" script="" shapes="2">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
+			<shape id="_Line1" type="Line" layer="0" sensor="0" texture="" expand="1">
+				<position x1="-16.5" y1="-5.625" x2="-16.5" y2="16.875"/>
+				<physic density="1000" friction="0.3" restitution="0"/>
+				<collision category="0" mask="65535"/>
+			</shape>
+			<shape id="_Line2" type="Line" layer="0" sensor="0" texture="" expand="1">
+				<position x1="-16.5" y1="-5.625" x2="49.5" y2="-5.625"/>
+				<physic density="1000" friction="0.3" restitution="0"/>
+				<collision category="0" mask="65535"/>
+			</shape>
+		</body>
+		<body x="7.97222" y="14.3344" id="nora1" type="static" script="" shapes="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
+			<shape id="_Polygon2" type="Polygon" layer="-128" sensor="1" texture="ground_dark.png" expand="0">
+				<position point_count="9">
+					<point x="-1.44222" y="-0.164445"/>
+					<point x="-1.97222" y="0.165555"/>
+					<point x="-1.76222" y="0.285555"/>
+					<point x="0.987775" y="0.665555"/>
+					<point x="1.49778" y="0.335555"/>
+					<point x="1.60778" y="-0.0944452"/>
+					<point x="1.15778" y="-0.514445"/>
+					<point x="0.597773" y="-0.494445"/>
+					<point x="-0.672227" y="-0.184443"/>
+				</position>
+				<physic density="1000" friction="0.3" restitution="0"/>
+				<collision category="0" mask="65535"/>
+			</shape>
+		</body>
+		<body x="21.6574" y="16.4595" id="water" type="static" script="water" shapes="2">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
+			<shape id="_Polygon3" type="Polygon" layer="50" sensor="2" texture="water.png" expand="0">
+				<position point_count="6">
+					<point x="-8.22738" y="-1.59954"/>
+					<point x="-4.02738" y="-1.59954"/>
+					<point x="-4.44738" y="-1.51954"/>
+					<point x="-5.30738" y="-1.33954"/>
+					<point x="-6.46738" y="-1.22954"/>
+					<point x="-7.68738" y="-1.38954"/>
+				</position>
+				<physic density="1000" friction="0.3" restitution="0"/>
+				<collision category="0" mask="65535"/>
+			</shape>
+			<shape id="_Polygon5" type="Polygon" layer="50" sensor="2" texture="water.png" expand="0">
+				<position point_count="21">
+					<point x="3.78262" y="-1.03951"/>
+					<point x="7.95262" y="-1.03951"/>
+					<point x="7.96262" y="-0.679509"/>
+					<point x="7.96262" y="0.0704899"/>
+					<point x="8.07262" y="0.76049"/>
+					<point x="8.08262" y="1.23049"/>
+					<point x="8.09262" y="1.60049"/>
+					<point x="8.01262" y="2.17049"/>
+					<point x="7.75262" y="2.59049"/>
+					<point x="7.40262" y="2.86049"/>
+					<point x="6.95262" y="3.11049"/>
+					<point x="6.50262" y="3.22049"/>
+					<point x="5.84262" y="3.29049"/>
+					<point x="5.03262" y="3.22049"/>
+					<point x="4.31262" y="2.93049"/>
+					<point x="3.88262" y="2.55049"/>
+					<point x="3.82262" y="2.01049"/>
+					<point x="3.82262" y="1.40049"/>
+					<point x="3.83262" y="0.730492"/>
+					<point x="3.73262" y="0.0804901"/>
+					<point x="3.76262" y="-0.69951"/>
+				</position>
+				<physic density="1000" friction="0.3" restitution="0"/>
+				<collision category="0" mask="65535"/>
+			</shape>
+		</body>
+		<body x="21.5771" y="16.1042" id="ground_back" type="static" script="" shapes="2">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
+			<shape id="_Polygon4" type="Polygon" layer="-128" sensor="1" texture="ground_dark.png" expand="0">
+				<position point_count="6">
+					<point x="-8.57707" y="-1.35425"/>
+					<point x="-7.41807" y="-1.29625"/>
+					<point x="-4.57107" y="-1.30125"/>
+					<point x="-3.07707" y="-1.35425"/>
+					<point x="-3.07707" y="-0.60425"/>
+					<point x="-8.57707" y="-0.60425"/>
+				</position>
+				<physic density="1000" friction="0.3" restitution="0"/>
+				<collision category="0" mask="65535"/>
+			</shape>
+			<shape id="_Rect11" type="Rect" layer="-128" sensor="1" texture="ground_dark.png" expand="0">
+				<position x="5.8829" y="1.08575" w="4.64" h="6.38" angle="0"/>
+				<physic density="1000" friction="0.3" restitution="0"/>
+				<collision category="0" mask="65535"/>
+			</shape>
+		</body>
+		<body x="25.7" y="14.06" id="d1" type="dynamic" script="breakable(30,&quot;ch&quot;,&quot;box_crash.flac&quot;)" shapes="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
+			<shape id="_Rect1" type="Rect" layer="0" sensor="0" texture="bridge_part.png" expand="1">
+				<position x="0" y="0" w="0.5" h="0.125" angle="0"/>
+				<physic density="900" friction="0.3" restitution="0"/>
+				<collision category="0" mask="65535"/>
+			</shape>
+		</body>
+		<body x="26.13" y="14.06" id="d2" type="dynamic" script="breakable(30,&quot;ch&quot;,&quot;box_crash.flac&quot;)" shapes="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
+			<shape id="_Rect2" type="Rect" layer="0" sensor="0" texture="bridge_part.png" expand="1">
+				<position x="0" y="0" w="0.5" h="0.125" angle="0"/>
+				<physic density="900" friction="0.3" restitution="0"/>
+				<collision category="0" mask="65535"/>
+			</shape>
+		</body>
+		<body x="26.56" y="14.06" id="d3" type="dynamic" script="breakable(30,&quot;ch&quot;,&quot;box_crash.flac&quot;)" shapes="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
+			<shape id="_Rect3" type="Rect" layer="0" sensor="0" texture="bridge_part.png" expand="1">
+				<position x="0" y="0" w="0.5" h="0.125" angle="0"/>
+				<physic density="900" friction="0.3" restitution="0"/>
+				<collision category="0" mask="65535"/>
+			</shape>
+		</body>
+		<body x="26.98" y="14.06" id="d4" type="dynamic" script="breakable(30,&quot;ch&quot;,&quot;box_crash.flac&quot;)" shapes="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
+			<shape id="_Rect4" type="Rect" layer="0" sensor="0" texture="bridge_part.png" expand="1">
+				<position x="0" y="0" w="0.5" h="0.125" angle="0"/>
+				<physic density="900" friction="0.3" restitution="0"/>
+				<collision category="0" mask="65535"/>
+			</shape>
+		</body>
+		<body x="29.33" y="14.06" id="d5" type="dynamic" script="breakable(30,&quot;ch&quot;,&quot;box_crash.flac&quot;)" shapes="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
+			<shape id="_Rect5" type="Rect" layer="0" sensor="0" texture="bridge_part.png" expand="1">
+				<position x="0" y="0" w="0.5" h="0.125" angle="0"/>
+				<physic density="900" friction="0.3" restitution="0"/>
+				<collision category="0" mask="65535"/>
+			</shape>
+		</body>
+		<body x="28.89" y="14.06" id="d6" type="dynamic" script="breakable(30,&quot;ch&quot;,&quot;box_crash.flac&quot;)" shapes="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
+			<shape id="_Rect6" type="Rect" layer="0" sensor="0" texture="bridge_part.png" expand="1">
+				<position x="0" y="0" w="0.5" h="0.125" angle="0"/>
+				<physic density="900" friction="0.3" restitution="0"/>
+				<collision category="0" mask="65535"/>
+			</shape>
+		</body>
+		<body x="28.46" y="14.06" id="d7" type="dynamic" script="breakable(30,&quot;ch&quot;,&quot;box_crash.flac&quot;)" shapes="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
+			<shape id="_Rect7" type="Rect" layer="0" sensor="0" texture="bridge_part.png" expand="1">
+				<position x="0" y="0" w="0.5" h="0.125" angle="0"/>
+				<physic density="900" friction="0.3" restitution="0"/>
+				<collision category="0" mask="65535"/>
+			</shape>
+		</body>
+		<body x="28.03" y="14.06" id="d8" type="dynamic" script="breakable(30,&quot;ch&quot;,&quot;box_crash.flac&quot;)" shapes="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
+			<shape id="_Rect8" type="Rect" layer="0" sensor="0" texture="bridge_part.png" expand="1">
+				<position x="0" y="0" w="0.5" h="0.125" angle="0"/>
+				<physic density="900" friction="0.3" restitution="0"/>
+				<collision category="0" mask="65535"/>
+			</shape>
+		</body>
+		<body x="27.61" y="14.06" id="d9" type="dynamic" script="breakable(30,&quot;ch&quot;,&quot;box_crash.flac&quot;)" shapes="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
+			<shape id="_Rect9" type="Rect" layer="0" sensor="0" texture="bridge_part.png" expand="1">
+				<position x="0" y="0" w="0.5" h="0.125" angle="0"/>
+				<physic density="900" friction="0.3" restitution="0"/>
+				<collision category="0" mask="65535"/>
+			</shape>
+		</body>
+		<body x="27.2" y="14.06" id="d10" type="dynamic" script="breakable(30,&quot;ch&quot;,&quot;box_crash.flac&quot;)" shapes="1">
+			<physic bullet="0" fixed_rotation="0" gravity_scale="1" angular_damping="0" linear_damping="0"/>
+			<shape id="_Rect10" type="Rect" layer="0" sensor="0" texture="bridge_part.png" expand="1">
+				<position x="0" y="0" w="0.5" h="0.125" angle="0"/>
+				<physic density="900" friction="0.3" restitution="0"/>
+				<collision category="0" mask="65535"/>
+			</shape>
+		</body>
+	</bodies>
+	<entities count="1">
+		<entity id="player" type="kolobator">
+			<position x="49.57" y="12.41"/>
+		</entity>
+	</entities>
+	<joints count="10">
+		<joint type="RevoluteJoint" id="_RevoluteJoint1">
+			<connected collide="0" id1="ground" id2="d1"/>
+			<position x="25.48" y="14.06"/>
+			<physic limit="0" motor="0"/>
+		</joint>
+		<joint type="RevoluteJoint" id="_RevoluteJoint2">
+			<connected collide="0" id1="d1" id2="d2"/>
+			<position x="25.92" y="14.06"/>
+			<physic limit="0" motor="0"/>
+		</joint>
+		<joint type="RevoluteJoint" id="_RevoluteJoint3">
+			<connected collide="0" id1="d2" id2="d3"/>
+			<position x="26.35" y="14.06"/>
+			<physic limit="0" motor="0"/>
+		</joint>
+		<joint type="RevoluteJoint" id="_RevoluteJoint4">
+			<connected collide="0" id1="d3" id2="d4"/>
+			<position x="26.77" y="14.06"/>
+			<physic limit="0" motor="0"/>
+		</joint>
+		<joint type="RevoluteJoint" id="_RevoluteJoint5">
+			<connected collide="0" id1="d9" id2="d10"/>
+			<position x="27.41" y="14.06"/>
+			<physic limit="0" motor="0"/>
+		</joint>
+		<joint type="RevoluteJoint" id="_RevoluteJoint6">
+			<connected collide="0" id1="d9" id2="d8"/>
+			<position x="27.82" y="14.06"/>
+			<physic limit="0" motor="0"/>
+		</joint>
+		<joint type="RevoluteJoint" id="_RevoluteJoint7">
+			<connected collide="0" id1="d8" id2="d7"/>
+			<position x="28.25" y="14.06"/>
+			<physic limit="0" motor="0"/>
+		</joint>
+		<joint type="RevoluteJoint" id="_RevoluteJoint8">
+			<connected collide="0" id1="d7" id2="d6"/>
+			<position x="28.68" y="14.06"/>
+			<physic limit="0" motor="0"/>
+		</joint>
+		<joint type="RevoluteJoint" id="_RevoluteJoint9">
+			<connected collide="0" id1="d6" id2="d5"/>
+			<position x="29.11" y="14.06"/>
+			<physic limit="0" motor="0"/>
+		</joint>
+		<joint type="RevoluteJoint" id="_RevoluteJoint10">
+			<connected collide="0" id1="ground" id2="d5"/>
+			<position x="29.54" y="14.06"/>
+			<physic limit="0" motor="0"/>
+		</joint>
+	</joints>
+</level>
