@@ -12,8 +12,6 @@
 #include "effect.hpp"
 #include "text.hpp"
 using namespace std;
-unsigned short int levelw=20;
-unsigned short int levelh=20;
 map<string,b2Body*>bodies;
 map<string,b2Joint*>joints;
 map<string,Entity*>entities;

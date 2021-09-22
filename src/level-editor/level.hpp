@@ -7,7 +7,7 @@
 #include "joint.hpp"
 #include "xmlParser.h"
 struct Level {
-	unsigned short int w=20,h=20;
+	float w=20.0f,h=20.0f;
 	std::string background="default.png";
 	std::vector<Body*>bodies;
 	std::vector<Joint*>joints;

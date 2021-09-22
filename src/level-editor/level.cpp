@@ -56,8 +56,8 @@ bool Level::open_file(string path) {
 			return 1;
 	}
 	if(all) {
-		w=lvl.getAttributei("w");
-		h=lvl.getAttributei("h");
+		w=lvl.getAttributef("w");
+		h=lvl.getAttributef("h");
 		{
 			//backgroung
 			XMLNode bgr=lvl.getChildNode("background");

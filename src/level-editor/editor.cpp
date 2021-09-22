@@ -202,10 +202,10 @@ void resize() {
 						GTK_RESPONSE_OK,
 						NULL);
 	GtkWidget *table=gtk_table_new(2,2,0);
-	GtkObject *adj_w=gtk_adjustment_new(level.w,1,500,1,10,0);
-	GtkObject *adj_h=gtk_adjustment_new(level.h,1,500,1,10,0);
-	GtkWidget *w=gtk_spin_button_new(GTK_ADJUSTMENT(adj_w),0.2,0);
-	GtkWidget *h=gtk_spin_button_new(GTK_ADJUSTMENT(adj_h),0.2,0);
+	GtkObject *adj_w=gtk_adjustment_new(level.w,0,500,1,10,0);
+	GtkObject *adj_h=gtk_adjustment_new(level.h,0,500,1,10,0);
+	GtkWidget *w=gtk_spin_button_new(GTK_ADJUSTMENT(adj_w),0.2,4);
+	GtkWidget *h=gtk_spin_button_new(GTK_ADJUSTMENT(adj_h),0.2,4);
 	GtkWidget *wt=gtk_label_new("Width: ");
 	GtkWidget *ht=gtk_label_new("Height:");
 	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (dialog))), table, FALSE, FALSE, 6);
