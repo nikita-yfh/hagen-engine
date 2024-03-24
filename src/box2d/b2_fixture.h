@@ -27,6 +27,7 @@
 #include "b2_collision.h"
 #include "b2_shape.h"
 #include <string>
+#include <stdint.h>
 
 class b2BlockAllocator;
 class b2Body;
